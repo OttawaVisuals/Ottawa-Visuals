@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Power BI Portfolio</title>
+    <title>Ottawa Visuals - Power BI Dashboards</title>
     <style>
+        /* =====================================
+           GLOBAL RESET AND VARIABLES
+        ===================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* CSS Custom Properties for Light/Dark Theme */
         :root {
+            /* Light theme colors */
             --bg-color: #ffffff;
             --text-color: #333333;
             --nav-bg: #f8f9fa;
@@ -21,8 +26,11 @@
             --accent-color: #007bff;
             --button-bg: #e9ecef;
             --button-hover: #dee2e6;
+            --slider-bg: #ccc;
+            --slider-thumb: #ffffff;
         }
 
+        /* Dark theme colors - activated when data-theme="dark" */
         [data-theme="dark"] {
             --bg-color: #121212;
             --text-color: #ffffff;
@@ -33,8 +41,13 @@
             --accent-color: #4dabf7;
             --button-bg: #2d2d2d;
             --button-hover: #3d3d3d;
+            --slider-bg: #555;
+            --slider-thumb: #ffffff;
         }
 
+        /* =====================================
+           BASE BODY STYLES
+        ===================================== */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
@@ -43,7 +56,9 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Navigation Bar */
+        /* =====================================
+           NAVIGATION BAR STYLES
+        ===================================== */
         .navbar {
             background-color: var(--nav-bg);
             border-bottom: 1px solid var(--nav-border);
@@ -64,12 +79,66 @@
             padding: 0 2rem;
         }
 
+        /* Theme toggle slider on the left */
+        .theme-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-slider-container span {
+            font-size: 1rem;
+        }
+
+        /* Custom slider switch for dark/light mode */
+        .theme-slider {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: var(--slider-bg);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-slider::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--slider-thumb);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Move slider thumb to right when dark mode is active */
+        [data-theme="dark"] .theme-slider::before {
+            transform: translateX(30px);
+        }
+
+        /* Logo with city icon and text */
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent-color);
         }
 
+        /* SVG city icon styling */
+        .city-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            stroke: var(--accent-color);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Navigation links container */
         .nav-links {
             display: flex;
             list-style: none;
@@ -86,35 +155,20 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Active and hover states for navigation links */
         .nav-links a:hover, .nav-links a.active {
             background-color: var(--button-hover);
         }
 
-        /* Theme Toggle Button */
-        .theme-toggle {
-            background: var(--button-bg);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--button-hover);
-        }
-
-        /* Main Content */
+        /* =====================================
+           MAIN CONTENT AREA
+        ===================================== */
         .main-content {
-            margin-top: 80px;
+            margin-top: 80px; /* Account for fixed navbar height */
             min-height: calc(100vh - 80px);
         }
 
+        /* Page containers - only show active page */
         .page {
             display: none;
             padding: 2rem;
@@ -126,6 +180,9 @@
             display: block;
         }
 
+        /* =====================================
+           HERO SECTION STYLES
+        ===================================== */
         .hero {
             text-align: center;
             padding: 4rem 2rem;
@@ -143,13 +200,18 @@
             opacity: 0.8;
         }
 
+        /* =====================================
+           DASHBOARD GRID LAYOUT
+        ===================================== */
+        /* 2-column grid for dashboard cards */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr); /* Always 2 columns as requested */
             gap: 2rem;
             margin-top: 3rem;
         }
 
+        /* Individual dashboard card styling */
         .dashboard-card {
             background: var(--card-bg);
             border-radius: 8px;
@@ -163,6 +225,7 @@
             box-shadow: 0 8px 15px var(--card-shadow);
         }
 
+        /* Embedded Power BI iframe styling */
         .dashboard-card iframe {
             width: 100%;
             height: 400px;
@@ -171,22 +234,10 @@
             border: 1px solid var(--nav-border);
         }
 
-        .dashboard-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            background: var(--button-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-color);
-        }
-
+        /* Placeholder for empty dashboard slots */
         .dashboard-placeholder {
             width: 100%;
-            height: 200px;
+            height: 400px;
             background: var(--button-bg);
             border-radius: 4px;
             margin-bottom: 1rem;
@@ -195,8 +246,10 @@
             justify-content: center;
             color: var(--text-color);
             opacity: 0.7;
+            border: 2px dashed var(--nav-border);
         }
 
+        /* Dashboard card content */
         .card-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -208,6 +261,7 @@
             margin-bottom: 1rem;
         }
 
+        /* Action buttons */
         .btn {
             background: var(--accent-color);
             color: white;
@@ -224,12 +278,29 @@
             opacity: 0.9;
         }
 
+        /* =====================================
+           ABOUT PAGE SPECIFIC STYLES
+        ===================================== */
         .about-content {
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
         }
 
+        .about-content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .about-content ul {
+            margin-left: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* =====================================
+           CONTACT PAGE SPECIFIC STYLES
+        ===================================== */
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
@@ -262,14 +333,22 @@
             border-color: var(--accent-color);
         }
 
-        /* Mobile Responsive */
+        /* =====================================
+           MOBILE RESPONSIVE DESIGN
+        ===================================== */
         @media (max-width: 768px) {
+            /* Smaller navigation padding on mobile */
             .nav-container {
                 padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
             }
 
+            /* Stack navigation elements vertically on mobile */
             .nav-links {
                 gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .nav-links a {
@@ -277,6 +356,7 @@
                 font-size: 0.9rem;
             }
 
+            /* Adjust hero text size for mobile */
             .hero h1 {
                 font-size: 2rem;
             }
@@ -285,174 +365,270 @@
                 font-size: 1.1rem;
             }
 
+            /* Single column layout on mobile */
             .dashboard-grid {
                 grid-template-columns: 1fr;
+            }
+
+            /* Increase navbar height for mobile to accommodate stacked elements */
+            .main-content {
+                margin-top: 120px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- =====================================
+         NAVIGATION BAR
+    ===================================== -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">Your Portfolio</div>
+            <!-- Theme toggle slider on the left -->
+            <div class="theme-slider-container">
+                <span>🌞</span>
+                <div class="theme-slider" id="themeSlider"></div>
+                <span>🌙</span>
+            </div>
+            
+            <!-- Logo with city icon and text -->
+            <div class="logo">
+                <!-- Custom SVG city icon based on your uploaded image -->
+                <svg class="city-icon" viewBox="0 0 100 80">
+                    <!-- Main clock tower/parliament building -->
+                    <rect x="42" y="15" width="16" height="50" />
+                    <polygon points="42,15 50,5 58,15" />
+                    <!-- Clock face -->
+                    <rect x="45" y="25" width="10" height="8" />
+                    <circle cx="50" cy="29" r="3" />
+                    
+                    <!-- Left buildings -->
+                    <rect x="20" y="35" width="12" height="30" />
+                    <polygon points="20,35 26,25 32,35" />
+                    <rect x="5" y="45" width="12" height="20" />
+                    <polygon points="5,45 11,35 17,45" />
+                    
+                    <!-- Right buildings -->
+                    <rect x="68" y="35" width="12" height="30" />
+                    <polygon points="68,35 74,25 80,35" />
+                    <rect x="83" y="45" width="12" height="20" />
+                    <polygon points="83,45 89,35 95,45" />
+                    
+                    <!-- Small house -->
+                    <rect x="35" y="55" width="8" height="10" />
+                    <polygon points="35,55 39,50 43,55" />
+                    
+                    <!-- Base line -->
+                    <line x1="0" y1="65" x2="100" y2="65" stroke-width="2"/>
+                </svg>
+                <span>Ottawa Visuals</span>
+            </div>
+            
+            <!-- Navigation links -->
             <ul class="nav-links">
                 <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
-                <li><a href="#" class="nav-link" data-page="dashboards">Dashboards</a></li>
-                <li><a href="#" class="nav-link" data-page="about">About</a></li>
-                <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
-                <li><button class="theme-toggle" id="themeToggle">🌙</button></li>
+                <li><a href="#" class="nav-link" data-page="ottawa">Ottawa dashboards</a></li>
+                <li><a href="#" class="nav-link" data-page="ontario">Ontario dashboards</a></li>
+                <li><a href="#" class="nav-link" data-page="canada">Canada dashboards</a></li>
+                <li><a href="#" class="nav-link" data-page="other">Other dashboard</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- =====================================
+         MAIN CONTENT AREA
+    ===================================== -->
     <main class="main-content">
-        <!-- Home Page -->
+        
+        <!-- HOME PAGE -->
         <div class="page active" id="home">
             <div class="hero">
-                <h1>Welcome to My Power BI Portfolio</h1>
-                <p>Data Analyst & Business Intelligence Developer</p>
-                <p>Transforming data into actionable insights through compelling visualizations</p>
+                <h1>Welcome to Ottawa Visuals</h1>
+                <p>Interactive Power BI Dashboards</p>
+                <p>Transforming Canadian data into actionable insights through compelling visualizations</p>
             </div>
             
+            <!-- 2x2 grid showing main dashboards as requested -->
             <div class="dashboard-grid">
+                <!-- Your Ottawa Traffic Dashboard -->
                 <div class="dashboard-card">
-                    <iframe title="Ottawa Traffic" width="100%" height="400" src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" frameborder="0" allowFullScreen="true"></iframe>
+                    <iframe title="Ottawa Traffic" width="100%" height="400" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" 
+                            frameborder="0" allowFullScreen="true"></iframe>
                     <div class="card-title">Ottawa Traffic Dashboard</div>
-                    <div class="card-description">Real-time traffic analysis and insights for Ottawa, showing patterns, congestion points, and traffic flow trends.</div>
-                    <a href="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" target="_blank" class="btn">View Full Dashboard</a>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="dashboard-placeholder">Dashboard Preview</div>
-                    <div class="card-title">Financial Performance</div>
-                    <div class="card-description">Real-time financial metrics, budget tracking, and profitability analysis.</div>
-                    <a href="#" class="btn">View Dashboard</a>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="dashboard-placeholder">Dashboard Preview</div>
-                    <div class="card-title">Customer Analytics</div>
-                    <div class="card-description">Customer behavior analysis, segmentation, and retention metrics.</div>
-                    <a href="#" class="btn">View Dashboard</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dashboards Page -->
-        <div class="page" id="dashboards">
-            <div class="hero">
-                <h1>My Dashboards</h1>
-                <p>A collection of interactive Power BI reports and visualizations</p>
-            </div>
-            
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <iframe title="Ottawa Traffic" width="100%" height="400" src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" frameborder="0" allowFullScreen="true"></iframe>
-                    <div class="card-title">Ottawa Traffic Dashboard</div>
-                    <div class="card-description">Comprehensive traffic analysis for Ottawa showing real-time data, traffic patterns, peak hours, and congestion insights. Built using traffic sensors and municipal data.</div>
+                    <div class="card-description">Real-time traffic analysis for Ottawa showing traffic patterns, peak hours, and congestion insights.</div>
                     <a href="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" target="_blank" class="btn">View Full Screen</a>
                 </div>
                 
+                <!-- Placeholder for future dashboard -->
                 <div class="dashboard-card">
-                    <div class="dashboard-placeholder">Add Your Next Dashboard</div>
-                    <div class="card-title">Your Next Project</div>
-                    <div class="card-description">Replace this placeholder with your next Power BI dashboard iframe embed code.</div>
+                    <div class="dashboard-placeholder">Coming Soon</div>
+                    <div class="card-title">Next Dashboard</div>
+                    <div class="card-description">Space reserved for your next Power BI visualization project.</div>
                     <a href="#" class="btn">Coming Soon</a>
                 </div>
             </div>
         </div>
 
-        <!-- About Page -->
-        <div class="page" id="about">
-            <div class="about-content">
-                <h1>About Me</h1>
-                <p>I'm a passionate data analyst with expertise in Power BI, SQL, and data visualization. I specialize in transforming complex data into clear, actionable insights that drive business decisions.</p>
+        <!-- OTTAWA DASHBOARDS PAGE -->
+        <div class="page" id="ottawa">
+            <div class="hero">
+                <h1>Ottawa Dashboards</h1>
+                <p>Data visualizations focused on Canada's capital city</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Same Ottawa Traffic Dashboard -->
+                <div class="dashboard-card">
+                    <iframe title="Ottawa Traffic" width="100%" height="400" 
+                            src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" 
+                            frameborder="0" allowFullScreen="true"></iframe>
+                    <div class="card-title">Ottawa Traffic Analysis</div>
+                    <div class="card-description">Comprehensive traffic flow analysis using municipal sensors and real-time data sources.</div>
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" target="_blank" class="btn">View Full Screen</a>
+                </div>
                 
-                <h2>Skills</h2>
-                <ul>
-                    <li>Power BI Development</li>
-                    <li>SQL & Database Management</li>
-                    <li>Data Modeling</li>
-                    <li>Dashboard Design</li>
-                    <li>Business Intelligence</li>
-                </ul>
-                
-                <h2>Experience</h2>
-                <p>Add your professional background, key projects, and achievements here.</p>
+                <!-- Placeholder for future Ottawa dashboard -->
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Future Ottawa Project</div>
+                    <div class="card-title">Ottawa Demographics</div>
+                    <div class="card-description">Population, housing, and economic indicators for the National Capital Region.</div>
+                    <a href="#" class="btn">Coming Soon</a>
+                </div>
             </div>
         </div>
 
-        <!-- Contact Page -->
-        <div class="page" id="contact">
+        <!-- ONTARIO DASHBOARDS PAGE -->
+        <div class="page" id="ontario">
             <div class="hero">
-                <h1>Get In Touch</h1>
-                <p>Let's discuss your data visualization needs</p>
+                <h1>Ontario Dashboards</h1>
+                <p>Provincial-level data analysis and insights</p>
             </div>
             
-            <form class="contact-form">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+            <div class="dashboard-grid">
+                <!-- Placeholder for Ontario dashboards -->
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Ontario Project 1</div>
+                    <div class="card-title">Ontario Economics</div>
+                    <div class="card-description">Economic indicators, employment rates, and industry analysis across Ontario.</div>
+                    <a href="#" class="btn">Coming Soon</a>
                 </div>
                 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Ontario Project 2</div>
+                    <div class="card-title">Ontario Healthcare</div>
+                    <div class="card-description">Healthcare system performance and capacity metrics.</div>
+                    <a href="#" class="btn">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CANADA DASHBOARDS PAGE -->
+        <div class="page" id="canada">
+            <div class="hero">
+                <h1>Canada Dashboards</h1>
+                <p>National-level insights and cross-provincial analysis</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Placeholder for Canada dashboards -->
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Canada Project 1</div>
+                    <div class="card-title">Canadian Climate Data</div>
+                    <div class="card-description">Temperature trends, precipitation patterns, and climate change indicators.</div>
+                    <a href="#" class="btn">Coming Soon</a>
                 </div>
                 
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" required>
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Canada Project 2</div>
+                    <div class="card-title">National Transportation</div>
+                    <div class="card-description">Inter-provincial trade routes, shipping volumes, and transportation infrastructure.</div>
+                    <a href="#" class="btn">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTHER DASHBOARDS PAGE -->
+        <div class="page" id="other">
+            <div class="hero">
+                <h1>Other Dashboards</h1>
+                <p>International data, experiments, and special projects</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Placeholder for other dashboards -->
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Global Project 1</div>
+                    <div class="card-title">International Trade</div>
+                    <div class="card-description">Global trade patterns and Canada's position in international markets.</div>
+                    <a href="#" class="btn">Coming Soon</a>
                 </div>
                 
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="dashboard-card">
+                    <div class="dashboard-placeholder">Experimental Dashboard</div>
+                    <div class="card-title">Data Experiments</div>
+                    <div class="card-description">Testing new visualization techniques and exploring innovative datasets.</div>
+                    <a href="#" class="btn">Coming Soon</a>
                 </div>
-                
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+            </div>
         </div>
     </main>
 
+    <!-- =====================================
+         JAVASCRIPT FUNCTIONALITY
+    ===================================== -->
     <script>
-        // Theme Toggle Functionality
-        const themeToggle = document.getElementById('themeToggle');
+        // =====================================
+        // THEME TOGGLE FUNCTIONALITY
+        // =====================================
+        
+        const themeSlider = document.getElementById('themeSlider');
         const body = document.body;
 
-        // Check for saved theme preference or default to light mode
+        // Check for saved theme preference in browser storage, default to light mode
         const currentTheme = localStorage.getItem('theme') || 'light';
         body.setAttribute('data-theme', currentTheme);
-        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
 
-        themeToggle.addEventListener('click', () => {
+        // Click event listener for the theme slider
+        themeSlider.addEventListener('click', () => {
+            // Get the current theme from the body's data-theme attribute
             const currentTheme = body.getAttribute('data-theme');
+            
+            // Switch between light and dark themes
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
+            // Apply the new theme to the body element
             body.setAttribute('data-theme', newTheme);
+            
+            // Save the user's preference to browser storage for next visit
             localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
         });
 
-        // Page Navigation Functionality
+        // =====================================
+        // PAGE NAVIGATION FUNCTIONALITY
+        // =====================================
+        
+        // Get all navigation links and page containers
         const navLinks = document.querySelectorAll('.nav-link');
         const pages = document.querySelectorAll('.page');
 
+        // Add click event listeners to all navigation links
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Prevent default link behavior
                 
-                // Remove active class from all nav links and pages
+                // Remove 'active' class from all navigation links
                 navLinks.forEach(nl => nl.classList.remove('active'));
+                
+                // Remove 'active' class from all page containers (hide all pages)
                 pages.forEach(page => page.classList.remove('active'));
                 
-                // Add active class to clicked nav link
+                // Add 'active' class to the clicked navigation link
                 link.classList.add('active');
                 
-                // Show corresponding page
+                // Get the target page ID from the data-page attribute
                 const targetPageId = link.getAttribute('data-page');
+                
+                // Find and show the corresponding page container
                 const targetPage = document.getElementById(targetPageId);
                 if (targetPage) {
                     targetPage.classList.add('active');
@@ -460,12 +636,30 @@
             });
         });
 
-        // Form submission (you can connect this to your email service)
-        document.querySelector('.contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your message! I\'ll get back to you soon.');
-            // Add actual form submission logic here
+        // =====================================
+        // SMOOTH SCROLLING (OPTIONAL ENHANCEMENT)
+        // =====================================
+        
+        // Add smooth scrolling to the top when switching pages
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Call scrollToTop whenever a navigation link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', scrollToTop);
         });
+
+        // =====================================
+        // INITIALIZATION
+        // =====================================
+        
+        // Any initialization code can go here
+        console.log('Ottawa Visuals website loaded successfully!');
+        console.log('Current theme:', body.getAttribute('data-theme'));
     </script>
 </body>
 </html>
