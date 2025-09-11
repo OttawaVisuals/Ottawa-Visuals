@@ -5,7 +5,7 @@ author_profile: true
 # Top banner image
 header:
   overlay_image: "{{ site.baseurl }}/assets/img/banner.png"
-  overlay_filter: 0.35
+  overlay_filter: 0.1
 ---
 
 🍁 __Welcome to Ottawa Visuals!__ 🍁 
