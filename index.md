@@ -3,7 +3,7 @@ layout: single
 title: "Home"
 author_profile: true
 header:
-  image: "{{ site.baseurl }}/assets/img/banner.png"
+  image: "https://ottawavisuals.github.io/Ottawa-Visuals/assets/img/banner.png"
 ---
 
 
