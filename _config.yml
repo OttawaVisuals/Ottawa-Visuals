@@ -2,3 +2,10 @@ remote_theme: cotes2020/jekyll-theme-chirpy
 lang: en
 timezone: America/Toronto
 paginate: 10
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
