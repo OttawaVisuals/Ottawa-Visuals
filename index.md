@@ -2,11 +2,10 @@
 layout: single
 title: "Home"
 author_profile: true
-# Top banner image
 header:
-  overlay_image: "{{ site.baseurl }}/assets/img/banner.png"
-  overlay_filter: 0
+  image: "{{ site.baseurl }}/assets/img/banner.png"
 ---
+
 
 🍁 __Welcome to Ottawa Visuals!__ 🍁 
 
