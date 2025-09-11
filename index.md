@@ -9,7 +9,8 @@ header:
   overlay_filter: 0.35
 ---
 
-🍁 Welcome to Ottawa Visuals! 🍁
+🍁 __Welcome to Ottawa Visuals!__ 🍁 
+
 📊 This site brings together interactive Power BI dashboards, charts, and insights built from open datasets to help visualize Ottawa, Provincial and Canada trends.
 
 ## Featured Power BI
