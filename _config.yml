@@ -1,10 +1,16 @@
 title: Ottawa Visuals
 description: Data & dashboards
 lang: en
+timezone: America/Toronto
 
-# Use Chirpy remote theme
+# Use ONLY the remote theme (no `theme:` key)
 remote_theme: cotes2020/jekyll-theme-chirpy
 
-# Basic settings
-timezone: America/Toronto
+# Safe, supported plugins on GitHub Pages
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-include-cache
+
 paginate: 10
