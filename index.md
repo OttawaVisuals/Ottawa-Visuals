@@ -4,7 +4,7 @@ title: "Home"
 author_profile: true
 # Top banner image
 header:
-  image: /assets/img/banner.jpg
+  image: /assets/img/banner.png
   overlay_color: "#000"
   overlay_filter: 0.35
 ---
