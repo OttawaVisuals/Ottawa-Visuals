@@ -11,6 +11,12 @@ header:
 
 📊 This site brings together interactive Power BI dashboards, charts, and insights built from open datasets to help visualize Ottawa, Provincial and Canada trends.
 
+(?) Questions about the visuals/data or
+(ideas) Ideas for new visual
+(email) Contact me at place@holder.com 
+
+
+
 ## Featured Power BI
 <div class="embed-container">
   <!-- Replace with Publish-to-web iframe -->
