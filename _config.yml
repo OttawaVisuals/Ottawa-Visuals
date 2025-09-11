@@ -1,11 +1,35 @@
-remote_theme: cotes2020/jekyll-theme-chirpy
-lang: en
-timezone: America/Toronto
-paginate: 10
+title: Ottawa Visuals
+description: Data & dashboards
+url: "https://Ottawa-Visuals.github.io"
+# Dark mode skin
+minimal_mistakes_skin: "dark"
 
+# Use the theme (no Gemfile needed on GitHub Pages)
+remote_theme: "mmistakes/minimal-mistakes"
+
+# GitHub Pages–allowed plugins
 plugins:
-  - jekyll-remote-theme
   - jekyll-include-cache
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-paginate
+
+# Site-wide UI
+locale: en
+timezone: America/Toronto
+markdown: kramdown
+permalink: /:title/
+logo: /assets/img/avatar.png   # optional small logo in header
+
+# Author box (left sidebar)
+author:
+  name: "Ottawa Visuals"
+  avatar: "/assets/img/avatar.png"   # 200×200 suggested
+  bio: "Public data • Power BI • Ottawa"
+  links:
+    - label: "GitHub"
+      url: "https://github.com/Ottawa-Visuals"
+    - label: "Email"
+      url: "mailto:you@example.com"
+
+# Enable nav from _data/navigation.yml
+include: ["_pages"]
