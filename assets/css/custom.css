@@ -16,22 +16,34 @@
   .page__hero .wrapper{ background: rgba(0,0,0,0.62); }
 }
 
-/* Fixed-height + letterbox (no crop) */
-:root { --hero-h: 180px; } /* banner box height */
+/* 0) Put the variable on html (stronger) */
+html { --hero-h: 180px; } /* change this value to test */
 
+/* 1) Enforce height + stop margin collapse */
 .page__hero,
 .page__hero--image,
 .page__hero--overlay{
-  height:var(--hero-h) !important;
-  min-height:var(--hero-h) !important;
-  max-height:var(--hero-h) !important;
-  padding:0 !important;                 /* <-- kill theme padding */
-  background-size: contain !important;  /* letterbox/pillarbox */
+  height: var(--hero-h) !important;
+  min-height: var(--hero-h) !important;
+  max-height: var(--hero-h) !important;
+
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+
+  overflow: hidden !important;              /* 🔑 prevents next H1 margin collapsing upward */
+  border-bottom: 1px solid transparent;     /* extra guard */
+
+  background-size: contain !important;      /* letterbox/pillarbox */
   background-position: center !important;
   background-repeat: no-repeat !important;
-  background-color:#20405B !important;
+  background-color: #20405B !important;
 }
 
+/* 2) Kill top margin of first content element (belt & suspenders) */
+.page__content > *:first-child { margin-top: 0 !important; }
+
+/* 3) Mobile value */
 @media (max-width:480px){
-  :root { --hero-h: 120px; }
+  html { --hero-h: 120px; }
 }
