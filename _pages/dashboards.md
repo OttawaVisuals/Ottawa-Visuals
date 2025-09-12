@@ -4,7 +4,7 @@ title: "Dashboards"
 permalink: /dashboards/
 author_profile: true
 header:
-  overlay_image: "{{ site.baseurl }}/assets/img/banner.png"
+  overlay_image: /assets/img/bannerV2.png   # ← no Liquid, no /Ottawa-Visuals
   overlay_filter: 0
 ---
 
