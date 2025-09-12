@@ -8,4 +8,6 @@ header:
   overlay_filter: 0
 ---
 
-One-paragraph bio and contact links.
+I am a data enthusiast and a visual learner.  
+This site is to share the visuals I create.  
+If you have questions/ideas, you can contact me at <Visuals@OttawaVisuals.onmicrosoft.com>
