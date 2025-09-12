@@ -3,7 +3,8 @@ layout: single
 title: "Home"
 author_profile: true
 header:
-  image: "/Ottawa-Visuals/assets/img/bannerV2.png"   # relative path works with baseurl
+  overlay_image: "{{ '/assets/img/bannerV2.png' | relative_url }}"
+  overlay_filter: 0   # no darkening
 ---
 
 
