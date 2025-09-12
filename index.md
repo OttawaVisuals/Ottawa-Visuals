@@ -3,8 +3,8 @@ layout: single
 title: "Home"
 author_profile: true
 header:
-  overlay_image: "{{ '/assets/img/bannerV2.png' | relative_url }}"
-  overlay_filter: 0   # no darkening
+  overlay_image: "/Ottawa-Visuals/assets/img/bannerV2.png"
+  overlay_filter: 0
 ---
 
 
