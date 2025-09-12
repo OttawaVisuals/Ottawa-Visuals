@@ -30,5 +30,5 @@ Below is the list of sources I use:
   <!-- Replace with Publish-to-web iframe -->
   <iframe width="100%" height="520" src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" frameborder="0" allowfullscreen="true"></iframe>
 </div>
-<br><br>
+<br>
 <small><em>I use AI for generating icons, writing script, help collecting data.</em></small>
