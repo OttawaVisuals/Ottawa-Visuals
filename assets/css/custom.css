@@ -1,15 +1,16 @@
 :root { --hero-h: 180px; }
 
-.page__hero,
-.page__hero--image,
-.page__hero--overlay {
-  height: var(--hero-h) !important;
-  min-height: var(--hero-h) !important;
-  max-height: var(--hero-h) !important;
-  background-size: cover !important;
-  background-position: center center !important;
+/* fixed height stays */
+.page__hero--overlay{
+  height:var(--hero-h)!important;
+  min-height:var(--hero-h)!important;
+  max-height:var(--hero-h)!important;
+
+  /* key changes for letterbox/pillarbox */
+  background-size: contain !important;   /* was cover */
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: #20405B !important;  /* fill behind */
 }
 
-@media (max-width: 480px){
-  :root { --hero-h: 130px; }
-}
+@media (max-width:480px){ :root{ --hero-h:130px; } }
