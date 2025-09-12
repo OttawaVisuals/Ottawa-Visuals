@@ -1,6 +1,6 @@
 # Ottawa Visuals
 
-**Live site:** [https://](https://ottawavisuals.github.io/Ottawa-Visuals/)
+**Live site:** https://ottawavisuals.github.io/Ottawa-Visuals/
 
 ## Edit points
 - Home page: `/index.md`
