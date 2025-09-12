@@ -17,7 +17,7 @@
 }
 
 /* Fixed-height + letterbox (no crop) */
-:root { --hero-h: 50px; } /* banner box height */
+:root { --hero-h: 100px; } /* banner box height */
 
 .page__hero,
 .page__hero--image,
@@ -33,5 +33,5 @@
 }
 
 @media (max-width:480px){
-  :root { --hero-h: 50px; }
+  :root { --hero-h: 100px; }
 }
