@@ -1,30 +1,37 @@
 /* Hero title glass pill */
 .page__hero .wrapper{
   position:absolute; left:1rem; bottom:.75rem; z-index:2;
-  background: rgba(0,0,0,0.46);               /* dark, semi-transparent */
+  background: rgba(0,0,0,0.46);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   padding:.45rem .70rem; border-radius:.55rem;
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
   border:1px solid rgba(255,255,255,.12);
 }
-/* Title readability on pill */
 .page__hero .page__title{
   margin:0; color:#fff;
   text-shadow: 0 1px 2px rgba(0,0,0,.65);
 }
-/* Fallback when blur unsupported */
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .page__hero .wrapper{ background: rgba(0,0,0,0.62); }
 }
 
+/* Fixed-height + letterbox (no crop) */
+:root { --hero-h: 50px; } /* banner box height */
+
+.page__hero,
+.page__hero--image,
+.page__hero--overlay{
+  height:var(--hero-h) !important;
+  min-height:var(--hero-h) !important;
+  max-height:var(--hero-h) !important;
+  padding:0 !important;                 /* <-- kill theme padding */
+  background-size: contain !important;  /* letterbox/pillarbox */
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color:#20405B !important;
 }
 
-/* Keep your fixed-height + letterbox */
-:root { --hero-h: 50px; } /* This is the height of the banner box */
-.page__hero--overlay{
-  height:var(--hero-h)!important; min-height:var(--hero-h)!important; max-height:var(--hero-h)!important;
-  background-size: contain!important; background-position:center!important; background-repeat:no-repeat!important;
-  background-color:#20405B!important;  /* backdrop fill */
+@media (max-width:480px){
+  :root { --hero-h: 50px; }
 }
-@media (max-width:480px){ :root{ --hero-h:50px; } }
