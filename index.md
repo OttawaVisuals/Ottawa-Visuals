@@ -21,5 +21,5 @@ header:
 ## Featured Power BI
 <div class="embed-container">
   <!-- Replace with Publish-to-web iframe -->
-  <iframe width="100%" height="520" src="PASTE_PBI_EMBED_URL" frameborder="0" allowfullscreen="true"></iframe>
+  <iframe width="100%" height="520" src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" frameborder="0" allowfullscreen="true"></iframe>
 </div>
