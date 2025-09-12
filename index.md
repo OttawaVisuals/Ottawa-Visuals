@@ -20,10 +20,10 @@ header:
 🗂️ Data sources  
 I use public datasets to create my visuals. 
 Below is the list of sources I use:  
- - Statistics Canada <https://www.statcan.gc.ca/en/start>
- - Open Ottawa <https://open.ottawa.ca/>
- - Open Ontario <https://data.ontario.ca/>
- - Ottawa Police data <https://data.ottawapolice.ca/>
+ - Statistics Canada <a href="https://www.statcan.gc.ca/en/start" target="_blank" rel="noopener">Open Ottawa</a>
+ - Open Ottawa <a href="https://open.ottawa.ca/" target="_blank" rel="noopener">Open Ottawa</a>
+ - Open Ontario <a href="https://open.ottawa.ca/" target="_blank" rel="noopener">Open Ottawa</a>
+ - Ottawa Police data <a href="https://data.ottawapolice.ca/" target="_blank" rel="noopener">Open Ottawa</a>
 
 ## Featured Power BI
 <div class="embed-container">
