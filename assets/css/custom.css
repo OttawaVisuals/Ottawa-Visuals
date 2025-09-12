@@ -21,10 +21,10 @@
 }
 
 /* Keep your fixed-height + letterbox */
-:root { --hero-h: 100px; } /* This is the height of the banner box */
+:root { --hero-h: 50px; } /* This is the height of the banner box */
 .page__hero--overlay{
   height:var(--hero-h)!important; min-height:var(--hero-h)!important; max-height:var(--hero-h)!important;
   background-size: contain!important; background-position:center!important; background-repeat:no-repeat!important;
   background-color:#20405B!important;  /* backdrop fill */
 }
-@media (max-width:480px){ :root{ --hero-h:130px; } }
+@media (max-width:480px){ :root{ --hero-h:50px; } }
