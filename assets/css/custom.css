@@ -1,30 +1,23 @@
-/* Glass blur box behind the page title in the hero */
+/* Hero title glass pill */
 .page__hero .wrapper{
-  background: rgba(255,255,255,0.28);      /* translucent white */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);      /* Safari */
-  padding: .45rem .7rem;
-  border-radius: .5rem;
-  box-shadow: 0 4px 14px rgba(0,0,0,.25);
-  /* optional: keep it bottom-left */
-  position: absolute; left: 1rem; bottom: .75rem;
+  position:absolute; left:1rem; bottom:.75rem; z-index:2;
+  background: rgba(0,0,0,0.46);               /* dark, semi-transparent */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding:.45rem .70rem; border-radius:.55rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.12);
 }
-
-/* Make the title readable over the light box */
+/* Title readability on pill */
 .page__hero .page__title{
-  margin: 0;
-  color: #111;                              /* dark text on lightened pill */
-  text-shadow: 0 1px 1px rgba(255,255,255,.25), 0 2px 6px rgba(0,0,0,.25);
+  margin:0; color:#fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.65);
+}
+/* Fallback when blur unsupported */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .page__hero .wrapper{ background: rgba(0,0,0,0.62); }
 }
 
-/* (If you also show a subtitle/lead) */
-.page__hero .page__lead{ 
-  color:#111; margin:.2rem 0 0 0;
-}
-
-/* Fallback when blur isn’t supported */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
-  .page__hero .wrapper{ background: rgba(255,255,255,0.5); }
 }
 
 /* Keep your fixed-height + letterbox */
