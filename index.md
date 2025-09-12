@@ -2,9 +2,11 @@
 layout: single
 title: "Home"
 author_profile: true
+classes: wide                 # optional, but helps
+permalink: /                  # make this the real homepage
 header:
-  overlay_image: "/Ottawa-Visuals/assets/img/bannerV2.png"
-  overlay_filter: 0
+  image: "{{ '/assets/img/bannerV2.png' | relative_url }}"
+  image_description: "Ottawa Visuals banner"
 ---
 
 
