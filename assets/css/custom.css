@@ -17,7 +17,7 @@
 }
 
 /* 0) Put the variable on html (stronger) */
-html { --hero-h: 150px; } /* change this value to test */
+html { --hero-h: 100px; } /* change this value to test */
 
 /* 1) Enforce height + stop margin collapse */
 .page__hero,
@@ -45,5 +45,5 @@ html { --hero-h: 150px; } /* change this value to test */
 
 /* 3) Mobile value */
 @media (max-width:480px){
-  html { --hero-h: 120px; }
+  html { --hero-h: 80px; }
 }
