@@ -1,5 +1,5 @@
-/* === Fixed-height hero for Minimal Mistakes === */
-:root { --hero-h: 180px; }           /* ← tweak height */
+/* Fixed-height hero directly under masthead */
+:root { --hero-h: 180px; }
 
 .page__hero,
 .page__hero--image,
@@ -9,29 +9,28 @@
   max-height: var(--hero-h) !important;
 }
 
-/* Make background fill but not change height */
+/* Ensure image fills area without stretching */
+.page__hero,
 .page__hero--image,
 .page__hero--overlay {
   background-size: cover !important;
   background-position: center center !important;
 }
 
-/* Keep the inner wrapper pinned bottom-left in a small box */
+/* Keep inner text compact (optional) */
 .page__hero .wrapper {
   position: absolute;
   left: 1rem;
   bottom: .75rem;
   margin: 0;
-  background: rgba(0,0,0,.45);   /* semi-transparent box */
+  background: rgba(0,0,0,.45);
   padding: .4rem .6rem;
   border-radius: .4rem;
 }
 
-/* Tighter title spacing inside the box */
 .page__hero .page__title,
 .page__hero .page__lead { margin: 0; }
 
-/* Smaller on phones (optional) */
 @media (max-width: 480px){
   :root { --hero-h: 130px; }
 }
