@@ -2,11 +2,10 @@
 layout: single
 title: "Home"
 author_profile: true
-classes: wide                 # optional, but helps
-permalink: /                  # make this the real homepage
+permalink: /
 header:
-  image: "{{ '/assets/img/bannerV2.png' | relative_url }}"
-  image_description: "Ottawa Visuals banner"
+  overlay_image: /assets/img/bannerV2.png   # ← no Liquid, no /Ottawa-Visuals
+  overlay_filter: 0
 ---
 
 
