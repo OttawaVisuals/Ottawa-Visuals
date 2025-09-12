@@ -17,7 +17,7 @@
 }
 
 /* 0) Put the variable on html (stronger) */
-html { --hero-h: 180px; } /* change this value to test */
+html { --hero-h: 150px; } /* change this value to test */
 
 /* 1) Enforce height + stop margin collapse */
 .page__hero,
