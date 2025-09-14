@@ -15,7 +15,7 @@ header:
 
 ❔  Questions about the visuals/data or  
 💡  Ideas for new visual  
-📧 Contact me at <Visuals@OttawaVisuals.onmicrosoft.com>
+📧 Contact me at <visualsottawa@gmail.com>
 
 🗂️ Data sources  
 I use public datasets to create my visuals. 
