@@ -15,7 +15,7 @@ ___
 
 
 ## Ottawa Traffic Dashboard
-Complete dashboard is avaiable here: [**<u>Ottawa Traffic Dashboard</u>**](https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9)  
+Complete dashboard is avaiable here: [**Ottawa Traffic Dashboard**](https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9)  
 <br>
 <p align="left">
   <img src="https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/refs/heads/main/assets/img/OPS_Stops.png" alt="Alt text" width="5000" style="float:left; margin-right:15px;"/>
