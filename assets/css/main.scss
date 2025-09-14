@@ -1,0 +1,26 @@
+---
+# leave these 3 dashes so GitHub Pages compiles Sass
+---
+
+/* 1) VARIABLES — must be before imports */
+$max-width: 1400px;  /* try 1400–1600px to “fill” more of the screen */
+
+/* 2) THEME IMPORTS */
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+/* 3) OVERRIDES — after imports */
+
+/* Smaller base type and tighter leading */
+html { font-size: 15px; }        /* 14–15px is a good range */
+body { line-height: 1.45; }
+
+/* Tighter paragraph & heading spacing + smaller headings */
+.page__content p { margin-bottom: 0.7rem; }
+h1, h2, h3 { line-height: 1.2; margin-top: 1rem; margin-bottom: .5rem; }
+h1 { font-size: 1.8rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+/* Narrow the side gutters inside pages */
+.page__inner-wrap { padding-left: 1rem; padding-right: 1rem; }
