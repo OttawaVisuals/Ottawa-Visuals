@@ -20,5 +20,5 @@ Below is the list of projects in progress:
 
 Below is the list of future projects:  
 ☐ Ottawa census data (age, income, languages...)  
-☐  
-☐
+☐ Ottawa biking: % commute vs % city roadway. City spending. NCC vs City
+☐ RTO spending on road maintenance. Permits for offices.
