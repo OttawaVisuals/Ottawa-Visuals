@@ -10,4 +10,4 @@ header:
 
 I am a data enthusiast and a visual learner.  
 This site is to share the visuals I create.  
-If you have questions/ideas, you can contact me at <Visuals@OttawaVisuals.onmicrosoft.com>
+If you have questions/ideas, you can contact me at <visualsottawa@gmail.com>
