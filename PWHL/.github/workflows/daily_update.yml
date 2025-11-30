@@ -1,0 +1,43 @@
+name: Daily PWHL Data Update
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC (2 AM ET / 11 PM PT)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.0'
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
+      
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "purrr", "readr", "tibble", "rvest", "stringr", "glue"))'
+          Rscript -e 'install.packages("fastRhockey")'
+      
+      - name: Run daily update script
+        run: |
+          Rscript PWHL/scripts/daily_update.R
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add PWHL/data/*.csv
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update PWHL data - $(date +'%Y-%m-%d %H:%M:%S UTC')" && git push)
