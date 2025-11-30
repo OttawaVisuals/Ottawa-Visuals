@@ -291,9 +291,13 @@ fetch_game_details <- function(gid) {
 
 message("\n=== Checking for New Games ===")
 
-# Load existing game IDs
+# Load existing game IDs and ensure consistent types
 existing_games <- read_csv(file.path(data_dir, "pwhl_season_game_ids.csv"), 
-                          show_col_types = FALSE)
+                          show_col_types = FALSE) %>%
+  mutate(
+    season_id = as.character(season_id),
+    game_id = as.character(game_id)
+  )
 
 # Get current schedule for all seasons
 all_seasons <- tibble()
@@ -360,7 +364,8 @@ if (nrow(new_games) > 0) {
   
   if (nrow(new_game_summaries) > 0) {
     existing_summaries <- read_csv(file.path(data_dir, "pwhl_game_summaries.csv"), 
-                                   show_col_types = FALSE)
+                                   show_col_types = FALSE) %>%
+      mutate(game_id = as.character(game_id), season_id = as.character(season_id))
     updated_summaries <- bind_rows(existing_summaries, new_game_summaries)
     write_csv(updated_summaries, file.path(data_dir, "pwhl_game_summaries.csv"))
     message("  ✓ Added ", nrow(new_game_summaries), " game summaries")
@@ -368,7 +373,8 @@ if (nrow(new_games) > 0) {
   
   if (nrow(new_game_players) > 0) {
     existing_players <- read_csv(file.path(data_dir, "pwhl_game_players.csv"), 
-                                 show_col_types = FALSE)
+                                 show_col_types = FALSE) %>%
+      mutate(game_id = as.character(game_id), season_id = as.character(season_id))
     updated_players <- bind_rows(existing_players, new_game_players)
     write_csv(updated_players, file.path(data_dir, "pwhl_game_players.csv"))
     message("  ✓ Added ", nrow(new_game_players), " game player records")
@@ -439,7 +445,9 @@ if (nrow(new_games) > 0) {
     
     if (nrow(updated_logs) > 0) {
       existing_logs <- read_csv(file.path(data_dir, "pwhl_player_game_logs.csv"), 
-                                show_col_types = FALSE)
+                                show_col_types = FALSE) %>%
+        mutate(game_id = as.character(game_id), season_id = as.character(season_id), 
+               player_id = as.character(player_id))
       
       # Remove old entries for updated players, then add new data
       final_logs <- existing_logs %>%
@@ -459,7 +467,8 @@ if (nrow(new_games) > 0) {
 message("\n=== Checking for New Players ===")
 
 existing_players_info <- read_csv(file.path(data_dir, "pwhl_players_info.csv"), 
-                                 show_col_types = FALSE)
+                                 show_col_types = FALSE) %>%
+  mutate(player_id = as.character(player_id))
 
 if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
   new_player_ids <- new_game_players %>%
@@ -538,7 +547,8 @@ if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
 message("\n=== Updating Transactions ===")
 
 existing_transactions <- read_csv(file.path(data_dir, "pwhl_transactions.csv"), 
-                                 show_col_types = FALSE)
+                                 show_col_types = FALSE) %>%
+  mutate(season_id = as.character(season_id))
 
 fetch_transactions_for_season <- function(season_id) {
   res <- GET(base_url, query = c(common_params, list(
@@ -660,7 +670,8 @@ if (nrow(new_games) > 0) {
         left_join(sched_join, by = "game_id")
       
       existing_pbp <- read_csv(file.path(data_dir, "pwhl_pbp.csv"), 
-                               show_col_types = FALSE)
+                               show_col_types = FALSE) %>%
+        mutate(game_id = as.character(game_id))
       updated_pbp <- bind_rows(existing_pbp, new_pbp)
       write_csv(updated_pbp, file.path(data_dir, "pwhl_pbp.csv"))
       message("  ✓ Added ", nrow(new_pbp), " play-by-play events")
