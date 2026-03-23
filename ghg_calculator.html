@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GHG Equivalency Calculator</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:transparent;color:#ffffff;padding:1.5rem 1rem}
+  .wrap{max-width:860px;margin:0 auto}
+  h1{font-size:20px;font-weight:500;margin-bottom:4px;color:#1a1a1a}
+  .subtitle{font-size:14px;color:#666;margin-bottom:1.75rem}
+  .input-row{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem;flex-wrap:wrap}
+  .input-row label{font-size:14px;color:#ccc;white-space:nowrap}
+  .input-row input{width:200px;font-size:18px;font-weight:500;padding:9px 14px;border:1px solid #555;border-radius:8px;background:#222;color:#fff;outline:none;transition:border-color .15s,box-shadow .15s}
+  .input-row input:focus{border-color:#4a90d9;box-shadow:0 0 0 3px rgba(74,144,217,.15)}
+  .unit{font-size:15px;color:#aaa}
+  .section-label{font-size:11px;font-weight:600;letter-spacing:.07em;color:#888;text-transform:uppercase;margin-bottom:10px;margin-top:1.75rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px}
+  .card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e8e8e8}
+  .card svg{width:40px;height:40px;display:block;margin-bottom:10px}
+  .card-label{font-size:13px;color:#666;margin-bottom:6px;line-height:1.4}
+  .card-value{font-size:22px;font-weight:500;color:#1a1a1a;line-height:1.2}
+  .card-sub{font-size:12px;color:#999;margin-top:3px}
+  .card-km{margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0}
+  .card-km .card-value{font-size:16px;color:#444}
+  hr{border:none;border-top:1px solid #444;margin:1.75rem 0}
+  .note{font-size:12px;color:#888;margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="input-row">
+    <label for="tco2">GHG emissions</label>
+    <input type="number" id="tco2" min="0" step="any" placeholder="e.g. 100" onkeyup="calc()" onchange="calc()"/>
+    <span class="unit">tCO₂e</span>
+  </div>
+
+  <div class="section-label">Vehicles — round trip St. John's to Vancouver (14,198 km)</div>
+  <div class="grid">
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5.0 -10.0 110.0 110.0">
+        <path fill="#2563eb" d="m25.914 52.742c-4.582 0-8.3125 3.7305-8.3125 8.3125 0 4.5859 3.7305 8.3125 8.3125 8.3125 4.5859 0 8.3125-3.7305 8.3125-8.3125 0-4.582-3.7305-8.3125-8.3125-8.3125zm0 13.09c-2.6328 0-4.7773-2.1445-4.7773-4.7773 0-2.6328 2.1445-4.7773 4.7773-4.7773 2.6328 0 4.7773 2.1445 4.7773 4.7773 0 2.6367-2.1445 4.7773-4.7773 4.7773z"/>
+        <path fill="#2563eb" d="m78.363 52.742c-4.582 0-8.3125 3.7305-8.3125 8.3125 0 4.5859 3.7305 8.3125 8.3125 8.3125 4.5859 0 8.3125-3.7305 8.3125-8.3125 0-4.582-3.7266-8.3125-8.3125-8.3125zm0 13.09c-2.6328 0-4.7773-2.1445-4.7773-4.7773 0-2.6328 2.1445-4.7773 4.7773-4.7773 2.6328 0 4.7773 2.1445 4.7773 4.7773 0 2.6367-2.1406 4.7773-4.7773 4.7773z"/>
+        <path fill="#2563eb" d="m94.359 52.621h-0.52344l-2.4219-7.6211c-0.26562-0.83203-1.0352-1.3945-1.9062-1.3945h-11.109c-0.29688 0-0.58203-0.13281-0.76953-0.36328l-10.023-12.117c-0.27344-0.32812-0.67188-0.51562-1.0938-0.51562h-24.453c-0.78516 0-1.4219 0.63672-1.4219 1.4219v11.574h-31.859c-1.0469 0-1.8945 0.84766-1.8945 1.8945v9.9609h-0.62891c-0.52344 0-0.94922 0.42578-0.94922 0.94922v2.75c0 1.0469 0.84766 1.8945 1.8945 1.8945h7.7109c0.47266 0 0.88672-0.34766 0.9375-0.82031 0.50391-4.793 4.2148-8.8086 9.0898-9.2656 5.7344-0.53906 10.617 3.7305 11.074 9.2383 0.039062 0.48438 0.45312 0.84766 0.9375 0.84766h30.414c0.47266 0 0.88672-0.34766 0.9375-0.82031 0.50391-4.793 4.2148-8.8086 9.0898-9.2656 5.7344-0.53906 10.617 3.7305 11.074 9.2383 0.039062 0.48438 0.45312 0.84766 0.9375 0.84766h4.0117c1.0469 0 1.8945-0.84766 1.8945-1.8945v-5.5938c-0.003906-0.52344-0.42578-0.94531-0.94922-0.94531zm-50.48-17.473c0-0.55078 0.44922-1 1-1h7.457c0.55078 0 1 0.44922 1 1v7.457c0 0.55078-0.44922 1-1 1h-7.457c-0.55078 0-1-0.44922-1-1zm21.711 23.961h-26.902c-0.42969 0-0.77734-0.34766-0.77734-0.77734 0-0.42969 0.34766-0.77734 0.77734-0.77734h26.902c0.42969 0 0.77734 0.34766 0.77734 0.77734 0 0.42969-0.34766 0.77734-0.77734 0.77734zm5.4609-15.504h-13.695c-0.55078 0-1-0.44922-1-1v-7.457c0-0.55078 0.44922-1 1-1h7.6875c0.28906 0 0.5625 0.13281 0.74219 0.35937l6.0078 7.5625c0.49219 0.62109 0.050781 1.5352-0.74219 1.5352z"/>
+      </svg>
+      <div class="card-label">Ford F-150</div>
+      <div class="card-value" id="v0-trips">—</div>
+      <div class="card-sub">round trips</div>
+      <div class="card-km">
+        <div class="card-value" id="v0-km">—</div>
+        <div class="card-sub">km driven</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-252 -94)">
+          <path fill="#2563eb" d="M284 156C284 160.418 280.418 164 276 164 271.582 164 268 160.418 268 156 268 151.582 271.582 148 276 148 280.418 148 284 151.582 284 156Z"/>
+          <path fill="#2563eb" d="M332 156C332 160.418 328.418 164 324 164 319.582 164 316 160.418 316 156 316 151.582 319.582 148 324 148 328.418 148 332 151.582 332 156Z"/>
+          <path fill="#2563eb" d="M291 136 291 124 304.7 124C305.8 124 306.8 124.4 307.5 125.2L318.3 136 291 136ZM287 136 261.7 136 272.5 125.2C273.3 124.4 274.3 124 275.3 124L287 124 287 136ZM334 136 325.7 136C324.6 136 323.6 135.6 322.9 134.8L310.3 122.3C308.8 120.8 306.8 120 304.6 120L275.3 120C273.2 120 271.1 120.8 269.6 122.3L257.2 134.8C256.4 135.6 256 136.6 256 137.7L256 148C256 152.4 259.6 156 264 156L265 156C265 149.9 269.9 145 276 145 282.1 145 287 149.9 287 156L313 156C313 149.9 317.9 145 324 145 330.1 145 335 149.9 335 156L340 156C342.2 156 344 154.2 344 152L344 146C344 140.5 339.5 136 334 136Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Honda Civic</div>
+      <div class="card-value" id="v1-trips">—</div>
+      <div class="card-sub">round trips</div>
+      <div class="card-km">
+        <div class="card-value" id="v1-km">—</div>
+        <div class="card-sub">km driven</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-120 -94)">
+          <path fill="#16a34a" d="M161 160C161 163.59 158.09 166.5 154.5 166.5 150.91 166.5 148 163.59 148 160 148 156.41 150.91 153.5 154.5 153.5 158.09 153.5 161 156.41 161 160Z"/>
+          <path fill="#16a34a" d="M201 160C201 163.59 198.09 166.5 194.5 166.5 190.91 166.5 188 163.59 188 160 188 156.41 190.91 153.5 194.5 153.5 198.09 153.5 201 156.41 201 160Z"/>
+          <path fill="#16a34a" d="M203.09 143 196.09 143C195.199 143.02 194.343 142.656 193.74 142L183.16 131.43C181.938 130.031 180.221 129.16 178.37 129L153.73 129C151.884 129.177 150.173 130.045 148.94 131.43L138.51 142C137.861 142.641 137.5 143.518 137.51 144.43L137.51 150 132.51 150C131.682 150.005 131.006 149.338 131 148.51 131 148.507 131 148.503 131 148.5L131 131.19C133.433 130.33 135.044 128.01 135 125.43L135 122 133 122 133 118C133 117.448 132.552 117 132 117 131.448 117 131 117.448 131 118L131 122 128 122 128 118C128 117.448 127.552 117 127 117 126.448 117 126 117.448 126 118L126 122 124 122 124 125.43C123.956 128.01 125.567 130.33 128 131.19L128 148.5C128.005 150.983 130.017 152.995 132.5 153L137.5 153 137.5 153C137.511 156.711 140.519 159.715 144.23 159.72L145.07 159.72C145.053 154.628 149.168 150.487 154.26 150.47 154.28 150.47 154.3 150.47 154.32 150.47 159.499 150.563 163.631 154.82 163.57 160L185.43 160C185.396 154.84 189.521 150.613 194.68 150.52 199.772 150.503 203.913 154.618 203.93 159.71 203.93 159.73 203.93 159.75 203.93 159.77L208.14 159.77C209.993 159.764 211.495 158.263 211.5 156.41L211.5 151.41C211.511 146.776 207.764 143.011 203.13 143 203.117 143 203.103 143 203.09 143ZM164 143 142.29 143 151.38 133.87C152.114 133.263 153.049 132.952 154 133L164 133ZM167 143 167 133 178.45 133C179.326 132.93 180.189 133.248 180.81 133.87L189.89 143Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Hyundai Ioniq (Alberta)</div>
+      <div class="card-value" id="v2-trips">—</div>
+      <div class="card-sub">round trips</div>
+      <div class="card-km">
+        <div class="card-value" id="v2-km">—</div>
+        <div class="card-sub">km driven</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-120 -94)">
+          <path fill="#16a34a" d="M161 160C161 163.59 158.09 166.5 154.5 166.5 150.91 166.5 148 163.59 148 160 148 156.41 150.91 153.5 154.5 153.5 158.09 153.5 161 156.41 161 160Z"/>
+          <path fill="#16a34a" d="M201 160C201 163.59 198.09 166.5 194.5 166.5 190.91 166.5 188 163.59 188 160 188 156.41 190.91 153.5 194.5 153.5 198.09 153.5 201 156.41 201 160Z"/>
+          <path fill="#16a34a" d="M203.09 143 196.09 143C195.199 143.02 194.343 142.656 193.74 142L183.16 131.43C181.938 130.031 180.221 129.16 178.37 129L153.73 129C151.884 129.177 150.173 130.045 148.94 131.43L138.51 142C137.861 142.641 137.5 143.518 137.51 144.43L137.51 150 132.51 150C131.682 150.005 131.006 149.338 131 148.51 131 148.507 131 148.503 131 148.5L131 131.19C133.433 130.33 135.044 128.01 135 125.43L135 122 133 122 133 118C133 117.448 132.552 117 132 117 131.448 117 131 117.448 131 118L131 122 128 122 128 118C128 117.448 127.552 117 127 117 126.448 117 126 117.448 126 118L126 122 124 122 124 125.43C123.956 128.01 125.567 130.33 128 131.19L128 148.5C128.005 150.983 130.017 152.995 132.5 153L137.5 153 137.5 153C137.511 156.711 140.519 159.715 144.23 159.72L145.07 159.72C145.053 154.628 149.168 150.487 154.26 150.47 154.28 150.47 154.3 150.47 154.32 150.47 159.499 150.563 163.631 154.82 163.57 160L185.43 160C185.396 154.84 189.521 150.613 194.68 150.52 199.772 150.503 203.913 154.618 203.93 159.71 203.93 159.73 203.93 159.75 203.93 159.77L208.14 159.77C209.993 159.764 211.495 158.263 211.5 156.41L211.5 151.41C211.511 146.776 207.764 143.011 203.13 143 203.117 143 203.103 143 203.09 143ZM164 143 142.29 143 151.38 133.87C152.114 133.263 153.049 132.952 154 133L164 133ZM167 143 167 133 178.45 133C179.326 132.93 180.189 133.248 180.81 133.87L189.89 143Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Hyundai Ioniq (Ontario)</div>
+      <div class="card-value" id="v3-trips">—</div>
+      <div class="card-sub">round trips</div>
+      <div class="card-km">
+        <div class="card-value" id="v3-km">—</div>
+        <div class="card-sub">km driven</div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr/>
+  <div class="section-label">Other equivalencies</div>
+  <div class="grid">
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-584 -85)">
+          <path fill="#1a1a1a" d="M590 157 674 157 674 161 590 161Z"/>
+          <path fill="#1a1a1a" d="M599.929 131.205C598.932 131.127 598.036 130.567 597.529 129.705L591.1 118.769C590.892 118.401 591.022 117.935 591.389 117.727 591.458 117.688 591.531 117.66 591.608 117.644L593.97 117.144C594.667 116.997 595.393 117.182 595.935 117.644L604.605 125.07 621.075 121.614 604.3 107.651C603.976 107.38 603.932 106.896 604.204 106.572 604.314 106.44 604.465 106.35 604.633 106.314L608.101 105.587C608.733 105.453 609.392 105.523 609.982 105.787L637.544 118.165 660.752 113.3C663.746 112.671 672.018 114.843 672.489 117.089 673.275 120.832 665.789 122.403 665.789 122.403L627.029 130.537C620.645 131.877 614.104 132.302 607.6 131.8Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Flights St. John's – Vancouver</div>
+      <div class="card-value" id="o0-val">—</div>
+      <div class="card-sub">flights</div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-418 -109)">
+          <path fill="#1a1a1a" d="M442 149 442 167C440.343 167 439 168.343 439 170 439 171.657 440.343 173 442 173L489 173C490.657 173 492 171.657 492 170 492 168.343 490.657 167 489 167L489 149Z"/>
+          <path fill="#1a1a1a" d="M440 129 442 129 442 139C440.343 139 439 140.343 439 142 439 143.657 440.343 145 442 145L489 145C490.657 145 492 143.657 492 142 492 140.343 490.657 139 489 139L489 129 491 129C492.657 129 494 127.657 494 126 494 124.343 492.657 123 491 123L483 123 483 120 472 120 472 123 440 123C438.343 123 437 124.343 437 126 437 127.657 438.343 129 440 129Z"/>
+          <path fill="#1a1a1a" d="M491 189 489 189 489 177 442 177 442 189 440 189C438.343 189 437 190.343 437 192 437 193.657 438.343 195 440 195L491 195C492.657 195 494 193.657 494 192 494 190.343 492.657 189 491 189Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Barrels of oil burned</div>
+      <div class="card-value" id="o1-val">—</div>
+      <div class="card-sub">barrels</div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+        <g transform="translate(-774 -122)">
+          <path fill="#16a34a" d="M851.94 196.61 851.94 188.61 863.69 189.61 855.85 177.55 860.65 178.84 855 170.22 858.49 170.66 850.19 158.59 845.93 164.81 837.45 151.81 842.87 152.49 830 133.48 817.13 152.48 822.55 151.8 813.74 165.32 821.19 163.32 809 182.26 827 178.87 827 191.18C821.08 191.31 815.56 192.6 811.25 195.36 815.25 197.44 819.48 201.01 823.34 207L866 207C862.78 202.91 857.77 199.33 851.94 196.61ZM845.68 165.17 842.76 169.44 838.76 163.29ZM842.46 180.74 836.69 189.61 848 188.61 848 195C842.86 193.057 837.475 191.836 832 191.37L832 178.87Z"/>
+          <path fill="#16a34a" d="M806.19 196.46 806 196.46 806 193 811 194 807.34 187.26 810 188 806.85 183.21 808.79 183.45 804 177 799.6 183.43 801.53 183.19 799.83 185.78 796.08 179.78 800.2 180.89 795.33 173.48 798.33 173.85 791.21 163.46 784.09 173.83 787.09 173.46 782.22 180.87 786.34 179.76 779.6 190.14 789 189 789 199C784.834 200.903 781.094 203.623 778 207L819.72 207C815.19 200.65 810.29 197.73 806.19 196.46ZM792 197.83 792 189 799.85 189.9 798 194 803 193 803 196.21C799.267 196.107 795.545 196.655 792 197.83Z"/>
+        </g>
+      </svg>
+      <div class="card-label">Central Parks of forest (annual absorption)</div>
+      <div class="card-value" id="o2-val">—</div>
+      <div class="card-sub">Central Parks</div>
+    </div>
+
+    <div class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <path fill="#1a1a1a" d="M20,70C20,75.551,26.036,80.394,35,82.988L35,90L65,90L65,82.988C73.964,80.394,80,75.551,80,70L80,55L20,55L20,70Z"/>
+        <path fill="#1a1a1a" d="M80,40C80,34.449,73.964,29.606,65,27.012L65,15C66.381,15,67.5,13.881,67.5,12.5C67.5,11.119,66.381,10,65,10L35,10C33.619,10,32.5,11.119,32.5,12.5C32.5,13.881,33.619,15,35,15L35,27.012C26.036,29.606,20,34.449,20,40L20,50L80,50L80,40ZM60,25.857C57.623,25.437,55.109,25.164,52.5,25.056L52.5,20L55,20L56.667,15L60,15L60,25.857ZM40,15L43.333,15L45,20L47.5,20L47.5,25.056C44.891,25.164,42.377,25.437,40,25.857L40,15Z"/>
+      </svg>
+      <div class="card-label">Propane cylinders (BBQ)</div>
+      <div class="card-value" id="o3-val">—</div>
+      <div class="card-sub">cylinders</div>
+    </div>
+
+  </div>
+
+  <p class="note">Emission factors: Ford F-150 256.6 gCO₂e/km · Honda Civic 149.6 gCO₂e/km · Hyundai Ioniq AB 139.8 gCO₂e/km · Hyundai Ioniq ON 6.2 gCO₂e/km · Flight St. John's–Vancouver 75.72 tCO₂e/flight · Oil 2.3 tCO₂e/barrel · Forest 1,686 tCO₂e/Central Park/year · Propane cylinder 0.0244 tCO₂e/cylinder</p>
+</div>
+
+<script>
+var TRIP_KM = 14198;
+var vehicles = [
+  {gco2_per_km: 256.6},
+  {gco2_per_km: 149.6},
+  {gco2_per_km: 139.8},
+  {gco2_per_km: 6.2}
+];
+
+function fmt(n) {
+  if (!isFinite(n) || n === 0) return "—";
+  if (n < 1)  return n.toLocaleString("en-CA", {minimumFractionDigits:2, maximumFractionDigits:2});
+  if (n < 10) return n.toLocaleString("en-CA", {minimumFractionDigits:1, maximumFractionDigits:1});
+  return Math.round(n).toLocaleString("en-CA");
+}
+
+function set(id, val) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+function calc() {
+  var raw  = parseFloat(document.getElementById("tco2").value);
+  var tco2 = (isNaN(raw) || raw < 0) ? 0 : raw;
+
+  for (var i = 0; i < vehicles.length; i++) {
+    var tco2_per_trip = (vehicles[i].gco2_per_km * TRIP_KM) / 1e6;
+    var trips = tco2 > 0 ? tco2 / tco2_per_trip : 0;
+    var km    = tco2 > 0 ? (tco2 * 1e6) / vehicles[i].gco2_per_km : 0;
+    set("v" + i + "-trips", fmt(trips));
+    set("v" + i + "-km",    fmt(km));
+  }
+
+  set("o0-val", fmt(tco2 > 0 ? tco2 / 75.72266667 : 0));
+  set("o1-val", fmt(tco2 > 0 ? tco2 / 2.3 : 0));
+  set("o2-val", fmt(tco2 > 0 ? tco2 / 1686 : 0));
+  set("o3-val", fmt(tco2 > 0 ? tco2 / 0.024390244 : 0));
+}
+
+document.getElementById("tco2").addEventListener("input", calc);
+</script>
+</body>
+</html>
