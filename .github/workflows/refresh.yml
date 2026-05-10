@@ -1,0 +1,24 @@
+name: Refresh Ottawa Real Estate Data
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+  workflow_dispatch:       # Also lets you run it manually
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Freehold data
+        run: |
+          curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=958214324&range=A1:O400" -o data/freehold.csv
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Weekly data refresh $(date +%Y-%m-%d)"
+          git push
