@@ -3,7 +3,7 @@ name: Refresh Ottawa Real Estate Data
 on:
   schedule:
     - cron: '0 9 * * 1'  # Every Monday at 9am UTC
-  workflow_dispatch:       # Also lets you run it manually
+  workflow_dispatch:       # Manual trigger
 
 jobs:
   fetch:
@@ -11,9 +11,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch Freehold data
-        run: |
-          curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=958214324&range=A1:O400" -o data/freehold.csv
+      - name: Fetch Freehold
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=900158794&range=A1:P500" -o data/freehold.csv
+
+      - name: Fetch Condos
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=1944579104&range=A1:P500" -o data/condos.csv
+
+      - name: Fetch Price Point Breakdown
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=1541218384&range=A1:P500" -o data/price_point_breakdown.csv
+
+      - name: Fetch Freehold Sales by Property Type
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=425007128&range=A1:P500" -o data/freehold_by_property_type.csv
+
+      - name: Fetch Condo Sales by Property Type
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=1543460194&range=A1:P500" -o data/condos_by_property_type.csv
+
+      - name: Fetch Occupancy Type Breakdown
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=716952122&range=A1:P500" -o data/occupancy_type_breakdown.csv
+
+      - name: Fetch Rental Data (Freehold)
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=446080757&range=A1:P500" -o data/rental_data_freehold.csv
+
+      - name: Fetch Rental Type (Freehold)
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=659407688&range=A1:P500" -o data/rental_type_freehold.csv
+
+      - name: Fetch Rental Data (Condo)
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=242048819&range=A1:P500" -o data/rental_data_condo.csv
+
+      - name: Fetch Rental Type (Condo)
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=761899224&range=A1:P500" -o data/rental_type_condo.csv
+
+      - name: Fetch Misc Stats (Freehold and Condo)
+        run: curl -L "https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/export?format=csv&gid=1735196781&range=A1:P500" -o data/misc_stats.csv
 
       - name: Commit and push
         run: |
