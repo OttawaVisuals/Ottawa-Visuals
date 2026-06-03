@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Do You Stand? · Canada FSA Comparator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --red-light: #E74C3C;
+    --cream: #FAF7F2;
+    --ink: #1A1A1A;
+    --ink-mid: #4A4A4A;
+    --ink-light: #8A8A8A;
+    --border: #E2DDD6;
+    --highlight: #F5F0E8;
+    --gold: #B8860B;
+    --white: #FFFFFF;
+    --sidebar-w: 280px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .app { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+
+  .sidebar-logo span { color: var(--red-light); }
+
+  .sidebar-tagline {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .sidebar-form { padding: 20px 24px; flex: 1; }
+
+  .field-group { margin-bottom: 18px; }
+
+  .field-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .field-input {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    padding: 9px 12px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .field-input:focus {
+    border-color: var(--red-light);
+    background: rgba(255,255,255,0.11);
+  }
+
+  .field-input::placeholder { color: rgba(255,255,255,0.2); }
+
+  .field-hint {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .field-input.invalid { border-color: var(--red-light); }
+  .field-input.valid { border-color: #27ae60; }
+
+  .btn-calculate {
+    width: 100%;
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 4px;
+  }
+
+  .btn-calculate:hover { background: var(--red-light); }
+  .btn-calculate:disabled { background: rgba(255,255,255,0.15); cursor: not-allowed; }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    line-height: 1.7;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .sidebar-footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  .sidebar-footer a:hover { color: var(--red-light); }
+
+  .data-status {
+    padding: 10px 24px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .status-dot.loading { background: #f39c12; animation: pulse 1s infinite; }
+  .status-dot.ready { background: #27ae60; }
+  .status-dot.error { background: var(--red-light); }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    padding: 40px 48px 60px;
+    max-width: calc(100% - var(--sidebar-w));
+    overflow-x: hidden;
+  }
+
+  /* ── STATE SCREENS ── */
+  .state-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .state-icon {
+    font-size: 48px;
+    opacity: 0.3;
+  }
+
+  .state-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink-mid);
+  }
+
+  .state-sub {
+    color: var(--ink-light);
+    max-width: 360px;
+    font-size: 13px;
+  }
+
+  /* ── RESULTS ── */
+  .results { display: none; }
+  .results.visible { display: block; }
+
+  .results-header {
+    margin-bottom: 36px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .results-fsa {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .results-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-light);
+  }
+
+  .results-meta strong { color: var(--ink-mid); }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-sub {
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-bottom: 20px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── STAT CARDS ROW ── */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+  }
+
+  .stat-card-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .stat-card-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .stat-card-sub {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .stat-card.highlight { border-color: var(--red); background: #FDF5F5; }
+  .stat-card.highlight .stat-card-value { color: var(--red); }
+
+  /* ── PERCENTILE MARKER ── */
+  .percentile-bar-wrap { margin: 20px 0 12px; }
+
+  .percentile-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+  }
+
+  .percentile-bar {
+    position: relative;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: visible;
+  }
+
+  .percentile-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0, var(--red));
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+  }
+
+  .percentile-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 3px solid white;
+    box-shadow: 0 0 0 1px var(--red);
+    transition: left 0.8s cubic-bezier(.4,0,.2,1);
+    z-index: 2;
+  }
+
+  .percentile-tooltip {
+    position: absolute;
+    top: -28px;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: left 0.8s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── CHART CONTAINER ── */
+  .chart-wrap {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 20px 16px;
+    margin-bottom: 16px;
+  }
+
+  .chart-wrap canvas { max-height: 260px; }
+
+  .chart-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .chart-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-mid);
+  }
+
+  .legend-swatch {
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── MIDDLE CLASS BAND ── */
+  .band-info {
+    background: var(--highlight);
+    border-left: 3px solid var(--gold);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    color: var(--ink-mid);
+    margin-top: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .band-info strong { color: var(--ink); }
+
+  /* ── DONUT SECTION ── */
+  .donut-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .donut-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .donut-card .chart-title { text-align: center; }
+  .donut-card canvas { max-height: 160px; max-width: 160px; }
+
+  /* ── KV ROWS ── */
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .kv-row {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .kv-label {
+    font-size: 12px;
+    color: var(--ink-mid);
+  }
+
+  .kv-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .kv-compare {
+    display: flex;
+    gap: 12px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-light);
+    margin-top: 4px;
+  }
+
+  .kv-compare span { display: flex; align-items: center; gap: 3px; }
+
+  /* ── SUPPRESSED ── */
+  .suppressed {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  /* ── SOURCES ── */
+  .sources {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sources-title {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  .sources-list {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-family: 'DM Mono', monospace;
+    line-height: 2;
+  }
+
+  .sources-list a { color: var(--red); text-decoration: none; }
+  .sources-list a:hover { text-decoration: underline; }
+
+  /* ── NOT FOUND ── */
+  .not-found {
+    background: #FDF5F5;
+    border: 1px solid #f5c6c6;
+    border-radius: 6px;
+    padding: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--red);
+    margin-bottom: 24px;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .app { flex-direction: column; }
+
+    .sidebar {
+      width: 100%;
+      min-width: unset;
+      height: auto;
+      position: static;
+    }
+
+    .sidebar-form { padding-bottom: 16px; }
+
+    .main {
+      max-width: 100%;
+      padding: 24px 20px 40px;
+    }
+
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+    .donut-grid { grid-template-columns: 1fr; }
+    .kv-grid { grid-template-columns: 1fr; }
+    .results-fsa { font-size: 32px; }
+  }
+
+  @media (max-width: 480px) {
+    .stat-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">Where Do<br>You <span>Stand?</span></div>
+      <div class="sidebar-tagline">Canada FSA Comparator</div>
+    </div>
+
+    <div class="data-status" id="dataStatus">
+      <div class="status-dot loading" id="statusDot"></div>
+      <span id="statusText">Loading data…</span>
+    </div>
+
+    <div class="sidebar-form">
+      <div class="field-group">
+        <label class="field-label" for="inputFSA">Your FSA (Postal Code Prefix)</label>
+        <input class="field-input" id="inputFSA" type="text" maxlength="3" placeholder="e.g. K2A" autocomplete="off" spellcheck="false">
+        <div class="field-hint">First 3 characters of your postal code</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="inputAge">Your Age</label>
+        <input class="field-input" id="inputAge" type="number" min="15" max="100" placeholder="e.g. 38">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="inputIncome">Total Annual Income ($)</label>
+        <input class="field-input" id="inputIncome" type="number" min="0" placeholder="e.g. 85000">
+        <div class="field-hint">All income sources before tax</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="inputNetWorth">Estimated Net Worth ($) <span style="opacity:.5">optional</span></label>
+        <input class="field-input" id="inputNetWorth" type="number" placeholder="Assets minus debts">
+      </div>
+
+      <button class="btn-calculate" id="btnCalculate" disabled onclick="calculate()">Calculate</button>
+    </div>
+
+    <div class="sidebar-footer">
+      Data: Statistics Canada Census 2021 · CRA FSA Tax Statistics 2021 &amp; 2019<br>
+      <a href="https://www.statcan.gc.ca/" target="_blank">statcan.gc.ca</a> ·
+      <a href="https://www.canada.ca/en/revenue-agency.html" target="_blank">canada.ca/cra</a><br><br>
+      Net worth shown at province/Canada level only — FSA data not publicly available.<br><br>
+      Built by <a href="https://github.com/OttawaVisuals/Ottawa-Visuals" target="_blank">OttawaVisuals</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main" id="mainContent">
+
+    <div class="state-screen" id="stateIdle">
+      <div class="state-icon">🇨🇦</div>
+      <div class="state-title">Enter your details to begin</div>
+      <div class="state-sub">Compare your income, age, education and more against your FSA, province and all of Canada.</div>
+    </div>
+
+    <div class="state-screen" id="stateLoading" style="display:none">
+      <div class="state-icon" style="animation:pulse 1s infinite">⏳</div>
+      <div class="state-title">Crunching the numbers…</div>
+    </div>
+
+    <div id="resultsArea" class="results">
+
+      <div id="notFoundMsg" class="not-found" style="display:none">
+        ⚠ FSA not found in dataset. Some rural or suppressed FSAs may not appear. Try a nearby FSA.
+      </div>
+
+      <div class="results-header">
+        <div class="results-fsa" id="rFSA">—</div>
+        <div class="results-meta" id="rMeta"></div>
+      </div>
+
+      <!-- ── SECTION 1: INCOME ── -->
+      <div class="section" id="sectionIncome">
+        <div class="section-title">Total Income</div>
+        <div class="section-sub" id="incomeSubtitle"></div>
+
+        <div class="stat-cards">
+          <div class="stat-card highlight">
+            <div class="stat-card-label">Your Income</div>
+            <div class="stat-card-value" id="rYourIncome">—</div>
+            <div class="stat-card-sub">annual, pre-tax</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">FSA Median</div>
+            <div class="stat-card-value" id="rFSAMedian">—</div>
+            <div class="stat-card-sub" id="rFSAMedianSub">2021 tax year</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Canada Median</div>
+            <div class="stat-card-value" id="rCanadaMedian">—</div>
+            <div class="stat-card-sub">2021 tax year</div>
+          </div>
+        </div>
+
+        <!-- Percentile bars -->
+        <div id="percentilesWrap">
+          <div class="percentile-bar-wrap">
+            <div class="percentile-bar-label"><span>FSA Percentile</span><span id="rPctFSA">—</span></div>
+            <div class="percentile-bar">
+              <div class="percentile-bar-fill" id="fillFSA" style="width:0%"></div>
+              <div class="percentile-marker" id="markerFSA" style="left:0%">
+                <div class="percentile-tooltip" id="tooltipFSA"></div>
+              </div>
+            </div>
+          </div>
+          <div class="percentile-bar-wrap">
+            <div class="percentile-bar-label"><span>Province Percentile</span><span id="rPctProv">—</span></div>
+            <div class="percentile-bar">
+              <div class="percentile-bar-fill" id="fillProv" style="width:0%"></div>
+              <div class="percentile-marker" id="markerProv" style="left:0%">
+                <div class="percentile-tooltip" id="tooltipProv"></div>
+              </div>
+            </div>
+          </div>
+          <div class="percentile-bar-wrap">
+            <div class="percentile-bar-label"><span>Canada Percentile</span><span id="rPctCan">—</span></div>
+            <div class="percentile-bar">
+              <div class="percentile-bar-fill" id="fillCan" style="width:0%"></div>
+              <div class="percentile-marker" id="markerCan" style="left:0%">
+                <div class="percentile-tooltip" id="tooltipCan"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="band-info" id="bandInfo"></div>
+
+        <!-- Income distribution charts -->
+        <div class="chart-row" style="margin-top:20px">
+          <div class="chart-wrap">
+            <div class="chart-title">Income Distribution — Your FSA vs 2019 (inflation-adjusted)</div>
+            <canvas id="chartIncomeFSA"></canvas>
+            <div class="legend">
+              <div class="legend-item"><div class="legend-swatch" style="background:#C0392B"></div>2021</div>
+              <div class="legend-item"><div class="legend-swatch" style="background:rgba(192,57,43,0.3)"></div>2019 (adj.)</div>
+              <div class="legend-item"><div class="legend-swatch" style="background:#2C3E50;width:3px;border-radius:1px"></div>Your income</div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">Province distribution</div>
+            <canvas id="chartIncomeProv"></canvas>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-title">Canada distribution</div>
+            <canvas id="chartIncomeCan"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 2: NET WORTH ── -->
+      <div class="section" id="sectionNetWorth" style="display:none">
+        <div class="section-title">Net Worth</div>
+        <div class="section-sub">Province and Canada level only — FSA net worth data is not publicly available.</div>
+
+        <div class="stat-cards">
+          <div class="stat-card highlight">
+            <div class="stat-card-label">Your Net Worth</div>
+            <div class="stat-card-value" id="rYourNW">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Province Median</div>
+            <div class="stat-card-value" id="rProvNW">—</div>
+            <div class="stat-card-sub">Survey of Financial Security</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Canada Median</div>
+            <div class="stat-card-value">$519,700</div>
+            <div class="stat-card-sub">SFS 2023</div>
+          </div>
+        </div>
+
+        <div class="percentile-bar-wrap">
+          <div class="percentile-bar-label"><span>Canada Net Worth Percentile (est.)</span><span id="rNWPct">—</span></div>
+          <div class="percentile-bar">
+            <div class="percentile-bar-fill" id="fillNW" style="width:0%"></div>
+            <div class="percentile-marker" id="markerNW" style="left:0%">
+              <div class="percentile-tooltip" id="tooltipNW"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="band-info" id="nwInfo" style="border-color:#27ae60"></div>
+      </div>
+
+      <!-- ── SECTION 3: FSA PROFILE ── -->
+      <div class="section">
+        <div class="section-title">FSA Profile</div>
+        <div class="section-sub" id="fsaProfileSub"></div>
+
+        <!-- KV quick stats -->
+        <div class="kv-grid" style="margin-bottom:20px" id="kvGrid"></div>
+
+        <!-- Donuts -->
+        <div class="donut-grid">
+          <div class="donut-card">
+            <div class="chart-title">Age Distribution</div>
+            <canvas id="chartAge"></canvas>
+          </div>
+          <div class="donut-card">
+            <div class="chart-title">Education (25–64)</div>
+            <canvas id="chartEdu"></canvas>
+          </div>
+          <div class="donut-card">
+            <div class="chart-title">Housing Tenure</div>
+            <canvas id="chartHousing"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SOURCES ── -->
+      <div class="sources">
+        <div class="sources-title">Data Sources</div>
+        <div class="sources-list">
+          · <a href="https://www.canada.ca/en/revenue-agency/programs/about-canada-revenue-agency-cra/income-statistics-gst-hst-statistics/individual-tax-statistics-fsa/individual-tax-statistics-fsa-2023-edition-2021-tax-year.html" target="_blank">CRA Individual Tax Statistics by FSA — 2023 Edition (2021 tax year)</a><br>
+          · <a href="https://www.canada.ca/en/revenue-agency/programs/about-canada-revenue-agency-cra/income-statistics-gst-hst-statistics/individual-tax-statistics-fsa/individual-tax-statistics-fsa-2021-edition-2019-tax-year.html" target="_blank">CRA Individual Tax Statistics by FSA — 2021 Edition (2019 tax year)</a><br>
+          · <a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/index.cfm" target="_blank">Statistics Canada — 2021 Census Profile (FSA level)</a><br>
+          · <a href="https://www150.statcan.gc.ca/n1/pub/71-607-x/2018013/sfs-esf-eng.htm" target="_blank">Statistics Canada — Survey of Financial Security 2023</a><br>
+          · 2019→2021 CPI inflation adjustment factor: <strong>1.068</strong> (Statistics Canada CPI)<br>
+          · Income percentiles estimated from bracket distribution using linear interpolation<br>
+          · Net worth percentiles estimated from quintile data using linear interpolation
+        </div>
+      </div>
+
+    </div><!-- end resultsArea -->
+  </main>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────
+const BASE = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/data/';
+const FILES = {
+  income2021: BASE + 'fsa_income_2021.csv',
+  income2019: BASE + 'fsa_income_2019.csv',
+  census:     BASE + 'fsa_census_2021_filtered.csv',
+};
+const CPI_ADJ = 1.068; // 2019→2021
+
+// Province net worth medians (SFS 2023, $000s)
+const PROV_NW = {
+  NL:219000, PE:219400, NS:242600, NB:206200,
+  QC:321500, ON:551100, MB:293300, SK:372200,
+  AB:408800, BC:773500, YT:400000, NT:350000, NU:200000
+};
+
+const CANADA_NW_PERCENTILES = [
+  {p:10,v:4000},{p:20,v:22000},{p:30,v:75000},{p:40,v:168000},
+  {p:50,v:519700},{p:60,v:760000},{p:70,v:1050000},{p:80,v:1450000},
+  {p:90,v:2200000},{p:95,v:3160700}
+];
+
+const INCOME_BRACKETS = [
+  'Under $5k','$5–10k','$10–15k','$15–20k','$20–25k','$25–30k',
+  '$30–35k','$35–40k','$40–45k','$45–50k','$50–55k','$55–60k',
+  '$60–70k','$70–80k','$80–90k','$90–100k','$100–150k','$150–250k','$250k+'
+];
+
+const BRACKET_MIDPOINTS = [
+  2500,7500,12500,17500,22500,27500,32500,37500,42500,47500,
+  52500,57500,65000,75000,85000,95000,125000,200000,300000
+];
+
+// Province mapping from FSA first letter
+const FSA_PROVINCE = {
+  A:'NL', B:'NS', C:'PE', E:'NB',
+  G:'QC', H:'QC', J:'QC',
+  K:'ON', L:'ON', M:'ON', N:'ON', P:'ON',
+  R:'MB', S:'SK', T:'AB', V:'BC',
+  X:'NT', Y:'YT'
+};
+
+const PROV_NAMES = {
+  NL:'Newfoundland & Labrador', PE:'Prince Edward Island', NS:'Nova Scotia',
+  NB:'New Brunswick', QC:'Quebec', ON:'Ontario', MB:'Manitoba',
+  SK:'Saskatchewan', AB:'Alberta', BC:'British Columbia',
+  YT:'Yukon', NT:'Northwest Territories', NU:'Nunavut'
+};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+const DATA = { income2021:{}, income2019:{}, census:{} };
+let loadedCount = 0;
+const charts = {};
+
+// ─────────────────────────────────────────────
+// LOAD DATA
+// ─────────────────────────────────────────────
+function normalizeBracket(b) {
+  b = b.trim().replace(/"/g,'');
+  if (/under.*5/i.test(b)) return 0;
+  if (/5[,.]?000.*10/i.test(b) || /5k.*10/i.test(b)) return 1;
+  if (/10[,.]?000.*15/i.test(b) || /\$10.*\$15/i.test(b)) return 2;
+  if (/15[,.]?000.*20/i.test(b)) return 3;
+  if (/20[,.]?000.*25/i.test(b)) return 4;
+  if (/25[,.]?000.*30/i.test(b)) return 5;
+  if (/30[,.]?000.*35/i.test(b)) return 6;
+  if (/35[,.]?000.*40/i.test(b)) return 7;
+  if (/40[,.]?000.*45/i.test(b)) return 8;
+  if (/45[,.]?000.*50/i.test(b)) return 9;
+  if (/50[,.]?000.*55/i.test(b)) return 10;
+  if (/55[,.]?000.*60/i.test(b)) return 11;
+  if (/60[,.]?000.*70/i.test(b)) return 12;
+  if (/70[,.]?000.*80/i.test(b)) return 13;
+  if (/80[,.]?000.*90/i.test(b)) return 14;
+  if (/90[,.]?000.*100/i.test(b)) return 15;
+  if (/100[,.]?000.*150/i.test(b)) return 16;
+  if (/150[,.]?000.*250/i.test(b)) return 17;
+  if (/over.*250|250.*over|250.*and/i.test(b)) return 18;
+  return -1;
+}
+
+function loadIncomeCSV(url, target, label) {
+  Papa.parse(url, {
+    download: true, header: true, skipEmptyLines: true,
+    complete: function(r) {
+      r.data.forEach(row => {
+        const fsa = (row['FSA'] || row['fsa'] || '').trim().toUpperCase();
+        const bracketRaw = row['Bracket'] || row['bracket'] || '';
+        const num = parseInt((row['Number'] || row['number'] || '0').replace(/,/g,'')) || 0;
+        const idx = normalizeBracket(bracketRaw);
+        if (!fsa || fsa === 'FSA' || idx < 0) return;
+        if (!target[fsa]) target[fsa] = new Array(19).fill(0);
+        target[fsa][idx] += num;
+      });
+      onFileLoaded(label);
+    },
+    error: () => onFileError(label)
+  });
+}
+
+function loadCensusCSV(url, target) {
+  Papa.parse(url, {
+    download: true, header: true, skipEmptyLines: true,
+    complete: function(r) {
+      r.data.forEach(row => {
+        const fsa = (row['fsa'] || '').trim().toUpperCase();
+        const cid = parseInt(row['characteristic_id']) || 0;
+        const count = parseFloat(row['count_total']) || 0;
+        const rate = parseFloat(row['rate_total']) || 0;
+        if (!fsa || !cid) return;
+        if (!target[fsa]) target[fsa] = {};
+        target[fsa][cid] = { count, rate };
+      });
+      onFileLoaded('census');
+    },
+    error: () => onFileError('census')
+  });
+}
+
+function onFileLoaded(name) {
+  loadedCount++;
+  setStatus(`${loadedCount}/3 files loaded…`, 'loading');
+  if (loadedCount >= 3) {
+    setStatus('Data ready', 'ready');
+    document.getElementById('btnCalculate').disabled = false;
+  }
+}
+
+function onFileError(name) {
+  setStatus('Error loading ' + name, 'error');
+}
+
+function setStatus(text, state) {
+  document.getElementById('statusText').textContent = text;
+  const dot = document.getElementById('statusDot');
+  dot.className = 'status-dot ' + state;
+}
+
+// ─────────────────────────────────────────────
+// FSA INPUT VALIDATION
+// ─────────────────────────────────────────────
+document.getElementById('inputFSA').addEventListener('input', function() {
+  this.value = this.value.toUpperCase();
+  const valid = /^[A-Z]\d[A-Z]$/.test(this.value);
+  this.className = 'field-input ' + (this.value.length === 3 ? (valid ? 'valid' : 'invalid') : '');
+});
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function fmt$(n) {
+  if (n == null || isNaN(n)) return 'N/A';
+  return '$' + Math.round(n).toLocaleString('en-CA');
+}
+
+function fmtPct(n) {
+  if (n == null || isNaN(n)) return 'N/A';
+  return Math.round(n) + '%';
+}
+
+function ordinal(n) {
+  const s = ['th','st','nd','rd'], v = n % 100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
+// Compute aggregate brackets for a group of FSAs
+function aggregateBrackets(fsas, dataset) {
+  const agg = new Array(19).fill(0);
+  fsas.forEach(fsa => {
+    const d = dataset[fsa];
+    if (d) d.forEach((v,i) => agg[i] += v);
+  });
+  return agg;
+}
+
+// Get FSAs for a province
+function getFSAsForProvince(provCode) {
+  const letter = Object.keys(FSA_PROVINCE).find(k => FSA_PROVINCE[k] === provCode);
+  if (!letter) return [];
+  const letters = Object.keys(FSA_PROVINCE).filter(k => FSA_PROVINCE[k] === provCode);
+  return Object.keys(DATA.income2021).filter(fsa => letters.includes(fsa[0]));
+}
+
+// Estimate median from bracket distribution
+function estimateMedian(brackets) {
+  const total = brackets.reduce((a,b) => a+b, 0);
+  if (!total) return null;
+  let cumul = 0;
+  const half = total / 2;
+  for (let i = 0; i < brackets.length; i++) {
+    cumul += brackets[i];
+    if (cumul >= half) {
+      // interpolate within bracket
+      const prev = cumul - brackets[i];
+      const frac = (half - prev) / brackets[i];
+      const lo = i === 0 ? 0 : BRACKET_MIDPOINTS[i-1];
+      const hi = BRACKET_MIDPOINTS[i];
+      return lo + frac * (hi - lo);
+    }
+  }
+  return BRACKET_MIDPOINTS[18];
+}
+
+// Estimate percentile of a value in a bracket distribution
+function estimatePercentile(value, brackets) {
+  const total = brackets.reduce((a,b) => a+b, 0);
+  if (!total) return null;
+  let cumul = 0;
+  for (let i = 0; i < brackets.length; i++) {
+    const lo = i === 0 ? 0 : BRACKET_MIDPOINTS[i-1];
+    const hi = i < brackets.length - 1 ? BRACKET_MIDPOINTS[i] : 500000;
+    if (value <= hi) {
+      const frac = hi > lo ? (value - lo) / (hi - lo) : 0;
+      return Math.round(((cumul + brackets[i] * Math.max(0, Math.min(1, frac))) / total) * 100);
+    }
+    cumul += brackets[i];
+  }
+  return 99;
+}
+
+// Middle class band (40th–80th percentile)
+function getMiddleClassBand(brackets) {
+  const total = brackets.reduce((a,b) => a+b, 0);
+  if (!total) return null;
+  let lo = null, hi = null, cumul = 0;
+  for (let i = 0; i < brackets.length; i++) {
+    const pct = (cumul + brackets[i]) / total;
+    if (lo === null && pct >= 0.40) lo = BRACKET_MIDPOINTS[Math.max(0,i-1)];
+    if (hi === null && pct >= 0.80) { hi = BRACKET_MIDPOINTS[i]; break; }
+    cumul += brackets[i];
+  }
+  return { lo: lo || 0, hi: hi || BRACKET_MIDPOINTS[17] };
+}
+
+function estimateNWPercentile(value) {
+  if (value <= 0) return 5;
+  const pts = CANADA_NW_PERCENTILES;
+  if (value <= pts[0].v) return Math.round(value / pts[0].v * pts[0].p);
+  for (let i = 1; i < pts.length; i++) {
+    if (value <= pts[i].v) {
+      const frac = (value - pts[i-1].v) / (pts[i].v - pts[i-1].v);
+      return Math.round(pts[i-1].p + frac * (pts[i].p - pts[i-1].p));
+    }
+  }
+  return 98;
+}
+
+// ─────────────────────────────────────────────
+// SET PERCENTILE BAR
+// ─────────────────────────────────────────────
+function setBar(id, pct) {
+  const p = Math.max(0, Math.min(99, pct));
+  document.getElementById('fill'+id).style.width = p + '%';
+  document.getElementById('marker'+id).style.left = p + '%';
+  document.getElementById('tooltip'+id).textContent = ordinal(p);
+  document.getElementById('rPct'+id).textContent = ordinal(p) + ' percentile';
+}
+
+// ─────────────────────────────────────────────
+// CHARTS
+// ─────────────────────────────────────────────
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function makeBarChart(id, labels, datasets, income) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext('2d');
+
+  // Find which bracket the user's income falls in
+  let userBracket = -1;
+  if (income != null) {
+    for (let i = 0; i < BRACKET_MIDPOINTS.length; i++) {
+      if (income <= BRACKET_MIDPOINTS[i]) { userBracket = i; break; }
+    }
+    if (userBracket < 0) userBracket = 18;
+  }
+
+  charts[id] = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        annotation: userBracket >= 0 ? {
+          annotations: {
+            userLine: {
+              type: 'line', xMin: userBracket - 0.5, xMax: userBracket + 0.5,
+              borderColor: '#2C3E50', borderWidth: 2, borderDash: [4,2],
+            }
+          }
+        } : {}
+      },
+      scales: {
+        x: { ticks: { font: { family: 'DM Mono', size: 9 }, maxRotation: 45 }, grid: { display: false } },
+        y: { ticks: { font: { family: 'DM Mono', size: 9 } }, grid: { color: '#f0ece6' } }
+      }
+    }
+  });
+}
+
+function makeDonut(id, labels, data, colors) {
+  destroyChart(id);
+  const ctx = document.getElementById(id).getContext('2d');
+  charts[id] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data, backgroundColor: colors, borderWidth: 2, borderColor: '#FAF7F2' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true, cutout: '60%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Mono', size: 9 }, padding: 8, boxWidth: 10 }
+        }
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+// CALCULATE
+// ─────────────────────────────────────────────
+function calculate() {
+  const fsa = document.getElementById('inputFSA').value.trim().toUpperCase();
+  const age = parseInt(document.getElementById('inputAge').value) || null;
+  const income = parseFloat(document.getElementById('inputIncome').value) || null;
+  const netWorth = parseFloat(document.getElementById('inputNetWorth').value);
+  const hasNW = !isNaN(netWorth) && document.getElementById('inputNetWorth').value.trim() !== '';
+
+  if (!/^[A-Z]\d[A-Z]$/.test(fsa)) {
+    alert('Please enter a valid FSA (e.g. K2A)');
+    return;
+  }
+
+  document.getElementById('stateIdle').style.display = 'none';
+  document.getElementById('stateLoading').style.display = 'flex';
+  document.getElementById('resultsArea').classList.remove('visible');
+
+  setTimeout(() => render(fsa, age, income, hasNW ? netWorth : null), 50);
+}
+
+function render(fsa, age, income, netWorth) {
+  const provCode = FSA_PROVINCE[fsa[0]] || 'ON';
+  const provName = PROV_NAMES[provCode] || provCode;
+
+  const fsaData21 = DATA.income2021[fsa];
+  const fsaData19 = DATA.income2019[fsa];
+  const fsaCensus = DATA.census[fsa];
+
+  document.getElementById('notFoundMsg').style.display = !fsaData21 ? 'block' : 'none';
+
+  // ── HEADER
+  document.getElementById('rFSA').textContent = fsa;
+  const pop = fsaCensus?.[1]?.count ? fsaCensus[1].count.toLocaleString('en-CA') : '—';
+  document.getElementById('rMeta').innerHTML =
+    `<strong>${provName}</strong> · Population ${pop}` +
+    (age ? ` · Age ${age}` : '');
+
+  // ── INCOME SECTION
+  document.getElementById('incomeSubtitle').textContent =
+    'Based on CRA total income (all sources, pre-tax). 2021 tax year.';
+
+  const provFSAs = getFSAsForProvince(provCode);
+  const allFSAs = Object.keys(DATA.income2021);
+
+  const provBrackets21 = aggregateBrackets(provFSAs, DATA.income2021);
+  const canBrackets21  = aggregateBrackets(allFSAs, DATA.income2021);
+  const provBrackets19 = aggregateBrackets(provFSAs, DATA.income2019);
+  const canBrackets19  = aggregateBrackets(allFSAs, DATA.income2019);
+
+  const fsaMedian = fsaData21 ? estimateMedian(fsaData21) : null;
+  const canMedian = estimateMedian(canBrackets21);
+
+  document.getElementById('rYourIncome').textContent = income != null ? fmt$(income) : '—';
+  document.getElementById('rFSAMedian').textContent = fsaMedian ? fmt$(fsaMedian) : 'N/A';
+  document.getElementById('rCanadaMedian').textContent = fmt$(canMedian);
+
+  if (income != null && fsaData21) {
+    const pctFSA  = estimatePercentile(income, fsaData21);
+    const pctProv = estimatePercentile(income, provBrackets21);
+    const pctCan  = estimatePercentile(income, canBrackets21);
+
+    setBar('FSA', pctFSA);
+    setBar('Prov', pctProv);
+    setBar('Can', pctCan);
+
+    const band = getMiddleClassBand(canBrackets21);
+    const inBand = band && income >= band.lo && income <= band.hi;
+    document.getElementById('bandInfo').innerHTML =
+      `<strong>Canadian Middle Class Band (40th–80th pct):</strong> ${fmt$(band?.lo)} – ${fmt$(band?.hi)}` +
+      (inBand ? ' · <strong style="color:#27ae60">✓ Your income falls within this range</strong>' :
+       income < (band?.lo||0) ? ' · Your income is below this range' : ' · Your income is above this range');
+  }
+
+  // ── INCOME CHARTS
+  const adjBrackets19 = (fsaData19 || new Array(19).fill(0)).map(v => Math.round(v));
+  const maxVal = Math.max(...(fsaData21||[0]), ...adjBrackets19) || 1;
+
+  const normalizedFSA21 = (fsaData21 || new Array(19).fill(0)).map(v => (v / (fsaData21?.reduce((a,b)=>a+b,0)||1)*100).toFixed(1));
+  const normalizedFSA19 = adjBrackets19.map(v => (v / (adjBrackets19.reduce((a,b)=>a+b,0)||1)*100).toFixed(1));
+  const normalizedProv = provBrackets21.map(v => (v / (provBrackets21.reduce((a,b)=>a+b,0)||1)*100).toFixed(1));
+  const normalizedCan  = canBrackets21.map(v => (v / (canBrackets21.reduce((a,b)=>a+b,0)||1)*100).toFixed(1));
+
+  makeBarChart('chartIncomeFSA', INCOME_BRACKETS, [
+    { label:'2021', data: normalizedFSA21, backgroundColor:'rgba(192,57,43,0.75)', borderRadius:2 },
+    { label:'2019 adj.', data: normalizedFSA19, backgroundColor:'rgba(192,57,43,0.22)', borderRadius:2 },
+  ], income);
+
+  makeBarChart('chartIncomeProv', INCOME_BRACKETS, [
+    { label: provName, data: normalizedProv, backgroundColor:'rgba(44,62,80,0.6)', borderRadius:2 }
+  ], income);
+
+  makeBarChart('chartIncomeCan', INCOME_BRACKETS, [
+    { label:'Canada', data: normalizedCan, backgroundColor:'rgba(44,62,80,0.35)', borderRadius:2 }
+  ], income);
+
+  // ── NET WORTH SECTION
+  document.getElementById('sectionNetWorth').style.display = netWorth != null ? 'block' : 'none';
+  if (netWorth != null) {
+    document.getElementById('rYourNW').textContent = fmt$(netWorth);
+    const provNW = PROV_NW[provCode];
+    document.getElementById('rProvNW').textContent = provNW ? fmt$(provNW) : 'N/A';
+    const nwPct = estimateNWPercentile(netWorth);
+    setBar('NW', nwPct);
+    document.getElementById('rPctNW') && (document.getElementById('rPctNW').textContent = ordinal(nwPct) + ' percentile');
+    const compare = netWorth >= 519700 ? 'above' : 'below';
+    document.getElementById('nwInfo').innerHTML =
+      `Your net worth of <strong>${fmt$(netWorth)}</strong> is ${compare} the Canadian median of <strong>$519,700</strong>` +
+      (provNW ? ` and ${netWorth >= provNW ? 'above' : 'below'} the ${provName} median of <strong>${fmt$(provNW)}</strong>` : '') + '.';
+  }
+
+  // ── FSA PROFILE
+  document.getElementById('fsaProfileSub').textContent =
+    'Statistics Canada, 2021 Census. Based on FSA ' + fsa + '.';
+
+  const c = fsaCensus || {};
+  const medAge   = c[40]?.count;
+  const bilingN  = c[386]?.count;
+  const bilBase  = c[383]?.count;
+  const bilPct   = (bilingN && bilBase) ? ((bilingN/bilBase)*100).toFixed(1) : null;
+  const ownPct   = c[1415]?.rate;
+  const rentPct  = c[1416]?.rate;
+  const shelterO = c[1486]?.count;
+  const shelterR = c[1494]?.count;
+  const dwellVal = c[1488]?.count;
+  const pop014   = c[9]?.count;
+  const pop1564  = c[13]?.count;
+  const pop65p   = c[24]?.count;
+
+  // KV grid
+  const kvItems = [
+    { label:'Median Age', value: medAge ? medAge + ' years' : 'N/A',
+      sub: age && medAge ? (age < medAge ? 'You are younger than FSA median' : age > medAge ? 'You are older than FSA median' : 'Same as FSA median') : '' },
+    { label:'Bilingual (EN+FR)', value: bilPct ? bilPct + '%' : 'N/A', sub: 'of FSA population' },
+    { label:'Median Dwelling Value', value: dwellVal ? fmt$(dwellVal) : 'N/A', sub: 'owner-occupied' },
+    { label:'Median Shelter — Owners', value: shelterO ? fmt$(shelterO) + '/mo' : 'N/A', sub: '' },
+    { label:'Median Shelter — Renters', value: shelterR ? fmt$(shelterR) + '/mo' : 'N/A', sub: '' },
+    { label:'Income-to-Shelter Ratio', value: (income && shelterO && ownPct > 50) ?
+        (((shelterO*12)/income)*100).toFixed(0) + '%' :
+        (income && shelterR) ? (((shelterR*12)/income)*100).toFixed(0) + '%' : 'N/A',
+      sub: income ? 'of your income on shelter' : 'Enter income to calculate' },
+  ];
+
+  document.getElementById('kvGrid').innerHTML = kvItems.map(item => `
+    <div class="kv-row">
+      <div>
+        <div class="kv-label">${item.label}</div>
+        ${item.sub ? `<div style="font-size:10px;color:var(--ink-light);font-family:'DM Mono',monospace;margin-top:2px">${item.sub}</div>` : ''}
+      </div>
+      <div class="kv-value">${item.value}</div>
+    </div>
+  `).join('');
+
+  // ── AGE DONUT
+  const agePop = [pop014||0, pop1564||0, pop65p||0];
+  const ageTotal = agePop.reduce((a,b)=>a+b,0)||1;
+  makeDonut('chartAge',
+    ['0–14 yrs','15–64 yrs','65+ yrs'],
+    agePop.map(v => +((v/ageTotal)*100).toFixed(1)),
+    ['#E8D5B7','#C0392B','#2C3E50']
+  );
+
+  // ── EDUCATION DONUT (age 15+ base = 1998)
+  const eduBase = c[1998]?.count || 1;
+  const eduNone = c[1999]?.count || 0;
+  const eduHS   = c[2000]?.count || 0;
+  const eduSub  = c[2002]?.count || 0;
+  const eduBach = c[2009]?.count || 0;
+  const eduMast = c[2012]?.count || 0;
+  const eduPhD  = c[2013]?.count || 0;
+  const eduBachPlus = c[2008]?.count || 0;
+
+  makeDonut('chartEdu',
+    ['No cert.','High school','Coll./trades','Bachelor','Grad+'],
+    [
+      +((eduNone/eduBase)*100).toFixed(1),
+      +((eduHS/eduBase)*100).toFixed(1),
+      +((eduSub/eduBase)*100).toFixed(1),
+      +((eduBach/eduBase)*100).toFixed(1),
+      +(((eduMast+eduPhD)/eduBase)*100).toFixed(1),
+    ],
+    ['#E8D5B7','#D4A5A5','#C0392B','#922B21','#2C3E50']
+  );
+
+  // ── HOUSING DONUT
+  const ownC  = c[1415]?.count || 0;
+  const rentC = c[1416]?.count || 0;
+  makeDonut('chartHousing',
+    ['Owner','Renter'],
+    [ownPct||0, rentPct||0],
+    ['#C0392B','#E8D5B7']
+  );
+
+  // ── SHOW RESULTS
+  document.getElementById('stateLoading').style.display = 'none';
+  document.getElementById('resultsArea').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+loadIncomeCSV(FILES.income2021, DATA.income2021, 'income2021');
+loadIncomeCSV(FILES.income2019, DATA.income2019, 'income2019');
+loadCensusCSV(FILES.census, DATA.census);
+
+// Enter key triggers calculate
+document.querySelectorAll('.field-input').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !document.getElementById('btnCalculate').disabled) calculate();
+  });
+});
+</script>
+</body>
+</html>
