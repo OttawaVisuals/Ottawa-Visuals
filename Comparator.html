@@ -6,6 +6,7 @@
 <title>Where Do You Stand? · Canada FSA Comparator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -1142,6 +1143,7 @@ function calculate() {
 }
 
 function render(fsa, age, income, netWorth) {
+  try {
   const provCode = FSA_PROVINCE[fsa[0]] || 'ON';
   const provName = PROV_NAMES[provCode] || provCode;
 
@@ -1224,7 +1226,6 @@ function render(fsa, age, income, netWorth) {
     document.getElementById('rProvNW').textContent = provNW ? fmt$(provNW) : 'N/A';
     const nwPct = estimateNWPercentile(netWorth);
     setBar('NW', nwPct);
-    document.getElementById('rPctNW') && (document.getElementById('rPctNW').textContent = ordinal(nwPct) + ' percentile');
     const compare = netWorth >= 519700 ? 'above' : 'below';
     document.getElementById('nwInfo').innerHTML =
       `Your net worth of <strong>${fmt$(netWorth)}</strong> is ${compare} the Canadian median of <strong>$519,700</strong>` +
@@ -1317,6 +1318,13 @@ function render(fsa, age, income, netWorth) {
   document.getElementById('stateLoading').style.display = 'none';
   document.getElementById('resultsArea').classList.add('visible');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch(err) {
+    console.error('Render error:', err);
+    document.getElementById('stateLoading').style.display = 'none';
+    document.getElementById('stateIdle').style.display = 'flex';
+    document.getElementById('stateIdle').querySelector('.state-title').textContent = 'Something went wrong';
+    document.getElementById('stateIdle').querySelector('.state-sub').textContent = err.message;
+  }
 }
 
 // ─────────────────────────────────────────────
