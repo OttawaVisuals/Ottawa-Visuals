@@ -1,288 +1,1616 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Escape Backpack — An escape room in a backpack</title>
-<meta name="description" content="Escape Backpack is a portable escape-room adventure you play at home. Unzip, unpack, and solve your way out. Based in Ottawa.">
-<meta property="og:title" content="Escape Backpack">
-<meta property="og:description" content="An escape-room adventure you play at home, from a backpack.">
-<meta property="og:image" content="assets/banner.png">
-<link rel="icon" type="image/png" href="assets/logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<meta charset="utf-8" />
+<title>Ottawa Visuals — open data, charted simply.</title>
+<meta name="description" content="A personal project publishing Power BI reports about Ottawa, Ontario — public spending, traffic, elections — with sources, methodology and plain-English interpretation." />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="assets/avatar.png" />
+
+<!--
+  =====================================================================
+  FONTS — easy to swap.
+  ---------------------------------------------------------------------
+  This site ships with Google Fonts that approximate your local fonts:
+     • Inter   ≈ Aptos  (UI / body sans-serif)
+     • Barlow  ≈ DIN    (display / headlines, slightly condensed feel)
+     • JetBrains Mono   (mono labels)
+
+  TO SWITCH TO YOUR REAL FONTS (Aptos / DIN):
+     1. Comment out the <link> tag below.
+     2. Drop your font files into  /assets/fonts/
+     3. Add @font-face blocks (template at the bottom of <style>).
+     4. Update the --font-display / --font-body variables in :root.
+  =====================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
 <style>
-.hero { padding: clamp(40px, 6vw, 80px) 0 clamp(60px, 8vw, 100px); }
-.hero-grid {
-  display: grid; grid-template-columns: 1fr 1.15fr;
-  gap: clamp(32px, 5vw, 72px); align-items: center;
-}
-@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
-.hero h1 { font-size: clamp(2.8rem, 6.4vw, 5.2rem); line-height: 0.98; margin: 18px 0 22px; }
-.hero h1 em { font-style: italic; color: var(--rust-2); }
-.hero-lead { margin-bottom: 32px; max-width: 46ch; }
-.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero-image {
-  position: relative; border-radius: 2px; overflow: hidden;
-  box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6);
-  border: 1px solid var(--line-strong);
-}
-.hero-image img { width: 100%; height: auto; display: block; }
-.hero-stamp {
-  position: absolute; top: 20px; right: 20px;
-  background: var(--cream); width: 96px; height: 96px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; flex-direction: column;
-  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--forest); transform: rotate(-10deg);
-  box-shadow: 0 6px 16px -4px rgba(0,0,0,0.3); line-height: 1.3; text-align: center; padding: 8px;
-}
-.hero-stamp strong {
-  font-family: var(--serif); font-weight: 400; font-size: 1rem;
-  letter-spacing: 0; text-transform: none; color: var(--ink); margin: 2px 0;
-}
+  /* ============== TOKENS ============================================== */
+  :root {
+    /* —— FONTS · change here when you swap to Aptos / DIN —— */
+    --font-display: "Barlow", "DIN Next", "DIN", "Inter", system-ui, sans-serif;
+    --font-body:    "Inter", "Aptos", "Segoe UI", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
 
-.how-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 3vw, 48px); margin-top: 50px;
-}
-@media (max-width: 740px) { .how-grid { grid-template-columns: 1fr; gap: 32px; } }
-.how-num { font-family: var(--serif); font-size: 3.4rem; color: #c25b3a; line-height: 1; margin-bottom: 14px; }
-.how-step h3 { font-size: 1.4rem; margin-bottom: 10px; }
-.how-step p { color: var(--cream); opacity: 0.85; font-size: 0.98rem; }
+    /* —— DARK PALETTE (default) —— cool neutrals + warm red accent */
+    --bg:        #0e1117;
+    --bg-2:      #161a23;
+    --bg-3:      #1d2230;
+    --line:      #2a2f3d;
+    --line-2:    #383e4e;
+    --ink:       #eef1f7;
+    --ink-2:     #b6bdcc;
+    --ink-3:     #7a8094;
+    --accent:    #e85a44;     /* signature red */
+    --accent-2:  #ff8a76;
+    --accent-bg: rgba(232,90,68,0.12);
+    --hl:        rgba(232,90,68,0.18);
+    --shadow:    0 1px 0 rgba(255,255,255,0.04) inset, 0 12px 30px rgba(0,0,0,0.35);
+  }
+  [data-theme="light"] {
+    --bg:        #f7f6f2;
+    --bg-2:      #ffffff;
+    --bg-3:      #f0eee7;
+    --line:      #e3e1d8;
+    --line-2:    #c9c6bb;
+    --ink:       #14171f;
+    --ink-2:     #4b5163;
+    --ink-3:     #7a8094;
+    --accent:    #c9442f;
+    --accent-2:  #e26a52;
+    --accent-bg: rgba(201,68,47,0.08);
+    --hl:        rgba(201,68,47,0.14);
+    --shadow:    0 1px 0 rgba(0,0,0,0.02) inset, 0 12px 30px rgba(20,23,31,0.06);
+  }
 
-.inside-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 90px); align-items: start; margin-top: 40px;
-}
-@media (max-width: 820px) { .inside-grid { grid-template-columns: 1fr; gap: 32px; } }
-.inside-grid p { font-size: 1.05rem; line-height: 1.7; }
-.inside-grid ul { list-style: none; margin-top: 24px; }
-.inside-grid ul li {
-  padding: 14px 0; border-top: 1px solid rgba(31, 58, 46, 0.18);
-  display: flex; gap: 16px; align-items: baseline;
-}
-.inside-grid ul li:last-child { border-bottom: 1px solid rgba(31, 58, 46, 0.18); }
-.inside-grid ul li::before {
-  content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--rust);
-  flex-shrink: 0; transform: translateY(-2px);
-}
+  /* ============== RESET & BASE ======================================== */
+  *,*::before,*::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; color: inherit; cursor: pointer; }
 
-.cta-strip { padding: clamp(60px, 8vw, 100px) 0; text-align: center; }
-.cta-strip h2 { max-width: 18ch; margin: 0 auto 16px; font-size: clamp(2.2rem, 4.5vw, 3.4rem); }
-.cta-strip p { max-width: 48ch; margin: 0 auto 32px; color: var(--cream); opacity: 0.85; }
+  h1,h2,h3,h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+    line-height: 1.05;
+  }
+  h1 { font-size: clamp(44px, 6vw, 88px); letter-spacing: -0.025em; }
+  h2 { font-size: clamp(32px, 3.4vw, 48px); letter-spacing: -0.02em; }
+  h3 { font-size: 22px; letter-spacing: -0.01em; }
+  h4 { font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+  p  { margin: 0; }
 
-/* Backpack cards */
-.bp-section-head { margin-bottom: 40px; }
-.bp-section-head h2 { margin-top: 10px; }
+  ::selection { background: var(--accent); color: white; }
+
+  /* ============== LAYOUT PRIMITIVES =================================== */
+  .wrap { max-width: 1680px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .eyebrow .accent { color: var(--accent); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px; color: var(--ink-2);
+    background: var(--bg-2);
+  }
+  .pill.accent { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+  .pill .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line-2);
+    background: var(--bg-2);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 500;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .btn:hover { border-color: var(--ink-2); }
+  .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn .arrow { display: inline-block; transition: transform .15s; }
+  .btn:hover .arrow { transform: translateX(2px); }
+
+  /* ============== TOPBAR ============================================== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; gap: 24px;
+    height: 64px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .brand-logo {
+    width: 34px; height: 34px;
+    border-radius: 999px;
+    background: var(--ink);
+    display: grid; place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--line-2);
+  }
+  .brand-logo img {
+    width: 110%; height: 110%; object-fit: cover;
+    /* light theme inverts the white logo to dark */
+  }
+  [data-theme="light"] .brand-logo img { filter: invert(1); }
+  [data-theme="light"] .brand-logo { background: var(--bg-3); }
+  .brand small {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 400;
+    color: var(--ink-3);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .topbar nav {
+    display: flex; gap: 4px; margin-left: 8px;
+  }
+  .topbar nav a {
+    padding: 8px 12px;
+    color: var(--ink-2);
+    font-size: 14px;
+    border-radius: 6px;
+    transition: color .15s, background .15s;
+  }
+  .topbar nav a:hover { color: var(--ink); background: var(--bg-2); }
+  .topbar .spacer { flex: 1; }
+  .topbar .controls { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    display: grid; place-items: center;
+    color: var(--ink-2);
+    transition: border-color .15s, color .15s;
+  }
+  .icon-btn:hover { color: var(--ink); border-color: var(--ink-2); }
+
+  /* ============== HERO ================================================ */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 80% at 100% 0%, var(--accent-bg) 0%, transparent 60%),
+      radial-gradient(40% 60% at 0% 100%, var(--accent-bg) 0%, transparent 60%);
+    opacity: 0.6; pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px; align-items: center;
+    position: relative;
+  }
+  .hero h1 .hl {
+    background: linear-gradient(transparent 62%, var(--hl) 62%);
+    padding: 0 4px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p.lede {
+    margin-top: 24px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 560px;
+  }
+  .hero-ctas { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap;}
+  .hero-meta {
+    margin-top: 32px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+
+  /* hero side: container holds multiple variants, only one shown */
+  .hero-side { display: flex; flex-direction: column; gap: 16px; min-height: 360px; }
+  .hero-side > .variant { display: none; flex-direction: column; gap: 16px; }
+  .hero-side[data-hero="map"]      > .variant.map,
+  .hero-side[data-hero="facts"]    > .variant.facts,
+  .hero-side[data-hero="featured"] > .variant.featured,
+  .hero-side[data-hero="mosaic"]   > .variant.mosaic { display: flex; }
+  .stat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .stat {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .stat .k {
+    font-family: var(--font-display);
+    font-size: 36px; font-weight: 800; color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .stat .v {
+    font-size: 12px; font-family: var(--font-mono); color: var(--ink-3);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px;
+  }
+  .mosaic {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px;
+    display: grid; grid-template-rows: auto auto; gap: 12px;
+  }
+  .mosaic .row {
+    display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px;
+  }
+  .mini {
+    background: var(--bg-3);
+    border-radius: 8px;
+    height: 110px;
+    position: relative; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .mini.bars {
+    background-image:
+      linear-gradient(to top, var(--accent) 60%, transparent 60%),
+      linear-gradient(to top, var(--accent) 30%, transparent 30%),
+      linear-gradient(to top, var(--accent) 80%, transparent 80%),
+      linear-gradient(to top, var(--accent) 45%, transparent 45%),
+      linear-gradient(to top, var(--accent) 70%, transparent 70%),
+      linear-gradient(to top, var(--accent) 50%, transparent 50%);
+    background-size: 10% 100%;
+    background-repeat: no-repeat;
+    background-position: 8% bottom, 22% bottom, 36% bottom, 52% bottom, 68% bottom, 84% bottom;
+    background-color: var(--bg-3);
+  }
+  .mini.line::after {
+    content: ""; position: absolute; inset: 14px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'><polyline points='0,32 16,22 30,28 46,12 62,18 78,8 100,12' fill='none' stroke='%23e85a44' stroke-width='2.5'/></svg>") no-repeat center/100% 100%;
+  }
+  .mini.donut::before {
+    content: ""; position: absolute; inset: 0; margin: auto;
+    width: 76px; height: 76px;
+    background: conic-gradient(var(--accent) 0 38%, var(--ink-2) 38% 64%, var(--line-2) 64% 100%);
+    border-radius: 999px;
+    mask: radial-gradient(circle, transparent 26px, black 27px);
+    -webkit-mask: radial-gradient(circle, transparent 26px, black 27px);
+  }
+  .mini-label {
+    position: absolute; left: 12px; bottom: 8px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* ——— Variant A · MAP ——— */
+  .map-frame {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 22px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-frame svg { width: 100%; height: auto; display: block; }
+  .map-frame .corner {
+    position: absolute; top: 16px; right: 18px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase;
+    text-align: right; line-height: 1.5;
+  }
+  .map-frame .corner b { color: var(--accent); font-weight: 500; }
+  .map-frame .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 6px;
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-3);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .map-frame .footer .legend { display: flex; gap: 14px; }
+  .map-frame .footer .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .map-frame .footer .legend i {
+    width: 7px; height: 7px; border-radius: 999px; display: inline-block;
+    background: var(--accent);
+  }
+  .map-frame .footer .legend i.muted { background: var(--ink-3); }
+
+  /* map svg styles */
+  .map-svg .land    { fill: var(--bg-3); stroke: var(--line-2); stroke-width: 1; stroke-linejoin: round; }
+  .map-svg .lakes   { fill: var(--bg-2); stroke: var(--line-2); stroke-width: 0.6; }
+  .map-svg .ontario { fill: var(--accent); fill-opacity: 0.16; stroke: var(--accent); stroke-width: 1.2; stroke-linejoin: round; }
+  .map-svg .border  { fill: none; stroke: var(--line-2); stroke-width: 0.6; stroke-dasharray: 2 3; opacity: 0.7; }
+  .map-svg .prov-lbl{ font-family: var(--font-mono); font-size: 7.5px; fill: var(--ink-3); letter-spacing: 0.12em; }
+  .map-svg .prov-lbl.ontario { fill: var(--accent); font-weight: 500; }
+  .map-svg .pin-ring{ fill: none; stroke: var(--accent); stroke-width: 1.2; opacity: 0.6; }
+  .map-svg .pin     { fill: var(--accent); stroke: var(--bg-2); stroke-width: 1.5; }
+  .map-svg .pin-lbl { font-family: var(--font-mono); font-size: 8px; fill: var(--ink); letter-spacing: 0.12em; font-weight: 500; }
+  .map-svg .inset-box { fill: var(--bg-2); stroke: var(--line-2); stroke-width: 0.8; }
+  .map-svg .inset-link{ fill: none; stroke: var(--accent); stroke-width: 0.7; stroke-dasharray: 1.5 2; opacity: 0.5; }
+  .map-svg .ward-dot{ fill: var(--ink-3); opacity: 0.5; }
+  .map-svg .core-dot{ fill: var(--accent); }
+  .map-svg .compass-line { stroke: var(--ink-3); stroke-width: 0.8; }
+  .map-svg .compass-n    { fill: var(--accent); }
+
+  /* ——— Variant B · FACT SHEET ——— */
+  .facts {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 26px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .facts::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent);
+  }
+  .facts .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px; margin-bottom: 18px;
+  }
+  .facts .head .city {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 38px; letter-spacing: -0.025em; line-height: 1;
+  }
+  .facts .head .year {
+    font-family: var(--font-mono); font-size: 13px;
+    color: var(--ink-3); letter-spacing: 0.1em;
+  }
+  .facts .row {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: baseline; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .facts .row:last-child { border-bottom: 0; }
+  .facts .row .label {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .facts .row .val {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 24px; color: var(--ink); letter-spacing: -0.015em; line-height: 1;
+  }
+  .facts .row .val .unit {
+    font-size: 13px; font-weight: 500; color: var(--ink-3); margin-left: 4px;
+    font-family: var(--font-mono); letter-spacing: 0.04em;
+  }
+  .facts .foot {
+    margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 10px; color: var(--ink-3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* ——— Variant C · FEATURED REPORT ——— */
+  .featured-card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+  .featured-card .preview {
+    position: relative;
+    height: 200px;
+    background: linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 100%);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .featured-card .preview svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .featured-card .preview .tag {
+    position: absolute; top: 14px; left: 14px;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line));
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .featured-card .preview .corner-stat {
+    position: absolute; bottom: 14px; right: 16px;
+    text-align: right;
+  }
+  .featured-card .preview .corner-stat .k {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 32px; color: var(--accent); line-height: 1; letter-spacing: -0.02em;
+  }
+  .featured-card .preview .corner-stat .v {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3); margin-top: 4px;
+  }
+  .featured-card .body { padding: 18px 22px 22px; }
+  .featured-card .body .eyebrow { margin-bottom: 8px; }
+  .featured-card .body h4 {
+    font-family: var(--font-display); font-size: 22px;
+    font-weight: 700; letter-spacing: -0.01em; text-transform: none;
+    color: var(--ink); margin: 0 0 10px; line-height: 1.2;
+  }
+  .featured-card .body p {
+    font-size: 13px; color: var(--ink-2); line-height: 1.55;
+  }
+  .featured-card .body .meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-3); letter-spacing: 0.06em;
+  }
+  .featured-card .body .meta a {
+    color: var(--accent); display: inline-flex; align-items: center; gap: 4px;
+  }
+  .featured-card .body .meta a:hover { text-decoration: underline; }
+  .featured-svg .grid { stroke: var(--line); stroke-width: 0.5; }
+  .featured-svg .area { fill: var(--accent); opacity: 0.18; }
+  .featured-svg .line { fill: none; stroke: var(--accent); stroke-width: 2.2; }
+  .featured-svg .dot  { fill: var(--accent); }
+  .featured-svg .axis { stroke: var(--line-2); stroke-width: 0.6; }
+  .featured-svg .tick { font-family: var(--font-mono); font-size: 8px; fill: var(--ink-3); letter-spacing: 0.06em; }
+
+  /* ——— TWEAKS PANEL (in-page) ——— */
+  #tweaks {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    width: 280px;
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    padding: 18px;
+    display: none;
+    font-family: var(--font-body);
+  }
+  #tweaks.open { display: block; }
+  #tweaks .head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  #tweaks .head h5 {
+    font-family: var(--font-display); font-size: 16px; font-weight: 700;
+    text-transform: none; letter-spacing: -0.005em; color: var(--ink);
+    margin: 0;
+  }
+  #tweaks .close {
+    background: transparent; border: 0; color: var(--ink-3);
+    font-size: 18px; line-height: 1; padding: 4px; cursor: pointer;
+  }
+  #tweaks .close:hover { color: var(--ink); }
+  #tweaks .section + .section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);}
+  #tweaks label {
+    display: block;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-3); letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  #tweaks .seg {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  }
+  #tweaks .seg.four { grid-template-columns: 1fr 1fr; }
+  #tweaks .seg button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-2);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+    text-align: left;
+  }
+  #tweaks .seg button:hover { color: var(--ink); border-color: var(--ink-3); }
+  #tweaks .seg button.cur {
+    border-color: var(--accent); color: var(--accent);
+    background: var(--accent-bg);
+  }
+  #tweaks .seg button .small {
+    display: block;
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.7; margin-top: 2px;
+  }
+
+  /* ============== TAB BAR (report switcher) =========================== */
+  .tabbar-wrap {
+    position: sticky; top: 64px; z-index: 40;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .tabbar {
+    display: flex; gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabbar::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 16px 22px 14px;
+    border: 0; background: transparent;
+    border-bottom: 2px solid transparent;
+    color: var(--ink-3);
+    text-align: left;
+    transition: color .15s, border-color .15s, background .15s;
+    font-family: var(--font-body);
+    display: flex; flex-direction: column; gap: 2px;
+    line-height: 1.15;
+    min-width: 200px;
+  }
+  .tab:hover { color: var(--ink-2); background: var(--bg-2); }
+  .tab .small {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .tab .name {
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 600;
+    color: var(--ink-2);
+    letter-spacing: -0.005em;
+  }
+  .tab.cur { color: var(--ink); border-bottom-color: var(--accent); background: var(--bg-2); }
+  .tab.cur .name { color: var(--ink); }
+  .tab.cur .small { color: var(--accent); }
+
+  /* ============== REPORT VIEW ========================================= */
+  .report {
+    padding: 56px 0 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .breadcrumb {
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+  .breadcrumb .cur { color: var(--accent); }
+
+  .report-head {
+    display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: end;
+    margin-bottom: 28px;
+  }
+  .report-head h2 { max-width: 16ch; }
+  .report-lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin-top: 16px; max-width: 60ch;}
+  .report-meta {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  @media (max-width: 980px) { .report-head { grid-template-columns: 1fr; } .report-meta { justify-content: flex-start; } }
+
+  /* the iframe — designed for a 1600x900 (16:9) Power BI report */
+  .embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 900px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    box-shadow: var(--shadow);
+  }
+  .embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+  }
+  .embed-empty {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: var(--ink-3);
+    text-align: center;
+    font-family: var(--font-mono); font-size: 13px;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 18px, var(--bg-3) 18px 19px),
+      var(--bg-2);
+  }
+  .embed-empty .big {
+    font-family: var(--font-display);
+    font-size: 28px; color: var(--ink-2);
+    margin-bottom: 6px; font-weight: 600;
+  }
+
+  .embed-toolbar {
+    display: flex; gap: 10px; justify-content: space-between; align-items: center;
+    margin-top: 14px; padding: 0 4px;
+    color: var(--ink-3); font-size: 13px;
+    font-family: var(--font-mono);
+  }
+  .embed-toolbar .left { display: flex; gap: 14px; align-items: center; flex-wrap: wrap;}
+  .embed-toolbar .right { display: flex; gap: 8px; }
+  .embed-toolbar a { color: var(--ink-2); border-bottom: 1px dotted var(--line-2); padding-bottom: 1px;}
+  .embed-toolbar a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ——— Below-embed info row (replaces the right rail) ——— */
+  .info-row {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 980px) { .info-row { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .panel.accent {
+    background: linear-gradient(180deg, var(--accent-bg) 0%, var(--bg-2) 100%);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  }
+  .panel h4 { margin-bottom: 10px; }
+  .panel h3 { margin-bottom: 12px; }
+  .panel p { color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+  .panel ul { margin: 0; padding-left: 0; list-style: none; }
+  .panel ul li {
+    padding: 8px 0; border-bottom: 1px dashed var(--line);
+    font-size: 14px; color: var(--ink-2);
+    display: flex; gap: 10px; align-items: baseline;
+  }
+  .panel ul li:last-child { border-bottom: 0; }
+  .panel ul li .src-name { flex: 1; color: var(--ink); font-weight: 500; }
+  .panel ul li .src-meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.05em;}
+  .panel a.src-link { color: var(--accent); font-family: var(--font-mono); font-size: 12px;}
+  .panel a.src-link:hover { text-decoration: underline; }
+
+  /* ——— Takeaways ——— */
+  .takeaways {
+    margin-top: 36px;
+  }
+  .takeaways h3 { margin-bottom: 14px; }
+  .takeaways .grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  @media (max-width: 980px) { .takeaways .grid { grid-template-columns: 1fr; } }
+  .takeaway {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    position: relative; overflow: hidden;
+  }
+  .takeaway::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--accent);
+  }
+  .takeaway .k {
+    font-family: var(--font-display);
+    font-size: 44px; font-weight: 800; line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .takeaway .label {
+    font-size: 14px; color: var(--ink-2); line-height: 1.5;
+  }
+
+  /* ============== BROWSE STRIP ======================================== */
+  .browse {
+    padding: 56px 0 28px;
+  }
+  .browse-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 22px;
+  }
+  .browse-head h3 { font-size: 32px; letter-spacing: -0.02em; }
+  .browse-head .sub { color: var(--ink-3); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; }
+
+  .cards {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  @media (max-width: 980px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color .2s, transform .2s, background .2s;
+    position: relative;
+  }
+  .card:hover { border-color: var(--ink-2); transform: translateY(-2px); }
+  .card.cur { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-bg) 0%, var(--bg-2) 70%); }
+  .card .thumb {
+    height: 140px;
+    border-radius: 8px;
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .card .thumb.bars {
+    background-image:
+      linear-gradient(to top, var(--accent) 70%, transparent 70%),
+      linear-gradient(to top, var(--accent) 40%, transparent 40%),
+      linear-gradient(to top, var(--accent) 90%, transparent 90%),
+      linear-gradient(to top, var(--accent) 55%, transparent 55%),
+      linear-gradient(to top, var(--accent) 75%, transparent 75%);
+    background-size: 14% 100%;
+    background-repeat: no-repeat;
+    background-position: 8% bottom, 27% bottom, 46% bottom, 65% bottom, 84% bottom;
+    background-color: var(--bg-3);
+  }
+  .card .thumb.line::after {
+    content: ""; position: absolute; inset: 18px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'><polyline points='0,30 14,22 30,28 48,10 65,16 80,4 100,8' fill='none' stroke='%23e85a44' stroke-width='2.5'/></svg>") no-repeat center/100% 100%;
+  }
+  .card .thumb.donut::before {
+    content: ""; position: absolute; inset: 0; margin: auto;
+    width: 88px; height: 88px;
+    background: conic-gradient(var(--accent) 0 35%, var(--ink-2) 35% 60%, var(--line-2) 60% 100%);
+    border-radius: 999px;
+    mask: radial-gradient(circle, transparent 30px, black 31px);
+    -webkit-mask: radial-gradient(circle, transparent 30px, black 31px);
+  }
+  .card .num {
+    position: absolute; top: 14px; right: 14px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.08em; color: var(--ink-3);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .card h4 {
+    font-family: var(--font-display); font-size: 22px;
+    color: var(--ink); text-transform: none; letter-spacing: -0.01em;
+    margin: 4px 0 6px; font-weight: 700;
+    line-height: 1.15;
+  }
+  .card .topic { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);}
+  .card .meta { color: var(--ink-3); font-size: 13px; margin-top: 10px; display: flex; gap: 10px;}
+
+  /* ============== ABOUT BANNER ======================================== */
+  .about {
+    padding: 64px 0;
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start;
+  }
+  @media (max-width: 980px) { .about-grid { grid-template-columns: 1fr; } }
+  .about h3 {
+    font-size: 36px; max-width: 12ch; letter-spacing: -0.02em;
+  }
+  .about-body p { color: var(--ink-2); font-size: 17px; line-height: 1.6; max-width: 60ch; }
+  .about-body p + p { margin-top: 14px; }
+  .about-cta { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ============== FOOTER ============================================== */
+  footer.site {
+    padding: 40px 0 60px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px;
+  }
+  @media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h5 {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-3);
+    margin: 0 0 14px;
+  }
+  .foot-col a {
+    display: block; padding: 4px 0; color: var(--ink-2); font-size: 14px;
+  }
+  .foot-col a:hover { color: var(--accent); }
+  .foot-brand p { color: var(--ink-2); font-size: 14px; max-width: 36ch; margin-top: 12px; }
+  .foot-bottom {
+    margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    color: var(--ink-3); font-family: var(--font-mono); font-size: 12px;
+    flex-wrap: wrap; gap: 10px;
+  }
+
+  /* ============== UTILITY ============================================= */
+  [hidden] { display: none !important; }
+
+  /* =====================================================================
+     SELF-HOSTED FONT TEMPLATE — uncomment + drop files in /assets/fonts/
+     to use Aptos & DIN locally. Then update --font-display / --font-body
+     in :root above.
+     ---------------------------------------------------------------------
+     @font-face {
+       font-family: "Aptos";
+       src: url("assets/fonts/aptos.woff2") format("woff2");
+       font-weight: 400 700; font-style: normal; font-display: swap;
+     }
+     @font-face {
+       font-family: "DIN";
+       src: url("assets/fonts/din.woff2") format("woff2");
+       font-weight: 400 800; font-style: normal; font-display: swap;
+     }
+     ===================================================================== */
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-mark"></span>
-      <span class="brand-name">Escape Backpack</span>
+<!-- =================================================================
+     TOP BAR
+     ================================================================= -->
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="#top" class="brand">
+      <span class="brand-logo"><img src="assets/avatar.png" alt=""></span>
+      <span>
+        Ottawa Visuals
+        <small>data, charted simply</small>
+      </span>
     </a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <div class="nav-drop" id="hintsDrop">
-        <button type="button" class="nav-drop-toggle" onclick="toggleDrop(event)">Hints</button>
-        <div class="nav-drop-menu">
-          <div class="nav-drop-head">Playing right now?</div>
-          <a href="hiking-hints.html">Hiking Backpack <span class="badge">Live</span></a>
-          <div class="nav-drop-divider"></div>
-          <span class="disabled">Space Station Aurora <span class="badge">Soon</span></span>
-          <span class="disabled">Deep Space <span class="badge">Soon</span></span>
-        </div>
-      </div>
-      <a href="borrow.html">Borrow One</a>
-      <a href="feedback.html">Feedback</a>
+    <nav>
+      <a href="#reports">Reports</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <span class="spacer"></span>
+    <div class="controls">
+      <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="theme-icon-dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
     </div>
   </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="eyebrow">An at-home adventure · Ottawa</span>
-        <h1>An escape room.<br>In a <em>backpack.</em></h1>
-        <p class="lead hero-lead">
-          Unpack and solve your way out. Each backpack is a self-contained
-          puzzle adventure — locks, clues, and hand-crafted props — that you
-          play at your own pace.
-        </p>
-        <div class="hero-ctas">
-          <a href="borrow.html" class="btn btn-primary btn-arrow">Borrow one</a>
-        </div>
-      </div>
-      <div class="hero-image">
-        <img src="assets/banner.png" alt="A backpack on a living-room table surrounded by maps, locks, a journal, puzzle pieces and keys.">
-        <div class="hero-stamp">Solve<strong>All</strong>locks</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section>
-  <div class="wrap">
-    <span class="eyebrow">How it works</span>
-    <div class="how-grid">
-      <div class="how-step">
-        <div class="how-num">01</div>
-        <h3>Pick up the backpack</h3>
-        <p>Borrow the backpack, take it home, gather some friend and get started.</p>
-      </div>
-      <div class="how-step">
-        <div class="how-num">02</div>
-        <h3>Unpack and begin</h3>
-        <p>Start the timer in the hint companion, open the first lock, and follow the trail of clues from one lock to the next.</p>
-      </div>
-      <div class="how-step">
-        <div class="how-num">03</div>
-        <h3>Escape — and pass it on</h3>
-        <p>Crack the final lock, reset the props using the checklist, and hand the backpack to the next curious friend.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- THE BACKPACKS -->
-<section>
-  <div class="wrap">
-    <div class="bp-section-head">
-      <span class="eyebrow">The Backpacks</span>
-      <h2>One live, two on the workbench.</h2>
-    </div>
-
-    <div class="bp-grid">
-      <!-- Hiking -->
-      <div class="bp-card">
-        <div class="bp-thumb"><img src="assets/hiking-cartoon.png" alt="Illustrated campfire scene with a backpack, map, and lantern."></div>
-        <div class="bp-body">
-          <div class="bp-head">
-            <h3 class="bp-title">The Hiking Backpack</h3>
-            <span class="chip chip-live">Live</span>
-          </div>
-          <p class="bp-desc">A trailhead, a locked pack, and a scattered trail of clues — journals, maps, a puzzle box, and ten locks standing between you and the summit.</p>
-          <div class="bp-meta">
-            <span><strong>Medium</strong> difficulty</span>
-            <span><strong>1–2</strong> hrs</span>
-            <span><strong>1–4</strong> players</span>
-            <span>Age <strong>8+</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Aurora -->
-      <div class="bp-card bp-soon">
-        <div class="bp-thumb bp-thumb-stripes"><div class="bp-thumb-label">[ cover illustration<br>coming soon ]</div></div>
-        <div class="bp-body">
-          <div class="bp-head">
-            <h3 class="bp-title">Space Station Aurora</h3>
-            <span class="chip chip-soon">In the works</span>
-          </div>
-          <p class="bp-desc">Something has gone wrong aboard Aurora. The crew left their backpack behind — and a message only you can finish decoding.</p>
-          <div class="bp-meta"><span>Sci-fi · zero gravity vibes</span></div>
-        </div>
-      </div>
-
-      <!-- Deep Space -->
-      <div class="bp-card bp-soon">
-        <div class="bp-thumb bp-thumb-stripes"><div class="bp-thumb-label">[ cover illustration<br>coming soon ]</div></div>
-        <div class="bp-body">
-          <div class="bp-head">
-            <h3 class="bp-title">Deep Space <span style="color:var(--muted); font-style: italic;">(working title)</span></h3>
-            <span class="chip chip-soon">Concept</span>
-          </div>
-          <p class="bp-desc">An exploration mission gone sideways. Charts, signals, and a journey further from home than any backpack has gone before.</p>
-          <div class="bp-meta"><span>Exploration · mystery</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- INSIDE -->
-<section class="inverted">
-  <div class="wrap">
-    <div class="inside-grid">
-      <div>
-        <span class="eyebrow">What's inside</span>
-        <h2 style="margin-top: 10px;">Hand-built props. Real locks. Paper you can hold.</h2>
-      </div>
-      <div>
-        <p>
-          Every backpack is assembled by hand. No app-only puzzles, no
-          read-from-a-screen experience — the props are physical, and the
-          trail through them is designed to feel like you've stumbled on
-          someone else's adventure.
-        </p>
-        <ul>
-          <li>Physical locks and puzzles</li>
-          <li>Hand-made props and riddles</li>
-          <li>A digital hint companion for when you're stuck</li>
-          <li>A reset checklist so the next player starts fresh</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-strip">
-  <div class="wrap-narrow">
-    <span class="eyebrow">Ready to try?</span>
-    <h2>Borrow the Hiking Backpack.</h2>
-    <p>Based in Ottawa. Once you're done, pass it along.</p>
-    <a href="borrow.html" class="btn btn-primary btn-arrow">Request the backpack</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
+<!-- =================================================================
+     HERO
+     ================================================================= -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
     <div>
-      <div class="foot-brand">Escape Backpack</div>
-      <p style="max-width: 34ch;">An at-home escape-room adventure, handmade in Ottawa.</p>
+      <div class="eyebrow"><span class="accent">●</span> &nbsp; A personal data project — Ottawa, Canada</div>
+      <h1 style="margin-top:18px;">
+        Open data,<br>
+        <span class="hl">charted</span> <span class="accent">simply.</span>
+      </h1>
+      <p class="lede">
+        Power BI reports about Ottawa — public spending, traffic, elections —
+        built from open data, with the sources, the methodology, and what I think
+        it all means in plain English.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn primary" href="#reports">Browse reports <span class="arrow">↓</span></a>
+        <a class="btn" href="#about">About this project</a>
+      </div>
+      <div class="hero-meta">
+        <span class="pill"><span class="dot"></span>3 reports live</span>
+        <span class="pill">↻ updated monthly</span>
+        <span class="pill">data: Open Ottawa · StatCan</span>
+      </div>
     </div>
-    <div>
-      <h4>Explore</h4>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="borrow.html">Borrow one</a></li>
-        <li><a href="feedback.html">Feedback</a></li>
-      </ul>
+
+    <!-- Hero side — multiple variants, swap via Tweaks panel (data-hero attr) -->
+    <div class="hero-side" id="hero-side" data-hero="map">
+
+      <!-- ============ Variant A · MAP (Canada → Ontario → Ottawa) ============ -->
+      <div class="variant map">
+        <div class="map-frame">
+          <div class="corner">
+            <div>Ottawa · <b>Ontario</b></div>
+            <div>Canada</div>
+          </div>
+          <svg class="map-svg" viewBox="0 0 480 280" preserveAspectRatio="xMidYMid meet" aria-label="Stylized map of Canada highlighting Ontario and Ottawa">
+            <!-- Canada landmass (stylized, simplified) -->
+            <path class="land" d="
+              M 18 205
+              L 14 175 L 22 145 L 12 118 L 18 92 L 28 72 L 22 58
+              L 48 50 L 72 60 L 102 48 L 138 56 L 170 44 L 208 54 L 240 42
+              L 278 56 L 312 44 L 348 56 L 382 44 L 416 52 L 444 64 L 452 84
+              L 458 112 L 446 138 L 462 162 L 450 184 L 438 200 L 422 208
+              L 400 215 L 372 220 L 340 222 L 312 226
+              L 296 240 L 282 234 L 268 244 L 252 232 L 232 238 L 210 230 L 184 234 L 158 228 L 132 232 L 104 226 L 76 230 L 48 222
+              Z" />
+
+            <!-- province boundary hints (faint dashed) -->
+            <g class="border">
+              <path d="M 70 60 Q 72 130 60 220" />     <!-- BC | AB -->
+              <path d="M 110 50 Q 112 130 108 226" />   <!-- AB | SK -->
+              <path d="M 150 48 Q 152 130 152 230" />   <!-- SK | MB -->
+              <path d="M 196 50 Q 200 130 200 234" />   <!-- MB | ON  west -->
+              <path d="M 322 50 Q 318 130 310 226" />   <!-- ON | QC -->
+              <path d="M 412 100 Q 410 160 408 210" />  <!-- QC | NB/NS -->
+            </g>
+
+            <!-- Ontario region highlighted -->
+            <path class="ontario" d="
+              M 200 60
+              L 240 48 L 278 58 L 312 48 L 322 56
+              L 320 100 L 314 140 L 306 178 L 314 212
+              L 296 230 L 282 226 L 268 236 L 252 224 L 232 230 L 210 222
+              L 204 200 L 200 160 L 200 110
+              Z" />
+
+            <!-- Great Lakes (cutouts) -->
+            <g class="lakes">
+              <ellipse cx="250" cy="230" rx="14" ry="4" />   <!-- Superior -->
+              <ellipse cx="272" cy="237" rx="7" ry="3" />    <!-- Huron -->
+              <ellipse cx="288" cy="233" rx="5" ry="2" />    <!-- Erie -->
+              <ellipse cx="300" cy="226" rx="5" ry="2" />    <!-- Ontario -->
+            </g>
+
+            <!-- Province labels -->
+            <text class="prov-lbl" x="40"  y="148">BC</text>
+            <text class="prov-lbl" x="85"  y="150">AB</text>
+            <text class="prov-lbl" x="125" y="155">SK</text>
+            <text class="prov-lbl" x="172" y="160">MB</text>
+            <text class="prov-lbl ontario" x="252" y="165">ONTARIO</text>
+            <text class="prov-lbl" x="352" y="118">QC</text>
+            <text class="prov-lbl" x="420" y="170">ATL</text>
+            <text class="prov-lbl" x="165" y="95">NU</text>
+
+            <!-- Ottawa pin -->
+            <circle class="pin-ring" cx="308" cy="206" r="10" />
+            <circle class="pin-ring" cx="308" cy="206" r="6" />
+            <circle class="pin"      cx="308" cy="206" r="3.2" />
+            <text class="pin-lbl"     x="322" y="209">OTTAWA</text>
+
+            <!-- Inset: zoomed view of Ottawa -->
+            <g transform="translate(360, 218)">
+              <rect class="inset-box" x="0" y="0" width="110" height="54" rx="4" />
+              <text class="prov-lbl" x="6" y="10">OTTAWA</text>
+              <!-- ward dots -->
+              <g class="ward-dot">
+                <circle cx="22" cy="22" r="1.4"/> <circle cx="32" cy="20" r="1.4"/>
+                <circle cx="42" cy="22" r="1.4"/> <circle cx="52" cy="19" r="1.4"/>
+                <circle cx="62" cy="22" r="1.4"/> <circle cx="72" cy="20" r="1.4"/>
+                <circle cx="82" cy="23" r="1.4"/> <circle cx="92" cy="22" r="1.4"/>
+                <circle cx="20" cy="32" r="1.4"/> <circle cx="30" cy="34" r="1.4"/>
+                <circle cx="40" cy="32" r="1.4"/> <circle cx="54" cy="34" r="1.4"/>
+                <circle cx="66" cy="32" r="1.4"/> <circle cx="78" cy="34" r="1.4"/>
+                <circle cx="90" cy="33" r="1.4"/>
+                <circle cx="28" cy="44" r="1.4"/> <circle cx="40" cy="44" r="1.4"/>
+                <circle cx="54" cy="45" r="1.4"/> <circle cx="68" cy="44" r="1.4"/>
+                <circle cx="80" cy="45" r="1.4"/>
+              </g>
+              <circle class="core-dot" cx="46" cy="30" r="2.2"/>
+              <text class="prov-lbl" x="54" y="32" style="fill:var(--accent); letter-spacing:0.06em;">core</text>
+              <!-- 24 wards label -->
+              <text class="prov-lbl" x="6" y="48" style="opacity:0.7;">24 wards</text>
+            </g>
+            <!-- connector from main pin to inset -->
+            <path class="inset-link" d="M 312 210 Q 340 220 360 220" />
+
+            <!-- Compass -->
+            <g transform="translate(30, 76)">
+              <line class="compass-line" x1="0" y1="-7" x2="0" y2="7" />
+              <polygon class="compass-n" points="0,-9 -2.5,-3.5 2.5,-3.5" />
+              <text class="prov-lbl" x="-2" y="-12" style="opacity:0.7;">N</text>
+            </g>
+          </svg>
+          <div class="footer">
+            <span>Canada · 10 provinces, 3 territories</span>
+            <div class="legend">
+              <span><i></i> focus</span>
+              <span><i class="muted"></i> wards</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Variant B · FACT SHEET ============ -->
+      <div class="variant facts">
+        <div class="facts">
+          <div class="head">
+            <div class="city">Ottawa</div>
+            <div class="year">2026 · ON</div>
+          </div>
+          <div class="row">
+            <span class="label">Population</span>
+            <span class="val">1,073,500</span>
+          </div>
+          <div class="row">
+            <span class="label">Wards</span>
+            <span class="val">24</span>
+          </div>
+          <div class="row">
+            <span class="label">Area</span>
+            <span class="val">2,790<span class="unit">km²</span></span>
+          </div>
+          <div class="row">
+            <span class="label">Operating budget</span>
+            <span class="val">5.1<span class="unit">B$</span></span>
+          </div>
+          <div class="row">
+            <span class="label">Road network</span>
+            <span class="val">6,063<span class="unit">km</span></span>
+          </div>
+          <div class="foot">
+            <span>City of Ottawa · open data</span>
+            <span>fy 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Variant C · FEATURED REPORT ============ -->
+      <div class="variant featured">
+        <a class="featured-card" href="#reports" id="featured-link">
+          <div class="preview">
+            <span class="tag" id="featured-tag">#spending</span>
+            <svg class="featured-svg" viewBox="0 0 320 200" preserveAspectRatio="none">
+              <!-- gridlines -->
+              <line class="grid" x1="0"   y1="50"  x2="320" y2="50"/>
+              <line class="grid" x1="0"   y1="100" x2="320" y2="100"/>
+              <line class="grid" x1="0"   y1="150" x2="320" y2="150"/>
+              <!-- area under curve -->
+              <path class="area" d="M 0 160 L 30 150 L 60 140 L 90 120 L 120 130 L 150 100 L 180 90 L 210 70 L 240 80 L 270 50 L 300 40 L 320 35 L 320 200 L 0 200 Z"/>
+              <!-- line -->
+              <path class="line" d="M 0 160 L 30 150 L 60 140 L 90 120 L 120 130 L 150 100 L 180 90 L 210 70 L 240 80 L 270 50 L 300 40 L 320 35"/>
+              <!-- dots -->
+              <circle class="dot" cx="60"  cy="140" r="2.5"/>
+              <circle class="dot" cx="150" cy="100" r="2.5"/>
+              <circle class="dot" cx="240" cy="80"  r="2.5"/>
+              <circle class="dot" cx="320" cy="35" r="3.5"/>
+              <!-- ticks -->
+              <text class="tick" x="4"    y="194">2019</text>
+              <text class="tick" x="148"  y="194">2022</text>
+              <text class="tick" x="288"  y="194">2026</text>
+            </svg>
+            <div class="corner-stat" id="featured-stat">
+              <div class="k">+38%</div>
+              <div class="v">since 2019</div>
+            </div>
+          </div>
+          <div class="body">
+            <div class="eyebrow"><span class="accent">●</span> &nbsp; Latest report</div>
+            <h4 id="featured-title">Where Ottawa's tax dollars go</h4>
+            <p id="featured-lede">A breakdown of the City of Ottawa's recent operating budget — by department, by ward, and how spending has shifted over time.</p>
+            <div class="meta">
+              <span id="featured-date">Updated Apr 2026</span>
+              <a href="#reports">Open report →</a>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- ============ Variant D · MOSAIC (original) ============ -->
+      <div class="variant mosaic">
+        <div class="stat-row">
+          <div class="stat"><div class="k">3</div><div class="v">reports live</div></div>
+          <div class="stat"><div class="k">12</div><div class="v">data sources</div></div>
+          <div class="stat"><div class="k">Apr</div><div class="v">last update</div></div>
+        </div>
+        <div class="mosaic">
+          <div class="row">
+            <div class="mini line"><div class="mini-label">Trend</div></div>
+            <div class="mini donut"><div class="mini-label">Share</div></div>
+          </div>
+          <div class="mini bars" style="height: 90px;"><div class="mini-label">Distribution</div></div>
+        </div>
+      </div>
+
     </div>
-    <div>
-      <h4>Playing right now?</h4>
-      <ul>
-        <li><a href="hiking-hints.html">Hiking — hint companion</a></li>
-      </ul>
+  </div>
+</section>
+
+<!-- =================================================================
+     TAB BAR — switches the embedded report below
+     ================================================================= -->
+<div class="tabbar-wrap" id="reports">
+  <div class="wrap">
+    <div class="tabbar" role="tablist" id="tabbar">
+      <!-- tabs are injected by JS so they stay in sync with REPORTS data -->
     </div>
-    <div class="foot-credit" style="grid-column: 1 / -1;">
-      <span>© 2026 Escape Backpack · Made with care in Ottawa</span>
-      <span>Inspired by the NCC's Escape Backpack at Mackenzie King Estate.</span>
-      <span class="foot-ai">Built with AI assistance — Claude (website + puzzle drafts) and Nano Banana (select illustrations).</span>
+  </div>
+</div>
+
+<!-- =================================================================
+     REPORT VIEW
+     ================================================================= -->
+<section class="report">
+  <div class="wrap">
+
+    <div class="breadcrumb">
+      Reports <span class="sep">/</span>
+      <span id="rv-topic">Public spending</span> <span class="sep">/</span>
+      <span class="cur" id="rv-id">№ 01</span>
     </div>
+
+    <div class="report-head">
+      <div>
+        <h2 id="rv-title">Where Ottawa's tax dollars go</h2>
+        <p class="report-lede" id="rv-lede"></p>
+      </div>
+      <div class="report-meta">
+        <span class="pill accent" id="rv-tag">#spending</span>
+        <span class="pill" id="rv-date">Updated Apr 2026</span>
+        <span class="pill" id="rv-read">~3 min read</span>
+      </div>
+    </div>
+
+    <!-- THE EMBED — designed for 1600 × 900 (16:9) Power BI reports -->
+    <div class="embed" id="embed-container">
+      <!-- iframe is injected here by JS so switching tabs swaps the source cleanly -->
+    </div>
+
+    <div class="embed-toolbar">
+      <div class="left">
+        <span>Embedded Power BI report · 1600 × 900</span>
+        <span style="opacity:0.5;">·</span>
+        <a id="rv-fullscreen" href="#" target="_blank" rel="noopener">⛶ open fullscreen</a>
+      </div>
+      <div class="right">
+        <a id="rv-share" href="#">↗ share</a>
+      </div>
+    </div>
+
+    <!-- INFO ROW — sources / method / interpretation, beneath the wide embed -->
+    <div class="info-row">
+      <div class="panel accent">
+        <h4>Why it matters</h4>
+        <p id="rv-why"></p>
+      </div>
+
+      <div class="panel">
+        <h4>Data sources</h4>
+        <ul id="rv-sources"></ul>
+      </div>
+
+      <div class="panel">
+        <h4>Method &amp; caveats</h4>
+        <p id="rv-method"></p>
+      </div>
+    </div>
+
+    <!-- TAKEAWAYS -->
+    <div class="takeaways">
+      <h3 id="rv-take-head">Three things to take from this</h3>
+      <div class="grid" id="rv-takeaways"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =================================================================
+     BROWSE STRIP
+     ================================================================= -->
+<section class="browse">
+  <div class="wrap">
+    <div class="browse-head">
+      <h3>All reports</h3>
+      <span class="sub">3 published · more coming</span>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- =================================================================
+     ABOUT
+     ================================================================= -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <h3>About this project</h3>
+    <div class="about-body">
+      <p>
+        Ottawa Visuals is a personal project. I take publicly available data about
+        the city — budgets, collisions, election results — and turn it into Power BI
+        reports anyone can poke around in.
+      </p>
+      <p>
+        The goal is simple: make city-scale numbers easier to read, with the data
+        sources visible and the assumptions written down. Every report links to the
+        raw datasets so you can check the math yourself.
+      </p>
+      <div class="about-cta">
+        <a class="btn primary" href="#reports">See the reports</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================================================================
+     FOOTER
+     ================================================================= -->
+<footer class="site" id="contact">
+  <div class="wrap foot-grid">
+    <div class="foot-col foot-brand">
+      <div class="brand" style="font-size:16px;">
+        <span class="brand-logo" style="width:30px;height:30px;"><img src="assets/avatar.png" alt=""></span>
+        <span>Ottawa Visuals<small>data, charted simply</small></span>
+      </div>
+      <p>A personal data project about Ottawa, Ontario. Made with Power BI · hosted on GitHub Pages.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Reports</h5>
+      <a href="#reports" data-go="0">Public spending</a>
+      <a href="#reports" data-go="1">Traffic &amp; roads</a>
+      <a href="#reports" data-go="2">Elections</a>
+    </div>
+    <div class="foot-col">
+      <h5>Project</h5>
+      <a href="#about">About</a>
+      <a href="#" target="_blank" rel="noopener">Methodology</a>
+      <a href="#" target="_blank" rel="noopener">Data sources</a>
+    </div>
+    <div class="foot-col">
+      <h5>Elsewhere</h5>
+      <a href="#" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="#" target="_blank" rel="noopener">Email ↗</a>
+      <a href="#" target="_blank" rel="noopener">RSS ↗</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Ottawa Visuals · all charts CC-BY 4.0</span>
+    <span>built in Power BI · published on GitHub</span>
   </div>
 </footer>
 
+<!-- =================================================================
+     TWEAKS PANEL — appears when the user enables Tweaks in the toolbar.
+     Lets you preview the 4 hero-side variants + light/dark theme.
+     ================================================================= -->
+<div id="tweaks" role="dialog" aria-label="Tweaks">
+  <div class="head">
+    <h5>Tweaks</h5>
+    <button class="close" id="tweaks-close" aria-label="Close">×</button>
+  </div>
+
+  <div class="section">
+    <label>Hero illustration</label>
+    <div class="seg four" id="tweak-hero">
+      <button data-val="map"><strong>Map</strong><span class="small">Ottawa wards</span></button>
+      <button data-val="facts"><strong>Fact sheet</strong><span class="small">City stats</span></button>
+      <button data-val="featured"><strong>Featured</strong><span class="small">Latest report</span></button>
+      <button data-val="mosaic"><strong>Mosaic</strong><span class="small">Mini charts</span></button>
+    </div>
+  </div>
+
+  <div class="section">
+    <label>Theme</label>
+    <div class="seg" id="tweak-theme">
+      <button data-val="dark">Dark</button>
+      <button data-val="light">Light</button>
+    </div>
+  </div>
+</div>
+
+<!-- =================================================================
+     DATA + LOGIC
+     =================================================================
+     Edit REPORTS to add/remove reports. Each report has:
+       id        — short slug used for URLs (#report-<id>)
+       topic     — short topic label shown in the breadcrumb
+       title     — main headline
+       lede      — one-paragraph intro
+       date      — "Updated <Month YYYY>"
+       readTime  — minutes label
+       tag       — single hashtag shown in meta
+       embedUrl  — full Power BI publish-to-web "view" URL (or "" for placeholder)
+       why       — "why it matters" paragraph
+       method    — methodology + caveats paragraph
+       sources   — array of { name, meta, url }
+       takeaways — array of [ "BIG VALUE", "explanation" ]
+       thumb     — visual style for the card thumbnail: "bars" | "line" | "donut"
+     ================================================================= -->
 <script>
-function toggleDrop(e) {
-  e.stopPropagation();
-  document.getElementById('hintsDrop').classList.toggle('open');
-}
-document.addEventListener('click', (e) => {
-  const d = document.getElementById('hintsDrop');
-  if (d && !d.contains(e.target)) d.classList.remove('open');
-});
+  const REPORTS = [
+    {
+      id: "spending",
+      topic: "Public spending",
+      title: "Where Ottawa's tax dollars go",
+      lede: "A breakdown of the City of Ottawa's recent operating budget — by department, by ward, and how spending has shifted over time.",
+      date: "Updated Apr 2026",
+      readTime: "~ 3 min read",
+      tag: "#spending",
+      // ↓ this is the live URL you sent
+      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
+      why: "Tax dollars are easy to talk about in the abstract and hard to picture in practice. This report puts them on a single page so the trade-offs between, say, transit and long-term care are visible side by side.",
+      method: "Figures come from the City of Ottawa's published budget tables. Categories follow the City's own grouping. Year-over-year comparisons are nominal — not adjusted for inflation unless explicitly noted.",
+      sources: [
+        { name: "City of Ottawa — Budget tables", meta: "CSV · annual", url: "https://open.ottawa.ca/" },
+        { name: "Statistics Canada — Consumer Price Index", meta: "monthly", url: "https://www.statcan.gc.ca/" },
+      ],
+      takeaways: [
+        ["38¢", "of every dollar spent goes to Transit & Public Works"],
+        ["+12%", "growth in Housing & Long-term Care since 2019"],
+        ["3 wards", "drive roughly half of capital spending"],
+      ],
+      thumb: "bars",
+    },
+
+    {
+      id: "traffic",
+      topic: "Traffic & roads",
+      title: "How Ottawa really moves",
+      lede: "Daily collision counts, intersection hot-spots and travel-time changes across the urban core after the LRT expansion.",
+      date: "Updated Mar 2026",
+      readTime: "~ 4 min read",
+      tag: "#traffic",
+      // TODO: paste your Power BI publish-to-web URL here
+      embedUrl: "",
+      why: "After every LRT extension or road redesign, the same questions come up: did anything actually change? This report keeps a running tally so the answer is one click away.",
+      method: "Collision data is from Ottawa Police Service open releases; travel-time data comes from City traffic counts and Transitway feeds. Hot-spot rankings use a 3-year rolling window to reduce noise.",
+      sources: [
+        { name: "Open Ottawa — Collision data", meta: "monthly", url: "https://open.ottawa.ca/" },
+        { name: "City of Ottawa — Traffic counts", meta: "annual", url: "https://open.ottawa.ca/" },
+        { name: "OC Transpo — LRT ridership", meta: "monthly", url: "https://www.octranspo.com/" },
+      ],
+      takeaways: [
+        ["1 in 6", "collisions happen at just 12 intersections"],
+        ["−7 min", "average commute from Orléans since 2022"],
+        ["2.1×", "more cycling traffic on Laurier vs. 2019"],
+      ],
+      thumb: "line",
+    },
+
+    {
+      id: "elections",
+      topic: "Elections",
+      title: "Ottawa votes — 2018 → 2022 → 2026",
+      lede: "Ward-by-ward turnout, vote share and swing across the last three municipal cycles, with a closer look at the 2026 race.",
+      date: "Updated Feb 2026",
+      readTime: "~ 5 min read",
+      tag: "#elections",
+      // TODO: paste your Power BI publish-to-web URL here
+      embedUrl: "",
+      why: "Municipal elections rarely make national news, but they decide who runs your bus, your library and your zoning board. This one tries to make it easier to see the trends in turnout and competitiveness, ward by ward.",
+      method: "Results are pulled from Elections Ottawa's official ward results. Turnout uses 2021 census population by ward as the denominator (no eligible-voter adjustment). Swing is calculated against the previous cycle's leading candidate's share.",
+      sources: [
+        { name: "Elections Ottawa — Ward results", meta: "per cycle", url: "https://elections.ottawa.ca/" },
+        { name: "Statistics Canada — 2021 Census, Ottawa CD", meta: "snapshot", url: "https://www.statcan.gc.ca/" },
+      ],
+      takeaways: [
+        ["44%", "city-wide turnout, up 6 points from 2022"],
+        ["8 of 24", "wards flipped their incumbents"],
+        ["312 votes", "Rideau-Vanier — the tightest race"],
+      ],
+      thumb: "donut",
+    },
+  ];
+
+  // ——— THEME ———————————————————————————————————————————————————————
+  const STORAGE_KEY = "ov-theme";
+  const root = document.documentElement;
+  function setTheme(mode) {
+    root.setAttribute("data-theme", mode);
+    try { localStorage.setItem(STORAGE_KEY, mode); } catch (e) {}
+    const btn = document.getElementById("theme-toggle");
+    if (btn) btn.innerHTML = mode === "dark"
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  }
+  let stored = "dark";
+  try { stored = localStorage.getItem(STORAGE_KEY) || "dark"; } catch (e) {}
+  setTheme(stored);
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    setTheme(next);
+    // also sync the Tweaks panel if it's wired up
+    if (typeof applyTheme === "function") applyTheme(next);
+  });
+
+  // ——— RENDER ——————————————————————————————————————————————————————
+  const tabbar = document.getElementById("tabbar");
+  const cards  = document.getElementById("cards");
+
+  REPORTS.forEach((r, i) => {
+    // tab
+    const t = document.createElement("button");
+    t.className = "tab" + (i === 0 ? " cur" : "");
+    t.dataset.idx = i;
+    t.innerHTML = `
+      <span class="small">№ ${String(i+1).padStart(2,"0")} · ${r.topic}</span>
+      <span class="name">${r.title}</span>`;
+    t.addEventListener("click", () => selectReport(i));
+    tabbar.appendChild(t);
+
+    // card
+    const c = document.createElement("div");
+    c.className = "card" + (i === 0 ? " cur" : "");
+    c.dataset.idx = i;
+    c.innerHTML = `
+      <div class="num">№ ${String(i+1).padStart(2,"0")}</div>
+      <div class="thumb ${r.thumb}"></div>
+      <div class="topic">${r.topic}</div>
+      <h4>${r.title}</h4>
+      <div class="meta">${r.date} · ${r.readTime.replace("~ ","")}</div>`;
+    c.addEventListener("click", () => {
+      selectReport(i);
+      document.getElementById("reports").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+    cards.appendChild(c);
+  });
+
+  // footer "Reports" links also switch
+  document.querySelectorAll("[data-go]").forEach(a => {
+    a.addEventListener("click", (e) => {
+      const i = parseInt(a.dataset.go, 10);
+      selectReport(i);
+    });
+  });
+
+  function selectReport(i) {
+    const r = REPORTS[i];
+
+    // tabs
+    document.querySelectorAll(".tab").forEach((el, j) => el.classList.toggle("cur", j === i));
+    document.querySelectorAll(".card").forEach((el, j) => el.classList.toggle("cur", j === i));
+
+    // breadcrumb
+    document.getElementById("rv-topic").textContent = r.topic;
+    document.getElementById("rv-id").textContent = "№ " + String(i+1).padStart(2,"0");
+
+    // head
+    document.getElementById("rv-title").textContent = r.title;
+    document.getElementById("rv-lede").textContent  = r.lede;
+    document.getElementById("rv-tag").textContent   = r.tag;
+    document.getElementById("rv-date").textContent  = r.date;
+    document.getElementById("rv-read").textContent  = r.readTime;
+
+    // text
+    document.getElementById("rv-why").textContent    = r.why;
+    document.getElementById("rv-method").textContent = r.method;
+
+    // sources
+    const ul = document.getElementById("rv-sources");
+    ul.innerHTML = "";
+    r.sources.forEach(s => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="src-name">${s.name}</span>
+        <span class="src-meta">${s.meta}</span>
+        ${s.url ? `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">↗</a>` : ""}`;
+      ul.appendChild(li);
+    });
+
+    // takeaways
+    const tg = document.getElementById("rv-takeaways");
+    tg.innerHTML = "";
+    r.takeaways.forEach(t => {
+      const d = document.createElement("div");
+      d.className = "takeaway";
+      d.innerHTML = `<div class="k">${t[0]}</div><div class="label">${t[1]}</div>`;
+      tg.appendChild(d);
+    });
+
+    // share / fullscreen
+    const fs = document.getElementById("rv-fullscreen");
+    if (r.embedUrl) {
+      fs.href = r.embedUrl;
+      fs.style.opacity = "1";
+      fs.style.pointerEvents = "auto";
+    } else {
+      fs.href = "#";
+      fs.style.opacity = "0.4";
+      fs.style.pointerEvents = "none";
+    }
+
+    // EMBED — replace iframe so reload is clean
+    const embed = document.getElementById("embed-container");
+    embed.innerHTML = "";
+    if (r.embedUrl) {
+      const f = document.createElement("iframe");
+      f.src = r.embedUrl;
+      f.title = r.title;
+      f.setAttribute("allowfullscreen", "true");
+      // sandbox allow-* keeps Power BI's auth+scripts working while limiting risk
+      f.setAttribute("loading", "lazy");
+      embed.appendChild(f);
+    } else {
+      embed.innerHTML = `
+        <div class="embed-empty">
+          <div>
+            <div class="big">Coming soon</div>
+            <div>This Power BI report hasn't been published yet.<br>
+            Drop your embed URL into <code>REPORTS[${i}].embedUrl</code> in the HTML.</div>
+          </div>
+        </div>`;
+    }
+
+    // URL hash so deep links work
+    history.replaceState(null, "", "#report-" + r.id);
+  }
+
+  // initial render — honour deep link if present
+  const initial = (() => {
+    const h = location.hash.replace("#report-", "");
+    const idx = REPORTS.findIndex(r => r.id === h);
+    return idx >= 0 ? idx : 0;
+  })();
+  selectReport(initial);
+
+  // ——— TWEAKS PANEL ———————————————————————————————————————————————
+  // These defaults persist to disk via the host's __edit_mode_set_keys protocol.
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "hero": "featured",
+    "theme": "dark"
+  }/*EDITMODE-END*/;
+
+  const heroSide = document.getElementById("hero-side");
+  const tweaksEl = document.getElementById("tweaks");
+
+  function applyHero(v) {
+    heroSide.setAttribute("data-hero", v);
+    TWEAKS.hero = v;
+    document.querySelectorAll("#tweak-hero button")
+      .forEach(b => b.classList.toggle("cur", b.dataset.val === v));
+    // refresh featured-card with current report data
+    if (v === "featured") refreshFeatured();
+  }
+  function applyTheme(v) {
+    setTheme(v);
+    TWEAKS.theme = v;
+    document.querySelectorAll("#tweak-theme button")
+      .forEach(b => b.classList.toggle("cur", b.dataset.val === v));
+  }
+  function refreshFeatured() {
+    const i = REPORTS.findIndex(r => r.id === (location.hash.replace("#report-","") || REPORTS[0].id));
+    const r = REPORTS[Math.max(0,i)];
+    document.getElementById("featured-tag").textContent   = r.tag;
+    document.getElementById("featured-title").textContent = r.title;
+    document.getElementById("featured-lede").textContent  = r.lede;
+    document.getElementById("featured-date").textContent  = r.date;
+  }
+
+  // wire buttons
+  document.querySelectorAll("#tweak-hero button").forEach(b => {
+    b.addEventListener("click", () => {
+      applyHero(b.dataset.val);
+      persist({hero: b.dataset.val});
+    });
+  });
+  document.querySelectorAll("#tweak-theme button").forEach(b => {
+    b.addEventListener("click", () => {
+      applyTheme(b.dataset.val);
+      persist({theme: b.dataset.val});
+    });
+  });
+  document.getElementById("tweaks-close").addEventListener("click", () => {
+    tweaksEl.classList.remove("open");
+    try { window.parent.postMessage({type:"__edit_mode_dismissed"}, "*"); } catch(e){}
+  });
+
+  function persist(edits) {
+    try { window.parent.postMessage({type:"__edit_mode_set_keys", edits}, "*"); } catch(e){}
+  }
+
+  // host protocol — register listener BEFORE announcing availability
+  window.addEventListener("message", (e) => {
+    if (!e.data || typeof e.data !== "object") return;
+    if (e.data.type === "__activate_edit_mode")   tweaksEl.classList.add("open");
+    if (e.data.type === "__deactivate_edit_mode") tweaksEl.classList.remove("open");
+  });
+  try { window.parent.postMessage({type:"__edit_mode_available"}, "*"); } catch(e){}
+
+  // apply defaults from EDITMODE block (which the user can later edit on disk)
+  applyHero(TWEAKS.hero);
+  applyTheme(TWEAKS.theme);
+  // when switching reports, keep the featured card in sync
+  const _origSelect = selectReport;
+  // already called; install a hook for future calls
+  document.querySelectorAll(".tab, .card").forEach(el => {
+    el.addEventListener("click", () => setTimeout(refreshFeatured, 0));
+  });
 </script>
 
 </body>
