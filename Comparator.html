@@ -736,7 +736,7 @@
         </div>
 
         <div class="percentile-bar-wrap">
-          <div class="percentile-bar-label"><span>Canada Net Worth Percentile (est.)</span><span id="rNWPct">—</span></div>
+          <div class="percentile-bar-label"><span>Canada Net Worth Percentile (est.)</span><span id="rPctNW">—</span></div>
           <div class="percentile-bar">
             <div class="percentile-bar-fill" id="fillNW" style="width:0%"></div>
             <div class="percentile-marker" id="markerNW" style="left:0%">
@@ -1048,10 +1048,14 @@ function estimateNWPercentile(value) {
 // ─────────────────────────────────────────────
 function setBar(id, pct) {
   const p = Math.max(0, Math.min(99, pct));
-  document.getElementById('fill'+id).style.width = p + '%';
-  document.getElementById('marker'+id).style.left = p + '%';
-  document.getElementById('tooltip'+id).textContent = ordinal(p);
-  document.getElementById('rPct'+id).textContent = ordinal(p) + ' percentile';
+  const fill = document.getElementById('fill'+id);
+  const marker = document.getElementById('marker'+id);
+  const tooltip = document.getElementById('tooltip'+id);
+  const label = document.getElementById('rPct'+id);
+  if (fill) fill.style.width = p + '%';
+  if (marker) marker.style.left = p + '%';
+  if (tooltip) tooltip.textContent = ordinal(p);
+  if (label) label.textContent = ordinal(p) + ' percentile';
 }
 
 // ─────────────────────────────────────────────
