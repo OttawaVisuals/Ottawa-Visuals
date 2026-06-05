@@ -284,33 +284,21 @@ CPI_CSV = ROOT / "data" / "cpi_canada.csv"
 
 cpi_out = {}
 
-if CPI_CSV.exists():
-    cpi_df = pd.read_csv(CPI_CSV, encoding="latin-1")
+CPI_JSON = ROOT / "data" / "cpi_canada.json"
 
-    # StatCan table 18-10-0004-01 column names:
-    # REF_DATE, GEO, DGUID, Products and product groups, UOM, UOM_ID,
-    # SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE, STATUS, SYMBOL,
-    # TERMINATED, DECIMALS
-
-    # Filter: Canada, All-items, annual (REF_DATE is YYYY-MM — take December
-    # each year as the year-end value, or annual average if available)
-    mask = (
-        (cpi_df["GEO"] == "Canada") &
-        (cpi_df["Products and product groups"].str.strip() == "All-items")
-    )
-    filtered = cpi_df[mask].copy()
-    filtered["year"] = filtered["REF_DATE"].astype(str).str[:4].astype(int)
-    filtered["month"] = filtered["REF_DATE"].astype(str).str[5:7].astype(int)
-
-    # Use December value as year-end CPI; fall back to last available month
-    for year, grp in filtered.groupby("year"):
-        if year < 2000:
-            continue
-        dec = grp[grp["month"] == 12]
-        row = dec if not dec.empty else grp.sort_values("month").tail(1)
-        val = row["VALUE"].iloc[0]
-        if pd.notna(val):
-            cpi_out[str(year)] = round(float(val), 1)
+if CPI_JSON.exists():
+    with open(CPI_JSON) as f:
+        raw = json.load(f)
+    
+    points = raw[0]["object"]["vectorDataPoint"]
+    cpi_out = {}
+    for p in points:
+        year = p["refPer"][:4]
+        month = p["refPer"][5:7]
+        val = p["value"]
+        # Keep December as year-end value (overwrites earlier months)
+        if val and str(year) >= "2000":
+            cpi_out[year] = round(float(val), 1)
 
     print(f"  Found CPI data for {len(cpi_out)} years "
           f"({min(cpi_out.keys())}–{max(cpi_out.keys())})")
