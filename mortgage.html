@@ -101,7 +101,7 @@ p{margin:0;}
 .band-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
 .band-lbl{font-size:12px;color:var(--ink-2);}
 .band-vals{display:flex;gap:4px;align-items:center;}
-.band-bar{height:12px;border-radius:6px;position:relative;overflow:hidden;margin-bottom:2px;}
+.band-bar{height:12px;border-radius:6px;position:relative;overflow:visible;margin-bottom:2px;}
 .bm{position:absolute;top:-1px;width:2px;height:14px;border-radius:1px;z-index:2;}
 .bm.w{background:var(--ink);}
 .bm.a{background:#e8a030;}
@@ -267,11 +267,11 @@ p{margin:0;}
           <canvas id="income-chart"></canvas>
         </div>
         <div class="legend" style="margin-top:6px;">
-          <div class="li"><div class="ld" style="background:#2a3a52;"></div>FSA</div>
-          <div class="li"><div class="ld" style="background:#4a6380;"></div>Province</div>
-          <div class="li"><div class="ld" style="background:#6b8faa;"></div>Canada</div>
-          <div class="li"><div class="ld" style="background:var(--accent);border-radius:0;width:2px;height:12px;"></div>P1 salary</div>
-          <div class="li"><div class="ld" style="background:var(--purple);border-radius:0;width:2px;height:12px;"></div>P2 salary</div>
+          <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+          <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
+          <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
+          <div class="li"><div class="ld" style="background:#e85a44;border-radius:0;width:2px;height:12px;"></div>P1 salary</div>
+          <div class="li"><div class="ld" style="background:#7f77dd;border-radius:0;width:2px;height:12px;"></div>P2 salary</div>
         </div>
         <div class="chart-note" id="income-note">Enter salaries and FSA then calculate.</div>
       </div>
@@ -563,98 +563,124 @@ function salaryToXPos(salary) {
 // ================================================================
 // INCOME CHART
 // ================================================================
+// Income chart: province lookup robustly from FSA data itself
+function getProvData(fsa) {
+  // Try fsa_index first, then fall back to income_by_fsa province field
+  const provName = (DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province)
+    || (DATA.income_by_fsa && DATA.income_by_fsa[fsa] && DATA.income_by_fsa[fsa].province);
+  if (!provName || !DATA.income_canada || !DATA.income_canada.provinces) return null;
+  // Try direct match first, then partial match (handles bilingual names)
+  const provs = DATA.income_canada.provinces;
+  if (provs[provName]) return provs[provName];
+  // Partial match: find key that starts with provName or vice versa
+  const key = Object.keys(provs).find(k => k.startsWith(provName.split(' ')[0]) || provName.startsWith(k.split(' ')[0]));
+  return key ? provs[key] : null;
+}
+
 function renderIncomeChart(fsa, p1sal, p2sal) {
   const isDark = root.getAttribute('data-theme') !== 'light';
-  const fsaData  = DATA.income_by_fsa  && DATA.income_by_fsa[fsa];
-  const canData  = DATA.income_canada  && DATA.income_canada.canada;
-  const provName = DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province;
-  const provData = DATA.income_canada  && DATA.income_canada.provinces && provName && DATA.income_canada.provinces[provName];
+  // FSA data — exact match first, then try nearby FSA for same area
+  const fsaData = DATA.income_by_fsa && DATA.income_by_fsa[fsa];
+  const canData = DATA.income_canada && DATA.income_canada.canada;
+  const provData = getProvData(fsa);
 
-  const fsaG   = fsaData  ? cumToGroups(fsaData.cum)   : null;
-  const provG  = provData ? cumToGroups(provData.cum)   : null;
-  const canG   = canData  ? cumToGroups(canData.cum)    : null;
-  const maxVal = Math.max(...(fsaG||[0]),...(provG||[0]),...(canG||[0]), 1);
+  const fsaG  = fsaData  ? cumToGroups(fsaData.cum)  : null;
+  const provG = provData ? cumToGroups(provData.cum)  : null;
+  const canG  = canData  ? cumToGroups(canData.cum)   : null;
 
-  // Normalize to % of max for comparability
-  const norm = arr => arr ? arr.map(v => v/maxVal*100) : GROUPS.map(()=>0);
-
-  const barColors = {
-    fsa:  isDark ? 'rgba(42,58,82,0.9)'  : 'rgba(180,210,240,0.9)',
-    prov: isDark ? 'rgba(74,99,128,0.9)' : 'rgba(120,170,210,0.9)',
-    can:  isDark ? 'rgba(107,143,170,0.9)': 'rgba(80,130,180,0.9)',
+  // Normalize each dataset independently (% of its own max) so shape is comparable
+  const normOwn = arr => {
+    if (!arr) return GROUPS.map(()=>0);
+    const mx = Math.max(...arr, 1);
+    return arr.map(v => v/mx*100);
   };
+
+  // Distinct, clearly separated colors
+  const colors = isDark
+    ? { fsa:'#1a4a7a', prov:'#3a7ab8', can:'#6aaee8' }
+    : { fsa:'#1a4a7a', prov:'#3a7ab8', can:'#6aaee8' };
+
+  const datasets = [];
+  if (fsaData) datasets.push({ label:'FSA '+fsa, data:normOwn(fsaG), backgroundColor:colors.fsa, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (provData) datasets.push({ label:'Province', data:normOwn(provG), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (canData)  datasets.push({ label:'Canada',   data:normOwn(canG),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
 
   mkChart('income-chart', {
     type: 'bar',
-    data: {
-      labels: GROUPS.map(g => g.label),
-      datasets: [
-        { label:'FSA',      data: norm(fsaG),  backgroundColor: barColors.fsa,  barPercentage:0.85, categoryPercentage:0.9 },
-        { label:'Province', data: norm(provG), backgroundColor: barColors.prov, barPercentage:0.85, categoryPercentage:0.9 },
-        { label:'Canada',   data: norm(canG),  backgroundColor: barColors.can,  barPercentage:0.85, categoryPercentage:0.9 },
-      ],
-    },
+    data: { labels: GROUPS.map(g => g.label), datasets },
     options: {
       ...baseChart,
       scales: {
-        x: { ticks:{ font:{size:9,family:'"JetBrains Mono"'}, color:tc() }, grid:{ display:false }, border:{display:false} },
+        x: {
+          ticks:{ font:{size:9,family:'"JetBrains Mono"'}, color:tc() },
+          grid:{ display:true, color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', lineWidth:1, drawTicks:false },
+          border:{ display:false }
+        },
         y: { display:false },
       },
       plugins: {
         ...baseChart.plugins,
-        tooltip:{ callbacks:{ label: ctx => {
-          const sets = ['FSA','Province','Canada'];
-          return sets[ctx.datasetIndex] + ': ' + (ctx.raw > 0 ? ctx.raw.toFixed(0)+'%' : 'n/a');
-        }}},
-        annotation: { annotations: buildSalaryAnnotations(p1sal, p2sal) },
+        tooltip:{ callbacks:{ label: ctx => ctx.dataset.label + ': ' + (ctx.raw>0?ctx.raw.toFixed(0)+'% of peak':'n/a') }},
       },
     },
   });
 
   document.getElementById('fsa-lbl').textContent = fsa;
-  // Note
-  let note = '';
-  if (fsaData) {
-    const fsaTot = fsaData.total;
-    const gi1 = salaryToGroupIdx(p1sal);
-    const gi2 = salaryToGroupIdx(p2sal);
-    note = `P1 ${CAD(p1sal)} is in bracket ${GROUPS[gi1]?.label||'?'} · P2 ${CAD(p2sal)} in ${GROUPS[gi2]?.label||'?'}. FSA: ${fsaTot?.toLocaleString('en-CA')||'?'} filers.`;
-  } else {
-    note = `FSA ${fsa} not found — only province and Canada shown.`;
-  }
-  document.getElementById('income-note').textContent = note;
+  const gi1 = salaryToGroupIdx(p1sal), gi2 = salaryToGroupIdx(p2sal);
+  const fsaNote = fsaData ? `FSA ${fsa} (${fsaData.total?.toLocaleString('en-CA')} filers)` : `FSA ${fsa} not in dataset`;
+  document.getElementById('income-note').textContent =
+    `P1 ${CAD(p1sal)} → ${GROUPS[gi1]?.label||'?'} · P2 ${CAD(p2sal)} → ${GROUPS[gi2]?.label||'?'} · ${fsaNote}`;
+
+  // Draw salary markers after chart renders
+  requestAnimationFrame(() => {
+    if (charts['income-chart']) {
+      charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
+      charts['income-chart'].draw();
+    }
+  });
 }
 
-function buildSalaryAnnotations(p1sal, p2sal) {
-  // Chart.js annotation plugin not loaded — we'll draw markers via plugin
-  // Return empty for now; markers drawn in afterDraw
-  return {};
-}
-
-// After chart draw, overlay salary markers as vertical lines
+// Salary marker plugin — vertical lines with triangles at top/bottom
 Chart.register({
   id: 'salaryMarkers',
   afterDraw(chart) {
     if (chart.canvas.id !== 'income-chart') return;
-    const { ctx, chartArea, scales } = chart;
-    if (!chartArea || !scales.x) return;
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
     const salaries = chart._salaryMarkers;
-    if (!salaries) return;
+    if (!salaries || !salaries.length) return;
     const colors = ['#e85a44', '#7f77dd'];
+    const nGroups = GROUPS.length; // 7
     salaries.forEach((sal, si) => {
-      const xPos = salaryToXPos(sal);
-      // Map xPos (0-7) to pixel
-      const xMin = chartArea.left;
-      const xMax = chartArea.right;
-      const px = xMin + (xPos / 7) * (xMax - xMin);
+      const xPos = salaryToXPos(sal); // 0..7
+      const xMin = chartArea.left, xMax = chartArea.right;
+      const px = xMin + (xPos / nGroups) * (xMax - xMin);
+      const top = chartArea.top - 6, bot = chartArea.bottom + 6;
+      const col = colors[si];
       ctx.save();
-      ctx.strokeStyle = colors[si];
-      ctx.lineWidth = 2;
-      ctx.setLineDash([3,2]);
+      ctx.strokeStyle = col;
+      ctx.fillStyle   = col;
+      ctx.lineWidth   = 2;
+      ctx.setLineDash([]);
+      // Line
       ctx.beginPath();
-      ctx.moveTo(px, chartArea.top);
-      ctx.lineTo(px, chartArea.bottom);
+      ctx.moveTo(px, top + 6);
+      ctx.lineTo(px, bot - 6);
       ctx.stroke();
+      // Top triangle
+      ctx.beginPath();
+      ctx.moveTo(px, top);
+      ctx.lineTo(px-4, top+7);
+      ctx.lineTo(px+4, top+7);
+      ctx.closePath();
+      ctx.fill();
+      // Bottom triangle
+      ctx.beginPath();
+      ctx.moveTo(px, bot);
+      ctx.lineTo(px-4, bot-7);
+      ctx.lineTo(px+4, bot-7);
+      ctx.closePath();
+      ctx.fill();
       ctx.restore();
     });
   }
@@ -710,10 +736,10 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
           <span class="badge ${ss}">${NUM(b.s)}%</span>
         </div>
       </div>
-      <div class="band-bar" style="background:${grad};">
-        <div class="bm w" style="left:calc(${aPct}% - 1px);"></div>
-        <div class="bm a" style="left:calc(${sPct}% - 1px);"></div>
-        ${capPct ? `<div class="bm r" style="left:calc(${capPct}% - 1px);"></div>` : ''}
+      <div class="band-bar" style="background:${grad};overflow:visible;">
+        <div class="bm w" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:white;box-shadow:0 0 0 1px rgba(0,0,0,0.3);"></div>
+        <div class="bm a" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#fff0c0;box-shadow:0 0 0 1px rgba(0,0,0,0.4);"></div>
+        ${capPct ? `<div class="bm r" style="left:calc(${capPct}% - 1.5px);height:20px;top:-4px;background:white;box-shadow:0 0 0 1px rgba(0,0,0,0.4);border:1.5px solid #e85a44;"></div>` : ''}
       </div>
       <div class="band-ticks">${ticksHtml}</div>
     </div>`;
@@ -729,14 +755,10 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
 // SPENDING TABLE
 // ================================================================
 function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
-  const factor = pf(mode);
   const p1net = estimateNet(p1sal);
   const p2net = estimateNet(p2sal);
-  // Per period
-  const pp = v => v * factor / 26; // convert bi-weekly to display period (bw base)
-  const pa = v => v * factor;       // annual → display period
 
-  // Annual base values
+  // All values computed annually, displayed via d()
   const p1g = p1sal, p2g = p2sal;
   const p1n = p1net, p2n = p2net;
   const p1joint = p1n * jointPct, p2joint = p2n * jointPct;
@@ -746,43 +768,64 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
   const housingAnn = mortAnn + taxAnn + heatAnn;
   const remainAnn  = jointTotal - housingAnn;
 
-  // Category inputs (stored as bi-weekly, convert to annual)
-  const catAnn = {};
+  // Category annual values (catVals are bi-weekly)
   let catTotalAnn = 0;
+  const catAnnVals = {};
   CATS.forEach(c => {
-    catAnn[c.id] = catVals[c.id] * 26;
-    catTotalAnn += catAnn[c.id];
+    catAnnVals[c.id] = (catVals[c.id] || 0) * 26;
+    catTotalAnn += catAnnVals[c.id];
   });
   const savingsAnn = remainAnn - catTotalAnn;
 
-  // Render table
-  const f = v => v == null ? '—' : CAD(v * factor / 26 * (mode==='annual'?26:mode==='monthly'?26/12:1));
-  // Simpler: just scale annual to display period
-  const d = v => CAD(v / 26 * pf(mode)); // annual → display period
+  // Salary ratio for per-person allocation of shared expenses
+  const totalSal = p1sal + p2sal || 1;
+  const p1ratio = p1sal / totalSal, p2ratio = p2sal / totalSal;
 
+  // Display period converter (annual → display)
+  const d = v => CAD(v / 26 * pf(mode));
   const tbody = document.getElementById('spend-tbody');
 
-  // Build rows: header cols match table headers
+  // Column group header row
+  const catHeaders = CATS.map(c => `<th>${c.label}</th>`).join('');
+  const groupHeader = `<tr class="section-row" style="border-bottom:none;">
+    <td></td>
+    <td colspan="2" style="text-align:center;border-right:1px solid var(--line);">Salary</td>
+    <td colspan="2" style="text-align:center;border-right:1px solid var(--line);">Joint account</td>
+    <td colspan="3" style="text-align:center;border-right:1px solid var(--line);">Housing</td>
+    <td colspan="${CATS.length}" style="text-align:center;border-right:1px solid var(--line);">Shared discretionary (bi-weekly input)</td>
+    <td></td>
+  </tr>`;
+
+  // Data rows
   const rows = [
-    { label:'Person 1', g:p1g, n:p1n, jt:p1joint, pe:p1per, mort:mortAnn/2, tax:taxAnn/2, ht:heatAnn/2, cats:null, sav:null, cls:'' },
-    { label:'Person 2', g:p2g, n:p2n, jt:p2joint, pe:p2per, mort:mortAnn/2, tax:taxAnn/2, ht:heatAnn/2, cats:null, sav:null, cls:'' },
-    { label:'Combined', g:p1g+p2g, n:p1n+p2n, jt:jointTotal, pe:p1per+p2per, mort:mortAnn, tax:taxAnn, ht:heatAnn, cats:catAnn, sav:savingsAnn, cls:'font-weight:600' },
+    { label:'Person 1', g:p1g, n:p1n, jt:p1joint, pe:p1per, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, ratio:p1ratio },
+    { label:'Person 2', g:p2g, n:p2n, jt:p2joint, pe:p2per, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, ratio:p2ratio },
+    { label:'Combined', g:p1g+p2g, n:p1n+p2n, jt:jointTotal, pe:p1per+p2per, mort:mortAnn, tax:taxAnn, ht:heatAnn, ratio:1 },
   ];
 
-  tbody.innerHTML = rows.map((r,ri) => {
+  const dataRows = rows.map((r, ri) => {
+    const isCombined = ri === 2;
     const catCells = CATS.map(c => {
-      if (r.cats) {
-        // Combined row: show editable inputs
-        return `<td><input type="number" id="${c.id}" value="${catVals[c.id]}" min="0" step="50" style="width:70px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 5px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;" oninput="catVals['${c.id}']=+this.value;calculate()"></td>`;
+      if (isCombined) {
+        // Editable input for combined row
+        const curVal = catVals[c.id] || 0;
+        return `<td><input
+          type="number" id="${c.id}" value="${curVal}" min="0" step="50"
+          style="width:68px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 5px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;"
+          onchange="catVals['${c.id}']=parseFloat(this.value)||0;calculate()"
+        ></td>`;
       }
-      return `<td style="color:var(--ink-3);">—</td>`;
+      // Person row: show allocated share in grey
+      const personShare = catAnnVals[c.id] * r.ratio;
+      return `<td style="color:var(--ink-3);font-size:11px;">${d(personShare)}</td>`;
     }).join('');
 
-    const savCell = r.sav != null
-      ? `<td class="savings ${r.sav>=0?'ok':'bad'}" style="${r.cls}">${d(r.sav)}</td>`
+    const savCell = isCombined
+      ? `<td class="savings ${savingsAnn>=0?'ok':'bad'}">${d(savingsAnn)}</td>`
       : `<td style="color:var(--ink-3);">—</td>`;
 
-    return `<tr style="${r.cls}">
+    const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
+    return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos">${d(r.g)}</td>
       <td>${d(r.n)}</td>
@@ -795,6 +838,8 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
       ${savCell}
     </tr>`;
   }).join('');
+
+  tbody.innerHTML = groupHeader + dataRows;
 
   document.getElementById('spend-warn').hidden = savingsAnn >= 0;
   document.getElementById('jpct-lbl').textContent = Math.round(jointPct*100);
@@ -858,21 +903,37 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     data: {
       labels,
       datasets: [
-        { label:'Principal',   data:prinData,    borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.35)', fill:true, tension:0.3, borderWidth:2, pointRadius:0 },
-        { label:'Interest',    data:intData,     borderColor:'#e8a030', backgroundColor:'rgba(232,160,48,0.30)',  fill:true, tension:0.3, borderWidth:2, pointRadius:0 },
-        { label:'Tax+heat',    data:taxHeatData, borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.20)',  fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'Shared exp.', data:sharedData,  borderColor:'#7f77dd', backgroundColor:'rgba(127,119,221,0.18)',fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'P1 remain',   data:p1RemData,   borderColor:'#5DCAA5', backgroundColor:'rgba(93,202,165,0.12)', fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'P2 remain',   data:p2RemData,   borderColor:'#888780', backgroundColor:'rgba(136,135,128,0.10)',fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'P2 remaining',  data:p2RemData,   borderColor:'rgba(136,135,128,0.5)', backgroundColor:'rgba(136,135,128,0.18)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'P1 remaining',  data:p1RemData,   borderColor:'rgba(93,202,165,0.5)',  backgroundColor:'rgba(93,202,165,0.18)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'Shared exp.',   data:sharedData,  borderColor:'rgba(127,119,221,0.6)', backgroundColor:'rgba(127,119,221,0.22)',fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'Tax+heat',      data:taxHeatData, borderColor:'rgba(55,138,221,0.6)',  backgroundColor:'rgba(55,138,221,0.22)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'Interest',      data:intData,     borderColor:'#e8a030',               backgroundColor:'rgba(232,160,48,0.45)', fill:'stack', tension:0.3, borderWidth:2, pointRadius:0 },
+        { label:'Principal',     data:prinData,    borderColor:'#1D9E75',               backgroundColor:'rgba(29,158,117,0.55)', fill:'stack', tension:0.3, borderWidth:2, pointRadius:0 },
       ],
     },
     options: {
       ...baseChart,
       scales: {
         x: { ticks:{font:{size:9},color:tc(),maxTicksLimit:13}, grid:{color:gc()}, border:{display:false} },
-        y: { ticks:{font:{size:9},color:tc(),callback:v=>'$'+Math.round(v/1000)+'K'}, grid:{color:gc()}, border:{display:false} },
+        y: { ticks:{font:{size:9},color:tc(),callback:v=>'$'+Math.round(v/1000)+'K'}, grid:{color:gc()}, border:{display:false}, stacked:true },
       },
-      plugins: { ...baseChart.plugins, tooltip:{ callbacks:{label:ctx=>ctx.dataset.label+': '+CAD(ctx.parsed.y)}}},
+      plugins: {
+        ...baseChart.plugins,
+        tooltip:{
+          mode:'index', intersect:false,
+          callbacks:{
+            title: items => 'Year ' + items[0].label.replace('Yr ',''),
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return `${ctx.dataset.label}: ${CAD(v)}/bw`;
+            },
+            footer: items => {
+              const total = items.reduce((s,i) => s + i.parsed.y, 0);
+              return `Total: ${CAD(total)}/bw`;
+            }
+          }
+        }
+      },
     },
   });
 }
@@ -1097,12 +1158,28 @@ function calculate() {
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw);
 
   // ── MARKET CONTEXT ───────────────────────────────────────────────
-  const fsaInfo = DATA.fsa_index && DATA.fsa_index[fsa];
-  const board   = fsaInfo && fsaInfo.crea_board ? fsaInfo.crea_board.split(' | ')[0] : null;
+  // Look up board from FSA index, fall back to income_by_fsa, then infer from FSA letter
+  const fsaInfo  = DATA.fsa_index && DATA.fsa_index[fsa];
+  const fsaIncome = DATA.income_by_fsa && DATA.income_by_fsa[fsa];
+  let board = (fsaInfo && fsaInfo.crea_board) || (fsaIncome && fsaIncome.crea_board) || null;
+  // If still null, try to infer from FSA first letter
+  if (!board) {
+    const fsaLetter = fsa[0];
+    const letterBoard = {
+      'M':'GREATER_TORONTO', 'L':'GREATER_TORONTO', 'K':'OTTAWA',
+      'H':'MONTREAL_CMA', 'J':'MONTREAL_CMA', 'G':'QUEBEC_CMA',
+      'T':'CALGARY', 'V':'GREATER_VANCOUVER', 'R':'WINNIPEG',
+      'S':'SASKATOON', 'E':'GREATER_MONCTON', 'B':'HALIFAX_DARTMOUTH',
+    };
+    board = letterBoard[fsaLetter] || null;
+  }
+  if (board) board = board.split(' | ')[0];
+
   const isOttawa = board === 'OTTAWA' || fsa.match(/^K[124]/);
 
   document.getElementById('market-lbl').textContent = isOttawa
-    ? 'Ottawa · OREB + CREA' : (board ? board.replace(/_/g,' ') : fsa);
+    ? 'Ottawa · OREB + CREA'
+    : board ? board.replace(/_/g,' ') : `${fsa} — board unknown`;
 
   if (isOttawa) {
     document.getElementById('ottawa-ctx').hidden = false;
