@@ -17,10 +17,7 @@ jobs:
 
       - name: Fetch CPI data (StatCan 18-10-0004-01)
         run: |
-          curl -L "https://www150.statcan.gc.ca/t1/tbl1/en/dtbl/downloadTbl?dataPackageId=18-10-0004-01" -o data/cpi_raw.zip
-          unzip -o data/cpi_raw.zip -d data/cpi_extracted/
-          mv data/cpi_extracted/18100004.csv data/cpi_canada.csv
-          rm -rf data/cpi_raw.zip data/cpi_extracted/
+           curl -s "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorsAndLatestNPeriods/v41690973/300" -o data/cpi_canada.json
 
       - name: Set up Python
         uses: actions/setup-python@v5
