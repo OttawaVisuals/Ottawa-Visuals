@@ -15,10 +15,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch CPI data (StatCan 18-10-0004-01)
-        run: |
-           curl -s "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromVectorsAndLatestNPeriods/v41690973/300" -o data/cpi_canada.json
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
