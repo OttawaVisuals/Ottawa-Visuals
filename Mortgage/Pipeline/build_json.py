@@ -273,3 +273,58 @@ print("All JSON files written to Mortgage/JSON/")
 print(f"  Price bracket weeks: {len(ottawa['price_brackets'])}")
 print(f"  Freehold weeks:      {len(ottawa['freehold'])}")
 print(f"  Condo weeks:         {len(ottawa['condos'])}")
+
+
+# ── 6. cpi.json ───────────────────────────────────────────────────────────────
+# Annual all-items CPI for Canada, used for the affordability timeline chart
+
+print("Building cpi.json...")
+
+CPI_CSV = ROOT / "data" / "cpi_canada.csv"
+
+cpi_out = {}
+
+if CPI_CSV.exists():
+    cpi_df = pd.read_csv(CPI_CSV, encoding="latin-1")
+
+    # StatCan table 18-10-0004-01 column names:
+    # REF_DATE, GEO, DGUID, Products and product groups, UOM, UOM_ID,
+    # SCALAR_FACTOR, SCALAR_ID, VECTOR, COORDINATE, VALUE, STATUS, SYMBOL,
+    # TERMINATED, DECIMALS
+
+    # Filter: Canada, All-items, annual (REF_DATE is YYYY-MM — take December
+    # each year as the year-end value, or annual average if available)
+    mask = (
+        (cpi_df["GEO"] == "Canada") &
+        (cpi_df["Products and product groups"].str.strip() == "All-items")
+    )
+    filtered = cpi_df[mask].copy()
+    filtered["year"] = filtered["REF_DATE"].astype(str).str[:4].astype(int)
+    filtered["month"] = filtered["REF_DATE"].astype(str).str[5:7].astype(int)
+
+    # Use December value as year-end CPI; fall back to last available month
+    for year, grp in filtered.groupby("year"):
+        if year < 2000:
+            continue
+        dec = grp[grp["month"] == 12]
+        row = dec if not dec.empty else grp.sort_values("month").tail(1)
+        val = row["VALUE"].iloc[0]
+        if pd.notna(val):
+            cpi_out[str(year)] = round(float(val), 1)
+
+    print(f"  Found CPI data for {len(cpi_out)} years "
+          f"({min(cpi_out.keys())}–{max(cpi_out.keys())})")
+else:
+    # Fallback hardcoded values if CSV not yet available
+    print("  WARNING: cpi_canada.csv not found — using hardcoded fallback values")
+    cpi_out = {
+        "2000": 95.4,  "2001": 97.8,  "2002": 100.0, "2003": 102.8,
+        "2004": 104.7, "2005": 107.0, "2006": 109.1, "2007": 111.5,
+        "2008": 114.1, "2009": 114.4, "2010": 116.5, "2011": 119.9,
+        "2012": 121.7, "2013": 122.8, "2014": 125.2, "2015": 126.6,
+        "2016": 128.4, "2017": 130.4, "2018": 133.4, "2019": 136.0,
+        "2020": 137.0, "2021": 141.6, "2022": 151.2, "2023": 158.1,
+        "2024": 162.4,
+    }
+
+write_json(cpi_out, OUT / "cpi.json")
