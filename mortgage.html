@@ -1,45 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <title>Can we afford it? — Ottawa Visuals</title>
-<meta name="description" content="Canadian mortgage affordability calculator — stress tests, income percentiles, spending breakdown and Ottawa housing market context." />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/png" href="assets/avatar.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="description" content="Canadian mortgage affordability calculator — stress tests, income context, spending breakdown and Ottawa housing market data."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="assets/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
 <style>
-/* ============== TOKENS (identical to index.html) ==================== */
+/* ── TOKENS ─────────────────────────────────────────────────────── */
 :root {
-  --font-display: "Barlow","DIN Next","DIN","Inter",system-ui,sans-serif;
-  --font-body:    "Inter","Aptos","Segoe UI",system-ui,sans-serif;
-  --font-mono:    "JetBrains Mono",ui-monospace,"SF Mono",Consolas,monospace;
-  --bg:        #0e1117;
-  --bg-2:      #161a23;
-  --bg-3:      #1d2230;
-  --line:      #2a2f3d;
-  --line-2:    #383e4e;
-  --ink:       #eef1f7;
-  --ink-2:     #b6bdcc;
-  --ink-3:     #7a8094;
-  --accent:    #e85a44;
-  --accent-2:  #ff8a76;
-  --accent-bg: rgba(232,90,68,0.12);
-  --hl:        rgba(232,90,68,0.18);
-  --shadow:    0 1px 0 rgba(255,255,255,0.04) inset,0 12px 30px rgba(0,0,0,0.35);
-  /* calculator-specific colours */
-  --c-principal: #1D9E75;
-  --c-interest:  #e8a030;
-  --c-taxheat:   #378ADD;
-  --c-shared:    #7f77dd;
-  --c-p1:        #5DCAA5;
-  --c-p2:        #888780;
-  --c-green:     #1D9E75;
-  --c-amber:     #e8a030;
-  --c-red:       #e85a44;
+  --font-display:"Barlow","DIN Next",system-ui,sans-serif;
+  --font-cond:"Barlow Condensed","DIN Condensed",system-ui,sans-serif;
+  --font-body:"Inter","Aptos","Segoe UI",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --bg:#0e1117; --bg-2:#161a23; --bg-3:#1d2230;
+  --line:#2a2f3d; --line-2:#383e4e;
+  --ink:#eef1f7; --ink-2:#b6bdcc; --ink-3:#7a8094;
+  --accent:#e85a44; --accent-2:#ff8a76;
+  --accent-bg:rgba(232,90,68,0.12); --hl:rgba(232,90,68,0.18);
+  --green:#1D9E75; --amber:#e8a030; --red:#e85a44; --blue:#378ADD; --purple:#7f77dd;
 }
 [data-theme="light"] {
   --bg:#f7f6f2; --bg-2:#ffffff; --bg-3:#f0eee7;
@@ -48,571 +31,394 @@
   --accent:#c9442f; --accent-2:#e26a52;
   --accent-bg:rgba(201,68,47,0.08); --hl:rgba(201,68,47,0.14);
 }
-
-/* ============== RESET =============================================== */
+/* ── RESET ──────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+html,body{margin:0;padding:0;height:100%;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased;}
 a{color:inherit;text-decoration:none;}
 button{font:inherit;color:inherit;cursor:pointer;}
-h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;letter-spacing:-0.01em;margin:0;line-height:1.05;}
-h2{font-size:clamp(28px,3vw,40px);letter-spacing:-0.02em;}
-h3{font-size:20px;}
 p{margin:0;}
 ::selection{background:var(--accent);color:white;}
-
-/* ============== LAYOUT ============================================== */
-.wrap{max-width:1680px;margin:0 auto;padding:0 40px;}
-@media(max-width:720px){.wrap{padding:0 16px;}}
-
-/* ============== TOPBAR (same as index.html) ========================= */
-.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line);}
-.topbar-inner{display:flex;align-items:center;gap:24px;height:64px;}
-.brand{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-0.01em;}
-.brand-logo{width:34px;height:34px;border-radius:999px;background:var(--ink);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+/* ── TOPBAR ─────────────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--bg) 85%,transparent);border-bottom:1px solid var(--line);height:52px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:-0.01em;}
+.brand-logo{width:28px;height:28px;border-radius:999px;background:var(--ink);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
 .brand-logo img{width:110%;height:110%;object-fit:cover;}
 [data-theme="light"] .brand-logo img{filter:invert(1);}
-[data-theme="light"] .brand-logo{background:var(--bg-3);}
-.brand small{display:block;font-family:var(--font-mono);font-size:11px;font-weight:400;color:var(--ink-3);letter-spacing:0.08em;text-transform:uppercase;}
-.topbar nav{display:flex;gap:4px;margin-left:8px;}
-.topbar nav a{padding:8px 12px;color:var(--ink-2);font-size:14px;border-radius:6px;transition:color .15s,background .15s;}
+.brand small{font-family:var(--font-mono);font-size:10px;font-weight:400;color:var(--ink-3);letter-spacing:0.08em;text-transform:uppercase;}
+.topbar nav{display:flex;gap:2px;}
+.topbar nav a{padding:6px 10px;color:var(--ink-2);font-size:13px;border-radius:6px;transition:color .15s,background .15s;}
 .topbar nav a:hover{color:var(--ink);background:var(--bg-2);}
 .topbar nav a.active{color:var(--accent);}
-.topbar .spacer{flex:1;}
-.icon-btn{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);transition:border-color .15s,color .15s;}
+.spacer{flex:1;}
+.icon-btn{width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);transition:border-color .15s,color .15s;}
 .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
-
-/* ============== PAGE HERO =========================================== */
-.page-hero{padding:48px 0 36px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
-.page-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 100% 0%,var(--accent-bg) 0%,transparent 60%),radial-gradient(40% 60% at 0% 100%,var(--accent-bg) 0%,transparent 60%);opacity:0.5;pointer-events:none;}
-.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);}
-.eyebrow .accent{color:var(--accent);}
-.page-hero h2{margin-top:12px;max-width:20ch;}
-.page-hero .lede{margin-top:12px;font-size:17px;color:var(--ink-2);max-width:60ch;line-height:1.55;}
-.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-family:var(--font-mono);font-size:12px;color:var(--ink-2);background:var(--bg-2);}
-.pill.accent{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
-.pill .dot{width:6px;height:6px;border-radius:999px;background:var(--accent);}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
-
-/* ============== CALCULATOR LAYOUT =================================== */
-.calc-wrap{display:grid;grid-template-columns:320px 1fr;gap:24px;padding:32px 0 64px;align-items:start;}
-@media(max-width:1100px){.calc-wrap{grid-template-columns:1fr;}}
-
-/* ============== INPUT PANEL ========================================= */
-.input-panel{position:sticky;top:88px;display:flex;flex-direction:column;gap:16px;}
-@media(max-width:1100px){.input-panel{position:static;}}
-
-.card{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:20px;}
-.card-head{display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line);}
-.card-head-icon{width:28px;height:28px;border-radius:6px;background:var(--accent-bg);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--accent);font-size:14px;flex-shrink:0;}
-.card-head h3{font-size:14px;font-weight:600;letter-spacing:-0.005em;}
-.card-head .optional{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-left:auto;}
-
-.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
-.field:last-child{margin-bottom:0;}
-.field label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
-.field input,.field select{background:var(--bg-3);border:1px solid var(--line-2);border-radius:8px;padding:8px 10px;font-family:var(--font-body);font-size:14px;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
-.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
-.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><polyline points='0,0 5,5 10,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
-.row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-
-.calc-btn{width:100%;padding:12px;background:var(--ink);color:var(--bg);border:none;border-radius:8px;font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:-0.005em;transition:background .15s,transform .1s;margin-top:4px;}
+/* ── MAIN LAYOUT ────────────────────────────────────────────────── */
+.page{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 52px);overflow:hidden;}
+.input-col{border-right:1px solid var(--line);overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg-2);}
+.results-col{overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
+/* ── INPUT BOXES ────────────────────────────────────────────────── */
+.ibox{background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
+.ibox-head{font-family:var(--font-cond);font-size:13px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ibox-head .dot{width:5px;height:5px;border-radius:999px;background:var(--accent);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.field{display:flex;flex-direction:column;gap:3px;}
+.field label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
+.field input,.field select{background:var(--bg-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;font-family:var(--font-body);font-size:13px;color:var(--ink);outline:none;width:100%;transition:border-color .15s;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 8px center;padding-right:22px;}
+.persons-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.person-col{padding:0 4px 0 0;}
+.person-col:last-child{padding:0 0 0 4px;border-left:1px solid var(--line);}
+.person-label{font-family:var(--font-cond);font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
+.calc-btn{width:100%;padding:9px;background:var(--ink);color:var(--bg);border:none;border-radius:7px;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:-0.005em;transition:background .15s,transform .1s;margin-top:2px;}
 .calc-btn:hover{background:var(--accent);transform:translateY(-1px);}
-.calc-btn:active{transform:translateY(0);}
-
-/* ============== RESULTS PANEL ======================================= */
-.results-panel{display:flex;flex-direction:column;gap:20px;}
-
-.result-card{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:22px;position:relative;overflow:hidden;}
-.result-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
-.result-card h3{font-size:15px;font-weight:700;letter-spacing:-0.005em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.result-card h3 .sub{font-family:var(--font-mono);font-size:11px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
-
-/* metric grid */
-.metrics{display:grid;gap:10px;}
-.metrics-3{grid-template-columns:repeat(3,1fr);}
-.metrics-2{grid-template-columns:repeat(2,1fr);}
-.metrics-4{grid-template-columns:repeat(4,1fr);}
-@media(max-width:800px){.metrics-3,.metrics-4{grid-template-columns:repeat(2,1fr);}}
-.metric{background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
-.metric .mlabel{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;}
-.metric .mval{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:-0.02em;color:var(--ink);}
-.metric .msub{font-size:12px;color:var(--ink-3);margin-top:2px;}
-.metric .mval.green{color:var(--c-green);}
-.metric .mval.amber{color:var(--c-amber);}
-.metric .mval.red{color:var(--c-red);}
-
-/* status badge */
-.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;margin-left:8px;}
+/* ── RESULT CARDS ───────────────────────────────────────────────── */
+.rcard{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
+.rcard h3{font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
+.rcard h3 .sub{font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
+/* ── TOP ROW (two panels side by side) ─────────────────────────── */
+.top-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* ── METRICS ROW ────────────────────────────────────────────────── */
+.mrow{display:flex;gap:8px;flex-wrap:wrap;}
+.met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
+.met .ml{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;}
+.met .mv{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.met .ms{font-size:11px;color:var(--ink-3);margin-top:2px;}
+.met .mv.green{color:var(--green);}
+.met .mv.amber{color:var(--amber);}
+.met .mv.red{color:var(--red);}
+/* ── BADGES ─────────────────────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;}
 .badge.ok{background:rgba(29,158,117,0.15);color:#1D9E75;border:1px solid rgba(29,158,117,0.3);}
 .badge.warn{background:rgba(232,160,48,0.15);color:#e8a030;border:1px solid rgba(232,160,48,0.3);}
 .badge.bad{background:rgba(232,90,68,0.15);color:#e85a44;border:1px solid rgba(232,90,68,0.3);}
-
-/* stress test bands */
-.band-wrap{margin-bottom:16px;}
-.band-wrap:last-child{margin-bottom:0;}
-.band-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
-.band-label{font-size:13px;color:var(--ink-2);}
-.band-vals{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);}
-.band-vals span{color:var(--ink);font-weight:500;}
-.band-bar{height:14px;border-radius:7px;position:relative;overflow:hidden;margin-bottom:3px;}
-.band-marker{position:absolute;top:-2px;width:3px;height:18px;border-radius:2px;z-index:2;}
-.band-marker.white{background:var(--ink);}
-.band-marker.amber{background:#e8a030;}
-.band-marker.red{background:#e85a44;}
-.band-ticks{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:0 2px;}
-
-/* spending breakdown */
-.spend-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-@media(max-width:900px){.spend-cols{grid-template-columns:1fr;}}
-.spend-section-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line);}
-.spend-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px;}
-.spend-row:last-child{border-bottom:0;}
-.spend-row .slabel{color:var(--ink-2);}
-.spend-row .slabel.indent{padding-left:10px;color:var(--ink-3);font-size:12px;}
-.spend-row .sval{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--ink);}
-.spend-row .sval.pos{color:var(--c-green);}
-.spend-row .sval.neg{color:var(--c-red);}
-.spend-row .sval.bold{font-size:14px;}
-.spend-row .sval.savings{color:var(--c-green);font-size:14px;}
-.spend-row .sval.savings.neg{color:var(--c-red);}
-
-.cat-input-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px dashed var(--line);}
-.cat-input-row:last-child{border-bottom:0;}
-.cat-input-row .clabel{font-size:13px;color:var(--ink-2);}
-.cat-input-row input{width:90px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:4px 8px;font-family:var(--font-mono);font-size:12px;color:var(--ink);text-align:right;outline:none;}
-.cat-input-row input:focus{border-color:var(--accent);}
-
-/* income chart area */
-.income-chart-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-@media(max-width:800px){.income-chart-wrap{grid-template-columns:1fr;}}
-.income-chart-box{}
-.income-chart-box .ic-label{font-size:12px;color:var(--ink-2);margin-bottom:6px;}
-.income-chart-box .ic-note{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:4px;letter-spacing:0.04em;}
-.income-chart-box canvas{max-height:120px;}
-
-/* affordability / Ottawa charts */
-.chart-canvas-wrap{position:relative;width:100%;}
-.chart-note{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:8px;letter-spacing:0.03em;line-height:1.5;}
-
-/* divider */
-.divider{height:1px;background:var(--line);margin:12px 0;}
-
-/* chart legend row */
-.legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-3);}
-.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-
-/* ============== FOOTER (same as index.html) ========================= */
-footer.site{padding:40px 0 60px;border-top:1px solid var(--line);}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;}
-@media(max-width:720px){.foot-grid{grid-template-columns:1fr 1fr;}}
-.foot-col h5{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;}
-.foot-col a{display:block;padding:4px 0;color:var(--ink-2);font-size:14px;}
-.foot-col a:hover{color:var(--accent);}
-.foot-brand p{color:var(--ink-2);font-size:14px;max-width:36ch;margin-top:12px;}
-.foot-bottom{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--ink-3);font-family:var(--font-mono);font-size:12px;flex-wrap:wrap;gap:10px;}
-
-/* loading overlay */
-#loading{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .4s;}
+/* ── STRESS BANDS ───────────────────────────────────────────────── */
+.band{margin-bottom:10px;}
+.band:last-child{margin-bottom:0;}
+.band-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.band-lbl{font-size:12px;color:var(--ink-2);}
+.band-vals{display:flex;gap:4px;align-items:center;}
+.band-bar{height:12px;border-radius:6px;position:relative;overflow:hidden;margin-bottom:2px;}
+.bm{position:absolute;top:-1px;width:2px;height:14px;border-radius:1px;z-index:2;}
+.bm.w{background:var(--ink);}
+.bm.a{background:#e8a030;}
+.bm.r{background:#e85a44;}
+.band-ticks{display:flex;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:0 1px;position:relative;height:12px;}
+.band-tick{position:absolute;transform:translateX(-50%);}
+/* ── INCOME CHART ───────────────────────────────────────────────── */
+.chart-wrap{position:relative;width:100%;}
+.chart-note{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;line-height:1.5;letter-spacing:0.02em;}
+/* ── SPENDING TABLE ─────────────────────────────────────────────── */
+.spend-table{width:100%;border-collapse:collapse;font-size:12px;}
+.spend-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 8px;text-align:right;border-bottom:1px solid var(--line);font-weight:400;}
+.spend-table th:first-child{text-align:left;}
+.spend-table td{padding:4px 8px;text-align:right;border-bottom:1px dashed var(--line);color:var(--ink-2);}
+.spend-table td:first-child{text-align:left;color:var(--ink);font-weight:500;}
+.spend-table tr:last-child td{border-bottom:none;font-weight:600;color:var(--ink);}
+.spend-table .neg{color:var(--red);}
+.spend-table .pos{color:var(--green);}
+.spend-table .savings{font-weight:600;}
+.spend-table .savings.ok{color:var(--green);}
+.spend-table .savings.bad{color:var(--red);}
+.spend-table input{width:72px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 5px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;}
+.spend-table input:focus{border-color:var(--accent);}
+.section-row td{background:var(--bg-3);color:var(--ink-3);font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;font-weight:400;}
+/* ── LEGEND ─────────────────────────────────────────────────────── */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink-3);}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+/* ── DIVIDER ────────────────────────────────────────────────────── */
+.div{height:1px;background:var(--line);margin:8px 0;}
+/* ── LOADING ────────────────────────────────────────────────────── */
+#loading{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:opacity .3s;}
 #loading.hide{opacity:0;pointer-events:none;}
-#loading .spinner{width:32px;height:32px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
-#loading p{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);letter-spacing:0.08em;}
+.spinner{width:28px;height:28px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
+#loading p{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.08em;}
 [hidden]{display:none!important;}
 </style>
 </head>
 <body>
 
-<!-- loading -->
 <div id="loading"><div class="spinner"></div><p>Loading data…</p></div>
 
-<!-- ================================================================
-     TOP BAR
-     ================================================================ -->
+<!-- TOPBAR -->
 <header class="topbar">
-  <div class="wrap topbar-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-logo"><img src="assets/avatar.png" alt=""></span>
-      <span>Ottawa Visuals<small>data, charted simply</small></span>
-    </a>
-    <nav>
-      <a href="index.html#reports">Reports</a>
-      <a href="mortgage.html" class="active">Mortgage</a>
-      <a href="index.html#about">About</a>
-    </nav>
-    <span class="spacer"></span>
-    <div style="display:flex;gap:6px;align-items:center;">
-      <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </div>
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="mortgage.html" class="active">Mortgage</a>
+    <a href="index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <select id="displaymode" style="background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:4px 22px 4px 8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 8px center;">
+      <option value="biweekly">Bi-weekly</option>
+      <option value="monthly">Monthly</option>
+      <option value="annual">Annual</option>
+    </select>
+    <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a href="mortgage.html#methodology" style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 8px;border:1px solid var(--line);border-radius:6px;">Methodology</a>
   </div>
 </header>
 
-<!-- ================================================================
-     PAGE HERO
-     ================================================================ -->
-<section class="page-hero">
-  <div class="wrap">
-    <div class="eyebrow"><span class="accent">●</span> &nbsp; Mortgage calculator · Canada</div>
-    <h2 style="margin-top:12px;">Can we afford it?</h2>
-    <p class="lede">Stress tests, income context, spending breakdown and Ottawa housing market data — all from open data sources.</p>
-    <div class="hero-pills">
-      <span class="pill"><span class="dot"></span>Live Ottawa data</span>
-      <span class="pill">CMHC stress tests</span>
-      <span class="pill">CRA income percentiles</span>
-      <span class="pill">CREA benchmarks</span>
-    </div>
-  </div>
-</section>
+<!-- MAIN PAGE -->
+<div class="page">
 
-<!-- ================================================================
-     CALCULATOR
-     ================================================================ -->
-<div class="wrap calc-wrap">
+  <!-- ── INPUT COLUMN ── -->
+  <aside class="input-col">
 
-  <!-- ====== INPUT PANEL ====== -->
-  <aside class="input-panel">
-
-    <div class="card">
-      <div class="card-head">
-        <div class="card-head-icon">P1</div>
-        <h3>Person 1</h3>
-      </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Gross salary</label>
-          <input type="number" id="p1salary" value="121465" min="0" step="1000">
+    <!-- PEOPLE -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Income</div>
+      <div class="persons-grid">
+        <div class="person-col">
+          <div class="person-label">Person 1</div>
+          <div class="field"><label>Gross salary</label>
+            <input type="text" id="p1salary" value="121,465" data-raw="121465"></div>
+          <div class="field"><label>Age</label>
+            <input type="number" id="p1age" value="32" min="18" max="80"></div>
+          <div class="field"><label>Wage growth %/yr</label>
+            <input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"></div>
         </div>
-        <div class="field">
-          <label>Age</label>
-          <input type="number" id="p1age" value="32" min="18" max="80" step="1">
-        </div>
-      </div>
-      <div class="field">
-        <label>Annual wage growth</label>
-        <input type="number" id="p1wage" value="2.5" min="0" max="10" step="0.5">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <div class="card-head-icon" style="background:rgba(127,119,221,0.15);color:#7f77dd;border-color:rgba(127,119,221,0.3);">P2</div>
-        <h3>Person 2</h3>
-        <span class="optional">optional</span>
-      </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Gross salary</label>
-          <input type="number" id="p2salary" value="115126" min="0" step="1000">
-        </div>
-        <div class="field">
-          <label>Age</label>
-          <input type="number" id="p2age" value="31" min="18" max="80" step="1">
-        </div>
-      </div>
-      <div class="field">
-        <label>Annual wage growth</label>
-        <input type="number" id="p2wage" value="2.5" min="0" max="10" step="0.5">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <div class="card-head-icon">⌂</div>
-        <h3>Property</h3>
-      </div>
-      <div class="row-2">
-        <div class="field">
-          <label>House price ($)</label>
-          <input type="number" id="hprice" value="850000" min="100000" step="5000">
-        </div>
-        <div class="field">
-          <label>Down payment ($)</label>
-          <input type="number" id="downpay" value="200000" min="0" step="5000">
-        </div>
-      </div>
-      <div class="row-3">
-        <div class="field">
-          <label>Rate (%)</label>
-          <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05">
-        </div>
-        <div class="field">
-          <label>Years</label>
-          <input type="number" id="amort" value="25" min="5" max="30" step="1">
-        </div>
-        <div class="field">
-          <label>FSA</label>
-          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;">
-        </div>
-      </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Property tax / yr ($)</label>
-          <input type="number" id="proptax" value="7500" min="0" step="100">
-        </div>
-        <div class="field">
-          <label>Heat / month ($)</label>
-          <input type="number" id="heat" value="250" min="0" step="25">
+        <div class="person-col">
+          <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
+          <div class="field"><label>Gross salary</label>
+            <input type="text" id="p2salary" value="115,126" data-raw="115126"></div>
+          <div class="field"><label>Age</label>
+            <input type="number" id="p2age" value="31" min="18" max="80"></div>
+          <div class="field"><label>Wage growth %/yr</label>
+            <input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"></div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <div class="card-head-icon">⚙</div>
-        <h3>Options</h3>
+    <!-- PROPERTY -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Property</div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field"><label>House price</label>
+          <input type="text" id="hprice" value="850,000" data-raw="850000"></div>
+        <div class="field"><label>Down payment</label>
+          <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
       </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Inflation / yr (%)</label>
-          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5">
-        </div>
-        <div class="field">
-          <label>Lump sum / yr ($)</label>
-          <input type="number" id="lumpsum" value="2500" min="0" step="500">
-        </div>
+      <div class="grid-3" style="margin-bottom:6px;">
+        <div class="field"><label>Rate %</label>
+          <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05"></div>
+        <div class="field"><label>Years</label>
+          <input type="number" id="amort" value="25" min="5" max="30"></div>
+        <div class="field"><label>FSA</label>
+          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;"></div>
       </div>
-      <div class="row-2">
-        <div class="field">
-          <label>Joint account (%)</label>
-          <input type="number" id="jointpct" value="70" min="0" max="100" step="5">
-        </div>
-        <div class="field">
-          <label>Display as</label>
-          <select id="displaymode">
-            <option value="biweekly">Bi-weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="annual">Annual</option>
-          </select>
-        </div>
+      <div class="grid-2">
+        <div class="field"><label>Property tax /yr</label>
+          <input type="text" id="proptax" value="7,500" data-raw="7500"></div>
+        <div class="field"><label>Heat /month</label>
+          <input type="text" id="heat" value="250" data-raw="250"></div>
       </div>
     </div>
 
-    <button class="calc-btn" id="calcbtn">Calculate ↓</button>
+    <!-- OPTIONS -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Options</div>
+      <div class="grid-2">
+        <div class="field"><label>Inflation %/yr</label>
+          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
+        <div class="field"><label>Lump sum /yr</label>
+          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
+      </div>
+      <div class="field" style="margin-top:6px;"><label>Joint account % of net salary</label>
+        <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
+    </div>
+
+    <button class="calc-btn" id="calcbtn">Calculate</button>
+
+    <!-- PAYMENT SUMMARY (small, in sidebar) -->
+    <div class="ibox" id="pay-summary" style="margin-top:2px;">
+      <div class="ibox-head"><div class="dot"></div>Payment summary</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div class="met"><div class="ml">Mortgage</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
+        <div class="met"><div class="ml">Total housing</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax+heat</div></div>
+        <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
+        <div class="met"><div class="ml">Saved (lump)</div><div class="mv green" id="m-saved">—</div><div class="ms" id="m-saved-s"></div></div>
+      </div>
+    </div>
 
   </aside>
 
-  <!-- ====== RESULTS PANEL ====== -->
-  <main class="results-panel" id="results">
+  <!-- ── RESULTS COLUMN ── -->
+  <main class="results-col">
 
-    <!-- 1. PAYMENTS SUMMARY -->
-    <div class="result-card">
-      <h3>Payment summary <span class="sub" id="display-label">bi-weekly</span></h3>
-      <div class="metrics metrics-4" id="metrics-summary">
-        <div class="metric"><div class="mlabel">Mortgage payment</div><div class="mval" id="m-payment">—</div><div class="msub" id="m-payment-sub"></div></div>
-        <div class="metric"><div class="mlabel">Total housing cost</div><div class="mval" id="m-housing">—</div><div class="msub">mortgage + tax + heat</div></div>
-        <div class="metric"><div class="mlabel">Interest saved (lump)</div><div class="mval green" id="m-saved">—</div><div class="msub" id="m-saved-sub"></div></div>
-        <div class="metric"><div class="mlabel">Total interest paid</div><div class="mval amber" id="m-interest">—</div><div class="msub" id="m-interest-sub"></div></div>
+    <!-- ROW 1: Income context + Stress tests -->
+    <div class="top-row">
+
+      <!-- Income chart -->
+      <div class="rcard">
+        <h3>Income distribution <span class="sub">CRA 2021 · FSA <span id="fsa-lbl">K2B</span></span></h3>
+        <div class="chart-wrap" style="height:130px;">
+          <canvas id="income-chart"></canvas>
+        </div>
+        <div class="legend" style="margin-top:6px;">
+          <div class="li"><div class="ld" style="background:#2a3a52;"></div>FSA</div>
+          <div class="li"><div class="ld" style="background:#4a6380;"></div>Province</div>
+          <div class="li"><div class="ld" style="background:#6b8faa;"></div>Canada</div>
+          <div class="li"><div class="ld" style="background:var(--accent);border-radius:0;width:2px;height:12px;"></div>P1 salary</div>
+          <div class="li"><div class="ld" style="background:var(--purple);border-radius:0;width:2px;height:12px;"></div>P2 salary</div>
+        </div>
+        <div class="chart-note" id="income-note">Enter salaries and FSA then calculate.</div>
       </div>
+
+      <!-- Stress tests -->
+      <div class="rcard">
+        <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span></h3>
+        <div id="stress-bands"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+          <div class="li"><div class="ld" style="background:var(--ink);"></div>Actual rate</div>
+          <div class="li"><div class="ld" style="background:#e8a030;"></div>+2% stress</div>
+          <div class="li"><div class="ld" style="background:#e85a44;"></div>CMHC cap</div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- 2. INCOME CONTEXT -->
-    <div class="result-card">
-      <h3>Income context <span class="sub">CRA 2021 · individual filers</span></h3>
-      <div class="income-chart-wrap">
-        <div class="income-chart-box">
-          <div class="ic-label" id="ic1-label">Person 1 — $121,465</div>
-          <canvas id="ic1" height="120"></canvas>
-          <div class="ic-note" id="ic1-note"></div>
-        </div>
-        <div class="income-chart-box">
-          <div class="ic-label" id="ic2-label">Person 2 — $115,126</div>
-          <canvas id="ic2" height="120"></canvas>
-          <div class="ic-note" id="ic2-note"></div>
-        </div>
+    <!-- ROW 2: Spending breakdown table -->
+    <div class="rcard">
+      <h3>Spending breakdown <span class="sub" id="spend-lbl">bi-weekly</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">joint account: <span id="jpct-lbl">70</span>% of net</span>
+      </h3>
+      <div style="overflow-x:auto;">
+        <table class="spend-table" id="spend-table">
+          <thead>
+            <tr>
+              <th style="width:80px;"></th>
+              <th>Gross</th>
+              <th>Est. net</th>
+              <th>→ Joint</th>
+              <th>Personal</th>
+              <th>Mortgage</th>
+              <th>Tax</th>
+              <th>Heat</th>
+              <th>Groceries</th>
+              <th>Entertain.</th>
+              <th>Transport</th>
+              <th>Travel</th>
+              <th>Subs.</th>
+              <th>Other</th>
+              <th>Savings</th>
+            </tr>
+          </thead>
+          <tbody id="spend-tbody"></tbody>
+        </table>
       </div>
-      <div class="chart-note" style="margin-top:12px;">Compares each salary against individual tax filers in the same FSA and age group. Not household income. Source: CRA 2021.</div>
+      <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
     </div>
 
-    <!-- 3. HOUSING MARKET CONTEXT -->
-    <div class="result-card">
-      <h3>Housing market context <span class="sub" id="market-board-label">Ottawa</span></h3>
-
-      <!-- Ottawa: price bracket chart + affordability timeline -->
-      <div id="ottawa-context">
-        <div style="margin-bottom:16px;">
-          <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-3);margin-bottom:8px;">Ottawa freehold — homes sold by price bracket (trailing 12 months)</div>
-          <div class="chart-canvas-wrap" style="height:130px;">
-            <canvas id="ottawa-bracket-chart"></canvas>
-          </div>
-          <div class="chart-note" id="ottawa-bracket-note"></div>
-        </div>
-        <div class="divider"></div>
-        <div>
-          <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-3);margin-bottom:8px;">Affordability over time — Ottawa MLS benchmark vs CPI-adjusted price</div>
-          <div class="chart-canvas-wrap" style="height:150px;">
-            <canvas id="afford-chart"></canvas>
-          </div>
-          <div class="legend-row">
-            <div class="legend-item"><div class="legend-dot" style="background:#e85a44;"></div>Actual benchmark</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#378ADD;border-top:2px dashed #378ADD;"></div>CPI-adjusted (2005 base)</div>
-            <div class="legend-item"><div class="legend-dot" style="background:rgba(29,158,117,0.3);"></div>Your affordability</div>
-          </div>
-          <div class="chart-note" id="afford-note"></div>
-        </div>
-      </div>
-
-      <!-- Non-Ottawa: CREA benchmark only -->
-      <div id="crea-context" hidden>
-        <div class="metrics metrics-2" style="margin-bottom:12px;">
-          <div class="metric"><div class="mlabel">MLS composite benchmark</div><div class="mval" id="crea-composite">—</div><div class="msub" id="crea-updated"></div></div>
-          <div class="metric"><div class="mlabel">Single-family benchmark</div><div class="mval" id="crea-sfh">—</div></div>
-        </div>
-        <div class="metrics metrics-2">
-          <div class="metric"><div class="mlabel">Townhouse benchmark</div><div class="mval" id="crea-town">—</div></div>
-          <div class="metric"><div class="mlabel">Year-over-year change</div><div class="mval" id="crea-yoy">—</div></div>
-        </div>
-        <div class="chart-note" style="margin-top:10px;" id="crea-vs-budget"></div>
-      </div>
-    </div>
-
-    <!-- 4. SPENDING BREAKDOWN -->
-    <div class="result-card">
-      <h3>Spending breakdown <span class="sub" id="spend-period-label">bi-weekly</span></h3>
-      <div class="spend-cols">
-
-        <!-- Person 1 -->
-        <div>
-          <div class="spend-section-label">Person 1</div>
-          <div class="spend-row"><span class="slabel">Gross salary</span><span class="sval pos" id="sp1-gross">—</span></div>
-          <div class="spend-row"><span class="slabel indent">Est. net salary</span><span class="sval" id="sp1-net">—</span></div>
-          <div class="divider"></div>
-          <div class="spend-row"><span class="slabel">→ Joint account (<span id="sp1-jpct">70</span>%)</span><span class="sval" id="sp1-joint">—</span></div>
-          <div class="spend-row"><span class="slabel">Personal (<span id="sp1-ppct">30</span>%)</span><span class="sval" id="sp1-personal">—</span></div>
-        </div>
-
-        <!-- Person 2 -->
-        <div>
-          <div class="spend-section-label">Person 2</div>
-          <div class="spend-row"><span class="slabel">Gross salary</span><span class="sval pos" id="sp2-gross">—</span></div>
-          <div class="spend-row"><span class="slabel indent">Est. net salary</span><span class="sval" id="sp2-net">—</span></div>
-          <div class="divider"></div>
-          <div class="spend-row"><span class="slabel">→ Joint account (<span id="sp2-jpct">70</span>%)</span><span class="sval" id="sp2-joint">—</span></div>
-          <div class="spend-row"><span class="slabel">Personal (<span id="sp2-ppct">30</span>%)</span><span class="sval" id="sp2-personal">—</span></div>
-        </div>
-
-        <!-- Joint account -->
-        <div>
-          <div class="spend-section-label">Joint account</div>
-          <div class="spend-row"><span class="slabel">Total in</span><span class="sval bold" id="sj-total">—</span></div>
-          <div class="divider"></div>
-          <div class="spend-row"><span class="slabel">Mortgage</span><span class="sval neg" id="sj-mortgage">—</span></div>
-          <div class="spend-row"><span class="slabel">Property tax</span><span class="sval neg" id="sj-tax">—</span></div>
-          <div class="spend-row"><span class="slabel">Heat</span><span class="sval neg" id="sj-heat">—</span></div>
-          <div class="divider"></div>
-          <div class="spend-row"><span class="slabel" style="font-weight:600;">Remaining for expenses</span><span class="sval bold" id="sj-remaining">—</span></div>
-          <div class="divider"></div>
-          <!-- editable categories -->
-          <div class="cat-input-row"><span class="clabel">Groceries</span><input type="number" class="cat-input" id="cat-groceries" value="600" min="0" step="50"></div>
-          <div class="cat-input-row"><span class="clabel">Entertainment</span><input type="number" class="cat-input" id="cat-entertainment" value="200" min="0" step="50"></div>
-          <div class="cat-input-row"><span class="clabel">Transportation</span><input type="number" class="cat-input" id="cat-transport" value="300" min="0" step="50"></div>
-          <div class="cat-input-row"><span class="clabel">Travel</span><input type="number" class="cat-input" id="cat-travel" value="150" min="0" step="50"></div>
-          <div class="cat-input-row"><span class="clabel">Subscriptions</span><input type="number" class="cat-input" id="cat-subs" value="100" min="0" step="25"></div>
-          <div class="cat-input-row"><span class="clabel">Other</span><input type="number" class="cat-input" id="cat-other" value="150" min="0" step="50"></div>
-          <div class="divider"></div>
-          <div class="spend-row">
-            <span class="slabel" style="font-weight:600;">Joint savings / leftover</span>
-            <span class="sval savings" id="sj-savings">—</span>
-          </div>
-          <div id="sj-savings-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--c-red);margin-top:4px;letter-spacing:0.04em;">⚠ Spending exceeds joint account — reduce expenses or increase joint %</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 5. STRESS TESTS -->
-    <div class="result-card">
-      <h3>Stress tests <span id="stress-badge" class="badge ok">all pass</span></h3>
-      <div id="stress-bands"></div>
-      <div class="divider"></div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--ink);"></div>Actual rate</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#e8a030;"></div>Stress rate (+2%)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#e85a44;"></div>CMHC hard cap</div>
-      </div>
-    </div>
-
-    <!-- 6. AMORTIZATION -->
-    <div class="result-card">
-      <h3>Amortization breakdown <span class="sub">yearly stacked</span></h3>
-      <div class="chart-canvas-wrap" style="height:180px;">
+    <!-- ROW 3: Amortization (full width) -->
+    <div class="rcard">
+      <h3>Amortization — stacked area by year <span class="sub">all <span id="amort-years-lbl">25</span> years</span></h3>
+      <div class="chart-wrap" style="height:200px;">
         <canvas id="amort-chart"></canvas>
       </div>
-      <div class="legend-row">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-principal);"></div>Principal</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-interest);"></div>Interest</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-taxheat);"></div>Tax + heat</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-shared);"></div>Shared expenses</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-p1);"></div>P1 remaining</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--c-p2);"></div>P2 remaining</div>
+      <div class="legend">
+        <div class="li"><div class="ld" style="background:#1D9E75;"></div>Principal</div>
+        <div class="li"><div class="ld" style="background:#e8a030;"></div>Interest</div>
+        <div class="li"><div class="ld" style="background:#378ADD;opacity:0.7;"></div>Tax + heat</div>
+        <div class="li"><div class="ld" style="background:#7f77dd;opacity:0.7;"></div>Shared expenses</div>
+        <div class="li"><div class="ld" style="background:#5DCAA5;opacity:0.6;"></div>P1 remaining</div>
+        <div class="li"><div class="ld" style="background:#888780;opacity:0.6;"></div>P2 remaining</div>
       </div>
-      <div class="chart-note" style="margin-top:6px;">Wage growth and inflation applied annually. Lump sum reduces principal each year. Values in today's dollars.</div>
+      <div class="chart-note">Wage growth and inflation applied annually. Lump sum reduces principal each year. Values shown in today's dollars.</div>
+    </div>
+
+    <!-- ROW 4: Market context -->
+    <div class="rcard" id="market-card">
+      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
+
+      <div id="ottawa-ctx">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Ottawa freehold sales by price bracket — trailing 12 months</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-note" id="bracket-note"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark vs CPI-adjusted price (Ottawa)</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="afford-chart"></canvas></div>
+            <div class="legend" style="margin-top:4px;">
+              <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
+              <div class="li"><div class="ld" style="background:#378ADD;"></div>CPI-adjusted</div>
+              <div class="li"><div class="ld" style="background:rgba(29,158,117,0.4);"></div>Your affordability</div>
+            </div>
+            <div class="chart-note" id="afford-note"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="crea-ctx" hidden>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div class="met"><div class="ml">Composite</div><div class="mv" id="cr-comp">—</div><div class="ms" id="cr-upd"></div></div>
+          <div class="met"><div class="ml">Single-family</div><div class="mv" id="cr-sfh">—</div></div>
+          <div class="met"><div class="ml">Townhouse</div><div class="mv" id="cr-town">—</div></div>
+          <div class="met"><div class="ml">YoY change</div><div class="mv" id="cr-yoy">—</div></div>
+        </div>
+        <div class="chart-note" style="margin-top:8px;" id="cr-note"></div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY ANCHOR -->
+    <div class="rcard" id="methodology">
+      <h3>Methodology & assumptions</h3>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.7;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Mortgage payment</p>
+          <p>Standard Canadian mortgage formula with semi-annual compounding (as required by the Interest Act). Bi-weekly rate: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">r_bw = (1 + rate/200)^(2/26) − 1</code>. Payment: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">P × r_bw / (1 − (1+r_bw)^−n)</code> where n = years × 26.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test</p>
+          <p>GDS ratio calculated at both contract rate and contract rate +2% (the higher of +2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. CMHC insured mortgage hard cap: GDS ≤ 39%.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Net income estimate</p>
+          <p>Rough combined federal + provincial effective rate by bracket. Not a substitute for a tax calculator — actual net depends on province, deductions, and credits. Used only for the spending breakdown.</p>
+        </div>
+        <div>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Income distribution</p>
+          <p>Source: CRA 2021 T1 Statistics by forward sortation area (FSA). Shows number of tax filers per income bracket. Compares individual salaries (not household income) against FSA, province, and Canada distributions.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CPI adjustment</p>
+          <p>Source: Statistics Canada table 18-10-0005-01 (annual average, all-items, Canada, base 2002=100). Used to inflation-adjust the 2005 Ottawa benchmark price to today's dollars for comparison.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Ottawa housing data</p>
+          <p>Weekly sales data from OREB via the OttawaVisuals open dataset. CREA MLS HPI benchmark prices. Trailing 12-month bracket distribution aggregated from weekly reports.</p>
+        </div>
+      </div>
     </div>
 
   </main>
 </div>
 
-<!-- ================================================================
-     FOOTER
-     ================================================================ -->
-<footer class="site">
-  <div class="wrap foot-grid">
-    <div class="foot-col foot-brand">
-      <div class="brand" style="font-size:16px;">
-        <span class="brand-logo" style="width:30px;height:30px;"><img src="assets/avatar.png" alt=""></span>
-        <span>Ottawa Visuals<small>data, charted simply</small></span>
-      </div>
-      <p>A personal data project about Ottawa, Ontario. Made with open data · hosted on GitHub Pages.</p>
-    </div>
-    <div class="foot-col">
-      <h5>Reports</h5>
-      <a href="index.html#report-spending">Public spending</a>
-      <a href="index.html#report-traffic">Traffic &amp; roads</a>
-      <a href="index.html#report-elections">Elections</a>
-    </div>
-    <div class="foot-col">
-      <h5>Tools</h5>
-      <a href="mortgage.html">Mortgage calculator</a>
-    </div>
-    <div class="foot-col">
-      <h5>Project</h5>
-      <a href="index.html#about">About</a>
-      <a href="https://github.com/OttawaVisuals/Ottawa-Visuals" target="_blank" rel="noopener">GitHub ↗</a>
-    </div>
-  </div>
-  <div class="wrap foot-bottom">
-    <span>© 2026 Ottawa Visuals · data CC-BY 4.0</span>
-    <span>Sources: CRA · CREA · CMHC · StatCan · OREB</span>
-  </div>
-</footer>
-
 <script>
 // ================================================================
-// CONFIG
+// CONFIG & STATE
 // ================================================================
 const DATA_BASE = 'Mortgage/JSON/';
-
-// CRA income brackets (19 → 7 display groups)
-const BRACKET_GROUPS = [
-  { label: '<$25K',      cols: [0,1,2,3,4],     upper: 25000  },
-  { label: '$25–50K',    cols: [5,6,7,8,9],      upper: 50000  },
-  { label: '$50–75K',    cols: [10,11,12,13],    upper: 75000  },
-  { label: '$75–100K',   cols: [14,15],           upper: 100000 },
-  { label: '$100–150K',  cols: [16],              upper: 150000 },
-  { label: '$150–250K',  cols: [17],              upper: 250000 },
-  { label: '$250K+',     cols: [18],              upper: Infinity },
-];
-
-// ================================================================
-// STATE
-// ================================================================
 let DATA = {};
 let charts = {};
+
+// Spending category definitions (label, id, default bi-weekly value)
+const CATS = [
+  { label:'Groceries',   id:'cat-groc',  def:600 },
+  { label:'Entertain.',  id:'cat-ent',   def:200 },
+  { label:'Transport',   id:'cat-trans', def:300 },
+  { label:'Travel',      id:'cat-trav',  def:150 },
+  { label:'Subs.',       id:'cat-subs',  def:100 },
+  { label:'Other',       id:'cat-other', def:150 },
+];
+// Build input state object
+const catVals = {};
+CATS.forEach(c => { catVals[c.id] = c.def; });
 
 // ================================================================
 // THEME
@@ -620,103 +426,94 @@ let charts = {};
 const root = document.documentElement;
 function setTheme(mode) {
   root.setAttribute('data-theme', mode);
-  try { localStorage.setItem('ov-theme', mode); } catch(e) {}
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
   document.getElementById('theme-toggle').innerHTML = mode === 'dark'
-    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
-    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
 }
 let savedTheme = 'dark';
-try { savedTheme = localStorage.getItem('ov-theme') || 'dark'; } catch(e) {}
+try { savedTheme = localStorage.getItem('ov-theme') || 'dark'; } catch(e){}
 setTheme(savedTheme);
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-});
+document.getElementById('theme-toggle').addEventListener('click', () =>
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
 // ================================================================
-// HELPERS
+// NUMBER FORMATTING HELPERS
 // ================================================================
-function fmt(n, opts = {}) {
-  if (n == null || isNaN(n)) return '—';
-  return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0, ...opts }).format(n);
-}
-function fmtNum(n, dec = 1) {
-  if (n == null || isNaN(n)) return '—';
-  return n.toFixed(dec);
-}
-function periodFactor(mode) {
-  return mode === 'biweekly' ? 1 : mode === 'monthly' ? 26/12 : 26;
-}
-function periodLabel(mode) {
-  return mode === 'biweekly' ? 'bi-weekly' : mode === 'monthly' ? 'monthly' : 'annual';
-}
+const CAD = (n, dec=0) => n == null || isNaN(n) ? '—' :
+  new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD',maximumFractionDigits:dec}).format(n);
+const NUM = (n, dec=1) => n == null || isNaN(n) ? '—' : n.toFixed(dec);
 
-// Canadian income tax + CPP + EI rough estimate (federal + average provincial)
-function estimateNet(gross) {
-  // Very rough: effective total deduction rate by bracket
-  const g = gross;
-  if (g <= 15000)  return g * 0.97;
-  if (g <= 50000)  return g * 0.78;
-  if (g <= 100000) return g * 0.70;
-  if (g <= 150000) return g * 0.64;
-  return g * 0.58;
+// Thousand-separated input handling
+function rawVal(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const raw = el.dataset.raw !== undefined ? parseFloat(el.dataset.raw) : parseFloat(el.value.replace(/,/g,''));
+  return isNaN(raw) ? 0 : raw;
 }
-
-// Mortgage payment (bi-weekly) using standard Canadian formula
-function mortgagePayment(principal, annualRate, years) {
-  if (annualRate === 0) return principal / (years * 26);
-  const r = Math.pow(1 + annualRate / 200, 1/6) - 1; // semi-annual compounding → monthly
-  const rBw = Math.pow(1 + r, 2/12 * 6) - 1;         // monthly → bi-weekly
-  const n = years * 26;
-  return principal * rBw / (1 - Math.pow(1 + rBw, -n));
-}
-
-// Compute percentile from cumulative counts array
-function getPercentile(salary, cumCounts) {
-  const total = cumCounts[cumCounts.length - 1];
-  if (!total) return null;
-  const upperBounds = [5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000,Infinity];
-  const lowerBounds = [0,5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000];
-  for (let i = 0; i < upperBounds.length; i++) {
-    if (salary < upperBounds[i]) {
-      const cumBelow = i === 0 ? 0 : cumCounts[i-1];
-      const inBracket = cumCounts[i] - cumBelow;
-      const width = upperBounds[i] === Infinity ? 250000 : upperBounds[i] - lowerBounds[i];
-      const pos = Math.min(salary - lowerBounds[i], width) / width;
-      return Math.round((cumBelow + pos * inBracket) / total * 100);
+function setupFormattedInput(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  function format() {
+    const n = parseFloat(el.value.replace(/,/g,''));
+    if (!isNaN(n)) {
+      el.dataset.raw = n;
+      el.value = n.toLocaleString('en-CA');
     }
   }
-  return 99;
+  el.addEventListener('focus', () => { el.value = el.value.replace(/,/g,''); });
+  el.addEventListener('blur', format);
+  format();
+}
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum'].forEach(setupFormattedInput);
+document.getElementById('fsa').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); });
+
+// ================================================================
+// MORTGAGE MATH (correct Canadian semi-annual compounding)
+// ================================================================
+function bwRate(annualRate) {
+  // (1 + r_semi)^(2/26) - 1 where r_semi = annual/200
+  return Math.pow(1 + annualRate / 200, 2 / 26) - 1;
+}
+function mortgagePayment(principal, annualRate, years) {
+  if (annualRate === 0) return principal / (years * 26);
+  const r = bwRate(annualRate);
+  const n = years * 26;
+  return principal * r / (1 - Math.pow(1 + r, -n));
+}
+function estimateNet(gross) {
+  if (gross <= 15000)  return gross * 0.97;
+  if (gross <= 50000)  return gross * 0.78;
+  if (gross <= 100000) return gross * 0.70;
+  if (gross <= 150000) return gross * 0.64;
+  return gross * 0.58;
 }
 
-// Aggregate CRA bracket data for display groups
-function aggregateBrackets(cumArr, salary) {
-  // reconstruct individual counts from cumulative
-  const counts = cumArr.map((v, i) => i === 0 ? v : v - cumArr[i-1]);
-  return BRACKET_GROUPS.map(g => ({
-    label: g.label,
-    count: g.cols.reduce((s, c) => s + (counts[c] || 0), 0),
-    contains: salary >= (g.cols[0] === 0 ? 0 : [0,5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000][g.cols[0]]) &&
-              salary < g.upper,
-  }));
-}
+// ================================================================
+// PERIOD SCALING
+// ================================================================
+function pf(mode) { return mode==='biweekly'?1:mode==='monthly'?26/12:26; }
+function pl(mode) { return mode==='biweekly'?'bi-weekly':mode==='monthly'?'monthly':'annual'; }
 
-// Destroy and recreate a chart
-function makeChart(id, config) {
-  if (charts[id]) { charts[id].destroy(); }
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  charts[id] = new Chart(ctx.getContext('2d'), config);
+// ================================================================
+// CHART HELPERS
+// ================================================================
+function mkChart(id, cfg) {
+  if (charts[id]) charts[id].destroy();
+  const el = document.getElementById(id);
+  if (!el) return;
+  charts[id] = new Chart(el.getContext('2d'), cfg);
 }
-
-// Chart defaults matching OttawaVisuals dark/light palette
-function chartDefaults() {
-  const isDark = root.getAttribute('data-theme') !== 'light';
-  return {
-    textColor:  isDark ? '#b6bdcc' : '#4b5163',
-    gridColor:  isDark ? '#2a2f3d' : '#e3e1d8',
-    bgColor:    isDark ? '#161a23' : '#ffffff',
-  };
+function tc() {
+  return root.getAttribute('data-theme') === 'light' ? '#4b5163' : '#b6bdcc';
 }
+function gc() {
+  return root.getAttribute('data-theme') === 'light' ? '#e3e1d8' : '#2a2f3d';
+}
+const baseChart = {
+  responsive:true, maintainAspectRatio:false, animation:{duration:250},
+  plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
+};
 
 // ================================================================
 // LOAD DATA
@@ -724,572 +521,614 @@ function chartDefaults() {
 async function loadData() {
   const files = ['fsa_index','income_by_fsa','income_canada','crea_benchmarks','ottawa_sales','cpi'];
   const results = await Promise.all(
-    files.map(f => fetch(DATA_BASE + f + '.json').then(r => r.json()).catch(() => null))
+    files.map(f => fetch(DATA_BASE + f + '.json').then(r => r.ok ? r.json() : null).catch(() => null))
   );
-  files.forEach((f, i) => { DATA[f] = results[i]; });
+  files.forEach((f,i) => { DATA[f] = results[i]; });
+}
+
+// ================================================================
+// CRA BRACKET GROUPING (19 → 7)
+// ================================================================
+const GROUPS = [
+  { label:'<$25K',     idx:[0,1,2,3,4],   lo:0,      hi:25000  },
+  { label:'$25–50K',   idx:[5,6,7,8,9],   lo:25000,  hi:50000  },
+  { label:'$50–75K',   idx:[10,11,12,13], lo:50000,  hi:75000  },
+  { label:'$75–100K',  idx:[14,15],        lo:75000,  hi:100000 },
+  { label:'$100–150K', idx:[16],           lo:100000, hi:150000 },
+  { label:'$150–250K', idx:[17],           lo:150000, hi:250000 },
+  { label:'$250K+',    idx:[18],           lo:250000, hi:Infinity},
+];
+const UPPER_BOUNDS = [5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000,Infinity];
+const LOWER_BOUNDS = [0,5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000];
+
+function cumToGroups(cumArr) {
+  const counts = cumArr.map((v,i) => i===0 ? v : v - cumArr[i-1]);
+  return GROUPS.map(g => g.idx.reduce((s,i) => s + (counts[i]||0), 0));
+}
+
+function salaryToGroupIdx(salary) {
+  return GROUPS.findIndex(g => salary >= g.lo && salary < g.hi);
+}
+
+// Convert salary to fractional position within 7-group x axis (0 to 7)
+function salaryToXPos(salary) {
+  const gi = GROUPS.findIndex(g => salary >= g.lo && salary < g.hi);
+  if (gi < 0) return 6.9;
+  const g = GROUPS[gi];
+  const hi = g.hi === Infinity ? g.lo * 3 : g.hi;
+  const frac = (salary - g.lo) / (hi - g.lo);
+  return gi + Math.min(Math.max(frac, 0.05), 0.95);
+}
+
+// ================================================================
+// INCOME CHART
+// ================================================================
+function renderIncomeChart(fsa, p1sal, p2sal) {
+  const isDark = root.getAttribute('data-theme') !== 'light';
+  const fsaData  = DATA.income_by_fsa  && DATA.income_by_fsa[fsa];
+  const canData  = DATA.income_canada  && DATA.income_canada.canada;
+  const provName = DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province;
+  const provData = DATA.income_canada  && DATA.income_canada.provinces && provName && DATA.income_canada.provinces[provName];
+
+  const fsaG   = fsaData  ? cumToGroups(fsaData.cum)   : null;
+  const provG  = provData ? cumToGroups(provData.cum)   : null;
+  const canG   = canData  ? cumToGroups(canData.cum)    : null;
+  const maxVal = Math.max(...(fsaG||[0]),...(provG||[0]),...(canG||[0]), 1);
+
+  // Normalize to % of max for comparability
+  const norm = arr => arr ? arr.map(v => v/maxVal*100) : GROUPS.map(()=>0);
+
+  const barColors = {
+    fsa:  isDark ? 'rgba(42,58,82,0.9)'  : 'rgba(180,210,240,0.9)',
+    prov: isDark ? 'rgba(74,99,128,0.9)' : 'rgba(120,170,210,0.9)',
+    can:  isDark ? 'rgba(107,143,170,0.9)': 'rgba(80,130,180,0.9)',
+  };
+
+  mkChart('income-chart', {
+    type: 'bar',
+    data: {
+      labels: GROUPS.map(g => g.label),
+      datasets: [
+        { label:'FSA',      data: norm(fsaG),  backgroundColor: barColors.fsa,  barPercentage:0.85, categoryPercentage:0.9 },
+        { label:'Province', data: norm(provG), backgroundColor: barColors.prov, barPercentage:0.85, categoryPercentage:0.9 },
+        { label:'Canada',   data: norm(canG),  backgroundColor: barColors.can,  barPercentage:0.85, categoryPercentage:0.9 },
+      ],
+    },
+    options: {
+      ...baseChart,
+      scales: {
+        x: { ticks:{ font:{size:9,family:'"JetBrains Mono"'}, color:tc() }, grid:{ display:false }, border:{display:false} },
+        y: { display:false },
+      },
+      plugins: {
+        ...baseChart.plugins,
+        tooltip:{ callbacks:{ label: ctx => {
+          const sets = ['FSA','Province','Canada'];
+          return sets[ctx.datasetIndex] + ': ' + (ctx.raw > 0 ? ctx.raw.toFixed(0)+'%' : 'n/a');
+        }}},
+        annotation: { annotations: buildSalaryAnnotations(p1sal, p2sal) },
+      },
+    },
+  });
+
+  document.getElementById('fsa-lbl').textContent = fsa;
+  // Note
+  let note = '';
+  if (fsaData) {
+    const fsaTot = fsaData.total;
+    const gi1 = salaryToGroupIdx(p1sal);
+    const gi2 = salaryToGroupIdx(p2sal);
+    note = `P1 ${CAD(p1sal)} is in bracket ${GROUPS[gi1]?.label||'?'} · P2 ${CAD(p2sal)} in ${GROUPS[gi2]?.label||'?'}. FSA: ${fsaTot?.toLocaleString('en-CA')||'?'} filers.`;
+  } else {
+    note = `FSA ${fsa} not found — only province and Canada shown.`;
+  }
+  document.getElementById('income-note').textContent = note;
+}
+
+function buildSalaryAnnotations(p1sal, p2sal) {
+  // Chart.js annotation plugin not loaded — we'll draw markers via plugin
+  // Return empty for now; markers drawn in afterDraw
+  return {};
+}
+
+// After chart draw, overlay salary markers as vertical lines
+Chart.register({
+  id: 'salaryMarkers',
+  afterDraw(chart) {
+    if (chart.canvas.id !== 'income-chart') return;
+    const { ctx, chartArea, scales } = chart;
+    if (!chartArea || !scales.x) return;
+    const salaries = chart._salaryMarkers;
+    if (!salaries) return;
+    const colors = ['#e85a44', '#7f77dd'];
+    salaries.forEach((sal, si) => {
+      const xPos = salaryToXPos(sal);
+      // Map xPos (0-7) to pixel
+      const xMin = chartArea.left;
+      const xMax = chartArea.right;
+      const px = xMin + (xPos / 7) * (xMax - xMin);
+      ctx.save();
+      ctx.strokeStyle = colors[si];
+      ctx.lineWidth = 2;
+      ctx.setLineDash([3,2]);
+      ctx.beginPath();
+      ctx.moveTo(px, chartArea.top);
+      ctx.lineTo(px, chartArea.bottom);
+      ctx.stroke();
+      ctx.restore();
+    });
+  }
+});
+
+// ================================================================
+// STRESS TESTS
+// ================================================================
+function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
+  const monthlyGross   = grossIncome / 12;
+  const bwPay          = mortgagePayment(principal, rate, amort);
+  const bwPayStress    = mortgagePayment(principal, rate + 2, amort);
+  const monthlyMort    = bwPay * 26 / 12;
+  const monthlyMortS   = bwPayStress * 26 / 12;
+  const monthlyTax     = proptax / 12;
+  const monthlyHeat    = heat;
+  const spendableNet   = (estimateNet(grossIncome * 0.53) + estimateNet(grossIncome * 0.47)) / 12; // rough split
+
+  const gds   = (monthlyMort  + monthlyTax + monthlyHeat) / monthlyGross * 100;
+  const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat) / monthlyGross * 100;
+  const pGross  = monthlyMort  / monthlyGross * 100;
+  const pGrossS = monthlyMortS / monthlyGross * 100;
+  const pNet    = monthlyMort  / (monthlyGross * 0.68) * 100; // approx net
+  const pNetS   = monthlyMortS / (monthlyGross * 0.68) * 100;
+
+  const bands = [
+    { label:'GDS ratio',              a:gds,   s:gdsS,   cap:39, limit:32, max:50,
+      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'},{v:50,l:'50%'}] },
+    { label:'Mortgage % of gross',    a:pGross, s:pGrossS, cap:null, limit:28, max:50,
+      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:30,l:'30%'},{v:50,l:'50%'}] },
+    { label:'Mortgage % of net',      a:pNet,  s:pNetS,  cap:null, limit:33, max:50,
+      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:33,l:'33%'},{v:50,l:'50%'}] },
+  ];
+
+  let anyFail = false;
+  const html = bands.map(b => {
+    const aPct = Math.min(b.a / b.max * 100, 100);
+    const sPct = Math.min(b.s / b.max * 100, 100);
+    const limPct = b.limit / b.max * 100;
+    const capPct = b.cap ? b.cap / b.max * 100 : null;
+    const amber = limPct; const red2 = capPct || limPct + 16;
+    const grad = `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${red2}%,#e85a44 ${red2}%)`;
+    const as = b.a > (b.cap||b.limit*1.1) ? 'bad' : b.a > b.limit ? 'warn' : 'ok';
+    const ss = b.s > (b.cap||b.limit*1.1) ? 'bad' : b.s > b.limit ? 'warn' : 'ok';
+    if (as==='bad'||ss==='bad') anyFail = true;
+    const ticksHtml = b.ticks.map(t =>
+      `<span class="band-tick" style="left:${t.v/b.max*100}%">${t.l}</span>`).join('');
+    return `<div class="band">
+      <div class="band-head">
+        <span class="band-lbl">${b.label}</span>
+        <div class="band-vals">
+          <span class="badge ${as}">${NUM(b.a)}%</span>
+          <span class="badge ${ss}">${NUM(b.s)}%</span>
+        </div>
+      </div>
+      <div class="band-bar" style="background:${grad};">
+        <div class="bm w" style="left:calc(${aPct}% - 1px);"></div>
+        <div class="bm a" style="left:calc(${sPct}% - 1px);"></div>
+        ${capPct ? `<div class="bm r" style="left:calc(${capPct}% - 1px);"></div>` : ''}
+      </div>
+      <div class="band-ticks">${ticksHtml}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('stress-bands').innerHTML = html;
+  const sb = document.getElementById('stress-badge');
+  sb.textContent = anyFail ? 'check results' : 'all pass';
+  sb.className   = 'badge ' + (anyFail ? 'bad' : 'ok');
+}
+
+// ================================================================
+// SPENDING TABLE
+// ================================================================
+function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
+  const factor = pf(mode);
+  const p1net = estimateNet(p1sal);
+  const p2net = estimateNet(p2sal);
+  // Per period
+  const pp = v => v * factor / 26; // convert bi-weekly to display period (bw base)
+  const pa = v => v * factor;       // annual → display period
+
+  // Annual base values
+  const p1g = p1sal, p2g = p2sal;
+  const p1n = p1net, p2n = p2net;
+  const p1joint = p1n * jointPct, p2joint = p2n * jointPct;
+  const p1per = p1n * (1-jointPct), p2per = p2n * (1-jointPct);
+  const jointTotal = p1joint + p2joint;
+  const mortAnn = bwMort * 26, taxAnn = proptax, heatAnn = heat * 12;
+  const housingAnn = mortAnn + taxAnn + heatAnn;
+  const remainAnn  = jointTotal - housingAnn;
+
+  // Category inputs (stored as bi-weekly, convert to annual)
+  const catAnn = {};
+  let catTotalAnn = 0;
+  CATS.forEach(c => {
+    catAnn[c.id] = catVals[c.id] * 26;
+    catTotalAnn += catAnn[c.id];
+  });
+  const savingsAnn = remainAnn - catTotalAnn;
+
+  // Render table
+  const f = v => v == null ? '—' : CAD(v * factor / 26 * (mode==='annual'?26:mode==='monthly'?26/12:1));
+  // Simpler: just scale annual to display period
+  const d = v => CAD(v / 26 * pf(mode)); // annual → display period
+
+  const tbody = document.getElementById('spend-tbody');
+
+  // Build rows: header cols match table headers
+  const rows = [
+    { label:'Person 1', g:p1g, n:p1n, jt:p1joint, pe:p1per, mort:mortAnn/2, tax:taxAnn/2, ht:heatAnn/2, cats:null, sav:null, cls:'' },
+    { label:'Person 2', g:p2g, n:p2n, jt:p2joint, pe:p2per, mort:mortAnn/2, tax:taxAnn/2, ht:heatAnn/2, cats:null, sav:null, cls:'' },
+    { label:'Combined', g:p1g+p2g, n:p1n+p2n, jt:jointTotal, pe:p1per+p2per, mort:mortAnn, tax:taxAnn, ht:heatAnn, cats:catAnn, sav:savingsAnn, cls:'font-weight:600' },
+  ];
+
+  tbody.innerHTML = rows.map((r,ri) => {
+    const catCells = CATS.map(c => {
+      if (r.cats) {
+        // Combined row: show editable inputs
+        return `<td><input type="number" id="${c.id}" value="${catVals[c.id]}" min="0" step="50" style="width:70px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 5px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;" oninput="catVals['${c.id}']=+this.value;calculate()"></td>`;
+      }
+      return `<td style="color:var(--ink-3);">—</td>`;
+    }).join('');
+
+    const savCell = r.sav != null
+      ? `<td class="savings ${r.sav>=0?'ok':'bad'}" style="${r.cls}">${d(r.sav)}</td>`
+      : `<td style="color:var(--ink-3);">—</td>`;
+
+    return `<tr style="${r.cls}">
+      <td>${r.label}</td>
+      <td class="pos">${d(r.g)}</td>
+      <td>${d(r.n)}</td>
+      <td>${d(r.jt)}</td>
+      <td>${d(r.pe)}</td>
+      <td class="neg">${d(r.mort)}</td>
+      <td class="neg">${d(r.tax)}</td>
+      <td class="neg">${d(r.ht)}</td>
+      ${catCells}
+      ${savCell}
+    </tr>`;
+  }).join('');
+
+  document.getElementById('spend-warn').hidden = savingsAnn >= 0;
+  document.getElementById('jpct-lbl').textContent = Math.round(jointPct*100);
+  document.getElementById('spend-lbl').textContent = pl(mode);
+
+  return { catTotalBw: catTotalAnn / 26 };
+}
+
+// ================================================================
+// AMORTIZATION STACKED AREA
+// ================================================================
+function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catBwBase) {
+  const r = bwRate(rate);
+  const n = amort * 26;
+  const bwPay = mortgagePayment(principal, rate, amort);
+
+  // Build per-year totals
+  const labels = [], prinData=[], intData=[], taxHeatData=[], sharedData=[], p1RemData=[], p2RemData=[];
+  let bal = principal;
+
+  for (let y = 1; y <= amort; y++) {
+    let yPrin=0, yInt=0;
+    for (let bw=0; bw<26; bw++) {
+      if (bal <= 0) break;
+      const i = bal * r;
+      const p = Math.min(bwPay - i, bal);
+      bal = Math.max(bal - p, 0);
+      yPrin += p; yInt += i;
+    }
+    if (bal > 0 && lumpsum > 0) bal = Math.max(bal - lumpsum, 0);
+
+    const p1salY = p1sal * Math.pow(1+p1wage, y);
+    const p2salY = p2sal * Math.pow(1+p2wage, y);
+    const p1netY = estimateNet(p1salY);
+    const p2netY = estimateNet(p2salY);
+    const taxY   = proptax * Math.pow(1+inflation, y);
+    const heatY  = heat * 12 * Math.pow(1+inflation, y);
+    const catY   = catBwBase * 26 * Math.pow(1+inflation, y);
+    const jointY = (p1netY + p2netY) * jointPct;
+    const housingY = bwPay*26 + taxY + heatY;
+    const remainY  = Math.max(jointY - housingY, 0);
+    const sharedY  = Math.min(catY, remainY);
+    const leftoverY = Math.max(remainY - catY, 0);
+    const tot = p1salY + p2salY || 1;
+    const p1remY = leftoverY * (p1salY/tot) + p1netY*(1-jointPct);
+    const p2remY = leftoverY * (p2salY/tot) + p2netY*(1-jointPct);
+
+    labels.push('Yr '+y);
+    prinData.push(Math.round(yPrin));
+    intData.push(Math.round(yInt));
+    taxHeatData.push(Math.round(taxY + heatY));
+    sharedData.push(Math.round(sharedY));
+    p1RemData.push(Math.round(p1remY));
+    p2RemData.push(Math.round(p2remY));
+  }
+
+  document.getElementById('amort-years-lbl').textContent = amort;
+
+  mkChart('amort-chart', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'Principal',   data:prinData,    borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.35)', fill:true, tension:0.3, borderWidth:2, pointRadius:0 },
+        { label:'Interest',    data:intData,     borderColor:'#e8a030', backgroundColor:'rgba(232,160,48,0.30)',  fill:true, tension:0.3, borderWidth:2, pointRadius:0 },
+        { label:'Tax+heat',    data:taxHeatData, borderColor:'#378ADD', backgroundColor:'rgba(55,138,221,0.20)',  fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'Shared exp.', data:sharedData,  borderColor:'#7f77dd', backgroundColor:'rgba(127,119,221,0.18)',fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'P1 remain',   data:p1RemData,   borderColor:'#5DCAA5', backgroundColor:'rgba(93,202,165,0.12)', fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
+        { label:'P2 remain',   data:p2RemData,   borderColor:'#888780', backgroundColor:'rgba(136,135,128,0.10)',fill:true, tension:0.3, borderWidth:1, pointRadius:0 },
+      ],
+    },
+    options: {
+      ...baseChart,
+      scales: {
+        x: { ticks:{font:{size:9},color:tc(),maxTicksLimit:13}, grid:{color:gc()}, border:{display:false} },
+        y: { ticks:{font:{size:9},color:tc(),callback:v=>'$'+Math.round(v/1000)+'K'}, grid:{color:gc()}, border:{display:false} },
+      },
+      plugins: { ...baseChart.plugins, tooltip:{ callbacks:{label:ctx=>ctx.dataset.label+': '+CAD(ctx.parsed.y)}}},
+    },
+  });
+}
+
+// ================================================================
+// OTTAWA BRACKET CHART
+// ================================================================
+function renderBracketChart(budget) {
+  if (!DATA.ottawa_sales) return;
+  const brackets = DATA.ottawa_sales.price_brackets || [];
+  const cutoff = new Date(); cutoff.setFullYear(cutoff.getFullYear()-1);
+  const tot = {a:0,b:0,c:0,d:0,e:0,f:0};
+  brackets.forEach(b => {
+    if (new Date(b.date) >= cutoff) {
+      tot.a += b.fh_0_249||0; tot.b += b.fh_250_499||0;
+      tot.c += b.fh_500_749||0; tot.d += b.fh_750_999||0;
+      tot.e += b.fh_1m_2m||0; tot.f += b.fh_2m_plus||0;
+    }
+  });
+  const vals = [tot.a,tot.b,tot.c,tot.d,tot.e,tot.f];
+  const labels = ['<$250K','$250–500K','$500–750K','$750K–1M','$1M–2M','$2M+'];
+  const uppers = [250000,500000,750000,1000000,2000000,Infinity];
+  const lowers = [0,250000,500000,750000,1000000,2000000];
+  const bi = uppers.findIndex((_,i) => budget >= lowers[i] && budget < uppers[i]);
+  const isDark = root.getAttribute('data-theme') !== 'light';
+  const colors = vals.map((_,i) => i===bi ? '#e85a44' : isDark ? 'rgba(42,58,82,0.9)' : 'rgba(155,190,225,0.9)');
+
+  mkChart('bracket-chart', {
+    type:'bar',
+    data:{ labels, datasets:[{ data:vals, backgroundColor:colors, borderRadius:3, barPercentage:0.75 }] },
+    options:{
+      ...baseChart,
+      scales:{
+        x:{ticks:{font:{size:9},color:tc()},grid:{display:false},border:{display:false}},
+        y:{ticks:{font:{size:9},color:tc(),callback:v=>v>=1000?Math.round(v/100)/10+'K':v},grid:{color:gc()},border:{display:false}},
+      },
+      plugins:{...baseChart.plugins,tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toLocaleString('en-CA')+' homes'}}},
+    },
+  });
+
+  const total = vals.reduce((a,b)=>a+b,0);
+  const under = vals.slice(0,bi+1).reduce((a,b)=>a+b,0);
+  const pct = total>0 ? Math.round(under/total*100) : 0;
+  document.getElementById('bracket-note').textContent =
+    `${pct}% of Ottawa freehold sales in the last 12 months were ≤ ${CAD(budget)}. Highlighted bar = your price range.`;
+}
+
+// ================================================================
+// AFFORDABILITY TIMELINE
+// ================================================================
+function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat) {
+  const cpi = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
+  const ottawa = DATA.crea_benchmarks && DATA.crea_benchmarks['OTTAWA'];
+  if (!cpi || !ottawa || !ottawa.history || !ottawa.history.length) {
+    document.getElementById('afford-note').textContent = 'Affordability chart requires full CREA history — re-run build_json.py with the tail(24) limit removed.';
+    return;
+  }
+
+  // Build year → composite price map from history
+  const byYear = {};
+  ottawa.history.forEach(h => {
+    if (h.composite) byYear[h.date.substring(0,4)] = h.composite;
+  });
+
+  const allYears = Object.keys(byYear).sort();
+  if (allYears.length < 5) {
+    document.getElementById('afford-note').textContent = `Only ${allYears.length} year(s) of CREA history available. Push updated build_json.py and re-run workflow for full chart.`;
+  }
+
+  const base = '2005';
+  const baseCpi   = parseFloat(cpi[base]) || 107.0;
+  const basePrice = parseFloat(byYear[base]) || parseFloat(byYear[allYears[0]]) || 0;
+
+  // Max affordable via binary search (GDS ≤ 32% at stress rate)
+  function maxAfford(income) {
+    const stressRate = Math.max(rate + 2, 5.25);
+    let lo=50000, hi=3000000;
+    for (let i=0;i<40;i++) {
+      const mid=(lo+hi)/2, loan=mid-downpayment;
+      if (loan<=0){hi=mid;continue;}
+      const bwP = mortgagePayment(loan, stressRate, amort);
+      const gds = (bwP*26/12 + proptax/12 + heat) / (income/12) * 100;
+      if (gds<=32) lo=mid; else hi=mid;
+    }
+    return Math.round(lo)/1000;
+  }
+
+  const showYears = allYears.filter(y => parseInt(y) >= 2005);
+  const actualPrices = showYears.map(y => byYear[y] ? byYear[y]/1000 : null);
+  const cpiAdj       = showYears.map(y => {
+    const c = parseFloat(cpi[y]);
+    return c && basePrice ? Math.round(basePrice * c/baseCpi)/1000 : null;
+  });
+  const affordLine = showYears.map(() => maxAfford(grossIncome));
+
+  mkChart('afford-chart', {
+    type:'line',
+    data:{
+      labels: showYears,
+      datasets:[
+        { label:'Actual',     data:actualPrices, borderColor:'#e85a44', borderWidth:2, pointRadius:0, fill:false, tension:0.3, spanGaps:true },
+        { label:'CPI-adj.',   data:cpiAdj,       borderColor:'#378ADD', borderWidth:2, borderDash:[5,4], pointRadius:0, fill:false, tension:0.3, spanGaps:true },
+        { label:'Afford.',    data:affordLine,   borderColor:'rgba(29,158,117,0.7)', borderWidth:1.5, borderDash:[3,3], pointRadius:0, fill:{target:'origin',above:'rgba(29,158,117,0.08)'}, tension:0 },
+      ],
+    },
+    options:{
+      ...baseChart,
+      scales:{
+        x:{ticks:{font:{size:9,family:'"JetBrains Mono"'},color:tc(),maxTicksLimit:6},grid:{display:false},border:{display:false}},
+        y:{ticks:{font:{size:9},color:tc(),callback:v=>'$'+v+'K'},grid:{color:gc()},border:{display:false}},
+      },
+      plugins:{...baseChart.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': $'+(ctx.parsed.y?.toFixed(0)||'?')+'K'}}},
+    },
+  });
+
+  const latestY = showYears[showYears.length-1];
+  const latestA = byYear[latestY], latestC = cpiAdj[cpiAdj.length-1]*1000;
+  const premium = latestA && latestC ? Math.round((latestA/latestC-1)*100) : null;
+  document.getElementById('afford-note').textContent = premium!=null
+    ? `Ottawa prices rose ${premium}% above inflation since ${base}. Green band = max affordable at stress test (${Math.max(rate+2,5.25).toFixed(1)}%) with your income + ${CAD(downpayment)} down.`
+    : `Source: CREA MLS HPI · StatCan CPI.`;
+}
+
+// ================================================================
+// CREA CONTEXT (non-Ottawa)
+// ================================================================
+function renderCreaCtx(board, budget) {
+  const b = DATA.crea_benchmarks && DATA.crea_benchmarks[board];
+  if (!b) { ['cr-comp','cr-sfh','cr-town','cr-yoy'].forEach(id=>document.getElementById(id).textContent='N/A'); return; }
+  document.getElementById('cr-comp').textContent = b.composite ? CAD(b.composite) : '—';
+  document.getElementById('cr-sfh').textContent  = b.sfh ? CAD(b.sfh) : '—';
+  document.getElementById('cr-town').textContent = b.townhouse ? CAD(b.townhouse) : '—';
+  document.getElementById('cr-upd').textContent  = b.updated || '';
+  const yoy = b.yoy_pct;
+  const yoyEl = document.getElementById('cr-yoy');
+  yoyEl.textContent = yoy!=null ? (yoy>0?'+':'')+NUM(yoy)+'%' : '—';
+  yoyEl.className   = 'mv ' + (yoy>0?'amber':yoy<0?'green':'');
+  if (b.composite) {
+    const diff = budget-b.composite, pct=Math.round(Math.abs(diff)/b.composite*100);
+    document.getElementById('cr-note').textContent =
+      `Your budget ${CAD(budget)} is ${pct}% ${diff>=0?'above':'below'} the ${b.updated} composite benchmark of ${CAD(b.composite)}.`;
+  }
 }
 
 // ================================================================
 // MAIN CALCULATE
 // ================================================================
 function calculate() {
-  const p1sal   = parseFloat(document.getElementById('p1salary').value) || 0;
-  const p2sal   = parseFloat(document.getElementById('p2salary').value) || 0;
-  const p1age   = parseInt(document.getElementById('p1age').value) || 32;
-  const p2age   = parseInt(document.getElementById('p2age').value) || 31;
-  const p1wage  = parseFloat(document.getElementById('p1wage').value) / 100 || 0.025;
-  const p2wage  = parseFloat(document.getElementById('p2wage').value) / 100 || 0.025;
-  const hprice  = parseFloat(document.getElementById('hprice').value) || 0;
-  const downpay = parseFloat(document.getElementById('downpay').value) || 0;
-  const rate    = parseFloat(document.getElementById('rate').value) || 4.2;
-  const amort   = parseInt(document.getElementById('amort').value) || 25;
-  const fsaRaw  = document.getElementById('fsa').value.trim().toUpperCase().substring(0, 3);
-  const proptax = parseFloat(document.getElementById('proptax').value) || 0;
-  const heat    = parseFloat(document.getElementById('heat').value) || 0;
-  const inflation = parseFloat(document.getElementById('inflation').value) / 100 || 0.025;
-  const lumpsum = parseFloat(document.getElementById('lumpsum').value) || 0;
-  const jointpct = parseFloat(document.getElementById('jointpct').value) / 100 || 0.7;
+  const p1sal   = rawVal('p1salary');
+  const p2sal   = rawVal('p2salary');
+  const p1age   = +document.getElementById('p1age').value   || 32;
+  const p2age   = +document.getElementById('p2age').value   || 31;
+  const p1wage  = (+document.getElementById('p1wage').value || 2.5) / 100;
+  const p2wage  = (+document.getElementById('p2wage').value || 2.5) / 100;
+  const hprice  = rawVal('hprice');
+  const downpay = rawVal('downpay');
+  const rate    = +document.getElementById('rate').value    || 4.2;
+  const amort   = +document.getElementById('amort').value   || 25;
+  const fsa     = document.getElementById('fsa').value.trim().toUpperCase().substring(0,3);
+  const proptax = rawVal('proptax');
+  const heat    = rawVal('heat');
+  const inflation = (+document.getElementById('inflation').value || 2.5) / 100;
+  const lumpsum = rawVal('lumpsum');
+  const jointPct = (+document.getElementById('jointpct').value || 70) / 100;
   const mode    = document.getElementById('displaymode').value;
 
-  const pf = periodFactor(mode);
-  const pl = periodLabel(mode);
-  document.getElementById('display-label').textContent = pl;
-  document.getElementById('spend-period-label').textContent = pl;
-
-  // ── MORTGAGE MATH ────────────────────────────────────────────────
-  const principal = Math.max(hprice - downpay, 0);
-  const bwPayment = mortgagePayment(principal, rate, amort);
-  const bwPaymentStress = mortgagePayment(principal, rate + 2, amort);
   const grossIncome = p1sal + p2sal;
+  const principal   = Math.max(hprice - downpay, 0);
+  const bwPay       = mortgagePayment(principal, rate, amort);
 
-  // amortization with lump sums
-  let bal = principal;
-  const rMonthly = Math.pow(1 + rate / 200, 1/6) - 1;
-  const rBw = Math.pow(1 + rMonthly, 2/12 * 6) - 1;
-  let totalInterest = 0;
-  let totalInterestNoLump = 0;
-  let paidOffYear = amort;
-  let balNoLump = principal;
+  // ── PAYMENT SUMMARY ──────────────────────────────────────────────
+  const f = pf(mode);
+  const mPay     = bwPay * f;
+  const taxPer   = proptax / (mode==='annual'?1:mode==='monthly'?12:26);
+  const heatPer  = heat * (mode==='annual'?12:mode==='monthly'?1:12/26);
+  const mHousing = mPay + taxPer + heatPer;
 
-  for (let y = 1; y <= amort; y++) {
-    for (let bw = 0; bw < 26; bw++) {
-      if (bal <= 0) break;
-      const intCharge = bal * rBw;
-      const prin = Math.min(bwPayment - intCharge, bal);
-      bal -= prin;
-      totalInterest += intCharge;
+  // Total interest via amortization loop
+  let bal = principal, totalInt = 0, totalIntNoLump = 0, balNL = principal;
+  let payoffYear = amort;
+  const r = bwRate(rate);
+  for (let y=1; y<=amort; y++) {
+    for (let bw=0; bw<26; bw++) {
+      if (bal<=0) break;
+      const i=bal*r, p=Math.min(bwPay-i,bal);
+      bal=Math.max(bal-p,0); totalInt+=i;
     }
-    if (bal > 0 && lumpsum > 0) { bal = Math.max(bal - lumpsum, 0); }
-    if (bal <= 0 && paidOffYear === amort) paidOffYear = y;
-
-    // no lump
-    for (let bw = 0; bw < 26; bw++) {
-      if (balNoLump <= 0) break;
-      const intCharge = balNoLump * rBw;
-      const prin = Math.min(bwPayment - intCharge, balNoLump);
-      balNoLump -= prin;
-      totalInterestNoLump += intCharge;
+    if (bal>0 && lumpsum>0) bal=Math.max(bal-lumpsum,0);
+    if (bal<=0 && payoffYear===amort) payoffYear=y;
+    for (let bw=0; bw<26; bw++) {
+      if (balNL<=0) break;
+      const i=balNL*r, p=Math.min(bwPay-i,balNL);
+      balNL=Math.max(balNL-p,0); totalIntNoLump+=i;
     }
   }
-  const interestSaved = totalInterestNoLump - totalInterest;
-  const yearsSaved = amort - paidOffYear;
+  const saved = totalIntNoLump - totalInt;
+  const yearsSaved = amort - payoffYear;
 
-  // ── PAYMENTS SUMMARY ─────────────────────────────────────────────
-  const mPay = bwPayment * pf;
-  const mHousing = mPay + (proptax / (mode === 'annual' ? 1 : mode === 'monthly' ? 12 : 26)) + (heat * (mode === 'annual' ? 12 : mode === 'monthly' ? 1 : 12/26));
-  const mHeatPer = mode === 'annual' ? heat * 12 : mode === 'monthly' ? heat : heat * 12/26;
-  const mTaxPer  = mode === 'annual' ? proptax : mode === 'monthly' ? proptax/12 : proptax/26;
-  document.getElementById('m-payment').textContent = fmt(mPay);
-  document.getElementById('m-payment-sub').textContent = fmt(bwPayment) + ' bi-weekly';
-  document.getElementById('m-housing').textContent = fmt(mHousing);
-  document.getElementById('m-saved').textContent   = yearsSaved > 0 ? yearsSaved.toFixed(1) + ' yrs' : '—';
-  document.getElementById('m-saved-sub').textContent = interestSaved > 0 ? fmt(interestSaved) + ' saved' : '';
-  document.getElementById('m-interest').textContent = fmt(totalInterest);
-  document.getElementById('m-interest-sub').textContent = fmt(totalInterestNoLump) + ' without lump';
+  document.getElementById('m-pay').textContent      = CAD(mPay);
+  document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
+  document.getElementById('m-housing').textContent  = CAD(mHousing);
+  document.getElementById('m-interest').textContent = CAD(totalInt);
+  document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
+  document.getElementById('m-saved').textContent    = saved>100 ? CAD(saved) : '—';
+  document.getElementById('m-saved-s').textContent  = yearsSaved>0 ? yearsSaved.toFixed(1)+' yrs earlier' : '';
 
-  // ── INCOME CHARTS ────────────────────────────────────────────────
-  renderIncomeChart('ic1', p1sal, p1age, fsaRaw, 'ic1-label', 'ic1-note');
-  renderIncomeChart('ic2', p2sal, p2age, fsaRaw, 'ic2-label', 'ic2-note');
-
-  // ── HOUSING MARKET CONTEXT ───────────────────────────────────────
-  const fsaInfo = DATA.fsa_index && DATA.fsa_index[fsaRaw];
-  const board = fsaInfo && fsaInfo.crea_board ? fsaInfo.crea_board.split(' | ')[0] : null;
-  const isOttawa = board === 'OTTAWA' || fsaRaw.startsWith('K1') || fsaRaw.startsWith('K2') || fsaRaw.startsWith('K4');
-
-  document.getElementById('market-board-label').textContent =
-    isOttawa ? 'Ottawa · OREB + CREA' : (board ? board.replace(/_/g,' ') : fsaRaw);
-
-  if (isOttawa) {
-    document.getElementById('ottawa-context').hidden = false;
-    document.getElementById('crea-context').hidden = true;
-    renderOttawaBracketChart(hprice);
-    renderAffordabilityChart(grossIncome, downpay);
-  } else {
-    document.getElementById('ottawa-context').hidden = true;
-    document.getElementById('crea-context').hidden = false;
-    renderCreaContext(board, hprice);
+  // ── INCOME CHART ─────────────────────────────────────────────────
+  renderIncomeChart(fsa, p1sal, p2sal);
+  // Attach salary markers to chart instance
+  if (charts['income-chart']) {
+    charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
+    charts['income-chart'].draw();
   }
-
-  // ── SPENDING BREAKDOWN ───────────────────────────────────────────
-  const p1net = estimateNet(p1sal);
-  const p2net = estimateNet(p2sal);
-  const p1netPer = p1net / (mode === 'annual' ? 1 : mode === 'monthly' ? 12 : 26);
-  const p2netPer = p2net / (mode === 'annual' ? 1 : mode === 'monthly' ? 12 : 26);
-  const p1grossPer = p1sal / (mode === 'annual' ? 1 : mode === 'monthly' ? 12 : 26);
-  const p2grossPer = p2sal / (mode === 'annual' ? 1 : mode === 'monthly' ? 12 : 26);
-
-  const p1joint = p1netPer * jointpct;
-  const p2joint = p2netPer * jointpct;
-  const p1personal = p1netPer * (1 - jointpct);
-  const p2personal = p2netPer * (1 - jointpct);
-  const jointTotal = p1joint + p2joint;
-
-  const bwMortgage = bwPayment * pf;
-  const taxPer = mTaxPer;
-  const heatPer = mHeatPer;
-  const housingTotal = bwMortgage + taxPer + heatPer;
-  const remaining = jointTotal - housingTotal;
-
-  // category inputs (already in bi-weekly by default — scale to display mode)
-  const catScale = mode === 'biweekly' ? 1 : mode === 'monthly' ? 26/12 : 26;
-  const catIds = ['cat-groceries','cat-entertainment','cat-transport','cat-travel','cat-subs','cat-other'];
-  const catTotal = catIds.reduce((s, id) => s + (parseFloat(document.getElementById(id).value) || 0) * catScale, 0);
-  const savings = remaining - catTotal;
-
-  const jpct = Math.round(jointpct * 100);
-  const ppct = 100 - jpct;
-  ['sp1-jpct','sp2-jpct'].forEach(id => document.getElementById(id).textContent = jpct);
-  ['sp1-ppct','sp2-ppct'].forEach(id => document.getElementById(id).textContent = ppct);
-
-  document.getElementById('sp1-gross').textContent   = fmt(p1grossPer);
-  document.getElementById('sp1-net').textContent     = fmt(p1netPer);
-  document.getElementById('sp1-joint').textContent   = fmt(p1joint);
-  document.getElementById('sp1-personal').textContent= fmt(p1personal);
-  document.getElementById('sp2-gross').textContent   = fmt(p2grossPer);
-  document.getElementById('sp2-net').textContent     = fmt(p2netPer);
-  document.getElementById('sp2-joint').textContent   = fmt(p2joint);
-  document.getElementById('sp2-personal').textContent= fmt(p2personal);
-  document.getElementById('sj-total').textContent    = fmt(jointTotal);
-  document.getElementById('sj-mortgage').textContent = '−' + fmt(bwMortgage);
-  document.getElementById('sj-tax').textContent      = '−' + fmt(taxPer);
-  document.getElementById('sj-heat').textContent     = '−' + fmt(heatPer);
-  document.getElementById('sj-remaining').textContent= fmt(remaining);
-
-  const savEl = document.getElementById('sj-savings');
-  const warnEl = document.getElementById('sj-savings-warn');
-  savEl.textContent = fmt(Math.abs(savings));
-  savEl.className   = 'sval savings' + (savings < 0 ? ' neg' : '');
-  warnEl.hidden     = savings >= 0;
 
   // ── STRESS TESTS ─────────────────────────────────────────────────
-  const monthlyGross = grossIncome / 12;
-  const monthlyMortgage = bwPayment * 26 / 12;
-  const monthlyMortgageStress = bwPaymentStress * 26 / 12;
-  const monthlyTax  = proptax / 12;
-  const monthlyHeat = heat;
+  renderStress(grossIncome, principal, rate, amort, proptax, heat);
 
-  const gds = (monthlyMortgage + monthlyTax + monthlyHeat) / monthlyGross * 100;
-  const gdsStress = (monthlyMortgageStress + monthlyTax + monthlyHeat) / monthlyGross * 100;
-
-  const spendableNet = (estimateNet(p1sal) + estimateNet(p2sal)) / 12;
-  const mortgagePctGross = monthlyMortgage / monthlyGross * 100;
-  const mortgagePctGrossStress = monthlyMortgageStress / monthlyGross * 100;
-  const mortgagePctNet   = monthlyMortgage / spendableNet * 100;
-  const mortgagePctNetStress = monthlyMortgageStress / spendableNet * 100;
-
-  const stressBands = [
-    {
-      label: 'GDS ratio (gross debt service)',
-      actual: gds, stress: gdsStress, cap: 39,
-      limit: 32,
-      max: 50,
-      ticks: ['0%','32% CMHC','39% cap','50%'],
-      tickPcts: [0, 64, 78, 100],
-    },
-    {
-      label: 'Mortgage as % of gross income',
-      actual: mortgagePctGross, stress: mortgagePctGrossStress, cap: null,
-      limit: 28,
-      max: 50,
-      ticks: ['0%','18%','25%','30%','40%','50%'],
-      tickPcts: [0,36,50,60,80,100],
-    },
-    {
-      label: 'Mortgage as % of spendable net',
-      actual: mortgagePctNet, stress: mortgagePctNetStress, cap: null,
-      limit: 33,
-      max: 50,
-      ticks: ['0%','25%','33%','40%','50%'],
-      tickPcts: [0,50,66,80,100],
-    },
-  ];
-
-  let anyFail = false;
-  const bandsHtml = stressBands.map(b => {
-    const actualPct  = Math.min(b.actual / b.max * 100, 100);
-    const stressPct  = Math.min(b.stress / b.max * 100, 100);
-    const limitPct   = b.limit / b.max * 100;
-    const capPct     = b.cap ? b.cap / b.max * 100 : null;
-
-    // colour gradient: green to amber at limit, amber to red at limit+8
-    const amberAt = limitPct;
-    const redAt   = capPct || (limitPct + 16);
-    const gradient = `linear-gradient(90deg, var(--c-green) ${amberAt}%, var(--c-amber) ${amberAt}% ${redAt}%, var(--c-red) ${redAt}%)`;
-
-    // badge
-    const actualStatus = b.actual > (b.cap || b.limit * 1.1) ? 'bad' : b.actual > b.limit ? 'warn' : 'ok';
-    const stressStatus = b.stress > (b.cap || b.limit * 1.1) ? 'bad' : b.stress > b.limit ? 'warn' : 'ok';
-    if (actualStatus === 'bad' || stressStatus === 'bad') anyFail = true;
-
-    return `
-      <div class="band-wrap">
-        <div class="band-head">
-          <span class="band-label">${b.label}</span>
-          <span class="band-vals">
-            <span class="badge ${actualStatus}">${fmtNum(b.actual)}%</span> actual &nbsp;·&nbsp;
-            <span class="badge ${stressStatus}">${fmtNum(b.stress)}%</span> stress
-          </span>
-        </div>
-        <div class="band-bar" style="background:${gradient};">
-          <div class="band-marker white" style="left:calc(${actualPct}% - 1.5px);"></div>
-          <div class="band-marker amber" style="left:calc(${stressPct}% - 1.5px);"></div>
-          ${capPct ? `<div class="band-marker red" style="left:calc(${capPct}% - 1.5px);"></div>` : ''}
-        </div>
-        <div class="band-ticks" style="position:relative;">
-          ${b.ticks.map((t, i) => `<span style="position:absolute;left:${b.tickPcts[i]}%;transform:translateX(-50%)">${t}</span>`).join('')}
-          <span style="opacity:0">${b.ticks[b.ticks.length-1]}</span>
-        </div>
-      </div>`;
-  }).join('');
-
-  document.getElementById('stress-bands').innerHTML = bandsHtml;
-  const sb = document.getElementById('stress-badge');
-  sb.textContent = anyFail ? 'check results' : 'all pass';
-  sb.className   = 'badge ' + (anyFail ? 'bad' : 'ok');
+  // ── SPENDING TABLE ───────────────────────────────────────────────
+  const { catTotalBw } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode);
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
-  renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointpct, catTotal / catScale);
-}
+  renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw);
 
-// ================================================================
-// INCOME CHART
-// ================================================================
-function renderIncomeChart(canvasId, salary, age, fsa, labelId, noteId) {
-  const { textColor, gridColor } = chartDefaults();
+  // ── MARKET CONTEXT ───────────────────────────────────────────────
+  const fsaInfo = DATA.fsa_index && DATA.fsa_index[fsa];
+  const board   = fsaInfo && fsaInfo.crea_board ? fsaInfo.crea_board.split(' | ')[0] : null;
+  const isOttawa = board === 'OTTAWA' || fsa.match(/^K[124]/);
 
-  // get FSA income data
-  const fsaData = DATA.income_by_fsa && DATA.income_by_fsa[fsa];
-  const cumArr  = fsaData ? fsaData.cum : null;
+  document.getElementById('market-lbl').textContent = isOttawa
+    ? 'Ottawa · OREB + CREA' : (board ? board.replace(/_/g,' ') : fsa);
 
-  // aggregate into display groups
-  let groups;
-  if (cumArr) {
-    groups = aggregateBrackets(cumArr, salary);
+  if (isOttawa) {
+    document.getElementById('ottawa-ctx').hidden = false;
+    document.getElementById('crea-ctx').hidden   = true;
+    renderBracketChart(hprice);
+    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat);
   } else {
-    // fallback: Canada-level data
-    const canCum = DATA.income_canada && DATA.income_canada.canada && DATA.income_canada.canada.cum;
-    groups = canCum ? aggregateBrackets(canCum, salary) : BRACKET_GROUPS.map(g => ({ label: g.label, count: 0, contains: false }));
-  }
-
-  const maxCount = Math.max(...groups.map(g => g.count), 1);
-  const colors = groups.map(g => g.contains ? '#e85a44' : (root.getAttribute('data-theme') === 'light' ? '#b5d4f4' : '#2a3550'));
-
-  makeChart(canvasId, {
-    type: 'bar',
-    data: {
-      labels: groups.map(g => g.label),
-      datasets: [{ data: groups.map(g => g.count), backgroundColor: colors, borderRadius: 3, barPercentage: 0.8 }],
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => {
-        const g = groups[ctx.dataIndex];
-        return g.count.toLocaleString('en-CA') + ' filers';
-      }}}},
-      scales: {
-        x: { ticks: { font: { size: 9, family: '"JetBrains Mono"' }, color: textColor, maxRotation: 30 }, grid: { display: false } },
-        y: { ticks: { font: { size: 9 }, color: textColor, callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v }, grid: { color: gridColor }, border: { display: false } },
-      },
-    },
-  });
-
-  document.getElementById(labelId).textContent = 'Person ' + (canvasId === 'ic1' ? '1' : '2') + ' — ' + fmt(salary);
-
-  if (cumArr) {
-    const pct = getPercentile(salary, cumArr);
-    const prov = DATA.income_canada && DATA.income_canada.provinces;
-    const fsaProv = DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province;
-    let note = `${pct}th percentile in FSA ${fsa}`;
-    if (prov && fsaProv && prov[fsaProv]) {
-      const provPct = getPercentile(salary, prov[fsaProv].cum);
-      note += ` · ${provPct}th in ${fsaProv.split(' ')[0]}`;
-    }
-    if (DATA.income_canada && DATA.income_canada.canada) {
-      const canPct = getPercentile(salary, DATA.income_canada.canada.cum);
-      note += ` · ${canPct}th in Canada`;
-    }
-    document.getElementById(noteId).textContent = note;
-  } else {
-    document.getElementById(noteId).textContent = 'FSA ' + fsa + ' not found — showing Canada-level distribution';
+    document.getElementById('ottawa-ctx').hidden = true;
+    document.getElementById('crea-ctx').hidden   = false;
+    renderCreaCtx(board, hprice);
   }
 }
 
 // ================================================================
-// OTTAWA BRACKET CHART
-// ================================================================
-function renderOttawaBracketChart(budget) {
-  if (!DATA.ottawa_sales) return;
-  const { textColor, gridColor } = chartDefaults();
-
-  // aggregate last 12 months of price_bracket data
-  const brackets = DATA.ottawa_sales.price_brackets || [];
-  const cutoff = new Date();
-  cutoff.setFullYear(cutoff.getFullYear() - 1);
-
-  const totals = { fh_0_249:0, fh_250_499:0, fh_500_749:0, fh_750_999:0, fh_1m_2m:0, fh_2m_plus:0 };
-  brackets.forEach(b => {
-    const d = new Date(b.date);
-    if (d >= cutoff) {
-      Object.keys(totals).forEach(k => { totals[k] += b[k] || 0; });
-    }
-  });
-
-  const labels = ['<$250K','$250–500K','$500–750K','$750K–1M','$1M–2M','$2M+'];
-  const vals   = [totals.fh_0_249, totals.fh_250_499, totals.fh_500_749, totals.fh_750_999, totals.fh_1m_2m, totals.fh_2m_plus];
-  const uppers = [250000, 500000, 750000, 1000000, 2000000, Infinity];
-  const lowers = [0, 250000, 500000, 750000, 1000000, 2000000];
-  const bracketIdx = uppers.findIndex((u, i) => budget >= lowers[i] && budget < u);
-
-  const colors = vals.map((_, i) => i === bracketIdx ? '#e85a44' : (root.getAttribute('data-theme') === 'light' ? '#b5d4f4' : '#2a3550'));
-
-  makeChart('ottawa-bracket-chart', {
-    type: 'bar',
-    data: { labels, datasets: [{ data: vals, backgroundColor: colors, borderRadius: 4, barPercentage: 0.75 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString('en-CA') + ' homes sold' }}},
-      scales: {
-        x: { ticks: { font: { size: 9 }, color: textColor }, grid: { display: false } },
-        y: { ticks: { font: { size: 9 }, color: textColor }, grid: { color: gridColor }, border: { display: false } },
-      },
-    },
-  });
-
-  const total = Object.values(totals).reduce((a,b) => a+b, 0);
-  const underBudget = uppers.slice(0, bracketIdx + 1).reduce((s, _, i) => s + vals[i], 0);
-  const pctUnder = total > 0 ? Math.round(underBudget / total * 100) : 0;
-  document.getElementById('ottawa-bracket-note').textContent =
-    `${pctUnder}% of Ottawa freehold homes sold in the last 12 months were at or below your budget of ${fmt(budget)}. Highlighted bracket = your price range. Source: OREB via OttawaVisuals.`;
-}
-
-// ================================================================
-// AFFORDABILITY TIMELINE
-// ================================================================
-function renderAffordabilityChart(grossIncome, downpayment) {
-  if (!DATA.cpi || !DATA.crea_benchmarks) return;
-  const { textColor, gridColor } = chartDefaults();
-
-  const cpiData = DATA.cpi.data || DATA.cpi;
-  const ottawaHist = (DATA.crea_benchmarks['OTTAWA'] || {}).history || [];
-
-  // Build year-indexed actual prices
-  const actualByYear = {};
-  ottawaHist.forEach(h => {
-    const y = h.date ? h.date.substring(0, 4) : null;
-    if (y && h.composite) actualByYear[y] = h.composite;
-  });
-
-  // Select years to show
-  const showYears = Object.keys(actualByYear).filter(y => parseInt(y) >= 2005 && parseInt(y) <= new Date().getFullYear()).sort();
-  const baseYear = '2005';
-  const baseCpi  = parseFloat(cpiData[baseYear]) || 107.0;
-  const basePrice = parseFloat(actualByYear[baseYear]) || 0;
-
-  const actualPrices  = showYears.map(y => actualByYear[y] ? actualByYear[y] / 1000 : null);
-  const cpiAdjPrices  = showYears.map(y => {
-    const cpi = parseFloat(cpiData[y]);
-    return cpi && basePrice ? Math.round(basePrice * cpi / baseCpi) / 1000 : null;
-  });
-
-  // Affordability: max house price at stress test (GDS ≤ 32%, rate+2%)
-  const stressRate = (parseFloat(document.getElementById('rate').value) || 4.2) + 2;
-  const proptax = parseFloat(document.getElementById('proptax').value) || 7500;
-  const heat    = parseFloat(document.getElementById('heat').value) || 250;
-
-  // Binary search for max affordable price
-  function maxAffordable(income) {
-    let lo = 50000, hi = 3000000;
-    for (let i = 0; i < 30; i++) {
-      const mid = (lo + hi) / 2;
-      const loan = mid - downpayment;
-      if (loan <= 0) { hi = mid; continue; }
-      const bwP = mortgagePayment(loan, stressRate, parseInt(document.getElementById('amort').value) || 25);
-      const monthlyM = bwP * 26 / 12;
-      const gds = (monthlyM + proptax/12 + heat) / (income / 12) * 100;
-      if (gds <= 32) lo = mid; else hi = mid;
-    }
-    return Math.round(lo) / 1000;
-  }
-
-  const affordLine = showYears.map(() => maxAffordable(grossIncome));
-
-  makeChart('afford-chart', {
-    type: 'line',
-    data: {
-      labels: showYears,
-      datasets: [
-        { label: 'Actual benchmark', data: actualPrices, borderColor: '#e85a44', borderWidth: 2, pointRadius: 2, pointBackgroundColor: '#e85a44', fill: false, tension: 0.3, spanGaps: true },
-        { label: 'CPI-adjusted', data: cpiAdjPrices, borderColor: '#378ADD', borderWidth: 2, borderDash: [5,4], pointRadius: 0, fill: false, tension: 0.3, spanGaps: true },
-        { label: 'Your affordability', data: affordLine, borderColor: 'rgba(29,158,117,0.6)', borderWidth: 1.5, borderDash: [3,3], pointRadius: 0, fill: { target: 'origin', above: 'rgba(29,158,117,0.08)' }, tension: 0 },
-      ],
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
-      plugins: {
-        legend: { display: false },
-        tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ctx.dataset.label + ': $' + (ctx.parsed.y ? ctx.parsed.y.toFixed(0) + 'K' : '—') }},
-      },
-      scales: {
-        x: { ticks: { font: { size: 9, family: '"JetBrains Mono"' }, color: textColor, maxTicksLimit: 8 }, grid: { display: false } },
-        y: { ticks: { font: { size: 9 }, color: textColor, callback: v => '$' + v + 'K' }, grid: { color: gridColor }, border: { display: false } },
-      },
-    },
-  });
-
-  // Note
-  const latestYear = showYears[showYears.length - 1];
-  const latestActual = actualByYear[latestYear];
-  const latestCpiAdj = basePrice && cpiData[latestYear] ? Math.round(basePrice * parseFloat(cpiData[latestYear]) / baseCpi) : null;
-  const premium = latestActual && latestCpiAdj ? Math.round((latestActual / latestCpiAdj - 1) * 100) : null;
-  document.getElementById('afford-note').textContent =
-    premium != null
-      ? `Ottawa home prices have risen ${premium}% more than general inflation since ${baseYear}. CPI-adjusted price = what the ${baseYear} benchmark would be if it only grew with inflation. Affordability line = max purchase at CMHC stress test with your income + ${fmt(downpayment)} down.`
-      : 'Source: CREA MLS HPI · StatCan CPI table 18-10-0005-01';
-}
-
-// ================================================================
-// CREA CONTEXT (non-Ottawa)
-// ================================================================
-function renderCreaContext(board, budget) {
-  const b = DATA.crea_benchmarks && board && DATA.crea_benchmarks[board];
-  if (!b) {
-    ['crea-composite','crea-sfh','crea-town','crea-yoy'].forEach(id => document.getElementById(id).textContent = 'N/A');
-    document.getElementById('crea-updated').textContent = 'Board not found';
-    document.getElementById('crea-vs-budget').textContent = '';
-    return;
-  }
-  document.getElementById('crea-composite').textContent = b.composite ? fmt(b.composite) : '—';
-  document.getElementById('crea-sfh').textContent       = b.sfh ? fmt(b.sfh) : '—';
-  document.getElementById('crea-town').textContent      = b.townhouse ? fmt(b.townhouse) : '—';
-  document.getElementById('crea-updated').textContent   = b.updated || '';
-  const yoy = b.yoy_pct;
-  const yoyEl = document.getElementById('crea-yoy');
-  yoyEl.textContent = yoy != null ? (yoy > 0 ? '+' : '') + fmtNum(yoy) + '%' : '—';
-  yoyEl.className   = 'mval ' + (yoy > 0 ? 'amber' : yoy < 0 ? 'green' : '');
-
-  if (b.composite) {
-    const diff = budget - b.composite;
-    const pct  = Math.round(Math.abs(diff) / b.composite * 100);
-    document.getElementById('crea-vs-budget').textContent =
-      `Your budget of ${fmt(budget)} is ${pct}% ${diff >= 0 ? 'above' : 'below'} the composite benchmark of ${fmt(b.composite)} for this board (${b.updated}).`;
-  }
-}
-
-// ================================================================
-// AMORTIZATION CHART
-// ================================================================
-function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointpct, catBwTotal) {
-  const { textColor, gridColor } = chartDefaults();
-  const rBw = Math.pow(1 + Math.pow(1 + rate/200, 1/6) - 1, 12/26 * (1/6)) - 1;
-  const rBwExact = (() => { const rm = Math.pow(1 + rate/200, 1/6) - 1; return Math.pow(1 + rm, 2/12*6) - 1; })();
-  const bwPay = mortgagePayment(principal, rate, amort);
-
-  // show key years
-  const showYears = [];
-  for (let y = 1; y <= amort; y++) {
-    if (y === 1 || y % 3 === 0 || y === amort) showYears.push(y);
-  }
-
-  let bal = principal;
-  const yearData = showYears.map(targetY => {
-    // fast-forward to targetY
-    let b = principal;
-    let cumPrin = 0, cumInt = 0;
-    for (let y = 1; y <= targetY; y++) {
-      for (let bw = 0; bw < 26; bw++) {
-        if (b <= 0) break;
-        const intCharge = b * rBwExact;
-        const prin = Math.min(bwPay - intCharge, b);
-        b = Math.max(b - prin, 0);
-        cumPrin += prin;
-        cumInt  += intCharge;
-      }
-      if (b > 0 && lumpsum > 0) b = Math.max(b - lumpsum, 0);
-    }
-    // salary at year targetY
-    const p1salY = p1sal * Math.pow(1 + p1wage, targetY);
-    const p2salY = p2sal * Math.pow(1 + p2wage, targetY);
-    const p1netBw = estimateNet(p1salY) / 26;
-    const p2netBw = estimateNet(p2salY) / 26;
-    const taxBw  = proptax / 26 * Math.pow(1 + inflation, targetY);
-    const heatBw = heat * 12 / 26 * Math.pow(1 + inflation, targetY);
-    const catBw  = catBwTotal * Math.pow(1 + inflation, targetY);
-    const jointBw = (p1netBw + p2netBw) * jointpct;
-    const mortBw  = bwPay;
-    const housingBw = mortBw + taxBw + heatBw;
-    const remaining  = jointBw - housingBw;
-    const sharedExp  = Math.min(catBw, remaining);
-    const leftover   = Math.max(remaining - catBw, 0);
-    // split leftover by salary proportion
-    const totalSal = p1salY + p2salY || 1;
-    const p1rem = leftover * (p1salY / totalSal) + p1netBw * (1 - jointpct);
-    const p2rem = leftover * (p2salY / totalSal) + p2netBw * (1 - jointpct);
-
-    return {
-      principal: Math.round(cumPrin / targetY / 26), // avg annual principal bw
-      interest:  Math.round(cumInt  / targetY / 26),
-      taxheat:   Math.round(taxBw + heatBw),
-      shared:    Math.round(sharedExp),
-      p1rem:     Math.round(p1rem),
-      p2rem:     Math.round(p2rem),
-    };
-  });
-
-  makeChart('amort-chart', {
-    type: 'bar',
-    data: {
-      labels: showYears.map(y => 'Yr ' + y),
-      datasets: [
-        { label: 'Principal',     data: yearData.map(d => d.principal), backgroundColor: '#1D9E75', stack: 's' },
-        { label: 'Interest',      data: yearData.map(d => d.interest),  backgroundColor: '#e8a030', stack: 's' },
-        { label: 'Tax + heat',    data: yearData.map(d => d.taxheat),   backgroundColor: '#378ADD', stack: 's' },
-        { label: 'Shared exp.',   data: yearData.map(d => d.shared),    backgroundColor: '#7f77dd', stack: 's' },
-        { label: 'P1 remaining',  data: yearData.map(d => d.p1rem),     backgroundColor: '#5DCAA5', stack: 's' },
-        { label: 'P2 remaining',  data: yearData.map(d => d.p2rem),     backgroundColor: '#888780', stack: 's', borderRadius: { topLeft:3, topRight:3, bottomLeft:0, bottomRight:0 } },
-      ],
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
-      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt(ctx.parsed.y) + '/bw' }}},
-      scales: {
-        x: { ticks: { font: { size: 9 }, color: textColor }, grid: { display: false }, stacked: true },
-        y: { ticks: { font: { size: 9 }, color: textColor, callback: v => '$' + v }, grid: { color: gridColor }, border: { display: false }, stacked: true },
-      },
-    },
-  });
-}
-
-// ================================================================
-// EVENT WIRING
+// WIRE EVENTS
 // ================================================================
 document.getElementById('calcbtn').addEventListener('click', calculate);
-document.getElementById('fsa').addEventListener('input', e => {
-  e.target.value = e.target.value.toUpperCase();
-});
-// Live recalc on category inputs
-document.querySelectorAll('.cat-input').forEach(el => el.addEventListener('input', calculate));
-// Recalc on display mode change
 document.getElementById('displaymode').addEventListener('change', calculate);
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum'].forEach(id => {
+  document.getElementById(id).addEventListener('blur', calculate);
+});
+['p1age','p1wage','p2age','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', calculate);
+});
+document.getElementById('fsa').addEventListener('blur', calculate);
 
 // ================================================================
 // INIT
@@ -1297,8 +1136,7 @@ document.getElementById('displaymode').addEventListener('change', calculate);
 loadData().then(() => {
   document.getElementById('loading').classList.add('hide');
   calculate();
-}).catch(err => {
-  console.error('Data load failed:', err);
+}).catch(() => {
   document.getElementById('loading').classList.add('hide');
   calculate();
 });
