@@ -145,6 +145,12 @@ p{margin:0;}
 .tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;width:220px;font-family:var(--font-body);font-size:11px;color:var(--ink-2);line-height:1.5;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
 .tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--line-2);}
 .tip-btn:hover .tip-box{display:block;}
+/* ── CENSUS BARS ────────────────────────────────────────────────── */
+.cbar-row{display:flex;align-items:center;gap:6px;font-size:10px;}
+.cbar-label{width:110px;color:var(--ink-3);font-family:var(--font-mono);font-size:9px;flex-shrink:0;text-align:right;}
+.cbar-track{flex:1;height:7px;border-radius:4px;background:var(--bg-3);overflow:hidden;}
+.cbar-fill{height:100%;border-radius:4px;transition:width .3s;}
+.cbar-val{width:34px;font-family:var(--font-mono);font-size:9px;color:var(--ink-2);text-align:right;flex-shrink:0;}
 [hidden]{display:none!important;}
 </style>
 </head>
@@ -363,19 +369,19 @@ p{margin:0;}
       <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
 
       <div id="ottawa-ctx">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:8px;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Ottawa freehold sales by price bracket — trailing 12 months</div>
-            <div class="chart-wrap" style="height:110px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-wrap" style="height:130px;"><canvas id="bracket-chart"></canvas></div>
             <div class="chart-note" id="bracket-note"></div>
           </div>
           <div>
-            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark vs CPI-adjusted price (Ottawa)</div>
-            <div class="chart-wrap" style="height:110px;"><canvas id="afford-chart"></canvas></div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — Ottawa (2005–present)</div>
+            <div class="chart-wrap" style="height:130px;"><canvas id="afford-chart"></canvas></div>
             <div class="legend" style="margin-top:4px;">
               <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
-              <div class="li"><div class="ld" style="background:#378ADD;"></div>CPI-adjusted</div>
-              <div class="li"><div class="ld" style="background:rgba(29,158,117,0.4);"></div>Your affordability</div>
+              <div class="li"><div class="ld" style="background:#378ADD;border-style:dashed;"></div>2005 price × CPI inflation</div>
+              <div class="li"><div class="ld" style="background:rgba(29,158,117,0.6);"></div>Max you could afford</div>
             </div>
             <div class="chart-note" id="afford-note"></div>
           </div>
@@ -391,6 +397,26 @@ p{margin:0;}
         </div>
         <div class="chart-note" style="margin-top:8px;" id="cr-note"></div>
       </div>
+    </div>
+
+    <!-- ROW 5: Census neighbourhood snapshot -->
+    <div class="rcard" id="census-card">
+      <h3>Neighbourhood snapshot <span class="sub" id="census-lbl">—</span></h3>
+      <div id="census-ctx">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;" id="census-metrics"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Dwelling types</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="dwell-chart"></canvas></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Language · Education · Commute</div>
+            <div id="census-bars" style="display:flex;flex-direction:column;gap:5px;padding-top:2px;"></div>
+          </div>
+        </div>
+        <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
+      </div>
+      <div id="census-empty" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:8px 0;">Census data not available for this postal code.</div>
     </div>
 
     <!-- METHODOLOGY ANCHOR -->
@@ -1049,79 +1075,235 @@ function renderBracketChart(budget) {
 }
 
 // ================================================================
-// AFFORDABILITY TIMELINE
+// AFFORDABILITY TIMELINE — 3-line chart
 // ================================================================
+// Line 1: Actual Ottawa MLS benchmark (red, solid)
+// Line 2: 2005 benchmark price grown only by CPI (blue, dashed)
+//         = what the price would be if housing merely tracked inflation
+// Line 3: Max you could afford each year (green, dashed)
+//         = current income deflated to past dollars → bank max mortgage
+//         This shows whether buying was ever "easier" relative to income
 function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat) {
-  const cpi = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
+  const cpi    = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
   const ottawa = DATA.crea_benchmarks && DATA.crea_benchmarks['OTTAWA'];
   if (!cpi || !ottawa || !ottawa.history || !ottawa.history.length) {
-    document.getElementById('afford-note').textContent = 'Affordability chart requires full CREA history — re-run build_json.py with the tail(24) limit removed.';
+    document.getElementById('afford-note').textContent =
+      'Affordability chart requires full CREA history — re-run build_json.py.';
     return;
   }
 
-  // Build year → composite price map from history
+  // Year → composite price
   const byYear = {};
   ottawa.history.forEach(h => {
     if (h.composite) byYear[h.date.substring(0,4)] = h.composite;
   });
 
-  const allYears = Object.keys(byYear).sort();
-  if (allYears.length < 5) {
-    document.getElementById('afford-note').textContent = `Only ${allYears.length} year(s) of CREA history available. Push updated build_json.py and re-run workflow for full chart.`;
-  }
-
-  const base = '2005';
-  const baseCpi   = parseFloat(cpi[base]) || 107.0;
-  const basePrice = parseFloat(byYear[base]) || parseFloat(byYear[allYears[0]]) || 0;
-
-  // Max affordable via binary search (GDS ≤ 32% at stress rate)
-  function maxAfford(income) {
-    const stressRate = Math.max(rate + 2, 5.25);
-    let lo=50000, hi=3000000;
-    for (let i=0;i<40;i++) {
-      const mid=(lo+hi)/2, loan=mid-downpayment;
-      if (loan<=0){hi=mid;continue;}
-      const bwP = mortgagePayment(loan, stressRate, amort);
-      const gds = (bwP*26/12 + proptax/12 + heat) / (income/12) * 100;
-      if (gds<=32) lo=mid; else hi=mid;
-    }
-    return Math.round(lo)/1000;
-  }
-
+  const allYears  = Object.keys(byYear).sort();
   const showYears = allYears.filter(y => parseInt(y) >= 2005);
-  const actualPrices = showYears.map(y => byYear[y] ? byYear[y]/1000 : null);
-  const cpiAdj       = showYears.map(y => {
+  if (showYears.length < 3) {
+    document.getElementById('afford-note').textContent =
+      `Only ${showYears.length} year(s) of history available — push full CREA history CSV.`;
+    return;
+  }
+
+  const baseYear  = '2005';
+  const baseCpi   = parseFloat(cpi[baseYear]) || 107.0;
+  const nowCpi    = parseFloat(cpi[showYears[showYears.length-1]]) || baseCpi;
+  const basePrice = parseFloat(byYear[baseYear]) || parseFloat(byYear[showYears[0]]) || 0;
+
+  // Line 1: actual benchmark
+  const actualPrices = showYears.map(y => byYear[y] ? byYear[y] / 1000 : null);
+
+  // Line 2: 2005 price × CPI ratio (pure inflation path)
+  const cpiLine = showYears.map(y => {
     const c = parseFloat(cpi[y]);
-    return c && basePrice ? Math.round(basePrice * c/baseCpi)/1000 : null;
+    return c && basePrice ? Math.round(basePrice * c / baseCpi) / 1000 : null;
   });
-  const affordLine = showYears.map(() => maxAfford(grossIncome));
+
+  // Line 3: max affordable each year
+  // We CPI-deflate current gross income back to each year's purchasing power,
+  // then run the bank max calculation. This answers: "if we had today's
+  // salaries in year Y (in real terms), what could we afford?"
+  function bankMaxYear(yearIncome, yearProptax, yearHeat) {
+    const stressRate = Math.max(rate + 2, 5.25);
+    let lo = 50000, hi = 4000000;
+    for (let i = 0; i < 50; i++) {
+      const mid  = (lo + hi) / 2;
+      const loan = Math.max(mid - downpayment, 0);
+      if (loan <= 0) { hi = mid; continue; }
+      const bwP = mortgagePayment(loan, stressRate, amort);
+      const gds = (bwP * 26/12 + yearProptax/12 + yearHeat) / (yearIncome/12) * 100;
+      if (gds <= 32) lo = mid; else hi = mid;
+    }
+    return Math.round(lo) / 1000;
+  }
+
+  const affordLine = showYears.map(y => {
+    const c = parseFloat(cpi[y]);
+    if (!c) return null;
+    // Deflate income and costs to year Y's dollar value
+    const factor      = c / nowCpi;
+    const incomeY     = grossIncome * factor;
+    const proptaxY    = proptax * factor;
+    const heatY       = heat * factor;
+    const downpayY    = downpayment * factor;
+    return bankMaxYear(incomeY, proptaxY, heatY);
+  });
 
   mkChart('afford-chart', {
-    type:'line',
-    data:{
+    type: 'line',
+    data: {
       labels: showYears,
-      datasets:[
-        { label:'Actual',     data:actualPrices, borderColor:'#e85a44', borderWidth:2, pointRadius:0, fill:false, tension:0.3, spanGaps:true },
-        { label:'CPI-adj.',   data:cpiAdj,       borderColor:'#378ADD', borderWidth:2, borderDash:[5,4], pointRadius:0, fill:false, tension:0.3, spanGaps:true },
-        { label:'Afford.',    data:affordLine,   borderColor:'rgba(29,158,117,0.7)', borderWidth:1.5, borderDash:[3,3], pointRadius:0, fill:{target:'origin',above:'rgba(29,158,117,0.08)'}, tension:0 },
+      datasets: [
+        {
+          label: 'Actual benchmark',
+          data: actualPrices,
+          borderColor: '#e85a44', borderWidth: 2,
+          pointRadius: 0, fill: false, tension: 0.3, spanGaps: true,
+        },
+        {
+          label: '2005 price × CPI',
+          data: cpiLine,
+          borderColor: '#378ADD', borderWidth: 1.5, borderDash: [5, 4],
+          pointRadius: 0, fill: false, tension: 0.3, spanGaps: true,
+        },
+        {
+          label: 'Max affordable',
+          data: affordLine,
+          borderColor: 'rgba(29,158,117,0.85)', borderWidth: 1.5, borderDash: [3, 3],
+          pointRadius: 0,
+          fill: { target: 'origin', above: 'rgba(29,158,117,0.07)' },
+          tension: 0.2, spanGaps: true,
+        },
       ],
     },
-    options:{
+    options: {
       ...baseChart,
-      scales:{
-        x:{ticks:{font:{size:9,family:'"JetBrains Mono"'},color:tc(),maxTicksLimit:6},grid:{display:false},border:{display:false}},
-        y:{ticks:{font:{size:9},color:tc(),callback:v=>'$'+v+'K'},grid:{color:gc()},border:{display:false}},
+      scales: {
+        x: {
+          ticks: { font:{size:9,family:'"JetBrains Mono"'}, color:tc(), maxTicksLimit:7 },
+          grid: { display:false }, border: { display:false },
+        },
+        y: {
+          ticks: { font:{size:9}, color:tc(), callback: v => '$'+v+'K' },
+          grid: { color:gc() }, border: { display:false },
+        },
       },
-      plugins:{...baseChart.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': $'+(ctx.parsed.y?.toFixed(0)||'?')+'K'}}},
+      plugins: {
+        ...baseChart.plugins,
+        tooltip: { callbacks: {
+          label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y?.toFixed(0)||'?'}K`,
+        }},
+      },
     },
   });
 
-  const latestY = showYears[showYears.length-1];
-  const latestA = byYear[latestY], latestC = cpiAdj[cpiAdj.length-1]*1000;
-  const premium = latestA && latestC ? Math.round((latestA/latestC-1)*100) : null;
-  document.getElementById('afford-note').textContent = premium!=null
-    ? `Ottawa prices rose ${premium}% above inflation since ${base}. Green band = max affordable at stress test (${Math.max(rate+2,5.25).toFixed(1)}%) with your income + ${CAD(downpayment)} down.`
-    : `Source: CREA MLS HPI · StatCan CPI.`;
+  const latestY  = showYears[showYears.length - 1];
+  const latestA  = byYear[latestY];
+  const latestC  = cpiLine[cpiLine.length - 1] * 1000;
+  const premium  = latestA && latestC ? Math.round((latestA / latestC - 1) * 100) : null;
+  const stressDisp = Math.max(rate + 2, 5.25).toFixed(2);
+  document.getElementById('afford-note').textContent = premium != null
+    ? `Ottawa prices are ${premium}% above where they'd be if they only tracked inflation since 2005. ` +
+      `Green = max affordable (GDS ≤ 32% at ${stressDisp}% stress rate) with today's income in past dollars.`
+    : 'Source: CREA MLS HPI · StatCan CPI.';
+}
+
+// ================================================================
+// CENSUS NEIGHBOURHOOD PANEL
+// ================================================================
+function renderCensusPanel(fsa) {
+  const d = DATA.census_fsa && DATA.census_fsa[fsa];
+  const card  = document.getElementById('census-card');
+  const empty = document.getElementById('census-empty');
+  const ctx   = document.getElementById('census-ctx');
+  const lbl   = document.getElementById('census-lbl');
+
+  if (!d) {
+    empty.hidden = false; ctx.hidden = true;
+    lbl.textContent = fsa;
+    return;
+  }
+  empty.hidden = true; ctx.hidden = false;
+  lbl.textContent = `${fsa} · pop. ${(d.population||0).toLocaleString('en-CA')}`;
+
+  // ── Key metrics grid ──────────────────────────────────────────────
+  const fmt = (v, suffix='') => v != null ? v + suffix : '—';
+  const fmtDollar = v => v != null ? CAD(v) : '—';
+  const metrics = [
+    { l:'Median age',          v: fmt(d.median_age, ' yrs') },
+    { l:'Avg household size',  v: fmt(d.avg_household_size) },
+    { l:'Owners',              v: fmt(d.pct_owners, '%') },
+    { l:'Renters',             v: fmt(d.pct_renters, '%') },
+    { l:'Median emp. income',  v: fmtDollar(d.median_employment_income) },
+    { l:'Median FYFT income',  v: fmtDollar(d.median_emp_income_fyft) },
+    { l:'Median HH income',    v: fmtDollar(d.median_household_income) },
+    { l:'Low income (LIM-AT)', v: fmt(d.pct_low_income, '%') },
+  ];
+  document.getElementById('census-metrics').innerHTML = metrics.map(m =>
+    `<div class="met"><div class="ml">${m.l}</div><div class="mv" style="font-size:15px;">${m.v}</div></div>`
+  ).join('');
+
+  // ── Dwelling type doughnut chart ──────────────────────────────────
+  const DWELL_COLOURS = [
+    '#378ADD','#7f77dd','#e85a44','#e8a030',
+    '#1D9E75','#5DCAA5','#888780','#b6bdcc'
+  ];
+  const dwellLabels = d.dwell_labels || ['Detached','Semi','Row','Duplex','Apt<5','Apt5+','Other','Movable'];
+  const dwellPct    = (d.dwell_pct || []).map(v => v || 0);
+
+  mkChart('dwell-chart', {
+    type: 'doughnut',
+    data: {
+      labels: dwellLabels,
+      datasets: [{ data: dwellPct, backgroundColor: DWELL_COLOURS, borderWidth: 1,
+                   borderColor: 'var(--bg-2)', hoverOffset: 4 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: { duration: 250 },
+      cutout: '55%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          label: ctx => `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%`,
+        }},
+      },
+    },
+  });
+
+  // ── Horizontal bar rows: Language, Education, Commute ─────────────
+  const bars = [
+    // Language
+    { label:'English only',  val: d.pct_english_only,   color:'#378ADD' },
+    { label:'French only',   val: d.pct_french_only,    color:'#7f77dd' },
+    { label:'Bilingual',     val: d.pct_bilingual,      color:'#1D9E75' },
+    // Education
+    { label:'Postsecondary', val: d.pct_postsecondary,  color:'#e8a030' },
+    { label:"Bachelor's+",   val: d.pct_bachelors_plus, color:'#e85a44' },
+    // Commute
+    { label:'By car',        val: d.pct_commute_car,     color:'#888780' },
+    { label:'By transit',    val: d.pct_commute_transit, color:'#5DCAA5' },
+    { label:'On foot',       val: d.pct_commute_walk,    color:'#b6bdcc' },
+  ];
+
+  document.getElementById('census-bars').innerHTML = bars.map(b => {
+    const v = b.val != null ? b.val : 0;
+    return `<div class="cbar-row">
+      <span class="cbar-label">${b.label}</span>
+      <div class="cbar-track"><div class="cbar-fill" style="width:${Math.min(v,100)}%;background:${b.color};"></div></div>
+      <span class="cbar-val">${b.val != null ? b.val.toFixed(1)+'%' : '—'}</span>
+    </div>`;
+  }).join('');
+
+  // ── Note ──────────────────────────────────────────────────────────
+  const immigrant = d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null;
+  const visible   = d.pct_visible_minority != null ? `${d.pct_visible_minority}% visible minority` : null;
+  const commute   = d.avg_commute_min != null ? `avg commute ${d.avg_commute_min} min` : null;
+  const shelter   = d.pct_shelter_cost_burdened != null
+    ? `${d.pct_shelter_cost_burdened}% spend 30%+ of income on shelter` : null;
+  const parts = [immigrant, visible, commute, shelter].filter(Boolean);
+  document.getElementById('census-note').textContent =
+    (parts.length ? parts.join(' · ') + ' · ' : '') + 'Source: Statistics Canada 2021 Census.';
 }
 
 // ================================================================
@@ -1262,6 +1444,9 @@ function calculate() {
     document.getElementById('crea-ctx').hidden   = false;
     renderCreaCtx(board, hprice);
   }
+
+  // ── CENSUS NEIGHBOURHOOD PANEL ─────────────────────────────────
+  renderCensusPanel(fsa);
 }
 
 // ================================================================
