@@ -1,0 +1,606 @@
+{
+  "_meta": {
+    "title": "Gross to net salary ratios by province \u2014 Canada 2021",
+    "source": "TaxTips.ca 2021 Employment Income Tax Comparison",
+    "source_url": "https://www.taxtips.ca/taxrates/taxcomparison/2021-tax-comparison-employment-income.htm",
+    "includes": [
+      "Federal income tax",
+      "Provincial/territorial income tax",
+      "CPP contributions",
+      "EI premiums",
+      "Net of Canada Workers Benefit (CWB)"
+    ],
+    "excludes": [
+      "Climate Action Incentive (CAI/carbon rebate)",
+      "RRSP deductions",
+      "Other deductions or credits not universal"
+    ],
+    "note": "Average effective rates for a single person with employment income only. Interpolated linearly between breakpoints. Represents what reaches your bank account from gross pay.",
+    "tax_year": 2021,
+    "interpolation": "linear",
+    "breakpoints": [
+      10000,
+      20000,
+      30000,
+      40000,
+      50000,
+      60000,
+      80000,
+      100000,
+      175000,
+      600000
+    ]
+  },
+  "provinces": {
+    "AB": {
+      "name": "Alberta",
+      "fsa_letters": [
+        "T"
+      ],
+      "avg_tax_rates_pct": [
+        -9.9,
+        1.4,
+        14.6,
+        19.5,
+        21.8,
+        24.1,
+        25.8,
+        26.8,
+        31.8,
+        42.7
+      ],
+      "breakpoint_net_ratios": [
+        1.099,
+        0.986,
+        0.854,
+        0.805,
+        0.782,
+        0.759,
+        0.742,
+        0.732,
+        0.682,
+        0.573
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "BC": {
+      "name": "British Columbia",
+      "fsa_letters": [
+        "V"
+      ],
+      "avg_tax_rates_pct": [
+        -9.6,
+        1.9,
+        14.0,
+        18.3,
+        20.3,
+        22.5,
+        24.0,
+        25.4,
+        32.4,
+        46.8
+      ],
+      "breakpoint_net_ratios": [
+        1.096,
+        0.981,
+        0.86,
+        0.817,
+        0.797,
+        0.775,
+        0.76,
+        0.746,
+        0.676,
+        0.532
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "MB": {
+      "name": "Manitoba",
+      "fsa_letters": [
+        "R"
+      ],
+      "avg_tax_rates_pct": [
+        -9.8,
+        6.5,
+        18.3,
+        22.7,
+        24.9,
+        27.1,
+        29.1,
+        31.0,
+        36.7,
+        46.2
+      ],
+      "breakpoint_net_ratios": [
+        1.098,
+        0.935,
+        0.817,
+        0.773,
+        0.751,
+        0.729,
+        0.709,
+        0.69,
+        0.633,
+        0.538
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "NB": {
+      "name": "New Brunswick",
+      "fsa_letters": [
+        "E"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        2.7,
+        16.2,
+        21.3,
+        23.8,
+        26.5,
+        28.8,
+        30.4,
+        36.5,
+        48.1
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.973,
+        0.838,
+        0.787,
+        0.762,
+        0.735,
+        0.712,
+        0.696,
+        0.635,
+        0.519
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "NL": {
+      "name": "Newfoundland and Labrador",
+      "fsa_letters": [
+        "A"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        1.9,
+        17.2,
+        21.3,
+        24.1,
+        26.8,
+        29.0,
+        30.6,
+        36.1,
+        46.6
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.981,
+        0.828,
+        0.787,
+        0.759,
+        0.732,
+        0.71,
+        0.694,
+        0.639,
+        0.534
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "NS": {
+      "name": "Nova Scotia",
+      "fsa_letters": [
+        "B"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        4.9,
+        16.8,
+        22.5,
+        25.3,
+        27.9,
+        30.4,
+        31.9,
+        37.8,
+        49.0
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.951,
+        0.832,
+        0.775,
+        0.747,
+        0.721,
+        0.696,
+        0.681,
+        0.622,
+        0.51
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "NT": {
+      "name": "Northwest Territories",
+      "fsa_letters": [
+        "X"
+      ],
+      "avg_tax_rates_pct": [
+        -12.4,
+        0.9,
+        12.5,
+        16.6,
+        18.7,
+        21.2,
+        23.2,
+        24.8,
+        31.3,
+        42.2
+      ],
+      "breakpoint_net_ratios": [
+        1.124,
+        0.991,
+        0.875,
+        0.834,
+        0.813,
+        0.788,
+        0.768,
+        0.752,
+        0.687,
+        0.578
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "NU": {
+      "name": "Nunavut",
+      "fsa_letters": [],
+      "avg_tax_rates_pct": [
+        -2.5,
+        0.4,
+        8.8,
+        13.3,
+        16.3,
+        19.2,
+        21.0,
+        22.5,
+        28.6,
+        39.6
+      ],
+      "breakpoint_net_ratios": [
+        1.025,
+        0.996,
+        0.912,
+        0.867,
+        0.837,
+        0.808,
+        0.79,
+        0.775,
+        0.714,
+        0.604
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "ON": {
+      "name": "Ontario",
+      "fsa_letters": [
+        "K",
+        "L",
+        "M",
+        "N",
+        "P"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        1.9,
+        12.8,
+        19.5,
+        21.5,
+        23.7,
+        25.5,
+        27.2,
+        34.8,
+        47.7
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.981,
+        0.872,
+        0.805,
+        0.785,
+        0.763,
+        0.745,
+        0.728,
+        0.652,
+        0.523
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "PE": {
+      "name": "Prince Edward Island",
+      "fsa_letters": [
+        "C"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        4.4,
+        17.5,
+        22.4,
+        24.8,
+        27.3,
+        29.7,
+        31.3,
+        37.3,
+        47.0
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.956,
+        0.825,
+        0.776,
+        0.752,
+        0.727,
+        0.703,
+        0.687,
+        0.627,
+        0.53
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "QC": {
+      "name": "Quebec",
+      "fsa_letters": [
+        "G",
+        "H",
+        "J"
+      ],
+      "avg_tax_rates_pct": [
+        -31.5,
+        0.9,
+        20.2,
+        23.9,
+        26.8,
+        29.6,
+        31.7,
+        33.2,
+        39.6,
+        49.1
+      ],
+      "breakpoint_net_ratios": [
+        1.315,
+        0.991,
+        0.798,
+        0.761,
+        0.732,
+        0.704,
+        0.683,
+        0.668,
+        0.604,
+        0.509
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "SK": {
+      "name": "Saskatchewan",
+      "fsa_letters": [
+        "S"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        3.2,
+        15.9,
+        20.6,
+        22.9,
+        25.4,
+        27.4,
+        27.3,
+        33.0,
+        43.0
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.968,
+        0.841,
+        0.794,
+        0.771,
+        0.746,
+        0.726,
+        0.727,
+        0.67,
+        0.57
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    },
+    "YT": {
+      "name": "Yukon",
+      "fsa_letters": [
+        "Y"
+      ],
+      "avg_tax_rates_pct": [
+        -8.9,
+        3.1,
+        14.6,
+        18.6,
+        20.4,
+        22.8,
+        24.6,
+        25.7,
+        31.2,
+        41.7
+      ],
+      "breakpoint_net_ratios": [
+        1.089,
+        0.969,
+        0.854,
+        0.814,
+        0.796,
+        0.772,
+        0.754,
+        0.743,
+        0.688,
+        0.583
+      ],
+      "breakpoints": [
+        10000,
+        20000,
+        30000,
+        40000,
+        50000,
+        60000,
+        80000,
+        100000,
+        175000,
+        600000
+      ]
+    }
+  },
+  "fsa_letter_to_province": {
+    "T": "AB",
+    "V": "BC",
+    "R": "MB",
+    "E": "NB",
+    "A": "NL",
+    "B": "NS",
+    "X": "NT",
+    "K": "ON",
+    "L": "ON",
+    "M": "ON",
+    "N": "ON",
+    "P": "ON",
+    "C": "PE",
+    "G": "QC",
+    "H": "QC",
+    "J": "QC",
+    "S": "SK",
+    "Y": "YT"
+  }
+}
