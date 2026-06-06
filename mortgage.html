@@ -319,6 +319,7 @@ p{margin:0;}
         <div class="met"><div class="ml">Mortgage payment</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
+        <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
         <div class="met"><div class="ml">Lump sum savings</div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
         <div class="met"><div class="ml">Max house price</div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
@@ -440,36 +441,39 @@ p{margin:0;}
       <div id="census-ctx">
         <!-- KPI row -->
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
-        <!-- 3 gauges in one row, full width, bigger -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:12px;">
+        <!-- Income left, 3 donuts stacked right -->
+        <div style="display:grid;grid-template-columns:3fr 1fr;gap:14px;align-items:start;">
+          <!-- Left: income chart -->
           <div>
-            <div class="gauge-title">Language</div>
-            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-lang"></canvas></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-cond);font-size:13px;font-weight:600;color:var(--ink-2);">Employment income distribution</span>
+              <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
+              <div class="legend" style="margin:0 0 0 auto;">
+                <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+                <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
+                <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:160px;margin-bottom:2px;">
+              <canvas id="income-chart"></canvas>
+            </div>
+            <div class="chart-note" id="income-note">Enter salaries and postal code then calculate.</div>
           </div>
-          <div>
-            <div class="gauge-title">Commute mode</div>
-            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-commute"></canvas></div>
-          </div>
-          <div>
-            <div class="gauge-title">Education level</div>
-            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-edu"></canvas></div>
-          </div>
-        </div>
-        <!-- Income distribution below, full width -->
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-            <span style="font-family:var(--font-cond);font-size:13px;font-weight:600;color:var(--ink-2);">Employment income distribution</span>
-            <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
-            <div class="legend" style="margin:0 0 0 auto;">
-              <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
-              <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
-              <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
+          <!-- Right: 3 donuts stacked -->
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div>
+              <div class="gauge-title">Language</div>
+              <div class="chart-wrap" style="height:130px;"><canvas id="gauge-lang"></canvas></div>
+            </div>
+            <div>
+              <div class="gauge-title">Commute mode</div>
+              <div class="chart-wrap" style="height:130px;"><canvas id="gauge-commute"></canvas></div>
+            </div>
+            <div>
+              <div class="gauge-title">Education level</div>
+              <div class="chart-wrap" style="height:130px;"><canvas id="gauge-edu"></canvas></div>
             </div>
           </div>
-          <div class="chart-wrap" style="height:140px;margin-bottom:2px;">
-            <canvas id="income-chart"></canvas>
-          </div>
-          <div class="chart-note" id="income-note">Enter salaries and postal code then calculate.</div>
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
       </div>
@@ -949,14 +953,16 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
   const housingAnn = mortAnn + taxAnn + heatAnn;
   const remainAnn  = jointTotal - housingAnn;
 
+  const lumpAnn = lumpsum || 0;
+
   let catTotalAnn = 0;
   const catAnnVals = {};
   CATS.forEach(c => {
     catAnnVals[c.id] = (catVals[c.id] || 0) * 26;
     catTotalAnn += catAnnVals[c.id];
   });
-  // Shared savings = what's left in joint after housing + discretionary
-  const sharedSavingsAnn = remainAnn - catTotalAnn;
+  // Shared savings = what's left after housing + lump sum + discretionary
+  const sharedSavingsAnn = remainAnn - lumpAnn - catTotalAnn;
   // Personal = each person's kept portion (not in joint)
   const personalAnn = p1per + p2per;
 
@@ -965,7 +971,6 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
   const d = v => CAD(v / 26 * pf(mode));
   const tbody = document.getElementById('spend-tbody');
 
-  const lumpAnn = lumpsum || 0;
   const rows = [
     { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, lump:lumpAnn*p1ratio, ratio:p1ratio, per:p1per },
     { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, lump:lumpAnn*p2ratio, ratio:p2ratio, per:p2per },
@@ -1384,7 +1389,7 @@ function renderCensusPanel(fsa) {
       options: {
         responsive:true, maintainAspectRatio:false, animation:{duration:200},
         cutout:'55%',
-        layout:{ padding:{ left:44, right:44, top:12, bottom:12 } },
+        layout:{ padding:{ left:36, right:36, top:10, bottom:10 } },
         plugins: {
           legend:{ display:false },
           donutLabels:{},
@@ -1419,12 +1424,6 @@ function renderCensusPanel(fsa) {
     { label:'No post.',     val: pctNoPostsec,          color:'#888780' },
   ]);
 
-  // Owner/renter gauge
-  makeGauge('gauge-tenure', 'gauge-tenure-legend', [
-    { label:'Owners',  val: d.pct_owners,  color:'#1D9E75' },
-    { label:'Renters', val: d.pct_renters, color:'#e85a44' },
-  ]);
-
   // Note
   const parts = [
     d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null,
@@ -1438,8 +1437,8 @@ function renderCensusPanel(fsa) {
 
 // Render dwelling type pie in the Housing Market context panel
 function renderMarketDwellChart(fsa) {
-  const d = DATA.census_fsa && DATA.census_fsa[fsa];
-  if (!d || !d.dwell_pct) return;
+  const d = (DATA.census_fsa && DATA.census_fsa[fsa]) || null;
+  if (!d) return;
   const DWELL_COLOURS = ['#378ADD','#7f77dd','#e85a44','#e8a030','#1D9E75','#5DCAA5','#888780','#b6bdcc'];
   const labels = d.dwell_labels || ['Detached','Semi','Row','Duplex','Apt<5','Apt5+','Other','Movable'];
   const vals   = (d.dwell_pct || []).map(v => v || 0);
@@ -1595,6 +1594,10 @@ function calculate() {
   const leftoverAnn = (sharedSavingsAnn||0) + (personalAnn||0);
   document.getElementById('m-leftover').textContent = CAD(leftoverAnn / 26 * f);
   document.getElementById('m-leftover-s').textContent = modeLbl + ' · shared + personal';
+  // Shared expenses outside housing (discretionary cats only, no tax/heat/lump)
+  const sharedExpBw = catTotalBw; // already bi-weekly
+  document.getElementById('m-expenses').textContent = CAD(sharedExpBw * f);
+  document.getElementById('m-expenses-s').textContent = modeLbl + ' · groceries, transport…';
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
