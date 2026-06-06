@@ -210,6 +210,48 @@ p{margin:0;}
       </div>
     </div>
 
+    <!-- FINANCES -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Finances</div>
+      <div class="field" style="margin-bottom:6px;"><label>Down payment</label>
+        <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:4px;">Lump sum /yr
+            <span class="tip-btn">?<span class="tip-box">Optional extra annual payment directly on your principal. Reduces total interest paid and shortens your amortization. Most mortgages allow 10–20% of original principal as a lump sum each year.</span></span>
+          </label>
+          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
+        <div class="field"><label>Inflation %/yr</label>
+          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:4px;">Shared expenses %
+          <span class="tip-btn">?<span class="tip-box">The share of each person's net paycheque that goes into the joint account to cover shared costs (housing, groceries, utilities, etc.). The remainder stays personal spending money. E.g. 70% means you each keep 30% for yourselves.</span></span>
+        </label>
+        <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
+    </div>
+
+    <!-- FINANCES -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Finances</div>
+      <div class="field" style="margin-bottom:6px;"><label>Down payment</label>
+        <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:4px;">Lump sum /yr
+            <span class="tip-btn">?<span class="tip-box">Optional extra annual payment directly on your principal. Reduces total interest paid and shortens your amortization. Most mortgages allow 10–20% of original principal as a lump sum each year.</span></span>
+          </label>
+          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
+        <div class="field"><label>Inflation %/yr</label>
+          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:4px;">Shared expenses %
+          <span class="tip-btn">?<span class="tip-box">The share of each person's net paycheque that goes into the joint account to cover shared costs (housing, groceries, utilities, etc.). The remainder stays personal spending money. E.g. 70% means you each keep 30% for yourselves.</span></span>
+        </label>
+        <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
+    </div>
+
     <!-- PROPERTY -->
     <div class="ibox">
       <div class="ibox-head"><div class="dot"></div>Property</div>
@@ -235,26 +277,7 @@ p{margin:0;}
         <input type="text" id="proptax" value="7,500" data-raw="7500"></div>
     </div>
 
-    <!-- FINANCES -->
-    <div class="ibox">
-      <div class="ibox-head"><div class="dot"></div>Finances</div>
-      <div class="field" style="margin-bottom:6px;"><label>Down payment</label>
-        <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
-      <div class="grid-2" style="margin-bottom:6px;">
-        <div class="field">
-          <label style="display:flex;align-items:center;gap:4px;">Lump sum /yr
-            <span class="tip-btn">?<span class="tip-box">Optional extra annual payment directly on your principal. Reduces total interest paid and shortens your amortization. Most mortgages allow 10–20% of original principal as a lump sum each year.</span></span>
-          </label>
-          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
-        <div class="field"><label>Inflation %/yr</label>
-          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
-      </div>
-      <div class="field">
-        <label style="display:flex;align-items:center;gap:4px;">Shared expenses %
-          <span class="tip-btn">?<span class="tip-box">The share of each person's net paycheque that goes into the joint account to cover shared costs (housing, groceries, utilities, etc.). The remainder stays personal spending money. E.g. 70% means you each keep 30% for yourselves.</span></span>
-        </label>
-        <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
-    </div>
+
 
 
 
@@ -282,12 +305,12 @@ p{margin:0;}
 
       <!-- Income chart -->
       <div class="rcard">
-        <h3>Income distribution <span class="sub">Census 2021 · <span id="fsa-lbl">K2B</span></span></h3>
+        <h3>Employment income distribution <span class="sub">Census 2021 · <span id="fsa-lbl">K2B</span></span></h3>
         <div class="chart-wrap" style="height:130px;">
           <canvas id="income-chart"></canvas>
         </div>
         <div class="legend" style="margin-top:6px;">
-          <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+          <div class="li"><div class="ld" style="background:#1a4a7a;"></div>Postal code</div>
           <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
           <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
           <div class="li"><div class="ld" style="background:#e85a44;border-radius:0;width:2px;height:12px;"></div>P1 salary</div>
@@ -603,111 +626,116 @@ async function loadData() {
 }
 
 // ================================================================
-// CRA BRACKET GROUPING (19 → 7)
+// INCOME CHART — Census 2021 employment income brackets
 // ================================================================
-const GROUPS = [
-  { label:'<$25K',     idx:[0,1,2,3,4],   lo:0,      hi:25000  },
-  { label:'$25–50K',   idx:[5,6,7,8,9],   lo:25000,  hi:50000  },
-  { label:'$50–75K',   idx:[10,11,12,13], lo:50000,  hi:75000  },
-  { label:'$75–100K',  idx:[14,15],        lo:75000,  hi:100000 },
-  { label:'$100–150K', idx:[16],           lo:100000, hi:150000 },
-  { label:'$150–250K', idx:[17],           lo:150000, hi:250000 },
-  { label:'$250K+',    idx:[18],           lo:250000, hi:Infinity},
-];
-const UPPER_BOUNDS = [5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000,Infinity];
-const LOWER_BOUNDS = [0,5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000,60000,70000,80000,90000,100000,150000,250000];
+// 12 brackets: <10K … 90-100K | 100-125K | 125K+
+// Source: census_fsa.json emp_inc_pct = % of workers in each bracket
+// Province and Canada lines built by weighting FSA data by worker count.
 
-function cumToGroups(cumArr) {
-  const counts = cumArr.map((v,i) => i===0 ? v : v - cumArr[i-1]);
-  return GROUPS.map(g => g.idx.reduce((s,i) => s + (counts[i]||0), 0));
-}
+const INC_LABELS = ['<$10K','$10–20K','$20–30K','$30–40K','$40–50K','$50–60K',
+                    '$60–70K','$70–80K','$80–90K','$90–100K','$100–125K','$125K+'];
+const INC_LO     = [0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,125000];
+const INC_HI     = [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,125000,200000];
+const N_BRACKETS = 12;
 
-function salaryToGroupIdx(salary) {
-  return GROUPS.findIndex(g => salary >= g.lo && salary < g.hi);
-}
-
-// Convert salary to fractional position within 7-group x axis (0 to 7)
 function salaryToXPos(salary) {
-  const gi = GROUPS.findIndex(g => salary >= g.lo && salary < g.hi);
-  if (gi < 0) return 6.9;
-  const g = GROUPS[gi];
-  const hi = g.hi === Infinity ? g.lo * 3 : g.hi;
-  const frac = (salary - g.lo) / (hi - g.lo);
-  return gi + Math.min(Math.max(frac, 0.05), 0.95);
+  for (let i = 0; i < N_BRACKETS; i++) {
+    if (salary >= INC_LO[i] && salary < INC_HI[i]) {
+      const frac = (salary - INC_LO[i]) / (INC_HI[i] - INC_LO[i]);
+      return i + Math.min(Math.max(frac, 0.05), 0.95);
+    }
+  }
+  return N_BRACKETS - 0.1;
 }
 
-// ================================================================
-// INCOME CHART
-// ================================================================
-// Income chart: province lookup robustly from FSA data itself
-function getProvData(fsa) {
-  // Try fsa_index first, then fall back to census_fsa province field
-  const provName = (DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province)
-    || (DATA.census_fsa && DATA.census_fsa[fsa] && DATA.census_fsa[fsa].province);
-  if (!provName || !DATA.income_canada || !DATA.income_canada.provinces) return null;
-  // Try direct match first, then partial match (handles bilingual names)
-  const provs = DATA.income_canada.provinces;
-  if (provs[provName]) return provs[provName];
-  // Partial match: find key that starts with provName or vice versa
-  const key = Object.keys(provs).find(k => k.startsWith(provName.split(' ')[0]) || provName.startsWith(k.split(' ')[0]));
-  return key ? provs[key] : null;
+function salaryToBracketLabel(salary) {
+  for (let i = 0; i < N_BRACKETS; i++) {
+    if (salary >= INC_LO[i] && salary < INC_HI[i]) return INC_LABELS[i];
+  }
+  return INC_LABELS[N_BRACKETS - 1];
+}
+
+// Build weighted province pct from all FSAs in province
+function buildProvincePct(province) {
+  if (!DATA.census_fsa) return null;
+  const totals = new Array(N_BRACKETS).fill(0);
+  let totalWorkers = 0;
+  Object.values(DATA.census_fsa).forEach(d => {
+    if (d.province !== province || !d.emp_inc_pct) return;
+    const w = d.emp_inc_workers || 0;
+    totalWorkers += w;
+    d.emp_inc_pct.forEach((p, i) => { if (p != null) totals[i] += (p / 100) * w; });
+  });
+  return totalWorkers ? totals.map(t => t / totalWorkers * 100) : null;
+}
+
+// Build weighted Canada pct from all FSAs
+function buildCanadaPct() {
+  if (!DATA.census_fsa) return null;
+  const totals = new Array(N_BRACKETS).fill(0);
+  let totalWorkers = 0;
+  Object.values(DATA.census_fsa).forEach(d => {
+    if (!d.emp_inc_pct) return;
+    const w = d.emp_inc_workers || 0;
+    totalWorkers += w;
+    d.emp_inc_pct.forEach((p, i) => { if (p != null) totals[i] += (p / 100) * w; });
+  });
+  return totalWorkers ? totals.map(t => t / totalWorkers * 100) : null;
 }
 
 function renderIncomeChart(fsa, p1sal, p2sal) {
-  const isDark = root.getAttribute('data-theme') !== 'light';
-  // FSA data — exact match first, then try nearby FSA for same area
-  const fsaData = DATA.census_fsa && DATA.census_fsa[fsa];
-  const canData = DATA.income_canada && DATA.income_canada.canada;
-  const provData = getProvData(fsa);
+  const isDark   = root.getAttribute('data-theme') !== 'light';
+  const fsaEntry = DATA.census_fsa && DATA.census_fsa[fsa];
+  const province = (fsaEntry && fsaEntry.province) || FSA_PROV[fsa[0]] || 'ON';
 
-  const fsaG  = fsaData  ? cumToGroups(fsaData.cum)  : null;
-  const provG = provData ? cumToGroups(provData.cum)  : null;
-  const canG  = canData  ? cumToGroups(canData.cum)   : null;
+  const fsaPct  = fsaEntry ? (fsaEntry.emp_inc_pct || null) : null;
+  const provPct = buildProvincePct(province);
+  const canPct  = buildCanadaPct();
 
-  // Normalize each dataset independently (% of its own max) so shape is comparable
-  const normOwn = arr => {
-    if (!arr) return GROUPS.map(()=>0);
-    const mx = Math.max(...arr, 1);
-    return arr.map(v => v/mx*100);
-  };
-
-  // Distinct, clearly separated colors
-  const colors = isDark
-    ? { fsa:'#1a4a7a', prov:'#3a7ab8', can:'#6aaee8' }
-    : { fsa:'#1a4a7a', prov:'#3a7ab8', can:'#6aaee8' };
+  const colors = { fsa:'#1a4a7a', prov:'#3a7ab8', can:'#6aaee8' };
+  const toData = arr => arr ? arr.map(v => v == null ? 0 : +v.toFixed(2)) : new Array(N_BRACKETS).fill(0);
 
   const datasets = [];
-  if (fsaData) datasets.push({ label:'FSA '+fsa, data:normOwn(fsaG), backgroundColor:colors.fsa, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
-  if (provData) datasets.push({ label:'Province', data:normOwn(provG), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
-  if (canData)  datasets.push({ label:'Canada',   data:normOwn(canG),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (fsaPct)  datasets.push({ label:fsa,      data:toData(fsaPct),  backgroundColor:colors.fsa,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (provPct) datasets.push({ label:province,  data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (canPct)  datasets.push({ label:'Canada',  data:toData(canPct),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
 
   mkChart('income-chart', {
     type: 'bar',
-    data: { labels: GROUPS.map(g => g.label), datasets },
+    data: { labels: INC_LABELS, datasets },
     options: {
       ...baseChart,
       scales: {
         x: {
-          ticks:{ font:{size:9,family:'"JetBrains Mono"'}, color:tc() },
-          grid:{ display:true, color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', lineWidth:1, drawTicks:false },
-          border:{ display:false }
+          ticks:{ font:{size:8, family:'"JetBrains Mono"'}, color:tc(), maxRotation:45, minRotation:30 },
+          grid:{ display:true, color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', drawTicks:false },
+          border:{ display:false },
         },
-        y: { display:false },
+        y: {
+          display:true,
+          ticks:{ font:{size:8}, color:tc(), callback: v => v.toFixed(0)+'%' },
+          grid:{ color:gc() }, border:{ display:false },
+        },
       },
       plugins: {
         ...baseChart.plugins,
-        tooltip:{ callbacks:{ label: ctx => ctx.dataset.label + ': ' + (ctx.raw>0?ctx.raw.toFixed(0)+'% of peak':'n/a') }},
+        tooltip:{ callbacks:{
+          label: ctx => `${ctx.dataset.label}: ${ctx.raw != null ? ctx.raw.toFixed(1) : '—'}% of workers`,
+        }},
       },
     },
   });
 
   document.getElementById('fsa-lbl').textContent = fsa;
-  const gi1 = salaryToGroupIdx(p1sal), gi2 = salaryToGroupIdx(p2sal);
-  const fsaNote = fsaData ? `FSA ${fsa} (${fsaData.total?.toLocaleString('en-CA')} filers)` : `FSA ${fsa} not in dataset`;
+  const workers = fsaEntry ? (fsaEntry.emp_inc_workers || 0).toLocaleString('en-CA') : '—';
+  const fsaNote = fsaEntry
+    ? `${fsa} · ${workers} workers with employment income · Census 2021`
+    : `${fsa} not found in Census data`;
+  const p1lbl = p1sal > 0 ? `P1 ${CAD(p1sal)} → ${salaryToBracketLabel(p1sal)}` : '';
+  const p2lbl = p2sal > 0 ? ` · P2 ${CAD(p2sal)} → ${salaryToBracketLabel(p2sal)}` : '';
   document.getElementById('income-note').textContent =
-    `P1 ${CAD(p1sal)} → ${GROUPS[gi1]?.label||'?'} · P2 ${CAD(p2sal)} → ${GROUPS[gi2]?.label||'?'} · ${fsaNote}`;
+    (p1lbl ? p1lbl + p2lbl + ' · ' : '') + fsaNote;
 
-  // Draw salary markers after chart renders
   requestAnimationFrame(() => {
     if (charts['income-chart']) {
       charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
@@ -726,37 +754,17 @@ Chart.register({
     const salaries = chart._salaryMarkers;
     if (!salaries || !salaries.length) return;
     const colors = ['#e85a44', '#7f77dd'];
-    const nGroups = GROUPS.length; // 7
     salaries.forEach((sal, si) => {
-      const xPos = salaryToXPos(sal); // 0..7
+      const xPos = salaryToXPos(sal);
       const xMin = chartArea.left, xMax = chartArea.right;
-      const px = xMin + (xPos / nGroups) * (xMax - xMin);
-      const top = chartArea.top - 6, bot = chartArea.bottom + 6;
-      const col = colors[si];
+      const px   = xMin + (xPos / N_BRACKETS) * (xMax - xMin);
+      const top  = chartArea.top - 6, bot = chartArea.bottom + 6;
+      const col  = colors[si];
       ctx.save();
-      ctx.strokeStyle = col;
-      ctx.fillStyle   = col;
-      ctx.lineWidth   = 2;
-      ctx.setLineDash([]);
-      // Line
-      ctx.beginPath();
-      ctx.moveTo(px, top + 6);
-      ctx.lineTo(px, bot - 6);
-      ctx.stroke();
-      // Top triangle
-      ctx.beginPath();
-      ctx.moveTo(px, top);
-      ctx.lineTo(px-4, top+7);
-      ctx.lineTo(px+4, top+7);
-      ctx.closePath();
-      ctx.fill();
-      // Bottom triangle
-      ctx.beginPath();
-      ctx.moveTo(px, bot);
-      ctx.lineTo(px-4, bot-7);
-      ctx.lineTo(px+4, bot-7);
-      ctx.closePath();
-      ctx.fill();
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 2; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(px,top+6); ctx.lineTo(px,bot-6); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px,top); ctx.lineTo(px-4,top+7); ctx.lineTo(px+4,top+7); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(px,bot); ctx.lineTo(px-4,bot-7); ctx.lineTo(px+4,bot-7); ctx.closePath(); ctx.fill();
       ctx.restore();
     });
   }
