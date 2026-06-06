@@ -114,19 +114,23 @@ p{margin:0;}
 .chart-note{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;line-height:1.5;letter-spacing:0.02em;}
 /* ── SPENDING TABLE ─────────────────────────────────────────────── */
 .spend-table{width:100%;border-collapse:collapse;font-size:12px;}
-.spend-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 8px;text-align:right;border-bottom:1px solid var(--line);font-weight:400;}
+.spend-table{border-collapse:collapse;}
+.spend-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;text-align:center;border-bottom:1px solid var(--line);font-weight:400;}
 .spend-table th:first-child{text-align:left;}
-.spend-table td{padding:4px 8px;text-align:right;border-bottom:1px dashed var(--line);color:var(--ink-2);}
+.spend-table td{padding:4px 6px;text-align:center;border-bottom:1px dashed var(--line);color:var(--ink-2);}
 .spend-table td:first-child{text-align:left;color:var(--ink);font-weight:500;}
 .spend-table tr:last-child td{border-bottom:none;font-weight:600;color:var(--ink);}
-.spend-table .neg{color:var(--red);}
+.spend-table .neg{color:#e85a44;}
 .spend-table .pos{color:var(--green);}
 .spend-table .savings{font-weight:600;}
 .spend-table .savings.ok{color:var(--green);}
 .spend-table .savings.bad{color:var(--red);}
-.spend-table input{width:72px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 5px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;}
+.spend-table input{width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;}
 .spend-table input:focus{border-color:var(--accent);}
-.section-row td{background:var(--bg-3);color:var(--ink-3);font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;font-weight:400;}
+/* Vertical group dividers */
+.spend-table .div-r{border-right:1.5px solid rgba(255,255,255,0.18);}
+[data-theme="light"] .spend-table .div-r{border-right:1.5px solid rgba(0,0,0,0.18);}
+.section-row td{background:var(--bg-3);color:var(--ink-3);font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 6px;font-weight:400;}
 /* ── LEGEND ─────────────────────────────────────────────────────── */
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
 .li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink-3);}
@@ -158,6 +162,10 @@ p{margin:0;}
 .cbar-track{flex:1;height:7px;border-radius:4px;background:var(--bg-3);overflow:hidden;}
 .cbar-fill{height:100%;border-radius:4px;transition:width .3s;}
 .cbar-val{width:34px;font-family:var(--font-mono);font-size:9px;color:var(--ink-2);text-align:right;flex-shrink:0;}
+/* ── FIELD LABEL WITH UNIT ──────────────────────────────────────── */
+.field-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;}
+.field-label-row .flbl{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
+.field-label-row .funit{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);opacity:0.6;}
 [hidden]{display:none!important;}
 </style>
 </head>
@@ -202,23 +210,25 @@ p{margin:0;}
       <div class="persons-grid">
         <div class="person-col">
           <div class="person-label">Person 1</div>
-          <div class="field"><label style="display:flex;align-items:center;gap:4px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#e85a44" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</label>
-            <input type="text" id="p1salary" value="121,465" data-raw="121465"></div>
           <div class="field">
-            <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
-              <span class="tip-btn">?<span class="tip-box">Expected annual raise, used to project your income over the amortization period. Canada's average has been ~2–3%/yr. Affects the stacked area chart only, not stress tests.</span></span>
-            </label>
-            <input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"></div>
+            <div class="field-label-row"><span class="flbl" style="display:flex;align-items:center;gap:3px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#e85a44" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</span><span class="funit">CAD</span></div>
+            <input type="text" id="p1salary" value="121,465" data-raw="121465">
+          </div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
+            <input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5">
+          </div>
         </div>
         <div class="person-col">
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
-          <div class="field"><label style="display:flex;align-items:center;gap:4px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#7f77dd" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</label>
-            <input type="text" id="p2salary" value="115,126" data-raw="115126"></div>
           <div class="field">
-            <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
-              <span class="tip-btn">?<span class="tip-box">Expected annual raise, used to project your income over the amortization period. Canada's average has been ~2–3%/yr. Affects the stacked area chart only, not stress tests.</span></span>
-            </label>
-            <input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"></div>
+            <div class="field-label-row"><span class="flbl" style="display:flex;align-items:center;gap:3px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#7f77dd" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</span><span class="funit">CAD</span></div>
+            <input type="text" id="p2salary" value="115,126" data-raw="115126">
+          </div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
+            <input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5">
+          </div>
         </div>
       </div>
     </div>
@@ -231,28 +241,34 @@ p{margin:0;}
     <div class="ibox">
       <div class="ibox-head"><div class="dot"></div>Finances</div>
       <div class="grid-2" style="margin-bottom:6px;">
-        <div class="field"><label>Down payment</label>
-          <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
-        <div class="field"><label>Rate %</label>
-          <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05"></div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
+          <input type="text" id="downpay" value="200,000" data-raw="200000">
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
+          <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05">
+        </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
-        <div class="field"><label>Amortization (yrs)</label>
-          <input type="number" id="amort" value="25" min="5" max="30"></div>
         <div class="field">
-          <label style="display:flex;align-items:center;gap:4px;">Lump sum /yr
-            <span class="tip-btn">?<span class="tip-box">Optional extra annual payment directly on your principal. Reduces total interest paid and shortens your amortization. Most mortgages allow 10–20% of original principal as a lump sum each year.</span></span>
-          </label>
-          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
+          <div class="field-label-row"><span class="flbl">Amortization</span><span class="funit">yrs</span></div>
+          <input type="number" id="amort" value="25" min="5" max="30">
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Lump sum <span class="tip-btn">?<span class="tip-box">Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.</span></span></span><span class="funit">CAD/yr</span></div>
+          <input type="text" id="lumpsum" value="2,500" data-raw="2500">
+        </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
-        <div class="field"><label>Inflation %/yr</label>
-          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
         <div class="field">
-          <label style="display:flex;align-items:center;gap:4px;">Shared expenses %
-            <span class="tip-btn">?<span class="tip-box">The share of each person's net paycheque that goes into the joint account to cover shared costs (housing, groceries, utilities, etc.). The remainder stays personal spending money. E.g. 70% means you each keep 30% for yourselves.</span></span>
-          </label>
-          <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
+          <div class="field-label-row"><span class="flbl">Inflation</span><span class="funit">%/yr</span></div>
+          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5">
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Shared expenses <span class="tip-btn">?<span class="tip-box">Share of each person's net paycheque into the joint account. The remainder stays personal spending money.</span></span></span><span class="funit">%</span></div>
+          <input type="number" id="jointpct" value="70" min="0" max="100" step="5">
+        </div>
       </div>
     </div>
 
@@ -260,20 +276,24 @@ p{margin:0;}
     <div class="ibox">
       <div class="ibox-head"><div class="dot"></div>Property</div>
       <div class="grid-2" style="margin-bottom:6px;">
-        <div class="field"><label>House price</label>
-          <input type="text" id="hprice" value="850,000" data-raw="850000"></div>
-        <div class="field"><label>Postal code</label>
-          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K2B"></div>
-      </div>
-      <div class="grid-3" style="margin-bottom:6px;">
         <div class="field">
-          <label style="display:flex;align-items:center;gap:4px;">Heat /month
-            <span class="tip-btn">?<span class="tip-box">Monthly heating cost. Used by CMHC in the GDS stress test calculation. Standard estimate is $150–$200/month for a typical house. Does not affect your actual mortgage payment.</span></span>
-          </label>
-          <input type="text" id="heat" value="250" data-raw="250"></div>
-        <div class="field" style="grid-column:span 2;">
-          <label>Property tax /yr</label>
-          <input type="text" id="proptax" value="7,500" data-raw="7500"></div>
+          <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
+          <input type="text" id="hprice" value="850,000" data-raw="850000">
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
+          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K2B">
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Heat <span class="tip-btn">?<span class="tip-box">Used by CMHC in GDS stress test. Standard estimate $150–$200/month. Does not affect your mortgage payment.</span></span></span><span class="funit">CAD/mo</span></div>
+          <input type="text" id="heat" value="250" data-raw="250">
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Property tax</span><span class="funit">CAD/yr</span></div>
+          <input type="text" id="proptax" value="7,500" data-raw="7500">
+        </div>
       </div>
     </div>
 
@@ -307,15 +327,15 @@ p{margin:0;}
           <thead>
             <tr id="spend-group-row">
               <th style="width:72px;background:transparent;border:none;"></th>
-              <th colspan="2" style="background:#2d78be;color:#fff;text-align:center;border-radius:3px 3px 0 0;">Salary</th>
-              <th colspan="3" style="background:#c04a1a;color:#fff;text-align:center;border-radius:3px 3px 0 0;">Housing</th>
-              <th colspan="4" style="background:#b89010;color:#fff;text-align:center;border-radius:3px 3px 0 0;">Shared Expenses</th>
-              <th colspan="2" style="background:#2a7a3a;color:#fff;text-align:center;border-radius:3px 3px 0 0;">Leftovers</th>
+              <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;">Salary</th>
+              <th colspan="3" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
+              <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
+              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
             <tr>
               <th style="width:72px;"></th>
               <th>Gross</th>
-              <th>Est. Net</th>
+              <th class="div-r">Est. Net</th>
               <th>Mortgage</th>
               <th>Tax</th>
               <th>Heat</th>
@@ -361,22 +381,6 @@ p{margin:0;}
         <div class="chart-note">Shared = tax + heat + discretionary. Leeway = what's left over after all costs.</div>
       </div>
 
-    </div>
-
-    <!-- ROW 3: Income distribution (full width) -->
-    <div class="rcard">
-      <h3>Employment income distribution <span class="sub">Census 2021 · <span id="fsa-lbl">K2B</span></span></h3>
-      <div class="chart-wrap" style="height:150px;">
-        <canvas id="income-chart"></canvas>
-      </div>
-      <div class="legend" style="margin-top:6px;">
-        <div class="li"><div class="ld" style="background:#1a4a7a;"></div>Postal code</div>
-        <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
-        <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
-        <div class="li"><div class="ld" style="background:#e85a44;border-radius:0;width:2px;height:12px;"></div>P1 salary</div>
-        <div class="li"><div class="ld" style="background:#7f77dd;border-radius:0;width:2px;height:12px;"></div>P2 salary</div>
-      </div>
-      <div class="chart-note" id="income-note">Enter salaries and postal code then calculate.</div>
     </div>
 
     <!-- ROW 4: Market context -->
@@ -425,27 +429,42 @@ p{margin:0;}
       <div id="census-ctx">
         <!-- KPI row -->
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
-        <!-- 4 gauge charts -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        <!-- Main: gauges left, income chart right -->
+        <div style="display:grid;grid-template-columns:3fr 2fr;gap:12px;">
           <div>
-            <div class="gauge-title">Language</div>
-            <div class="chart-wrap" style="height:90px;"><canvas id="gauge-lang"></canvas></div>
-            <div id="gauge-lang-legend" class="gauge-legend"></div>
+            <!-- 4 gauge charts in 2x2 grid -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <div class="gauge-title">Language</div>
+                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-lang"></canvas></div>
+              </div>
+              <div>
+                <div class="gauge-title">Commute</div>
+                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-commute"></canvas></div>
+              </div>
+              <div>
+                <div class="gauge-title">Education</div>
+                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-edu"></canvas></div>
+              </div>
+              <div>
+                <div class="gauge-title">Owner / Renter</div>
+                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-tenure"></canvas></div>
+              </div>
+            </div>
           </div>
-          <div>
-            <div class="gauge-title">Commute</div>
-            <div class="chart-wrap" style="height:90px;"><canvas id="gauge-commute"></canvas></div>
-            <div id="gauge-commute-legend" class="gauge-legend"></div>
-          </div>
-          <div>
-            <div class="gauge-title">Education</div>
-            <div class="chart-wrap" style="height:90px;"><canvas id="gauge-edu"></canvas></div>
-            <div id="gauge-edu-legend" class="gauge-legend"></div>
-          </div>
-          <div>
-            <div class="gauge-title">Tenure</div>
-            <div class="chart-wrap" style="height:90px;"><canvas id="gauge-tenure"></canvas></div>
-            <div id="gauge-tenure-legend" class="gauge-legend"></div>
+          <div style="display:flex;flex-direction:column;">
+            <h3 style="font-family:var(--font-cond);font-size:13px;font-weight:600;color:var(--ink-2);margin:0 0 4px;">Employment income distribution <span style="font-family:var(--font-mono);font-size:9px;font-weight:400;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span></h3>
+            <div class="chart-wrap" style="height:200px;flex:1;">
+              <canvas id="income-chart"></canvas>
+            </div>
+            <div class="legend" style="margin-top:5px;">
+              <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+              <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
+              <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
+              <div class="li"><div class="ld" style="background:#e85a44;border-radius:0;width:2px;height:12px;"></div>P1</div>
+              <div class="li"><div class="ld" style="background:#7f77dd;border-radius:0;width:2px;height:12px;"></div>P2</div>
+            </div>
+            <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
           </div>
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
@@ -779,46 +798,65 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
   });
 }
 
-// Salary bracket highlight plugin — shaded rect + meeple icon above bar
+// Salary bracket marker plugin
+// Each person gets a meeple + downward arrow at top of their bracket.
+// If both are in the same bracket, offset them horizontally so both show.
 Chart.register({
   id: 'salaryMarkers',
   afterDraw(chart) {
     if (chart.canvas.id !== 'income-chart') return;
-    const { ctx, chartArea, scales } = chart;
-    if (!chartArea || !scales.x) return;
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
     const salaries = chart._salaryMarkers;
     if (!salaries || !salaries.length) return;
-    const colors = ['rgba(232,90,68,0.18)', 'rgba(127,119,221,0.18)'];
-    const borderC = ['#e85a44', '#7f77dd'];
+    const colors = ['#e85a44', '#7f77dd'];
     const barW = (chartArea.right - chartArea.left) / N_BRACKETS;
+
+    // Group by bracket so we can offset within same bracket
+    const byBracket = {};
     salaries.forEach((sal, si) => {
       const bi = INC_LO.findIndex((lo, i) => sal >= lo && sal < INC_HI[i]);
       if (bi < 0) return;
-      const x = chartArea.left + bi * barW;
-      ctx.save();
-      // Shaded bracket column
-      ctx.fillStyle = colors[si];
-      ctx.fillRect(x, chartArea.top, barW, chartArea.bottom - chartArea.top);
-      // Bracket border
-      ctx.strokeStyle = borderC[si];
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([3,2]);
-      ctx.strokeRect(x, chartArea.top, barW, chartArea.bottom - chartArea.top);
-      ctx.setLineDash([]);
-      // Meeple icon above the bracket using Path2D
-      const mx = x + barW / 2, my = chartArea.top - 14;
-      ctx.fillStyle = borderC[si];
-      // head
-      ctx.beginPath(); ctx.arc(mx, my, 4, 0, Math.PI*2); ctx.fill();
-      // arms
-      ctx.beginPath(); ctx.ellipse(mx-6, my+5, 3, 2, 0, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(mx+6, my+5, 3, 2, 0, 0, Math.PI*2); ctx.fill();
-      // body
-      ctx.beginPath();
-      ctx.moveTo(mx-3, my+3); ctx.lineTo(mx-4, my+14);
-      ctx.lineTo(mx+4, my+14); ctx.lineTo(mx+3, my+3);
-      ctx.closePath(); ctx.fill();
-      ctx.restore();
+      if (!byBracket[bi]) byBracket[bi] = [];
+      byBracket[bi].push({ si, sal });
+    });
+
+    Object.entries(byBracket).forEach(([bi, group]) => {
+      const x0 = chartArea.left + parseInt(bi) * barW;
+      const n  = group.length;
+      group.forEach(({ si }, gi) => {
+        // Offset: if same bracket, place at 1/3 and 2/3; else centered
+        const frac = n === 1 ? 0.5 : (gi + 1) / (n + 1);
+        const mx   = x0 + barW * frac;
+        const col  = colors[si];
+
+        ctx.save();
+        ctx.fillStyle = col;
+
+        // Thin vertical line from chartArea.top down 14px
+        ctx.fillRect(mx - 1, chartArea.top, 2, 14);
+
+        // Downward arrow triangle
+        const ay = chartArea.top + 14;
+        ctx.beginPath();
+        ctx.moveTo(mx - 5, ay - 8);
+        ctx.lineTo(mx + 5, ay - 8);
+        ctx.lineTo(mx, ay);
+        ctx.closePath();
+        ctx.fill();
+
+        // Meeple above arrow
+        const my = chartArea.top - 16;
+        ctx.beginPath(); ctx.arc(mx, my, 4.5, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(mx-7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(mx+7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(mx-3.5, my+3.5); ctx.lineTo(mx-4.5, my+16);
+        ctx.lineTo(mx+4.5, my+16); ctx.lineTo(mx+3.5, my+3.5);
+        ctx.closePath(); ctx.fill();
+
+        ctx.restore();
+      });
     });
   }
 });
@@ -938,12 +976,14 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     const isCombined = ri === 2;
     const catCells = CATS.map(c => {
       if (isCombined) {
-        const curVal = catVals[c.id] || 0;
-        return `<td><input type="number" id="${c.id}" value="${curVal}" min="0" step="50"
-          style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:right;outline:none;"
-          onchange="catVals['${c.id}']=parseFloat(this.value)||0;calculate()"></td>`;
+        const bwVal   = catVals[c.id] || 0;
+        const dispVal = Math.round(bwVal * pf(mode));  // show in current period
+        const factor  = pf(mode);                       // to convert edit back to bw
+        return `<td class="${c === CATS[CATS.length-1] ? 'div-r' : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
+          style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
+          onchange="catVals['${c.id}']=(parseFloat(this.value)||0)/${factor};calculate()"></td>`;
       }
-      return `<td style="color:var(--ink-3);font-size:11px;">${d(catAnnVals[c.id] * r.ratio)}</td>`;
+      return `<td${c === CATS[CATS.length-1] ? ' class="div-r"' : ''} style="color:var(--ink-3);font-size:11px;">${d(catAnnVals[c.id] * r.ratio)}</td>`;
     }).join('');
 
     // Shared savings col
@@ -957,10 +997,10 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos">${d(r.g)}</td>
-      <td>${d(r.n)}</td>
+      <td class="div-r">${d(r.n)}</td>
       <td class="neg">${d(r.mort)}</td>
       <td class="neg">${d(r.tax)}</td>
-      <td class="neg">${d(r.ht)}</td>
+      <td class="neg div-r">${d(r.ht)}</td>
       ${catCells}
       ${sharedCell}
       ${personalCell}
@@ -1273,34 +1313,78 @@ function renderCensusPanel(fsa) {
     `<div class="met"><div class="ml">${k.l}</div><div class="mv" style="font-size:13px;">${k.v}</div></div>`
   ).join('');
 
-  // ── Helper: make a doughnut gauge chart ───────────────────────────
-  function makeGauge(canvasId, legendId, slices) {
-    // slices = [{label, val, color}]
+  // ── Helper: make a doughnut gauge with leader-line labels ──────────
+  // Renders a half-donut (semicircle, top half) with labels and lines
+  // pointing to each segment. No separate legend needed.
+  const donutLabelPlugin = {
+    id: 'donutLabels',
+    afterDraw(chart) {
+      if (!chart.canvas.id.startsWith('gauge-')) return;
+      const { ctx, chartArea } = chart;
+      const ds   = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+      const cx   = (chartArea.left + chartArea.right) / 2;
+      const cy   = (chartArea.top  + chartArea.bottom) / 2;
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+      const textCol = isDark ? '#b6bdcc' : '#4b5163';
+
+      meta.data.forEach((arc, i) => {
+        const label = chart.data.labels[i];
+        const val   = ds.data[i];
+        if (!label || val < 2) return;          // skip tiny/empty slices
+        const angle  = (arc.startAngle + arc.endAngle) / 2;
+        const r      = arc.outerRadius;
+        // Start of leader line (just outside arc)
+        const lx1 = cx + Math.cos(angle) * (r + 4);
+        const ly1 = cy + Math.sin(angle) * (r + 4);
+        // End of leader line
+        const lx2 = cx + Math.cos(angle) * (r + 14);
+        const ly2 = cy + Math.sin(angle) * (r + 14);
+        const right = lx2 > cx;
+        // Text anchor
+        const tx = lx2 + (right ? 3 : -3);
+        const ty = ly2;
+
+        ctx.save();
+        ctx.strokeStyle = ds.backgroundColor[i];
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, ly2); ctx.stroke();
+        // Small horizontal tick
+        ctx.beginPath(); ctx.moveTo(lx2, ly2); ctx.lineTo(lx2 + (right?5:-5), ly2); ctx.stroke();
+
+        ctx.fillStyle = textCol;
+        ctx.font = '8px JetBrains Mono, monospace';
+        ctx.textAlign = right ? 'left' : 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${label} ${val.toFixed(0)}%`, tx + (right?5:-5), ty);
+        ctx.restore();
+      });
+    }
+  };
+  if (!Chart.registry.plugins.get('donutLabels')) Chart.register(donutLabelPlugin);
+
+  function makeGauge(canvasId, _legendId, slices) {
     const vals   = slices.map(s => Math.max(s.val || 0, 0));
-    const total  = vals.reduce((a,b)=>a+b,0);
-    // Fill remainder to 100% with muted colour if needed
-    const rem = Math.max(100 - total, 0);
+    const rem    = Math.max(100 - vals.reduce((a,b)=>a+b,0), 0);
     const data   = [...vals, rem];
-    const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.15)'];
+    const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.10)'];
     const labels = [...slices.map(s=>s.label), ''];
 
-    mkChart(canvasId, {
+    const cfg = {
       type: 'doughnut',
       data: { labels, datasets: [{ data, backgroundColor:colors, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
       options: {
         responsive:true, maintainAspectRatio:false, animation:{duration:200},
-        cutout:'62%',
+        cutout:'58%',
+        layout:{ padding:{ left:30, right:30, top:8, bottom:0 } },
         plugins: {
           legend:{ display:false },
+          donutLabels:{},  // triggers afterDraw
           tooltip:{ callbacks:{ label: ctx => ctx.label ? `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` : null }},
         },
       },
-    });
-
-    // Legend below
-    document.getElementById(legendId).innerHTML = slices.map(s =>
-      `<div class="gli"><div class="glc" style="background:${s.color};"></div>${s.label}: ${s.val!=null?s.val.toFixed(1)+'%':'—'}</div>`
-    ).join('');
+    };
+    mkChart(canvasId, cfg);
   }
 
   // Language gauge
