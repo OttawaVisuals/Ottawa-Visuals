@@ -189,7 +189,7 @@ p{margin:0;}
       <div class="persons-grid">
         <div class="person-col">
           <div class="person-label">Person 1</div>
-          <div class="field"><label>Gross salary</label>
+          <div class="field"><label style="display:flex;align-items:center;gap:4px;"><svg width="11" height="13" viewBox="0 0 11 13" fill="#e85a44" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:1px;"><circle cx="5.5" cy="3.5" r="2.5"/><path d="M1 12c0-2.485 2.015-4.5 4.5-4.5S10 9.515 10 12"/></svg> Gross salary</label>
             <input type="text" id="p1salary" value="121,465" data-raw="121465"></div>
           <div class="field">
             <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
@@ -199,7 +199,7 @@ p{margin:0;}
         </div>
         <div class="person-col">
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
-          <div class="field"><label>Gross salary</label>
+          <div class="field"><label style="display:flex;align-items:center;gap:4px;"><svg width="11" height="13" viewBox="0 0 11 13" fill="#7f77dd" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:1px;"><circle cx="5.5" cy="3.5" r="2.5"/><path d="M1 12c0-2.485 2.015-4.5 4.5-4.5S10 9.515 10 12"/></svg> Gross salary</label>
             <input type="text" id="p2salary" value="115,126" data-raw="115126"></div>
           <div class="field">
             <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
@@ -304,9 +304,8 @@ p{margin:0;}
         <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span></h3>
         <div id="stress-bands"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-          <div class="li"><div class="ld" style="background:var(--ink);"></div>Actual rate</div>
-          <div class="li"><div class="ld" style="background:#e8a030;"></div>+2% stress</div>
-          <div class="li"><div class="ld" style="background:#e85a44;"></div>CMHC cap</div>
+          <div class="li"><div class="ld" style="background:#378ADD;"></div>Actual rate</div>
+          <div class="li"><div class="ld" style="background:#7f77dd;"></div>+2% stress</div>
         </div>
       </div>
 
@@ -351,14 +350,12 @@ p{margin:0;}
         <canvas id="amort-chart"></canvas>
       </div>
       <div class="legend">
-        <div class="li"><div class="ld" style="background:#1D9E75;"></div>Principal</div>
-        <div class="li"><div class="ld" style="background:#e8a030;"></div>Interest</div>
-        <div class="li"><div class="ld" style="background:#378ADD;opacity:0.7;"></div>Tax + heat</div>
-        <div class="li"><div class="ld" style="background:#7f77dd;opacity:0.7;"></div>Shared expenses</div>
-        <div class="li"><div class="ld" style="background:#5DCAA5;opacity:0.6;"></div>P1 remaining</div>
-        <div class="li"><div class="ld" style="background:#888780;opacity:0.6;"></div>P2 remaining</div>
+        <div class="li"><div class="ld" style="background:rgba(232,160,48,0.8);"></div>Principal</div>
+        <div class="li"><div class="ld" style="background:rgba(232,90,68,0.8);"></div>Interest</div>
+        <div class="li"><div class="ld" style="background:rgba(127,119,221,0.8);"></div>Shared expenses (tax + heat + discretionary)</div>
+        <div class="li"><div class="ld" style="background:rgba(29,158,117,0.8);"></div>Leeway (savings buffer)</div>
       </div>
-      <div class="chart-note">Wage growth and inflation applied annually. Lump sum reduces principal each year. Values shown in today's dollars.</div>
+      <div class="chart-note">Wage growth and inflation applied annually. Lump sum reduces principal each year. Shared expenses include property tax, heat, and discretionary categories. Leeway = what's left over.</div>
     </div>
 
     <!-- ROW 4: Market context -->
@@ -783,27 +780,36 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
   const html = bands.map(b => {
     const aPct = Math.min(b.a / b.max * 100, 100);
     const sPct = Math.min(b.s / b.max * 100, 100);
-    const limPct = b.limit / b.max * 100;
-    const capPct = b.cap ? b.cap / b.max * 100 : null;
-    const amber = limPct; const red2 = capPct || limPct + 16;
-    const grad = `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${red2}%,#e85a44 ${red2}%)`;
+    const limPct  = b.limit / b.max * 100;
+    const capPct  = b.cap   ? b.cap / b.max * 100 : null;
+    // Gradient: green → amber at limit, then red up to cap (39%), grey beyond
+    const amber  = limPct;
+    const red2   = capPct || (limPct + 16);
+    const greyAt = b.cap ? capPct : null;
+    const grad = greyAt
+      ? `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${greyAt}%,#555a6a ${greyAt}%)`
+      : `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${red2}%,#e85a44 ${red2}%)`;
     const as = b.a > (b.cap||b.limit*1.1) ? 'bad' : b.a > b.limit ? 'warn' : 'ok';
     const ss = b.s > (b.cap||b.limit*1.1) ? 'bad' : b.s > b.limit ? 'warn' : 'ok';
     if (as==='bad'||ss==='bad') anyFail = true;
     const ticksHtml = b.ticks.map(t =>
       `<span class="band-tick" style="left:${t.v/b.max*100}%">${t.l}</span>`).join('');
-    return `<div class="band">
+    // % labels above each marker line
+    const aLabel = `<span style="position:absolute;left:calc(${aPct}% - 12px);top:-18px;font-family:var(--font-mono);font-size:9px;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
+    const sLabel = `<span style="position:absolute;left:calc(${sPct}% - 12px);top:-18px;font-family:var(--font-mono);font-size:9px;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
+    return `<div class="band" style="margin-bottom:18px;">
       <div class="band-head">
         <span class="band-lbl">${b.label}</span>
         <div class="band-vals">
-          <span class="badge ${as}">${NUM(b.a)}%</span>
-          <span class="badge ${ss}">${NUM(b.s)}%</span>
+          <span class="badge ${as}" style="border-color:#378ADD;color:#378ADD;background:rgba(55,138,221,0.1);">${NUM(b.a)}%</span>
+          <span class="badge ${ss}" style="border-color:#7f77dd;color:#7f77dd;background:rgba(127,119,221,0.1);">${NUM(b.s)}%</span>
         </div>
       </div>
-      <div class="band-bar" style="background:${grad};overflow:visible;">
-        <div class="bm w" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:white;box-shadow:0 0 0 1px rgba(0,0,0,0.3);"></div>
-        <div class="bm a" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#fff0c0;box-shadow:0 0 0 1px rgba(0,0,0,0.4);"></div>
-        ${capPct ? `<div class="bm r" style="left:calc(${capPct}% - 1.5px);height:20px;top:-4px;background:white;box-shadow:0 0 0 1px rgba(0,0,0,0.4);border:1.5px solid #e85a44;"></div>` : ''}
+      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:20px;">
+        ${aLabel}
+        ${sLabel}
+        <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;"></div>
+        <div class="bm" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#7f77dd;border-radius:1px;"></div>
       </div>
       <div class="band-ticks">${ticksHtml}</div>
     </div>`;
@@ -921,7 +927,7 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
   const bwPay = mortgagePayment(principal, rate, amort);
 
   // Build per-year totals
-  const labels = [], prinData=[], intData=[], taxHeatData=[], sharedData=[], p1RemData=[], p2RemData=[];
+  const labels = [], prinData=[], intData=[], sharedData=[], p1RemData=[];
   let bal = principal;
 
   for (let y = 1; y <= amort; y++) {
@@ -939,25 +945,24 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     const p2salY = p2sal * Math.pow(1+p2wage, y);
     const p1netY = estimateNet(p1salY, province);
     const p2netY = estimateNet(p2salY, province);
-    const taxY   = proptax * Math.pow(1+inflation, y);
-    const heatY  = heat * 12 * Math.pow(1+inflation, y);
-    const catY   = catBwBase * 26 * Math.pow(1+inflation, y);
-    const jointY = (p1netY + p2netY) * jointPct;
-    const housingY = bwPay*26 + taxY + heatY;
-    const remainY  = Math.max(jointY - housingY, 0);
-    const sharedY  = Math.min(catY, remainY);
-    const leftoverY = Math.max(remainY - catY, 0);
-    const tot = p1salY + p2salY || 1;
-    const p1remY = leftoverY * (p1salY/tot) + p1netY*(1-jointPct);
-    const p2remY = leftoverY * (p2salY/tot) + p2netY*(1-jointPct);
+    const taxY    = proptax * Math.pow(1+inflation, y);
+    const heatY   = heat * 12 * Math.pow(1+inflation, y);
+    const catY    = catBwBase * 26 * Math.pow(1+inflation, y);
+    const jointY  = (p1netY + p2netY) * jointPct;
+    const personalY = (p1netY + p2netY) * (1 - jointPct);
+    // Shared expenses = tax + heat + discretionary categories (all inflation-grown)
+    // Always show the budgeted amount — don't cap at remainY (that caused the dip)
+    const sharedExpY = taxY + heatY + catY;
+    // Leeway = everything left over after mortgage + shared expenses + personal keep
+    // Can be negative (overspend signal) — shown as the green band
+    const mortgageAnnY = bwPay * 26;
+    const leewayY = jointY - mortgageAnnY - sharedExpY + personalY;
 
     labels.push('Yr '+y);
     prinData.push(Math.round(yPrin));
     intData.push(Math.round(yInt));
-    taxHeatData.push(Math.round(taxY + heatY));
-    sharedData.push(Math.round(sharedY));
-    p1RemData.push(Math.round(p1remY));
-    p2RemData.push(Math.round(p2remY));
+    sharedData.push(Math.round(sharedExpY));
+    p1RemData.push(Math.round(Math.max(leewayY, 0)));
   }
 
   document.getElementById('amort-years-lbl').textContent = amort;
@@ -967,12 +972,10 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     data: {
       labels,
       datasets: [
-        { label:'P2 remaining',  data:p2RemData,   borderColor:'rgba(136,135,128,0.5)', backgroundColor:'rgba(136,135,128,0.18)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'P1 remaining',  data:p1RemData,   borderColor:'rgba(93,202,165,0.5)',  backgroundColor:'rgba(93,202,165,0.18)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'Shared exp.',   data:sharedData,  borderColor:'rgba(127,119,221,0.6)', backgroundColor:'rgba(127,119,221,0.22)',fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'Tax+heat',      data:taxHeatData, borderColor:'rgba(55,138,221,0.6)',  backgroundColor:'rgba(55,138,221,0.22)', fill:'stack', tension:0.3, borderWidth:1, pointRadius:0 },
-        { label:'Interest',      data:intData,     borderColor:'#e8a030',               backgroundColor:'rgba(232,160,48,0.45)', fill:'stack', tension:0.3, borderWidth:2, pointRadius:0 },
-        { label:'Principal',     data:prinData,    borderColor:'#1D9E75',               backgroundColor:'rgba(29,158,117,0.55)', fill:'stack', tension:0.3, borderWidth:2, pointRadius:0 },
+        { label:'Leeway',        data:p1RemData,  borderColor:'rgba(29,158,117,0.7)',  backgroundColor:'rgba(29,158,117,0.25)', fill:'stack', tension:0.3, borderWidth:1.5, pointRadius:0 },
+        { label:'Shared exp.',   data:sharedData, borderColor:'rgba(127,119,221,0.7)', backgroundColor:'rgba(127,119,221,0.30)', fill:'stack', tension:0.3, borderWidth:1.5, pointRadius:0 },
+        { label:'Interest',      data:intData,    borderColor:'rgba(232,90,68,0.8)',   backgroundColor:'rgba(232,90,68,0.35)',  fill:'stack', tension:0.3, borderWidth:2,   pointRadius:0 },
+        { label:'Principal',     data:prinData,   borderColor:'rgba(232,160,48,0.8)',  backgroundColor:'rgba(232,160,48,0.40)', fill:'stack', tension:0.3, borderWidth:2,   pointRadius:0 },
       ],
     },
     options: {
@@ -989,11 +992,11 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
             title: items => 'Year ' + items[0].label.replace('Yr ',''),
             label: ctx => {
               const v = ctx.parsed.y;
-              return `${ctx.dataset.label}: ${CAD(v)}/bw`;
+              return `${ctx.dataset.label}: ${CAD(v/26)}/bw · ${CAD(v)}/yr`;
             },
             footer: items => {
               const total = items.reduce((s,i) => s + i.parsed.y, 0);
-              return `Total: ${CAD(total)}/bw`;
+              return `Total: ${CAD(total/26)}/bw · ${CAD(total)}/yr`;
             }
           }
         }
