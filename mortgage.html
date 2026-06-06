@@ -90,6 +90,7 @@ p{margin:0;}
 .met .mv.green{color:var(--green);}
 .met .mv.amber{color:var(--amber);}
 .met .mv.red{color:var(--red);}
+.met .mv.blue{color:var(--blue);}
 /* ── BADGES ─────────────────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;}
 .badge.ok{background:rgba(29,158,117,0.15);color:#1D9E75;border:1px solid rgba(29,158,117,0.3);}
@@ -138,6 +139,12 @@ p{margin:0;}
 .spinner{width:28px;height:28px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 #loading p{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.08em;}
+/* ── TOOLTIP ────────────────────────────────────────────────────── */
+.tip-btn{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:999px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink-3);font-size:9px;font-family:var(--font-mono);cursor:default;flex-shrink:0;position:relative;}
+.tip-btn:hover{border-color:var(--accent);color:var(--accent);}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;width:220px;font-family:var(--font-body);font-size:11px;color:var(--ink-2);line-height:1.5;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--line-2);}
+.tip-btn:hover .tip-box{display:block;}
 [hidden]{display:none!important;}
 </style>
 </head>
@@ -176,7 +183,7 @@ p{margin:0;}
   <!-- ── INPUT COLUMN ── -->
   <aside class="input-col">
 
-    <!-- PEOPLE -->
+    <!-- INCOME -->
     <div class="ibox">
       <div class="ibox-head"><div class="dot"></div>Income</div>
       <div class="persons-grid">
@@ -184,18 +191,20 @@ p{margin:0;}
           <div class="person-label">Person 1</div>
           <div class="field"><label>Gross salary</label>
             <input type="text" id="p1salary" value="121,465" data-raw="121465"></div>
-          <div class="field"><label>Age</label>
-            <input type="number" id="p1age" value="32" min="18" max="80"></div>
-          <div class="field"><label>Wage growth %/yr</label>
+          <div class="field">
+            <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
+              <span class="tip-btn">?<span class="tip-box">Expected annual raise, used to project your income over the amortization period. Canada's average has been ~2–3%/yr. Affects the stacked area chart only, not stress tests.</span></span>
+            </label>
             <input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"></div>
         </div>
         <div class="person-col">
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
           <div class="field"><label>Gross salary</label>
             <input type="text" id="p2salary" value="115,126" data-raw="115126"></div>
-          <div class="field"><label>Age</label>
-            <input type="number" id="p2age" value="31" min="18" max="80"></div>
-          <div class="field"><label>Wage growth %/yr</label>
+          <div class="field">
+            <label style="display:flex;align-items:center;gap:4px;">Wage growth %/yr
+              <span class="tip-btn">?<span class="tip-box">Expected annual raise, used to project your income over the amortization period. Canada's average has been ~2–3%/yr. Affects the stacked area chart only, not stress tests.</span></span>
+            </label>
             <input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"></div>
         </div>
       </div>
@@ -207,62 +216,73 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field"><label>House price</label>
           <input type="text" id="hprice" value="850,000" data-raw="850000"></div>
-        <div class="field"><label>Down payment</label>
-          <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
+        <div class="field"><label>Postal code</label>
+          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K2B"></div>
       </div>
       <div class="grid-3" style="margin-bottom:6px;">
         <div class="field"><label>Rate %</label>
           <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05"></div>
         <div class="field"><label>Years</label>
           <input type="number" id="amort" value="25" min="5" max="30"></div>
-        <div class="field"><label>FSA</label>
-          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;"></div>
-      </div>
-      <div class="grid-2">
-        <div class="field"><label>Property tax /yr</label>
-          <input type="text" id="proptax" value="7,500" data-raw="7500"></div>
-        <div class="field"><label>Heat /month</label>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:4px;">Heat /month
+            <span class="tip-btn">?<span class="tip-box">Monthly heating cost. Used by CMHC in the GDS stress test calculation. Standard estimate is $150–$200/month for a typical house. Does not affect your actual mortgage payment.</span></span>
+          </label>
           <input type="text" id="heat" value="250" data-raw="250"></div>
       </div>
+      <div class="field">
+        <label>Property tax /yr</label>
+        <input type="text" id="proptax" value="7,500" data-raw="7500"></div>
     </div>
 
-    <!-- OPTIONS -->
+    <!-- FINANCES -->
     <div class="ibox">
-      <div class="ibox-head"><div class="dot"></div>Options</div>
-      <div class="grid-2">
+      <div class="ibox-head"><div class="dot"></div>Finances</div>
+      <div class="field" style="margin-bottom:6px;"><label>Down payment</label>
+        <input type="text" id="downpay" value="200,000" data-raw="200000"></div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:4px;">Lump sum /yr
+            <span class="tip-btn">?<span class="tip-box">Optional extra annual payment directly on your principal. Reduces total interest paid and shortens your amortization. Most mortgages allow 10–20% of original principal as a lump sum each year.</span></span>
+          </label>
+          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
         <div class="field"><label>Inflation %/yr</label>
           <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"></div>
-        <div class="field"><label>Lump sum /yr</label>
-          <input type="text" id="lumpsum" value="2,500" data-raw="2500"></div>
       </div>
-      <div class="field" style="margin-top:6px;"><label>Joint account % of net salary</label>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:4px;">Shared expenses %
+          <span class="tip-btn">?<span class="tip-box">The share of each person's net paycheque that goes into the joint account to cover shared costs (housing, groceries, utilities, etc.). The remainder stays personal spending money. E.g. 70% means you each keep 30% for yourselves.</span></span>
+        </label>
         <input type="number" id="jointpct" value="70" min="0" max="100" step="5"></div>
     </div>
 
-    <button class="calc-btn" id="calcbtn">Calculate</button>
 
-    <!-- PAYMENT SUMMARY (small, in sidebar) -->
-    <div class="ibox" id="pay-summary" style="margin-top:2px;">
-      <div class="ibox-head"><div class="dot"></div>Payment summary</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-        <div class="met"><div class="ml">Mortgage</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
-        <div class="met"><div class="ml">Total housing</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax+heat</div></div>
-        <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
-        <div class="met"><div class="ml">Saved (lump)</div><div class="mv green" id="m-saved">—</div><div class="ms" id="m-saved-s"></div></div>
-      </div>
-    </div>
+
+    <button class="calc-btn" id="calcbtn">Calculate</button>
 
   </aside>
 
   <!-- ── RESULTS COLUMN ── -->
   <main class="results-col">
 
+    <!-- PAYMENT SUMMARY (top of results) -->
+    <div class="rcard" id="pay-summary">
+      <h3>Summary</h3>
+      <div class="mrow">
+        <div class="met"><div class="ml">Mortgage payment</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
+        <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
+        <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
+        <div class="met"><div class="ml">Saved with lump sum</div><div class="mv green" id="m-saved">—</div><div class="ms" id="m-saved-s"></div></div>
+        <div class="met"><div class="ml">Bank max mortgage</div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s">at stress rate</div></div>
+      </div>
+    </div>
+
     <!-- ROW 1: Income context + Stress tests -->
     <div class="top-row">
 
       <!-- Income chart -->
       <div class="rcard">
-        <h3>Income distribution <span class="sub">CRA 2021 · FSA <span id="fsa-lbl">K2B</span></span></h3>
+        <h3>Income distribution <span class="sub">Census 2021 · <span id="fsa-lbl">K2B</span></span></h3>
         <div class="chart-wrap" style="height:130px;">
           <canvas id="income-chart"></canvas>
         </div>
@@ -292,7 +312,7 @@ p{margin:0;}
     <!-- ROW 2: Spending breakdown table -->
     <div class="rcard">
       <h3>Spending breakdown <span class="sub" id="spend-lbl">bi-weekly</span>
-        <span style="margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">joint account: <span id="jpct-lbl">70</span>% of net</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">shared expenses: <span id="jpct-lbl">70</span>% of net</span>
       </h3>
       <div style="overflow-x:auto;">
         <table class="spend-table" id="spend-table">
@@ -380,14 +400,14 @@ p{margin:0;}
         <div>
           <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Mortgage payment</p>
           <p>Standard Canadian mortgage formula with semi-annual compounding (as required by the Interest Act). Bi-weekly rate: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">r_bw = (1 + rate/200)^(2/26) − 1</code>. Payment: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">P × r_bw / (1 − (1+r_bw)^−n)</code> where n = years × 26.</p>
-          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test</p>
-          <p>GDS ratio calculated at both contract rate and contract rate +2% (the higher of +2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. CMHC insured mortgage hard cap: GDS ≤ 39%.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test &amp; bank maximum</p>
+          <p>GDS ratio calculated at both contract rate and stress rate (max of rate+2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. Bank maximum uses GDS ≤ 32% at stress rate — the binding constraint for most borrowers.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">Net income estimate</p>
-          <p>Rough combined federal + provincial effective rate by bracket. Not a substitute for a tax calculator — actual net depends on province, deductions, and credits. Used only for the spending breakdown.</p>
+          <p>Combined federal + provincial income tax, CPP and EI premiums, net of the Canada Workers Benefit. Rates from TaxTips.ca 2021 employment income comparison, province-inferred from postal code. Not a substitute for a tax calculator.</p>
         </div>
         <div>
           <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Income distribution</p>
-          <p>Source: CRA 2021 T1 Statistics by forward sortation area (FSA). Shows number of tax filers per income bracket. Compares individual salaries (not household income) against FSA, province, and Canada distributions.</p>
+          <p>Source: Statistics Canada 2021 Census Profile by forward sortation area (FSA). Shows the share of people with employment income in each bracket. Compares individual employment income against FSA, province, and Canada distributions.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">CPI adjustment</p>
           <p>Source: Statistics Canada table 18-10-0005-01 (annual average, all-items, Canada, base 2002=100). Used to inflation-adjust the 2005 Ottawa benchmark price to today's dollars for comparison.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">Ottawa housing data</p>
@@ -481,12 +501,68 @@ function mortgagePayment(principal, annualRate, years) {
   const n = years * 26;
   return principal * r / (1 - Math.pow(1 + r, -n));
 }
-function estimateNet(gross) {
-  if (gross <= 15000)  return gross * 0.97;
-  if (gross <= 50000)  return gross * 0.78;
-  if (gross <= 100000) return gross * 0.70;
-  if (gross <= 150000) return gross * 0.64;
-  return gross * 0.58;
+// ── GROSS → NET (2021 TaxTips.ca data, province-aware) ──────────────────────
+// Source: Mortgage/JSON/gross_to_net.json
+// Includes federal + provincial tax, CPP, EI, net of CWB.
+// Fallback to Ontario rates if province unknown.
+const GTN_BREAKPOINTS = [10000,20000,30000,40000,50000,60000,80000,100000,175000,600000];
+const GTN_RATES = {
+  AB:[-9.9, 1.4,14.6,19.5,21.8,24.1,25.8,26.8,31.8,42.7],
+  BC:[-9.6, 1.9,14.0,18.3,20.3,22.5,24.0,25.4,32.4,46.8],
+  MB:[-9.8, 6.5,18.3,22.7,24.9,27.1,29.1,31.0,36.7,46.2],
+  NB:[-8.9, 2.7,16.2,21.3,23.8,26.5,28.8,30.4,36.5,48.1],
+  NL:[-8.9, 1.9,17.2,21.3,24.1,26.8,29.0,30.6,36.1,46.6],
+  NS:[-8.9, 4.9,16.8,22.5,25.3,27.9,30.4,31.9,37.8,49.0],
+  NT:[-12.4,0.9,12.5,16.6,18.7,21.2,23.2,24.8,31.3,42.2],
+  NU:[-2.5, 0.4, 8.8,13.3,16.3,19.2,21.0,22.5,28.6,39.6],
+  ON:[-8.9, 1.9,12.8,19.5,21.5,23.7,25.5,27.2,34.8,47.7],
+  PE:[-8.9, 4.4,17.5,22.4,24.8,27.3,29.7,31.3,37.3,47.0],
+  QC:[-31.5,0.9,20.2,23.9,26.8,29.6,31.7,33.2,39.6,49.1],
+  SK:[-8.9, 3.2,15.9,20.6,22.9,25.4,27.4,27.3,33.0,43.0],
+  YT:[-8.9, 3.1,14.6,18.6,20.4,22.8,24.6,25.7,31.2,41.7],
+};
+const FSA_PROV = {A:'NL',B:'NS',C:'PE',E:'NB',G:'QC',H:'QC',J:'QC',
+  K:'ON',L:'ON',M:'ON',N:'ON',P:'ON',R:'MB',S:'SK',T:'AB',V:'BC',X:'NT',Y:'YT'};
+
+function estimateNet(gross, province) {
+  const prov = province || 'ON';
+  const rates = GTN_RATES[prov] || GTN_RATES['ON'];
+  const bps   = GTN_BREAKPOINTS;
+  let rate;
+  if (gross <= bps[0])      rate = rates[0];
+  else if (gross >= bps[bps.length-1]) rate = rates[rates.length-1];
+  else {
+    rate = rates[0];
+    for (let i=0; i<bps.length-1; i++) {
+      if (gross >= bps[i] && gross < bps[i+1]) {
+        const t = (gross - bps[i]) / (bps[i+1] - bps[i]);
+        rate = rates[i] + t * (rates[i+1] - rates[i]);
+        break;
+      }
+    }
+  }
+  return gross * (1 - rate / 100);
+}
+
+// ── BANK MAX MORTGAGE (GDS ≤ 32% at stress rate, OSFI B-20) ─────────────────
+// Returns maximum purchase price the bank will approve given income + down payment.
+// Uses binary search: finds the highest price P where GDS ≤ 32% at stress rate.
+// GDS = (monthly mortgage payment + property tax + heat) / gross monthly income
+function bankMaxMortgage(grossIncome, downpayment, rate, amort, proptax, heat) {
+  const stressRate = Math.max(rate + 2, 5.25);
+  const monthlyGross = grossIncome / 12;
+  const monthlyTax  = proptax / 12;
+  const monthlyHeat = heat;
+  let lo = 50000, hi = 5000000;
+  for (let i = 0; i < 50; i++) {
+    const mid  = (lo + hi) / 2;
+    const loan = Math.max(mid - downpayment, 0);
+    if (loan <= 0) { hi = mid; continue; }
+    const bwP  = mortgagePayment(loan, stressRate, amort);
+    const gds  = (bwP * 26/12 + monthlyTax + monthlyHeat) / monthlyGross * 100;
+    if (gds <= 32) lo = mid; else hi = mid;
+  }
+  return Math.round(lo);
 }
 
 // ================================================================
@@ -519,7 +595,7 @@ const baseChart = {
 // LOAD DATA
 // ================================================================
 async function loadData() {
-  const files = ['fsa_index','income_by_fsa','income_canada','crea_benchmarks','ottawa_sales','cpi'];
+  const files = ['fsa_index','census_fsa','crea_benchmarks','ottawa_sales','cpi'];
   const results = await Promise.all(
     files.map(f => fetch(DATA_BASE + f + '.json').then(r => r.ok ? r.json() : null).catch(() => null))
   );
@@ -565,9 +641,9 @@ function salaryToXPos(salary) {
 // ================================================================
 // Income chart: province lookup robustly from FSA data itself
 function getProvData(fsa) {
-  // Try fsa_index first, then fall back to income_by_fsa province field
+  // Try fsa_index first, then fall back to census_fsa province field
   const provName = (DATA.fsa_index && DATA.fsa_index[fsa] && DATA.fsa_index[fsa].province)
-    || (DATA.income_by_fsa && DATA.income_by_fsa[fsa] && DATA.income_by_fsa[fsa].province);
+    || (DATA.census_fsa && DATA.census_fsa[fsa] && DATA.census_fsa[fsa].province);
   if (!provName || !DATA.income_canada || !DATA.income_canada.provinces) return null;
   // Try direct match first, then partial match (handles bilingual names)
   const provs = DATA.income_canada.provinces;
@@ -580,7 +656,7 @@ function getProvData(fsa) {
 function renderIncomeChart(fsa, p1sal, p2sal) {
   const isDark = root.getAttribute('data-theme') !== 'light';
   // FSA data — exact match first, then try nearby FSA for same area
-  const fsaData = DATA.income_by_fsa && DATA.income_by_fsa[fsa];
+  const fsaData = DATA.census_fsa && DATA.census_fsa[fsa];
   const canData = DATA.income_canada && DATA.income_canada.canada;
   const provData = getProvData(fsa);
 
@@ -697,14 +773,14 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
   const monthlyMortS   = bwPayStress * 26 / 12;
   const monthlyTax     = proptax / 12;
   const monthlyHeat    = heat;
-  const spendableNet   = (estimateNet(grossIncome * 0.53) + estimateNet(grossIncome * 0.47)) / 12; // rough split
+  const spendableNet   = (estimateNet(grossIncome * 0.53, 'ON') + estimateNet(grossIncome * 0.47, 'ON')) / 12; // rough split
 
   const gds   = (monthlyMort  + monthlyTax + monthlyHeat) / monthlyGross * 100;
   const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat) / monthlyGross * 100;
   const pGross  = monthlyMort  / monthlyGross * 100;
   const pGrossS = monthlyMortS / monthlyGross * 100;
-  const pNet    = monthlyMort  / (monthlyGross * 0.68) * 100; // approx net
-  const pNetS   = monthlyMortS / (monthlyGross * 0.68) * 100;
+  const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100; // approx net ~27.2% avg effective
+  const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
   const bands = [
     { label:'GDS ratio',              a:gds,   s:gdsS,   cap:39, limit:32, max:50,
@@ -754,9 +830,9 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
 // ================================================================
 // SPENDING TABLE
 // ================================================================
-function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
-  const p1net = estimateNet(p1sal);
-  const p2net = estimateNet(p2sal);
+function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province) {
+  const p1net = estimateNet(p1sal, province);
+  const p2net = estimateNet(p2sal, province);
 
   // All values computed annually, displayed via d()
   const p1g = p1sal, p2g = p2sal;
@@ -851,7 +927,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode) {
 // ================================================================
 // AMORTIZATION STACKED AREA
 // ================================================================
-function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catBwBase) {
+function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catBwBase, province) {
   const r = bwRate(rate);
   const n = amort * 26;
   const bwPay = mortgagePayment(principal, rate, amort);
@@ -873,8 +949,8 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
 
     const p1salY = p1sal * Math.pow(1+p1wage, y);
     const p2salY = p2sal * Math.pow(1+p2wage, y);
-    const p1netY = estimateNet(p1salY);
-    const p2netY = estimateNet(p2salY);
+    const p1netY = estimateNet(p1salY, province);
+    const p2netY = estimateNet(p2salY, province);
     const taxY   = proptax * Math.pow(1+inflation, y);
     const heatY  = heat * 12 * Math.pow(1+inflation, y);
     const catY   = catBwBase * 26 * Math.pow(1+inflation, y);
@@ -1084,8 +1160,6 @@ function renderCreaCtx(board, budget) {
 function calculate() {
   const p1sal   = rawVal('p1salary');
   const p2sal   = rawVal('p2salary');
-  const p1age   = +document.getElementById('p1age').value   || 32;
-  const p2age   = +document.getElementById('p2age').value   || 31;
   const p1wage  = (+document.getElementById('p1wage').value || 2.5) / 100;
   const p2wage  = (+document.getElementById('p2wage').value || 2.5) / 100;
   const hprice  = rawVal('hprice');
@@ -1100,6 +1174,7 @@ function calculate() {
   const jointPct = (+document.getElementById('jointpct').value || 70) / 100;
   const mode    = document.getElementById('displaymode').value;
 
+  const province    = FSA_PROV[fsa[0]] || 'ON';
   const grossIncome = p1sal + p2sal;
   const principal   = Math.max(hprice - downpay, 0);
   const bwPay       = mortgagePayment(principal, rate, amort);
@@ -1132,6 +1207,10 @@ function calculate() {
   const saved = totalIntNoLump - totalInt;
   const yearsSaved = amort - payoffYear;
 
+  // Bank max mortgage
+  const bankMax    = bankMaxMortgage(grossIncome, downpay, rate, amort, proptax, heat);
+  const stressRate = Math.max(rate + 2, 5.25);
+
   document.getElementById('m-pay').textContent      = CAD(mPay);
   document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
   document.getElementById('m-housing').textContent  = CAD(mHousing);
@@ -1139,6 +1218,8 @@ function calculate() {
   document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
   document.getElementById('m-saved').textContent    = saved>100 ? CAD(saved) : '—';
   document.getElementById('m-saved-s').textContent  = yearsSaved>0 ? yearsSaved.toFixed(1)+' yrs earlier' : '';
+  document.getElementById('m-bank-max').textContent = CAD(bankMax);
+  document.getElementById('m-bank-s').textContent   = `GDS ≤ 32% @ ${stressRate.toFixed(2)}% stress rate`;
 
   // ── INCOME CHART ─────────────────────────────────────────────────
   renderIncomeChart(fsa, p1sal, p2sal);
@@ -1152,16 +1233,15 @@ function calculate() {
   renderStress(grossIncome, principal, rate, amort, proptax, heat);
 
   // ── SPENDING TABLE ───────────────────────────────────────────────
-  const { catTotalBw } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode);
+  const { catTotalBw } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province);
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
-  renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw);
+  renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
 
   // ── MARKET CONTEXT ───────────────────────────────────────────────
-  // Look up board from FSA index, fall back to income_by_fsa, then infer from FSA letter
+  // Look up board from FSA index, then infer from FSA letter
   const fsaInfo  = DATA.fsa_index && DATA.fsa_index[fsa];
-  const fsaIncome = DATA.income_by_fsa && DATA.income_by_fsa[fsa];
-  let board = (fsaInfo && fsaInfo.crea_board) || (fsaIncome && fsaIncome.crea_board) || null;
+  let board = (fsaInfo && fsaInfo.crea_board) || null;
   // If still null, try to infer from FSA first letter
   if (!board) {
     const fsaLetter = fsa[0];
@@ -1201,7 +1281,7 @@ document.getElementById('displaymode').addEventListener('change', calculate);
 ['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum'].forEach(id => {
   document.getElementById(id).addEventListener('blur', calculate);
 });
-['p1age','p1wage','p2age','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
+['p1wage','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener('change', calculate);
 });
