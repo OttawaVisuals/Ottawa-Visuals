@@ -975,31 +975,29 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, ratio:1, per:personalAnn },
   ];
 
+  const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
   const dataRows = rows.map((r, ri) => {
     const isCombined = ri === 2;
-    const catCells = CATS.map(c => {
+    const catCells = CATS.map((c, ci) => {
+      const isFirst = ci === 0;
+      const isLast  = ci === CATS.length - 1;
       if (isCombined) {
         const bwVal   = catVals[c.id] || 0;
-        const dispVal = Math.round(bwVal * pf(mode));  // show in current period
-        const factor  = pf(mode);                       // to convert edit back to bw
-        const isFirst = c === CATS[0];
-        const isLast  = c === CATS[CATS.length-1];
+        const dispVal = Math.round(bwVal * pf(mode));
+        const factor  = pf(mode);
         return `<td class="${isLast ? 'div-r' : ''}" style="${isFirst ? divLStyle : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
           style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
           onchange="catVals['${c.id}']=(parseFloat(this.value)||0)/${factor};calculate()"></td>`;
       }
-      const fstyle = c === CATS[0] ? `style="border-left:1.5px solid rgba(255,255,255,0.18);color:var(--ink-3);font-size:11px;"` : `style="color:var(--ink-3);font-size:11px;"`;
-        return `<td${c === CATS[CATS.length-1] ? ' class="div-r"' : ''} ${fstyle}>${d(catAnnVals[c.id] * r.ratio)}</td>`;
+      const cellStyle = `${isFirst ? divLStyle : ''}color:var(--ink-3);font-size:11px;`;
+      return `<td${isLast ? ' class="div-r"' : ''} style="${cellStyle}">${d(catAnnVals[c.id] * r.ratio)}</td>`;
     }).join('');
 
-    // Shared savings col
     const sharedCell = isCombined
-      ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;border-left:1.5px solid rgba(255,255,255,0.18);">${d(sharedSavingsAnn)}</td>`
-      : `<td style="color:var(--ink-3);border-left:1.5px solid rgba(255,255,255,0.18);">—</td>`;
-    // Personal col (kept outside joint)
+      ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;${divLStyle}">${d(sharedSavingsAnn)}</td>`
+      : `<td style="color:var(--ink-3);${divLStyle}">—</td>`;
     const personalCell = `<td style="color:var(--ink-2);">${d(r.per)}</td>`;
 
-    const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
     const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
