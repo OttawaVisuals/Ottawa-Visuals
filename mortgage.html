@@ -315,12 +315,13 @@ p{margin:0;}
         </select>
       </h3>
       <div class="mrow">
+        <div class="met"><div class="ml">Total net income</div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
         <div class="met"><div class="ml">Mortgage payment</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
+        <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
-        <div class="met"><div class="ml">Years saved (lump sum)</div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
-        <div class="met"><div class="ml">Monthly leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms">shared savings + personal</div></div>
-        <div class="met"><div class="ml">Bank max mortgage</div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s">at stress rate</div></div>
+        <div class="met"><div class="ml">Lump sum savings</div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
+        <div class="met"><div class="ml">Max house price</div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
       </div>
     </div>
 
@@ -335,7 +336,7 @@ p{margin:0;}
             <tr id="spend-group-row">
               <th style="width:72px;background:transparent;border:none;"></th>
               <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;">Salary</th>
-              <th colspan="3" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
+              <th colspan="4" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
               <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
               <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
@@ -346,6 +347,7 @@ p{margin:0;}
               <th>Mortgage</th>
               <th>Tax</th>
               <th>Heat</th>
+              <th>Lump sum</th>
               <th>Groceries</th>
               <th>Entertain.</th>
               <th>Transport</th>
@@ -412,9 +414,11 @@ p{margin:0;}
             <div class="chart-note" id="afford-note"></div>
           </div>
           <div>
-            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Housing type — FSA</div>
-            <div class="chart-wrap" style="height:110px;"><canvas id="market-dwell-chart"></canvas></div>
-            <div id="market-dwell-legend" style="margin-top:4px;font-family:var(--font-mono);font-size:8px;color:var(--ink-3);line-height:1.6;"></div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Housing type — FSA</div>
+            <div class="chart-wrap" style="height:100px;"><canvas id="market-dwell-chart"></canvas></div>
+            <div style="margin-top:8px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Owner vs. Renter</div>
+            <div id="tenure-bar-wrap" style="height:28px;border-radius:5px;overflow:hidden;display:flex;font-family:var(--font-mono);font-size:9px;"></div>
+            <div id="tenure-bar-legend" style="display:flex;gap:10px;margin-top:4px;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);"></div>
           </div>
         </div>
       </div>
@@ -432,47 +436,40 @@ p{margin:0;}
 
     <!-- ROW 5: Census FSA analysis -->
     <div class="rcard" id="census-card">
-      <h3>FSA analysis <span class="sub" id="census-lbl">—</span></h3>
+      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
         <!-- KPI row -->
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
-        <!-- Main: gauges left, income chart right -->
-        <div style="display:grid;grid-template-columns:3fr 2fr;gap:12px;">
+        <!-- 3 gauges in one row, full width, bigger -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:12px;">
           <div>
-            <!-- 4 gauge charts in 2x2 grid -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-              <div>
-                <div class="gauge-title">Language</div>
-                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-lang"></canvas></div>
-              </div>
-              <div>
-                <div class="gauge-title">Commute</div>
-                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-commute"></canvas></div>
-              </div>
-              <div>
-                <div class="gauge-title">Education</div>
-                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-edu"></canvas></div>
-              </div>
-              <div>
-                <div class="gauge-title">Owner / Renter</div>
-                <div class="chart-wrap" style="height:110px;"><canvas id="gauge-tenure"></canvas></div>
-              </div>
-            </div>
+            <div class="gauge-title">Language</div>
+            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-lang"></canvas></div>
           </div>
-          <div style="display:flex;flex-direction:column;">
-            <h3 style="font-family:var(--font-cond);font-size:13px;font-weight:600;color:var(--ink-2);margin:0 0 4px;">Employment income distribution <span style="font-family:var(--font-mono);font-size:9px;font-weight:400;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span></h3>
-            <div class="chart-wrap" style="height:200px;flex:1;">
-              <canvas id="income-chart"></canvas>
-            </div>
-            <div class="legend" style="margin-top:5px;">
+          <div>
+            <div class="gauge-title">Commute mode</div>
+            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-commute"></canvas></div>
+          </div>
+          <div>
+            <div class="gauge-title">Education level</div>
+            <div class="chart-wrap" style="height:160px;"><canvas id="gauge-edu"></canvas></div>
+          </div>
+        </div>
+        <!-- Income distribution below, full width -->
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <span style="font-family:var(--font-cond);font-size:13px;font-weight:600;color:var(--ink-2);">Employment income distribution</span>
+            <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
+            <div class="legend" style="margin:0 0 0 auto;">
               <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
               <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
               <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
-              <div class="li"><div class="ld" style="background:#e85a44;border-radius:0;width:2px;height:12px;"></div>P1</div>
-              <div class="li"><div class="ld" style="background:#7f77dd;border-radius:0;width:2px;height:12px;"></div>P2</div>
             </div>
-            <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
           </div>
+          <div class="chart-wrap" style="height:140px;margin-bottom:2px;">
+            <canvas id="income-chart"></canvas>
+          </div>
+          <div class="chart-note" id="income-note">Enter salaries and postal code then calculate.</div>
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
       </div>
@@ -766,6 +763,7 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
     data: { labels: INC_LABELS, datasets },
     options: {
       ...baseChart,
+      layout: { padding: { bottom: 36 } },
       scales: {
         x: {
           ticks:{ font:{size:8, family:'"JetBrains Mono"'}, color:tc(), maxRotation:45, minRotation:30 },
@@ -806,8 +804,8 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
 }
 
 // Salary bracket marker plugin
-// Each person gets a meeple + downward arrow at top of their bracket.
-// If both are in the same bracket, offset them horizontally so both show.
+// Meeples drawn BELOW the chart (under x-axis labels) pointing UP into the bracket.
+// Same-bracket: offset horizontally at 1/3 and 2/3.
 Chart.register({
   id: 'salaryMarkers',
   afterDraw(chart) {
@@ -818,8 +816,8 @@ Chart.register({
     if (!salaries || !salaries.length) return;
     const colors = ['#e85a44', '#7f77dd'];
     const barW = (chartArea.right - chartArea.left) / N_BRACKETS;
+    const baseY = chartArea.bottom + 38; // below x-axis tick labels
 
-    // Group by bracket so we can offset within same bracket
     const byBracket = {};
     salaries.forEach((sal, si) => {
       const bi = INC_LO.findIndex((lo, i) => sal >= lo && sal < INC_HI[i]);
@@ -832,28 +830,25 @@ Chart.register({
       const x0 = chartArea.left + parseInt(bi) * barW;
       const n  = group.length;
       group.forEach(({ si }, gi) => {
-        // Offset: if same bracket, place at 1/3 and 2/3; else centered
         const frac = n === 1 ? 0.5 : (gi + 1) / (n + 1);
         const mx   = x0 + barW * frac;
         const col  = colors[si];
-
         ctx.save();
         ctx.fillStyle = col;
 
-        // Thin vertical line from chartArea.top down 14px
-        ctx.fillRect(mx - 1, chartArea.top, 2, 14);
-
-        // Downward arrow triangle
-        const ay = chartArea.top + 14;
+        // Upward arrow from baseY pointing toward the chart
         ctx.beginPath();
-        ctx.moveTo(mx - 5, ay - 8);
-        ctx.lineTo(mx + 5, ay - 8);
-        ctx.lineTo(mx, ay);
+        ctx.moveTo(mx - 5, baseY);
+        ctx.lineTo(mx + 5, baseY);
+        ctx.lineTo(mx, baseY - 8);
         ctx.closePath();
         ctx.fill();
 
-        // Meeple above arrow
-        const my = chartArea.top - 16;
+        // Thin line from arrow tip up to chart bottom
+        ctx.fillRect(mx - 1, chartArea.bottom, 2, baseY - chartArea.bottom - 8);
+
+        // Meeple below the arrow
+        const my = baseY + 14;
         ctx.beginPath(); ctx.arc(mx, my, 4.5, 0, Math.PI*2); ctx.fill();
         ctx.beginPath(); ctx.ellipse(mx-7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
         ctx.beginPath(); ctx.ellipse(mx+7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
@@ -916,8 +911,9 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
     const ticksHtml = b.ticks.map(t =>
       `<span class="band-tick" style="left:${t.v/b.max*100}%">${t.l}</span>`).join('');
     // % labels above each marker line
-    const aLabel = `<span style="position:absolute;left:calc(${aPct}% - 16px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
-    const sLabel = `<span style="position:absolute;left:calc(${sPct}% - 16px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
+    // Actual rate label anchored to the LEFT of its line; stress label to the RIGHT
+    const aLabel = `<span style="position:absolute;right:calc(${100-aPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
+    const sLabel = `<span style="position:absolute;left:calc(${sPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
     return `<div class="band" style="margin-bottom:18px;">
       <div class="band-head">
         <span class="band-lbl">${b.label}</span>
@@ -941,7 +937,7 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
 // ================================================================
 // SPENDING TABLE
 // ================================================================
-function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province) {
+function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province, lumpsum) {
   const p1net = estimateNet(p1sal, province);
   const p2net = estimateNet(p2sal, province);
 
@@ -969,10 +965,11 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
   const d = v => CAD(v / 26 * pf(mode));
   const tbody = document.getElementById('spend-tbody');
 
+  const lumpAnn = lumpsum || 0;
   const rows = [
-    { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, ratio:p1ratio, per:p1per },
-    { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, ratio:p2ratio, per:p2per },
-    { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, ratio:1, per:personalAnn },
+    { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, lump:lumpAnn*p1ratio, ratio:p1ratio, per:p1per },
+    { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, lump:lumpAnn*p2ratio, ratio:p2ratio, per:p2per },
+    { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, lump:lumpAnn, ratio:1, per:personalAnn },
   ];
 
   const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
@@ -993,19 +990,25 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       return `<td${isLast ? ' class="div-r"' : ''} style="${cellStyle}">${d(catAnnVals[c.id] * r.ratio)}</td>`;
     }).join('');
 
+    // For person rows show their proportional share of shared savings (or — if combined only)
+    const personSharedSav = sharedSavingsAnn * r.ratio;
     const sharedCell = isCombined
       ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;${divLStyle}">${d(sharedSavingsAnn)}</td>`
-      : `<td style="color:var(--ink-3);${divLStyle}">—</td>`;
+      : `<td class="${sharedSavingsAnn>=0?'ok':'bad'}" style="${divLStyle}font-size:11px;color:var(--ink-3);">${d(personSharedSav)}</td>`;
     const personalCell = `<td style="color:var(--ink-2);">${d(r.per)}</td>`;
 
     const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
+    const lumpCell = r.lump > 0
+      ? `<td class="neg div-r">${d(r.lump)}</td>`
+      : `<td class="div-r" style="color:var(--ink-3);">—</td>`;
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos">${d(r.g)}</td>
       <td class="div-r">${d(r.n)}</td>
       <td class="neg" style="${divLStyle}">${d(r.mort)}</td>
       <td class="neg">${d(r.tax)}</td>
-      <td class="neg div-r">${d(r.ht)}</td>
+      <td class="neg">${d(r.ht)}</td>
+      ${lumpCell}
       ${catCells}
       ${sharedCell}
       ${personalCell}
@@ -1324,7 +1327,7 @@ function renderCensusPanel(fsa) {
   const donutLabelPlugin = {
     id: 'donutLabels',
     afterDraw(chart) {
-      if (!chart.canvas.id.startsWith('gauge-')) return;
+      if (!chart.canvas.id.startsWith('gauge-') && chart.canvas.id !== 'market-dwell-chart') return;
       const { ctx, chartArea } = chart;
       const ds   = chart.data.datasets[0];
       const meta = chart.getDatasetMeta(0);
@@ -1375,21 +1378,20 @@ function renderCensusPanel(fsa) {
     const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.10)'];
     const labels = [...slices.map(s=>s.label), ''];
 
-    const cfg = {
+    mkChart(canvasId, {
       type: 'doughnut',
       data: { labels, datasets: [{ data, backgroundColor:colors, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
       options: {
         responsive:true, maintainAspectRatio:false, animation:{duration:200},
-        cutout:'58%',
-        layout:{ padding:{ left:30, right:30, top:8, bottom:0 } },
+        cutout:'55%',
+        layout:{ padding:{ left:44, right:44, top:12, bottom:12 } },
         plugins: {
           legend:{ display:false },
-          donutLabels:{},  // triggers afterDraw
+          donutLabels:{},
           tooltip:{ callbacks:{ label: ctx => ctx.label ? `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` : null }},
         },
       },
-    };
-    mkChart(canvasId, cfg);
+    });
   }
 
   // Language gauge
@@ -1536,15 +1538,23 @@ function calculate() {
   const bankMax    = bankMaxMortgage(grossIncome, downpay, rate, amort, proptax, heat);
   const stressRate = Math.max(rate + 2, 5.25);
 
+  // Net income scaled to display period
+  const p1net = estimateNet(p1sal, province);
+  const p2net = estimateNet(p2sal, province);
+  const netTotal = p1net + p2net;
+  const modeLbl = mode==='biweekly' ? 'bi-weekly' : mode==='monthly' ? 'monthly' : 'annual';
+  document.getElementById('m-net-income').textContent = CAD(netTotal / 26 * f);
+  document.getElementById('m-net-income-s').textContent = modeLbl;
   document.getElementById('m-pay').textContent      = CAD(mPay);
   document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
   document.getElementById('m-housing').textContent  = CAD(mHousing);
   document.getElementById('m-interest').textContent = CAD(totalInt);
   document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
   document.getElementById('m-years-saved').textContent = yearsSaved>0 ? yearsSaved.toFixed(1)+' yrs' : '—';
-  document.getElementById('m-saved-s').textContent      = saved>100 ? CAD(saved)+' interest saved' : '';
+  document.getElementById('m-saved-s').textContent  = saved>100 ? CAD(saved)+' interest saved' : '';
+  // Max house price = bank max (already includes down payment in binary search)
   document.getElementById('m-bank-max').textContent = CAD(bankMax);
-  document.getElementById('m-bank-s').textContent   = `GDS ≤ 32% @ ${stressRate.toFixed(2)}% stress rate`;
+  document.getElementById('m-bank-s').textContent   = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 32% @ ${stressRate.toFixed(2)}%`;
 
   // ── UPDATE MEEPLE BRACKET COLOUR ──────────────────────────────────
   // Bracket colours: dark→light blue (same as chart bars)
@@ -1581,9 +1591,10 @@ function calculate() {
   renderStress(grossIncome, principal, rate, amort, proptax, heat);
 
   // ── SPENDING TABLE ───────────────────────────────────────────────
-  const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province);
+  const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province, lumpsum);
   const leftoverAnn = (sharedSavingsAnn||0) + (personalAnn||0);
-  document.getElementById('m-leftover').textContent = CAD(leftoverAnn/12);
+  document.getElementById('m-leftover').textContent = CAD(leftoverAnn / 26 * f);
+  document.getElementById('m-leftover-s').textContent = modeLbl + ' · shared + personal';
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
