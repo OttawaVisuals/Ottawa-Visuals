@@ -162,6 +162,12 @@ p{margin:0;}
 .cbar-track{flex:1;height:7px;border-radius:4px;background:var(--bg-3);overflow:hidden;}
 .cbar-fill{height:100%;border-radius:4px;transition:width .3s;}
 .cbar-val{width:34px;font-family:var(--font-mono);font-size:9px;color:var(--ink-2);text-align:right;flex-shrink:0;}
+/* ── INPUT WITH INLINE UNIT ─────────────────────────────────────── */
+.input-wrap{position:relative;display:flex;align-items:center;}
+.input-wrap input{padding-right:36px;width:100%;}
+.input-wrap .iunit{position:absolute;right:7px;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);pointer-events:none;white-space:nowrap;}
+/* Remove the field-label-row unit suffix now that it's inside box */
+.funit{display:none;}
 /* ── FIELD LABEL WITH UNIT ──────────────────────────────────────── */
 .field-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;}
 .field-label-row .flbl{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
@@ -186,11 +192,6 @@ p{margin:0;}
   </nav>
   <span class="spacer"></span>
   <div style="display:flex;gap:6px;align-items:center;">
-    <select id="displaymode" style="background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:4px 22px 4px 8px;font-family:var(--font-mono);font-size:11px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 8px center;">
-      <option value="biweekly">Bi-weekly</option>
-      <option value="monthly">Monthly</option>
-      <option value="annual">Annual</option>
-    </select>
     <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
@@ -211,23 +212,23 @@ p{margin:0;}
         <div class="person-col">
           <div class="person-label">Person 1</div>
           <div class="field">
-            <div class="field-label-row"><span class="flbl" style="display:flex;align-items:center;gap:3px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#e85a44" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</span><span class="funit">CAD</span></div>
-            <input type="text" id="p1salary" value="121,465" data-raw="121465">
+            <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p1salary" value="121,465" data-raw="121465"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
-            <input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5">
+            <div class="input-wrap"><input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
           </div>
         </div>
         <div class="person-col">
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
           <div class="field">
-            <div class="field-label-row"><span class="flbl" style="display:flex;align-items:center;gap:3px;"><svg width="12" height="16" viewBox="0 0 12 16" fill="#7f77dd" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="6" cy="2.8" r="2.2"/><ellipse cx="1.5" cy="7.5" rx="1.5" ry="2"/><ellipse cx="10.5" cy="7.5" rx="1.5" ry="2"/><path d="M3 6 Q3 5 6 5 Q9 5 9 6 L9 13 Q9 14 8 14 L8 16 H4 V14 Q3 14 3 13 Z"/></svg> Gross salary</span><span class="funit">CAD</span></div>
-            <input type="text" id="p2salary" value="115,126" data-raw="115126">
+            <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p2salary" value="115,126" data-raw="115126"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
-            <input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5">
+            <div class="input-wrap"><input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
           </div>
         </div>
       </div>
@@ -243,31 +244,31 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
-          <input type="text" id="downpay" value="200,000" data-raw="200000">
+          <div class="input-wrap"><input type="text" id="downpay" value="200,000" data-raw="200000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
-          <input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05">
+          <div class="input-wrap"><input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Amortization</span><span class="funit">yrs</span></div>
-          <input type="number" id="amort" value="25" min="5" max="30">
+          <div class="input-wrap"><input type="number" id="amort" value="25" min="5" max="30"><span class="iunit">yrs</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Lump sum <span class="tip-btn">?<span class="tip-box">Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.</span></span></span><span class="funit">CAD/yr</span></div>
-          <input type="text" id="lumpsum" value="2,500" data-raw="2500">
+          <div class="input-wrap"><input type="text" id="lumpsum" value="2,500" data-raw="2500"><span class="iunit">CAD</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Inflation</span><span class="funit">%/yr</span></div>
-          <input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5">
+          <div class="input-wrap"><input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"><span class="iunit">%/yr</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Shared expenses <span class="tip-btn">?<span class="tip-box">Share of each person's net paycheque into the joint account. The remainder stays personal spending money.</span></span></span><span class="funit">%</span></div>
-          <input type="number" id="jointpct" value="70" min="0" max="100" step="5">
+          <div class="input-wrap"><input type="number" id="jointpct" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
         </div>
       </div>
     </div>
@@ -278,7 +279,7 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
-          <input type="text" id="hprice" value="850,000" data-raw="850000">
+          <div class="input-wrap"><input type="text" id="hprice" value="850,000" data-raw="850000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
@@ -288,11 +289,11 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Heat <span class="tip-btn">?<span class="tip-box">Used by CMHC in GDS stress test. Standard estimate $150–$200/month. Does not affect your mortgage payment.</span></span></span><span class="funit">CAD/mo</span></div>
-          <input type="text" id="heat" value="250" data-raw="250">
+          <div class="input-wrap"><input type="text" id="heat" value="250" data-raw="250"><span class="iunit">CAD/mo</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Property tax</span><span class="funit">CAD/yr</span></div>
-          <input type="text" id="proptax" value="7,500" data-raw="7500">
+          <div class="input-wrap"><input type="text" id="proptax" value="7,500" data-raw="7500"><span class="iunit">CAD/yr</span></div>
         </div>
       </div>
     </div>
@@ -306,7 +307,13 @@ p{margin:0;}
 
     <!-- PAYMENT SUMMARY (top of results) -->
     <div class="rcard" id="pay-summary">
-      <h3>Summary</h3>
+      <h3 style="display:flex;align-items:center;gap:8px;">Summary
+        <select id="displaymode" style="background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:3px 22px 3px 8px;font-family:var(--font-mono);font-size:10px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 7px center;cursor:pointer;">
+          <option value="biweekly">Bi-weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="annual">Annual</option>
+        </select>
+      </h3>
       <div class="mrow">
         <div class="met"><div class="ml">Mortgage payment</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
@@ -909,17 +916,13 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
     const ticksHtml = b.ticks.map(t =>
       `<span class="band-tick" style="left:${t.v/b.max*100}%">${t.l}</span>`).join('');
     // % labels above each marker line
-    const aLabel = `<span style="position:absolute;left:calc(${aPct}% - 12px);top:-18px;font-family:var(--font-mono);font-size:9px;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
-    const sLabel = `<span style="position:absolute;left:calc(${sPct}% - 12px);top:-18px;font-family:var(--font-mono);font-size:9px;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
+    const aLabel = `<span style="position:absolute;left:calc(${aPct}% - 16px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
+    const sLabel = `<span style="position:absolute;left:calc(${sPct}% - 16px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
     return `<div class="band" style="margin-bottom:18px;">
       <div class="band-head">
         <span class="band-lbl">${b.label}</span>
-        <div class="band-vals">
-          <span class="badge ${as}" style="border-color:#378ADD;color:#378ADD;background:rgba(55,138,221,0.1);">${NUM(b.a)}%</span>
-          <span class="badge ${ss}" style="border-color:#7f77dd;color:#7f77dd;background:rgba(127,119,221,0.1);">${NUM(b.s)}%</span>
-        </div>
       </div>
-      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:20px;">
+      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;">
         ${aLabel}
         ${sLabel}
         <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;"></div>
@@ -979,26 +982,30 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
         const bwVal   = catVals[c.id] || 0;
         const dispVal = Math.round(bwVal * pf(mode));  // show in current period
         const factor  = pf(mode);                       // to convert edit back to bw
-        return `<td class="${c === CATS[CATS.length-1] ? 'div-r' : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
+        const isFirst = c === CATS[0];
+        const isLast  = c === CATS[CATS.length-1];
+        return `<td class="${isLast ? 'div-r' : ''}" style="${isFirst ? divLStyle : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
           style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
           onchange="catVals['${c.id}']=(parseFloat(this.value)||0)/${factor};calculate()"></td>`;
       }
-      return `<td${c === CATS[CATS.length-1] ? ' class="div-r"' : ''} style="color:var(--ink-3);font-size:11px;">${d(catAnnVals[c.id] * r.ratio)}</td>`;
+      const fstyle = c === CATS[0] ? `style="border-left:1.5px solid rgba(255,255,255,0.18);color:var(--ink-3);font-size:11px;"` : `style="color:var(--ink-3);font-size:11px;"`;
+        return `<td${c === CATS[CATS.length-1] ? ' class="div-r"' : ''} ${fstyle}>${d(catAnnVals[c.id] * r.ratio)}</td>`;
     }).join('');
 
     // Shared savings col
     const sharedCell = isCombined
-      ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;">${d(sharedSavingsAnn)}</td>`
-      : `<td style="color:var(--ink-3);">—</td>`;
+      ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;border-left:1.5px solid rgba(255,255,255,0.18);">${d(sharedSavingsAnn)}</td>`
+      : `<td style="color:var(--ink-3);border-left:1.5px solid rgba(255,255,255,0.18);">—</td>`;
     // Personal col (kept outside joint)
     const personalCell = `<td style="color:var(--ink-2);">${d(r.per)}</td>`;
 
+    const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
     const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos">${d(r.g)}</td>
       <td class="div-r">${d(r.n)}</td>
-      <td class="neg">${d(r.mort)}</td>
+      <td class="neg" style="${divLStyle}">${d(r.mort)}</td>
       <td class="neg">${d(r.tax)}</td>
       <td class="neg div-r">${d(r.ht)}</td>
       ${catCells}
@@ -1043,18 +1050,18 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     const p2salY = p2sal * Math.pow(1+p2wage, y);
     const p1netY = estimateNet(p1salY, province);
     const p2netY = estimateNet(p2salY, province);
-    const taxY    = proptax * Math.pow(1+inflation, y);
-    const heatY   = heat * 12 * Math.pow(1+inflation, y);
-    const catY    = catBwBase * 26 * Math.pow(1+inflation, y);
-    const jointY  = (p1netY + p2netY) * jointPct;
+    const taxY     = proptax * Math.pow(1+inflation, y);
+    const heatY    = heat * 12 * Math.pow(1+inflation, y);
+    const catY     = catBwBase * 26 * Math.pow(1+inflation, y);
+    const jointY   = (p1netY + p2netY) * jointPct;
     const personalY = (p1netY + p2netY) * (1 - jointPct);
-    // Shared expenses = tax + heat + discretionary categories (all inflation-grown)
-    // Always show the budgeted amount — don't cap at remainY (that caused the dip)
     const sharedExpY = taxY + heatY + catY;
-    // Leeway = everything left over after mortgage + shared expenses + personal keep
-    // Can be negative (overspend signal) — shown as the green band
-    const mortgageAnnY = bwPay * 26;
-    const leewayY = jointY - mortgageAnnY - sharedExpY + personalY;
+    // Mortgage is zero once balance is paid off
+    const mortgageAnnY = (yPrin + yInt) > 0 ? bwPay * 26 : 0;
+    // Lump sum paid this year (only if balance was still positive at start of year)
+    const lumpThisY = (yPrin > 0 && lumpsum > 0) ? lumpsum : 0;
+    // Leeway = net income minus all outflows, including lump sum
+    const leewayY = jointY + personalY - mortgageAnnY - sharedExpY - lumpThisY;
 
     labels.push('Yr '+y);
     prinData.push(Math.round(yPrin));
