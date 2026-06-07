@@ -80,7 +80,7 @@ p{margin:0;}
 .rcard h3{font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
 .rcard h3 .sub{font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
 /* ── TOP ROW (two panels side by side) ─────────────────────────── */
-.top-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
+.top-row{display:grid;grid-template-columns:2fr 3fr;gap:10px;align-items:stretch;}
 /* ── METRICS ROW ────────────────────────────────────────────────── */
 .mrow{display:flex;gap:8px;flex-wrap:wrap;}
 .met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
@@ -384,7 +384,7 @@ p{margin:0;}
       <!-- Amortization -->
       <div class="rcard" style="display:flex;flex-direction:column;">
         <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span></h3>
-        <div class="chart-wrap" style="flex:1;min-height:180px;">
+        <div class="chart-wrap" style="flex:1;min-height:160px;">
           <canvas id="amort-chart"></canvas>
         </div>
         <div class="legend">
@@ -402,15 +402,15 @@ p{margin:0;}
     <div class="rcard" id="market-card">
       <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
       <div id="ottawa-ctx">
-        <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:8px;">
+        <div style="display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:10px;margin-bottom:8px;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
-            <div class="chart-wrap" style="height:130px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="bracket-chart"></canvas></div>
             <div class="chart-note" id="bracket-note"></div>
           </div>
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — Ottawa (2005–present)</div>
-            <div class="chart-wrap" style="height:130px;"><canvas id="afford-chart"></canvas></div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="afford-chart"></canvas></div>
             <div class="legend" style="margin-top:4px;">
               <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
               <div class="li"><div class="ld" style="background:#378ADD;border-style:dashed;"></div>2005 price × CPI inflation</div>
@@ -420,9 +420,9 @@ p{margin:0;}
           </div>
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Housing type — FSA</div>
-            <div class="chart-wrap" style="height:100px;"><canvas id="market-dwell-chart"></canvas></div>
+            <div class="chart-wrap" style="height:90px;"><canvas id="market-dwell-chart"></canvas></div>
             <div style="margin-top:8px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Owner vs. Renter</div>
-            <div id="tenure-bar-wrap" style="height:28px;border-radius:5px;overflow:hidden;display:flex;font-family:var(--font-mono);font-size:9px;"></div>
+            <div id="tenure-bar-wrap" style="height:24px;border-radius:5px;overflow:hidden;display:flex;font-family:var(--font-mono);font-size:9px;"></div>
             <div id="tenure-bar-legend" style="display:flex;gap:10px;margin-top:4px;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);"></div>
           </div>
         </div>
@@ -445,7 +445,7 @@ p{margin:0;}
         <!-- KPI row -->
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
         <!-- Single row: income chart | commute donut | edu donut | lang donut -->
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;align-items:start;">
+        <div style="display:grid;grid-template-columns:3fr 1fr 1fr 1fr;gap:8px;align-items:start;">
           <div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
               <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income</span>
@@ -456,22 +456,22 @@ p{margin:0;}
                 <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
               </div>
             </div>
-            <div class="chart-wrap" style="height:150px;">
+            <div class="chart-wrap" style="height:130px;">
               <canvas id="income-chart"></canvas>
             </div>
             <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
           </div>
           <div>
             <div class="gauge-title">Commute</div>
-            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-commute"></canvas></div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-commute"></canvas></div>
           </div>
           <div>
             <div class="gauge-title">Education</div>
-            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-edu"></canvas></div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-edu"></canvas></div>
           </div>
           <div>
             <div class="gauge-title">Language</div>
-            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-lang"></canvas></div>
+            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-lang"></canvas></div>
           </div>
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
@@ -1075,7 +1075,6 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     // Mortgage payment only while balance was positive at start of year
     const mortgageAnnY = balAtStartOfYear > 0 ? yPrin + yInt : 0;
     // Leeway = total net income minus all outflows
-    // Once mortgage is paid, that freed-up money flows here automatically
     const leewayY = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
 
     labels.push('Yr '+y);
@@ -1432,6 +1431,32 @@ function renderCensusPanel(fsa) {
   ].filter(Boolean);
   document.getElementById('census-note').textContent =
     (parts.length ? parts.join(' · ') + ' · ' : '') + 'Source: Statistics Canada 2021 Census.';
+  // ── TENURE BAR (Owner vs. Renter) ────────────────────────────────
+  const tenureWrap = document.getElementById('tenure-bar-wrap');
+  const tenureLeg  = document.getElementById('tenure-bar-legend');
+  const pctOwner = d.pct_owner ?? d.pct_owned ?? null;
+  const pctRenter = d.pct_renter ?? d.pct_rented ?? null;
+  if (tenureWrap) {
+    if (pctOwner != null || pctRenter != null) {
+      const own = pctOwner ?? (100 - (pctRenter ?? 0));
+      const ren = pctRenter ?? (100 - own);
+      const oth = Math.max(0, 100 - own - ren);
+      const segs = [
+        { label:'Owner', pct: own,  color:'#378ADD' },
+        { label:'Renter', pct: ren, color:'#7f77dd' },
+      ];
+      if (oth > 0.5) segs.push({ label:'Other', pct: oth, color:'#555a6a' });
+      tenureWrap.innerHTML = segs.map(s =>
+        `<div style="width:${s.pct}%;background:${s.color};display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;white-space:nowrap;overflow:hidden;">${s.pct >= 8 ? s.pct.toFixed(0)+'%' : ''}</div>`
+      ).join('');
+      tenureLeg.innerHTML = segs.map(s =>
+        `<div class="li"><div class="ld" style="background:${s.color};"></div>${s.label} ${s.pct.toFixed(0)}%</div>`
+      ).join('');
+    } else {
+      tenureWrap.innerHTML = `<div style="width:100%;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--ink-3);">no tenure data</div>`;
+      tenureLeg.innerHTML = '';
+    }
+  }
 }
 
 
