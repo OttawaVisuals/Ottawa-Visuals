@@ -80,7 +80,7 @@ p{margin:0;}
 .rcard h3{font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
 .rcard h3 .sub{font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
 /* ── TOP ROW (two panels side by side) ─────────────────────────── */
-.top-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.top-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
 /* ── METRICS ROW ────────────────────────────────────────────────── */
 .mrow{display:flex;gap:8px;flex-wrap:wrap;}
 .met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
@@ -240,7 +240,12 @@ p{margin:0;}
 
     <!-- FINANCES -->
     <div class="ibox">
-      <div class="ibox-head"><div class="dot"></div>Finances</div>
+      <div class="ibox-head"><div class="dot"></div>Finances
+        <span class="tip-btn" style="margin-left:4px;">?<span class="tip-box" style="width:260px;">
+          <strong>Lump sum:</strong> Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.<br><br>
+          <strong>Shared expenses %:</strong> Share of each person's net paycheque into the joint account. The remainder stays personal spending money.
+        </span></span>
+      </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
@@ -257,7 +262,7 @@ p{margin:0;}
           <div class="input-wrap"><input type="number" id="amort" value="25" min="5" max="30"><span class="iunit">yrs</span></div>
         </div>
         <div class="field">
-          <div class="field-label-row"><span class="flbl">Lump sum <span class="tip-btn">?<span class="tip-box">Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.</span></span></span><span class="funit">CAD/yr</span></div>
+          <div class="field-label-row"><span class="flbl">Lump sum</span><span class="funit">CAD/yr</span></div>
           <div class="input-wrap"><input type="text" id="lumpsum" value="2,500" data-raw="2500"><span class="iunit">CAD</span></div>
         </div>
       </div>
@@ -267,7 +272,7 @@ p{margin:0;}
           <div class="input-wrap"><input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"><span class="iunit">%/yr</span></div>
         </div>
         <div class="field">
-          <div class="field-label-row"><span class="flbl">Shared expenses <span class="tip-btn">?<span class="tip-box">Share of each person's net paycheque into the joint account. The remainder stays personal spending money.</span></span></span><span class="funit">%</span></div>
+          <div class="field-label-row"><span class="flbl">Shared expenses</span><span class="funit">%</span></div>
           <div class="input-wrap"><input type="number" id="jointpct" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
         </div>
       </div>
@@ -377,9 +382,9 @@ p{margin:0;}
       </div>
 
       <!-- Amortization -->
-      <div class="rcard">
+      <div class="rcard" style="display:flex;flex-direction:column;">
         <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span></h3>
-        <div class="chart-wrap" style="height:180px;">
+        <div class="chart-wrap" style="flex:1;min-height:180px;">
           <canvas id="amort-chart"></canvas>
         </div>
         <div class="legend">
@@ -1033,7 +1038,6 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
 // ================================================================
 function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catBwBase, province) {
   const r = bwRate(rate);
-  const n = amort * 26;
   const bwPay = mortgagePayment(principal, rate, amort);
 
   // Build per-year totals
@@ -1042,6 +1046,8 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
 
   for (let y = 1; y <= amort; y++) {
     let yPrin=0, yInt=0;
+    const balAtStartOfYear = bal;
+
     for (let bw=0; bw<26; bw++) {
       if (bal <= 0) break;
       const i = bal * r;
@@ -1049,24 +1055,28 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
       bal = Math.max(bal - p, 0);
       yPrin += p; yInt += i;
     }
-    if (bal > 0 && lumpsum > 0) bal = Math.max(bal - lumpsum, 0);
+
+    // Lump sum: cap at remaining balance so we don't overpay
+    let lumpThisY = 0;
+    if (bal > 0 && lumpsum > 0) {
+      lumpThisY = Math.min(lumpsum, bal);
+      bal = Math.max(bal - lumpThisY, 0);
+    }
 
     const p1salY = p1sal * Math.pow(1+p1wage, y);
     const p2salY = p2sal * Math.pow(1+p2wage, y);
     const p1netY = estimateNet(p1salY, province);
     const p2netY = estimateNet(p2salY, province);
+    const totalNetY  = p1netY + p2netY;
     const taxY     = proptax * Math.pow(1+inflation, y);
     const heatY    = heat * 12 * Math.pow(1+inflation, y);
     const catY     = catBwBase * 26 * Math.pow(1+inflation, y);
-    const jointY   = (p1netY + p2netY) * jointPct;
-    const personalY = (p1netY + p2netY) * (1 - jointPct);
     const sharedExpY = taxY + heatY + catY;
-    // Mortgage is zero once balance is paid off
-    const mortgageAnnY = (yPrin + yInt) > 0 ? bwPay * 26 : 0;
-    // Lump sum paid this year (only if balance was still positive at start of year)
-    const lumpThisY = (yPrin > 0 && lumpsum > 0) ? lumpsum : 0;
-    // Leeway = net income minus all outflows, including lump sum
-    const leewayY = jointY + personalY - mortgageAnnY - sharedExpY - lumpThisY;
+    // Mortgage payment only while balance was positive at start of year
+    const mortgageAnnY = balAtStartOfYear > 0 ? yPrin + yInt : 0;
+    // Leeway = total net income minus all outflows
+    // Once mortgage is paid, that freed-up money flows here automatically
+    const leewayY = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
 
     labels.push('Yr '+y);
     prinData.push(Math.round(yPrin));
