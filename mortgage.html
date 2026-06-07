@@ -336,10 +336,10 @@ p{margin:0;}
           <thead>
             <tr id="spend-group-row">
               <th style="width:72px;background:transparent;border:none;"></th>
-              <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;">Salary</th>
+              <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Salary</th>
               <th colspan="4" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
               <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
-              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
+              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
             <tr>
               <th style="width:72px;"></th>
@@ -393,9 +393,46 @@ p{margin:0;}
 
     </div>
 
-
-
-
+    <!-- Neighbourhood analysis -->
+    <div class="rcard" id="census-card">
+      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
+      <div id="census-ctx">
+        <!-- KPI row -->
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
+        <!-- Single row: income chart | commute donut | edu donut | lang donut -->
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;align-items:start;">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income</span>
+              <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
+              <div class="legend" style="margin:0 0 0 auto;">
+                <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+                <div class="li"><div class="ld" style="background:#3a7ab8;"></div>Province</div>
+                <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:150px;">
+              <canvas id="income-chart"></canvas>
+            </div>
+            <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
+          </div>
+          <div>
+            <div class="gauge-title">Commute</div>
+            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-commute"></canvas></div>
+          </div>
+          <div>
+            <div class="gauge-title">Education</div>
+            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-edu"></canvas></div>
+          </div>
+          <div>
+            <div class="gauge-title">Language</div>
+            <div class="chart-wrap" style="height:150px;"><canvas id="gauge-lang"></canvas></div>
+          </div>
+        </div>
+        <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
+      </div>
+      <div id="census-empty" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:8px 0;">Census data not available for this postal code.</div>
+    </div>
 
     <!-- METHODOLOGY ANCHOR -->
     <div class="rcard" id="methodology">
@@ -804,6 +841,11 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
   const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100; // approx net ~27.2% avg effective
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
+  const stressDescs = {
+    'GDS ratio':        'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. CMHC cap 39%. Lenders require ≤ 32% at stress rate.',
+    'Mortgage % gross': 'Monthly mortgage as % of gross income. Rule of thumb: keep below 25–28%.',
+    'Mortgage % net':   'Monthly mortgage as % of estimated after-tax income. Most planners suggest ≤ 35% of net.',
+  };
   const bands = [
     { label:'GDS ratio',              a:gds,   s:gdsS,   cap:39, limit:32, max:50,
       ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'},{v:50,l:'50%'}] },
@@ -835,9 +877,11 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
     // Actual rate label anchored to the LEFT of its line; stress label to the RIGHT
     const aLabel = `<span style="position:absolute;right:calc(${100-aPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
     const sLabel = `<span style="position:absolute;left:calc(${sPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
+    const desc = stressDescs[b.label] || '';
     return `<div class="band" style="margin-bottom:18px;">
-      <div class="band-head">
+      <div class="band-head" style="flex-direction:column;align-items:flex-start;gap:2px;">
         <span class="band-lbl">${b.label}</span>
+        ${desc ? `<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);font-weight:400;line-height:1.4;">${desc}</span>` : ''}
       </div>
       <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;">
         ${aLabel}
@@ -917,15 +961,13 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     const sharedCell = isCombined
       ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;${divLStyle}">${d(sharedSavingsAnn)}</td>`
       : `<td class="${sharedSavingsAnn>=0?'ok':'bad'}" style="${divLStyle}font-size:11px;color:var(--ink-3);">${d(personSharedSav)}</td>`;
-    const personalCell = `<td style="color:var(--ink-2);">${d(r.per)}</td>`;
-
     const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
     const lumpCell = r.lump > 0
       ? `<td class="neg div-r">${d(r.lump)}</td>`
       : `<td class="div-r" style="color:var(--ink-3);">—</td>`;
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
-      <td class="pos">${d(r.g)}</td>
+      <td class="pos" style="${divLStyle}">${d(r.g)}</td>
       <td class="div-r">${d(r.n)}</td>
       <td class="neg" style="${divLStyle}">${d(r.mort)}</td>
       <td class="neg">${d(r.tax)}</td>
@@ -933,7 +975,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       ${lumpCell}
       ${catCells}
       ${sharedCell}
-      ${personalCell}
+      <td style="color:var(--ink-2);border-right:1.5px solid rgba(255,255,255,0.18);">${d(r.per)}</td>
     </tr>`;
   }).join('');
 
@@ -1122,35 +1164,30 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
     return c && basePrice ? Math.round(basePrice * c / baseCpi) / 1000 : null;
   });
 
-  // Line 3: max affordable each year
-  // We CPI-deflate current gross income back to each year's purchasing power,
-  // then run the bank max calculation. This answers: "if we had today's
-  // salaries in year Y (in real terms), what could we afford?"
-  function bankMaxYear(yearIncome, yearProptax, yearHeat) {
-    const stressRate = Math.max(rate + 2, 5.25);
-    let lo = 50000, hi = 4000000;
+  // Line 3: max affordable each year with TODAY'S income at stress rate
+  // Uses current gross income (nominal), current down payment, current
+  // property tax + heat — so the green line shows what GDS ≤ 32% allows
+  // at each year's CPI-deflated purchasing power. Expressed in nominal $
+  // so it compares directly with the red and blue benchmark lines.
+  const stressRate = Math.max(rate + 2, 5.25);
+  function bankMaxAfford(income, dp, ptax, ht) {
+    let lo = 50000, hi = 5000000;
     for (let i = 0; i < 50; i++) {
       const mid  = (lo + hi) / 2;
-      const loan = Math.max(mid - downpayment, 0);
+      const loan = Math.max(mid - dp, 0);
       if (loan <= 0) { hi = mid; continue; }
       const bwP = mortgagePayment(loan, stressRate, amort);
-      const gds = (bwP * 26/12 + yearProptax/12 + yearHeat) / (yearIncome/12) * 100;
+      const gds = (bwP * 26/12 + ptax/12 + ht) / (income/12) * 100;
       if (gds <= 32) lo = mid; else hi = mid;
     }
     return Math.round(lo) / 1000;
   }
 
-  const affordLine = showYears.map(y => {
-    const c = parseFloat(cpi[y]);
-    if (!c) return null;
-    // Deflate income and costs to year Y's dollar value
-    const factor      = c / nowCpi;
-    const incomeY     = grossIncome * factor;
-    const proptaxY    = proptax * factor;
-    const heatY       = heat * factor;
-    const downpayY    = downpayment * factor;
-    return bankMaxYear(incomeY, proptaxY, heatY);
-  });
+  // Compute once — same income/costs regardless of year
+  const affordMax = bankMaxAfford(grossIncome, downpayment, proptax, heat);
+  // Flat line: shows the same max for every year so you can see where
+  // in history your affordability would have let you buy
+  const affordLine = showYears.map(() => affordMax);
 
   mkChart('afford-chart', {
     type: 'line',
@@ -1495,11 +1532,12 @@ function calculate() {
   if (m2 && p2sal > 0) m2.setAttribute('fill', meepleColor(p2sal));
 
 
-  // ── INCOME CHART + GAUGES — DISABLED, destroy any lingering instances ───
-  ['income-chart','gauge-lang','gauge-commute','gauge-edu','gauge-tenure',
-   'bracket-chart','afford-chart','market-dwell-chart'].forEach(id => {
-    if (charts[id]) { charts[id].destroy(); delete charts[id]; }
-  });
+  // ── INCOME CHART ──────────────────────────────────────────────────
+  renderIncomeChart(fsa, p1sal, p2sal);
+  if (charts['income-chart']) {
+    charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
+    charts['income-chart'].draw();
+  }
 
   // ── STRESS TESTS ─────────────────────────────────────────────────
   renderStress(grossIncome, principal, rate, amort, proptax, heat);
@@ -1553,7 +1591,7 @@ function calculate() {
     renderCreaCtx(board, hprice);
   }
 
-  // renderCensusPanel(fsa); — DISABLED
+  renderCensusPanel(fsa);
   END DISABLED MARKET CONTEXT */
 }
 
