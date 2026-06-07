@@ -343,18 +343,18 @@ p{margin:0;}
             </tr>
             <tr>
               <th style="width:72px;"></th>
-              <th>Gross</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Gross</th>
               <th class="div-r">Est. Net</th>
-              <th>Mortgage</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Mortgage</th>
               <th>Tax</th>
               <th>Heat</th>
-              <th>Lump sum</th>
-              <th>Groceries</th>
+              <th class="div-r">Lump sum</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Groceries</th>
               <th>Entertain.</th>
               <th>Transport</th>
-              <th>Other</th>
-              <th>Shared</th>
-              <th>Personal</th>
+              <th class="div-r">Other</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Shared</th>
+              <th style="border-right:1.5px solid rgba(255,255,255,0.18);">Personal</th>
             </tr>
           </thead>
           <tbody id="spend-tbody"></tbody>
@@ -391,6 +391,46 @@ p{margin:0;}
         <div class="chart-note">Shared = tax + heat + discretionary. Leeway = what's left over after all costs.</div>
       </div>
 
+    </div>
+
+    <!-- Housing market context -->
+    <div class="rcard" id="market-card">
+      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
+      <div id="ottawa-ctx">
+        <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-bottom:8px;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
+            <div class="chart-wrap" style="height:130px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-note" id="bracket-note"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — Ottawa (2005–present)</div>
+            <div class="chart-wrap" style="height:130px;"><canvas id="afford-chart"></canvas></div>
+            <div class="legend" style="margin-top:4px;">
+              <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
+              <div class="li"><div class="ld" style="background:#378ADD;border-style:dashed;"></div>2005 price × CPI inflation</div>
+              <div class="li"><div class="ld" style="background:rgba(29,158,117,0.6);"></div>Max you could afford</div>
+            </div>
+            <div class="chart-note" id="afford-note"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Housing type — FSA</div>
+            <div class="chart-wrap" style="height:100px;"><canvas id="market-dwell-chart"></canvas></div>
+            <div style="margin-top:8px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;">Owner vs. Renter</div>
+            <div id="tenure-bar-wrap" style="height:28px;border-radius:5px;overflow:hidden;display:flex;font-family:var(--font-mono);font-size:9px;"></div>
+            <div id="tenure-bar-legend" style="display:flex;gap:10px;margin-top:4px;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);"></div>
+          </div>
+        </div>
+      </div>
+      <div id="crea-ctx" hidden>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div class="met"><div class="ml">Composite</div><div class="mv" id="cr-comp">—</div><div class="ms" id="cr-upd"></div></div>
+          <div class="met"><div class="ml">Single-family</div><div class="mv" id="cr-sfh">—</div></div>
+          <div class="met"><div class="ml">Townhouse</div><div class="mv" id="cr-town">—</div></div>
+          <div class="met"><div class="ml">YoY change</div><div class="mv" id="cr-yoy">—</div></div>
+        </div>
+        <div class="chart-note" style="margin-top:8px;" id="cr-note"></div>
+      </div>
     </div>
 
     <!-- Neighbourhood analysis -->
@@ -1555,7 +1595,6 @@ function calculate() {
   // ── AMORTIZATION CHART ───────────────────────────────────────────
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
 
-  /* MARKET CONTEXT — DISABLED
   // ── MARKET CONTEXT ───────────────────────────────────────────────
   // Look up board from FSA index, then infer from FSA letter
   const fsaInfo  = DATA.fsa_index && DATA.fsa_index[fsa];
@@ -1592,7 +1631,6 @@ function calculate() {
   }
 
   renderCensusPanel(fsa);
-  END DISABLED MARKET CONTEXT */
 }
 
 // ================================================================
