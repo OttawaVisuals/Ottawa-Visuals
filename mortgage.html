@@ -442,11 +442,11 @@ p{margin:0;}
     <div class="rcard" id="census-card">
       <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
-        <!-- KPI row -->
-        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;" id="census-metrics"></div>
-        <!-- Single row: income chart | commute donut | edu donut | lang donut -->
-        <div style="display:grid;grid-template-columns:3fr 1fr 1fr 1fr;gap:8px;align-items:start;">
-          <div>
+        <!-- 2-column: left = income chart, right = KPIs + donuts -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
+
+          <!-- LEFT: employment income chart -->
+          <div style="display:flex;flex-direction:column;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
               <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income</span>
               <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
@@ -456,23 +456,33 @@ p{margin:0;}
                 <div class="li"><div class="ld" style="background:#6aaee8;"></div>Canada</div>
               </div>
             </div>
-            <div class="chart-wrap" style="height:130px;">
+            <div class="chart-wrap" style="height:220px;">
               <canvas id="income-chart"></canvas>
             </div>
             <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
           </div>
-          <div>
-            <div class="gauge-title">Commute</div>
-            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-commute"></canvas></div>
+
+          <!-- RIGHT: KPI grid (2×3) + donuts row -->
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <!-- KPI 2×3 grid -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;" id="census-metrics"></div>
+            <!-- 3 donuts -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+              <div>
+                <div class="gauge-title">Commute</div>
+                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-commute"></canvas></div>
+              </div>
+              <div>
+                <div class="gauge-title">Education</div>
+                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-edu"></canvas></div>
+              </div>
+              <div>
+                <div class="gauge-title">Language</div>
+                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-lang"></canvas></div>
+              </div>
+            </div>
           </div>
-          <div>
-            <div class="gauge-title">Education</div>
-            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-edu"></canvas></div>
-          </div>
-          <div>
-            <div class="gauge-title">Language</div>
-            <div class="chart-wrap" style="height:120px;"><canvas id="gauge-lang"></canvas></div>
-          </div>
+
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
       </div>
@@ -1040,7 +1050,6 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
   const r = bwRate(rate);
   const bwPay = mortgagePayment(principal, rate, amort);
 
-  // Build per-year totals
   const labels = [], prinData=[], intData=[], sharedData=[], p1RemData=[];
   let bal = principal;
 
@@ -1056,7 +1065,6 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
       yPrin += p; yInt += i;
     }
 
-    // Lump sum: cap at remaining balance so we don't overpay
     let lumpThisY = 0;
     if (bal > 0 && lumpsum > 0) {
       lumpThisY = Math.min(lumpsum, bal);
@@ -1068,14 +1076,12 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     const p1netY = estimateNet(p1salY, province);
     const p2netY = estimateNet(p2salY, province);
     const totalNetY  = p1netY + p2netY;
-    const taxY     = proptax * Math.pow(1+inflation, y);
-    const heatY    = heat * 12 * Math.pow(1+inflation, y);
-    const catY     = catBwBase * 26 * Math.pow(1+inflation, y);
-    const sharedExpY = taxY + heatY + catY;
-    // Mortgage payment only while balance was positive at start of year
+    const taxY    = proptax * Math.pow(1+inflation, y);
+    const heatY   = heat * 12 * Math.pow(1+inflation, y);
+    const catY    = catBwBase * 26 * Math.pow(1+inflation, y);
+    const sharedExpY   = taxY + heatY + catY;
     const mortgageAnnY = balAtStartOfYear > 0 ? yPrin + yInt : 0;
-    // Leeway = total net income minus all outflows
-    const leewayY = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
+    const leewayY      = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
 
     labels.push('Yr '+y);
     prinData.push(Math.round(yPrin));
@@ -1381,23 +1387,22 @@ function renderCensusPanel(fsa) {
   empty.hidden = true; ctx.hidden = false;
   lbl.textContent = `${fsa} · ${d.geo_name || ''} · pop. ${(d.population||0).toLocaleString('en-CA')}`;
 
-  // ── KPI row (7 metrics) ───────────────────────────────────────────
+  // ── KPI grid (2×3) ───────────────────────────────────────────────
   const fmtD = v => v != null ? CAD(v) : '—';
   const fmt  = (v, s='') => v != null ? v + s : '—';
   const kpis = [
-    { l:'Population',           v: (d.population||0).toLocaleString('en-CA') },
-    { l:'Median age',           v: fmt(d.median_age, ' yrs') },
-    { l:'Avg household size',   v: fmt(d.avg_household_size) },
-    { l:'Median income',        v: fmtD(d.median_employment_income) },
-    { l:'Average income',       v: fmtD(d.avg_employment_income) },
-    { l:'Median HH income',     v: fmtD(d.median_household_income) },
-    { l:'Average HH income',    v: fmtD(d.avg_household_income) },
+    { l:'Population',         v: (d.population||0).toLocaleString('en-CA') },
+    { l:'Median age',         v: fmt(d.median_age, ' yrs') },
+    { l:'Avg household size', v: fmt(d.avg_household_size) },
+    { l:'Median HH income',   v: fmtD(d.median_household_income) },
+    { l:'Avg HH income',      v: fmtD(d.avg_household_income) },
+    { l:'Shelter cost 30%+',  v: fmt(d.pct_shelter_cost_burdened, '%') },
   ];
   document.getElementById('census-metrics').innerHTML = kpis.map(k =>
     `<div class="met"><div class="ml">${k.l}</div><div class="mv" style="font-size:13px;">${k.v}</div></div>`
   ).join('');
 
-  // Language gauge — field names match build_json_census_section.py output
+  // Language gauge
   makeGauge('gauge-lang', [
     { label:'English',    val: d.pct_english_only  ?? d.pct_english ?? null,  color:'#378ADD' },
     { label:'French',     val: d.pct_french_only   ?? d.pct_french  ?? null,  color:'#7f77dd' },
@@ -1405,22 +1410,26 @@ function renderCensusPanel(fsa) {
     { label:'Neither',    val: d.pct_neither_lang  ?? d.pct_neither ?? null,  color:'#e8a030' },
   ]);
 
-  // Commute gauge
+  // Commute gauge — car + transit + walk + other (inferred remainder)
+  const commuteKnown = (d.pct_commute_car ?? 0) + (d.pct_commute_transit ?? 0) + (d.pct_commute_walk ?? 0);
+  const commuteOther = (d.pct_commute_car != null) ? Math.max(0, Math.round((100 - commuteKnown) * 10) / 10) : null;
   makeGauge('gauge-commute', [
     { label:'Car',     val: d.pct_commute_car     ?? null, color:'#e85a44' },
     { label:'Transit', val: d.pct_commute_transit ?? null, color:'#378ADD' },
     { label:'Walk',    val: d.pct_commute_walk    ?? null, color:'#1D9E75' },
+    { label:'Other',   val: commuteOther,                  color:'#e8a030' },
   ]);
 
-  // Education gauge
+  // Education gauge — 4 slices derived from the 2 available fields
+  // Bach.+ | College/trade (other post) | No post-secondary | Unknown/not stated
   const pctPost    = d.pct_postsecondary  ?? d.pct_postsec ?? null;
   const pctBach    = d.pct_bachelors_plus ?? d.pct_bachelor ?? null;
-  const pctNoPost  = pctPost != null ? Math.max(100 - pctPost, 0) : null;
-  const pctOthPost = pctPost != null && pctBach != null ? Math.max(pctPost - pctBach, 0) : null;
+  const pctTrade   = (pctPost != null && pctBach != null) ? Math.max(Math.round((pctPost - pctBach) * 10) / 10, 0) : null;
+  const pctNoPost  = pctPost != null ? Math.max(Math.round((100 - pctPost) * 10) / 10, 0) : null;
   makeGauge('gauge-edu', [
-    { label:"Bach.+",     val: pctBach,    color:'#1D9E75' },
-    { label:'Other post', val: pctOthPost, color:'#378ADD' },
-    { label:'No post',    val: pctNoPost,  color:'#888780' },
+    { label:'Bach.+',    val: pctBach,   color:'#1D9E75' },
+    { label:'College',   val: pctTrade,  color:'#378ADD' },
+    { label:'No post',   val: pctNoPost, color:'#888780' },
   ]);
 
   // Note
@@ -1434,15 +1443,15 @@ function renderCensusPanel(fsa) {
   // ── TENURE BAR (Owner vs. Renter) ────────────────────────────────
   const tenureWrap = document.getElementById('tenure-bar-wrap');
   const tenureLeg  = document.getElementById('tenure-bar-legend');
-  const pctOwner = d.pct_owner ?? d.pct_owned ?? null;
-  const pctRenter = d.pct_renter ?? d.pct_rented ?? null;
+  const pctOwner  = d.pct_owners  ?? d.pct_owner  ?? null;
+  const pctRenter = d.pct_renters ?? d.pct_renter ?? null;
   if (tenureWrap) {
     if (pctOwner != null || pctRenter != null) {
-      const own = pctOwner ?? (100 - (pctRenter ?? 0));
-      const ren = pctRenter ?? (100 - own);
-      const oth = Math.max(0, 100 - own - ren);
+      const own = pctOwner  ?? Math.max(0, 100 - (pctRenter ?? 0));
+      const ren = pctRenter ?? Math.max(0, 100 - own);
+      const oth = Math.max(0, Math.round((100 - own - ren) * 10) / 10);
       const segs = [
-        { label:'Owner', pct: own,  color:'#378ADD' },
+        { label:'Owner',  pct: own, color:'#378ADD' },
         { label:'Renter', pct: ren, color:'#7f77dd' },
       ];
       if (oth > 0.5) segs.push({ label:'Other', pct: oth, color:'#555a6a' });
