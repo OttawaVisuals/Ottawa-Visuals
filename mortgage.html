@@ -146,8 +146,7 @@ p{margin:0;}
 /* ── TOOLTIP ────────────────────────────────────────────────────── */
 .tip-btn{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:999px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink-3);font-size:9px;font-family:var(--font-mono);cursor:default;flex-shrink:0;position:relative;}
 .tip-btn:hover{border-color:var(--accent);color:var(--accent);}
-.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;width:220px;font-family:var(--font-body);font-size:11px;color:var(--ink-2);line-height:1.5;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
-.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--line-2);}
+.tip-box{display:none;position:fixed;background:var(--bg);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;width:220px;font-family:var(--font-body);font-size:11px;color:var(--ink-2);line-height:1.5;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
 .tip-btn:hover .tip-box{display:block;}
 /* ── CENSUS BARS ────────────────────────────────────────────────── */
 /* ── GAUGE / DONUT CHARTS ───────────────────────────────────────── */
@@ -213,7 +212,7 @@ p{margin:0;}
           <div class="person-label">Person 1</div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
-            <div class="input-wrap"><input type="text" id="p1salary" value="121,465" data-raw="121465"><span class="iunit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p1salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
@@ -224,7 +223,7 @@ p{margin:0;}
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
-            <div class="input-wrap"><input type="text" id="p2salary" value="115,126" data-raw="115126"><span class="iunit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p2salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
@@ -249,11 +248,11 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="downpay" value="200,000" data-raw="200000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="downpay" value="100,000" data-raw="100000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
-          <div class="input-wrap"><input type="number" id="rate" value="4.2" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
+          <div class="input-wrap"><input type="number" id="rate" value="4.5" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
@@ -263,7 +262,7 @@ p{margin:0;}
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Lump sum</span><span class="funit">CAD/yr</span></div>
-          <div class="input-wrap"><input type="text" id="lumpsum" value="2,500" data-raw="2500"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="lumpsum" value="0" data-raw="0"><span class="iunit">CAD</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
@@ -284,21 +283,21 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="hprice" value="850,000" data-raw="850000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="hprice" value="650,000" data-raw="650000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
-          <input type="text" id="fsa" value="K2B" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K2B">
+          <input type="text" id="fsa" value="K1S" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K1S">
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Heat <span class="tip-btn">?<span class="tip-box">Used by CMHC in GDS stress test. Standard estimate $150–$200/month. Does not affect your mortgage payment.</span></span></span><span class="funit">CAD/mo</span></div>
-          <div class="input-wrap"><input type="text" id="heat" value="250" data-raw="250"><span class="iunit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="heat" value="150" data-raw="150"><span class="iunit">CAD/mo</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Property tax</span><span class="funit">CAD/yr</span></div>
-          <div class="input-wrap"><input type="text" id="proptax" value="7,500" data-raw="7500"><span class="iunit">CAD/yr</span></div>
+          <div class="input-wrap"><input type="text" id="proptax" value="6,000" data-raw="6000"><span class="iunit">CAD/yr</span></div>
         </div>
       </div>
     </div>
@@ -442,9 +441,7 @@ p{margin:0;}
     <div class="rcard" id="census-card">
       <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
-        <!-- 2-column: left = income chart, right = KPIs + donuts -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
-
           <!-- LEFT: employment income chart -->
           <div style="display:flex;flex-direction:column;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
@@ -461,28 +458,15 @@ p{margin:0;}
             </div>
             <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
           </div>
-
-          <!-- RIGHT: KPI grid (2×3) + donuts row -->
+          <!-- RIGHT: KPI 2×3 + donuts -->
           <div style="display:flex;flex-direction:column;gap:10px;">
-            <!-- KPI 2×3 grid -->
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;" id="census-metrics"></div>
-            <!-- 3 donuts -->
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-              <div>
-                <div class="gauge-title">Commute</div>
-                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-commute"></canvas></div>
-              </div>
-              <div>
-                <div class="gauge-title">Education</div>
-                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-edu"></canvas></div>
-              </div>
-              <div>
-                <div class="gauge-title">Language</div>
-                <div class="chart-wrap" style="height:130px;"><canvas id="gauge-lang"></canvas></div>
-              </div>
+              <div><div class="gauge-title">Commute</div><div class="chart-wrap" style="height:130px;"><canvas id="gauge-commute"></canvas></div></div>
+              <div><div class="gauge-title">Education</div><div class="chart-wrap" style="height:130px;"><canvas id="gauge-edu"></canvas></div></div>
+              <div><div class="gauge-title">Language</div><div class="chart-wrap" style="height:130px;"><canvas id="gauge-lang"></canvas></div></div>
             </div>
           </div>
-
         </div>
         <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
       </div>
@@ -1056,7 +1040,6 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
   for (let y = 1; y <= amort; y++) {
     let yPrin=0, yInt=0;
     const balAtStartOfYear = bal;
-
     for (let bw=0; bw<26; bw++) {
       if (bal <= 0) break;
       const i = bal * r;
@@ -1064,25 +1047,17 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
       bal = Math.max(bal - p, 0);
       yPrin += p; yInt += i;
     }
-
     let lumpThisY = 0;
     if (bal > 0 && lumpsum > 0) {
       lumpThisY = Math.min(lumpsum, bal);
       bal = Math.max(bal - lumpThisY, 0);
     }
-
     const p1salY = p1sal * Math.pow(1+p1wage, y);
     const p2salY = p2sal * Math.pow(1+p2wage, y);
-    const p1netY = estimateNet(p1salY, province);
-    const p2netY = estimateNet(p2salY, province);
-    const totalNetY  = p1netY + p2netY;
-    const taxY    = proptax * Math.pow(1+inflation, y);
-    const heatY   = heat * 12 * Math.pow(1+inflation, y);
-    const catY    = catBwBase * 26 * Math.pow(1+inflation, y);
-    const sharedExpY   = taxY + heatY + catY;
+    const totalNetY  = estimateNet(p1salY, province) + estimateNet(p2salY, province);
+    const sharedExpY = proptax * Math.pow(1+inflation,y) + heat*12*Math.pow(1+inflation,y) + catBwBase*26*Math.pow(1+inflation,y);
     const mortgageAnnY = balAtStartOfYear > 0 ? yPrin + yInt : 0;
-    const leewayY      = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
-
+    const leewayY = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
     labels.push('Yr '+y);
     prinData.push(Math.round(yPrin));
     intData.push(Math.round(yInt));
@@ -1315,7 +1290,7 @@ const donutLabelPlugin = {
     if (!chartArea) return;
     const ds   = chart.data.datasets[0];
     const meta = chart.getDatasetMeta(0);
-    const cx   = (chartArea.left + chartArea.right) / 2;
+    const cx   = (chartArea.left + chartArea.right)  / 2;
     const cy   = (chartArea.top  + chartArea.bottom) / 2;
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     const textCol = isDark ? '#b6bdcc' : '#4b5163';
@@ -1323,24 +1298,43 @@ const donutLabelPlugin = {
     meta.data.forEach((arc, i) => {
       const label = chart.data.labels[i];
       const val   = ds.data[i];
-      if (!label || val < 2) return;
+      if (!label || val < 3) return;   // skip tiny slices
       const angle = (arc.startAngle + arc.endAngle) / 2;
       const r     = arc.outerRadius;
       const lx1 = cx + Math.cos(angle) * (r + 4);
       const ly1 = cy + Math.sin(angle) * (r + 4);
-      const lx2 = cx + Math.cos(angle) * (r + 16);
-      const ly2 = cy + Math.sin(angle) * (r + 16);
-      const right = lx2 > cx;
+      const lx2 = cx + Math.cos(angle) * (r + 14);
+      const ly2 = cy + Math.sin(angle) * (r + 14);
+      const right = lx2 >= cx;
+      const textX = lx2 + (right ? 7 : -7);
+
+      // Measure text to clamp within canvas
+      ctx.font = '8px JetBrains Mono, monospace';
+      const text    = `${label} ${val.toFixed(0)}%`;
+      const textW   = ctx.measureText(text).width;
+      const margin  = 2;
+      let finalX = textX;
+      if (right) {
+        // Don't overflow right edge
+        const maxX = chartArea.right - margin;
+        if (finalX + textW > maxX) finalX = maxX - textW;
+      } else {
+        // Don't overflow left edge
+        const minX = chartArea.left + margin;
+        if (finalX - textW < minX) finalX = minX + textW;
+      }
+      // Clamp Y within canvas
+      const finalY = Math.max(chartArea.top + 6, Math.min(ly2, chartArea.bottom - 6));
+
       ctx.save();
       ctx.strokeStyle = ds.backgroundColor[i];
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, ly2); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(lx2, ly2); ctx.lineTo(lx2 + (right?6:-6), ly2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, finalY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx2, finalY); ctx.lineTo(lx2 + (right?5:-5), finalY); ctx.stroke();
       ctx.fillStyle = textCol;
-      ctx.font = '8px JetBrains Mono, monospace';
       ctx.textAlign = right ? 'left' : 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillText(`${label} ${val.toFixed(0)}%`, lx2 + (right?8:-8), ly2);
+      ctx.fillText(text, lx2 + (right ? 7 : -7), finalY);
       ctx.restore();
     });
   }
@@ -1361,7 +1355,7 @@ function makeGauge(canvasId, slices) {
     options: {
       responsive:true, maintainAspectRatio:false, animation:{duration:200},
       cutout:'55%',
-      layout:{ padding:{ left:40, right:40, top:12, bottom:12 } },
+      layout:{ padding:{ left:52, right:52, top:16, bottom:16 } },
       plugins: {
         legend:{ display:false },
         donutLabels:{},
@@ -1412,7 +1406,7 @@ function renderCensusPanel(fsa) {
 
   // Commute gauge — car + transit + walk + other (inferred remainder)
   const commuteKnown = (d.pct_commute_car ?? 0) + (d.pct_commute_transit ?? 0) + (d.pct_commute_walk ?? 0);
-  const commuteOther = (d.pct_commute_car != null) ? Math.max(0, Math.round((100 - commuteKnown) * 10) / 10) : null;
+  const commuteOther = d.pct_commute_car != null ? Math.max(0, Math.round((100 - commuteKnown) * 10) / 10) : null;
   makeGauge('gauge-commute', [
     { label:'Car',     val: d.pct_commute_car     ?? null, color:'#e85a44' },
     { label:'Transit', val: d.pct_commute_transit ?? null, color:'#378ADD' },
@@ -1420,26 +1414,17 @@ function renderCensusPanel(fsa) {
     { label:'Other',   val: commuteOther,                  color:'#e8a030' },
   ]);
 
-  // Education gauge — 4 slices derived from the 2 available fields
-  // Bach.+ | College/trade (other post) | No post-secondary | Unknown/not stated
-  const pctPost    = d.pct_postsecondary  ?? d.pct_postsec ?? null;
-  const pctBach    = d.pct_bachelors_plus ?? d.pct_bachelor ?? null;
-  const pctTrade   = (pctPost != null && pctBach != null) ? Math.max(Math.round((pctPost - pctBach) * 10) / 10, 0) : null;
-  const pctNoPost  = pctPost != null ? Math.max(Math.round((100 - pctPost) * 10) / 10, 0) : null;
+  // Education gauge
+  const pctPost  = d.pct_postsecondary  ?? d.pct_postsec ?? null;
+  const pctBach  = d.pct_bachelors_plus ?? d.pct_bachelor ?? null;
+  const pctTrade = (pctPost != null && pctBach != null) ? Math.max(Math.round((pctPost - pctBach) * 10) / 10, 0) : null;
+  const pctNoPost = pctPost != null ? Math.max(Math.round((100 - pctPost) * 10) / 10, 0) : null;
   makeGauge('gauge-edu', [
-    { label:'Bach.+',    val: pctBach,   color:'#1D9E75' },
-    { label:'College',   val: pctTrade,  color:'#378ADD' },
-    { label:'No post',   val: pctNoPost, color:'#888780' },
+    { label:'Bach.+',  val: pctBach,   color:'#1D9E75' },
+    { label:'College', val: pctTrade,  color:'#378ADD' },
+    { label:'No post', val: pctNoPost, color:'#888780' },
   ]);
 
-  // Note
-  const parts = [
-    d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null,
-    d.pct_low_income != null ? `${d.pct_low_income}% low income` : null,
-    d.avg_commute_min != null ? `avg commute ${d.avg_commute_min} min` : null,
-  ].filter(Boolean);
-  document.getElementById('census-note').textContent =
-    (parts.length ? parts.join(' · ') + ' · ' : '') + 'Source: Statistics Canada 2021 Census.';
   // ── TENURE BAR (Owner vs. Renter) ────────────────────────────────
   const tenureWrap = document.getElementById('tenure-bar-wrap');
   const tenureLeg  = document.getElementById('tenure-bar-legend');
@@ -1450,13 +1435,10 @@ function renderCensusPanel(fsa) {
       const own = pctOwner  ?? Math.max(0, 100 - (pctRenter ?? 0));
       const ren = pctRenter ?? Math.max(0, 100 - own);
       const oth = Math.max(0, Math.round((100 - own - ren) * 10) / 10);
-      const segs = [
-        { label:'Owner',  pct: own, color:'#378ADD' },
-        { label:'Renter', pct: ren, color:'#7f77dd' },
-      ];
-      if (oth > 0.5) segs.push({ label:'Other', pct: oth, color:'#555a6a' });
+      const segs = [{ label:'Owner', pct:own, color:'#378ADD' }, { label:'Renter', pct:ren, color:'#7f77dd' }];
+      if (oth > 0.5) segs.push({ label:'Other', pct:oth, color:'#555a6a' });
       tenureWrap.innerHTML = segs.map(s =>
-        `<div style="width:${s.pct}%;background:${s.color};display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;white-space:nowrap;overflow:hidden;">${s.pct >= 8 ? s.pct.toFixed(0)+'%' : ''}</div>`
+        `<div style="width:${s.pct}%;background:${s.color};display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;white-space:nowrap;overflow:hidden;">${s.pct>=8?s.pct.toFixed(0)+'%':''}</div>`
       ).join('');
       tenureLeg.innerHTML = segs.map(s =>
         `<div class="li"><div class="ld" style="background:${s.color};"></div>${s.label} ${s.pct.toFixed(0)}%</div>`
@@ -1466,6 +1448,15 @@ function renderCensusPanel(fsa) {
       tenureLeg.innerHTML = '';
     }
   }
+
+  // Note
+  const parts = [
+    d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null,
+    d.pct_low_income != null ? `${d.pct_low_income}% low income` : null,
+    d.avg_commute_min != null ? `avg commute ${d.avg_commute_min} min` : null,
+  ].filter(Boolean);
+  document.getElementById('census-note').textContent =
+    (parts.length ? parts.join(' · ') + ' · ' : '') + 'Source: Statistics Canada 2021 Census.';
 }
 
 
@@ -1688,6 +1679,33 @@ document.getElementById('fsa').addEventListener('blur', calculate);
 // ================================================================
 // INIT
 // ================================================================
+// ── Smart tooltip positioning ────────────────────────────────────────────────
+document.addEventListener('mouseover', e => {
+  const btn = e.target.closest('.tip-btn');
+  if (!btn) return;
+  const box = btn.querySelector('.tip-box');
+  if (!box) return;
+  // Position above the button by default
+  const br = btn.getBoundingClientRect();
+  const bw = 220;
+  let left = br.left + br.width / 2 - bw / 2;
+  let top  = br.top - 8; // will be adjusted to above box
+  // Clamp horizontally within viewport with 8px margin
+  left = Math.max(8, Math.min(left, window.innerWidth - bw - 8));
+  box.style.left   = left + 'px';
+  box.style.width  = bw + 'px';
+  // Show temporarily to measure height
+  box.style.display = 'block';
+  const bh = box.offsetHeight;
+  box.style.display = '';
+  // Place above button; if not enough room, place below
+  if (br.top - bh - 10 < 0) {
+    box.style.top = (br.bottom + 6) + 'px';
+  } else {
+    box.style.top = (br.top - bh - 6) + 'px';
+  }
+});
+
 loadData().then(() => {
   document.getElementById('loading').classList.add('hide');
   calculate();
