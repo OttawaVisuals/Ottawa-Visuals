@@ -1289,6 +1289,74 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
 }
 
 // ================================================================
+// DONUT LABEL PLUGIN + GAUGE HELPER (module scope)
+// ================================================================
+const donutLabelPlugin = {
+  id: 'donutLabels',
+  afterDraw(chart) {
+    const cid = chart.canvas.id;
+    if (!cid.startsWith('gauge-') && cid !== 'market-dwell-chart') return;
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
+    const ds   = chart.data.datasets[0];
+    const meta = chart.getDatasetMeta(0);
+    const cx   = (chartArea.left + chartArea.right) / 2;
+    const cy   = (chartArea.top  + chartArea.bottom) / 2;
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    const textCol = isDark ? '#b6bdcc' : '#4b5163';
+
+    meta.data.forEach((arc, i) => {
+      const label = chart.data.labels[i];
+      const val   = ds.data[i];
+      if (!label || val < 2) return;
+      const angle = (arc.startAngle + arc.endAngle) / 2;
+      const r     = arc.outerRadius;
+      const lx1 = cx + Math.cos(angle) * (r + 4);
+      const ly1 = cy + Math.sin(angle) * (r + 4);
+      const lx2 = cx + Math.cos(angle) * (r + 16);
+      const ly2 = cy + Math.sin(angle) * (r + 16);
+      const right = lx2 > cx;
+      ctx.save();
+      ctx.strokeStyle = ds.backgroundColor[i];
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, ly2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx2, ly2); ctx.lineTo(lx2 + (right?6:-6), ly2); ctx.stroke();
+      ctx.fillStyle = textCol;
+      ctx.font = '8px JetBrains Mono, monospace';
+      ctx.textAlign = right ? 'left' : 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${label} ${val.toFixed(0)}%`, lx2 + (right?8:-8), ly2);
+      ctx.restore();
+    });
+  }
+};
+Chart.register(donutLabelPlugin);
+
+function makeGauge(canvasId, slices) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const vals   = slices.map(s => Math.max(s.val != null ? +s.val : 0, 0));
+  const rem    = Math.max(100 - vals.reduce((a,b)=>a+b,0), 0);
+  const data   = [...vals, rem];
+  const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.10)'];
+  const labels = [...slices.map(s=>s.label), ''];
+  mkChart(canvasId, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor:colors, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:200},
+      cutout:'55%',
+      layout:{ padding:{ left:40, right:40, top:12, bottom:12 } },
+      plugins: {
+        legend:{ display:false },
+        donutLabels:{},
+        tooltip:{ callbacks:{ label: ctx => ctx.label ? `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` : null }},
+      },
+    },
+  });
+}
+
+// ================================================================
 // CENSUS FSA ANALYSIS PANEL
 // ================================================================
 function renderCensusPanel(fsa) {
@@ -1320,102 +1388,30 @@ function renderCensusPanel(fsa) {
     `<div class="met"><div class="ml">${k.l}</div><div class="mv" style="font-size:13px;">${k.v}</div></div>`
   ).join('');
 
-  // ── Helper: make a doughnut gauge with leader-line labels ──────────
-  // Renders a half-donut (semicircle, top half) with labels and lines
-  // pointing to each segment. No separate legend needed.
-  const donutLabelPlugin = {
-    id: 'donutLabels',
-    afterDraw(chart) {
-      if (!chart.canvas.id.startsWith('gauge-') && chart.canvas.id !== 'market-dwell-chart') return;
-      const { ctx, chartArea } = chart;
-      const ds   = chart.data.datasets[0];
-      const meta = chart.getDatasetMeta(0);
-      const cx   = (chartArea.left + chartArea.right) / 2;
-      const cy   = (chartArea.top  + chartArea.bottom) / 2;
-      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-      const textCol = isDark ? '#b6bdcc' : '#4b5163';
-
-      meta.data.forEach((arc, i) => {
-        const label = chart.data.labels[i];
-        const val   = ds.data[i];
-        if (!label || val < 2) return;          // skip tiny/empty slices
-        const angle  = (arc.startAngle + arc.endAngle) / 2;
-        const r      = arc.outerRadius;
-        // Start of leader line (just outside arc)
-        const lx1 = cx + Math.cos(angle) * (r + 4);
-        const ly1 = cy + Math.sin(angle) * (r + 4);
-        // End of leader line
-        const lx2 = cx + Math.cos(angle) * (r + 14);
-        const ly2 = cy + Math.sin(angle) * (r + 14);
-        const right = lx2 > cx;
-        // Text anchor
-        const tx = lx2 + (right ? 3 : -3);
-        const ty = ly2;
-
-        ctx.save();
-        ctx.strokeStyle = ds.backgroundColor[i];
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, ly2); ctx.stroke();
-        // Small horizontal tick
-        ctx.beginPath(); ctx.moveTo(lx2, ly2); ctx.lineTo(lx2 + (right?5:-5), ly2); ctx.stroke();
-
-        ctx.fillStyle = textCol;
-        ctx.font = '8px JetBrains Mono, monospace';
-        ctx.textAlign = right ? 'left' : 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(`${label} ${val.toFixed(0)}%`, tx + (right?5:-5), ty);
-        ctx.restore();
-      });
-    }
-  };
-  if (!Chart.registry.plugins.get('donutLabels')) Chart.register(donutLabelPlugin);
-
-  function makeGauge(canvasId, _legendId, slices) {
-    const vals   = slices.map(s => Math.max(s.val || 0, 0));
-    const rem    = Math.max(100 - vals.reduce((a,b)=>a+b,0), 0);
-    const data   = [...vals, rem];
-    const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.10)'];
-    const labels = [...slices.map(s=>s.label), ''];
-
-    mkChart(canvasId, {
-      type: 'doughnut',
-      data: { labels, datasets: [{ data, backgroundColor:colors, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
-      options: {
-        responsive:true, maintainAspectRatio:false, animation:{duration:200},
-        cutout:'55%',
-        layout:{ padding:{ left:36, right:36, top:10, bottom:10 } },
-        plugins: {
-          legend:{ display:false },
-          donutLabels:{},
-          tooltip:{ callbacks:{ label: ctx => ctx.label ? `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` : null }},
-        },
-      },
-    });
-  }
-
-  // Language gauge
-  makeGauge('gauge-lang', 'gauge-lang-legend', [
-    { label:'English only', val: d.pct_english_only,  color:'#378ADD' },
-    { label:'French only',  val: d.pct_french_only,   color:'#7f77dd' },
-    { label:'Bilingual',    val: d.pct_bilingual,     color:'#1D9E75' },
-    { label:'Neither',      val: d.pct_neither_lang,  color:'#e8a030' },
+  // Language gauge — field names match build_json_census_section.py output
+  makeGauge('gauge-lang', [
+    { label:'English',    val: d.pct_english_only  ?? d.pct_english ?? null,  color:'#378ADD' },
+    { label:'French',     val: d.pct_french_only   ?? d.pct_french  ?? null,  color:'#7f77dd' },
+    { label:'Bilingual',  val: d.pct_bilingual     ?? null,                   color:'#1D9E75' },
+    { label:'Neither',    val: d.pct_neither_lang  ?? d.pct_neither ?? null,  color:'#e8a030' },
   ]);
 
   // Commute gauge
-  makeGauge('gauge-commute', 'gauge-commute-legend', [
-    { label:'Car',     val: d.pct_commute_car,     color:'#e85a44' },
-    { label:'Transit', val: d.pct_commute_transit, color:'#378ADD' },
-    { label:'Walk',    val: d.pct_commute_walk,    color:'#1D9E75' },
+  makeGauge('gauge-commute', [
+    { label:'Car',     val: d.pct_commute_car     ?? null, color:'#e85a44' },
+    { label:'Transit', val: d.pct_commute_transit ?? null, color:'#378ADD' },
+    { label:'Walk',    val: d.pct_commute_walk    ?? null, color:'#1D9E75' },
   ]);
 
   // Education gauge
-  const pctNoPostsec = d.pct_postsecondary != null ? Math.max(100 - d.pct_postsecondary, 0) : null;
-  const pctPostNotBach = d.pct_postsecondary != null && d.pct_bachelors_plus != null
-    ? Math.max(d.pct_postsecondary - d.pct_bachelors_plus, 0) : null;
-  makeGauge('gauge-edu', 'gauge-edu-legend', [
-    { label:"Bachelor's+",  val: d.pct_bachelors_plus, color:'#1D9E75' },
-    { label:'Other post.',  val: pctPostNotBach,        color:'#378ADD' },
-    { label:'No post.',     val: pctNoPostsec,          color:'#888780' },
+  const pctPost    = d.pct_postsecondary  ?? d.pct_postsec ?? null;
+  const pctBach    = d.pct_bachelors_plus ?? d.pct_bachelor ?? null;
+  const pctNoPost  = pctPost != null ? Math.max(100 - pctPost, 0) : null;
+  const pctOthPost = pctPost != null && pctBach != null ? Math.max(pctPost - pctBach, 0) : null;
+  makeGauge('gauge-edu', [
+    { label:"Bach.+",     val: pctBach,    color:'#1D9E75' },
+    { label:'Other post', val: pctOthPost, color:'#378ADD' },
+    { label:'No post',    val: pctNoPost,  color:'#888780' },
   ]);
 
   // Note
@@ -1438,19 +1434,17 @@ function renderMarketDwellChart(fsa) {
   const vals   = (d.dwell_pct || []).map(v => v || 0);
   mkChart('market-dwell-chart', {
     type:'doughnut',
-    data:{ labels, datasets:[{ data:vals, backgroundColor:DWELL_COLOURS, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:4 }] },
+    data:{ labels, datasets:[{ data:vals, backgroundColor:DWELL_COLOURS, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
     options:{
-      responsive:true, maintainAspectRatio:false, animation:{duration:250}, cutout:'50%',
+      responsive:true, maintainAspectRatio:false, animation:{duration:250}, cutout:'52%',
+      layout:{ padding:{ left:40, right:40, top:10, bottom:10 } },
       plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw?.toFixed(1)||0}%`}},
+        legend:{ display:false },
+        donutLabels:{},
+        tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` }},
       },
     },
   });
-  // Compact inline legend
-  const top3 = vals.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).slice(0,4);
-  document.getElementById('market-dwell-legend').innerHTML =
-    top3.map(({v,i})=>`<div class="gli"><div class="glc" style="background:${DWELL_COLOURS[i]};"></div>${labels[i]}: ${v.toFixed(0)}%</div>`).join('');
 }
 
 // ================================================================
