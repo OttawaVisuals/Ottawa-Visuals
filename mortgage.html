@@ -267,7 +267,8 @@ p{margin:0;}
       <div class="ibox-head"><div class="dot"></div>Finances
         <span class="tip-btn" style="margin-left:4px;">?<span class="tip-box" style="width:260px;">
           <strong>Lump sum:</strong> Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.<br><br>
-          <strong>Shared expenses %:</strong> Share of each person's net paycheque into the joint account. The remainder stays personal spending money.
+          <strong>Shared expenses %:</strong> Share of each person's net paycheque into the joint account. The remainder stays personal spending money.<br><br>
+          <strong>Other debt:</strong> Monthly payments on car loans, student loans, credit lines, other mortgages. Used in the TDS stress test alongside your housing costs.
         </span></span>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
@@ -298,6 +299,18 @@ p{margin:0;}
         <div class="field">
           <div class="field-label-row"><span class="flbl">Shared expenses</span><span class="funit">%</span></div>
           <div class="input-wrap"><input type="number" id="jointpct" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Other debt <span class="tip-btn">?<span class="tip-box" style="width:250px;">Monthly debt payments used in the TDS stress test — car loans, student loans, credit lines, other mortgages. Credit card minimum = 3% of balance per OSFI B-20. Do not include this mortgage.</span></span></span><span class="funit">$/mo</span></div>
+          <div class="input-wrap"><input type="text" id="otherdebt" value="0" data-raw="0"><span class="iunit">$/mo</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
+          <div id="cmhc-notice" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);line-height:1.4;display:none;">
+            <span style="color:var(--amber);">⚠ CMHC</span> <span id="cmhc-rate-lbl"></span> premium<br>
+            +<span id="cmhc-premium-lbl"></span> added to principal
+          </div>
         </div>
       </div>
     </div>
@@ -347,6 +360,7 @@ p{margin:0;}
         <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
         <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Bi-weekly mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
+        <div class="met" id="m-cmhc-wrap" style="display:none;"><div class="ml">CMHC premium <span class="tip-btn">?<span class="tip-box" style="width:260px;">Mortgage default insurance required when down payment is under 20% on homes ≤ $1.5M. Added to your mortgage principal. Rates: 5–9.99% down → 4.0%; 10–14.99% → 3.1%; 15–19.99% → 2.8%.</span></span></div><div class="mv amber" id="m-cmhc">—</div><div class="ms" id="m-cmhc-s"></div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
         <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
@@ -589,7 +603,7 @@ function setupFormattedInput(id) {
   el.addEventListener('blur', format);
   format();
 }
-['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum'].forEach(setupFormattedInput);
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt'].forEach(setupFormattedInput);
 document.getElementById('fsa').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); });
 
 // ================================================================
@@ -648,23 +662,36 @@ function estimateNet(gross, province) {
   return gross * (1 - rate / 100);
 }
 
-// ── BANK MAX MORTGAGE (GDS ≤ 32% at stress rate, OSFI B-20) ─────────────────
-// Returns maximum purchase price the bank will approve given income + down payment.
-// Uses binary search: finds the highest price P where GDS ≤ 32% at stress rate.
-// GDS = (monthly mortgage payment + property tax + heat) / gross monthly income
-function bankMaxMortgage(grossIncome, downpayment, rate, amort, proptax, heat) {
-  const stressRate = Math.max(rate + 2, 5.25);
+// ── CMHC premium rate helper ────────────────────────────────────────────────
+function cmhcRate(dp, price) {
+  if (price > 1500000 || dp / price >= 0.20) return 0;
+  if (dp / price >= 0.15) return 0.028;
+  if (dp / price >= 0.10) return 0.031;
+  return 0.040;
+}
+
+// ── BANK MAX MORTGAGE (GDS ≤ 32% AND TDS ≤ 44% at stress rate, OSFI B-20) ──
+// Returns maximum purchase price given income, down payment, and other debts.
+// Accounts for CMHC premium added to principal when down < 20%.
+// Binding constraint is whichever ratio (GDS or TDS) hits its limit first.
+function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat, otherDebtMo) {
+  const stressRate   = Math.max(rate + 2, 5.25);
   const monthlyGross = grossIncome / 12;
-  const monthlyTax  = proptax / 12;
-  const monthlyHeat = heat;
+  const monthlyTax   = proptax / 12;
+  const monthlyHeat  = heat;
+  const monthlyDebt  = otherDebtMo || 0;
   let lo = 50000, hi = 5000000;
-  for (let i = 0; i < 50; i++) {
-    const mid  = (lo + hi) / 2;
-    const loan = Math.max(mid - downpayment, 0);
-    if (loan <= 0) { hi = mid; continue; }
-    const bwP  = mortgagePayment(loan, stressRate, amort);
-    const gds  = (bwP * 26/12 + monthlyTax + monthlyHeat) / monthlyGross * 100;
-    if (gds <= 32) lo = mid; else hi = mid;
+  for (let i = 0; i < 60; i++) {
+    const mid      = (lo + hi) / 2;
+    const baseLoan = Math.max(mid - downpayment, 0);
+    if (baseLoan <= 0) { hi = mid; continue; }
+    const prem     = baseLoan * cmhcRate(downpayment, mid);
+    const loan     = baseLoan + prem;
+    const bwP      = mortgagePayment(loan, stressRate, amort);
+    const monthlyM = bwP * 26 / 12;
+    const gds = (monthlyM + monthlyTax + monthlyHeat) / monthlyGross * 100;
+    const tds = (monthlyM + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
+    if (gds <= 32 && tds <= 44) lo = mid; else hi = mid;
   }
   return Math.round(lo);
 }
@@ -889,7 +916,7 @@ Chart.register({
 // ================================================================
 // STRESS TESTS
 // ================================================================
-function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
+function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherDebtMo) {
   const monthlyGross   = grossIncome / 12;
   const bwPay          = mortgagePayment(principal, rate, amort);
   const bwPayStress    = mortgagePayment(principal, rate + 2, amort);
@@ -899,24 +926,30 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat) {
   const monthlyHeat    = heat;
   const spendableNet   = (estimateNet(grossIncome * 0.53, 'ON') + estimateNet(grossIncome * 0.47, 'ON')) / 12; // rough split
 
+  const monthlyDebt = otherDebtMo || 0;
   const gds   = (monthlyMort  + monthlyTax + monthlyHeat) / monthlyGross * 100;
   const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat) / monthlyGross * 100;
+  const tds   = (monthlyMort  + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
+  const tdsS  = (monthlyMortS + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
   const pGross  = monthlyMort  / monthlyGross * 100;
   const pGrossS = monthlyMortS / monthlyGross * 100;
-  const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100; // approx net ~27.2% avg effective
+  const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100;
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
   const stressDescs = {
-    'GDS ratio':        'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. CMHC cap 39%. Lenders require ≤ 32% at stress rate.',
-    'Mortgage % gross': 'Monthly mortgage as % of gross income. Rule of thumb: keep below 25–28%.',
-    'Mortgage % net':   'Monthly mortgage as % of estimated after-tax income. Most planners suggest ≤ 35% of net.',
+    'GDS ratio':        'Gross Debt Service — (mortgage + property tax + heat) ÷ gross income. CMHC max 39%; lenders require ≤ 32% at stress rate.',
+    'TDS ratio':        'Total Debt Service — adds all monthly debt payments (car, student, credit lines, etc.) to GDS. Lender cap ≤ 44% at stress rate. Only differs from GDS when "Other debt" is entered.',
+    'Mortgage % gross': 'Monthly mortgage payment as % of gross income. Rule of thumb: keep below 25–28%.',
+    'Mortgage % net':   'Monthly mortgage payment as % of estimated after-tax income. Most planners suggest ≤ 35% of net.',
   };
   const bands = [
-    { label:'GDS ratio',              a:gds,   s:gdsS,   cap:39, limit:32, max:50,
-      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'},{v:50,l:'50%'}] },
-    { label:'Mortgage % of gross',    a:pGross, s:pGrossS, cap:null, limit:28, max:50,
-      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:30,l:'30%'},{v:50,l:'50%'}] },
-    { label:'Mortgage % of net',      a:pNet,  s:pNetS,  cap:null, limit:33, max:50,
+    { label:'GDS ratio', a:gds, s:gdsS, cap:39, limit:32, max:55,
+      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'},{v:55,l:'55%'}] },
+    { label:'TDS ratio', a:tds, s:tdsS, cap:44, limit:44, max:55,
+      ticks:[{v:0,l:'0%'},{v:32,l:'GDS 32%'},{v:44,l:'44%'},{v:55,l:'55%'}] },
+    { label:'Mortgage % of gross', a:pGross, s:pGrossS, cap:null, limit:28, max:50,
+      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:28,l:'28%'},{v:50,l:'50%'}] },
+    { label:'Mortgage % of net',   a:pNet,  s:pNetS,  cap:null, limit:33, max:50,
       ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:33,l:'33%'},{v:50,l:'50%'}] },
   ];
 
@@ -1228,12 +1261,14 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
   const stressRate = Math.max(rate + 2, 5.25);
   function bankMaxAfford(income, dp, ptax, ht) {
     let lo = 50000, hi = 5000000;
-    for (let i = 0; i < 50; i++) {
-      const mid  = (lo + hi) / 2;
-      const loan = Math.max(mid - dp, 0);
-      if (loan <= 0) { hi = mid; continue; }
-      const bwP = mortgagePayment(loan, stressRate, amort);
-      const gds = (bwP * 26/12 + ptax/12 + ht) / (income/12) * 100;
+    for (let i = 0; i < 60; i++) {
+      const mid      = (lo + hi) / 2;
+      const baseLoan = Math.max(mid - dp, 0);
+      if (baseLoan <= 0) { hi = mid; continue; }
+      const prem     = baseLoan * cmhcRate(dp, mid);
+      const loan     = baseLoan + prem;
+      const bwP      = mortgagePayment(loan, stressRate, amort);
+      const gds      = (bwP * 26/12 + ptax/12 + ht) / (income/12) * 100;
       if (gds <= 32) lo = mid; else hi = mid;
     }
     return Math.round(lo) / 1000;
@@ -1724,14 +1759,42 @@ function calculate() {
   const proptax = rawVal('proptax');
   const heat    = rawVal('heat');
   const inflation = (+document.getElementById('inflation').value || 2.5) / 100;
-  const lumpsum = rawVal('lumpsum');
-  const jointPct = (+document.getElementById('jointpct').value || 70) / 100;
-  const mode    = document.getElementById('displaymode').value;
+  const lumpsum   = rawVal('lumpsum');
+  const otherdebt = rawVal('otherdebt'); // monthly debt payments for TDS
+  const jointPct  = (+document.getElementById('jointpct').value || 70) / 100;
+  const mode      = document.getElementById('displaymode').value;
 
   const province    = FSA_PROV[fsa[0]] || 'ON';
   const grossIncome = p1sal + p2sal;
-  const principal   = Math.max(hprice - downpay, 0);
-  const bwPay       = mortgagePayment(principal, rate, amort);
+  const downPct     = hprice > 0 ? downpay / hprice : 0;
+
+  // ── CMHC mortgage insurance ──────────────────────────────────────
+  // Required when: down payment < 20% AND purchase price ≤ $1,500,000
+  // Premium is added to the loan and amortized.
+  function cmhcPremiumRate(dp, price) {
+    if (dp / price >= 0.20 || price > 1500000) return 0;
+    if (dp / price >= 0.15) return 0.028;
+    if (dp / price >= 0.10) return 0.031;
+    return 0.040; // 5–9.99%
+  }
+  const baseLoan      = Math.max(hprice - downpay, 0);
+  const cmhcRatePct   = cmhcRate(downpay, hprice);
+  const cmhcPremium   = Math.round(baseLoan * cmhcRatePct);
+  const principal     = baseLoan + cmhcPremium; // insured principal
+
+  // Show/hide CMHC notice
+  const cmhcNotice = document.getElementById('cmhc-notice');
+  if (cmhcNotice) {
+    if (cmhcRatePct > 0) {
+      cmhcNotice.style.display = 'block';
+      document.getElementById('cmhc-rate-lbl').textContent = (cmhcRatePct * 100).toFixed(1) + '%';
+      document.getElementById('cmhc-premium-lbl').textContent = CAD(cmhcPremium);
+    } else {
+      cmhcNotice.style.display = 'none';
+    }
+  }
+
+  const bwPay = mortgagePayment(principal, rate, amort);
 
   // ── PAYMENT SUMMARY ──────────────────────────────────────────────
   const f = pf(mode);
@@ -1766,7 +1829,9 @@ function calculate() {
   const yearsSaved = bwSaved / 26; // kept for compatibility
 
   // Bank max mortgage
-  const bankMax    = bankMaxMortgage(grossIncome, downpay, rate, amort, proptax, heat);
+  // Bank max: binary search on purchase price including CMHC premium
+  // We pass otherdebt=0 for bank max (it already factors TDS limit internally)
+  const bankMax    = bankMaxMortgageTDS(grossIncome, downpay, rate, amort, proptax, heat, otherdebt);
   const stressRate = Math.max(rate + 2, 5.25);
 
   // Net income scaled to display period
@@ -1779,6 +1844,17 @@ function calculate() {
   document.getElementById('m-pay').textContent      = CAD(mPay);
   document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
   document.getElementById('m-housing').textContent  = CAD(mHousing);
+  // CMHC summary KPI
+  const cmhcWrap = document.getElementById('m-cmhc-wrap');
+  if (cmhcWrap) {
+    if (cmhcPremium > 0) {
+      cmhcWrap.style.display = '';
+      document.getElementById('m-cmhc').textContent = CAD(cmhcPremium);
+      document.getElementById('m-cmhc-s').textContent = (cmhcRatePct * 100).toFixed(1) + '% of loan · added to principal';
+    } else {
+      cmhcWrap.style.display = 'none';
+    }
+  }
   document.getElementById('m-interest').textContent = CAD(totalInt);
   document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
   const timeSavedStr = monthsSaved <= 0 ? '—'
@@ -1788,7 +1864,8 @@ function calculate() {
   document.getElementById('m-saved-s').textContent  = saved>100 ? CAD(saved)+' interest saved' : '';
   // Max house price = bank max (already includes down payment in binary search)
   document.getElementById('m-bank-max').textContent = CAD(bankMax);
-  document.getElementById('m-bank-s').textContent   = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 32% @ ${stressRate.toFixed(2)}%`;
+  const tdsNote = otherdebt > 0 ? ' · TDS ≤ 44%' : '';
+  document.getElementById('m-bank-s').textContent = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 32%${tdsNote} @ ${stressRate.toFixed(2)}%`;
 
   // ── UPDATE MEEPLE BRACKET COLOUR ──────────────────────────────────
   // Bracket colours: dark→light blue (same as chart bars)
@@ -1821,7 +1898,7 @@ function calculate() {
   }
 
   // ── STRESS TESTS ─────────────────────────────────────────────────
-  renderStress(grossIncome, principal, rate, amort, proptax, heat);
+  renderStress(grossIncome, principal, rate, amort, proptax, heat, otherdebt);
 
   // ── SPENDING TABLE ───────────────────────────────────────────────
   const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province, lumpsum);
@@ -1878,7 +1955,7 @@ function calculate() {
 // ================================================================
 document.getElementById('calcbtn').addEventListener('click', calculate);
 document.getElementById('displaymode').addEventListener('change', calculate);
-['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum'].forEach(id => {
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt'].forEach(id => {
   document.getElementById(id).addEventListener('blur', calculate);
 });
 ['p1wage','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
