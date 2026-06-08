@@ -443,12 +443,12 @@ p{margin:0;}
         <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
-            <div class="chart-wrap" style="height:120px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="bracket-chart"></canvas></div>
             <div class="chart-note" id="bracket-note"></div>
           </div>
           <div>
-            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — Ottawa (2005–present)</div>
-            <div class="chart-wrap" style="height:120px;"><canvas id="afford-chart"></canvas></div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — <span id="afford-board-lbl">Ottawa</span> (2005–present)</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="afford-chart"></canvas></div>
             <div class="legend" style="margin-top:4px;">
               <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
               <div class="li"><div class="ld" style="background:#378ADD;border-style:dashed;"></div>2005 price × CPI inflation</div>
@@ -456,6 +456,13 @@ p{margin:0;}
             </div>
             <div class="chart-note" id="afford-note"></div>
           </div>
+        </div>
+        <!-- Ottawa freehold market KPIs — trailing 12 weeks average -->
+        <div id="ottawa-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line);">
+          <div class="met"><div class="ml">Avg sold</div><div class="mv" id="ott-avg-sold">—</div></div>
+          <div class="met"><div class="ml">Median sold</div><div class="mv" id="ott-med-sold">—</div></div>
+          <div class="met"><div class="ml">List / sold</div><div class="mv" id="ott-list-sold">—</div></div>
+          <div class="met"><div class="ml">Avg days on market</div><div class="mv" id="ott-dom">—</div></div>
         </div>
       </div>
       <div id="crea-ctx" hidden>
@@ -532,6 +539,7 @@ p{margin:0;}
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">Housing data</p>
           <p>Ottawa data provided by <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="color:var(--accent);">u/ottawaagent</a> (Reddit). CREA MLS HPI benchmark prices.</p>
         </div>
+        <p>Tool built using Claude AI</p>
       </div>
       <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line);">
         <p style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;color:var(--ink-3);margin-bottom:6px;">Sources</p>
@@ -944,99 +952,110 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
   const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100;
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
-  // ── Band definitions with custom multi-stop gradients ───────────────────
-  // GDS:  0-30 green | 30-32 orange | 32-39 red | 39+ grey
-  // TDS:  0-35 green | 35-40 orange | 40-44 red | 44+ grey
-  // Net:  0-30 green | 30-35 orange | 35+ red
+  // ── Band definitions ────────────────────────────────────────────────────────
+  // GDS: green 0–32% | orange 32–39% | chart ends at 39% (grey overflow strip)
+  // TDS: green 0–40% | orange 40–44% | chart ends at 44%
+  // Net: green 0–35% | orange 35–50% | chart ends at 50%
+  //
+  // Badge logic:
+  //   'Test failed' (red)   — GDS or TDS actual/stress exceeds max (39/44)
+  //   'Caution' (amber)     — any band in orange zone, no failures
+  //   'All pass' (green)    — all bands green
   const bands = [
     {
       label: 'GDS ratio',
-      a: gds, s: gdsS, max: 55,
-      // Segments: [stop%, colour] — drawn as CSS linear-gradient stops
+      a: gds, s: gdsS, max: 39,        // chart ends at 39% cap
+      overflowGrey: true,               // add grey strip if value > max
       stops: [
-        [0,    '#1D9E75'],  // green start
-        [30/55*100, '#1D9E75'],  // green → orange at 30%
-        [30/55*100, '#e8a030'],
-        [32/55*100, '#e8a030'],  // orange → red at 32% (old CMHC limit)
-        [32/55*100, '#e85a44'],
-        [39/55*100, '#e85a44'],  // red → grey at 39% (current cap)
-        [39/55*100, '#555a6a'],
-        [100,  '#555a6a'],
+        [0,          '#1D9E75'],
+        [32/39*100,  '#1D9E75'],        // green 0→32%
+        [32/39*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 32→39%
       ],
-      ticks: [{v:0,l:'0%'},{v:30,l:'30%'},{v:32,l:'32%↑'},{v:39,l:'39%↑'},{v:55,l:'55%'}],
-      tickNotes: {32:'Previous CMHC limit', 39:'Current cap (OSFI B-20)'},
-      warnAt: 30, failAt: 39,
-      desc: 'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. Green ≤ 30%, caution 30–32% (former CMHC limit), over-limit 32–39%, disqualified above 39% at stress rate.',
+      ticks: [{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'}],
+      tickNotes: {32:'Former CMHC limit', 39:'OSFI B-20 cap'},
+      warnAt: 32, failAt: 39,          // failAt = exceeds chart max
+      isRegulatory: true,
+      desc: 'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. 32% is the former CMHC limit, 39% is the maximum.',
     },
     {
       label: 'TDS ratio',
-      a: tds, s: tdsS, max: 55,
+      a: tds, s: tdsS, max: 44,
+      overflowGrey: true,
       stops: [
-        [0,    '#1D9E75'],
-        [35/55*100, '#1D9E75'],  // green → orange at 35%
-        [35/55*100, '#e8a030'],
-        [40/55*100, '#e8a030'],  // orange → red at 40% (old CMHC limit)
-        [40/55*100, '#e85a44'],
-        [44/55*100, '#e85a44'],  // red → grey at 44% (current cap)
-        [44/55*100, '#555a6a'],
-        [100,  '#555a6a'],
+        [0,          '#1D9E75'],
+        [40/44*100,  '#1D9E75'],        // green 0→40%
+        [40/44*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 40→44%
       ],
-      ticks: [{v:0,l:'0%'},{v:35,l:'35%'},{v:40,l:'40%↑'},{v:44,l:'44%↑'},{v:55,l:'55%'}],
-      tickNotes: {40:'Previous CMHC limit', 44:'Current cap (OSFI B-20)'},
-      warnAt: 35, failAt: 44,
-      desc: 'Total Debt Service — GDS + all other monthly debt payments (car, student, credit lines). Green ≤ 35%, caution 35–40% (former CMHC limit), over-limit 40–44%, disqualified above 44% at stress rate.',
+      ticks: [{v:0,l:'0%'},{v:40,l:'40%'},{v:44,l:'44%'}],
+      tickNotes: {40:'Former CMHC limit', 44:'OSFI B-20 cap'},
+      warnAt: 40, failAt: 44,
+      isRegulatory: true,
+      desc: 'Total Debt Service — GDS + all other monthly debt payments. 40% is the former CMHC limit, 44% is the maximum.',
     },
     {
       label: 'Housing cost vs net income',
-      a: pNet, s: pNetS, max: 55,
+      a: pNet, s: pNetS, max: 50,
+      overflowGrey: false,
       stops: [
-        [0,    '#1D9E75'],
-        [30/55*100, '#1D9E75'],  // green → orange at 30%
-        [30/55*100, '#e8a030'],
-        [35/55*100, '#e8a030'],  // orange → red at 35%
-        [35/55*100, '#e85a44'],
-        [100,  '#e85a44'],
+        [0,          '#1D9E75'],
+        [35/50*100,  '#1D9E75'],        // green 0→35%
+        [35/50*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 35→50%
       ],
-      ticks: [{v:0,l:'0%'},{v:30,l:'30%'},{v:35,l:'35%'},{v:55,l:'55%'}],
+      ticks: [{v:0,l:'0%'},{v:35,l:'35%'},{v:50,l:'50%'}],
       tickNotes: {},
-      warnAt: 30, failAt: 35,
-      desc: 'Monthly mortgage as % of estimated after-tax income. Planning guideline — not a bank requirement. Green ≤ 30%, caution 30–35%, stretched above 35%.',
+      warnAt: 35, failAt: Infinity,    // no hard fail for planning metric
+      isRegulatory: false,
+      desc: 'Monthly mortgage as % of estimated after-tax income. Planning guideline only — not a bank requirement. Under 35% is comfortable.',
     },
   ];
 
-  let anyFail = false;
+  let anyWarn = false, anyRegFail = false;
   const html = bands.map(b => {
-    const aPct = Math.min(b.a / b.max * 100, 100);
-    const sPct = Math.min(b.s / b.max * 100, 100);
+    const clamp  = v => Math.min(v / b.max * 100, 100);
+    const aPct   = clamp(b.a);
+    const sPct   = clamp(b.s);
+    const aOver  = b.a > b.max;
+    const sOver  = b.s > b.max;
 
-    // Build gradient string from stops array
     const gradStops = b.stops.map(([pct, col]) => `${col} ${pct.toFixed(2)}%`).join(',');
     const grad = `linear-gradient(90deg,${gradStops})`;
 
-    const as = b.a >= b.failAt ? 'bad' : b.a >= b.warnAt ? 'warn' : 'ok';
-    const ss = b.s >= b.failAt ? 'bad' : b.s >= b.warnAt ? 'warn' : 'ok';
-    if (as === 'bad' || ss === 'bad') anyFail = true;
+    const aStatus = b.a >= b.failAt ? 'fail' : b.a >= b.warnAt ? 'warn' : 'ok';
+    const sStatus = b.s >= b.failAt ? 'fail' : b.s >= b.warnAt ? 'warn' : 'ok';
 
-    // Tick marks — annotate old/new limits
+    if ((aStatus==='warn'||sStatus==='warn') && aStatus!=='fail' && sStatus!=='fail') anyWarn = true;
+    if (b.isRegulatory && (aStatus==='fail'||sStatus==='fail')) anyRegFail = true;
+
     const ticksHtml = b.ticks.map(t => {
-      const note = b.tickNotes[t.v];
+      const note  = b.tickNotes[t.v];
       const title = note ? ` title="${note}"` : '';
-      const style = note ? 'color:var(--ink-2);font-weight:600;cursor:help;' : '';
-      return `<span class="band-tick" style="left:${t.v/b.max*100}%;${style}"${title}>${t.l}</span>`;
+      const isLimit = note !== undefined;
+      return `<span class="band-tick" style="left:${t.v/b.max*100}%;${isLimit?'font-weight:600;color:var(--ink-2);cursor:help;':''}"${title}>${t.l}</span>`;
     }).join('');
 
-    const aLabel = `<span style="position:absolute;right:calc(${100-aPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
-    const sLabel = `<span style="position:absolute;left:calc(${sPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
+    // Position labels: if value exceeds chart, pin to right edge with ">" prefix
+    const aLblVal  = aOver  ? `>${NUM(b.max)}%` : `${NUM(b.a)}%`;
+    const sLblVal  = sOver  ? `>${NUM(b.max)}%` : `${NUM(b.s)}%`;
+    const aLblLeft = aOver  ? 'right:2px' : `right:calc(${100-aPct}% + 4px)`;
+    const sLblLeft = sOver  ? 'left:calc(100% - 52px)' : `left:calc(${sPct}% + 4px)`;
+    const aLabel   = `<span style="position:absolute;${aLblLeft};top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${aLblVal}</span>`;
+    const sLabel   = `<span style="position:absolute;${sLblLeft};top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${sLblVal}</span>`;
+
+    // Grey overflow strip appended to bar if value > max
+    const overflowA = (aOver && b.overflowGrey) ? `<div style="position:absolute;left:calc(${aPct}% - 1px);top:0;width:calc(100% - ${aPct}% + 1px);height:100%;background:rgba(85,90,106,0.55);border-radius:0 3px 3px 0;pointer-events:none;"></div>` : '';
 
     return `<div class="band" style="margin-bottom:20px;">
       <div class="band-head" style="flex-direction:column;align-items:flex-start;gap:2px;">
         <span class="band-lbl">${b.label}</span>
         <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);font-weight:400;line-height:1.4;">${b.desc}</span>
       </div>
-      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;">
-        ${aLabel}${sLabel}
-        <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;"></div>
-        <div class="bm" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#7f77dd;border-radius:1px;"></div>
+      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;position:relative;">
+        ${overflowA}${aLabel}${sLabel}
+        <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;position:absolute;"></div>
+        <div class="bm" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#7f77dd;border-radius:1px;position:absolute;"></div>
       </div>
       <div class="band-ticks">${ticksHtml}</div>
     </div>`;
@@ -1044,8 +1063,16 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
 
   document.getElementById('stress-bands').innerHTML = html;
   const sb = document.getElementById('stress-badge');
-  sb.textContent = anyFail ? 'check results' : 'all pass';
-  sb.className   = 'badge ' + (anyFail ? 'bad' : 'ok');
+  if (anyRegFail) {
+    sb.textContent = 'test failed';
+    sb.className   = 'badge bad';
+  } else if (anyWarn) {
+    sb.textContent = 'caution';
+    sb.className   = 'badge warn';
+  } else {
+    sb.textContent = 'all pass';
+    sb.className   = 'badge ok';
+  }
 }
 
 // ================================================================
@@ -1257,26 +1284,27 @@ function renderBracketChart(budget) {
   // Build trailing 12-month freehold stats from the weekly data
   let t12AvgSold = null, t12MedSold = null, t12AvgDOM = null, t12ListSoldPct = null, t12Weeks = 0;
   if (DATA.ottawa_sales && DATA.ottawa_sales.freehold && DATA.ottawa_sales.freehold.length) {
-    const wks = DATA.ottawa_sales.freehold.slice(-52); // last 52 weeks
+    const wks = DATA.ottawa_sales.freehold.slice(-52);
     const valid = wks.filter(w => w.avg_sold);
     if (valid.length) {
       t12AvgSold     = Math.round(valid.reduce((s,w) => s + w.avg_sold, 0) / valid.length);
-      t12MedSold     = Math.round(valid.filter(w=>w.median_sold).reduce((s,w)=>s+w.median_sold,0) / valid.filter(w=>w.median_sold).length);
-      t12AvgDOM      = Math.round(valid.filter(w=>w.avg_dom).reduce((s,w)=>s+w.avg_dom,0) / valid.filter(w=>w.avg_dom).length);
+      const medWks   = valid.filter(w=>w.median_sold);
+      t12MedSold     = medWks.length ? Math.round(medWks.reduce((s,w)=>s+w.median_sold,0)/medWks.length) : null;
+      const domWks   = valid.filter(w=>w.avg_dom);
+      t12AvgDOM      = domWks.length ? Math.round(domWks.reduce((s,w)=>s+w.avg_dom,0)/domWks.length) : null;
       const lspValid = valid.filter(w=>w.list_sold_pct);
       t12ListSoldPct = lspValid.length ? (lspValid.reduce((s,w)=>s+w.list_sold_pct,0)/lspValid.length).toFixed(1) : null;
       t12Weeks       = valid.length;
     }
   }
-  let statsLine = 'Highlighted bar = your price range.';
-  if (t12AvgSold) {
-    const parts = [`Avg sold ${CAD(t12AvgSold)}`];
-    if (t12MedSold) parts.push(`median ${CAD(t12MedSold)}`);
-    if (t12AvgDOM)  parts.push(`avg ${t12AvgDOM} days on market`);
-    if (t12ListSoldPct) parts.push(`list/sold ${t12ListSoldPct}%`);
-    statsLine = parts.join(' · ') + ` · Trailing ${t12Weeks} weeks. Highlighted bar = your price range.`;
-  }
-  document.getElementById('bracket-note').textContent = statsLine;
+  // Update KPI boxes
+  const setKpi = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || '—'; };
+  setKpi('ott-avg-sold',   t12AvgSold   ? CAD(t12AvgSold)            : null);
+  setKpi('ott-med-sold',   t12MedSold   ? CAD(t12MedSold)            : null);
+  setKpi('ott-list-sold',  t12ListSoldPct ? t12ListSoldPct + '%'     : null);
+  setKpi('ott-dom',        t12AvgDOM    ? t12AvgDOM + ' days'        : null);
+  document.getElementById('bracket-note').textContent = 'Highlighted bar = your price range.'
+    + (t12Weeks ? ` Trailing ${t12Weeks}-week averages above.` : '');
 }
 
 // ================================================================
@@ -1288,18 +1316,22 @@ function renderBracketChart(budget) {
 // Line 3: Max you could afford each year (green, dashed)
 //         = max price where GDS ≤ 39% at stress rate with current income
 //         This shows whether buying was ever "easier" relative to income
-function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat) {
-  const cpi    = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
-  const ottawa = DATA.crea_benchmarks && DATA.crea_benchmarks['OTTAWA'];
-  if (!cpi || !ottawa || !ottawa.history || !ottawa.history.length) {
+function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat, board) {
+  const cpi      = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
+  const boardKey = board || 'OTTAWA';
+  const boardData = DATA.crea_benchmarks && DATA.crea_benchmarks[boardKey];
+  if (!cpi || !boardData || !boardData.history || !boardData.history.length) {
     document.getElementById('afford-note').textContent =
-      'Affordability chart requires full CREA history — re-run build_json.py.';
+      'No benchmark history available for this board — data may not include this region.';
     return;
   }
+  // Update board label in chart header
+  const boardLblEl = document.getElementById('afford-board-lbl');
+  if (boardLblEl) boardLblEl.textContent = boardKey.replace(/_/g,' ').replace(/([A-Z])/g, m => m).toLowerCase().replace(/^./, s => s.toUpperCase());
 
   // Year → composite price
   const byYear = {};
-  ottawa.history.forEach(h => {
+  boardData.history.forEach(h => {
     if (h.composite) byYear[h.date.substring(0,4)] = h.composite;
   });
 
@@ -1406,8 +1438,8 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
   const premium  = latestA && latestC ? Math.round((latestA / latestC - 1) * 100) : null;
   const stressDisp = Math.max(rate + 2, 5.25).toFixed(2);
   document.getElementById('afford-note').textContent = premium != null
-    ? `Ottawa prices are ${premium}% above where they'd be if they only tracked inflation since 2005. ` +
-      `Green = max affordable (GDS ≤ 39% at ${stressDisp}% stress rate) with today's income in past dollars.`
+    ? `${boardKey.replace(/_/g,' ')} prices are ${premium}% above the 2005 CPI-adjusted baseline. ` +
+      `Green = max affordable (GDS ≤ 39% at ${stressDisp}% stress rate) with today's income.`
     : 'Source: CREA MLS HPI · StatCan CPI.';
 }
 
@@ -2000,20 +2032,53 @@ function calculate() {
   if (board) board = board.split(' | ')[0];
 
   const isOttawa = board === 'OTTAWA' || fsa.match(/^K[124]/);
+  const boardDisp = board ? board.replace(/_/g,' ') : `${fsa} — board unknown`;
 
   document.getElementById('market-lbl').textContent = isOttawa
     ? 'Ottawa · OREB + CREA'
-    : board ? board.replace(/_/g,' ') : `${fsa} — board unknown`;
+    : boardDisp;
+
+  // Always show afford chart if CREA history is available for this board
+  const hasCrea = board && DATA.crea_benchmarks && DATA.crea_benchmarks[board];
 
   if (isOttawa) {
     document.getElementById('ottawa-ctx').hidden = false;
     document.getElementById('crea-ctx').hidden   = true;
+    const ottKpis = document.getElementById('ottawa-kpis');
+    if (ottKpis) ottKpis.style.display = 'grid';
     renderBracketChart(hprice);
-    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat);
+    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat, 'OTTAWA');
+  } else if (hasCrea) {
+    // Non-Ottawa: hide bracket chart row, show afford chart + CREA KPIs side by side
+    document.getElementById('ottawa-ctx').hidden = false;
+    document.getElementById('crea-ctx').hidden   = true;
+    // Hide bracket chart column, hide Ottawa KPIs
+    const ottKpis = document.getElementById('ottawa-kpis');
+    if (ottKpis) ottKpis.style.display = 'none';
+    // Hide bracket chart, leave afford chart visible
+    const bracketCol = document.getElementById('bracket-chart');
+    if (bracketCol) {
+      const col = bracketCol.closest('div');
+      if (col) col.style.display = 'none';
+    }
+    // Make afford chart full width
+    const grid = document.querySelector('#ottawa-ctx > div');
+    if (grid) grid.style.gridTemplateColumns = '1fr';
+    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat, board);
+    renderCreaCtx(board, hprice);
+    document.getElementById('crea-ctx').hidden = false;
   } else {
     document.getElementById('ottawa-ctx').hidden = true;
     document.getElementById('crea-ctx').hidden   = false;
     renderCreaCtx(board, hprice);
+  }
+
+  // Reset grid layout when Ottawa is shown again
+  if (isOttawa) {
+    const bracketCol = document.getElementById('bracket-chart');
+    if (bracketCol) { const col = bracketCol.closest('div'); if (col) col.style.display = ''; }
+    const grid = document.querySelector('#ottawa-ctx > div');
+    if (grid) grid.style.gridTemplateColumns = '1fr 1.6fr';
   }
 
   renderCensusPanel(fsa);
