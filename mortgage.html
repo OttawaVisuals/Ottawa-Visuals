@@ -80,7 +80,8 @@ p{margin:0;}
 .rcard h3{font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
 .rcard h3 .sub{font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
 /* ── TOP ROW (two panels side by side) ─────────────────────────── */
-.top-row{display:grid;grid-template-columns:2fr 3fr;gap:10px;align-items:stretch;}
+.top-row{display:grid;grid-template-columns:2fr 3fr;gap:10px;align-items:stretch;min-width:0;}
+.top-row>*{min-width:0;overflow:hidden;}
 /* ── METRICS ROW ────────────────────────────────────────────────── */
 .mrow{display:flex;gap:8px;flex-wrap:wrap;}
 .met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
@@ -110,7 +111,7 @@ p{margin:0;}
 .band-ticks{display:flex;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:0 1px;position:relative;height:12px;}
 .band-tick{position:absolute;transform:translateX(-50%);}
 /* ── INCOME CHART ───────────────────────────────────────────────── */
-.chart-wrap{position:relative;width:100%;}
+.chart-wrap{position:relative;width:100%;min-width:0;overflow:hidden;}
 .chart-note{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;line-height:1.5;letter-spacing:0.02em;}
 /* ── SPENDING TABLE ─────────────────────────────────────────────── */
 .spend-table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -423,7 +424,7 @@ p{margin:0;}
     <div class="rcard" id="market-card">
       <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
       <div id="ottawa-ctx">
-        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;">
+        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
             <div class="chart-wrap" style="height:120px;"><canvas id="bracket-chart"></canvas></div>
@@ -794,15 +795,35 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
   const fsaPct  = fsaEntry
     ? (fsaEntry.emp_inc_pct || (fsaEntry.distributions && fsaEntry.distributions.hh_income && fsaEntry.distributions.hh_income.pcts) || null)
     : null;
-  const provPct = buildProvincePct(province);
-  const canPct  = buildCanadaPct();
+  // Build province/Canada pct from pre-computed JSON (hh_income dist) or FSA aggregation
+  function distFromCensus(censusEntry) {
+    if (!censusEntry) return null;
+    // emp_inc_pct (legacy) or hh_income distribution
+    if (censusEntry.emp_inc_pct) return censusEntry.emp_inc_pct;
+    const d = censusEntry.distributions && censusEntry.distributions.hh_income;
+    if (d && d.pcts) return d.pcts;
+    return null;
+  }
+  // Map FSA province letter to full province name
+  const FSA_TO_FULL = {
+    A:'Newfoundland and Labrador', B:'Nova Scotia', C:'Prince Edward Island',
+    E:'New Brunswick', G:'Eastern Quebec', H:'Metropolitan Montreal',
+    J:'Western Quebec', K:'Eastern Ontario', L:'Central Ontario',
+    M:'Metropolitan Toronto', N:'Southwestern Ontario', P:'Northern Ontario',
+    R:'Manitoba', S:'Saskatchewan', T:'Alberta', V:'British Columbia',
+    X:'Northwest Territories and Nunavut', Y:'Yukon',
+  };
+  const fullProvName = (fsaEntry && fsaEntry.province) || FSA_TO_FULL[fsa[0]] || null;
+  const provEntry    = fullProvName && DATA.census_province ? DATA.census_province[fullProvName] : null;
+  const provPct = provEntry ? distFromCensus(provEntry) : buildProvincePct(province);
+  const canPct  = DATA.census_canada ? distFromCensus(DATA.census_canada) : buildCanadaPct();
 
   const colors = { fsa:'#1a4a7a', prov:'#6ab0e8', can:'#e85a44' };
   const toData = arr => arr ? arr.map(v => v == null ? 0 : +v.toFixed(2)) : new Array(N_BRACKETS).fill(0);
 
   const datasets = [];
   if (fsaPct)  datasets.push({ label:fsa,      data:toData(fsaPct),  backgroundColor:colors.fsa,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
-  if (provPct) datasets.push({ label:province,  data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (provPct) datasets.push({ label:fullProvName||province, data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
   if (canPct)  datasets.push({ label:'Canada',  data:toData(canPct),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
 
   mkChart('income-chart', {
@@ -1432,130 +1453,204 @@ function renderCensusBarCharts(fsaData, provData, canData) {
   const container = document.getElementById('census-bar-charts');
   if (!container) return;
 
-  const FSA_COL  = '#1a4a7a';
-  const PROV_COL = '#6ab0e8';
-  const CAN_COL  = '#e85a44';
+  // ── Colour palette for 100%-stacked bars (up to 10 segments) ────────────
+  const PALETTE = [
+    '#1a4a7a','#2568aa','#3588cc','#5aa8dc','#6aaee8',
+    '#7f77dd','#b08ae8','#1D9E75','#e8a030','#888780',
+  ];
 
-  // Helper: pct string
-  const pctStr = v => v == null ? '—' : v.toFixed(1) + '%';
-  const cadStr = v => v == null ? '—' : CAD(v);
-  const numStr = (v, s='') => v == null ? '—' : v.toLocaleString('en-CA') + s;
+  // ── Helper: get a distribution from a census data object ────────────────
+  function getDist(d, key) {
+    return d && d.distributions && d.distributions[key] ? d.distributions[key] : null;
+  }
 
-  // Build a bar row for one label + 3 values (already in %)
-  function barRow(label, fsaV, provV, canV, fmt) {
-    fmt = fmt || pctStr;
-    const vals = [fsaV, provV, canV].map(v => v == null ? 0 : Math.abs(+v));
-    const maxV = Math.max(...vals, 0.001);
-    const bar = (v, col) => {
-      const pct = Math.min((Math.abs(+v || 0) / maxV) * 100, 100).toFixed(1);
-      return `<div class="cmp-bar-row">
-        <div class="cmp-track"><div class="cmp-fill" style="width:${pct}%;background:${col};"></div></div>
-        <span class="cmp-val">${fmt(v)}</span>
+  // ── 100%-stacked horizontal bar for one distribution ────────────────────
+  // Each level (FSA / Province / Canada) gets its own stacked bar row.
+  // Labels = segment names, shown in a colour-coded legend above.
+  function stackedSection(title, groups) {
+    // groups = [{label, fv, pv, cv}] where values are % (0-100)
+    // Normalise each row to sum to 100%
+    function normalise(vals) {
+      const sum = vals.reduce((a, b) => a + (b || 0), 0);
+      if (!sum) return vals.map(() => 0);
+      return vals.map(v => (v || 0) / sum * 100);
+    }
+    const fsaVals  = normalise(groups.map(g => g.fv));
+    const provVals = normalise(groups.map(g => g.pv));
+    const canVals  = normalise(groups.map(g => g.cv));
+
+    const allZeroFsa  = fsaVals.every(v => !v);
+    const allZeroProv = provVals.every(v => !v);
+    const allZeroCan  = canVals.every(v => !v);
+    if (allZeroFsa && allZeroProv && allZeroCan) return '';
+
+    // Legend
+    const legend = groups.map((g, i) =>
+      `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;font-family:var(--font-mono);font-size:8px;color:var(--ink-3);">
+        <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${PALETTE[i % PALETTE.length]};flex-shrink:0;"></span>${g.label}
+      </span>`
+    ).join('');
+
+    function stackedBar(vals, rowLabel, isEmpty) {
+      if (isEmpty) return '';
+      const segments = groups.map((g, i) => {
+        const w = vals[i].toFixed(2);
+        const rawV = g[rowLabel === 'FSA' ? 'fv' : rowLabel === 'Province' ? 'pv' : 'cv'];
+        const tip = rawV != null ? rawV.toFixed(1) + '%' : '—';
+        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${PALETTE[i % PALETTE.length]};height:100%;flex-shrink:0;transition:width .35s;"></div>`;
+      }).join('');
+      return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
+        <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);text-align:right;">${rowLabel}</span>
+        <div style="height:14px;border-radius:3px;overflow:hidden;display:flex;background:var(--bg-3);">${segments}</div>
       </div>`;
-    };
-    return `<div class="cmp-row">
-      <div class="cmp-lbl">${label}</div>
-      <div class="cmp-bars">
-        ${bar(fsaV, FSA_COL)}
-        ${bar(provV, PROV_COL)}
-        ${bar(canV, CAN_COL)}
-      </div>
+    }
+
+    return `<div class="cmp-section">
+      <div class="cmp-section-title">${title}</div>
+      <div style="margin-bottom:5px;line-height:1.6;">${legend}</div>
+      ${stackedBar(fsaVals,  'FSA',     allZeroFsa)}
+      ${stackedBar(provVals, 'Province', allZeroProv)}
+      ${stackedBar(canVals,  'Canada',   allZeroCan)}
     </div>`;
   }
 
-  // Build a section from a distribution (labels + pcts arrays)
-  function distSection(title, distKey, labelFilter) {
-    const fd = getDist(fsaData, distKey);
+  // ── Simple 3-bar scalar section (for single-value metrics) ──────────────
+  // Bars are relative to each other (max = 100% of track width).
+  const pctStr = v => v == null ? '—' : (+v).toFixed(1) + '%';
+  function scalarBars(title, items) {
+    const rows = items.map(({label, fv, pv, cv, fmt}) => {
+      fmt = fmt || pctStr;
+      const vals = [fv, pv, cv].map(v => Math.abs(+(v || 0)));
+      const maxV = Math.max(...vals, 0.001);
+      const bar  = (v, col) => {
+        const w = Math.min((Math.abs(+(v||0)) / maxV) * 100, 100).toFixed(1);
+        return `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+          <div style="flex:1;height:6px;border-radius:3px;background:var(--bg-3);overflow:hidden;">
+            <div style="width:${w}%;height:100%;background:${col};border-radius:3px;transition:width .35s;"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);width:36px;text-align:right;">${fmt(v)}</span>
+        </div>`;
+      };
+      return `<div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:6px;margin-bottom:4px;">
+        <span style="font-family:var(--font-mono);font-size:8.5px;color:var(--ink-3);text-align:right;">${label}</span>
+        <div>
+          ${bar(fv,  '#1a4a7a')}
+          ${bar(pv,  '#6ab0e8')}
+          ${bar(cv,  '#e85a44')}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="cmp-section">
+      <div class="cmp-section-title">${title}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px 16px;">${rows}</div>
+    </div>`;
+  }
+
+  // ── Helper: merge dist entries by index groups ───────────────────────────
+  function mergeDist(dist, groupDefs) {
+    // groupDefs = [{label, indices:[...]}]
+    if (!dist || !dist.pcts) return null;
+    return groupDefs.map(g => {
+      const sum = g.indices.reduce((a, i) => a + (dist.pcts[i] || 0), 0);
+      return { label: g.label, pct: +sum.toFixed(2) };
+    });
+  }
+
+  // ── Build stacked section from grouped distribution ──────────────────────
+  function groupedStackedSection(title, distKey, groupDefs) {
+    const fd = getDist(fsaData,  distKey);
     const pd = getDist(provData, distKey);
     const cd = getDist(canData,  distKey);
     if (!fd) return '';
-    const labels = fd.labels || [];
-    const rows = labels.map((lbl, i) => {
-      if (labelFilter && !labelFilter(lbl, i)) return '';
-      const fv = fd.pcts ? fd.pcts[i] : null;
-      const pv = pd && pd.pcts ? pd.pcts[i] : null;
-      const cv = cd && cd.pcts ? cd.pcts[i] : null;
-      return barRow(lbl, fv, pv, cv);
-    }).join('');
-    return `<div class="cmp-section">
-      <div class="cmp-section-title">${title}</div>
-      <div class="cmp-grid">${rows}</div>
-    </div>`;
+    const fGroups = mergeDist(fd, groupDefs);
+    const pGroups = mergeDist(pd, groupDefs);
+    const cGroups = mergeDist(cd, groupDefs);
+    const groups = groupDefs.map((g, i) => ({
+      label: g.label,
+      fv: fGroups ? fGroups[i].pct : null,
+      pv: pGroups ? pGroups[i].pct : null,
+      cv: cGroups ? cGroups[i].pct : null,
+    }));
+    return stackedSection(title, groups);
   }
 
-  // Build a section from scalar KPI fields
-  function scalarSection(title, items) {
-    const rows = items.map(({label, field, fmt}) => {
-      const fv = fsaData ? fsaData[field] : null;
-      const pv = provData ? provData[field] : null;
-      const cv = canData  ? canData[field]  : null;
-      return barRow(label, fv, pv, cv, fmt || pctStr);
-    }).join('');
-    return `<div class="cmp-section">
-      <div class="cmp-section-title">${title}</div>
-      <div class="cmp-grid">${rows}</div>
-    </div>`;
+  // ── Build stacked section from full distribution (no grouping) ───────────
+  function fullStackedSection(title, distKey, labelMap) {
+    const fd = getDist(fsaData,  distKey);
+    const pd = getDist(provData, distKey);
+    const cd = getDist(canData,  distKey);
+    if (!fd) return '';
+    const labels = labelMap || fd.labels || [];
+    const groups = labels.map((lbl, i) => ({
+      label: lbl,
+      fv: fd.pcts ? (fd.pcts[i] || 0) : null,
+      pv: pd && pd.pcts ? (pd.pcts[i] || 0) : null,
+      cv: cd && cd.pcts ? (cd.pcts[i] || 0) : null,
+    }));
+    return stackedSection(title, groups);
   }
 
   let html = '';
 
-  // 1. Age distribution
-  html += distSection('Age distribution', 'age');
-
-  // 2. Household income distribution
-  html += distSection('Household income distribution', 'hh_income');
-
-  // 3. Dwelling type
-  html += distSection('Dwelling type', 'dwelling_type');
-
-  // 4. Tenure (owners vs renters)
-  html += distSection('Tenure', 'tenure');
-
-  // 5. Dwelling age (period of construction)
-  html += distSection('Dwelling period of construction', 'construction');
-
-  // 6. Dwelling condition + shelter affordability
-  html += scalarSection('Housing affordability & condition', [
-    { label: 'Owners',              field: 'pct_owners',          fmt: pctStr },
-    { label: 'Renters',             field: 'pct_renters',         fmt: pctStr },
-    { label: 'Shelter cost 30%+',   field: 'pct_shelter_30plus',  fmt: pctStr },
-    { label: 'Major repairs needed',field: 'pct_major_repairs',   fmt: pctStr },
-    { label: 'With mortgage (owners)',field:'pct_with_mortgage',  fmt: pctStr },
+  // 1. Age distribution — grouped into pairs (0-9, 10-19, …, 80+)
+  // AGE_COLS order: 0-4, 5-9, 10-14, 15-19, 20-24, 25-29, 30-34, 35-39,
+  //                 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70-74, 75-79, 80-84, 85+
+  html += groupedStackedSection('Age distribution', 'age', [
+    { label: '0–9',   indices: [0, 1] },
+    { label: '10–19', indices: [2, 3] },
+    { label: '20–29', indices: [4, 5] },
+    { label: '30–39', indices: [6, 7] },
+    { label: '40–49', indices: [8, 9] },
+    { label: '50–59', indices: [10, 11] },
+    { label: '60–69', indices: [12, 13] },
+    { label: '70–79', indices: [14, 15] },
+    { label: '80+',   indices: [16, 17] },
   ]);
 
-  // 7. Language
-  html += distSection('Official language knowledge', 'language');
-
-  // 8. Education (25–64)
-  html += distSection('Education — highest credential (age 25–64)', 'education');
-
-  // 9. Employment / labour
-  html += scalarSection('Labour force (age 15+)', [
-    { label: 'Employment rate',    field: 'pct_employed',      fmt: pctStr },
-    { label: 'Unemployment rate',  field: 'pct_unemployed',    fmt: pctStr },
-    { label: 'Participation rate', field: 'participation_rate',fmt: pctStr },
-    { label: 'Work from home',     field: 'pct_work_from_home',fmt: pctStr },
+  // 2. Dwelling type — grouped
+  // DWELL_COLS order: Detached, Semi-detached, Row, Duplex, Apt<5, Apt5+, Other, Movable
+  html += groupedStackedSection('Dwelling type', 'dwelling_type', [
+    { label: 'Detached',     indices: [0] },
+    { label: 'Semi-detached',indices: [1] },
+    { label: 'Row',          indices: [2] },
+    { label: 'Duplex',       indices: [3] },
+    { label: 'Apartments',   indices: [4, 5] },
+    { label: 'Others',       indices: [6, 7] },
   ]);
 
-  // 10. Commute mode
-  html += distSection('Commute mode', 'commute_mode');
+  // 3. Tenure
+  html += fullStackedSection('Tenure — owner vs. renter', 'tenure');
 
-  // 11. Commute duration
-  html += distSection('Commute duration', 'commute_dur');
+  // 4. Period of construction
+  html += fullStackedSection('Period of construction', 'construction');
 
-  // 12. Immigration & diversity
-  html += scalarSection('Immigration & diversity', [
-    { label: 'Immigrants',          field: 'pct_immigrant',         fmt: pctStr },
-    { label: 'Recent (2016–2021)',  field: 'pct_recent_immigrant',  fmt: pctStr },
-    { label: 'Visible minority',    field: 'pct_visible_minority',  fmt: pctStr },
+  // 5. Housing affordability — scalar bars only (single values)
+  html += scalarBars('Housing affordability & condition', [
+    { label: 'Shelter cost 30%+',    fv: fsaData?.pct_shelter_30plus,  pv: provData?.pct_shelter_30plus,  cv: canData?.pct_shelter_30plus },
+    { label: 'Major repairs needed', fv: fsaData?.pct_major_repairs,   pv: provData?.pct_major_repairs,   cv: canData?.pct_major_repairs  },
   ]);
 
-  // 13. Mobility (5 yr)
-  html += distSection('Residential stability (5 yrs)', 'mobility');
+  // 6. Language
+  html += fullStackedSection('Official language knowledge', 'language');
 
-  // 14. Low income
-  html += scalarSection('Low income', [
-    { label: 'Low income (LIM-AT)', field: 'pct_low_income', fmt: pctStr },
+  // 7. Education (25–64)
+  html += fullStackedSection('Education — highest credential (25–64)', 'education');
+
+  // 8. Labour — scalar bars
+  html += scalarBars('Labour force', [
+    { label: 'Employment rate',   fv: fsaData?.employment_rate   ?? fsaData?.pct_employed,   pv: provData?.employment_rate   ?? provData?.pct_employed,   cv: canData?.employment_rate   ?? canData?.pct_employed  },
+    { label: 'Unemployment rate', fv: fsaData?.unemployment_rate ?? fsaData?.pct_unemployed, pv: provData?.unemployment_rate ?? provData?.pct_unemployed, cv: canData?.unemployment_rate ?? canData?.pct_unemployed },
+  ]);
+
+  // 9. Commute mode
+  html += fullStackedSection('Commute mode', 'commute_mode');
+
+  // 10. Commute duration
+  html += fullStackedSection('Commute duration', 'commute_dur');
+
+  // 11. Low income — scalar
+  html += scalarBars('Low income', [
+    { label: 'Low income (LIM-AT)', fv: fsaData?.pct_low_income, pv: provData?.pct_low_income, cv: canData?.pct_low_income },
   ]);
 
   container.innerHTML = html;
