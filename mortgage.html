@@ -85,7 +85,7 @@ p{margin:0;}
 /* ── METRICS ROW ────────────────────────────────────────────────── */
 .mrow{display:flex;gap:8px;flex-wrap:wrap;}
 .met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
-.met .ml{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;}
+.met .ml{font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;color:var(--ink-3);margin-bottom:3px;}
 .met .mv{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
 .met .ms{font-size:11px;color:var(--ink-3);margin-top:2px;}
 .met .mv.green{color:var(--green);}
@@ -303,7 +303,7 @@ p{margin:0;}
       </div>
       <div class="grid-2" style="margin-bottom:0;">
         <div class="field">
-          <div class="field-label-row"><span class="flbl">Other debt <span class="tip-btn">?<span class="tip-box" style="width:250px;">Monthly debt payments used in the TDS stress test — car loans, student loans, credit lines, other mortgages. Credit card minimum = 3% of balance per OSFI B-20. Do not include this mortgage.</span></span></span><span class="funit">$/mo</span></div>
+          <div class="field-label-row"><span class="flbl">Other debt</span><span class="funit">$/mo</span></div>
           <div class="input-wrap"><input type="text" id="otherdebt" value="0" data-raw="0"><span class="iunit">$/mo</span></div>
         </div>
         <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
@@ -358,7 +358,7 @@ p{margin:0;}
       </h3>
       <div class="mrow">
         <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
-        <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Bi-weekly mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
+        <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
         <div class="met" id="m-cmhc-wrap" style="display:none;"><div class="ml">CMHC premium <span class="tip-btn">?<span class="tip-box" style="width:260px;">Mortgage default insurance required when down payment is under 20% on homes ≤ $1.5M. Added to your mortgage principal. Rates: 5–9.99% down → 4.0%; 10–14.99% → 3.1%; 15–19.99% → 2.8%.</span></span></div><div class="mv amber" id="m-cmhc">—</div><div class="ms" id="m-cmhc-s"></div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
@@ -438,7 +438,7 @@ p{margin:0;}
 
     <!-- Housing market context -->
     <div class="rcard" id="market-card">
-      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span> <span class="tip-btn">?<span class="tip-box" style="width:280px;">Ottawa data: freehold sales by price range (trailing 12 months from OREB weekly reports), and CREA MLS® HPI benchmark price history. Other markets: CREA composite benchmark and year-over-year change.</span></span></h3>
+      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
       <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
@@ -471,7 +471,7 @@ p{margin:0;}
 
     <!-- Neighbourhood analysis -->
     <div class="rcard" id="census-card">
-      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span> <span class="tip-btn">?<span class="tip-box" style="width:280px;">Demographics for the Forward Sortation Area (first 3 characters of postal code) from the 2021 Census. All figures are for the FSA, compared to provincial and national averages.</span></span></h3>
+      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
         <!-- ROW 1: Income chart + KPIs -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
@@ -498,7 +498,7 @@ p{margin:0;}
         <!-- ROW 2: Comparison bar charts -->
         <div style="margin-top:14px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Neighbourhood profile — FSA vs Province vs Canada <span class="tip-btn">?<span class="tip-box" style="width:280px;">100%-stacked bars showing the composition of each demographic category. Each bar sums to 100%. Hover segments for exact values. Source: Statistics Canada 2021 Census.</span></span></span>
+            <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Neighbourhood profile — FSA vs Province vs Canada</span>
             <div class="legend" style="margin-left:auto;">
               <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
               <div class="li"><div class="ld" style="background:#6ab0e8;"></div>Province</div>
@@ -508,7 +508,6 @@ p{margin:0;}
           <div id="census-bar-charts"></div>
         </div>
 
-        <div class="chart-note" id="census-note" style="margin-top:6px;"></div>
       </div>
       <div id="census-empty" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:8px 0;">Census data not available for this postal code.</div>
     </div>
@@ -526,12 +525,23 @@ p{margin:0;}
           <p>Combined federal + provincial income tax, CPP and EI premiums, net of the Canada Workers Benefit. Rates from TaxTips.ca 2021 employment income comparison, province-inferred from postal code. Not a substitute for a tax calculator.</p>
         </div>
         <div>
-          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Income distribution</p>
-          <p>Source: Statistics Canada 2021 Census Profile by forward sortation area (FSA). Shows the share of people with employment income in each bracket. Compares individual employment income against FSA, province, and Canada distributions.</p>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Neighbourhood profile</p>
+          <p>Source: Statistics Canada 2021 Census Profile by forward sortation area (FSA).</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">CPI adjustment</p>
           <p>Source: Statistics Canada table 18-10-0005-01 (annual average, all-items, Canada, base 2002=100). Used to inflation-adjust the 2005 Ottawa benchmark price to today's dollars for comparison.</p>
-          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Ottawa housing data</p>
-          <p>Weekly sales data from OREB via the OttawaVisuals open dataset. CREA MLS HPI benchmark prices. Trailing 12-month bracket distribution aggregated from weekly reports.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Housing data</p>
+          <p>Ottawa data provided by <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="color:var(--accent);">u/ottawaagent</a> (Reddit). CREA MLS HPI benchmark prices.</p>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line);">
+        <p style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;color:var(--ink-3);margin-bottom:6px;">Sources</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 16px;">
+          <a href="https://ised-isde.canada.ca/site/office-superintendent-bankruptcy/en/statistics-and-research/forward-sortation-area-fsa-and-north-american-industry-classification-naics-reports/forward-sortation-area-definition" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">FSA definition — ISED</a>
+          <a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger.cfm?Lang=E" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">2021 Census Profile — Statistics Canada</a>
+          <a href="https://www.taxtips.ca/taxrates/taxcomparison/tax-comparison-2021.htm" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Tax rates — TaxTips.ca</a>
+          <a href="https://www.cmhc-schl.gc.ca/professionals/project-funding-and-mortgage-financing/mortgage-loan-insurance/calculating-gds-tds" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">GDS/TDS calculation — CMHC</a>
+          <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa weekly data — u/ottawaagent</a>
+          <a href="https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/edit?gid=900158794#gid=900158794" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa data spreadsheet</a>
         </div>
       </div>
     </div>
@@ -931,59 +941,100 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
   const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat) / monthlyGross * 100;
   const tds   = (monthlyMort  + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
   const tdsS  = (monthlyMortS + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
-  const pGross  = monthlyMort  / monthlyGross * 100;
-  const pGrossS = monthlyMortS / monthlyGross * 100;
   const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100;
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
-  const stressDescs = {
-    'GDS ratio':        'Gross Debt Service — (mortgage + property tax + heat) ÷ gross income. Regulatory cap: ≤ 39% at stress rate (OSFI B-20). 32% is a conservative personal planning guideline.',
-    'TDS ratio':        'Total Debt Service — adds all monthly debt payments (car, student, credit lines, etc.) to GDS. Lender cap ≤ 44% at stress rate. Only differs from GDS when "Other debt" is entered.',
-    'Mortgage % gross': 'Monthly mortgage payment as % of gross income. Rule of thumb: keep below 25–28%.',
-    'Mortgage % net':   'Monthly mortgage payment as % of estimated after-tax income. Most planners suggest ≤ 35% of net.',
-  };
+  // ── Band definitions with custom multi-stop gradients ───────────────────
+  // GDS:  0-30 green | 30-32 orange | 32-39 red | 39+ grey
+  // TDS:  0-35 green | 35-40 orange | 40-44 red | 44+ grey
+  // Net:  0-30 green | 30-35 orange | 35+ red
   const bands = [
-    { label:'GDS ratio', a:gds, s:gdsS, cap:null, limit:39, max:55,
-      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39% cap'},{v:55,l:'55%'}] },
-    { label:'TDS ratio', a:tds, s:tdsS, cap:44, limit:44, max:55,
-      ticks:[{v:0,l:'0%'},{v:32,l:'GDS 32%'},{v:44,l:'44%'},{v:55,l:'55%'}] },
-    { label:'Mortgage % of gross', a:pGross, s:pGrossS, cap:null, limit:28, max:50,
-      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:28,l:'28%'},{v:50,l:'50%'}] },
-    { label:'Mortgage % of net',   a:pNet,  s:pNetS,  cap:null, limit:33, max:50,
-      ticks:[{v:0,l:'0%'},{v:25,l:'25%'},{v:33,l:'33%'},{v:50,l:'50%'}] },
+    {
+      label: 'GDS ratio',
+      a: gds, s: gdsS, max: 55,
+      // Segments: [stop%, colour] — drawn as CSS linear-gradient stops
+      stops: [
+        [0,    '#1D9E75'],  // green start
+        [30/55*100, '#1D9E75'],  // green → orange at 30%
+        [30/55*100, '#e8a030'],
+        [32/55*100, '#e8a030'],  // orange → red at 32% (old CMHC limit)
+        [32/55*100, '#e85a44'],
+        [39/55*100, '#e85a44'],  // red → grey at 39% (current cap)
+        [39/55*100, '#555a6a'],
+        [100,  '#555a6a'],
+      ],
+      ticks: [{v:0,l:'0%'},{v:30,l:'30%'},{v:32,l:'32%↑'},{v:39,l:'39%↑'},{v:55,l:'55%'}],
+      tickNotes: {32:'Previous CMHC limit', 39:'Current cap (OSFI B-20)'},
+      warnAt: 30, failAt: 39,
+      desc: 'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. Green ≤ 30%, caution 30–32% (former CMHC limit), over-limit 32–39%, disqualified above 39% at stress rate.',
+    },
+    {
+      label: 'TDS ratio',
+      a: tds, s: tdsS, max: 55,
+      stops: [
+        [0,    '#1D9E75'],
+        [35/55*100, '#1D9E75'],  // green → orange at 35%
+        [35/55*100, '#e8a030'],
+        [40/55*100, '#e8a030'],  // orange → red at 40% (old CMHC limit)
+        [40/55*100, '#e85a44'],
+        [44/55*100, '#e85a44'],  // red → grey at 44% (current cap)
+        [44/55*100, '#555a6a'],
+        [100,  '#555a6a'],
+      ],
+      ticks: [{v:0,l:'0%'},{v:35,l:'35%'},{v:40,l:'40%↑'},{v:44,l:'44%↑'},{v:55,l:'55%'}],
+      tickNotes: {40:'Previous CMHC limit', 44:'Current cap (OSFI B-20)'},
+      warnAt: 35, failAt: 44,
+      desc: 'Total Debt Service — GDS + all other monthly debt payments (car, student, credit lines). Green ≤ 35%, caution 35–40% (former CMHC limit), over-limit 40–44%, disqualified above 44% at stress rate.',
+    },
+    {
+      label: 'Housing cost vs net income',
+      a: pNet, s: pNetS, max: 55,
+      stops: [
+        [0,    '#1D9E75'],
+        [30/55*100, '#1D9E75'],  // green → orange at 30%
+        [30/55*100, '#e8a030'],
+        [35/55*100, '#e8a030'],  // orange → red at 35%
+        [35/55*100, '#e85a44'],
+        [100,  '#e85a44'],
+      ],
+      ticks: [{v:0,l:'0%'},{v:30,l:'30%'},{v:35,l:'35%'},{v:55,l:'55%'}],
+      tickNotes: {},
+      warnAt: 30, failAt: 35,
+      desc: 'Monthly mortgage as % of estimated after-tax income. Planning guideline — not a bank requirement. Green ≤ 30%, caution 30–35%, stretched above 35%.',
+    },
   ];
 
   let anyFail = false;
   const html = bands.map(b => {
     const aPct = Math.min(b.a / b.max * 100, 100);
     const sPct = Math.min(b.s / b.max * 100, 100);
-    const limPct  = b.limit / b.max * 100;
-    const capPct  = b.cap   ? b.cap / b.max * 100 : null;
-    // Gradient: green → amber at limit, then red up to cap (39%), grey beyond
-    const amber  = limPct;
-    const red2   = capPct || (limPct + 16);
-    const greyAt = b.cap ? capPct : null;
-    const grad = greyAt
-      ? `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${greyAt}%,#555a6a ${greyAt}%)`
-      : `linear-gradient(90deg,#1D9E75 ${amber}%,#e8a030 ${amber}% ${red2}%,#e85a44 ${red2}%)`;
-    const as = b.a > (b.cap||b.limit*1.1) ? 'bad' : b.a > b.limit ? 'warn' : 'ok';
-    const ss = b.s > (b.cap||b.limit*1.1) ? 'bad' : b.s > b.limit ? 'warn' : 'ok';
-    if (as==='bad'||ss==='bad') anyFail = true;
-    const ticksHtml = b.ticks.map(t =>
-      `<span class="band-tick" style="left:${t.v/b.max*100}%">${t.l}</span>`).join('');
-    // % labels above each marker line
-    // Actual rate label anchored to the LEFT of its line; stress label to the RIGHT
+
+    // Build gradient string from stops array
+    const gradStops = b.stops.map(([pct, col]) => `${col} ${pct.toFixed(2)}%`).join(',');
+    const grad = `linear-gradient(90deg,${gradStops})`;
+
+    const as = b.a >= b.failAt ? 'bad' : b.a >= b.warnAt ? 'warn' : 'ok';
+    const ss = b.s >= b.failAt ? 'bad' : b.s >= b.warnAt ? 'warn' : 'ok';
+    if (as === 'bad' || ss === 'bad') anyFail = true;
+
+    // Tick marks — annotate old/new limits
+    const ticksHtml = b.ticks.map(t => {
+      const note = b.tickNotes[t.v];
+      const title = note ? ` title="${note}"` : '';
+      const style = note ? 'color:var(--ink-2);font-weight:600;cursor:help;' : '';
+      return `<span class="band-tick" style="left:${t.v/b.max*100}%;${style}"${title}>${t.l}</span>`;
+    }).join('');
+
     const aLabel = `<span style="position:absolute;right:calc(${100-aPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${NUM(b.a)}%</span>`;
     const sLabel = `<span style="position:absolute;left:calc(${sPct}% + 4px);top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${NUM(b.s)}%</span>`;
-    const desc = stressDescs[b.label] || '';
-    return `<div class="band" style="margin-bottom:18px;">
+
+    return `<div class="band" style="margin-bottom:20px;">
       <div class="band-head" style="flex-direction:column;align-items:flex-start;gap:2px;">
         <span class="band-lbl">${b.label}</span>
-        ${desc ? `<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);font-weight:400;line-height:1.4;">${desc}</span>` : ''}
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);font-weight:400;line-height:1.4;">${b.desc}</span>
       </div>
       <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;">
-        ${aLabel}
-        ${sLabel}
+        ${aLabel}${sLabel}
         <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;"></div>
         <div class="bm" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#7f77dd;border-radius:1px;"></div>
       </div>
@@ -1203,8 +1254,29 @@ function renderBracketChart(budget) {
   const total = vals.reduce((a,b)=>a+b,0);
   const under = vals.slice(0,bi+1).reduce((a,b)=>a+b,0);
   const pct = total>0 ? Math.round(under/total*100) : 0;
-  document.getElementById('bracket-note').textContent =
-    `${pct}% of Ottawa freehold sales in the last 12 months were ≤ ${CAD(budget)}. Highlighted bar = your price range.`;
+  // Build trailing 12-month freehold stats from the weekly data
+  let t12AvgSold = null, t12MedSold = null, t12AvgDOM = null, t12ListSoldPct = null, t12Weeks = 0;
+  if (DATA.ottawa_sales && DATA.ottawa_sales.freehold && DATA.ottawa_sales.freehold.length) {
+    const wks = DATA.ottawa_sales.freehold.slice(-52); // last 52 weeks
+    const valid = wks.filter(w => w.avg_sold);
+    if (valid.length) {
+      t12AvgSold     = Math.round(valid.reduce((s,w) => s + w.avg_sold, 0) / valid.length);
+      t12MedSold     = Math.round(valid.filter(w=>w.median_sold).reduce((s,w)=>s+w.median_sold,0) / valid.filter(w=>w.median_sold).length);
+      t12AvgDOM      = Math.round(valid.filter(w=>w.avg_dom).reduce((s,w)=>s+w.avg_dom,0) / valid.filter(w=>w.avg_dom).length);
+      const lspValid = valid.filter(w=>w.list_sold_pct);
+      t12ListSoldPct = lspValid.length ? (lspValid.reduce((s,w)=>s+w.list_sold_pct,0)/lspValid.length).toFixed(1) : null;
+      t12Weeks       = valid.length;
+    }
+  }
+  let statsLine = 'Highlighted bar = your price range.';
+  if (t12AvgSold) {
+    const parts = [`Avg sold ${CAD(t12AvgSold)}`];
+    if (t12MedSold) parts.push(`median ${CAD(t12MedSold)}`);
+    if (t12AvgDOM)  parts.push(`avg ${t12AvgDOM} days on market`);
+    if (t12ListSoldPct) parts.push(`list/sold ${t12ListSoldPct}%`);
+    statsLine = parts.join(' · ') + ` · Trailing ${t12Weeks} weeks. Highlighted bar = your price range.`;
+  }
+  document.getElementById('bracket-note').textContent = statsLine;
 }
 
 // ================================================================
@@ -1712,10 +1784,7 @@ function renderCensusPanel(fsa) {
     d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null,
     d.pct_low_income != null ? `${d.pct_low_income}% low income` : null,
   ].filter(Boolean);
-  document.getElementById('census-note').textContent =
-    (parts.length ? parts.join(' · ') + ' · ' : '') +
-    (provName ? `Province: ${provName} · ` : '') +
-    'Source: Statistics Canada 2021 Census.';
+  // census-note removed
 
   // ── Comparison bar charts ─────────────────────────────────────────
   renderCensusBarCharts(d, provData, canData);
