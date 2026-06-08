@@ -365,7 +365,7 @@ p{margin:0;}
         <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
         <div class="met"><div class="ml">Lump sum savings <span class="tip-btn">?<span class="tip-box" style="width:250px;">Time saved off your amortization by making an extra annual payment on the principal. Most lenders allow 10–20% of original principal per year prepayment-free.</span></span></div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
-        <div class="met"><div class="ml">Max house price <span class="tip-btn">?<span class="tip-box" style="width:260px;">Maximum purchase price where GDS ≤ 32% at the stress rate (max of rate+2% and 5.25%, per OSFI B-20). This is the bank's qualifying limit — your comfort level may be lower.</span></span></div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
+        <div class="met"><div class="ml">Max house price <span class="tip-btn">?<span class="tip-box" style="width:260px;">Maximum purchase price where GDS ≤ 39% and TDS ≤ 44% at the stress rate (max of rate+2% and 5.25%, per OSFI B-20). This reflects the regulatory qualifying limit — your personal comfort level may be lower.</span></span></div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
       </div>
     </div>
 
@@ -521,7 +521,7 @@ p{margin:0;}
           <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Mortgage payment</p>
           <p>Standard Canadian mortgage formula with semi-annual compounding (as required by the Interest Act). Bi-weekly rate: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">r_bw = (1 + rate/200)^(2/26) − 1</code>. Payment: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">P × r_bw / (1 − (1+r_bw)^−n)</code> where n = years × 26.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test &amp; bank maximum</p>
-          <p>GDS ratio calculated at both contract rate and stress rate (max of rate+2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. Bank maximum uses GDS ≤ 32% at stress rate — the binding constraint for most borrowers.</p>
+          <p>GDS ratio calculated at both contract rate and stress rate (max of rate+2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. TDS adds all other monthly debt payments. Bank qualifying limits: GDS ≤ 39% and TDS ≤ 44% at stress rate.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">Net income estimate</p>
           <p>Combined federal + provincial income tax, CPP and EI premiums, net of the Canada Workers Benefit. Rates from TaxTips.ca 2021 employment income comparison, province-inferred from postal code. Not a substitute for a tax calculator.</p>
         </div>
@@ -670,7 +670,7 @@ function cmhcRate(dp, price) {
   return 0.040;
 }
 
-// ── BANK MAX MORTGAGE (GDS ≤ 32% AND TDS ≤ 44% at stress rate, OSFI B-20) ──
+// ── BANK MAX MORTGAGE (GDS ≤ 39% AND TDS ≤ 44% at stress rate, OSFI B-20) ──
 // Returns maximum purchase price given income, down payment, and other debts.
 // Accounts for CMHC premium added to principal when down < 20%.
 // Binding constraint is whichever ratio (GDS or TDS) hits its limit first.
@@ -691,7 +691,7 @@ function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat
     const monthlyM = bwP * 26 / 12;
     const gds = (monthlyM + monthlyTax + monthlyHeat) / monthlyGross * 100;
     const tds = (monthlyM + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
-    if (gds <= 32 && tds <= 44) lo = mid; else hi = mid;
+    if (gds <= 39 && tds <= 44) lo = mid; else hi = mid;
   }
   return Math.round(lo);
 }
@@ -937,14 +937,14 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
   const stressDescs = {
-    'GDS ratio':        'Gross Debt Service — (mortgage + property tax + heat) ÷ gross income. CMHC max 39%; lenders require ≤ 32% at stress rate.',
+    'GDS ratio':        'Gross Debt Service — (mortgage + property tax + heat) ÷ gross income. Regulatory cap: ≤ 39% at stress rate (OSFI B-20). 32% is a conservative personal planning guideline.',
     'TDS ratio':        'Total Debt Service — adds all monthly debt payments (car, student, credit lines, etc.) to GDS. Lender cap ≤ 44% at stress rate. Only differs from GDS when "Other debt" is entered.',
     'Mortgage % gross': 'Monthly mortgage payment as % of gross income. Rule of thumb: keep below 25–28%.',
     'Mortgage % net':   'Monthly mortgage payment as % of estimated after-tax income. Most planners suggest ≤ 35% of net.',
   };
   const bands = [
-    { label:'GDS ratio', a:gds, s:gdsS, cap:39, limit:32, max:55,
-      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'},{v:55,l:'55%'}] },
+    { label:'GDS ratio', a:gds, s:gdsS, cap:null, limit:39, max:55,
+      ticks:[{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39% cap'},{v:55,l:'55%'}] },
     { label:'TDS ratio', a:tds, s:tdsS, cap:44, limit:44, max:55,
       ticks:[{v:0,l:'0%'},{v:32,l:'GDS 32%'},{v:44,l:'44%'},{v:55,l:'55%'}] },
     { label:'Mortgage % of gross', a:pGross, s:pGrossS, cap:null, limit:28, max:50,
@@ -1214,7 +1214,7 @@ function renderBracketChart(budget) {
 // Line 2: 2005 benchmark price grown only by CPI (blue, dashed)
 //         = what the price would be if housing merely tracked inflation
 // Line 3: Max you could afford each year (green, dashed)
-//         = current income deflated to past dollars → bank max mortgage
+//         = max price where GDS ≤ 39% at stress rate with current income
 //         This shows whether buying was ever "easier" relative to income
 function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat) {
   const cpi    = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
@@ -1269,7 +1269,7 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
       const loan     = baseLoan + prem;
       const bwP      = mortgagePayment(loan, stressRate, amort);
       const gds      = (bwP * 26/12 + ptax/12 + ht) / (income/12) * 100;
-      if (gds <= 32) lo = mid; else hi = mid;
+      if (gds <= 39) lo = mid; else hi = mid;
     }
     return Math.round(lo) / 1000;
   }
@@ -1335,7 +1335,7 @@ function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat)
   const stressDisp = Math.max(rate + 2, 5.25).toFixed(2);
   document.getElementById('afford-note').textContent = premium != null
     ? `Ottawa prices are ${premium}% above where they'd be if they only tracked inflation since 2005. ` +
-      `Green = max affordable (GDS ≤ 32% at ${stressDisp}% stress rate) with today's income in past dollars.`
+      `Green = max affordable (GDS ≤ 39% at ${stressDisp}% stress rate) with today's income in past dollars.`
     : 'Source: CREA MLS HPI · StatCan CPI.';
 }
 
@@ -1865,7 +1865,7 @@ function calculate() {
   // Max house price = bank max (already includes down payment in binary search)
   document.getElementById('m-bank-max').textContent = CAD(bankMax);
   const tdsNote = otherdebt > 0 ? ' · TDS ≤ 44%' : '';
-  document.getElementById('m-bank-s').textContent = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 32%${tdsNote} @ ${stressRate.toFixed(2)}%`;
+  document.getElementById('m-bank-s').textContent = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 39%${tdsNote} @ ${stressRate.toFixed(2)}%`;
 
   // ── UPDATE MEEPLE BRACKET COLOUR ──────────────────────────────────
   // Bracket colours: dark→light blue (same as chart bars)
