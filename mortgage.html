@@ -344,14 +344,14 @@ p{margin:0;}
         </select>
       </h3>
       <div class="mrow">
-        <div class="met"><div class="ml">Total net income</div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
-        <div class="met"><div class="ml">Mortgage payment</div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
+        <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
+        <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Bi-weekly mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
         <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
-        <div class="met"><div class="ml">Lump sum savings</div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
-        <div class="met"><div class="ml">Max house price</div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
+        <div class="met"><div class="ml">Lump sum savings <span class="tip-btn">?<span class="tip-box" style="width:250px;">Time saved off your amortization by making an extra annual payment on the principal. Most lenders allow 10–20% of original principal per year prepayment-free.</span></span></div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
+        <div class="met"><div class="ml">Max house price <span class="tip-btn">?<span class="tip-box" style="width:260px;">Maximum purchase price where GDS ≤ 32% at the stress rate (max of rate+2% and 5.25%, per OSFI B-20). This is the bank's qualifying limit — your comfort level may be lower.</span></span></div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
       </div>
     </div>
 
@@ -397,7 +397,7 @@ p{margin:0;}
 
       <!-- Stress tests -->
       <div class="rcard">
-        <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span></h3>
+        <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span> <span class="tip-btn">?<span class="tip-box" style="width:260px;">OSFI B-20 qualifying rules. Lenders must test that you can afford payments at the higher of your rate + 2% or 5.25%. Blue line = your rate; purple = stress rate.</span></span></h3>
         <div id="stress-bands"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
           <div class="li"><div class="ld" style="background:#378ADD;"></div>Actual rate</div>
@@ -407,7 +407,7 @@ p{margin:0;}
 
       <!-- Amortization -->
       <div class="rcard" style="display:flex;flex-direction:column;">
-        <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span></h3>
+        <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span> <span class="tip-btn">?<span class="tip-box" style="width:270px;">Annual cost breakdown over the full amortization. Stacked from bottom: principal repaid, interest paid, shared living expenses (inflation-adjusted), and remaining leeway.</span></span></h3>
         <div class="chart-wrap" style="flex:1;min-height:160px;">
           <canvas id="amort-chart"></canvas>
         </div>
@@ -424,7 +424,7 @@ p{margin:0;}
 
     <!-- Housing market context -->
     <div class="rcard" id="market-card">
-      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
+      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span> <span class="tip-btn">?<span class="tip-box" style="width:280px;">Ottawa data: freehold sales by price range (trailing 12 months from OREB weekly reports), and CREA MLS® HPI benchmark price history. Other markets: CREA composite benchmark and year-over-year change.</span></span></h3>
       <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
@@ -457,14 +457,14 @@ p{margin:0;}
 
     <!-- Neighbourhood analysis -->
     <div class="rcard" id="census-card">
-      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
+      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span> <span class="tip-btn">?<span class="tip-box" style="width:280px;">Demographics for the Forward Sortation Area (first 3 characters of postal code) from the 2021 Census. All figures are for the FSA, compared to provincial and national averages.</span></span></h3>
       <div id="census-ctx">
         <!-- ROW 1: Income chart + KPIs -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
           <!-- LEFT: employment income chart -->
           <div style="display:flex;flex-direction:column;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income distribution</span>
+              <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income distribution <span class="tip-btn">?<span class="tip-box" style="width:260px;">Distribution of total household income for private households in this FSA. Source: 2021 Census. Shows the share of individuals (aged 15+) with employment income in each bracket. Bars represent % of workers — they sum to 100% of those with employment income.</span></span></span>
               <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
               <div class="legend" style="margin:0 0 0 auto;">
                 <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
@@ -484,7 +484,7 @@ p{margin:0;}
         <!-- ROW 2: Comparison bar charts -->
         <div style="margin-top:14px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Neighbourhood profile — FSA vs Province vs Canada</span>
+            <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Neighbourhood profile — FSA vs Province vs Canada <span class="tip-btn">?<span class="tip-box" style="width:280px;">100%-stacked bars showing the composition of each demographic category. Each bar sums to 100%. Hover segments for exact values. Source: Statistics Canada 2021 Census.</span></span></span>
             <div class="legend" style="margin-left:auto;">
               <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
               <div class="li"><div class="ld" style="background:#6ab0e8;"></div>Province</div>
@@ -736,104 +736,28 @@ function salaryToBracketLabel(salary) {
   return INC_LABELS[N_BRACKETS - 1];
 }
 
-// Build province employment income pct from pre-computed census_province.json
-// or fall back to weighted FSA aggregation for backwards compat
-function buildProvincePct(province) {
-  // Try direct pre-computed lookup first
-  const FSA_TO_PROV_NAME = {
-    A:'Newfoundland and Labrador', B:'Nova Scotia', C:'Prince Edward Island',
-    E:'New Brunswick', G:'Eastern Quebec', H:'Metropolitan Montreal',
-    J:'Western Quebec', K:'Eastern Ontario', L:'Central Ontario',
-    M:'Metropolitan Toronto', N:'Southwestern Ontario', P:'Northern Ontario',
-    R:'Manitoba', S:'Saskatchewan', T:'Alberta', V:'British Columbia',
-    X:'Northwest Territories and Nunavut', Y:'Yukon',
-  };
-  // province arg here is e.g. 'ON' (old code) — map to full name if needed
-  // New data uses first-letter -> full name mapping, so we accept either
-  const provEntry = DATA.census_province && (
-    DATA.census_province[province] ||
-    Object.values(FSA_TO_PROV_NAME).find(n => n === province)
-      ? DATA.census_province[Object.values(FSA_TO_PROV_NAME).find(n => n === province) || province]
-      : null
-  );
-  // emp_inc_pct not in new structure — use FSA weighted aggregation
-  if (!DATA.census_fsa) return null;
-  const totals = new Array(N_BRACKETS).fill(0);
-  let totalWorkers = 0;
-  Object.values(DATA.census_fsa).forEach(d => {
-    const dp = d.province || '';
-    // Match by exact province name or legacy 2-letter code via FSA letter
-    const matches = dp === province ||
-      Object.entries(FSA_TO_PROV_NAME).some(([l, n]) => n === dp && FSA_PROV[l] === province);
-    if (!matches || !d.emp_inc_pct) return;
-    const w = d.emp_inc_workers || 0;
-    totalWorkers += w;
-    d.emp_inc_pct.forEach((p, i) => { if (p != null) totals[i] += (p / 100) * w; });
-  });
-  return totalWorkers ? totals.map(t => t / totalWorkers * 100) : null;
-}
-
-// Build Canada employment income pct from pre-computed census_canada.json
-// or fall back to weighted FSA aggregation
-function buildCanadaPct() {
-  if (!DATA.census_fsa) return null;
-  const totals = new Array(N_BRACKETS).fill(0);
-  let totalWorkers = 0;
-  Object.values(DATA.census_fsa).forEach(d => {
-    if (!d.emp_inc_pct) return;
-    const w = d.emp_inc_workers || 0;
-    totalWorkers += w;
-    d.emp_inc_pct.forEach((p, i) => { if (p != null) totals[i] += (p / 100) * w; });
-  });
-  return totalWorkers ? totals.map(t => t / totalWorkers * 100) : null;
-}
 
 function renderIncomeChart(fsa, p1sal, p2sal) {
   const isDark   = root.getAttribute('data-theme') !== 'light';
   const fsaEntry = DATA.census_fsa && DATA.census_fsa[fsa];
   const province = (fsaEntry && fsaEntry.province) || FSA_PROV[fsa[0]] || 'ON';
 
-  // Prefer emp_inc_pct if present (legacy schema), else re-bucket hh_income → 12 brackets
-  function rebucketHHIncome(pcts) {
-    if (!pcts) return null;
-    const p = pcts.map(v => v || 0);
-    if (p.length <= 12) return p; // already correct number of buckets
-    return [
-      p[0]+(p[1]||0), (p[2]||0)+(p[3]||0), (p[4]||0)+(p[5]||0),
-      (p[6]||0)+(p[7]||0), (p[8]||0)+(p[9]||0), p[10]||0,
-      p[11]||0, p[12]||0, p[13]||0, p[14]||0, p[15]||0,
-      (p[16]||0)+(p[17]||0)+(p[18]||0),
-    ];
-  }
-  const rawFsaPct = fsaEntry
-    ? (fsaEntry.emp_inc_pct || (fsaEntry.distributions && fsaEntry.distributions.hh_income && fsaEntry.distributions.hh_income.pcts) || null)
-    : null;
-  const fsaPct = rebucketHHIncome(rawFsaPct);
-  // Build province/Canada pct from pre-computed JSON (hh_income dist) or FSA aggregation
-  // Re-buckets 19 HH income brackets into the 12 employment income chart brackets
-  function distFromCensus(censusEntry) {
+  // Get employment income distribution from census data (13 brackets → merge first two → 12)
+  // emp_income dist: <5K|5-10K|10-20K|…|100-125K|125K+ (13 items)
+  // Chart needs 12: <10K|10-20K|…|100-125K|125K+
+  function empDistTo12(censusEntry) {
     if (!censusEntry) return null;
-    if (censusEntry.emp_inc_pct) return censusEntry.emp_inc_pct;
-    const d = censusEntry.distributions && censusEntry.distributions.hh_income;
+    const d = censusEntry.distributions && censusEntry.distributions.emp_income;
     if (!d || !d.pcts) return null;
     const p = d.pcts.map(v => v || 0);
-    // Map 19 HH buckets → 12 emp-income chart buckets
-    return [
-      p[0]+(p[1]||0),            // <10K  = <5K + 5-10K
-      (p[2]||0)+(p[3]||0),       // 10-20K = 10-15K + 15-20K
-      (p[4]||0)+(p[5]||0),       // 20-30K = 20-25K + 25-30K
-      (p[6]||0)+(p[7]||0),       // 30-40K = 30-35K + 35-40K
-      (p[8]||0)+(p[9]||0),       // 40-50K = 40-45K + 45-50K
-      p[10]||0,                   // 50-60K
-      p[11]||0,                   // 60-70K
-      p[12]||0,                   // 70-80K
-      p[13]||0,                   // 80-90K
-      p[14]||0,                   // 90-100K
-      p[15]||0,                   // 100-125K
-      (p[16]||0)+(p[17]||0)+(p[18]||0), // 125K+ = 125-150K+150-200K+200K+
-    ];
+    if (p.length === 13) {
+      // Merge <5K + 5-10K → <10K, keep rest as-is
+      return [p[0]+p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12]];
+    }
+    if (p.length === 12) return p;
+    return p.slice(0, 12); // fallback
   }
-  // Map FSA province letter to full province name
+
   const FSA_TO_FULL = {
     A:'Newfoundland and Labrador', B:'Nova Scotia', C:'Prince Edward Island',
     E:'New Brunswick', G:'Eastern Quebec', H:'Metropolitan Montreal',
@@ -844,16 +768,18 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
   };
   const fullProvName = (fsaEntry && fsaEntry.province) || FSA_TO_FULL[fsa[0]] || null;
   const provEntry    = fullProvName && DATA.census_province ? DATA.census_province[fullProvName] : null;
-  const provPct = provEntry ? distFromCensus(provEntry) : buildProvincePct(province);
-  const canPct  = DATA.census_canada ? distFromCensus(DATA.census_canada) : buildCanadaPct();
+
+  const fsaPct   = empDistTo12(fsaEntry);
+  const provPct  = empDistTo12(provEntry);
+  const canPct   = empDistTo12(DATA.census_canada);
 
   const colors = { fsa:'#1a4a7a', prov:'#6ab0e8', can:'#e85a44' };
   const toData = arr => arr ? arr.map(v => v == null ? 0 : +v.toFixed(2)) : new Array(N_BRACKETS).fill(0);
 
   const datasets = [];
-  if (fsaPct)  datasets.push({ label:fsa,      data:toData(fsaPct),  backgroundColor:colors.fsa,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
-  if (provPct) datasets.push({ label:fullProvName||province, data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
-  if (canPct)  datasets.push({ label:'Canada',  data:toData(canPct),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (fsaPct)  datasets.push({ label:fsa,                     data:toData(fsaPct),  backgroundColor:colors.fsa,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (provPct) datasets.push({ label:fullProvName||'Province', data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (canPct)  datasets.push({ label:'Canada',                 data:toData(canPct),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
 
   mkChart('income-chart', {
     type: 'bar',
@@ -885,7 +811,7 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
   document.getElementById('fsa-lbl').textContent = fsa;
   const workers = fsaEntry ? (fsaEntry.emp_inc_workers || 0).toLocaleString('en-CA') : '—';
   const fsaNote = fsaEntry
-    ? `${fsa} · ${workers} workers with employment income · Census 2021`
+    ? `${fsa} · ${workers} workers with employment income · 2021 Census`
     : `${fsa} not found in Census data`;
   const p1lbl = p1sal > 0 ? `P1 ${CAD(p1sal)} → ${salaryToBracketLabel(p1sal)}` : '';
   const p2lbl = p2sal > 0 ? ` · P2 ${CAD(p2sal)} → ${salaryToBracketLabel(p2sal)}` : '';
@@ -1485,16 +1411,16 @@ function renderCensusBarCharts(fsaData, provData, canData) {
   // ── High-contrast categorical palette ───────────────────────────────────
   // Colours chosen so adjacent segments are clearly distinct even at small sizes.
   const PALETTE = [
-    '#2568aa',  // deep blue
-    '#e85a44',  // red-orange
-    '#1D9E75',  // green
-    '#e8a030',  // amber
-    '#7f77dd',  // purple
-    '#5aa8dc',  // sky blue
-    '#b08ae8',  // lavender
-    '#3dba8a',  // teal-green
-    '#d4603a',  // burnt orange
-    '#888780',  // grey (for "Other/remainder")
+    '#3a6ea5',  // slate blue
+    '#c0654a',  // terracotta
+    '#4a9470',  // sage green
+    '#b8862a',  // warm ochre
+    '#7068b8',  // dusty purple
+    '#5590b0',  // steel blue
+    '#9e6fa0',  // mauve
+    '#3d8a78',  // muted teal
+    '#b07050',  // clay
+    '#7a8090',  // cool grey
   ];
 
   // ── Helpers ──────────────────────────────────────────────────────────────
@@ -1533,10 +1459,15 @@ function renderCensusBarCharts(fsaData, provData, canData) {
         const w = norm[i].toFixed(2);
         const rawV = vals[i];
         const tip = rawV != null ? rawV.toFixed(1) + '%' : '—';
-        const showLabel = norm[i] >= 8;
-        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;transition:width .35s;">
-          ${showLabel ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.9);pointer-events:none;overflow:hidden;text-overflow:clip;padding:0 2px;">${tip}</span>` : ''}
-        </div>`;
+        // label+% if ≥14%, % only if ≥7%, nothing if smaller
+        const showFull = norm[i] >= 14;
+        const showPct  = norm[i] >= 7;
+        const innerTxt = showFull
+          ? `${g.label} ${tip}`
+          : showPct ? tip : '';
+        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .35s;">` +
+          (innerTxt ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.92);pointer-events:none;white-space:nowrap;overflow:hidden;padding:0 3px;text-overflow:clip;">${innerTxt}</span>` : '') +
+          `</div>`;
       }).join('');
       return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
         <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;">${rowLbl}</span>
