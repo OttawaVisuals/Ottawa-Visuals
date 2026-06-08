@@ -3,22 +3,27 @@ on:
   push:
     paths:
       - 'data/**'               # Ottawa CSVs updated by weekly workflow
-      - 'Mortgage/Static/**'    # Static CSVs updated manually
+      - 'Mortgage/Static/**'    # Static CSVs updated manually (incl. fsa/province/canada.csv)
   workflow_dispatch:            # Manual trigger from GitHub UI
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
-        run: pip install pandas
+        run: pip install pandas numpy
+
       - name: Build JSON files
         run: python Mortgage/Pipeline/build_json.py
+
       - name: Commit and push
         run: |
           git config user.name "github-actions"
