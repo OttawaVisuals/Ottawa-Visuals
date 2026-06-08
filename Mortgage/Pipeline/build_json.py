@@ -347,6 +347,15 @@ HH_INC_COLS   = ["hh_income_under5k","hh_income_5k_10k","hh_income_10k_15k",
                   "hh_income_100k_125k","hh_income_125k_150k",
                   "hh_income_150k_200k","hh_income_200k_plus"]
 
+# Employment income distribution (individual, population 15+)
+# 13 brackets matching the income chart: <5K | 5-10K | 10-20K | ... | 100-125K | 125K+
+EMP_INC_LABELS = ["<$5K","$5–10K","$10–20K","$20–30K","$30–40K","$40–50K","$50–60K",
+                   "$60–70K","$70–80K","$80–90K","$90–100K","$100–125K","$125K+"]
+EMP_INC_COLS   = ["emp_inc_under5k","emp_inc_5k_10k","emp_inc_10k_20k","emp_inc_20k_30k",
+                   "emp_inc_30k_40k","emp_inc_40k_50k","emp_inc_50k_60k","emp_inc_60k_70k",
+                   "emp_inc_70k_80k","emp_inc_80k_90k","emp_inc_90k_100k",
+                   "emp_inc_100k_125k","emp_inc_125k_plus"]
+
 # Education labels (for 25–64 cohort) and columns
 EDU_LABELS = ["No cert.","High school","Trades","College","Bachelor","Master","Doctorate"]
 EDU_COLS   = ["edu_no_cert","edu_highschool","edu_trades","edu_college",
@@ -444,6 +453,7 @@ def build_scalars(row):
     return {
         # Population
         "population":       pop,
+        "emp_inc_workers":  safe_int(row.get("emp_inc_with")),
         "median_age":       safe_float(row.get("median_age")),
         "avg_age":          safe_float(row.get("avg_age")),
         "avg_hh_size":      safe_float(row.get("avg_hh_size")),
@@ -529,6 +539,7 @@ def build_distributions(row):
     return {
         "dwelling_type": dist(row, DWELL_COLS,    "dwell_total",         DWELL_LABELS),
         "hh_income":     dist(row, HH_INC_COLS,   "hh_income_total",     HH_INC_LABELS),
+        "emp_income":    dist(row, EMP_INC_COLS,  "emp_inc_with",        EMP_INC_LABELS),
         "education":     dist(row, EDU_COLS,       "edu_total_25_64",     EDU_LABELS),
         "commute_mode":  dist(row, COMMUTE_MODE_COLS, "commute_mode_total", COMMUTE_MODE_LABELS),
         "commute_dur":   dist(row, COMMUTE_DUR_COLS,  "commute_dur_total",  COMMUTE_DUR_LABELS),
