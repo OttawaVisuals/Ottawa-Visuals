@@ -184,6 +184,8 @@ p{margin:0;}
 .cmp-track{flex:1;height:6px;border-radius:3px;background:var(--bg-3);overflow:hidden;}
 .cmp-fill{height:100%;border-radius:3px;transition:width .35s ease;}
 .cmp-val{font-family:var(--font-mono);font-size:8px;color:var(--ink-3);width:38px;text-align:right;flex-shrink:0;}
+/* ── COMPARISON BAR CHARTS ─────────────────────────────────────────── */
+.cmp-section{margin-bottom:14px;}
 /* ── INPUT WITH INLINE UNIT ─────────────────────────────────────── */
 .input-wrap{position:relative;display:flex;align-items:center;}
 .input-wrap input{padding-right:36px;width:100%;}
@@ -423,8 +425,8 @@ p{margin:0;}
     <!-- Housing market context -->
     <div class="rcard" id="market-card">
       <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
-      <div id="ottawa-ctx">
-        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;">
+      <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
             <div class="chart-wrap" style="height:120px;"><canvas id="bracket-chart"></canvas></div>
@@ -791,18 +793,45 @@ function renderIncomeChart(fsa, p1sal, p2sal) {
   const fsaEntry = DATA.census_fsa && DATA.census_fsa[fsa];
   const province = (fsaEntry && fsaEntry.province) || FSA_PROV[fsa[0]] || 'ON';
 
-  // Prefer emp_inc_pct if present (legacy schema), else fall back to hh_income distribution
-  const fsaPct  = fsaEntry
+  // Prefer emp_inc_pct if present (legacy schema), else re-bucket hh_income → 12 brackets
+  function rebucketHHIncome(pcts) {
+    if (!pcts) return null;
+    const p = pcts.map(v => v || 0);
+    if (p.length <= 12) return p; // already correct number of buckets
+    return [
+      p[0]+(p[1]||0), (p[2]||0)+(p[3]||0), (p[4]||0)+(p[5]||0),
+      (p[6]||0)+(p[7]||0), (p[8]||0)+(p[9]||0), p[10]||0,
+      p[11]||0, p[12]||0, p[13]||0, p[14]||0, p[15]||0,
+      (p[16]||0)+(p[17]||0)+(p[18]||0),
+    ];
+  }
+  const rawFsaPct = fsaEntry
     ? (fsaEntry.emp_inc_pct || (fsaEntry.distributions && fsaEntry.distributions.hh_income && fsaEntry.distributions.hh_income.pcts) || null)
     : null;
+  const fsaPct = rebucketHHIncome(rawFsaPct);
   // Build province/Canada pct from pre-computed JSON (hh_income dist) or FSA aggregation
+  // Re-buckets 19 HH income brackets into the 12 employment income chart brackets
   function distFromCensus(censusEntry) {
     if (!censusEntry) return null;
-    // emp_inc_pct (legacy) or hh_income distribution
     if (censusEntry.emp_inc_pct) return censusEntry.emp_inc_pct;
     const d = censusEntry.distributions && censusEntry.distributions.hh_income;
-    if (d && d.pcts) return d.pcts;
-    return null;
+    if (!d || !d.pcts) return null;
+    const p = d.pcts.map(v => v || 0);
+    // Map 19 HH buckets → 12 emp-income chart buckets
+    return [
+      p[0]+(p[1]||0),            // <10K  = <5K + 5-10K
+      (p[2]||0)+(p[3]||0),       // 10-20K = 10-15K + 15-20K
+      (p[4]||0)+(p[5]||0),       // 20-30K = 20-25K + 25-30K
+      (p[6]||0)+(p[7]||0),       // 30-40K = 30-35K + 35-40K
+      (p[8]||0)+(p[9]||0),       // 40-50K = 40-45K + 45-50K
+      p[10]||0,                   // 50-60K
+      p[11]||0,                   // 60-70K
+      p[12]||0,                   // 70-80K
+      p[13]||0,                   // 80-90K
+      p[14]||0,                   // 90-100K
+      p[15]||0,                   // 100-125K
+      (p[16]||0)+(p[17]||0)+(p[18]||0), // 125K+ = 125-150K+150-200K+200K+
+    ];
   }
   // Map FSA province letter to full province name
   const FSA_TO_FULL = {
@@ -1453,205 +1482,209 @@ function renderCensusBarCharts(fsaData, provData, canData) {
   const container = document.getElementById('census-bar-charts');
   if (!container) return;
 
-  // ── Colour palette for 100%-stacked bars (up to 10 segments) ────────────
+  // ── High-contrast categorical palette ───────────────────────────────────
+  // Colours chosen so adjacent segments are clearly distinct even at small sizes.
   const PALETTE = [
-    '#1a4a7a','#2568aa','#3588cc','#5aa8dc','#6aaee8',
-    '#7f77dd','#b08ae8','#1D9E75','#e8a030','#888780',
+    '#2568aa',  // deep blue
+    '#e85a44',  // red-orange
+    '#1D9E75',  // green
+    '#e8a030',  // amber
+    '#7f77dd',  // purple
+    '#5aa8dc',  // sky blue
+    '#b08ae8',  // lavender
+    '#3dba8a',  // teal-green
+    '#d4603a',  // burnt orange
+    '#888780',  // grey (for "Other/remainder")
   ];
 
-  // ── Helper: get a distribution from a census data object ────────────────
+  // ── Helpers ──────────────────────────────────────────────────────────────
   function getDist(d, key) {
     return d && d.distributions && d.distributions[key] ? d.distributions[key] : null;
   }
-
-  // ── 100%-stacked horizontal bar for one distribution ────────────────────
-  // Each level (FSA / Province / Canada) gets its own stacked bar row.
-  // Labels = segment names, shown in a colour-coded legend above.
-  function stackedSection(title, groups) {
-    // groups = [{label, fv, pv, cv}] where values are % (0-100)
-    // Normalise each row to sum to 100%
-    function normalise(vals) {
-      const sum = vals.reduce((a, b) => a + (b || 0), 0);
-      if (!sum) return vals.map(() => 0);
-      return vals.map(v => (v || 0) / sum * 100);
-    }
-    const fsaVals  = normalise(groups.map(g => g.fv));
-    const provVals = normalise(groups.map(g => g.pv));
-    const canVals  = normalise(groups.map(g => g.cv));
-
-    const allZeroFsa  = fsaVals.every(v => !v);
-    const allZeroProv = provVals.every(v => !v);
-    const allZeroCan  = canVals.every(v => !v);
-    if (allZeroFsa && allZeroProv && allZeroCan) return '';
-
-    // Legend
-    const legend = groups.map((g, i) =>
-      `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;font-family:var(--font-mono);font-size:8px;color:var(--ink-3);">
-        <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${PALETTE[i % PALETTE.length]};flex-shrink:0;"></span>${g.label}
-      </span>`
-    ).join('');
-
-    function stackedBar(vals, rowLabel, isEmpty) {
-      if (isEmpty) return '';
-      const segments = groups.map((g, i) => {
-        const w = vals[i].toFixed(2);
-        const rawV = g[rowLabel === 'FSA' ? 'fv' : rowLabel === 'Province' ? 'pv' : 'cv'];
-        const tip = rawV != null ? rawV.toFixed(1) + '%' : '—';
-        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${PALETTE[i % PALETTE.length]};height:100%;flex-shrink:0;transition:width .35s;"></div>`;
-      }).join('');
-      return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
-        <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);text-align:right;">${rowLabel}</span>
-        <div style="height:14px;border-radius:3px;overflow:hidden;display:flex;background:var(--bg-3);">${segments}</div>
-      </div>`;
-    }
-
-    return `<div class="cmp-section">
-      <div class="cmp-section-title">${title}</div>
-      <div style="margin-bottom:5px;line-height:1.6;">${legend}</div>
-      ${stackedBar(fsaVals,  'FSA',     allZeroFsa)}
-      ${stackedBar(provVals, 'Province', allZeroProv)}
-      ${stackedBar(canVals,  'Canada',   allZeroCan)}
-    </div>`;
-  }
-
-  // ── Simple 3-bar scalar section (for single-value metrics) ──────────────
-  // Bars are relative to each other (max = 100% of track width).
   const pctStr = v => v == null ? '—' : (+v).toFixed(1) + '%';
-  function scalarBars(title, items) {
-    const rows = items.map(({label, fv, pv, cv, fmt}) => {
-      fmt = fmt || pctStr;
-      const vals = [fv, pv, cv].map(v => Math.abs(+(v || 0)));
-      const maxV = Math.max(...vals, 0.001);
-      const bar  = (v, col) => {
-        const w = Math.min((Math.abs(+(v||0)) / maxV) * 100, 100).toFixed(1);
-        return `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
-          <div style="flex:1;height:6px;border-radius:3px;background:var(--bg-3);overflow:hidden;">
-            <div style="width:${w}%;height:100%;background:${col};border-radius:3px;transition:width .35s;"></div>
-          </div>
-          <span style="font-family:var(--font-mono);font-size:8px;color:var(--ink-3);width:36px;text-align:right;">${fmt(v)}</span>
-        </div>`;
-      };
-      return `<div style="display:grid;grid-template-columns:130px 1fr;align-items:center;gap:6px;margin-bottom:4px;">
-        <span style="font-family:var(--font-mono);font-size:8.5px;color:var(--ink-3);text-align:right;">${label}</span>
-        <div>
-          ${bar(fv,  '#1a4a7a')}
-          ${bar(pv,  '#6ab0e8')}
-          ${bar(cv,  '#e85a44')}
-        </div>
-      </div>`;
-    }).join('');
-    return `<div class="cmp-section">
-      <div class="cmp-section-title">${title}</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px 16px;">${rows}</div>
-    </div>`;
+
+  function normalise(vals) {
+    const sum = vals.reduce((a, b) => a + (b || 0), 0);
+    if (!sum) return vals.map(() => 0);
+    return vals.map(v => (v || 0) / sum * 100);
   }
 
-  // ── Helper: merge dist entries by index groups ───────────────────────────
   function mergeDist(dist, groupDefs) {
-    // groupDefs = [{label, indices:[...]}]
     if (!dist || !dist.pcts) return null;
     return groupDefs.map(g => {
       const sum = g.indices.reduce((a, i) => a + (dist.pcts[i] || 0), 0);
-      return { label: g.label, pct: +sum.toFixed(2) };
+      return +sum.toFixed(2);
     });
   }
 
-  // ── Build stacked section from grouped distribution ──────────────────────
-  function groupedStackedSection(title, distKey, groupDefs) {
-    const fd = getDist(fsaData,  distKey);
+  // ── Single 100%-stacked bar (3 rows: FSA / Province / Canada) ────────────
+  // labels and colours are passed per-call. In-bar text shown if segment ≥ 8%.
+  function stackedBar(groups, fd, pd, cd) {
+    // groups = [{label, color}], fd/pd/cd = arrays of raw pcts (same length)
+    if (!fd) return '';
+    const pd2 = pd || fd.map(() => null);
+    const cd2 = cd || fd.map(() => null);
+    const allNull_p = pd2.every(v => v == null);
+    const allNull_c = cd2.every(v => v == null);
+
+    function oneBar(vals, rowLbl) {
+      const norm = normalise(vals.map(v => v || 0));
+      const segs = groups.map((g, i) => {
+        const w = norm[i].toFixed(2);
+        const rawV = vals[i];
+        const tip = rawV != null ? rawV.toFixed(1) + '%' : '—';
+        const showLabel = norm[i] >= 8;
+        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;transition:width .35s;">
+          ${showLabel ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.9);pointer-events:none;overflow:hidden;text-overflow:clip;padding:0 2px;">${tip}</span>` : ''}
+        </div>`;
+      }).join('');
+      return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;">${rowLbl}</span>
+        <div style="height:16px;border-radius:3px;overflow:hidden;display:flex;background:var(--bg-3);">${segs}</div>
+      </div>`;
+    }
+
+    return oneBar(fd, 'FSA') +
+      (allNull_p ? '' : oneBar(pd2, 'Province')) +
+      (allNull_c ? '' : oneBar(cd2, 'Canada'));
+  }
+
+  // ── Full stacked section (title + legend + 3 bars) ────────────────────────
+  function stackedSection(title, groups, fd, pd, cd) {
+    if (!fd || fd.every(v => !v)) return '';
+    const legend = groups.map((g, i) =>
+      `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;">
+        <span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${g.color};flex-shrink:0;"></span>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">${g.label}</span>
+      </span>`
+    ).join('');
+    return `<div style="flex:1;min-width:0;">
+      <div style="font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid var(--line);">${title}</div>
+      <div style="margin-bottom:6px;line-height:2;">${legend}</div>
+      ${stackedBar(groups, fd, pd, cd)}
+    </div>`;
+  }
+
+  // ── Build groups from dist + optional groupDefs ───────────────────────────
+  function buildGroups(distObj, groupDefs) {
+    // groupDefs = [{label, indices}] or null (use all labels as-is)
+    if (!distObj) return null;
+    const labels = distObj.labels || [];
+    if (!groupDefs) {
+      return labels.map((lbl, i) => ({ label: lbl, color: PALETTE[i % PALETTE.length] }));
+    }
+    return groupDefs.map((g, i) => ({ label: g.label, color: PALETTE[i % PALETTE.length] }));
+  }
+
+  function buildVals(distObj, groupDefs) {
+    if (!distObj) return null;
+    if (!groupDefs) return distObj.pcts ? distObj.pcts.map(v => v || 0) : null;
+    return mergeDist(distObj, groupDefs);
+  }
+
+  // ── Convenience: full section from distKey (no grouping) ─────────────────
+  function fullSection(title, distKey) {
+    const fd = getDist(fsaData, distKey);
     const pd = getDist(provData, distKey);
     const cd = getDist(canData,  distKey);
     if (!fd) return '';
-    const fGroups = mergeDist(fd, groupDefs);
-    const pGroups = mergeDist(pd, groupDefs);
-    const cGroups = mergeDist(cd, groupDefs);
-    const groups = groupDefs.map((g, i) => ({
-      label: g.label,
-      fv: fGroups ? fGroups[i].pct : null,
-      pv: pGroups ? pGroups[i].pct : null,
-      cv: cGroups ? cGroups[i].pct : null,
-    }));
-    return stackedSection(title, groups);
+    const groups = buildGroups(fd, null);
+    return stackedSection(title, groups,
+      buildVals(fd, null), buildVals(pd, null), buildVals(cd, null));
   }
 
-  // ── Build stacked section from full distribution (no grouping) ───────────
-  function fullStackedSection(title, distKey, labelMap) {
-    const fd = getDist(fsaData,  distKey);
+  // ── Convenience: grouped section ─────────────────────────────────────────
+  function groupedSection(title, distKey, groupDefs) {
+    const fd = getDist(fsaData, distKey);
     const pd = getDist(provData, distKey);
     const cd = getDist(canData,  distKey);
     if (!fd) return '';
-    const labels = labelMap || fd.labels || [];
-    const groups = labels.map((lbl, i) => ({
-      label: lbl,
-      fv: fd.pcts ? (fd.pcts[i] || 0) : null,
-      pv: pd && pd.pcts ? (pd.pcts[i] || 0) : null,
-      cv: cd && cd.pcts ? (cd.pcts[i] || 0) : null,
-    }));
-    return stackedSection(title, groups);
+    return stackedSection(title, groupDefs.map((g, i) => ({ label: g.label, color: PALETTE[i % PALETTE.length] })),
+      mergeDist(fd, groupDefs), mergeDist(pd, groupDefs), mergeDist(cd, groupDefs));
   }
 
+  // ── Scalar bars (single values, relative scale) ───────────────────────────
+  function scalarBar(label, fv, pv, cv) {
+    const vals = [fv, pv, cv].map(v => Math.abs(+(v || 0)));
+    const maxV = Math.max(...vals, 0.001);
+    const row = (v, col, lbl) => {
+      const w = Math.min((Math.abs(+(v||0)) / maxV) * 100, 100).toFixed(1);
+      return `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:52px;text-align:right;flex-shrink:0;">${lbl}</span>
+        <div style="flex:1;height:14px;border-radius:3px;background:var(--bg-3);overflow:hidden;position:relative;">
+          <div style="width:${w}%;height:100%;background:${col};border-radius:3px;transition:width .35s;display:flex;align-items:center;">
+            ${+w >= 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.9);padding-left:5px;">${pctStr(v)}</span>` : ''}
+          </div>
+        </div>
+        ${+w < 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:36px;text-align:left;">${pctStr(v)}</span>` : '<span style="width:36px;"></span>'}
+      </div>`;
+    };
+    return `<div style="margin-bottom:8px;">
+      <div style="font-family:var(--font-mono);font-size:9px;color:var(--ink-2);margin-bottom:3px;">${label}</div>
+      ${row(fv, '#1a4a7a', 'FSA')}
+      ${row(pv, '#6ab0e8', 'Province')}
+      ${row(cv, '#e85a44', 'Canada')}
+    </div>`;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // RENDER SECTIONS
+  // ═══════════════════════════════════════════════════════════════════════════
   let html = '';
 
-  // 1. Age distribution — grouped into pairs (0-9, 10-19, …, 80+)
-  // AGE_COLS order: 0-4, 5-9, 10-14, 15-19, 20-24, 25-29, 30-34, 35-39,
-  //                 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70-74, 75-79, 80-84, 85+
-  html += groupedStackedSection('Age distribution', 'age', [
-    { label: '0–9',   indices: [0, 1] },
-    { label: '10–19', indices: [2, 3] },
-    { label: '20–29', indices: [4, 5] },
-    { label: '30–39', indices: [6, 7] },
-    { label: '40–49', indices: [8, 9] },
-    { label: '50–59', indices: [10, 11] },
-    { label: '60–69', indices: [12, 13] },
-    { label: '70–79', indices: [14, 15] },
-    { label: '80+',   indices: [16, 17] },
-  ]);
+  // ── Age ───────────────────────────────────────────────────────────────────
+  const ageGroups = [
+    { label:'0–9',   indices:[0,1] }, { label:'10–19', indices:[2,3] },
+    { label:'20–29', indices:[4,5] }, { label:'30–39', indices:[6,7] },
+    { label:'40–49', indices:[8,9] }, { label:'50–59', indices:[10,11] },
+    { label:'60–69', indices:[12,13]},{ label:'70–79', indices:[14,15]},
+    { label:'80+',   indices:[16,17]},
+  ];
+  html += `<div class="cmp-section">${groupedSection('Age distribution', 'age', ageGroups)}</div>`;
 
-  // 2. Dwelling type — grouped
-  // DWELL_COLS order: Detached, Semi-detached, Row, Duplex, Apt<5, Apt5+, Other, Movable
-  html += groupedStackedSection('Dwelling type', 'dwelling_type', [
-    { label: 'Detached',     indices: [0] },
-    { label: 'Semi-detached',indices: [1] },
-    { label: 'Row',          indices: [2] },
-    { label: 'Duplex',       indices: [3] },
-    { label: 'Apartments',   indices: [4, 5] },
-    { label: 'Others',       indices: [6, 7] },
-  ]);
+  // ── Dwelling type + Tenure side by side ───────────────────────────────────
+  const dwellGroups = [
+    { label:'Detached',     indices:[0] },
+    { label:'Semi-detached',indices:[1] },
+    { label:'Row',          indices:[2] },
+    { label:'Duplex',       indices:[3] },
+    { label:'Apartments',   indices:[4,5] },
+    { label:'Others',       indices:[6,7] },
+  ];
+  const dwellFd = getDist(fsaData, 'dwelling_type'), dwellPd = getDist(provData, 'dwelling_type'), dwellCd = getDist(canData, 'dwelling_type');
+  const tenureFd = getDist(fsaData, 'tenure'),       tenurePd = getDist(provData, 'tenure'),       tenureCd = getDist(canData, 'tenure');
 
-  // 3. Tenure
-  html += fullStackedSection('Tenure — owner vs. renter', 'tenure');
+  const dwellSec = dwellFd ? groupedSection('Dwelling type', 'dwelling_type', dwellGroups) : '';
+  const tenureGroups = tenureFd ? buildGroups(tenureFd, null) : [];
+  const tenureSec = tenureFd ? stackedSection('Tenure — owner vs. renter', tenureGroups,
+    buildVals(tenureFd, null), buildVals(tenurePd, null), buildVals(tenureCd, null)) : '';
 
-  // 4. Period of construction
-  html += fullStackedSection('Period of construction', 'construction');
+  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${dwellSec}${tenureSec}</div>`;
 
-  // 5. Housing affordability — scalar bars only (single values)
-  html += scalarBars('Housing affordability & condition', [
-    { label: 'Shelter cost 30%+',    fv: fsaData?.pct_shelter_30plus,  pv: provData?.pct_shelter_30plus,  cv: canData?.pct_shelter_30plus },
-    { label: 'Major repairs needed', fv: fsaData?.pct_major_repairs,   pv: provData?.pct_major_repairs,   cv: canData?.pct_major_repairs  },
-  ]);
+  // ── Period of construction (full width) ───────────────────────────────────
+  html += `<div class="cmp-section">${fullSection('Period of construction', 'construction')}</div>`;
 
-  // 6. Language
-  html += fullStackedSection('Official language knowledge', 'language');
+  // ── Language + Education side by side ────────────────────────────────────
+  const langSec = fullSection('Official language knowledge', 'language');
+  const eduSec  = fullSection('Education — highest credential (25–64)', 'education');
+  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${langSec}${eduSec}</div>`;
 
-  // 7. Education (25–64)
-  html += fullStackedSection('Education — highest credential (25–64)', 'education');
+  // ── Commute mode + Commute duration side by side ──────────────────────────
+  const commModeSec = fullSection('Commute mode', 'commute_mode');
+  const commDurSec  = fullSection('Commute duration', 'commute_dur');
+  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${commModeSec}${commDurSec}</div>`;
 
-  // 8. Labour — scalar bars
-  html += scalarBars('Labour force', [
-    { label: 'Employment rate',   fv: fsaData?.employment_rate   ?? fsaData?.pct_employed,   pv: provData?.employment_rate   ?? provData?.pct_employed,   cv: canData?.employment_rate   ?? canData?.pct_employed  },
-    { label: 'Unemployment rate', fv: fsaData?.unemployment_rate ?? fsaData?.pct_unemployed, pv: provData?.unemployment_rate ?? provData?.pct_unemployed, cv: canData?.unemployment_rate ?? canData?.pct_unemployed },
-  ]);
-
-  // 9. Commute mode
-  html += fullStackedSection('Commute mode', 'commute_mode');
-
-  // 10. Commute duration
-  html += fullStackedSection('Commute duration', 'commute_dur');
-
-  // 11. Low income — scalar
-  html += scalarBars('Low income', [
-    { label: 'Low income (LIM-AT)', fv: fsaData?.pct_low_income, pv: provData?.pct_low_income, cv: canData?.pct_low_income },
-  ]);
+  // ── All single-value metrics in one box ───────────────────────────────────
+  html += `<div class="cmp-section">
+    <div style="font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;padding-bottom:3px;border-bottom:1px solid var(--line);">Key indicators</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 24px;">
+      ${scalarBar('Shelter cost 30%+',    fsaData?.pct_shelter_30plus,  provData?.pct_shelter_30plus,  canData?.pct_shelter_30plus)}
+      ${scalarBar('Major repairs',        fsaData?.pct_major_repairs,   provData?.pct_major_repairs,   canData?.pct_major_repairs)}
+      ${scalarBar('Employment rate',      fsaData?.employment_rate   ?? fsaData?.pct_employed,   provData?.employment_rate   ?? provData?.pct_employed,   canData?.employment_rate   ?? canData?.pct_employed)}
+      ${scalarBar('Unemployment rate',    fsaData?.unemployment_rate ?? fsaData?.pct_unemployed, provData?.unemployment_rate ?? provData?.pct_unemployed, canData?.unemployment_rate ?? canData?.pct_unemployed)}
+      ${scalarBar('Low income (LIM-AT)',  fsaData?.pct_low_income,      provData?.pct_low_income,      canData?.pct_low_income)}
+    </div>
+  </div>`;
 
   container.innerHTML = html;
 }
@@ -1776,26 +1809,30 @@ function calculate() {
   const heatPer  = heat * (mode==='annual'?12:mode==='monthly'?1:12/26);
   const mHousing = mPay + taxPer + heatPer;
 
-  // Total interest via amortization loop
-  let bal = principal, totalInt = 0, totalIntNoLump = 0, balNL = principal;
-  let payoffYear = amort;
+  // Total interest + lump sum savings — bi-weekly resolution for sub-year accuracy
   const r = bwRate(rate);
-  for (let y=1; y<=amort; y++) {
-    for (let bw=0; bw<26; bw++) {
-      if (bal<=0) break;
-      const i=bal*r, p=Math.min(bwPay-i,bal);
-      bal=Math.max(bal-p,0); totalInt+=i;
+  const totalBw = amort * 26;
+  let bal = principal, totalInt = 0, payoffBw = totalBw;
+  let balNL = principal, totalIntNoLump = 0;
+  for (let bw = 0; bw < totalBw; bw++) {
+    // With lump sum: apply once per year (after bw 25 of each year)
+    if (lumpsum > 0 && bw > 0 && bw % 26 === 0 && bal > 0)
+      bal = Math.max(bal - lumpsum, 0);
+    if (bal > 0) {
+      const i = bal * r, p = Math.min(bwPay - i, bal);
+      bal = Math.max(bal - p, 0); totalInt += i;
+      if (bal <= 0 && payoffBw === totalBw) payoffBw = bw + 1;
     }
-    if (bal>0 && lumpsum>0) bal=Math.max(bal-lumpsum,0);
-    if (bal<=0 && payoffYear===amort) payoffYear=y;
-    for (let bw=0; bw<26; bw++) {
-      if (balNL<=0) break;
-      const i=balNL*r, p=Math.min(bwPay-i,balNL);
-      balNL=Math.max(balNL-p,0); totalIntNoLump+=i;
+    if (balNL > 0) {
+      const i = balNL * r, p = Math.min(bwPay - i, balNL);
+      balNL = Math.max(balNL - p, 0); totalIntNoLump += i;
     }
   }
   const saved = totalIntNoLump - totalInt;
-  const yearsSaved = amort - payoffYear;
+  // Express time saved in months (rounded to 1 decimal) for sub-year display
+  const bwSaved = totalBw - payoffBw;
+  const monthsSaved = bwSaved / 26 * 12;
+  const yearsSaved = bwSaved / 26; // kept for compatibility
 
   // Bank max mortgage
   const bankMax    = bankMaxMortgage(grossIncome, downpay, rate, amort, proptax, heat);
@@ -1813,7 +1850,10 @@ function calculate() {
   document.getElementById('m-housing').textContent  = CAD(mHousing);
   document.getElementById('m-interest').textContent = CAD(totalInt);
   document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
-  document.getElementById('m-years-saved').textContent = yearsSaved>0 ? yearsSaved.toFixed(1)+' yrs' : '—';
+  const timeSavedStr = monthsSaved <= 0 ? '—'
+    : monthsSaved < 12 ? Math.round(monthsSaved) + ' mo'
+    : (yearsSaved).toFixed(1) + ' yrs';
+  document.getElementById('m-years-saved').textContent = timeSavedStr;
   document.getElementById('m-saved-s').textContent  = saved>100 ? CAD(saved)+' interest saved' : '';
   // Max house price = bank max (already includes down payment in binary search)
   document.getElementById('m-bank-max').textContent = CAD(bankMax);
