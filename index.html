@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>Ottawa Visuals — open data, charted simply.</title>
-<meta name="description" content="A personal project publishing Power BI reports about Ottawa, Ontario — public spending, traffic, elections — with sources, methodology and plain-English interpretation." />
+<meta name="description" content="A personal project publishing Power BI reports and data visualizations about Ottawa, Ontario — public spending, traffic, elections." />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/png" href="assets/avatar.png" />
 
@@ -895,8 +895,7 @@
       </h1>
       <p class="lede">
         Power BI reports about Ottawa — public spending, traffic, elections —
-        built from open data, with the sources, the methodology, and what I think
-        it all means in plain English.
+        built from open data.
       </p>
       <div class="hero-ctas">
         <a class="btn primary" href="#reports">Browse reports <span class="arrow">↓</span></a>
@@ -1082,10 +1081,10 @@
           </div>
           <div class="body">
             <div class="eyebrow"><span class="accent">●</span> &nbsp; Latest report</div>
-            <h4 id="featured-title">Where Ottawa's tax dollars go</h4>
-            <p id="featured-lede">A breakdown of the City of Ottawa's recent operating budget — by department, by ward, and how spending has shifted over time.</p>
+            <h4 id="featured-title">Ottawa elections</h4>
+            <p id="featured-lede">A visual of previous elections, showing turnout and vote shares</p>
             <div class="meta">
-              <span id="featured-date">Updated Apr 2026</span>
+              <span id="featured-date">Updated June 2026</span>
               <a href="#reports">Open report →</a>
             </div>
           </div>
@@ -1131,17 +1130,17 @@
 
     <div class="breadcrumb">
       Reports <span class="sep">/</span>
-      <span id="rv-topic">Public spending</span> <span class="sep">/</span>
+      <span id="rv-topic">Ottawa Traffic</span> <span class="sep">/</span>
       <span class="cur" id="rv-id">№ 01</span>
     </div>
 
     <div class="report-head">
       <div>
-        <h2 id="rv-title">Where Ottawa's tax dollars go</h2>
+        <h2 id="rv-title">Historical traffic accidents, stops, demographics</h2>
         <p class="report-lede" id="rv-lede"></p>
       </div>
       <div class="report-meta">
-        <span class="pill accent" id="rv-tag">#spending</span>
+        <span class="pill accent" id="rv-tag">#traffic</span>
         <span class="pill" id="rv-date">Updated Apr 2026</span>
         <span class="pill" id="rv-read">~3 min read</span>
       </div>
@@ -1213,12 +1212,7 @@
       <p>
         Ottawa Visuals is a personal project. I take publicly available data about
         the city — budgets, collisions, election results — and turn it into Power BI
-        reports anyone can poke around in.
-      </p>
-      <p>
-        The goal is simple: make city-scale numbers easier to read, with the data
-        sources visible and the assumptions written down. Every report links to the
-        raw datasets so you can check the math yourself.
+        reports or data visualization anyone can poke around in.
       </p>
       <div class="about-cta">
         <a class="btn primary" href="#reports">See the reports</a>
@@ -1238,7 +1232,7 @@
         <span class="brand-logo" style="width:30px;height:30px;"><img src="assets/avatar.png" alt=""></span>
         <span>Ottawa Visuals<small>data, charted simply</small></span>
       </div>
-      <p>A personal data project about Ottawa, Ontario. Made with Power BI · hosted on GitHub Pages.</p>
+      <p>A personal data project about Ottawa, Ontario. Hosted on GitHub Pages.</p>
     </div>
     <div class="foot-col">
       <h5>Reports</h5>
@@ -1261,7 +1255,7 @@
   </div>
   <div class="wrap foot-bottom">
     <span>© 2026 Ottawa Visuals · all charts CC-BY 4.0</span>
-    <span>built in Power BI · published on GitHub</span>
+    <span>built in Power BI or HTML · published on GitHub</span>
   </div>
 </footer>
 
@@ -1323,7 +1317,7 @@
       readTime: "~ 3 min read",
       tag: "#spending",
       // ↓ this is the live URL you sent
-      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
+      embedUrl: "",
       why: "Tax dollars are easy to talk about in the abstract and hard to picture in practice. This report puts them on a single page so the trade-offs between, say, transit and long-term care are visible side by side.",
       method: "Figures come from the City of Ottawa's published budget tables. Categories follow the City's own grouping. Year-over-year comparisons are nominal — not adjusted for inflation unless explicitly noted.",
       sources: [
@@ -1342,23 +1336,23 @@
       id: "traffic",
       topic: "Traffic & roads",
       title: "How Ottawa really moves",
-      lede: "Daily collision counts, intersection hot-spots and travel-time changes across the urban core after the LRT expansion.",
+      lede: "Collision counts, intersection hot-spots and traffic stops.",
       date: "Updated Mar 2026",
       readTime: "~ 4 min read",
       tag: "#traffic",
       // TODO: paste your Power BI publish-to-web URL here
-      embedUrl: "",
-      why: "After every LRT extension or road redesign, the same questions come up: did anything actually change? This report keeps a running tally so the answer is one click away.",
-      method: "Collision data is from Ottawa Police Service open releases; travel-time data comes from City traffic counts and Transitway feeds. Hot-spot rankings use a 3-year rolling window to reduce noise.",
+      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
+      why: "Traffic stops seems to have decrease significantly in the last year, while driving in Ottawa only seems to get worse.",
+      method: "Data from the Ottawa Police Service open releases",
       sources: [
-        { name: "Open Ottawa — Collision data", meta: "monthly", url: "https://open.ottawa.ca/" },
-        { name: "City of Ottawa — Traffic counts", meta: "annual", url: "https://open.ottawa.ca/" },
-        { name: "OC Transpo — LRT ridership", meta: "monthly", url: "https://www.octranspo.com/" },
+        { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Not updated anymore", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
+        { name: "City of Ottawa — Collisions", meta: "Not updated anymore", url: "https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore?location=22.762461%2C-77.249436%2C0" },
+        { name: "City of Ottawa — Automated Speed Enforcement & Red Light Camera Violations", meta: "yearly", url: "https://open.ottawa.ca/search" },
       ],
       takeaways: [
-        ["1 in 6", "collisions happen at just 12 intersections"],
-        ["−7 min", "average commute from Orléans since 2022"],
-        ["2.1×", "more cycling traffic on Laurier vs. 2019"],
+        ["60%", "less people charged at traffic stops (2024 vs 2014)"],
+        ["43,416", "speed limit violations in March 2024"],
+        ["6,507", "red light violations in July 2023"],
       ],
       thumb: "line",
     },
