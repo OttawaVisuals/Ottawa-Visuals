@@ -559,7 +559,7 @@ p{margin:0;}
           <tbody id="spend-tbody"></tbody>
         </table>
       </div>
-      <div id="spend-cards-mobile" style="display:none;flex-direction:column;gap:8px;"></div>
+      <div id="spend-cards-mobile" style="display:none;"></div>
       <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
     </div>
 
@@ -1325,7 +1325,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       tax: d(r.tax),
       heat: d(r.ht),
       lump: r.lump > 0 ? d(r.lump) : null,
-      cats: CATS.map(c => ({ label: c.label, val: d(catAnnVals[c.id] * r.ratio) })),
+      cats: CATS.map(c => ({ id: c.id, label: c.label, val: d(catAnnVals[c.id] * r.ratio) })),
       shared: isCombined ? d(sharedSavingsAnn) : d(sharedSavingsAnn * r.ratio),
       sharedOk: sharedSavingsAnn >= 0,
       personal: d(r.per),
@@ -2353,46 +2353,80 @@ function renderMobileSpendCards(rows, d, mode) {
   if (!table || !cards) return;
 
   table.style.display = isMob ? 'none' : '';
-  cards.style.display = isMob ? 'flex' : 'none';
+  cards.style.display = isMob ? 'block' : 'none';
   if (!isMob) return;
 
-  const sectionColors = {
-    Salary:  'rgba(55,138,221,0.5)',
-    Housing: 'rgba(232,90,68,0.55)',
-    'Shared Expenses': 'rgba(127,119,221,0.55)',
-    Leftovers: 'rgba(29,158,117,0.55)',
-  };
+  // rows[0]=P1, rows[1]=P2, rows[2]=Combined
+  const [p1, p2, cb] = rows;
+  const factor = pf(mode);
 
-  function row(label, value, color) {
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px dashed var(--line);">
-      <span style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);">${label}</span>
-      <span style="font-family:var(--font-mono);font-size:11px;color:${color||'var(--ink-2)'};">${value}</span>
-    </div>`;
+  // Section header row
+  function secRow(label, bg) {
+    return `<tr><td colspan="4" style="background:${bg};color:#fff;font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 6px;">${label}</td></tr>`;
   }
 
-  function sectionHeader(label) {
-    const c = sectionColors[label] || 'var(--bg-3)';
-    return `<div style="font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:${c};color:#fff;padding:2px 8px;border-radius:3px;margin:8px 0 4px;">${label}</div>`;
+  // Data row: label | P1 val | P2 val | Combined val
+  function dataRow(label, v1, v2, vc, colorStyle) {
+    const cs = colorStyle ? `color:${colorStyle};` : '';
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 6px;border-bottom:1px dashed var(--line);">${label}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);${cs}">${v1}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);${cs}">${v2}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);font-weight:600;${cs}">${vc}</td>
+    </tr>`;
   }
 
-  cards.innerHTML = rows.map(r => `
-    <div style="background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:10px 12px;">
-      <div style="font-family:var(--font-cond);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">${r.label}</div>
-      ${sectionHeader('Salary')}
-      ${row('Gross', r.gross, 'var(--green)')}
-      ${row('Est. net', r.net)}
-      ${sectionHeader('Housing')}
-      ${row('Mortgage', r.mort, 'var(--red)')}
-      ${row('Property tax', r.tax, 'var(--red)')}
-      ${row('Heat', r.heat, 'var(--red)')}
-      ${r.lump ? row('Lump sum', r.lump, 'var(--red)') : ''}
-      ${sectionHeader('Shared Expenses')}
-      ${r.cats.map(c => row(c.label, c.val)).join('')}
-      ${sectionHeader('Leftovers')}
-      ${row('Shared leftover', r.shared, r.sharedOk ? 'var(--green)' : 'var(--red)')}
-      ${row('Personal', r.personal)}
-    </div>
-  `).join('');
+  // Input row for combined shared expense categories
+  function inputRow(label, catId, v1, v2) {
+    const bwVal  = catVals[catId] || 0;
+    const dispVal = Math.round(bwVal * factor);
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 6px;border-bottom:1px dashed var(--line);">${label}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v1}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v2}</td>
+      <td style="padding:4px 6px;border-bottom:1px dashed var(--line);text-align:right;">
+        <input id="${catId}-mob" type="number" value="${dispVal}" min="0" step="10"
+          style="width:64px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
+          onchange="catVals['${catId}']=(parseFloat(this.value)||0)/${factor};document.getElementById('${catId}').value=this.value;calculate()">
+      </td>
+    </tr>`;
+  }
+
+  const lumpRow = (p1.lump || p2.lump || cb.lump)
+    ? dataRow('Lump sum', p1.lump||'—', p2.lump||'—', cb.lump||'—', 'var(--red)') : '';
+
+  const sharedOkColor = p1.sharedOk ? 'var(--green)' : 'var(--red)';
+
+  cards.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr>
+          <th style="width:36%;text-align:left;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;"></th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">P1</th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">P2</th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">Combined</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${secRow('Salary', 'rgba(55,138,221,0.55)')}
+        ${dataRow('Gross',   p1.gross,   p2.gross,   cb.gross,   'var(--green)')}
+        ${dataRow('Est. net',p1.net,     p2.net,     cb.net)}
+        ${secRow('Housing', 'rgba(232,90,68,0.55)')}
+        ${dataRow('Mortgage',  p1.mort, p2.mort, cb.mort, 'var(--red)')}
+        ${dataRow('Prop. tax', p1.tax,  p2.tax,  cb.tax,  'var(--red)')}
+        ${dataRow('Heat',      p1.heat, p2.heat, cb.heat, 'var(--red)')}
+        ${lumpRow}
+        ${secRow('Shared Expenses', 'rgba(127,119,221,0.55)')}
+        ${CATS.map(c => {
+          const p1v = p1.cats.find(x => x.id === c.id);
+          const p2v = p2.cats.find(x => x.id === c.id);
+          return inputRow(c.label, c.id, p1v ? p1v.val : '—', p2v ? p2v.val : '—');
+        }).join('')}
+        ${secRow('Leftovers', 'rgba(29,158,117,0.55)')}
+        ${dataRow('Shared', p1.shared, p2.shared, cb.shared, sharedOkColor)}
+        ${dataRow('Personal', p1.personal, p2.personal, cb.personal)}
+      </tbody>
+    </table>`;
 }
 
 // ── STACKED BAR TOUCH TOOLTIPS ───────────────────────────────────
