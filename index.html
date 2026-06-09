@@ -1236,9 +1236,9 @@
     </div>
     <div class="foot-col">
       <h5>Reports</h5>
-      <a href="#reports" data-go="0">Public spending</a>
-      <a href="#reports" data-go="1">Traffic &amp; roads</a>
-      <a href="#reports" data-go="2">Elections</a>
+      <a href="#reports" data-go="0">Traffic</a>
+      <a href="#reports" data-go="1">Elections</a>
+      <a href="#reports" data-go="2">Comming</a>
     </div>
     <div class="foot-col">
       <h5>Project</h5>
@@ -1309,6 +1309,55 @@
 <script>
   const REPORTS = [
     {
+      id: "traffic",
+      topic: "Traffic & roads",
+      title: "How Ottawa really moves",
+      lede: "Collision counts, intersection hot-spots and traffic stops.",
+      date: "Updated Mar 2026",
+      readTime: "~ 4 min read",
+      tag: "#traffic",
+      // TODO: paste your Power BI publish-to-web URL here
+      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
+      why: "Traffic stops seems to have decrease significantly in the last year, while driving in Ottawa only seems to get worse.",
+      method: "Data from the Ottawa Police Service open releases. Some datasets are not updated anymore so most of the information stops at 2025.",
+      sources: [
+        { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Not updated anymore", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
+        { name: "City of Ottawa — Collisions", meta: "Not updated anymore", url: "https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore?location=22.762461%2C-77.249436%2C0" },
+        { name: "City of Ottawa — Automated Speed Enforcement & Red Light Camera Violations", meta: "yearly", url: "https://open.ottawa.ca/search" },
+      ],
+      takeaways: [
+        ["60%", "less people charged at traffic stops (2024 vs 2014)"],
+        ["43,416", "speed limit violations in March 2024"],
+        ["6,507", "red light violations in July 2023"],
+      ],
+      thumb: "line",
+    },
+
+    {
+      id: "elections",
+      topic: "Elections",
+      title: "Ottawa historical elections",
+      lede: "Ward-by-ward turnout and vote shares",
+      date: "Updated June 2026",
+      readTime: "~ 5 min read",
+      tag: "#elections",
+      // TODO: paste your Power BI publish-to-web URL here
+      embedUrl: "",
+      why: "Municipal elections rarely make national news, but they decide who runs your bus, your library and your zoning board. This one tries to make it easier to see the trends in turnout and competitiveness, ward by ward.",
+      method: "Results are pulled from Elections Ottawa's official ward results.",
+      sources: [
+        { name: "Elections Ottawa — Ward results", meta: "per cycle", url: "https://elections.ottawa.ca/" },
+        { name: "Statistics Canada — 2021 Census, Ottawa CD", meta: "snapshot", url: "https://www.statcan.gc.ca/" },
+      ],
+      takeaways: [
+        ["44%", "city-wide turnout, up 6 points from 2022"],
+        ["8 of 24", "wards flipped their incumbents"],
+        ["312 votes", "Rideau-Vanier — the tightest race"],
+      ],
+      thumb: "donut",
+    },
+    
+    {
       id: "spending",
       topic: "Public spending",
       title: "Where Ottawa's tax dollars go",
@@ -1332,54 +1381,6 @@
       thumb: "bars",
     },
 
-    {
-      id: "traffic",
-      topic: "Traffic & roads",
-      title: "How Ottawa really moves",
-      lede: "Collision counts, intersection hot-spots and traffic stops.",
-      date: "Updated Mar 2026",
-      readTime: "~ 4 min read",
-      tag: "#traffic",
-      // TODO: paste your Power BI publish-to-web URL here
-      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
-      why: "Traffic stops seems to have decrease significantly in the last year, while driving in Ottawa only seems to get worse.",
-      method: "Data from the Ottawa Police Service open releases",
-      sources: [
-        { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Not updated anymore", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
-        { name: "City of Ottawa — Collisions", meta: "Not updated anymore", url: "https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore?location=22.762461%2C-77.249436%2C0" },
-        { name: "City of Ottawa — Automated Speed Enforcement & Red Light Camera Violations", meta: "yearly", url: "https://open.ottawa.ca/search" },
-      ],
-      takeaways: [
-        ["60%", "less people charged at traffic stops (2024 vs 2014)"],
-        ["43,416", "speed limit violations in March 2024"],
-        ["6,507", "red light violations in July 2023"],
-      ],
-      thumb: "line",
-    },
-
-    {
-      id: "elections",
-      topic: "Elections",
-      title: "Ottawa votes — 2018 → 2022 → 2026",
-      lede: "Ward-by-ward turnout, vote share and swing across the last three municipal cycles, with a closer look at the 2026 race.",
-      date: "Updated Feb 2026",
-      readTime: "~ 5 min read",
-      tag: "#elections",
-      // TODO: paste your Power BI publish-to-web URL here
-      embedUrl: "",
-      why: "Municipal elections rarely make national news, but they decide who runs your bus, your library and your zoning board. This one tries to make it easier to see the trends in turnout and competitiveness, ward by ward.",
-      method: "Results are pulled from Elections Ottawa's official ward results. Turnout uses 2021 census population by ward as the denominator (no eligible-voter adjustment). Swing is calculated against the previous cycle's leading candidate's share.",
-      sources: [
-        { name: "Elections Ottawa — Ward results", meta: "per cycle", url: "https://elections.ottawa.ca/" },
-        { name: "Statistics Canada — 2021 Census, Ottawa CD", meta: "snapshot", url: "https://www.statcan.gc.ca/" },
-      ],
-      takeaways: [
-        ["44%", "city-wide turnout, up 6 points from 2022"],
-        ["8 of 24", "wards flipped their incumbents"],
-        ["312 votes", "Rideau-Vanier — the tightest race"],
-      ],
-      thumb: "donut",
-    },
   ];
 
   // ——— THEME ———————————————————————————————————————————————————————
