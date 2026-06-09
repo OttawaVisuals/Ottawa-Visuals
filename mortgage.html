@@ -291,24 +291,61 @@ p{margin:0;}
   /* Input grids: 2-col stays fine, 3-col collapses to 2 */
   .grid-3 { grid-template-columns: 1fr 1fr; }
 
-  /* Spending table: horizontal scroll */
-  .spend-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-  /* Chart wrappers: allow scroll */
-  .chart-wrap { overflow-x: auto; }
-
-  /* Census / comparison grids */
-  .cmp-grid { grid-template-columns: 1fr; }
-  .cmp-row { grid-template-columns: 110px 1fr; }
-
   /* rcard padding tighter on mobile */
   .rcard { padding: 10px; }
 
-  /* Tooltip: show below on mobile (hover doesn't exist) */
+  /* Tooltip: tap-to-show on mobile */
   .tip-btn:focus .tip-box,
-  .tip-btn:active .tip-box {
-    display: block;
+  .tip-btn:active .tip-box { display: block; }
+
+  /* ── SPENDING TABLE: pivoted card layout on mobile ── */
+  .spend-table-wrap { overflow: visible; }
+  #spend-table { display: none; }
+  #spend-cards-mobile { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ── OTTAWA MARKET CONTEXT: stack charts vertically ── */
+  .ottawa-charts-grid {
+    grid-template-columns: 1fr !important;
   }
+
+  /* Ottawa KPIs: 2x2 */
+  #ottawa-kpis {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── NEIGHBOURHOOD ANALYSIS: KPIs below chart ── */
+  .census-income-row {
+    grid-template-columns: 1fr !important;
+  }
+  #census-metrics {
+    grid-template-columns: repeat(2, 1fr) !important;
+    margin-top: 10px;
+  }
+
+  /* ── CENSUS BAR CHARTS: always single column ── */
+  .cmp-section-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* 100% stacked bars: touch tooltip overlay */
+  .stacked-seg-tip {
+    display: none;
+    position: fixed;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    z-index: 2000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    pointer-events: none;
+    max-width: 200px;
+  }
+  .stacked-seg-tip.visible { display: block; }
 }
 </style>
 </head>
@@ -522,6 +559,7 @@ p{margin:0;}
           <tbody id="spend-tbody"></tbody>
         </table>
       </div>
+      <div id="spend-cards-mobile" style="display:none;flex-direction:column;gap:8px;"></div>
       <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
     </div>
 
@@ -559,7 +597,7 @@ p{margin:0;}
     <div class="rcard" id="market-card">
       <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
       <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
+        <div class="ottawa-charts-grid" style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
             <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
             <div class="chart-wrap" style="height:110px;"><canvas id="bracket-chart"></canvas></div>
@@ -600,7 +638,7 @@ p{margin:0;}
       <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
         <!-- ROW 1: Income chart + KPIs -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
+        <div class="census-income-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
           <!-- LEFT: employment income chart -->
           <div style="display:flex;flex-direction:column;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
@@ -1276,6 +1314,25 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
 
   tbody.innerHTML = dataRows;
 
+  // Mobile card view
+  const modeCardRows = rows.map((r, ri) => {
+    const isCombined = ri === 2;
+    return {
+      label: r.label,
+      gross: d(r.g),
+      net: d(r.n),
+      mort: d(r.mort),
+      tax: d(r.tax),
+      heat: d(r.ht),
+      lump: r.lump > 0 ? d(r.lump) : null,
+      cats: CATS.map(c => ({ label: c.label, val: d(catAnnVals[c.id] * r.ratio) })),
+      shared: isCombined ? d(sharedSavingsAnn) : d(sharedSavingsAnn * r.ratio),
+      sharedOk: sharedSavingsAnn >= 0,
+      personal: d(r.per),
+    };
+  });
+  renderMobileSpendCards(modeCardRows, d, mode);
+
   document.getElementById('spend-warn').hidden = sharedSavingsAnn >= 0;
   document.getElementById('jpct-lbl').textContent = Math.round(jointPct*100);
   document.getElementById('spend-lbl').textContent = pl(mode);
@@ -1723,7 +1780,7 @@ function renderCensusBarCharts(fsaData, provData, canData) {
         const innerTxt = showFull
           ? `${g.label} ${tip}`
           : showPct ? tip : '';
-        return `<div title="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .35s;">` +
+        return `<div title="${g.label}: ${tip}" data-tip="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .35s;">` +
           (innerTxt ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.92);pointer-events:none;white-space:nowrap;overflow:hidden;padding:0 3px;text-overflow:clip;">${innerTxt}</span>` : '') +
           `</div>`;
       }).join('');
@@ -1848,7 +1905,7 @@ function renderCensusBarCharts(fsaData, provData, canData) {
   const tenureSec = tenureFd ? stackedSection('Tenure — owner vs. renter', tenureGroups,
     buildVals(tenureFd, null), buildVals(tenurePd, null), buildVals(tenureCd, null)) : '';
 
-  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${dwellSec}${tenureSec}</div>`;
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${dwellSec}${tenureSec}</div>`;
 
   // ── Period of construction (full width) ───────────────────────────────────
   html += `<div class="cmp-section">${fullSection('Period of construction', 'construction')}</div>`;
@@ -1856,12 +1913,12 @@ function renderCensusBarCharts(fsaData, provData, canData) {
   // ── Language + Education side by side ────────────────────────────────────
   const langSec = fullSection('Official language knowledge', 'language');
   const eduSec  = fullSection('Education — highest credential (25–64)', 'education');
-  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${langSec}${eduSec}</div>`;
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${langSec}${eduSec}</div>`;
 
   // ── Commute mode + Commute duration side by side ──────────────────────────
   const commModeSec = fullSection('Commute mode', 'commute_mode');
   const commDurSec  = fullSection('Commute duration', 'commute_dur');
-  html += `<div class="cmp-section" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${commModeSec}${commDurSec}</div>`;
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${commModeSec}${commDurSec}</div>`;
 
   // ── All single-value metrics in one box ───────────────────────────────────
   html += `<div class="cmp-section">
@@ -2257,12 +2314,10 @@ document.addEventListener('mouseover', e => {
 
   function applyState() {
     if (!isMobile()) {
-      // Desktop: always show, remove toggle behaviour
       inner.classList.add('open');
       btn.style.display = 'none';
     } else {
       btn.style.display = 'flex';
-      // Keep whatever open/closed state the user set
     }
   }
 
@@ -2276,6 +2331,104 @@ document.addEventListener('mouseover', e => {
 
   window.addEventListener('resize', applyState);
   applyState();
+})();
+
+window.addEventListener('resize', function() {
+  // Re-toggle spend table vs cards on resize/orientation change
+  const table = document.getElementById('spend-table');
+  const cards = document.getElementById('spend-cards-mobile');
+  if (!table || !cards) return;
+  const isMob = window.innerWidth <= 768;
+  table.style.display = isMob ? 'none' : '';
+  cards.style.display = isMob ? 'flex' : 'none';
+});
+
+// ── MOBILE SPEND CARDS ───────────────────────────────────────────
+// Builds a card-per-person layout as an alternative to the wide table.
+// Called from renderSpendTable whenever the data changes.
+function renderMobileSpendCards(rows, d, mode) {
+  const isMob = window.innerWidth <= 768;
+  const table = document.getElementById('spend-table');
+  const cards = document.getElementById('spend-cards-mobile');
+  if (!table || !cards) return;
+
+  table.style.display = isMob ? 'none' : '';
+  cards.style.display = isMob ? 'flex' : 'none';
+  if (!isMob) return;
+
+  const sectionColors = {
+    Salary:  'rgba(55,138,221,0.5)',
+    Housing: 'rgba(232,90,68,0.55)',
+    'Shared Expenses': 'rgba(127,119,221,0.55)',
+    Leftovers: 'rgba(29,158,117,0.55)',
+  };
+
+  function row(label, value, color) {
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px dashed var(--line);">
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);">${label}</span>
+      <span style="font-family:var(--font-mono);font-size:11px;color:${color||'var(--ink-2)'};">${value}</span>
+    </div>`;
+  }
+
+  function sectionHeader(label) {
+    const c = sectionColors[label] || 'var(--bg-3)';
+    return `<div style="font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:${c};color:#fff;padding:2px 8px;border-radius:3px;margin:8px 0 4px;">${label}</div>`;
+  }
+
+  cards.innerHTML = rows.map(r => `
+    <div style="background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:10px 12px;">
+      <div style="font-family:var(--font-cond);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px;">${r.label}</div>
+      ${sectionHeader('Salary')}
+      ${row('Gross', r.gross, 'var(--green)')}
+      ${row('Est. net', r.net)}
+      ${sectionHeader('Housing')}
+      ${row('Mortgage', r.mort, 'var(--red)')}
+      ${row('Property tax', r.tax, 'var(--red)')}
+      ${row('Heat', r.heat, 'var(--red)')}
+      ${r.lump ? row('Lump sum', r.lump, 'var(--red)') : ''}
+      ${sectionHeader('Shared Expenses')}
+      ${r.cats.map(c => row(c.label, c.val)).join('')}
+      ${sectionHeader('Leftovers')}
+      ${row('Shared leftover', r.shared, r.sharedOk ? 'var(--green)' : 'var(--red)')}
+      ${row('Personal', r.personal)}
+    </div>
+  `).join('');
+}
+
+// ── STACKED BAR TOUCH TOOLTIPS ───────────────────────────────────
+(function() {
+  // Create a single floating tooltip element
+  const tip = document.createElement('div');
+  tip.className = 'stacked-seg-tip';
+  document.body.appendChild(tip);
+
+  function showTip(x, y, text) {
+    tip.textContent = text;
+    tip.classList.add('visible');
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let left = x + 12, top = y - 40;
+    if (left + 210 > vw) left = x - 210;
+    if (top < 4) top = y + 16;
+    if (top + 80 > vh) top = vh - 84;
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  document.addEventListener('touchstart', function(e) {
+    const seg = e.target.closest('[data-tip]');
+    if (!seg) { tip.classList.remove('visible'); return; }
+    e.preventDefault();
+    const t = e.touches[0];
+    showTip(t.clientX, t.clientY, seg.dataset.tip);
+  }, { passive: false });
+
+  document.addEventListener('touchend', function(e) {
+    setTimeout(() => tip.classList.remove('visible'), 1800);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('[data-tip]')) tip.classList.remove('visible');
+  });
 })();
 
 loadData().then(() => {
