@@ -7,66 +7,77 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
-.page{max-width:1100px;margin:0 auto;padding:24px 16px}
-h1{font-size:20px;font-weight:600;margin-bottom:2px}
-.subtitle{font-size:13px;color:#777;margin-bottom:16px}
+.page{max-width:1200px;margin:0 auto;padding:20px 16px}
+
+/* Header */
+.page-header{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.page-header h1{font-size:18px;font-weight:600}
+.page-header p{font-size:12px;color:#999}
+
+/* Grid */
+.grid-top{display:grid;grid-template-columns:1fr 260px;gap:12px;margin-bottom:12px}
+.grid-bottom{display:grid;grid-template-columns:2fr 3fr;gap:12px}
+
+/* Cards */
+.card{background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:14px 16px}
+.card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#888;margin-bottom:2px}
+.card-sub{font-size:11px;color:#bbb;margin-bottom:10px}
 
 /* KPI card */
-.kpi-card{background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-.kpi-avg-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em}
-.kpi-avg-val{font-size:28px;font-weight:600;color:#1a1a1a;line-height:1}
-.kpi-divider{border:none;border-top:1px solid #e0ddd6;margin:0}
-.kpi-row{display:flex;justify-content:space-between;gap:8px}
-.kpi-sub{font-size:11px}
-.kpi-sub-label{color:#888;margin-bottom:2px}
-.kpi-sub-val{font-weight:600;font-size:13px;color:#1a1a1a}
-.kpi-sub-name{color:#aaa;font-size:10px}
-.legend{display:flex;align-items:center;gap:6px;font-size:11px;color:#888}
-.leg-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;width:120px}
-
-/* Top row */
-.top-row{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
-@media(min-width:700px){.top-row{grid-template-columns:1fr 220px}}
-
-/* Main row */
-.main-layout{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:700px){.main-layout{grid-template-columns:1fr 300px}}
+.kpi-grid{display:grid;grid-template-rows:1fr 1px 1fr 1px 1fr;height:100%;gap:0}
+.kpi-item{display:flex;flex-direction:column;justify-content:center;padding:8px 0}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#aaa;margin-bottom:3px}
+.kpi-val{font-size:22px;font-weight:600;color:#1a1a1a;line-height:1}
+.kpi-sub{font-size:11px;color:#999;margin-top:2px}
+.kpi-divider{background:#e0ddd6;height:1px}
+.leg-row{display:flex;align-items:center;gap:6px;padding-top:10px;margin-top:auto}
+.leg-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;flex:1}
+.leg-lbl{font-size:10px;color:#aaa}
 
 /* Map */
-.map-card{background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:12px;position:relative}
+.map-wrap{position:relative}
 #map svg{width:100%;display:block}
-#tooltip{position:absolute;background:#fff;border:1px solid #ddd;border-radius:6px;padding:7px 11px;font-size:12px;pointer-events:none;display:none;z-index:20;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.12)}
-#tooltip strong{display:block;font-weight:600;font-size:13px;margin-bottom:1px}
-#tooltip .tt-sub{color:#666}
+#tooltip{position:absolute;background:#fff;border:1px solid #ddd;border-radius:6px;padding:6px 10px;font-size:12px;pointer-events:none;display:none;z-index:20;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+#tooltip strong{display:block;font-weight:600;font-size:12px;margin-bottom:1px}
+#tooltip .tt-sub{color:#666;font-size:11px}
 
 /* Panel */
-.panel{background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:16px;overflow-y:auto;max-height:680px}
-.panel-empty{display:flex;align-items:center;justify-content:center;height:200px;color:#aaa;font-size:13px;text-align:center;line-height:1.6}
-.panel h2{font-size:16px;font-weight:600;margin-bottom:2px}
-.panel .ward-num{font-size:12px;color:#888;margin-bottom:14px}
-.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.stat-box{background:#f5f4f0;border-radius:8px;padding:10px 12px}
-.stat-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
-.stat-val{font-size:20px;font-weight:600}
-.stat-winner{font-size:11px;color:#777;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.section-head{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 8px}
+.panel-empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:#bbb;font-size:12px;text-align:center;line-height:1.8}
+#panel-content{display:none}
+.panel-ward-header{margin-bottom:12px}
+.panel-ward-header h2{font-size:15px;font-weight:600}
+.panel-ward-header .wn{font-size:11px;color:#aaa}
 
-/* Vote bars */
-.vote-race{margin-bottom:10px}
-.vote-race-label{font-size:12px;color:#555;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
-.vote-race-label span:last-child{font-weight:600;font-size:13px}
-.vote-track{height:10px;background:#e8e6e0;border-radius:5px;overflow:hidden}
-.vote-fill{height:100%;border-radius:5px;transition:width .4s}
+/* Stat row */
+.stat-pill{display:inline-flex;align-items:baseline;gap:6px;background:#f5f4f0;border-radius:6px;padding:6px 10px;margin-bottom:12px}
+.stat-pill .sp-val{font-size:24px;font-weight:600;color:#C0392B}
+.stat-pill .sp-lbl{font-size:11px;color:#999}
 
-/* History chart */
-.hist-wrap{position:relative;height:150px;margin-bottom:8px}
+/* Section */
+.sec-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin:12px 0 5px}
 
-/* Caveat */
-.caveat{font-size:11px;color:#999;line-height:1.55;margin-top:10px;padding:8px 10px;background:#fafaf8;border-left:3px solid #ddd;border-radius:0 4px 4px 0}
-.caveat strong{color:#888;display:block;margin-bottom:2px}
+/* Candidate row */
+.cand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.cand-name{font-size:12px;font-weight:600;color:#1a1a1a}
+.cand-role{font-size:11px;color:#aaa}
+
+/* Stacked bar */
+.sbar-wrap{height:14px;border-radius:5px;overflow:hidden;display:flex;margin-bottom:4px}
+.sbar-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sbar-legend span{font-size:10px;color:#666;display:flex;align-items:center;gap:3px}
+.sbar-legend span i{display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* History */
+.hist-wrap{position:relative;height:120px;margin-top:4px}
+
+/* Caveat footer */
+.caveats-section{margin-top:16px;padding-top:12px;border-top:1px solid #e0ddd6}
+.caveat-item{font-size:11px;color:#aaa;line-height:1.55;padding:6px 0 6px 10px;border-left:2px solid #e0ddd6}
+.caveat-item+.caveat-item{margin-top:6px}
+.caveat-item strong{color:#999;display:block;margin-bottom:1px}
 
 /* Footer */
-.footer{margin-top:20px;font-size:11px;color:#aaa;line-height:1.6}
+.footer{margin-top:14px;font-size:11px;color:#bbb;line-height:1.6}
 </style>
 </head>
 <body>
@@ -78,103 +89,128 @@ h1{font-size:20px;font-weight:600;margin-bottom:2px}
     </pattern>
   </defs>
 </svg>
-  <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
-    <h1>Ottawa Municipal Elections</h1>
-    <p class="subtitle" style="margin:0">2010–2022 · click a ward to explore · Data: City of Ottawa</p>
+
+<div class="page">
+
+  <div class="page-header">
+    <h1>Ottawa Municipal Elections — Ward Participation</h1>
+    <p>2010–2022 · click a ward to explore · Data: City of Ottawa</p>
   </div>
 
-  <!-- Top row: Ottawa historical chart (left) + KPIs (right) -->
-  <div class="top-row">
-    <div style="background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:14px 16px">
-      <div style="font-size:12px;font-weight:600;color:#555;margin-bottom:1px">Ottawa mayor race — historical context</div>
-      <div style="font-size:11px;color:#aaa;margin-bottom:10px">% of all registered voters · 2010–2022</div>
-      <div style="position:relative;height:160px">
-        <canvas id="ottawa-hist-chart" aria-label="Stacked bar chart of Ottawa mayor votes 2010–2022"></canvas>
+  <!-- TOP ROW: historical chart (left) + KPIs (right) -->
+  <div class="grid-top">
+
+    <div class="card">
+      <div class="card-title">Ottawa mayor race — historical context</div>
+      <div class="card-sub">% of all registered voters · 2010–2022</div>
+      <div style="position:relative;height:180px">
+        <canvas id="ottawa-hist-chart"></canvas>
       </div>
     </div>
 
-    <div class="kpi-card">
-      <div>
-        <div class="kpi-avg-label">City-wide turnout</div>
-        <div class="kpi-avg-val" id="kpi-mayor">—</div>
+    <div class="card" style="display:flex;flex-direction:column">
+      <div class="card-title">City-wide turnout · 2022</div>
+      <div class="kpi-grid" style="flex:1;margin-top:6px">
+        <div class="kpi-item">
+          <div class="kpi-label">Average</div>
+          <div class="kpi-val" id="kpi-avg">—</div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-item">
+          <div class="kpi-label">Highest</div>
+          <div class="kpi-val" id="kpi-hi-val" style="font-size:18px">—</div>
+          <div class="kpi-sub" id="kpi-hi-name"></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-item">
+          <div class="kpi-label">Lowest</div>
+          <div class="kpi-val" id="kpi-lo-val" style="font-size:18px">—</div>
+          <div class="kpi-sub" id="kpi-lo-name"></div>
+        </div>
       </div>
-      <hr class="kpi-divider">
-      <div class="kpi-row">
-        <div class="kpi-sub">
-          <div class="kpi-sub-label">Highest</div>
-          <div class="kpi-sub-val" id="kpi-hi-val">—</div>
-          <div class="kpi-sub-name" id="kpi-hi-name"></div>
-        </div>
-        <div class="kpi-sub" style="text-align:right">
-          <div class="kpi-sub-label">Lowest</div>
-          <div class="kpi-sub-val" id="kpi-lo-val">—</div>
-          <div class="kpi-sub-name" id="kpi-lo-name"></div>
-        </div>
-      </div>
-      <hr class="kpi-divider">
-      <div>
-        <div style="font-size:10px;color:#aaa;margin-bottom:4px">Map colour scale</div>
-        <div class="legend">
-          <span id="leg-lo-label"></span>
-          <div class="leg-bar" id="leg-bar"></div>
-          <span id="leg-hi-label"></span>
-        </div>
+      <div class="leg-row">
+        <span class="leg-lbl" id="leg-lo-label"></span>
+        <div class="leg-bar" id="leg-bar"></div>
+        <span class="leg-lbl" id="leg-hi-label"></span>
       </div>
     </div>
+
   </div>
 
-  <!-- Main row: map (left) + ward detail panel (right) -->
-  <div class="main-layout">
-    <div class="map-card">
-      <div id="map" style="position:relative">
+  <!-- BOTTOM ROW: map (left) + ward panel (right) -->
+  <div class="grid-bottom">
+
+    <div class="card">
+      <div class="map-wrap" id="map">
         <div id="tooltip"></div>
       </div>
     </div>
 
-    <div class="panel" id="panel">
+    <div class="card" id="panel">
       <div class="panel-empty">Click a ward on the map<br>to see its details</div>
-      <div id="panel-content" style="display:none">
-        <h2 id="p-name"></h2>
-        <div class="ward-num" id="p-wardnum"></div>
+      <div id="panel-content">
 
-        <div class="stat-row">
-          <div class="stat-box" style="grid-column:1/-1">
-            <div class="stat-label">Turnout</div>
-            <div class="stat-val" id="p-coun-pct" style="color:#C0392B"></div>
-            <div class="stat-winner" id="p-coun-winner"></div>
-          </div>
+        <div class="panel-ward-header">
+          <h2 id="p-name"></h2>
+          <div class="wn" id="p-wardnum"></div>
         </div>
 
-        <div class="section-head">2022 vote breakdown</div>
-        <div class="vote-race">
-          <div class="vote-race-label"><span>Winner's share of all registered voters</span><span id="vl-coun"></span></div>
-          <div class="vote-track" style="height:14px">
-            <div id="vf-coun-stacked" style="display:flex;height:100%;border-radius:5px;overflow:hidden"></div>
-          </div>
-          <div style="display:flex;gap:12px;margin-top:4px;flex-wrap:wrap">
-            <span style="font-size:11px;color:#555"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0F6E56;margin-right:3px;vertical-align:middle"></span>Winner</span>
-            <span style="font-size:11px;color:#555"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#7FB5A0;margin-right:3px;vertical-align:middle"></span>Other candidates</span>
-            <span style="font-size:11px;color:#555"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #bbb;margin-right:3px;vertical-align:middle"></span>Didn't vote</span>
-          </div>
+        <div class="stat-pill">
+          <span class="sp-val" id="p-turnout">—</span>
+          <span class="sp-lbl">turnout</span>
         </div>
 
-        <div class="section-head">Participation history</div>
+        <!-- Councillor -->
+        <div class="sec-head">Councillor</div>
+        <div class="cand-row">
+          <div>
+            <div class="cand-name" id="p-coun-name">—</div>
+            <div class="cand-role">Winner · 2022</div>
+          </div>
+        </div>
+        <div class="sbar-wrap" id="sbar-coun"></div>
+        <div class="sbar-legend">
+          <span><i style="background:#0F6E56"></i>Winner</span>
+          <span><i style="background:#7FB5A0"></i>Other candidates</span>
+          <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
+        </div>
+
+        <!-- Mayor -->
+        <div class="sec-head">Mayor (highest voted candidate in this ward)</div>
+        <div class="cand-row">
+          <div>
+            <div class="cand-name" id="p-mayor-name">—</div>
+            <div class="cand-role">Winner · 2022</div>
+          </div>
+        </div>
+        <div class="sbar-wrap" id="sbar-mayor"></div>
+        <div class="sbar-legend">
+          <span><i style="background:#185FA5"></i>Winner</span>
+          <span><i style="background:#7BA7CC"></i>Other candidates</span>
+          <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
+        </div>
+
+        <!-- History -->
+        <div class="sec-head">Participation history</div>
         <div class="hist-wrap">
-          <canvas id="hist-chart" aria-label="Line chart of ward participation 2010–2022"></canvas>
+          <canvas id="hist-chart"></canvas>
         </div>
 
-        <div class="caveat" id="caveat-box" style="display:none">
-          <strong>⚠ Data note</strong>
-          <span id="caveat-text"></span>
-        </div>
       </div>
     </div>
+
+  </div>
+
+  <!-- Caveats collected at the bottom -->
+  <div class="caveats-section" id="caveats-section" style="display:none">
+    <div class="card-title" style="margin-bottom:8px">Data notes</div>
+    <div id="caveats-list"></div>
   </div>
 
   <div class="footer">
-    Sources: City of Ottawa election results. Historical values for wards with boundary changes are estimates — see the data note in each affected ward's panel.
-    Wards 7 and 15 have no councillor data for 2010 (not available in source data).
+    Sources: City of Ottawa election results. Wards 7 and 15 have no councillor data for 2010 (not available in source data).
   </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
@@ -182,17 +218,15 @@ h1{font-size:20px;font-weight:600;margin-bottom:2px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const wardData = {"1":{"name":"Orléans East-Cumberland","change_type":"renamed","caveat":null,"mayor":{"participation":38.2,"winner_pct":62.9,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.5,"winner_pct":72.6,"winner_name":"Matthew Luloff"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.4,35.0,40.8,38.2],"councillor":[43.2,37.9,43.1,42.5]}},"2":{"name":"Orléans West-Innes","change_type":"renamed","caveat":null,"mayor":{"participation":42.0,"winner_pct":58.7,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.2,"winner_pct":70.0,"winner_name":"Laura Dudas"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.0,42.5,41.4,42.0],"councillor":[42.2,44.1,43.8,45.2]}},"3":{"name":"Barrhaven West","change_type":"split","caveat":"Barrhaven West was created in 2022 when the old Barrhaven ward (Ward 3) was split: its eastern portion (Chapman Mills and Davidson Heights) became the new Barrhaven East (Ward 24), and Stonebridge was transferred to Riverside South-Findlay Creek (Ward 22). Historical values (2010–2018) reflect the full old Barrhaven ward and therefore cover a larger area than the current Ward 3.","mayor":{"participation":39.2,"winner_pct":61.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.8,"winner_pct":43.2,"winner_name":"David Hill"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,33.5,39.1,39.2],"councillor":[41.5,34.1,42.7,45.8]}},"4":{"name":"Kanata North","change_type":"direct","caveat":null,"mayor":{"participation":39.5,"winner_pct":60.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.5,"winner_pct":74.8,"winner_name":"Cathy Curry"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.3,44.6,43.9,39.5],"councillor":[45.1,45.6,48.2,43.5]}},"5":{"name":"West Carleton-March","change_type":"direct","caveat":null,"mayor":{"participation":44.8,"winner_pct":70.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":27.0,"winner_name":"Clarke Kelly"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.7,45.7,41.1,44.8],"councillor":[45.4,46.4,42.8,46.9]}},"6":{"name":"Stittsville","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":63.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.6,"winner_pct":58.1,"winner_name":"Glen Gower"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.2,43.1,44.4,39.4],"councillor":[45.0,43.7,46.4,45.6]}},"7":{"name":"Bay","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.8,"winner_pct":79.8,"winner_name":"Theresa Kavanagh"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.9,40.7,40.1,40.7],"councillor":[null,41.8,41.6,43.8]}},"8":{"name":"College","change_type":"direct","caveat":null,"mayor":{"participation":43.1,"winner_pct":51.5,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":51.3,"winner_name":"Laine Johnson"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,35.7,41.5,43.1],"councillor":[43.6,37.6,44.8,46.9]}},"9":{"name":"Knoxdale-Merivale","change_type":"direct","caveat":null,"mayor":{"participation":41.2,"winner_pct":57.0,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.5,"winner_pct":38.2,"winner_name":"Sean Devine"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.1,34.5,37.5,41.2],"councillor":[43.4,35.6,40.0,45.5]}},"10":{"name":"Gloucester-Southgate","change_type":"direct","caveat":null,"mayor":{"participation":32.8,"winner_pct":49.3,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":37.5,"winner_pct":40.9,"winner_name":"Jessica Bradley"},"history":{"years":[2010,2014,2018,2022],"mayor":[40.2,35.6,32.6,32.8],"councillor":[40.1,36.6,38.2,37.5]}},"11":{"name":"Beacon Hill-Cyrville","change_type":"direct","caveat":null,"mayor":{"participation":38.1,"winner_pct":50.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":40.8,"winner_pct":79.6,"winner_name":"Tim Tierney"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.7,37.0,37.1,38.1],"councillor":[43.5,37.5,38.1,40.8]}},"12":{"name":"Rideau-Vanier","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":33.7,"winner_pct":57.3,"winner_name":"Catherine McKenney"},"councillor":{"participation":37.2,"winner_pct":35.9,"winner_name":"Stéphanie Plante"},"history":{"years":[2010,2014,2018,2022],"mayor":[38.7,34.6,36.0,33.7],"councillor":[37.7,36.7,37.5,37.2]}},"13":{"name":"Rideau-Rockcliffe","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":36.0,"winner_pct":46.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":39.8,"winner_pct":75.6,"winner_name":"Rawlson King"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.7,38.2,36.2,36.0],"councillor":[41.0,39.0,37.1,39.8]}},"14":{"name":"Somerset","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":73.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":45.2,"winner_pct":58.4,"winner_name":"Ariel Troster"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.6,35.9,35.6,39.4],"councillor":[40.8,39.0,39.1,45.2]}},"15":{"name":"Kitchissippi","change_type":"direct","caveat":null,"mayor":{"participation":49.9,"winner_pct":61.8,"winner_name":"Catherine McKenney"},"councillor":{"participation":53.0,"winner_pct":70.4,"winner_name":"Jeff Leiper"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.8,45.9,47.1,49.9],"councillor":[null,47.6,48.9,53.0]}},"16":{"name":"River","change_type":"direct","caveat":null,"mayor":{"participation":38.0,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":41.1,"winner_pct":70.8,"winner_name":"Riley Brockington"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,34.9,36.8,38.0],"councillor":[41.0,35.0,38.5,41.1]}},"17":{"name":"Capital","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":47.3,"winner_pct":62.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":51.3,"winner_pct":76.8,"winner_name":"Shawn Menard"},"history":{"years":[2010,2014,2018,2022],"mayor":[52.4,36.8,50.1,47.3],"councillor":[51.2,37.3,52.1,51.3]}},"18":{"name":"Alta Vista","change_type":"direct","caveat":null,"mayor":{"participation":40.5,"winner_pct":45.8,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.1,"winner_pct":45.6,"winner_name":"Marty Carr"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,37.3,40.0,40.5],"councillor":[43.6,37.6,41.7,43.1]}},"19":{"name":"Orléans South-Navan","change_type":"renamed","caveat":null,"mayor":{"participation":33.8,"winner_pct":61.1,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.2,"winner_pct":75.4,"winner_name":"Catherine Kitts"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.5,35.0,33.6,33.8],"councillor":[42.4,37.7,38.0,39.2]}},"20":{"name":"Osgoode","change_type":"direct","caveat":null,"mayor":{"participation":44.7,"winner_pct":74.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.2,"winner_pct":40.4,"winner_name":"George Darouze"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.4,44.8,44.8,44.7],"councillor":[44.3,45.4,45.8,46.2]}},"21":{"name":"Rideau-Jock","change_type":"renamed","caveat":null,"mayor":{"participation":46.1,"winner_pct":73.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":48.1,"winner_pct":65.3,"winner_name":"David Brown"},"history":{"years":[2010,2014,2018,2022],"mayor":[49.5,41.7,44.9,46.1],"councillor":[49.4,42.3,46.2,48.1]}},"22":{"name":"Riverside South-Findlay Creek","change_type":"split","caveat":"Riverside South-Findlay Creek (formerly Gloucester-South Nepean) lost territory in 2022: Stonebridge was transferred to Barrhaven West (Ward 3) and Chapman Mills was transferred to the new Barrhaven East (Ward 24). Historical values (2010–2018) reflect the larger former ward area.","mayor":{"participation":40.4,"winner_pct":57.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.9,"winner_pct":66.8,"winner_name":"Steve Desroches"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.2,38.9,42.7,40.4],"councillor":[40.5,39.9,46.1,42.9]}},"23":{"name":"Kanata South","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":57.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":44.0,"winner_pct":33.6,"winner_name":"Allan Hubley"},"history":{"years":[2010,2014,2018,2022],"mayor":[46.1,35.9,39.5,40.7],"councillor":[45.7,35.9,41.4,44.0]}},"24":{"name":"Barrhaven East","change_type":"new","caveat":"Barrhaven East is a new ward created in 2022, carved approximately 60% from the old Barrhaven ward (Ward 3) and 40% from the old Gloucester-South Nepean ward (Ward 22). Historical values (2010–2018) are estimates calculated as a weighted average of those two source wards using those proportions; they do not reflect actual election results for this specific territory.","mayor":{"participation":35.4,"winner_pct":58.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.1,"winner_pct":36.0,"winner_name":"Wilson Lo"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.6,35.4,40.4,35.4],"councillor":[41.2,36.1,43.9,39.1]}}};
-const topo     = {"type":"Topology","arcs":[[[5964,3962],[-91,-55],[-127,-76],[-61,154],[-19,44],[-19,29],[-14,13],[-24,15],[-23,8],[-75,15],[-33,13],[-33,29],[-18,30],[-74,195],[-12,24],[-47,84],[-8,9],[-66,118],[-11,33],[0,48],[12,35]],[[5221,4727],[16,23],[30,32],[87,54]],[[5354,4836],[98,-252],[197,121],[20,16]],[[5669,4721],[32,-84],[28,-67],[41,-104],[74,51],[10,-30],[25,-48],[5,-23],[-8,-50],[14,-23],[18,15],[13,24],[36,-9],[40,22],[46,-35],[17,-32],[17,-15],[14,-3],[41,6],[17,6]],[[6149,4322],[11,-39],[-3,-21]],[[6157,4262],[-6,-8],[2,-22],[-4,-30],[7,-47],[-50,-31],[-5,2],[-7,-62],[-1,-24],[-129,-78]],[[7995,7106],[-237,-146],[-23,-16],[-15,-14],[-9,-20],[-9,-40],[-13,-23],[-15,-12],[-199,-122],[-26,-11],[-19,1],[-62,10],[-26,-8],[-50,-31],[-61,-34]],[[7231,6640],[-34,-22],[-35,96],[-10,18],[-49,65],[10,10],[73,58],[24,20],[25,31],[14,24],[72,165],[13,24],[19,21],[15,9],[-5,18],[22,4],[-17,24],[8,26],[-13,16],[16,13],[4,18],[11,14],[-24,22],[-18,9],[37,26],[17,-2],[3,23],[32,7],[2,20],[14,8],[-23,36]],[[7434,7441],[32,24],[22,25],[36,33],[42,31],[46,19],[4,-10],[21,7],[40,23],[20,19],[82,66],[73,42]],[[7852,7720],[80,-225],[-98,-58],[5,-13],[22,7],[22,-23],[0,-18],[16,-9],[32,1],[5,-26],[22,-9],[25,-27],[15,-29],[19,-5],[39,-40],[38,-13],[21,14],[15,-8],[9,-13],[14,0],[15,-29]],[[8168,7197],[-40,-23],[-71,-30],[-62,-38]],[[5502,5396],[-329,-49],[26,-75],[7,-28],[0,-58],[2,-28],[12,-32],[53,-102],[49,-89],[9,-26],[2,-18],[21,-55]],[[5221,4727],[-76,-46],[-106,-65],[-9,26],[-106,-66]],[[4924,4576],[-61,158],[-49,123],[-43,113],[-197,-123],[-2,1],[-55,151],[-69,188]],[[4448,5187],[161,100],[252,156],[44,27],[19,8],[80,25],[29,7],[54,4],[32,8],[43,19],[42,9],[77,10],[34,14],[231,189],[105,88],[52,76],[48,66]],[[5751,5993],[81,-212]],[[5832,5781],[37,-97],[61,-154],[25,-67],[-453,-67]],[[4448,5187],[-12,32],[-37,91],[-57,145],[-67,178],[-7,12],[-165,197]],[[4103,5842],[-221,264],[240,235],[142,140]],[[4264,6481],[108,-126],[240,-242],[128,-65],[78,-30],[87,-55],[105,-17],[46,-7],[62,3],[29,7],[32,12],[70,32],[124,74],[33,34],[38,51],[68,76],[33,46],[25,66]],[[5570,6340],[53,-115],[20,-1],[7,-19],[11,-9],[-44,-41],[42,-116],[20,6],[13,-36],[41,28]],[[5733,6037],[18,-44]],[[4924,4576],[4,-10],[-158,-96],[-20,-7],[-54,-13],[-17,1],[-25,16],[-46,55]],[[4608,4522],[-29,26],[-39,16],[-31,37],[-49,63],[-18,12],[-27,27],[-40,26],[-61,29],[-65,49],[-29,16],[-25,20],[-44,17],[-10,16],[-22,10],[-17,27]],[[4102,4913],[82,46],[39,29],[32,30],[165,150],[28,19]],[[6192,4542],[4,-18],[-1,-36],[-9,-29],[-26,-15],[-6,-19],[5,-30],[-9,-47],[-1,-26]],[[5669,4721],[20,15],[141,85],[58,116],[24,-66],[40,-104],[14,-42],[109,63],[-29,77],[109,63],[65,43],[18,-9]],[[6238,4962],[-7,-15],[-8,-63]],[[6223,4884],[-2,-27],[-8,-35],[0,-21],[7,-34],[16,-41],[1,-19],[-7,-53],[-23,-43],[-15,-69]],[[6849,6561],[94,-36],[62,-17],[55,34],[29,-14],[42,-11],[12,-9]],[[7143,6508],[23,-32],[13,-50],[27,-53],[13,-33],[5,-29],[-90,-50],[-61,-32],[-122,-73],[-237,-147],[-73,-46]],[[6641,5963],[-85,-52]],[[6556,5911],[-48,144],[-21,28],[-25,48],[-42,52],[6,24],[26,48],[20,59],[12,17],[21,-6],[25,-1],[46,134],[8,35],[5,46],[16,18],[12,3],[3,34]],[[6620,6594],[44,20],[160,18]],[[6824,6632],[25,-71]],[[6157,4262],[8,-3],[13,-60],[10,-35]],[[6188,4164],[17,-24],[43,-43],[23,-46],[10,-26],[17,-16],[26,-41],[27,-6],[25,-27],[7,-13],[23,-17],[22,1],[24,-5],[21,-22],[11,-36],[1,-46],[14,-18],[10,-41],[26,-27],[15,-19],[27,-53],[13,-49],[20,-7],[39,8],[52,-47],[21,-31],[26,-33],[26,-9],[23,-58],[2,-19],[-4,-25],[-7,-15],[29,-60],[11,-41],[3,-32],[-9,-22],[1,-22],[36,-59],[41,-36],[10,-18],[11,-39],[0,-25],[-5,-15],[-71,-69],[-14,-40],[-16,-26],[-26,-30],[-30,-38],[-14,-39],[-3,-54],[2,-71],[17,-42],[31,-43],[26,-30],[-6,-56],[7,-19],[61,-47],[7,-11]],[[6887,2370],[-2,-17],[5,-49],[8,-22],[30,-56],[21,-66],[23,-49],[6,-24],[0,-44],[-22,-73],[-26,-41],[-33,-26],[-36,-32],[-35,-22],[-14,-19],[-11,-23],[-4,-50],[-15,-47],[-1,-93],[-38,-90],[-49,-44],[-46,-48],[-112,-58],[-50,-22],[-37,-34],[-31,-40],[-52,-34],[-9,-10],[-24,2],[-8,7],[-17,-8],[-18,-66],[-21,-36],[-39,-50],[-2,-13],[6,-37],[-27,-62],[-27,-36],[-19,-19],[-30,-22],[-26,-12],[-33,-11],[-37,-29],[-18,-5],[-38,1],[-55,-45],[-37,-52],[-24,-13],[-22,-4],[-50,-32],[-42,-22],[-15,-19],[-15,-26],[-57,-42],[-10,-25],[-22,-14],[-20,-7],[-18,-31],[4,-20],[-2,-19],[-14,-29],[-27,-32],[-45,-22],[-48,-30],[-23,-12],[-40,-33],[-32,-9],[-33,-1],[-34,3],[-29,-11],[-10,-20],[-14,-7],[-33,-4],[-45,-47],[-28,-41],[5,-19],[-6,-35],[-4,-9],[-20,-12],[-47,-13],[-5,-19],[17,-27],[-2,-41],[-54,70],[-131,164],[-294,348],[-185,242],[-82,109],[-18,26],[-57,72],[-84,104],[-99,133],[-60,79],[-202,252],[0,2],[116,109],[-95,126],[-95,123],[-98,125],[-127,161],[-192,241],[-44,57],[-110,140],[-64,79],[-54,71],[-156,195]],[[2892,3028],[13,23],[15,36],[9,53],[18,244],[6,30],[13,36],[13,22],[18,24],[170,164],[77,73],[131,109],[94,87],[146,148],[17,25],[11,23],[9,42],[0,42],[-9,58],[16,16],[96,94],[63,60]],[[3818,4437],[22,-30],[50,-60],[-6,-6],[228,-284],[14,-4],[35,-44],[33,32],[7,-22],[80,78],[114,105],[-53,69],[48,44],[149,141],[69,66]],[[6223,4884],[37,19],[-5,-60],[1,-24],[10,-46],[13,5],[74,48],[53,33],[58,26],[181,114],[15,12],[41,26],[21,17],[187,115],[43,36],[194,121],[11,14],[59,35],[27,5],[35,-6],[23,15],[16,33],[23,36],[22,22]],[[7362,5480],[130,-343],[-17,-12],[-29,-34],[-115,-71],[-28,-24],[-89,-55],[-15,-13],[-16,-27],[-28,-18],[-24,0],[-24,-7],[-34,-20],[-25,-12],[-23,-2],[-64,21],[-35,-1],[-38,-12],[-129,-82],[-20,-20],[-169,-107],[-50,-29],[67,-192],[-104,-66],[10,-25],[-105,-69],[-117,-72],[-6,14],[-23,-7],[-54,-31]],[[7936,2254],[-200,-124],[-150,-96],[-75,-50],[-308,-211],[-63,110],[-42,76],[-40,76],[-87,171],[-42,91],[-42,73]],[[7362,5480],[212,130],[-6,19],[212,132],[-81,225],[2,17],[-14,21],[-76,207],[-5,16],[-80,215],[-49,123]],[[7477,6585],[339,78],[56,9],[41,2],[50,-4],[293,-44],[195,-31],[44,-119],[3,-2],[70,33],[9,9],[71,33],[56,-159],[50,-147],[50,-148],[17,-54],[81,-242],[11,3],[148,70],[14,6],[169,52],[52,21],[39,34],[129,52],[17,4],[72,31],[58,26],[27,8],[50,23],[147,75],[180,50],[10,3],[111,59],[81,37],[29,25],[48,18]],[[10294,6396],[79,-220],[130,-352],[-36,-16],[-179,-78],[9,-28],[-391,-172],[-193,-86],[-439,-181],[-169,-66],[-147,-59],[-153,-66],[32,-102],[103,-320],[83,-248],[217,-582],[141,-362],[114,-269],[-76,-48],[-168,-106],[-348,-225],[-115,-75],[1,-3],[-85,-50],[-145,-81],[-214,-114],[-200,-98],[-8,-4],[-91,-62],[-110,-69]],[[7143,6508],[48,10]],[[7191,6518],[286,67]],[[6238,4962],[8,16],[8,34],[-16,50],[-13,66],[3,16],[21,33],[-11,36],[-7,3],[-13,38],[-9,64],[12,31],[24,37],[12,2]],[[6257,5388],[26,10],[142,89],[43,17],[74,46],[32,29],[70,44],[-1,10],[-63,163],[57,29],[46,27],[-42,111]],[[6824,6632],[-55,148],[22,11],[245,153],[-79,223],[-59,162]],[[6898,7329],[75,21],[49,11],[139,21],[138,17],[51,8],[39,11],[45,23]],[[7231,6640],[-18,-18],[11,-8],[-15,-17],[-2,-13],[-17,-6],[3,-30],[-13,4],[-10,-8],[8,-26],[13,0]],[[5832,5781],[220,146],[98,-261],[20,-12],[1,-20],[26,1],[5,-30],[23,-43],[18,-38],[1,-13],[-14,-21],[-8,-20],[-4,-42],[23,-25],[5,-15],[11,0]],[[4102,4913],[-41,-24],[-27,-18],[-138,-133]],[[3896,4738],[-69,85],[123,117],[-25,29],[74,69],[68,-40],[33,30],[-5,6],[-33,-2],[-19,5],[-92,56],[-62,58],[-29,36],[-10,16],[-10,33],[-4,47],[0,29],[5,30],[16,43],[20,27],[72,62],[-124,148],[77,74],[16,12],[-2,17],[-28,34],[-25,6],[-21,-21],[-25,30],[5,5],[-49,58],[60,60],[37,-44],[81,78],[111,-129],[41,40]],[[6190,6409],[-36,-13],[25,-62],[-43,-30]],[[6136,6304],[-14,-10]],[[6122,6294],[-30,74],[-8,14],[-62,71],[-26,24],[-19,14],[-43,100]],[[5934,6591],[39,1],[23,11],[-8,25],[12,14],[39,5],[82,32],[36,19],[15,19],[4,18]],[[6176,6735],[43,-8],[43,-35],[42,-22],[85,-56],[4,-5]],[[6393,6609],[0,-15],[-26,-59],[-1,-17],[-13,-7],[-57,-38],[-24,-18],[-50,-31],[-32,-15]],[[5982,6200],[-82,-53],[-20,32],[-55,-81],[-92,-61]],[[5570,6340],[43,101],[47,49],[28,19],[29,3],[88,27],[41,20],[44,10],[22,14],[22,8]],[[6122,6294],[-140,-94]],[[6136,6304],[8,-21],[-9,-16],[16,-20],[19,-14],[31,-17],[0,-31],[9,-59],[-3,-23],[-16,-41],[2,-59],[-5,-17],[21,3],[-2,33],[9,20],[34,31],[43,18],[23,4],[15,-33],[24,-35],[8,-30],[143,-88],[24,-20],[26,22]],[[3818,4437],[59,58],[-103,125],[122,118]],[[420,7100],[87,130],[19,25],[28,22],[33,14],[28,2],[107,2],[25,-13],[18,-2],[16,7],[43,24],[19,2],[240,-1],[16,9],[8,16],[3,98],[11,341],[3,109],[7,16],[33,35],[29,18],[35,2],[23,8]],[[1251,7964],[11,5]],[[1262,7969],[-11,-5]],[[1262,7969],[11,7],[78,30],[26,12],[84,20],[62,7],[70,-2],[59,-8],[120,-20],[52,-8],[59,0],[70,12],[40,26],[27,10],[38,6],[85,-9],[40,0],[117,26],[76,14],[68,-6],[65,-25],[84,-45],[80,-69],[26,-20],[49,-58],[132,-87],[77,-43],[79,-41],[30,-13],[53,-30],[29,-22],[56,-16],[24,-16],[28,-25],[36,-17],[33,-4],[42,-11],[29,-11],[50,-24],[26,-19],[67,-42],[79,-57],[60,-46],[41,-34],[67,-62],[41,-52],[41,-71],[40,-97],[62,-111],[43,-90],[64,-109],[92,-145],[95,-93]],[[2892,3028],[-166,211],[-69,84],[-48,62],[-97,121],[-49,59],[-50,58],[-51,63],[-45,61],[-253,308],[-96,119],[-46,62],[-163,213],[-160,206],[-96,119],[-129,163],[-37,-33],[-155,188],[-102,119],[-99,117],[-78,90],[-124,145],[-37,41],[-191,225],[-76,88],[-105,124],[-370,433],[32,36],[121,119],[266,258],[1,213]],[[6393,6609],[12,3],[43,-23],[10,-13],[28,11],[55,-5],[19,2]],[[6560,6584],[60,10]],[[6676,6885],[-11,24],[47,24],[-47,126],[-120,-12],[-17,-6],[-21,-17],[-17,-38],[-7,-31],[-7,-9],[-45,-33],[-19,-33],[-38,16],[-16,-1],[-20,-19],[-22,-5],[-28,14],[-4,25],[-7,16],[-29,12],[-43,26]],[[6205,6964],[19,45],[52,104],[22,40],[38,35],[29,11],[41,6],[19,12],[23,7],[84,18],[21,2],[112,32],[62,12],[67,10],[49,11],[55,20]],[[6560,6584],[-4,20],[-25,27],[-18,28],[-7,40],[-19,27],[-4,17],[28,12],[121,16],[0,-7],[48,5],[10,6],[-2,28],[11,1],[-3,31],[-20,50]],[[6176,6735],[3,11],[-5,100],[20,84],[11,34]],[[7852,7720],[342,184],[281,148],[96,21],[165,15],[99,-7],[85,31],[120,14],[89,13],[32,20],[25,8],[196,57],[133,52],[92,45],[150,-401]],[[9757,7920],[-74,-31],[-100,-44],[-12,3],[-14,21],[-39,-15],[-14,25],[-10,2],[-124,-52],[-22,-3],[-24,4],[-56,-2],[-20,-7],[-31,-3],[-28,-11],[-15,0],[-20,11],[-23,-7],[-35,8],[-24,-11],[-25,18],[-29,-14],[-12,-10],[-64,-27],[-20,1],[-27,-8],[-55,0],[-43,10],[-43,-2],[-69,-15],[-100,-50],[110,-294],[-79,-25],[-157,-66],[-89,-36],[-108,-50],[-29,-15],[-65,-28]],[[9757,7920],[124,-332],[80,-221],[80,-222],[62,-188],[14,-38],[17,-58],[56,-158],[54,-163],[50,-144]]],"transform":{"scale":[0.00010558954840157135,6.915359789444772e-05],"translate":[-76.3555882464961,44.9616759708833]},"objects":{"Ottawa_Election_Map_2022":{"type":"GeometryCollection","geometries":[{"arcs":[[0,1,2,3,4,5]],"type":"Polygon","properties":{"Ward":3}},{"arcs":[[6,7,8,9,10]],"type":"Polygon","properties":{"Ward":2}},{"arcs":[[11,-2,12,13,14,15,16]],"type":"Polygon","properties":{"Ward":8}},{"arcs":[[-15,17,18,19,20,21]],"type":"Polygon","properties":{"Ward":7}},{"arcs":[[-14,22,23,24]],"type":"Polygon","properties":{"Ward":23}},{"arcs":[[25,-4,26,27,28]],"type":"Polygon","properties":{"Ward":24}},{"arcs":[[29,30,31,32,33,34]],"type":"Polygon","properties":{"Ward":18}},{"arcs":[[-1,-6,35,36,37,38,39,-23,-13]],"type":"Polygon","properties":{"Ward":21}},{"arcs":[[-26,-29,40,41,-36,-5]],"type":"Polygon","properties":{"Ward":22}},{"arcs":[[42,-37,-42,43,44,45]],"type":"Polygon","properties":{"Ward":20}},{"arcs":[[-31,46,47,-44,-41,-28,48,49]],"type":"Polygon","properties":{"Ward":10}},{"arcs":[[50,51,-8,52,-47,-30,-35]],"type":"Polygon","properties":{"Ward":11}},{"arcs":[[-12,-17,53,-49,-27,-3]],"type":"Polygon","properties":{"Ward":9}},{"arcs":[[-18,-25,54,55]],"type":"Polygon","properties":{"Ward":4}},{"arcs":[[56,57,58,59,60,61]],"type":"Polygon","properties":{"Ward":14}},{"arcs":[[62,-21,63,-59,64]],"type":"Polygon","properties":{"Ward":15}},{"arcs":[[-54,-16,-22,-63,-65,-58,65,-32,-50]],"type":"Polygon","properties":{"Ward":16}},{"arcs":[[-55,-24,-40,66]],"type":"Polygon","properties":{"Ward":6}},{"arcs":[[67,68,69,68,70,-19,-56,-67,-39,71]],"type":"Polygon","properties":{"Ward":5}},{"arcs":[[-33,-66,-57,-62,72,73]],"type":"Polygon","properties":{"Ward":17}},{"arcs":[[74,75,-51,-34,-74,76]],"type":"Polygon","properties":{"Ward":13}},{"arcs":[[-75,-77,-73,-61,77]],"type":"Polygon","properties":{"Ward":12}},{"arcs":[[-10,78,79]],"type":"Polygon","properties":{"Ward":1}},{"arcs":[[-45,-48,-53,-7,-11,-80,80]],"type":"Polygon","properties":{"Ward":19}}]}}};
+const topo     = {"type":"Topology","arcs":[[[5964,3962],[-91,-55],[-127,-76],[-61,154],[-19,44],[-19,29],[-14,13],[-24,15],[-23,8],[-75,15],[-33,13],[-33,29],[-18,30],[-74,195],[-12,24],[-47,84],[-8,9],[-66,118],[-11,33],[0,48],[12,35]],[[5221,4727],[16,23],[30,32],[87,54]],[[5354,4836],[98,-252],[197,121],[20,16]],[[5669,4721],[32,-84],[28,-67],[41,-104],[74,51],[10,-30],[25,-48],[5,-23],[-8,-50],[14,-23],[18,15],[13,24],[36,-9],[40,22],[46,-35],[17,-32],[17,-15],[14,-3],[41,6],[17,6]],[[6149,4322],[11,-39],[-3,-21]],[[6157,4262],[-6,-8],[2,-22],[-4,-30],[7,-47],[-50,-31],[-5,2],[-7,-62],[-1,-24],[-129,-78]],[[7995,7106],[-237,-146],[-23,-16],[-15,-14],[-9,-20],[-9,-40],[-13,-23],[-15,-12],[-199,-122],[-26,-11],[-19,1],[-62,10],[-26,-8],[-50,-31],[-61,-34]],[[7231,6640],[-34,-22],[-35,96],[-10,18],[-49,65],[10,10],[73,58],[24,20],[25,31],[14,24],[72,165],[13,24],[19,21],[15,9],[-5,18],[22,4],[-17,24],[8,26],[-13,16],[16,13],[4,18],[11,14],[-24,22],[-18,9],[37,26],[17,-2],[3,23],[32,7],[2,20],[14,8],[-23,36]],[[7434,7441],[32,24],[22,25],[36,33],[42,31],[46,19],[4,-10],[21,7],[40,23],[20,19],[82,66],[73,42]],[[7852,7720],[80,-225],[-98,-58],[5,-13],[22,7],[22,-23],[0,-18],[16,-9],[32,1],[5,-26],[22,-9],[25,-27],[15,-29],[19,-5],[39,-40],[38,-13],[21,14],[15,-8],[9,-13],[14,0],[15,-29]],[[8168,7197],[-40,-23],[-71,-30],[-62,-38]],[[5502,5396],[-329,-49],[26,-75],[7,-28],[0,-58],[2,-28],[12,-32],[53,-102],[49,-89],[9,-26],[2,-18],[21,-55]],[[5221,4727],[-76,-46],[-106,-65],[-9,26],[-106,-66]],[[4924,4576],[-61,158],[-49,123],[-43,113],[-197,-123],[-2,1],[-55,151],[-69,188]],[[4448,5187],[161,100],[252,156],[44,27],[19,8],[80,25],[29,7],[54,4],[32,8],[43,19],[42,9],[77,10],[34,14],[231,189],[105,88],[52,76],[48,66]],[[5751,5993],[81,-212]],[[5832,5781],[37,-97],[61,-154],[25,-67],[-453,-67]],[[4448,5187],[-12,32],[-37,91],[-57,145],[-67,178],[-7,12],[-165,197]],[[4103,5842],[-221,264],[240,235],[142,140]],[[4264,6481],[108,-126],[240,-242],[128,-65],[78,-30],[87,-55],[105,-17],[46,-7],[62,3],[29,7],[32,12],[70,32],[124,74],[33,34],[38,51],[68,76],[33,46],[25,66]],[[5570,6340],[53,-115],[20,-1],[7,-19],[11,-9],[-44,-41],[42,-116],[20,6],[13,-36],[41,28]],[[5733,6037],[18,-44]],[[4924,4576],[4,-10],[-158,-96],[-20,-7],[-54,-13],[-17,1],[-25,16],[-46,55]],[[4608,4522],[-29,26],[-39,16],[-31,37],[-49,63],[-18,12],[-27,27],[-40,26],[-61,29],[-65,49],[-29,16],[-25,20],[-44,17],[-10,16],[-22,10],[-17,27]],[[4102,4913],[82,46],[39,29],[32,30],[165,150],[28,19]],[[6192,4542],[4,-18],[-1,-36],[-9,-29],[-26,-15],[-6,-19],[5,-30],[-9,-47],[-1,-26]],[[5669,4721],[20,15],[141,85],[58,116],[24,-66],[40,-104],[14,-42],[109,63],[-29,77],[109,63],[65,43],[18,-9]],[[6238,4962],[-7,-15],[-8,-63]],[[6223,4884],[-2,-27],[-8,-35],[0,-21],[7,-34],[16,-41],[1,-19],[-7,-53],[-23,-43],[-15,-69]],[[6849,6561],[94,-36],[62,-17],[55,34],[29,-14],[42,-11],[12,-9]],[[7143,6508],[23,-32],[13,-50],[27,-53],[13,-33],[5,-29],[-90,-50],[-61,-32],[-122,-73],[-237,-147],[-73,-46]],[[6641,5963],[-85,-52]],[[6556,5911],[-48,144],[-21,28],[-25,48],[-42,52],[6,24],[26,48],[20,59],[12,17],[21,-6],[25,-1],[46,134],[8,35],[5,46],[16,18],[12,3],[3,34]],[[6620,6594],[44,20],[160,18]],[[6824,6632],[25,-71]],[[6157,4262],[8,-3],[13,-60],[10,-35]],[[6188,4164],[17,-24],[43,-43],[23,-46],[10,-26],[17,-16],[26,-41],[27,-6],[25,-27],[7,-13],[23,-17],[22,1],[24,-5],[21,-22],[11,-36],[1,-46],[14,-18],[10,-41],[26,-27],[15,-19],[27,-53],[13,-49],[20,-7],[39,8],[52,-47],[21,-31],[26,-33],[26,-9],[23,-58],[2,-19],[-4,-25],[-7,-15],[29,-60],[11,-41],[3,-32],[-9,-22],[1,-22],[36,-59],[41,-36],[10,-18],[11,-39],[0,-25],[-5,-15],[-71,-69],[-14,-40],[-16,-26],[-26,-30],[-30,-38],[-14,-39],[-3,-54],[2,-71],[17,-42],[31,-43],[26,-30],[-6,-56],[7,-19],[61,-47],[7,-11]],[[6887,2370],[-2,-17],[5,-49],[8,-22],[30,-56],[21,-66],[23,-49],[6,-24],[0,-44],[-22,-73],[-26,-41],[-33,-26],[-36,-32],[-35,-22],[-14,-19],[-11,-23],[-4,-50],[-15,-47],[-1,-93],[-38,-90],[-49,-44],[-46,-48],[-112,-58],[-50,-22],[-37,-34],[-31,-40],[-52,-34],[-9,-10],[-24,2],[-8,7],[-17,-8],[-18,-66],[-21,-36],[-39,-50],[-2,-13],[6,-37],[-27,-62],[-27,-36],[-19,-19],[-30,-22],[-26,-12],[-33,-11],[-37,-29],[-18,-5],[-38,1],[-55,-45],[-37,-52],[-24,-13],[-22,-4],[-50,-32],[-42,-22],[-15,-19],[-15,-26],[-57,-42],[-10,-25],[-22,-14],[-20,-7],[-18,-31],[4,-20],[-2,-19],[-14,-29],[-27,-32],[-45,-22],[-48,-30],[-23,-12],[-40,-33],[-32,-9],[-33,-1],[-34,3],[-29,-11],[-10,-20],[-14,-7],[-33,-4],[-45,-47],[-28,-41],[5,-19],[-6,-35],[-4,-9],[-20,-12],[-47,-13],[-5,-19],[17,-27],[-2,-41],[-54,70],[-131,164],[-294,348],[-185,242],[-82,109],[-18,26],[-57,72],[-84,104],[-99,133],[-60,79],[-202,252],[0,2],[116,109],[-95,126],[-95,123],[-98,125],[-127,161],[-192,241],[-44,57],[-110,140],[-64,79],[-54,71],[-156,195]],[[2892,3028],[13,23],[15,36],[9,53],[18,244],[6,30],[13,36],[13,22],[18,24],[170,164],[77,73],[131,109],[94,87],[146,148],[17,25],[11,23],[9,42],[0,42],[-9,58],[16,16],[96,94],[63,60]],[[3818,4437],[22,-30],[50,-60],[-6,-6],[228,-284],[14,-4],[35,-44],[33,32],[7,-22],[80,78],[114,105],[-53,69],[48,44],[149,141],[69,66]],[[6223,4884],[37,19],[-5,-60],[1,-24],[10,-46],[13,5],[74,48],[53,33],[58,26],[181,114],[15,12],[41,26],[21,17],[187,115],[43,36],[194,121],[11,14],[59,35],[27,5],[35,-6],[23,15],[16,33],[23,36],[22,22]],[[7362,5480],[130,-343],[-17,-12],[-29,-34],[-115,-71],[-28,-24],[-89,-55],[-15,-13],[-16,-27],[-28,-18],[-24,0],[-24,-7],[-34,-20],[-25,-12],[-23,-2],[-64,21],[-35,-1],[-38,-12],[-129,-82],[-20,-20],[-169,-107],[-50,-29],[67,-192],[-104,-66],[10,-25],[-105,-69],[-117,-72],[-6,14],[-23,-7],[-54,-31]],[[7936,2254],[-200,-124],[-150,-96],[-75,-50],[-308,-211],[-63,110],[-42,76],[-40,76],[-87,171],[-42,91],[-42,73]],[[7362,5480],[212,130],[-6,19],[212,132],[-81,225],[2,17],[-14,21],[-76,207],[-5,16],[-80,215],[-49,123]],[[7477,6585],[339,78],[56,9],[41,2],[50,-4],[293,-44],[195,-31],[44,-119],[3,-2],[70,33],[9,9],[71,33],[56,-159],[50,-147],[50,-148],[17,-54],[81,-242],[11,3],[148,70],[14,6],[169,52],[52,21],[39,34],[129,52],[17,4],[72,31],[58,26],[27,8],[50,23],[147,75],[180,50],[10,3],[111,59],[81,37],[29,25],[48,18]],[[10294,6396],[79,-220],[130,-352],[-36,-16],[-179,-78],[9,-28],[-391,-172],[-193,-86],[-439,-181],[-169,-66],[-147,-59],[-153,-66],[32,-102],[103,-320],[83,-248],[217,-582],[141,-362],[114,-269],[-76,-48],[-168,-106],[-348,-225],[-115,-75],[1,-3],[-85,-50],[-145,-81],[-214,-114],[-200,-98],[-8,-4],[-91,-62],[-110,-69]],[[7143,6508],[48,10]],[[7191,6518],[286,67]],[[6238,4962],[8,16],[8,34],[-16,50],[-13,66],[3,16],[21,33],[-11,36],[-7,3],[-13,38],[-9,64],[12,31],[24,37],[12,2]],[[6257,5388],[26,10],[142,89],[43,17],[74,46],[32,29],[70,44],[-1,10],[-63,163],[57,29],[46,27],[-42,111]],[[6824,6632],[-55,148],[22,11],[245,153],[-79,223],[-59,162]],[[6898,7329],[75,21],[49,11],[139,21],[138,17],[51,8],[39,11],[45,23]],[[7231,6640],[-18,-18],[11,-8],[-15,-17],[-2,-13],[-17,-6],[3,-30],[-13,4],[-10,-8],[8,-26],[13,0]],[[5832,5781],[220,146],[98,-261],[20,-12],[1,-20],[26,1],[5,-30],[23,-43],[18,-38],[1,-13],[-14,-21],[-8,-20],[-4,-42],[23,-25],[5,-15],[11,0]],[[4102,4913],[-41,-24],[-27,-18],[-138,-133]],[[3896,4738],[-69,85],[123,117],[-25,29],[74,69],[68,-40],[33,30],[-5,6],[-33,-2],[-19,5],[-92,56],[-62,58],[-29,36],[-10,16],[-10,33],[-4,47],[0,29],[5,30],[16,43],[20,27],[72,62],[-124,148],[77,74],[16,12],[-2,17],[-28,34],[-25,6],[-21,-21],[-25,30],[5,5],[-49,58],[60,60],[37,-44],[81,78],[111,-129],[41,40]],[[6190,6409],[-36,-13],[25,-62],[-43,-30]],[[6136,6304],[-14,-10]],[[6122,6294],[-30,74],[-8,14],[-62,71],[-26,24],[-19,14],[-43,100]],[[5934,6591],[39,1],[23,11],[-8,25],[12,14],[39,5],[82,32],[36,19],[15,19],[4,18]],[[6176,6735],[43,-8],[43,-35],[42,-22],[85,-56],[4,-5]],[[6393,6609],[0,-15],[-26,-59],[-1,-17],[-13,-7],[-57,-38],[-24,-18],[-50,-31],[-32,-15]],[[5982,6200],[-82,-53],[-20,32],[-55,-81],[-92,-61]],[[5570,6340],[43,101],[47,49],[28,19],[29,3],[88,27],[41,20],[44,10],[22,14],[22,8]],[[6122,6294],[-140,-94]],[[6136,6304],[8,-21],[-9,-16],[16,-20],[19,-14],[31,-17],[0,-31],[9,-59],[-3,-23],[-16,-41],[2,-59],[-5,-17],[21,3],[-2,33],[9,20],[34,31],[43,18],[23,4],[15,-33],[24,-35],[8,-30],[143,-88],[24,-20],[26,22]],[[3818,4437],[59,58],[-103,125],[122,118]],[[420,7100],[87,130],[19,25],[28,22],[33,14],[28,2],[107,2],[25,-13],[18,-2],[16,7],[43,24],[19,2],[240,-1],[16,9],[8,16],[3,98],[11,341],[3,109],[7,16],[33,35],[29,18],[35,2],[23,8]],[[1251,7964],[11,5]],[[1262,7969],[-11,-5]],[[1262,7969],[11,7],[78,30],[26,12],[84,20],[62,7],[70,-2],[59,-8],[120,-20],[52,-8],[59,0],[70,12],[40,26],[27,10],[38,6],[85,-9],[40,0],[117,26],[76,14],[68,-6],[65,-25],[84,-45],[80,-69],[26,-20],[49,-58],[132,-87],[77,-43],[79,-41],[30,-13],[53,-30],[29,-22],[56,-16],[24,-16],[28,-25],[36,-17],[33,-4],[42,-11],[29,-11],[50,-24],[26,-19],[67,-42],[79,-57],[60,-46],[41,-34],[67,-62],[41,-52],[41,-71],[40,-97],[62,-111],[43,-90],[64,-109],[92,-145],[95,-93]],[[2892,3028],[-166,211],[-69,84],[-48,62],[-97,121],[-49,59],[-50,58],[-51,63],[-45,61],[-253,308],[-96,119],[-46,62],[-163,213],[-160,206],[-96,119],[-129,163],[-37,-33],[-155,188],[-102,119],[-99,117],[-78,90],[-124,145],[-37,41],[-191,225],[-76,88],[-105,124],[-370,433],[32,36],[121,119],[266,258],[1,213]],[[6192,4542],[4,-18],[-1,-36],[-9,-29],[-26,-15],[-6,-19],[5,-30],[-9,-47],[-1,-26]],[[5669,4721],[20,15],[141,85],[58,116],[24,-66],[40,-104],[14,-42],[109,63],[-29,77],[109,63],[65,43],[18,-9]],[[6238,4962],[-7,-15],[-8,-63]],[[6223,4884],[-2,-27],[-8,-35],[0,-21],[7,-34],[16,-41],[1,-19],[-7,-53],[-23,-43],[-15,-69]],[[6849,6561],[94,-36],[62,-17],[55,34],[29,-14],[42,-11],[12,-9]],[[7143,6508],[23,-32],[13,-50],[27,-53],[13,-33],[5,-29],[-90,-50],[-61,-32],[-122,-73],[-237,-147],[-73,-46]],[[6641,5963],[-85,-52]],[[6556,5911],[-48,144],[-21,28],[-25,48],[-42,52],[6,24],[26,48],[20,59],[12,17],[21,-6],[25,-1],[46,134],[8,35],[5,46],[16,18],[12,3],[3,34]],[[6620,6594],[44,20],[160,18]],[[6824,6632],[25,-71]],[[6393,6609],[12,3],[43,-23],[10,-13],[28,11],[55,-5],[19,2]],[[6560,6584],[60,10]],[[6676,6885],[-11,24],[47,24],[-47,126],[-120,-12],[-17,-6],[-21,-17],[-17,-38],[-7,-31],[-7,-9],[-45,-33],[-19,-33],[-38,16],[-16,-1],[-20,-19],[-22,-5],[-28,14],[-4,25],[-7,16],[-29,12],[-43,26]],[[6205,6964],[19,45],[52,104],[22,40],[38,35],[29,11],[41,6],[19,12],[23,7],[84,18],[21,2],[112,32],[62,12],[67,10],[49,11],[55,20]],[[6560,6584],[-4,20],[-25,27],[-18,28],[-7,40],[-19,27],[-4,17],[28,12],[121,16],[0,-7],[48,5],[10,6],[-2,28],[11,1],[-3,31],[-20,50]],[[6176,6735],[3,11],[-5,100],[20,84],[11,34]],[[7852,7720],[342,184],[281,148],[96,21],[165,15],[99,-7],[85,31],[120,14],[89,13],[32,20],[25,8],[196,57],[133,52],[92,45],[150,-401]],[[9757,7920],[-74,-31],[-100,-44],[-12,3],[-14,21],[-39,-15],[-14,25],[-10,2],[-124,-52],[-22,-3],[-24,4],[-56,-2],[-20,-7],[-31,-3],[-28,-11],[-15,0],[-20,11],[-23,-7],[-35,8],[-24,-11],[-25,18],[-29,-14],[-12,-10],[-64,-27],[-20,1],[-27,-8],[-55,0],[-43,10],[-43,-2],[-69,-15],[-100,-50],[110,-294],[-79,-25],[-157,-66],[-89,-36],[-108,-50],[-29,-15],[-65,-28]],[[9757,7920],[124,-332],[80,-221],[80,-222],[62,-188],[14,-38],[17,-58],[56,-158],[54,-163],[50,-144]]],"transform":{"scale":[0.00010558954840157135,6.915359789444772e-05],"translate":[-76.3555882464961,44.9616759708833]},"objects":{"Ottawa_Election_Map_2022":{"type":"GeometryCollection","geometries":[{"arcs":[[0,1,2,3,4,5]],"type":"Polygon","properties":{"Ward":3}},{"arcs":[[6,7,8,9,10]],"type":"Polygon","properties":{"Ward":2}},{"arcs":[[11,-2,12,13,14,15,16]],"type":"Polygon","properties":{"Ward":8}},{"arcs":[[-15,17,18,19,20,21]],"type":"Polygon","properties":{"Ward":7}},{"arcs":[[-14,22,23,24]],"type":"Polygon","properties":{"Ward":23}},{"arcs":[[25,-4,26,27,28]],"type":"Polygon","properties":{"Ward":24}},{"arcs":[[29,30,31,32,33,34]],"type":"Polygon","properties":{"Ward":18}},{"arcs":[[-1,-6,35,36,37,38,39,-23,-13]],"type":"Polygon","properties":{"Ward":21}},{"arcs":[[-26,-29,40,41,-36,-5]],"type":"Polygon","properties":{"Ward":22}},{"arcs":[[42,-37,-42,43,44,45]],"type":"Polygon","properties":{"Ward":20}},{"arcs":[[-31,46,47,-44,-41,-28,48,49]],"type":"Polygon","properties":{"Ward":10}},{"arcs":[[50,51,-8,52,-47,-30,-35]],"type":"Polygon","properties":{"Ward":11}},{"arcs":[[-12,-17,53,-49,-27,-3]],"type":"Polygon","properties":{"Ward":9}},{"arcs":[[-18,-25,54,55]],"type":"Polygon","properties":{"Ward":4}},{"arcs":[[56,57,58,59,60,61]],"type":"Polygon","properties":{"Ward":14}},{"arcs":[[62,-21,63,-59,64]],"type":"Polygon","properties":{"Ward":15}},{"arcs":[[-54,-16,-22,-63,-65,-58,65,-32,-50]],"type":"Polygon","properties":{"Ward":16}},{"arcs":[[-55,-24,-40,66]],"type":"Polygon","properties":{"Ward":6}},{"arcs":[[67,68,69,68,70,-19,-56,-67,-39,71]],"type":"Polygon","properties":{"Ward":5}},{"arcs":[[-33,-66,-57,-62,72,73]],"type":"Polygon","properties":{"Ward":17}},{"arcs":[[74,75,-51,-34,-74,76]],"type":"Polygon","properties":{"Ward":13}},{"arcs":[[-75,-77,-73,-61,77]],"type":"Polygon","properties":{"Ward":12}},{"arcs":[[-10,78,79]],"type":"Polygon","properties":{"Ward":1}},{"arcs":[[-45,-48,-53,-7,-11,-80,80]],"type":"Polygon","properties":{"Ward":19}}]}}};
 
-// ── Colour scales ──────────────────────────────────────────────────────────────
+// ── Colour scale ───────────────────────────────────────────────────────────────
 function makeScale() {
-  // 20% = floor for municipal elections (essentially no turnout)
-  // 65% = ceiling (exceptional for a municipal race)
   const scale = d3.scaleLinear()
     .domain([20, 42.5, 65])
     .range(['#8B0000', '#D97B2C', '#2E7D32'])
     .clamp(true);
-  return { scale, lo: 20, hi: 65 };
+  return { scale };
 }
 
 function buildLegend() {
@@ -203,39 +237,60 @@ function buildLegend() {
   bar.innerHTML = '';
   for (let i = 0; i < 12; i++) {
     const s = document.createElement('div');
-    s.style.cssText = `flex:1;background:${scale(20 + (45 * i / 11))}`;
+    s.style.cssText = `flex:1;background:${scale(20 + 45 * i / 11)}`;
     bar.appendChild(s);
   }
-  return scale;
 }
 
-// ── City-wide KPIs ─────────────────────────────────────────────────────────────
+// ── KPIs ───────────────────────────────────────────────────────────────────────
 (function buildKPIs() {
-  const wards = Object.values(wardData);
-  const cPcts = wards.map(d => d.councillor.participation).filter(Boolean);
-  const avg = arr => (arr.reduce((a,b) => a+b, 0) / arr.length).toFixed(1);
-  document.getElementById('kpi-mayor').textContent = avg(cPcts) + '%';
+  const entries = Object.entries(wardData);
+  const pcts = entries.map(([,d]) => d.councillor.participation).filter(Boolean);
+  const avg = (pcts.reduce((a,b) => a+b, 0) / pcts.length).toFixed(1);
+  document.getElementById('kpi-avg').textContent = avg + '%';
 
-  const hiWard = wards.reduce((a, b) => a.councillor.participation > b.councillor.participation ? a : b);
-  const loWard = wards.reduce((a, b) => a.councillor.participation < b.councillor.participation ? a : b);
-  document.getElementById('kpi-hi-val').textContent  = hiWard.councillor.participation + '%';
-  document.getElementById('kpi-hi-name').textContent = 'Ward ' + Object.keys(wardData).find(k => wardData[k] === hiWard) + ' · ' + hiWard.name.split('–')[0].trim();
-  document.getElementById('kpi-lo-val').textContent  = loWard.councillor.participation + '%';
-  document.getElementById('kpi-lo-name').textContent = 'Ward ' + Object.keys(wardData).find(k => wardData[k] === loWard) + ' · ' + loWard.name.split('–')[0].trim();
+  const hi = entries.reduce((a,b) => a[1].councillor.participation > b[1].councillor.participation ? a : b);
+  const lo = entries.reduce((a,b) => a[1].councillor.participation < b[1].councillor.participation ? a : b);
+  document.getElementById('kpi-hi-val').textContent  = hi[1].councillor.participation + '%';
+  document.getElementById('kpi-hi-name').textContent = 'Ward ' + hi[0] + ' · ' + hi[1].name.split('–')[0].trim();
+  document.getElementById('kpi-lo-val').textContent  = lo[1].councillor.participation + '%';
+  document.getElementById('kpi-lo-name').textContent = 'Ward ' + lo[0] + ' · ' + lo[1].name.split('–')[0].trim();
 })();
 
+buildLegend();
+
+// ── Stacked bar helper ─────────────────────────────────────────────────────────
+function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
+  const turnout    = turnoutPct / 100;
+  const winFrac    = (winnerPctOfVotes || 0) / 100;
+  const wPct       = +(turnout * winFrac * 100).toFixed(1);
+  const oPct       = +(turnout * (1 - winFrac) * 100).toFixed(1);
+  const nPct       = +(100 - turnout * 100).toFixed(1);
+  const el = document.getElementById(elId);
+  el.innerHTML = `
+    <div style="width:${wPct}%;background:${winnerColor};transition:width .4s" title="Winner ${wPct}%"></div>
+    <div style="width:${oPct}%;background:${winnerColor === '#0F6E56' ? '#7FB5A0' : '#7BA7CC'};transition:width .4s" title="Others ${oPct}%"></div>
+    <div style="flex:1;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px)" title="Didn't vote ${nPct}%"></div>
+  `;
+}
+
 // ── Map ────────────────────────────────────────────────────────────────────────
-const features  = topojson.feature(topo, topo.objects.Ottawa_Election_Map_2022).features;
-const mapDiv    = document.getElementById('map');
-const tooltip   = document.getElementById('tooltip');
-let currentRace = 'mayor';
-let colorScale  = buildLegend();
-let histChart   = null;
+const features   = topojson.feature(topo, topo.objects.Ottawa_Election_Map_2022).features;
+const mapDiv     = document.getElementById('map');
+const tooltip    = document.getElementById('tooltip');
+let histChart    = null;
 let selectedWard = null;
 
+function fillColor(ward) {
+  const d = wardData[ward];
+  if (!d) return '#ccc';
+  const {scale} = makeScale();
+  return d.councillor.participation != null ? scale(d.councillor.participation) : '#ccc';
+}
+
 function buildMap() {
-  const W = mapDiv.offsetWidth || 640;
-  const H = Math.round(W * 0.65);
+  const W = mapDiv.offsetWidth || 500;
+  const H = Math.round(W * 0.72);
   const proj = d3.geoMercator().fitSize([W, H], {type:'FeatureCollection', features});
   const path = d3.geoPath(proj);
 
@@ -256,17 +311,13 @@ function buildMap() {
       const info = wardData[ward];
       if (!info) return;
       const rect = mapDiv.querySelector('svg').getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      const pct = info.councillor.participation;
-      tooltip.style.cssText = `display:block;left:${x+14}px;top:${y-10}px`;
+      tooltip.style.cssText = `display:block;left:${event.clientX - rect.left + 12}px;top:${event.clientY - rect.top - 10}px`;
       tooltip.innerHTML = `<strong>Ward ${ward} — ${info.name}</strong><span class="tt-sub">Turnout: ${info.councillor.participation}%</span>`;
-      d3.select(this).attr('stroke','#333').attr('stroke-width', 2);
+      if (ward !== selectedWard) d3.select(this).attr('stroke','#555').attr('stroke-width', 1.5);
     })
-    .on('mouseleave', function() {
+    .on('mouseleave', function(event, d) {
       tooltip.style.display = 'none';
-      if (selectedWard && this.__data__.properties.Ward === selectedWard) return;
-      d3.select(this).attr('stroke','#fff').attr('stroke-width', 0.8);
+      if (d.properties.Ward !== selectedWard) d3.select(this).attr('stroke','#fff').attr('stroke-width', 0.8);
     })
     .on('click', function(event, d) {
       selectedWard = d.properties.Ward;
@@ -275,64 +326,33 @@ function buildMap() {
       showPanel(d.properties.Ward);
     });
 
-  // Ward number labels — placed at visual centroid with better visibility
-  const labelGroup = svg.append('g').attr('class', 'ward-labels');
+  const labelGroup = svg.append('g');
   features.forEach(d => {
     const area = path.area(d);
-    if (area < 400) return; // skip tiny wards
-    
-    // Try centroid first; for large wards also try bounding box center
+    if (area < 400) return;
     const [cx, cy] = path.centroid(d);
-    
-    // Check if centroid is inside the polygon by sampling
-    const bounds = path.bounds(d);
+    const bounds   = path.bounds(d);
     const bw = bounds[1][0] - bounds[0][0];
     const bh = bounds[1][1] - bounds[0][1];
-    
-    // Use centroid but clamp to bounding box interior with margin
     const margin = Math.min(bw, bh) * 0.15;
     const lx = Math.max(bounds[0][0] + margin, Math.min(bounds[1][0] - margin, cx));
     const ly = Math.max(bounds[0][1] + margin, Math.min(bounds[1][1] - margin, cy));
-    
-    const fontSize = area > 4000 ? 11 : area > 1500 ? 9 : 7;
-    
-    // White halo for legibility
-    labelGroup.append('text')
-      .attr('x', lx).attr('y', ly)
+    const fs = area > 4000 ? 11 : area > 1500 ? 9 : 7;
+    labelGroup.append('text').attr('x',lx).attr('y',ly)
       .attr('text-anchor','middle').attr('dominant-baseline','middle')
-      .attr('font-size', fontSize)
-      .attr('font-weight', '700')
-      .attr('fill', 'white')
-      .attr('stroke', 'white')
-      .attr('stroke-width', 3)
-      .attr('stroke-linejoin', 'round')
-      .attr('pointer-events','none')
+      .attr('font-size',fs).attr('font-weight','700')
+      .attr('fill','white').attr('stroke','white').attr('stroke-width',3)
+      .attr('stroke-linejoin','round').attr('pointer-events','none')
       .text(d.properties.Ward);
-    
-    // Dark text on top
-    labelGroup.append('text')
-      .attr('x', lx).attr('y', ly)
+    labelGroup.append('text').attr('x',lx).attr('y',ly)
       .attr('text-anchor','middle').attr('dominant-baseline','middle')
-      .attr('font-size', fontSize)
-      .attr('font-weight', '700')
-      .attr('fill', 'rgba(0,0,0,0.75)')
-      .attr('pointer-events','none')
+      .attr('font-size',fs).attr('font-weight','700')
+      .attr('fill','rgba(0,0,0,0.72)').attr('pointer-events','none')
       .text(d.properties.Ward);
   });
 }
 
-function fillColor(ward) {
-  const d = wardData[ward];
-  if (!d) return '#ccc';
-  const val = d.councillor.participation;
-  const {scale} = makeScale();
-  return val != null ? scale(val) : '#ccc';
-}
-
-function updateMapColors() {
-  d3.selectAll('.ward').attr('fill', d => fillColor(d.properties.Ward));
-}
-// ── Side panel ─────────────────────────────────────────────────────────────────
+// ── Ward panel ─────────────────────────────────────────────────────────────────
 function showPanel(wardNum) {
   const d = wardData[wardNum];
   if (!d) return;
@@ -341,57 +361,38 @@ function showPanel(wardNum) {
   document.getElementById('panel-content').style.display = 'block';
 
   document.getElementById('p-name').textContent    = d.name;
-  document.getElementById('p-wardnum').textContent = 'Ward ' + wardNum;
+  document.getElementById('p-wardnum').textContent = 'Ward ' + wardNum + ' · 2022';
+  document.getElementById('p-turnout').textContent = d.councillor.participation + '%';
+  document.getElementById('p-coun-name').textContent  = d.councillor.winner_name || '—';
+  document.getElementById('p-mayor-name').textContent = d.mayor.winner_name || '—';
 
-  document.getElementById('p-coun-pct').textContent     = d.councillor.participation + '%';
-  document.getElementById('p-coun-winner').textContent  = d.councillor.winner_name || '—';
+  renderStackedBar('sbar-coun',  '#0F6E56', d.councillor.participation, d.councillor.winner_pct);
+  renderStackedBar('sbar-mayor', '#185FA5', d.mayor.participation,      d.mayor.winner_pct);
 
-  // Stacked vote bar: winner % of registered, others % of registered, didn't vote
-  const turnout = d.councillor.participation / 100;
-  const winnerPctOfVotes = (d.councillor.winner_pct || 0) / 100;
-  const winnerPctOfAll   = (turnout * winnerPctOfVotes * 100).toFixed(1);
-  const otherPctOfAll    = (turnout * (1 - winnerPctOfVotes) * 100).toFixed(1);
-  const noShowPct        = (100 - turnout * 100).toFixed(1);
-  
-  document.getElementById('vl-coun').textContent = `Winner: ${winnerPctOfAll}% · Others: ${otherPctOfAll}% · Didn't vote: ${noShowPct}%`;
-  const stacked = document.getElementById('vf-coun-stacked');
-  stacked.innerHTML = `
-    <div style="width:${winnerPctOfAll}%;background:#0F6E56;transition:width .4s" title="Winner ${winnerPctOfAll}%"></div>
-    <div style="width:${otherPctOfAll}%;background:#7FB5A0;transition:width .4s" title="Others ${otherPctOfAll}%"></div>
-    <div style="flex:1;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px);border-left:1px solid #bbb" title="Didn't vote ${noShowPct}%"></div>
-  `;
-
-  // Caveat
-  const caveatBox  = document.getElementById('caveat-box');
-  const caveatText = document.getElementById('caveat-text');
+  // Caveat — append to bottom section
+  const cavSec  = document.getElementById('caveats-section');
+  const cavList = document.getElementById('caveats-list');
   if (d.caveat) {
-    caveatBox.style.display = 'block';
-    caveatText.textContent  = d.caveat;
+    cavSec.style.display = 'block';
+    cavList.innerHTML = `<div class="caveat-item"><strong>Ward ${wardNum} — ${d.name}</strong>${d.caveat}</div>`;
   } else {
-    caveatBox.style.display = 'none';
+    cavSec.style.display = 'none';
+    cavList.innerHTML = '';
   }
 
   // History chart
   if (histChart) { histChart.destroy(); histChart = null; }
-
-  const years    = d.history.years;
-  const mayorH   = d.history.mayor;
-  const counH    = d.history.councillor;
-
   histChart = new Chart(document.getElementById('hist-chart'), {
     type: 'line',
     data: {
-      labels: years,
-      datasets: [
-        {
-          label: 'Turnout',
-          data: counH,
-          borderColor: '#C0392B',
-          backgroundColor: 'rgba(192,57,43,0.07)',
-          tension: 0.3, fill: true, pointRadius: 4,
-          spanGaps: false
-        }
-      ]
+      labels: d.history.years,
+      datasets: [{
+        label: 'Turnout',
+        data: d.history.councillor,
+        borderColor: '#C0392B',
+        backgroundColor: 'rgba(192,57,43,0.06)',
+        tension: 0.3, fill: true, pointRadius: 3, spanGaps: false
+      }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -400,76 +401,57 @@ function showPanel(wardNum) {
         tooltip: {callbacks: {label: ctx => ' ' + (ctx.raw != null ? ctx.raw + '%' : 'No data')}}
       },
       scales: {
-        x: {ticks:{font:{size:11}}, grid:{color:'rgba(0,0,0,0.05)'}},
-        y: {
-          min: 20, max: 60,
-          ticks: {callback: v => v + '%', font:{size:11}},
-          grid: {color:'rgba(0,0,0,0.05)'}
-        }
+        x: {ticks:{font:{size:10}}, grid:{color:'rgba(0,0,0,0.04)'}},
+        y: {min:20, max:60, ticks:{callback: v => v+'%', font:{size:10}}, grid:{color:'rgba(0,0,0,0.04)'}}
       }
     }
   });
 }
 
-// ── Ottawa historical mayor chart ───────────────────────────────────────────────
-(function buildOttawaHistChart() {
+// ── Ottawa historical mayor chart ──────────────────────────────────────────────
+(function() {
   const data = [
-    { year: 2010, registered: 607357, votes: 269640, votesMayor: 131323 },
-    { year: 2014, registered: 632385, votes: 252464, votesMayor: 189253 },
-    { year: 2018, registered: 633946, votes: 269772, votesMayor: 188960 },
-    { year: 2022, registered: 722227, votes: 316254, votesMayor: 161677 },
+    {year:2010, registered:607357, votes:269640, votesMayor:131323},
+    {year:2014, registered:632385, votes:252464, votesMayor:189253},
+    {year:2018, registered:633946, votes:269772, votesMayor:188960},
+    {year:2022, registered:722227, votes:316254, votesMayor:161677},
   ];
-
-  const labels = data.map(d => d.year);
+  const labels     = data.map(d => d.year);
   const winnerPct  = data.map(d => +(d.votesMayor / d.registered * 100).toFixed(1));
   const othersPct  = data.map(d => +((d.votes - d.votesMayor) / d.registered * 100).toFixed(1));
   const noVotePct  = data.map(d => +((d.registered - d.votes) / d.registered * 100).toFixed(1));
 
-  // Build hatch pattern on a canvas
   function makeHatch() {
-    const sz = 10;
-    const c = document.createElement('canvas');
+    const sz = 10, c = document.createElement('canvas');
     c.width = sz; c.height = sz;
     const ctx = c.getContext('2d');
-    ctx.fillStyle = '#D8D5CE';
-    ctx.fillRect(0, 0, sz, sz);
-    ctx.strokeStyle = 'rgba(192,57,43,0.55)';
-    ctx.lineWidth = 2;
+    ctx.fillStyle = '#D8D5CE'; ctx.fillRect(0,0,sz,sz);
+    ctx.strokeStyle = 'rgba(192,57,43,0.55)'; ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(0, sz); ctx.lineTo(sz, 0);
-    ctx.moveTo(-sz/2, sz/2); ctx.lineTo(sz/2, -sz/2);
-    ctx.moveTo(sz/2, sz*1.5); ctx.lineTo(sz*1.5, sz/2);
+    ctx.moveTo(0,sz); ctx.lineTo(sz,0);
+    ctx.moveTo(-sz/2,sz/2); ctx.lineTo(sz/2,-sz/2);
+    ctx.moveTo(sz/2,sz*1.5); ctx.lineTo(sz*1.5,sz/2);
     ctx.stroke();
     return ctx.createPattern(c, 'repeat');
   }
-
   const hatch = makeHatch();
 
-  // Inline data label plugin
-  const dataLabelPlugin = {
+  const labelPlugin = {
     id: 'inlineLabels',
     afterDatasetsDraw(chart) {
-      const {ctx, data: cdata, chartArea: {top, bottom}} = chart;
-      const minPx = 18; // min segment height to show label
+      const {ctx} = chart;
       chart.data.datasets.forEach((ds, di) => {
         if (ds.type === 'line') return;
-        const meta = chart.getDatasetMeta(di);
-        meta.data.forEach((bar, i) => {
+        chart.getDatasetMeta(di).data.forEach((bar, i) => {
           const val = ds.data[i];
-          if (val == null || val < 3) return;
-          // bar height
+          if (!val || val < 3) return;
           const h = Math.abs(bar.base - bar.y);
-          if (h < minPx) return;
-          const cx = bar.x;
-          const cy = (bar.y + bar.base) / 2;
+          if (h < 16) return;
           ctx.save();
-          ctx.font = 'bold 11px -apple-system,BlinkMacSystemFont,sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          // Contrast: dark text on light segments, white on dark
-          const isDark = (di === 1); // winner = dark blue
-          ctx.fillStyle = isDark ? '#fff' : 'rgba(0,0,0,0.65)';
-          ctx.fillText(val + '%', cx, cy);
+          ctx.font = 'bold 10px -apple-system,sans-serif';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillStyle = di === 1 ? '#fff' : 'rgba(0,0,0,0.6)';
+          ctx.fillText(val + '%', bar.x, (bar.y + bar.base) / 2);
           ctx.restore();
         });
       });
@@ -478,39 +460,15 @@ function showPanel(wardNum) {
 
   new Chart(document.getElementById('ottawa-hist-chart'), {
     type: 'bar',
-    plugins: [dataLabelPlugin],
+    plugins: [labelPlugin],
     data: {
       labels,
       datasets: [
-        {
-          label: "Didn't vote",
-          data: noVotePct,
-          backgroundColor: hatch,
-          order: 1
-        },
-        {
-          label: 'Voted for winner',
-          data: winnerPct,
-          backgroundColor: '#185FA5',
-          order: 1
-        },
-        {
-          label: 'Voted for others',
-          data: othersPct,
-          backgroundColor: '#7BA7CC',
-          order: 1
-        },
-        {
-          label: '50% majority',
-          data: [50, 50, 50, 50],
-          type: 'line',
-          borderColor: '#C0392B',
-          borderWidth: 2,
-          borderDash: [6,4],
-          pointRadius: 0,
-          fill: false,
-          order: 0
-        }
+        {label:"Didn't vote", data:noVotePct, backgroundColor:hatch, order:1},
+        {label:'Voted for winner', data:winnerPct, backgroundColor:'#185FA5', order:1},
+        {label:'Voted for others', data:othersPct, backgroundColor:'#7BA7CC', order:1},
+        {label:'50% majority', data:[50,50,50,50], type:'line', borderColor:'#C0392B',
+         borderWidth:1.5, borderDash:[5,4], pointRadius:0, fill:false, order:0}
       ]
     },
     options: {
@@ -519,33 +477,19 @@ function showPanel(wardNum) {
         legend: {
           display: true, position: 'bottom',
           labels: {
-            boxWidth: 14, font: {size:11}, padding: 10,
+            boxWidth:12, font:{size:10}, padding:8,
             generateLabels(chart) {
-              const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-              // Replace hatch pattern swatch for "Didn't vote"
-              labels.forEach(l => {
-                if (l.text === "Didn't vote") {
-                  l.fillStyle = hatch;
-                  l.strokeStyle = '#bbb';
-                  l.lineWidth = 1;
-                }
-              });
-              return labels;
+              const ls = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+              ls.forEach(l => { if (l.text === "Didn't vote") { l.fillStyle = hatch; l.strokeStyle = '#bbb'; l.lineWidth = 1; }});
+              return ls;
             }
           }
         },
-        tooltip: {
-          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` }
-        }
+        tooltip: {callbacks:{label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`}}
       },
       scales: {
-        x: { stacked: true, ticks:{font:{size:11}} },
-        y: {
-          stacked: true,
-          min: 0, max: 100,
-          ticks: {callback: v => v + '%', font:{size:11}},
-          grid: {color:'rgba(0,0,0,0.05)'}
-        }
+        x: {stacked:true, ticks:{font:{size:10}}},
+        y: {stacked:true, min:0, max:100, ticks:{callback:v=>v+'%', font:{size:10}}, grid:{color:'rgba(0,0,0,0.04)'}}
       }
     }
   });
