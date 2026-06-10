@@ -15,7 +15,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .page-header p{font-size:12px;color:#999}
 
 /* Grid */
-.grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px}
+.grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px;align-items:stretch}
 .grid-bottom{display:grid;grid-template-columns:5fr 7fr;gap:12px}
 
 /* Cards */
@@ -100,10 +100,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <!-- TOP ROW: historical chart (left) + KPIs (right) -->
   <div class="grid-top">
 
-    <div class="card">
+    <div class="card" style="display:flex;flex-direction:column">
       <div class="card-title">Ottawa mayor race — historical context</div>
       <div class="card-sub">% of all registered voters · 2010–2022</div>
-      <div id="ottawa-hist-chart-wrap"></div>
+      <div id="ottawa-hist-chart-wrap" style="flex:1;display:flex;flex-direction:column;justify-content:space-between"></div>
     </div>
 
     <div class="card" style="display:flex;flex-direction:column">
@@ -127,9 +127,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         </div>
       </div>
       <div class="leg-row" style="display:none">
-        <span class="leg-lbl" id="leg-lo-label"></span>
-        <div class="leg-bar" id="leg-bar"></div>
-        <span class="leg-lbl" id="leg-hi-label"></span>
+        <span class="leg-lbl"></span>
+        <div class="leg-bar"></div>
+        <span class="leg-lbl"></span>
       </div>
     </div>
 
@@ -225,8 +225,8 @@ const wardData = {"1":{"name":"Orléans East-Cumberland","change_type":"renamed"
 // ── Colour scale ───────────────────────────────────────────────────────────────
 function makeScale() {
   const scale = d3.scaleLinear()
-    .domain([20, 42.5, 65])
-    .range(['#c0bdb8', '#7ab897', '#1a7a3f'])
+    .domain([20, 40, 60])
+    .range(['#b0ada8', '#f0c040', '#1a7a3f'])
     .clamp(true);
   return { scale };
 }
@@ -234,12 +234,12 @@ function makeScale() {
 function buildLegend() {
   const {scale} = makeScale();
   document.getElementById('leg-lo-label').textContent = '20%';
-  document.getElementById('leg-hi-label').textContent = '65%';
+  document.getElementById('leg-hi-label').textContent = '60%';
   const bar = document.getElementById('leg-bar');
   bar.innerHTML = '';
   for (let i = 0; i < 12; i++) {
     const s = document.createElement('div');
-    s.style.cssText = `flex:1;background:${scale(20 + 45 * i / 11)}`;
+    s.style.cssText = `flex:1;background:${scale(20 + 40 * i / 11)}`;
     bar.appendChild(s);
   }
 }
@@ -432,70 +432,72 @@ function showPanel(wardNum) {
   const container = document.getElementById('ottawa-hist-chart-wrap');
   container.innerHTML = '';
 
+  // Rows wrapper — flex-grow fills card height, space-evenly distributes bars
+  const rows = document.createElement('div');
+  rows.style.cssText = 'flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:0';
+
   data.forEach(d => {
     const winnerPct = +(d.votesMayor / d.registered * 100).toFixed(1);
     const othersPct = +((d.votes - d.votesMayor) / d.registered * 100).toFixed(1);
     const noVotePct = +((d.registered - d.votes) / d.registered * 100).toFixed(1);
 
     const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:7px';
+    row.style.cssText = 'display:flex;align-items:center;gap:8px';
 
     const lbl = document.createElement('div');
     lbl.style.cssText = 'font-size:11px;font-weight:600;color:#888;width:30px;flex-shrink:0;text-align:right';
     lbl.textContent = d.year;
 
     const track = document.createElement('div');
-    track.style.cssText = 'flex:1;height:18px;border-radius:4px;overflow:hidden;display:flex';
+    track.style.cssText = 'flex:1;height:28px;border-radius:4px;overflow:hidden;display:flex';
 
-    const mkSeg = (pct, color, title) => {
+    // Helper: creates a segment with an optional inline label
+    // showLabel = false suppresses the label (used for no-vote which is handled separately)
+    const mkSeg = (pct, color, title, textColor, widthStyle) => {
       const seg = document.createElement('div');
-      seg.style.cssText = `width:${pct}%;background:${color};display:flex;align-items:center;justify-content:center;transition:width .4s`;
+      seg.style.cssText = `${widthStyle || `width:${pct}%`};background:${color};display:flex;align-items:center;justify-content:center;transition:width .4s`;
       seg.title = `${title}: ${pct}%`;
-      if (pct >= 6) {
+      if (pct >= 5) {
         const span = document.createElement('span');
-        span.style.cssText = `font-size:9px;font-weight:700;color:${color === '#185FA5' ? '#fff' : 'rgba(0,0,0,0.55)'}`;
+        span.style.cssText = `font-size:9px;font-weight:700;color:${textColor};pointer-events:none`;
         span.textContent = pct + '%';
         seg.appendChild(span);
       }
       return seg;
     };
 
-    track.appendChild(mkSeg(winnerPct, '#185FA5', 'Winner'));
-    track.appendChild(mkSeg(othersPct, '#7BA7CC', 'Others'));
-    const noSeg = mkSeg(noVotePct, '', "Didn't vote");
-    noSeg.style.cssText += ';background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px);flex:1';
-    if (noVotePct >= 6) {
-      const span = document.createElement('span');
-      span.style.cssText = 'font-size:9px;font-weight:700;color:rgba(0,0,0,0.45)';
-      span.textContent = noVotePct + '%';
-      noSeg.appendChild(span);
-    }
+    track.appendChild(mkSeg(winnerPct, '#185FA5', 'Winner', '#fff'));
+    track.appendChild(mkSeg(othersPct, '#7BA7CC', 'Others', 'rgba(0,0,0,0.55)'));
+    // No-vote: use flex:1 so it fills remainder, label built inside mkSeg only
+    const noSeg = mkSeg(noVotePct,
+      'repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px)',
+      "Didn't vote", 'rgba(0,0,0,0.45)', 'flex:1');
     track.appendChild(noSeg);
 
     row.appendChild(lbl);
     row.appendChild(track);
-    container.appendChild(row);
+    rows.appendChild(row);
   });
 
-  // Legend
+  container.appendChild(rows);
+
+  // Legend pinned at bottom
   const leg = document.createElement('div');
-  leg.style.cssText = 'display:flex;gap:12px;margin-top:8px;flex-wrap:wrap';
-  const mkLegItem = (color, label, hatch) => {
+  leg.style.cssText = 'display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;flex-shrink:0';
+  const mkLegItem = (bg, label) => {
     const item = document.createElement('span');
     item.style.cssText = 'font-size:10px;color:#666;display:flex;align-items:center;gap:3px';
-    const swatch = document.createElement('i');
-    swatch.style.cssText = `display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0;background:${hatch || color}${hatch ? ';border:1px solid #ccc' : ''}`;
-    item.appendChild(swatch);
+    const sw = document.createElement('i');
+    sw.style.cssText = `display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0;background:${bg};border:${bg.includes('gradient') ? '1px solid #ccc' : 'none'}`;
+    item.appendChild(sw);
     item.appendChild(document.createTextNode(label));
     return item;
   };
   leg.appendChild(mkLegItem('#185FA5', 'Winner'));
   leg.appendChild(mkLegItem('#7BA7CC', 'Other candidates'));
-  leg.appendChild(mkLegItem('', "Didn't vote", 'repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px)'));
+  leg.appendChild(mkLegItem('repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px)', "Didn't vote"));
   container.appendChild(leg);
 })();
-
-buildMap();
 </script>
 </body>
 </html>
