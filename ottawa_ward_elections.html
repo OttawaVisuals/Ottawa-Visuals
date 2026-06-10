@@ -15,8 +15,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .page-header p{font-size:12px;color:#999}
 
 /* Grid */
-.grid-top{display:grid;grid-template-columns:1fr 260px;gap:12px;margin-bottom:12px}
-.grid-bottom{display:grid;grid-template-columns:2fr 3fr;gap:12px}
+.grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px}
+.grid-bottom{display:grid;grid-template-columns:5fr 7fr;gap:12px}
 
 /* Cards */
 .card{background:#fff;border:1px solid #e0ddd6;border-radius:10px;padding:14px 16px}
@@ -44,26 +44,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* Panel */
 .panel-empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:#bbb;font-size:12px;text-align:center;line-height:1.8}
 #panel-content{display:none}
-.panel-ward-header{margin-bottom:12px}
-.panel-ward-header h2{font-size:15px;font-weight:600}
-.panel-ward-header .wn{font-size:11px;color:#aaa}
 
-/* Stat row */
-.stat-pill{display:inline-flex;align-items:baseline;gap:6px;background:#f5f4f0;border-radius:6px;padding:6px 10px;margin-bottom:12px}
-.stat-pill .sp-val{font-size:24px;font-weight:600;color:#C0392B}
-.stat-pill .sp-lbl{font-size:11px;color:#999}
+/* Panel header row */
+.panel-header-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e0ddd6}
+.panel-header-left .ward-num{font-size:11px;color:#aaa;margin-bottom:2px}
+.panel-header-left .ward-name{font-size:14px;font-weight:600;color:#1a1a1a}
+.panel-header-right .turnout-val{font-size:26px;font-weight:600;color:#C0392B;line-height:1}
+.panel-header-right .turnout-lbl{font-size:10px;color:#aaa;text-align:right}
+
+/* Race block */
+.race-block{margin-bottom:10px}
+.race-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.race-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#aaa}
+.race-name{font-size:12px;font-weight:600;color:#1a1a1a}
 
 /* Section */
-.sec-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin:12px 0 5px}
-
-/* Candidate row */
-.cand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.cand-name{font-size:12px;font-weight:600;color:#1a1a1a}
-.cand-role{font-size:11px;color:#aaa}
+.sec-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin:10px 0 4px}
 
 /* Stacked bar */
 .sbar-wrap{height:14px;border-radius:5px;overflow:hidden;display:flex;margin-bottom:4px}
-.sbar-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sbar-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .sbar-legend span{font-size:10px;color:#666;display:flex;align-items:center;gap:3px}
 .sbar-legend span i{display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0}
 
@@ -128,7 +128,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <div class="kpi-sub" id="kpi-lo-name"></div>
         </div>
       </div>
-      <div class="leg-row">
+      <div class="leg-row" style="display:none">
         <span class="leg-lbl" id="leg-lo-label"></span>
         <div class="leg-bar" id="leg-bar"></div>
         <span class="leg-lbl" id="leg-hi-label"></span>
@@ -140,7 +140,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <!-- BOTTOM ROW: map (left) + ward panel (right) -->
   <div class="grid-bottom">
 
-    <div class="card">
+    <div class="card" style="padding:10px;position:relative">
+      <div style="position:absolute;top:18px;right:18px;z-index:10;background:rgba(255,255,255,0.88);border:1px solid #e0ddd6;border-radius:6px;padding:5px 8px;display:flex;align-items:center;gap:5px">
+        <span style="font-size:10px;color:#aaa" id="leg-lo-label"></span>
+        <div class="leg-bar" id="leg-bar" style="width:80px"></div>
+        <span style="font-size:10px;color:#aaa" id="leg-hi-label"></span>
+      </div>
       <div class="map-wrap" id="map">
         <div id="tooltip"></div>
       </div>
@@ -150,44 +155,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="panel-empty">Click a ward on the map<br>to see its details</div>
       <div id="panel-content">
 
-        <div class="panel-ward-header">
-          <h2 id="p-name"></h2>
-          <div class="wn" id="p-wardnum"></div>
-        </div>
-
-        <div class="stat-pill">
-          <span class="sp-val" id="p-turnout">—</span>
-          <span class="sp-lbl">turnout</span>
-        </div>
-
-        <!-- Councillor -->
-        <div class="sec-head">Councillor</div>
-        <div class="cand-row">
-          <div>
-            <div class="cand-name" id="p-coun-name">—</div>
-            <div class="cand-role">Winner · 2022</div>
+        <!-- Header row: ward info left, turnout right -->
+        <div class="panel-header-row">
+          <div class="panel-header-left">
+            <div class="ward-num" id="p-wardnum"></div>
+            <div class="ward-name" id="p-name"></div>
+          </div>
+          <div class="panel-header-right">
+            <div class="turnout-lbl">Turnout</div>
+            <div class="turnout-val" id="p-turnout">—</div>
           </div>
         </div>
-        <div class="sbar-wrap" id="sbar-coun"></div>
-        <div class="sbar-legend">
-          <span><i style="background:#0F6E56"></i>Winner</span>
-          <span><i style="background:#7FB5A0"></i>Other candidates</span>
-          <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
-        </div>
 
-        <!-- Mayor -->
-        <div class="sec-head">Mayor (highest voted candidate in this ward)</div>
-        <div class="cand-row">
-          <div>
-            <div class="cand-name" id="p-mayor-name">—</div>
-            <div class="cand-role">Winner · 2022</div>
+        <!-- Councillor race -->
+        <div class="race-block">
+          <div class="race-header">
+            <span class="race-label">Councillor race</span>
+            <span class="race-name" id="p-coun-name">—</span>
+          </div>
+          <div class="sbar-wrap" id="sbar-coun"></div>
+          <div class="sbar-legend">
+            <span><i style="background:#0F6E56"></i>Elected</span>
+            <span><i style="background:#7FB5A0"></i>Other candidates</span>
+            <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
           </div>
         </div>
-        <div class="sbar-wrap" id="sbar-mayor"></div>
-        <div class="sbar-legend">
-          <span><i style="background:#185FA5"></i>Winner</span>
-          <span><i style="background:#7BA7CC"></i>Other candidates</span>
-          <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
+
+        <!-- Mayor race -->
+        <div class="race-block">
+          <div class="race-header">
+            <span class="race-label">Mayor race</span>
+            <span class="race-name" id="p-mayor-name">—</span>
+          </div>
+          <div class="sbar-wrap" id="sbar-mayor"></div>
+          <div class="sbar-legend">
+            <span><i style="background:#185FA5"></i>Highest vote</span>
+            <span><i style="background:#7BA7CC"></i>Other candidates</span>
+            <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid #ccc"></i>Didn't vote</span>
+          </div>
         </div>
 
         <!-- History -->
@@ -291,7 +296,8 @@ function fillColor(ward) {
 function buildMap() {
   const W = mapDiv.offsetWidth || 500;
   const H = Math.round(W * 0.72);
-  const proj = d3.geoMercator().fitSize([W, H], {type:'FeatureCollection', features});
+  const pad = 8;
+  const proj = d3.geoMercator().fitExtent([[pad,pad],[W-pad,H-pad]], {type:'FeatureCollection', features});
   const path = d3.geoPath(proj);
 
   const svg = d3.select('#map').append('svg')
@@ -352,7 +358,6 @@ function buildMap() {
   });
 }
 
-// ── Ward panel ─────────────────────────────────────────────────────────────────
 function showPanel(wardNum) {
   const d = wardData[wardNum];
   if (!d) return;
@@ -369,7 +374,6 @@ function showPanel(wardNum) {
   renderStackedBar('sbar-coun',  '#0F6E56', d.councillor.participation, d.councillor.winner_pct);
   renderStackedBar('sbar-mayor', '#185FA5', d.mayor.participation,      d.mayor.winner_pct);
 
-  // Caveat — append to bottom section
   const cavSec  = document.getElementById('caveats-section');
   const cavList = document.getElementById('caveats-list');
   if (d.caveat) {
@@ -380,7 +384,6 @@ function showPanel(wardNum) {
     cavList.innerHTML = '';
   }
 
-  // History chart
   if (histChart) { histChart.destroy(); histChart = null; }
   histChart = new Chart(document.getElementById('hist-chart'), {
     type: 'line',
@@ -408,7 +411,7 @@ function showPanel(wardNum) {
   });
 }
 
-// ── Ottawa historical mayor chart ──────────────────────────────────────────────
+// ── Ottawa historical mayor chart — stacked area ───────────────────────────────
 (function() {
   const data = [
     {year:2010, registered:607357, votes:269640, votesMayor:131323},
@@ -416,80 +419,55 @@ function showPanel(wardNum) {
     {year:2018, registered:633946, votes:269772, votesMayor:188960},
     {year:2022, registered:722227, votes:316254, votesMayor:161677},
   ];
-  const labels     = data.map(d => d.year);
-  const winnerPct  = data.map(d => +(d.votesMayor / d.registered * 100).toFixed(1));
-  const othersPct  = data.map(d => +((d.votes - d.votesMayor) / d.registered * 100).toFixed(1));
-  const noVotePct  = data.map(d => +((d.registered - d.votes) / d.registered * 100).toFixed(1));
-
-  function makeHatch() {
-    const sz = 10, c = document.createElement('canvas');
-    c.width = sz; c.height = sz;
-    const ctx = c.getContext('2d');
-    ctx.fillStyle = '#D8D5CE'; ctx.fillRect(0,0,sz,sz);
-    ctx.strokeStyle = 'rgba(192,57,43,0.55)'; ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0,sz); ctx.lineTo(sz,0);
-    ctx.moveTo(-sz/2,sz/2); ctx.lineTo(sz/2,-sz/2);
-    ctx.moveTo(sz/2,sz*1.5); ctx.lineTo(sz*1.5,sz/2);
-    ctx.stroke();
-    return ctx.createPattern(c, 'repeat');
-  }
-  const hatch = makeHatch();
-
-  const labelPlugin = {
-    id: 'inlineLabels',
-    afterDatasetsDraw(chart) {
-      const {ctx} = chart;
-      chart.data.datasets.forEach((ds, di) => {
-        if (ds.type === 'line') return;
-        chart.getDatasetMeta(di).data.forEach((bar, i) => {
-          const val = ds.data[i];
-          if (!val || val < 3) return;
-          const h = Math.abs(bar.base - bar.y);
-          if (h < 16) return;
-          ctx.save();
-          ctx.font = 'bold 10px -apple-system,sans-serif';
-          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-          ctx.fillStyle = di === 1 ? '#fff' : 'rgba(0,0,0,0.6)';
-          ctx.fillText(val + '%', bar.x, (bar.y + bar.base) / 2);
-          ctx.restore();
-        });
-      });
-    }
-  };
+  const labels    = data.map(d => d.year);
+  const winnerPct = data.map(d => +(d.votesMayor / d.registered * 100).toFixed(1));
+  const othersPct = data.map(d => +((d.votes - d.votesMayor) / d.registered * 100).toFixed(1));
+  const noVotePct = data.map(d => +((d.registered - d.votes) / d.registered * 100).toFixed(1));
 
   new Chart(document.getElementById('ottawa-hist-chart'), {
-    type: 'bar',
-    plugins: [labelPlugin],
+    type: 'line',
     data: {
       labels,
       datasets: [
-        {label:"Didn't vote", data:noVotePct, backgroundColor:hatch, order:1},
-        {label:'Voted for winner', data:winnerPct, backgroundColor:'#185FA5', order:1},
-        {label:'Voted for others', data:othersPct, backgroundColor:'#7BA7CC', order:1},
-        {label:'50% majority', data:[50,50,50,50], type:'line', borderColor:'#C0392B',
-         borderWidth:1.5, borderDash:[5,4], pointRadius:0, fill:false, order:0}
+        {
+          label: "Didn't vote",
+          data: noVotePct,
+          backgroundColor: 'rgba(216,213,206,0.85)',
+          borderColor: 'rgba(160,157,150,0.7)',
+          borderWidth: 1,
+          fill: 'stack', tension: 0.35, pointRadius: 3, pointHoverRadius: 5
+        },
+        {
+          label: 'Other candidates',
+          data: othersPct,
+          backgroundColor: 'rgba(123,167,204,0.85)',
+          borderColor: 'rgba(90,130,170,0.7)',
+          borderWidth: 1,
+          fill: 'stack', tension: 0.35, pointRadius: 3, pointHoverRadius: 5
+        },
+        {
+          label: 'Voted for winner',
+          data: winnerPct,
+          backgroundColor: 'rgba(24,95,165,0.85)',
+          borderColor: 'rgba(12,68,124,0.7)',
+          borderWidth: 1,
+          fill: 'stack', tension: 0.35, pointRadius: 3, pointHoverRadius: 5
+        }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: {
-          display: true, position: 'bottom',
-          labels: {
-            boxWidth:12, font:{size:10}, padding:8,
-            generateLabels(chart) {
-              const ls = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-              ls.forEach(l => { if (l.text === "Didn't vote") { l.fillStyle = hatch; l.strokeStyle = '#bbb'; l.lineWidth = 1; }});
-              return ls;
-            }
-          }
-        },
-        tooltip: {callbacks:{label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`}}
+        legend: {display: true, position: 'bottom', labels: {boxWidth:10, font:{size:10}, padding:8}},
+        tooltip: {mode:'index', callbacks:{label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`}}
       },
       scales: {
-        x: {stacked:true, ticks:{font:{size:10}}},
-        y: {stacked:true, min:0, max:100, ticks:{callback:v=>v+'%', font:{size:10}}, grid:{color:'rgba(0,0,0,0.04)'}}
+        x: {ticks:{font:{size:10}}, grid:{color:'rgba(0,0,0,0.04)'}},
+        y: {
+          min: 0, max: 100, stacked: true,
+          ticks:{callback: v => v+'%', font:{size:10}, maxTicksLimit:6},
+          grid:{color:'rgba(0,0,0,0.04)'}
+        }
       }
     }
   });
