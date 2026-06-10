@@ -49,7 +49,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .panel-header-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e0ddd6}
 .panel-header-left .ward-num{font-size:11px;color:#aaa;margin-bottom:2px}
 .panel-header-left .ward-name{font-size:14px;font-weight:600;color:#1a1a1a}
-.panel-header-right .turnout-val{font-size:26px;font-weight:600;color:#C0392B;line-height:1}
+.panel-header-right .turnout-val{font-size:26px;font-weight:600;line-height:1}
 .panel-header-right .turnout-lbl{font-size:10px;color:#aaa;text-align:right}
 
 /* Race block */
@@ -62,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sec-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin:10px 0 4px}
 
 /* Stacked bar */
-.sbar-wrap{height:14px;border-radius:5px;overflow:hidden;display:flex;margin-bottom:4px}
+.sbar-wrap{height:30px;border-radius:5px;overflow:visible;display:block;margin-bottom:4px}
 .sbar-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .sbar-legend span{font-size:10px;color:#666;display:flex;align-items:center;gap:3px}
 .sbar-legend span i{display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0}
@@ -228,7 +228,7 @@ function makeScale() {
   // Ottawa sits 37-53%, so most wards will be in the lower-mid range
   const scale = d3.scaleLinear()
     .domain([20, 50, 80])
-    .range(['#C0392B', '#8BA0B0', '#1A5C7A'])
+    .range(['#C0392B', '#8BA0B0', '#1A6B3A'])
     .clamp(true);
   return { scale };
 }
@@ -248,16 +248,25 @@ function buildLegend() {
 
 // ── KPIs ───────────────────────────────────────────────────────────────────────
 (function buildKPIs() {
+  const {scale} = makeScale();
   const entries = Object.entries(wardData);
   const pcts = entries.map(([,d]) => d.councillor.participation).filter(Boolean);
   const avg = (pcts.reduce((a,b) => a+b, 0) / pcts.length).toFixed(1);
-  document.getElementById('kpi-avg').textContent = avg + '%';
+  const avgEl = document.getElementById('kpi-avg');
+  avgEl.textContent = avg + '%';
+  avgEl.style.color = scale(+avg);
 
   const hi = entries.reduce((a,b) => a[1].councillor.participation > b[1].councillor.participation ? a : b);
   const lo = entries.reduce((a,b) => a[1].councillor.participation < b[1].councillor.participation ? a : b);
-  document.getElementById('kpi-hi-val').textContent  = hi[1].councillor.participation + '%';
+
+  const hiValEl = document.getElementById('kpi-hi-val');
+  hiValEl.textContent  = hi[1].councillor.participation + '%';
+  hiValEl.style.color  = scale(hi[1].councillor.participation);
   document.getElementById('kpi-hi-name').textContent = 'Ward ' + hi[0] + ' · ' + hi[1].name.split('–')[0].trim();
-  document.getElementById('kpi-lo-val').textContent  = lo[1].councillor.participation + '%';
+
+  const loValEl = document.getElementById('kpi-lo-val');
+  loValEl.textContent  = lo[1].councillor.participation + '%';
+  loValEl.style.color  = scale(lo[1].councillor.participation);
   document.getElementById('kpi-lo-name').textContent = 'Ward ' + lo[0] + ' · ' + lo[1].name.split('–')[0].trim();
 })();
 
@@ -279,13 +288,20 @@ function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
     `<div style="position:absolute;top:0;bottom:0;left:${p}%;width:${p===50?2:1}px;background:${p===50?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.18)'};pointer-events:none;z-index:2;transform:translateX(-50%)"></div>`
   ).join('');
 
+  const refLabels = [25, 50, 75].map(p =>
+    `<span style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${p===50?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.35)'};white-space:nowrap">${p}%</span>`
+  ).join('');
+
   const el = document.getElementById(elId);
   el.style.position = 'relative';
   el.innerHTML = `
-    <div style="width:${wPct}%;background:${winnerColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Winner ${wPct}%">${mkLabel(wPct,'#fff',false)}</div>
-    <div style="width:${oPct}%;background:${otherColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Others ${oPct}%">${mkLabel(oPct,'rgba(0,0,0,0.55)',false)}</div>
-    <div style="flex:1;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px);display:flex;align-items:center;justify-content:center" title="Didn't vote ${nPct}%">${mkLabel(nPct,'#C0392B',true)}</div>
-    ${refLines}
+    <div style="position:relative;height:14px;margin-bottom:2px">${refLabels}</div>
+    <div style="position:relative;height:14px;border-radius:5px;overflow:hidden;display:flex">
+      <div style="width:${wPct}%;background:${winnerColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Winner ${wPct}%">${mkLabel(wPct,'#fff',false)}</div>
+      <div style="width:${oPct}%;background:${otherColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Others ${oPct}%">${mkLabel(oPct,'rgba(0,0,0,0.55)',false)}</div>
+      <div style="flex:1;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px);display:flex;align-items:center;justify-content:center" title="Didn't vote ${nPct}%">${mkLabel(nPct,'#C0392B',true)}</div>
+      ${refLines}
+    </div>
   `;
 }
 
@@ -389,7 +405,9 @@ function showPanel(wardNum) {
 
   document.getElementById('p-name').textContent    = d.name;
   document.getElementById('p-wardnum').textContent = 'Ward ' + wardNum + ' · 2022';
-  document.getElementById('p-turnout').textContent = d.councillor.participation + '%';
+  const turnoutEl = document.getElementById('p-turnout');
+  turnoutEl.textContent = d.councillor.participation + '%';
+  turnoutEl.style.color = makeScale().scale(d.councillor.participation);
   document.getElementById('p-coun-name').textContent  = d.councillor.winner_name || '—';
   document.getElementById('p-mayor-name').textContent = d.mayor.winner_name || '—';
 
@@ -492,19 +510,41 @@ function showPanel(wardNum) {
 
     trackWrap.appendChild(track);
 
-    // Reference lines at 25%, 50%, 75%
-    [[25, false], [50, true], [75, false]].forEach(([pct, isMajor]) => {
-      const line = document.createElement('div');
-      line.style.cssText = `position:absolute;top:0;bottom:0;left:${pct}%;width:${isMajor ? 2 : 1}px;background:${isMajor ? 'rgba(192,57,43,0.85)' : 'rgba(0,0,0,0.18)'};pointer-events:none;z-index:2;transform:translateX(-50%)`;
-      trackWrap.appendChild(line);
-    });
-
     row.appendChild(lbl);
     row.appendChild(trackWrap);
     rows.appendChild(row);
   });
 
-  container.appendChild(rows);
+  // Wrap label row + bars + continuous lines together
+  const chartArea = document.createElement('div');
+  chartArea.style.cssText = 'flex:1;display:flex;flex-direction:column;position:relative';
+
+  // Label row aligned with track area (offset by year-label width 38px)
+  const labelRow = document.createElement('div');
+  labelRow.style.cssText = 'display:flex;padding-left:38px;margin-bottom:3px;flex-shrink:0';
+  const labelTrack = document.createElement('div');
+  labelTrack.style.cssText = 'flex:1;position:relative;height:14px';
+  [[25,'rgba(0,0,0,0.35)'],[50,'rgba(192,57,43,0.85)'],[75,'rgba(0,0,0,0.35)']].forEach(([pct,color]) => {
+    const t = document.createElement('span');
+    t.style.cssText = `position:absolute;left:${pct}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${color};white-space:nowrap`;
+    t.textContent = pct + '%';
+    labelTrack.appendChild(t);
+  });
+  labelRow.appendChild(labelTrack);
+  chartArea.appendChild(labelRow);
+  chartArea.appendChild(rows);
+
+  // Continuous vertical lines spanning full bar area
+  const lineOverlay = document.createElement('div');
+  lineOverlay.style.cssText = 'position:absolute;top:17px;bottom:0;left:38px;right:0;pointer-events:none;z-index:3';
+  [[25,false],[50,true],[75,false]].forEach(([pct,isMajor]) => {
+    const line = document.createElement('div');
+    line.style.cssText = `position:absolute;top:0;bottom:0;left:${pct}%;width:${isMajor?2:1}px;background:${isMajor?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.18)'};transform:translateX(-50%)`;
+    lineOverlay.appendChild(line);
+  });
+  chartArea.appendChild(lineOverlay);
+
+  container.appendChild(chartArea);
 
   // Legend pinned at bottom
   const leg = document.createElement('div');
