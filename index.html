@@ -1153,7 +1153,7 @@
 
     <div class="embed-toolbar">
       <div class="left">
-        <span>Embedded Power BI report · 1600 × 900</span>
+        <span id="rv-embed-type">Interactive HTML visualization</span>
         <span style="opacity:0.5;">·</span>
         <a id="rv-fullscreen" href="#" target="_blank" rel="noopener">⛶ open fullscreen</a>
       </div>
@@ -1341,8 +1341,7 @@
       date: "Updated June 2026",
       readTime: "~ 5 min read",
       tag: "#elections",
-      // TODO: paste your Power BI publish-to-web URL here
-      embedUrl: "",
+      embedUrl: "ottawa_ward_elections.html",
       why: "Municipal elections rarely make national news, but they decide who runs your bus, your library and your zoning board. This one tries to make it easier to see the trends in turnout and competitiveness, ward by ward.",
       method: "Results are pulled from Elections Ottawa's official ward results.",
       sources: [
@@ -1500,6 +1499,13 @@
       fs.style.pointerEvents = "none";
     }
 
+    // embed type label
+    const embedTypeEl = document.getElementById("rv-embed-type");
+    if (embedTypeEl) {
+      const isHtml = r.embedUrl && r.embedUrl.endsWith(".html");
+      embedTypeEl.textContent = isHtml ? "Interactive HTML visualization" : "Embedded Power BI report · 1600 × 900";
+    }
+
     // EMBED — replace iframe so reload is clean
     const embed = document.getElementById("embed-container");
     embed.innerHTML = "";
@@ -1508,16 +1514,20 @@
       f.src = r.embedUrl;
       f.title = r.title;
       f.setAttribute("allowfullscreen", "true");
-      // sandbox allow-* keeps Power BI's auth+scripts working while limiting risk
       f.setAttribute("loading", "lazy");
+      // HTML files need scripts; Power BI needs allow-same-origin + allow-scripts
+      const isHtml = r.embedUrl.endsWith(".html");
+      if (!isHtml) {
+        f.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups allow-forms");
+      }
       embed.appendChild(f);
     } else {
       embed.innerHTML = `
         <div class="embed-empty">
           <div>
             <div class="big">Coming soon</div>
-            <div>This Power BI report hasn't been published yet.<br>
-            Drop your embed URL into <code>REPORTS[${i}].embedUrl</code> in the HTML.</div>
+            <div>This report hasn't been published yet.<br>
+            Drop your URL into <code>REPORTS[${i}].embedUrl</code> in the HTML.</div>
           </div>
         </div>`;
     }
