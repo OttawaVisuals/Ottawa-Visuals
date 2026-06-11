@@ -444,6 +444,7 @@ p{margin:0;}
         <div class="field">
           <div class="field-label-row"><span class="flbl">Lump sum</span><span class="funit">CAD/yr</span></div>
           <div class="input-wrap"><input type="text" id="lumpsum" value="0" data-raw="0"><span class="iunit">CAD</span></div>
+          <div id="lump-warn" style="font-family:var(--font-mono);font-size:9px;margin-top:3px;display:none;"></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
@@ -493,6 +494,13 @@ p{margin:0;}
           <div class="input-wrap"><input type="text" id="proptax" value="6,000" data-raw="6000"><span class="iunit">CAD/yr</span></div>
         </div>
       </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Condo fee <span class="tip-btn">?<span class="tip-box">Monthly condo/strata fee. Included in GDS/TDS stress tests per CMHC rules (50% of condo fee counts toward GDS). Leave at 0 for freehold.</span></span></span><span class="funit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="condofee" value="0" data-raw="0"><span class="iunit">CAD/mo</span></div>
+        </div>
+        <div></div>
+        </div>
     </div>
 
     <button class="calc-btn" id="calcbtn">Calculate</button>
@@ -515,7 +523,7 @@ p{margin:0;}
       <div class="mrow">
         <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
         <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
-        <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms">incl. tax + heat</div></div>
+        <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms" id="m-housing-s">incl. tax + heat</div></div>
         <div class="met" id="m-cmhc-wrap" style="display:none;"><div class="ml">CMHC premium <span class="tip-btn">?<span class="tip-box" style="width:260px;">Mortgage default insurance required when down payment is under 20% on homes ≤ $1.5M. Added to your mortgage principal. Rates: 5–9.99% down → 4.0%; 10–14.99% → 3.1%; 15–19.99% → 2.8%.</span></span></div><div class="mv amber" id="m-cmhc">—</div><div class="ms" id="m-cmhc-s"></div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
         <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
@@ -536,23 +544,25 @@ p{margin:0;}
             <tr id="spend-group-row">
               <th style="width:72px;background:transparent;border:none;"></th>
               <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Salary</th>
-              <th colspan="4" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
+              <th colspan="5" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
               <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
-              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
+              <th colspan="3" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
             <tr>
               <th style="width:72px;"></th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Gross</th>
               <th class="div-r">Est. Net</th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Mortgage</th>
-              <th>Tax</th>
+              <th>Tax/fees</th>
               <th>Heat</th>
+              <th>Condo</th>
               <th class="div-r">Lump sum</th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Groceries</th>
               <th>Entertain.</th>
               <th>Transport</th>
               <th class="div-r">Other</th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Shared</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);" title="Shared leftover if rate were +2% (renewal stress)">+2% leeway</th>
               <th style="border-right:1.5px solid rgba(255,255,255,0.18);">Personal</th>
             </tr>
           </thead>
@@ -561,6 +571,7 @@ p{margin:0;}
       </div>
       <div id="spend-cards-mobile" style="display:none;"></div>
       <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
+      <div id="spend-statscan" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;display:none;"></div>
     </div>
 
     <!-- ROW 2: Stress tests + Amortization side by side -->
@@ -686,7 +697,7 @@ p{margin:0;}
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test &amp; bank maximum</p>
           <p>GDS ratio calculated at both contract rate and stress rate (max of rate+2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. TDS adds all other monthly debt payments. Bank qualifying limits: GDS ≤ 39% and TDS ≤ 44% at stress rate.</p>
           <p style="margin-top:8px;font-weight:600;color:var(--ink);">Net income estimate</p>
-          <p>Combined federal + provincial income tax, CPP and EI premiums, net of the Canada Workers Benefit. Rates from TaxTips.ca 2021 employment income comparison, province-inferred from postal code. Not a substitute for a tax calculator.</p>
+          <p>Combined federal + provincial income tax, CPP and EI premiums. Rates from TaxTips.ca 2026 combined marginal brackets (Other Income column), province-inferred from postal code. Bracket walk method — slightly conservative at lower salaries (&lt;$90k) as CWB refundable credit is not modelled. Not a substitute for a tax calculator.</p>
         </div>
         <div>
           <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Neighbourhood profile</p>
@@ -778,7 +789,7 @@ function setupFormattedInput(id) {
   el.addEventListener('blur', format);
   format();
 }
-['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt'].forEach(setupFormattedInput);
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt','condofee'].forEach(setupFormattedInput);
 document.getElementById('fsa').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); });
 
 // ================================================================
@@ -794,47 +805,72 @@ function mortgagePayment(principal, annualRate, years) {
   const n = years * 26;
   return principal * r / (1 - Math.pow(1 + r, -n));
 }
-// ── GROSS → NET (2021 TaxTips.ca data, province-aware) ──────────────────────
-// Source: Mortgage/JSON/gross_to_net.json
-// Includes federal + provincial tax, CPP, EI, net of CWB.
-// Fallback to Ontario rates if province unknown.
-const GTN_BREAKPOINTS = [10000,20000,30000,40000,50000,60000,80000,100000,175000,600000];
-const GTN_RATES = {
-  AB:[-9.9, 1.4,14.6,19.5,21.8,24.1,25.8,26.8,31.8,42.7],
-  BC:[-9.6, 1.9,14.0,18.3,20.3,22.5,24.0,25.4,32.4,46.8],
-  MB:[-9.8, 6.5,18.3,22.7,24.9,27.1,29.1,31.0,36.7,46.2],
-  NB:[-8.9, 2.7,16.2,21.3,23.8,26.5,28.8,30.4,36.5,48.1],
-  NL:[-8.9, 1.9,17.2,21.3,24.1,26.8,29.0,30.6,36.1,46.6],
-  NS:[-8.9, 4.9,16.8,22.5,25.3,27.9,30.4,31.9,37.8,49.0],
-  NT:[-12.4,0.9,12.5,16.6,18.7,21.2,23.2,24.8,31.3,42.2],
-  NU:[-2.5, 0.4, 8.8,13.3,16.3,19.2,21.0,22.5,28.6,39.6],
-  ON:[-8.9, 1.9,12.8,19.5,21.5,23.7,25.5,27.2,34.8,47.7],
-  PE:[-8.9, 4.4,17.5,22.4,24.8,27.3,29.7,31.3,37.3,47.0],
-  QC:[-31.5,0.9,20.2,23.9,26.8,29.6,31.7,33.2,39.6,49.1],
-  SK:[-8.9, 3.2,15.9,20.6,22.9,25.4,27.4,27.3,33.0,43.0],
-  YT:[-8.9, 3.1,14.6,18.6,20.4,22.8,24.6,25.7,31.2,41.7],
-};
+// ── GROSS → NET (TaxTips.ca 2026 combined Fed+Prov marginal brackets) ─────────
+// Source: Mortgage/JSON/tax_rates_2026.json  (loaded into DATA.tax_rates)
+// Method: bracket walk on combined marginal rates (Other Income column),
+//         + CPP/QPP and EI on gross. Rates already account for BPA and surtaxes.
+// Fallback to Ontario rates if province or JSON unknown.
+// Note: slightly overestimates deductions at lower salaries (~$60–90k) because
+//       CWB refundable credit is not modelled. Conservative for affordability use.
 const FSA_PROV = {A:'NL',B:'NS',C:'PE',E:'NB',G:'QC',H:'QC',J:'QC',
   K:'ON',L:'ON',M:'ON',N:'ON',P:'ON',R:'MB',S:'SK',T:'AB',V:'BC',X:'NT',Y:'YT'};
 
+// CPP 2026 (non-QC)
+const CPP = {ex:3500,ympe:71300,yampe:81200,r1:0.0595,max1:4034.10,r2:0.04,max2:396};
+// QPP 2026 (QC)
+const QPP = {ex:3500,ympe:71300,yampe:81200,r1:0.064, max1:4339.20,r2:0.04,max2:396};
+// EI 2026
+const EI  = {mie:65700,rNon:0.0164,maxNon:1077.48,rQC:0.0131,maxQC:860.67};
+
 function estimateNet(gross, province) {
+  if (gross <= 0) return 0;
   const prov = province || 'ON';
-  const rates = GTN_RATES[prov] || GTN_RATES['ON'];
-  const bps   = GTN_BREAKPOINTS;
-  let rate;
-  if (gross <= bps[0])      rate = rates[0];
-  else if (gross >= bps[bps.length-1]) rate = rates[rates.length-1];
-  else {
-    rate = rates[0];
-    for (let i=0; i<bps.length-1; i++) {
-      if (gross >= bps[i] && gross < bps[i+1]) {
-        const t = (gross - bps[i]) / (bps[i+1] - bps[i]);
-        rate = rates[i] + t * (rates[i+1] - rates[i]);
-        break;
-      }
+  const td = DATA.tax_rates;
+
+  // ── Fallback: 2021 interpolation if JSON not loaded yet ──
+  if (!td || !td.provinces) {
+    const OLD_BP=[10000,20000,30000,40000,50000,60000,80000,100000,175000,600000];
+    const OLD={AB:[-9.9,1.4,14.6,19.5,21.8,24.1,25.8,26.8,31.8,42.7],
+      BC:[-9.6,1.9,14.0,18.3,20.3,22.5,24.0,25.4,32.4,46.8],
+      MB:[-9.8,6.5,18.3,22.7,24.9,27.1,29.1,31.0,36.7,46.2],
+      NB:[-8.9,2.7,16.2,21.3,23.8,26.5,28.8,30.4,36.5,48.1],
+      NL:[-8.9,1.9,17.2,21.3,24.1,26.8,29.0,30.6,36.1,46.6],
+      NS:[-8.9,4.9,16.8,22.5,25.3,27.9,30.4,31.9,37.8,49.0],
+      NT:[-12.4,0.9,12.5,16.6,18.7,21.2,23.2,24.8,31.3,42.2],
+      NU:[-2.5,0.4,8.8,13.3,16.3,19.2,21.0,22.5,28.6,39.6],
+      ON:[-8.9,1.9,12.8,19.5,21.5,23.7,25.5,27.2,34.8,47.7],
+      PE:[-8.9,4.4,17.5,22.4,24.8,27.3,29.7,31.3,37.3,47.0],
+      QC:[-31.5,0.9,20.2,23.9,26.8,29.6,31.7,33.2,39.6,49.1],
+      SK:[-8.9,3.2,15.9,20.6,22.9,25.4,27.4,27.3,33.0,43.0],
+      YT:[-8.9,3.1,14.6,18.6,20.4,22.8,24.6,25.7,31.2,41.7]};
+    const rates=OLD[prov]||OLD.ON; let rate=rates[0];
+    for(let i=0;i<OLD_BP.length-1;i++){
+      if(gross>=OLD_BP[i]&&gross<OLD_BP[i+1]){
+        rate=rates[i]+(rates[i+1]-rates[i])*(gross-OLD_BP[i])/(OLD_BP[i+1]-OLD_BP[i]);break;}
     }
+    if(gross>=OLD_BP[OLD_BP.length-1]) rate=rates[rates.length-1];
+    return gross*(1-rate/100);
   }
-  return gross * (1 - rate / 100);
+
+  // ── Bracket walk ──
+  const brackets = td.provinces[prov] || td.provinces['ON'];
+  let tax = 0;
+  for (const b of brackets) {
+    if (gross <= b.from) break;
+    tax += (Math.min(gross, b.to) - b.from) * b.rate / 100;
+  }
+
+  // ── CPP / QPP ──
+  const c = prov==='QC' ? QPP : CPP;
+  const cpp1 = Math.min(Math.max(0,Math.min(gross,c.ympe)-c.ex)*c.r1, c.max1);
+  const cpp2 = Math.min(Math.max(0,Math.min(gross,c.yampe)-c.ympe)*c.r2, c.max2);
+
+  // ── EI ──
+  const ei = prov==='QC'
+    ? Math.min(Math.min(gross,EI.mie)*EI.rQC, EI.maxQC)
+    : Math.min(Math.min(gross,EI.mie)*EI.rNon, EI.maxNon);
+
+  return gross - tax - cpp1 - cpp2 - ei;
 }
 
 // ── CMHC premium rate helper ────────────────────────────────────────────────
@@ -849,12 +885,13 @@ function cmhcRate(dp, price) {
 // Returns maximum purchase price given income, down payment, and other debts.
 // Accounts for CMHC premium added to principal when down < 20%.
 // Binding constraint is whichever ratio (GDS or TDS) hits its limit first.
-function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat, otherDebtMo) {
+function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat, otherDebtMo, condoFeeMonthly) {
   const stressRate   = Math.max(rate + 2, 5.25);
   const monthlyGross = grossIncome / 12;
   const monthlyTax   = proptax / 12;
   const monthlyHeat  = heat;
   const monthlyDebt  = otherDebtMo || 0;
+  const condoGDS     = (condoFeeMonthly || 0) * 0.5; // CMHC: 50% of condo fee in GDS
   let lo = 50000, hi = 5000000;
   for (let i = 0; i < 60; i++) {
     const mid      = (lo + hi) / 2;
@@ -864,8 +901,8 @@ function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat
     const loan     = baseLoan + prem;
     const bwP      = mortgagePayment(loan, stressRate, amort);
     const monthlyM = bwP * 26 / 12;
-    const gds = (monthlyM + monthlyTax + monthlyHeat) / monthlyGross * 100;
-    const tds = (monthlyM + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
+    const gds = (monthlyM + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+    const tds = (monthlyM + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
     if (gds <= 39 && tds <= 44) lo = mid; else hi = mid;
   }
   return Math.round(lo);
@@ -901,11 +938,13 @@ const baseChart = {
 // LOAD DATA
 // ================================================================
 async function loadData() {
-  const files = ['fsa_index','census_fsa','census_province','census_canada','crea_benchmarks','ottawa_sales','cpi'];
+  const files = ['fsa_index','census_fsa','census_province','census_canada','crea_benchmarks','ottawa_sales','cpi','tax_rates_2026','household_spending'];
   const results = await Promise.all(
     files.map(f => fetch(DATA_BASE + f + '.json').then(r => r.ok ? r.json() : null).catch(() => null))
   );
   files.forEach((f,i) => { DATA[f] = results[i]; });
+  // Alias for estimateNet
+  DATA.tax_rates = DATA.tax_rates_2026 || null;
 }
 
 // ================================================================
@@ -1091,7 +1130,7 @@ Chart.register({
 // ================================================================
 // STRESS TESTS
 // ================================================================
-function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherDebtMo) {
+function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherDebtMo, condoFeeMonthly) {
   const monthlyGross   = grossIncome / 12;
   const bwPay          = mortgagePayment(principal, rate, amort);
   const bwPayStress    = mortgagePayment(principal, rate + 2, amort);
@@ -1099,13 +1138,14 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
   const monthlyMortS   = bwPayStress * 26 / 12;
   const monthlyTax     = proptax / 12;
   const monthlyHeat    = heat;
-  const spendableNet   = (estimateNet(grossIncome * 0.53, 'ON') + estimateNet(grossIncome * 0.47, 'ON')) / 12; // rough split
+  const condoGDS       = (condoFeeMonthly || 0) * 0.5; // CMHC: 50% of condo fee
+  const spendableNet   = (estimateNet(grossIncome * 0.53, 'ON') + estimateNet(grossIncome * 0.47, 'ON')) / 12;
 
   const monthlyDebt = otherDebtMo || 0;
-  const gds   = (monthlyMort  + monthlyTax + monthlyHeat) / monthlyGross * 100;
-  const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat) / monthlyGross * 100;
-  const tds   = (monthlyMort  + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
-  const tdsS  = (monthlyMortS + monthlyTax + monthlyHeat + monthlyDebt) / monthlyGross * 100;
+  const gds   = (monthlyMort  + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+  const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+  const tds   = (monthlyMort  + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
+  const tdsS  = (monthlyMortS + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
   const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100;
   const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
 
@@ -1235,7 +1275,7 @@ function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherD
 // ================================================================
 // SPENDING TABLE
 // ================================================================
-function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province, lumpsum) {
+function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province, lumpsum, condofee, rate, amort, principal) {
   const p1net = estimateNet(p1sal, province);
   const p2net = estimateNet(p2sal, province);
 
@@ -1243,9 +1283,17 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
   const p1joint = p1n * jointPct, p2joint = p2n * jointPct;
   const p1per   = p1n * (1 - jointPct), p2per = p2n * (1 - jointPct);
   const jointTotal = p1joint + p2joint;
+  const condofeeAnn = (condofee || 0) * 12;
   const mortAnn = bwMort * 26, taxAnn = proptax, heatAnn = heat * 12;
-  const housingAnn = mortAnn + taxAnn + heatAnn;
+  const housingAnn = mortAnn + taxAnn + heatAnn + condofeeAnn;
   const remainAnn  = jointTotal - housingAnn;
+
+  // +2% stress payment for leeway column
+  const stressRate = Math.max((rate||4.5) + 2, 5.25);
+  const bwMortStress = mortgagePayment(principal || 0, stressRate, amort || 25);
+  const mortStressAnn = bwMortStress * 26;
+  const housingStressAnn = mortStressAnn + taxAnn + heatAnn + condofeeAnn;
+  const remainStressAnn  = jointTotal - housingStressAnn;
 
   const lumpAnn = lumpsum || 0;
 
@@ -1266,9 +1314,9 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
   const tbody = document.getElementById('spend-tbody');
 
   const rows = [
-    { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, lump:lumpAnn*p1ratio, ratio:p1ratio, per:p1per },
-    { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, lump:lumpAnn*p2ratio, ratio:p2ratio, per:p2per },
-    { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, lump:lumpAnn, ratio:1, per:personalAnn },
+    { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, condo:condofeeAnn*p1ratio, lump:lumpAnn*p1ratio, ratio:p1ratio, per:p1per },
+    { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, condo:condofeeAnn*p2ratio, lump:lumpAnn*p2ratio, ratio:p2ratio, per:p2per },
+    { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, condo:condofeeAnn, lump:lumpAnn, ratio:1, per:personalAnn },
   ];
 
   const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
@@ -1295,9 +1343,19 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;${divLStyle}">${d(sharedSavingsAnn)}</td>`
       : `<td class="${sharedSavingsAnn>=0?'ok':'bad'}" style="${divLStyle}font-size:11px;color:var(--ink-3);">${d(personSharedSav)}</td>`;
     const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
+    const condoCell = r.condo > 0
+      ? `<td class="neg">${d(r.condo)}</td>`
+      : `<td style="color:var(--ink-3);">—</td>`;
     const lumpCell = r.lump > 0
       ? `<td class="neg div-r">${d(r.lump)}</td>`
       : `<td class="div-r" style="color:var(--ink-3);">—</td>`;
+    // +2% stress leeway (combined row only, for clarity)
+    const stressLeeway = remainStressAnn - lumpAnn - catTotalAnn;
+    const stressLeewayPerson = stressLeeway * r.ratio;
+    const stressClass = stressLeewayPerson >= 0 ? 'ok' : 'bad';
+    const stressCell = isCombined
+      ? `<td class="${stressClass}" style="${divLStyle}font-size:11px;">${d(stressLeeway)}</td>`
+      : `<td style="${divLStyle}color:var(--ink-3);font-size:11px;">${d(stressLeewayPerson)}</td>`;
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos" style="${divLStyle}">${d(r.g)}</td>
@@ -1305,9 +1363,11 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       <td class="neg" style="${divLStyle}">${d(r.mort)}</td>
       <td class="neg">${d(r.tax)}</td>
       <td class="neg">${d(r.ht)}</td>
+      ${condoCell}
       ${lumpCell}
       ${catCells}
       ${sharedCell}
+      ${stressCell}
       <td style="color:var(--ink-2);border-right:1.5px solid rgba(255,255,255,0.18);">${d(r.per)}</td>
     </tr>`;
   }).join('');
@@ -2038,6 +2098,7 @@ function calculate() {
   const inflation = (+document.getElementById('inflation').value || 2.5) / 100;
   const lumpsum   = rawVal('lumpsum');
   const otherdebt = rawVal('otherdebt'); // monthly debt payments for TDS
+  const condofee  = rawVal('condofee');  // monthly condo fee (50% counts toward GDS per CMHC)
   const jointPct  = (+document.getElementById('jointpct').value || 70) / 100;
   const mode      = document.getElementById('displaymode').value;
 
@@ -2078,7 +2139,28 @@ function calculate() {
   const mPay     = bwPay * f;
   const taxPer   = proptax / (mode==='annual'?1:mode==='monthly'?12:26);
   const heatPer  = heat * (mode==='annual'?12:mode==='monthly'?1:12/26);
-  const mHousing = mPay + taxPer + heatPer;
+  const condoPer = condofee * (mode==='annual'?12:mode==='monthly'?1:12/26);
+  const mHousing = mPay + taxPer + heatPer + condoPer;
+
+  // ── LUMP SUM WARNING ─────────────────────────────────────────────
+  const lumpWarnEl = document.getElementById('lump-warn');
+  if (lumpWarnEl && principal > 0 && lumpsum > 0) {
+    const pct10 = principal * 0.10;
+    const pct20 = principal * 0.20;
+    if (lumpsum > pct20) {
+      lumpWarnEl.style.display = 'block';
+      lumpWarnEl.style.color = 'var(--red)';
+      lumpWarnEl.textContent = `⚠ ${((lumpsum/principal)*100).toFixed(1)}% of principal — exceeds typical 20% prepayment limit`;
+    } else if (lumpsum > pct10) {
+      lumpWarnEl.style.display = 'block';
+      lumpWarnEl.style.color = 'var(--amber)';
+      lumpWarnEl.textContent = `⚠ ${((lumpsum/principal)*100).toFixed(1)}% of principal — check your prepayment limit (often 10–20%)`;
+    } else {
+      lumpWarnEl.style.display = 'none';
+    }
+  } else if (lumpWarnEl) {
+    lumpWarnEl.style.display = 'none';
+  }
 
   // Total interest + lump sum savings — bi-weekly resolution for sub-year accuracy
   const r = bwRate(rate);
@@ -2108,7 +2190,7 @@ function calculate() {
   // Bank max mortgage
   // Bank max: binary search on purchase price including CMHC premium
   // We pass otherdebt=0 for bank max (it already factors TDS limit internally)
-  const bankMax    = bankMaxMortgageTDS(grossIncome, downpay, rate, amort, proptax, heat, otherdebt);
+  const bankMax    = bankMaxMortgageTDS(grossIncome, downpay, rate, amort, proptax, heat, otherdebt, condofee);
   const stressRate = Math.max(rate + 2, 5.25);
 
   // Net income scaled to display period
@@ -2121,6 +2203,9 @@ function calculate() {
   document.getElementById('m-pay').textContent      = CAD(mPay);
   document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
   document.getElementById('m-housing').textContent  = CAD(mHousing);
+  const housingNote = condofee > 0 ? 'incl. tax + heat + condo' : 'incl. tax + heat';
+  const housingNoteEl = document.getElementById('m-housing-s');
+  if (housingNoteEl) housingNoteEl.textContent = housingNote;
   // CMHC summary KPI
   const cmhcWrap = document.getElementById('m-cmhc-wrap');
   if (cmhcWrap) {
@@ -2175,10 +2260,10 @@ function calculate() {
   }
 
   // ── STRESS TESTS ─────────────────────────────────────────────────
-  renderStress(grossIncome, principal, rate, amort, proptax, heat, otherdebt);
+  renderStress(grossIncome, principal, rate, amort, proptax, heat, otherdebt, condofee);
 
   // ── SPENDING TABLE ───────────────────────────────────────────────
-  const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province, lumpsum);
+  const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province, lumpsum, condofee, rate, amort, principal);
   const leftoverAnn = (sharedSavingsAnn||0) + (personalAnn||0);
   document.getElementById('m-leftover').textContent = CAD(leftoverAnn / 26 * f);
   document.getElementById('m-leftover-s').textContent = modeLbl + ' · shared + personal';
@@ -2186,6 +2271,25 @@ function calculate() {
   const sharedExpBw = catTotalBw; // already bi-weekly
   document.getElementById('m-expenses').textContent = CAD(sharedExpBw * f);
   document.getElementById('m-expenses-s').textContent = modeLbl + ' · groceries, transport…';
+
+  // ── HOUSEHOLD SPENDING REFERENCE (StatsCan 2023) ─────────────────
+  const ssEl = document.getElementById('spend-statscan');
+  if (ssEl) {
+    const hs = DATA.household_spending && DATA.household_spending[province];
+    if (hs) {
+      // Relevant non-shelter categories (user's shared expenses = groceries+transport+etc)
+      const statsRef = (hs.food||0) + (hs.transportation||0) + (hs.recreation||0) +
+                       (hs.health||0) + (hs.personal_care||0) + (hs.clothing||0) + (hs.misc||0);
+      const userCatAnn = catTotalBw * 26;
+      const statsRefBw = statsRef / 26;
+      const diffPct = statsRef > 0 ? Math.round((userCatAnn - statsRef) / statsRef * 100) : 0;
+      const diffSign = diffPct >= 0 ? '+' : '';
+      ssEl.style.display = 'block';
+      ssEl.textContent = `StatsCan 2023 avg household (${province}, excl. shelter): ${CAD(statsRefBw)} bi-weekly · your shared: ${CAD(catTotalBw)} (${diffSign}${diffPct}%)`;
+    } else {
+      ssEl.style.display = 'none';
+    }
+  }
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
@@ -2265,7 +2369,7 @@ function calculate() {
 // ================================================================
 document.getElementById('calcbtn').addEventListener('click', calculate);
 document.getElementById('displaymode').addEventListener('change', calculate);
-['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt'].forEach(id => {
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt','condofee'].forEach(id => {
   document.getElementById(id).addEventListener('blur', calculate);
 });
 ['p1wage','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
