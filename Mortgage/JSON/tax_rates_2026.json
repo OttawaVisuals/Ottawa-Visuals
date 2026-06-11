@@ -1,0 +1,670 @@
+{
+  "_meta": {
+    "title": "Canada combined Fed+Prov/Terr marginal income tax brackets 2026",
+    "tax_year": 2026,
+    "source": "TaxTips.ca — Combined Federal & Provincial/Territorial Tax Brackets, Other Income column",
+    "source_url": "https://www.taxtips.ca/marginal-tax-rates-in-canada.htm",
+    "retrieved": "June 2026",
+    "csv_source": "TaxeRates.csv (user-created from TaxTips tables)",
+    "notes": [
+      "Rates are combined Fed+Prov marginal rates on Other Income (employment, interest, etc.).",
+      "CPP and EI are NOT included — calculate separately and add to tax.",
+      "BC bracket 17,046-40,430 corrected from 28.29% to 38.29% (source typo).",
+      "Yukon coded as YT (was YK in CSV).",
+      "Top bracket sentinel is ,000,000 — extrapolate top rate above that if needed."
+    ],
+    "cpp_2026": {
+      "note": "Canada Pension Plan 2026 — same rates as 2025, confirm annually",
+      "exemption": 3500,
+      "ympe": 71300,
+      "yampe": 81200,
+      "rate1": 0.0595,
+      "max1": 4034.1,
+      "rate2": 0.04,
+      "max2": 396,
+      "source": "https://www.taxtips.ca/cpp-qpp-and-ei/cpp-qpp-contribution-rates.htm"
+    },
+    "qpp_2026": {
+      "note": "Quebec Pension Plan — used for QC only",
+      "exemption": 3500,
+      "ympe": 71300,
+      "yampe": 81200,
+      "rate1": 0.064,
+      "max1": 4339.2,
+      "rate2": 0.04,
+      "max2": 396
+    },
+    "ei_2026": {
+      "note": "Employment Insurance 2026 — confirm annually. QC lower rate (QPIP covers parental).",
+      "mie": 65700,
+      "rate_non_qc": 0.0164,
+      "max_non_qc": 1077.48,
+      "rate_qc": 0.0131,
+      "max_qc": 860.67,
+      "source": "https://www.taxtips.ca/cpp-qpp-and-ei/employment-insurance-premium-rates.htm"
+    }
+  },
+  "fsa_to_province": {
+    "A": "NL",
+    "B": "NS",
+    "C": "PE",
+    "E": "NB",
+    "G": "QC",
+    "H": "QC",
+    "J": "QC",
+    "K": "ON",
+    "L": "ON",
+    "M": "ON",
+    "N": "ON",
+    "P": "ON",
+    "R": "MB",
+    "S": "SK",
+    "T": "AB",
+    "V": "BC",
+    "X": "NT",
+    "Y": "YT"
+  },
+  "provinces": {
+    "AB": [
+      {
+        "from": 0,
+        "to": 58523,
+        "rate": 22
+      },
+      {
+        "from": 58524,
+        "to": 61200,
+        "rate": 28.5
+      },
+      {
+        "from": 61201,
+        "to": 117045,
+        "rate": 30.5
+      },
+      {
+        "from": 117046,
+        "to": 154259,
+        "rate": 36
+      },
+      {
+        "from": 154260,
+        "to": 181440,
+        "rate": 38
+      },
+      {
+        "from": 181441,
+        "to": 185111,
+        "rate": 41.38
+      },
+      {
+        "from": 185112,
+        "to": 246813,
+        "rate": 42.29
+      },
+      {
+        "from": 246814,
+        "to": 258482,
+        "rate": 43.29
+      },
+      {
+        "from": 258483,
+        "to": 370222,
+        "rate": 47
+      },
+      {
+        "from": 370223,
+        "to": 1000000,
+        "rate": 48
+      }
+    ],
+    "BC": [
+      {
+        "from": 0,
+        "to": 50363,
+        "rate": 19.6
+      },
+      {
+        "from": 50364,
+        "to": 58523,
+        "rate": 21.7
+      },
+      {
+        "from": 58524,
+        "to": 100728,
+        "rate": 28.2
+      },
+      {
+        "from": 100729,
+        "to": 115648,
+        "rate": 31
+      },
+      {
+        "from": 115649,
+        "to": 117045,
+        "rate": 32.79
+      },
+      {
+        "from": 117046,
+        "to": 140430,
+        "rate": 38.29
+      },
+      {
+        "from": 140431,
+        "to": 181440,
+        "rate": 40.7
+      },
+      {
+        "from": 181441,
+        "to": 190405,
+        "rate": 43.99
+      },
+      {
+        "from": 190406,
+        "to": 258482,
+        "rate": 46.09
+      },
+      {
+        "from": 258483,
+        "to": 265545,
+        "rate": 49.8
+      },
+      {
+        "from": 265546,
+        "to": 1000000,
+        "rate": 53.5
+      }
+    ],
+    "MB": [
+      {
+        "from": 0,
+        "to": 47000,
+        "rate": 24.8
+      },
+      {
+        "from": 47001,
+        "to": 58523,
+        "rate": 26.75
+      },
+      {
+        "from": 58524,
+        "to": 100000,
+        "rate": 33.25
+      },
+      {
+        "from": 100001,
+        "to": 117045,
+        "rate": 37.9
+      },
+      {
+        "from": 117046,
+        "to": 181440,
+        "rate": 43.4
+      },
+      {
+        "from": 181441,
+        "to": 200000,
+        "rate": 46.69
+      },
+      {
+        "from": 200001,
+        "to": 258482,
+        "rate": 47.54
+      },
+      {
+        "from": 258483,
+        "to": 400000,
+        "rate": 51.25
+      },
+      {
+        "from": 400001,
+        "to": 1000000,
+        "rate": 50.4
+      }
+    ],
+    "NB": [
+      {
+        "from": 0,
+        "to": 52333,
+        "rate": 23.4
+      },
+      {
+        "from": 52334,
+        "to": 58523,
+        "rate": 28
+      },
+      {
+        "from": 58524,
+        "to": 104666,
+        "rate": 34.5
+      },
+      {
+        "from": 104667,
+        "to": 117045,
+        "rate": 36.5
+      },
+      {
+        "from": 117046,
+        "to": 181440,
+        "rate": 42
+      },
+      {
+        "from": 181441,
+        "to": 193861,
+        "rate": 45.38
+      },
+      {
+        "from": 193862,
+        "to": 258482,
+        "rate": 48.79
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 52.5
+      }
+    ],
+    "NL": [
+      {
+        "from": 0,
+        "to": 44678,
+        "rate": 22.7
+      },
+      {
+        "from": 44679,
+        "to": 58523,
+        "rate": 28.5
+      },
+      {
+        "from": 58524,
+        "to": 89354,
+        "rate": 35
+      },
+      {
+        "from": 89355,
+        "to": 117045,
+        "rate": 36.3
+      },
+      {
+        "from": 117046,
+        "to": 159528,
+        "rate": 41.8
+      },
+      {
+        "from": 159529,
+        "to": 181440,
+        "rate": 43.8
+      },
+      {
+        "from": 181441,
+        "to": 223340,
+        "rate": 47.09
+      },
+      {
+        "from": 223341,
+        "to": 258482,
+        "rate": 49.09
+      },
+      {
+        "from": 258483,
+        "to": 285319,
+        "rate": 52.8
+      },
+      {
+        "from": 285320,
+        "to": 570638,
+        "rate": 53.8
+      },
+      {
+        "from": 570639,
+        "to": 1000000,
+        "rate": 54.3
+      }
+    ],
+    "NS": [
+      {
+        "from": 0,
+        "to": 30995,
+        "rate": 27.79
+      },
+      {
+        "from": 30996,
+        "to": 58523,
+        "rate": 28.95
+      },
+      {
+        "from": 58524,
+        "to": 61991,
+        "rate": 35.45
+      },
+      {
+        "from": 61992,
+        "to": 97417,
+        "rate": 37.17
+      },
+      {
+        "from": 97418,
+        "to": 117045,
+        "rate": 38
+      },
+      {
+        "from": 117046,
+        "to": 157124,
+        "rate": 43.5
+      },
+      {
+        "from": 157125,
+        "to": 181440,
+        "rate": 47
+      },
+      {
+        "from": 181441,
+        "to": 258482,
+        "rate": 50.29
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 54
+      }
+    ],
+    "ON": [
+      {
+        "from": 0,
+        "to": 53891,
+        "rate": 19.05
+      },
+      {
+        "from": 53892,
+        "to": 58523,
+        "rate": 23.15
+      },
+      {
+        "from": 58524,
+        "to": 94907,
+        "rate": 29.65
+      },
+      {
+        "from": 94908,
+        "to": 107785,
+        "rate": 31.48
+      },
+      {
+        "from": 107786,
+        "to": 111814,
+        "rate": 33.89
+      },
+      {
+        "from": 111815,
+        "to": 117045,
+        "rate": 37.91
+      },
+      {
+        "from": 117046,
+        "to": 150000,
+        "rate": 43.41
+      },
+      {
+        "from": 150001,
+        "to": 181440,
+        "rate": 44.97
+      },
+      {
+        "from": 181441,
+        "to": 220000,
+        "rate": 48.26
+      },
+      {
+        "from": 220001,
+        "to": 258482,
+        "rate": 49.82
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 53.53
+      }
+    ],
+    "PE": [
+      {
+        "from": 0,
+        "to": 33928,
+        "rate": 23.5
+      },
+      {
+        "from": 33929,
+        "to": 58523,
+        "rate": 27.47
+      },
+      {
+        "from": 58524,
+        "to": 65820,
+        "rate": 33.97
+      },
+      {
+        "from": 65821,
+        "to": 106890,
+        "rate": 37.1
+      },
+      {
+        "from": 106891,
+        "to": 117045,
+        "rate": 38.12
+      },
+      {
+        "from": 117046,
+        "to": 142250,
+        "rate": 43.62
+      },
+      {
+        "from": 142251,
+        "to": 181440,
+        "rate": 45
+      },
+      {
+        "from": 181441,
+        "to": 200000,
+        "rate": 48.29
+      },
+      {
+        "from": 200001,
+        "to": 258482,
+        "rate": 49.29
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 53
+      }
+    ],
+    "QC": [
+      {
+        "from": 0,
+        "to": 54345,
+        "rate": 25.69
+      },
+      {
+        "from": 54346,
+        "to": 58523,
+        "rate": 30.69
+      },
+      {
+        "from": 58524,
+        "to": 108680,
+        "rate": 36.12
+      },
+      {
+        "from": 108681,
+        "to": 117045,
+        "rate": 41.12
+      },
+      {
+        "from": 117046,
+        "to": 132245,
+        "rate": 45.71
+      },
+      {
+        "from": 132246,
+        "to": 181440,
+        "rate": 47.46
+      },
+      {
+        "from": 181441,
+        "to": 258482,
+        "rate": 50.21
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 53.31
+      }
+    ],
+    "SK": [
+      {
+        "from": 0,
+        "to": 54532,
+        "rate": 24.5
+      },
+      {
+        "from": 54533,
+        "to": 58523,
+        "rate": 26.5
+      },
+      {
+        "from": 58524,
+        "to": 117045,
+        "rate": 33
+      },
+      {
+        "from": 117046,
+        "to": 155805,
+        "rate": 38.5
+      },
+      {
+        "from": 155806,
+        "to": 181440,
+        "rate": 40.5
+      },
+      {
+        "from": 181441,
+        "to": 258482,
+        "rate": 43.79
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 47.5
+      }
+    ],
+    "NT": [
+      {
+        "from": 0,
+        "to": 53003,
+        "rate": 19.9
+      },
+      {
+        "from": 53004,
+        "to": 58523,
+        "rate": 22.6
+      },
+      {
+        "from": 58524,
+        "to": 106009,
+        "rate": 29.1
+      },
+      {
+        "from": 106010,
+        "to": 117045,
+        "rate": 32.7
+      },
+      {
+        "from": 117046,
+        "to": 172346,
+        "rate": 38.2
+      },
+      {
+        "from": 172347,
+        "to": 181440,
+        "rate": 40.05
+      },
+      {
+        "from": 181441,
+        "to": 258482,
+        "rate": 43.34
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 47.05
+      }
+    ],
+    "NU": [
+      {
+        "from": 0,
+        "to": 55801,
+        "rate": 18
+      },
+      {
+        "from": 55802,
+        "to": 58523,
+        "rate": 21
+      },
+      {
+        "from": 58524,
+        "to": 111602,
+        "rate": 27.5
+      },
+      {
+        "from": 111603,
+        "to": 117045,
+        "rate": 29.5
+      },
+      {
+        "from": 117046,
+        "to": 181439,
+        "rate": 35
+      },
+      {
+        "from": 181440,
+        "to": 258482,
+        "rate": 40.79
+      },
+      {
+        "from": 258483,
+        "to": 1000000,
+        "rate": 44.5
+      }
+    ],
+    "YT": [
+      {
+        "from": 0,
+        "to": 58523,
+        "rate": 20.4
+      },
+      {
+        "from": 58524,
+        "to": 117045,
+        "rate": 29.5
+      },
+      {
+        "from": 117046,
+        "to": 181440,
+        "rate": 36.9
+      },
+      {
+        "from": 181441,
+        "to": 258482,
+        "rate": 42.22
+      },
+      {
+        "from": 258483,
+        "to": 500000,
+        "rate": 45.8
+      },
+      {
+        "from": 500001,
+        "to": 1000000,
+        "rate": 48
+      }
+    ]
+  }
+}
