@@ -602,5 +602,80 @@ write_json(census_canada, OUT / "census_canada.json")
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 
+# ── ADDITIONS TO build_json.py ────────────────────────────────────────────────
+# Add these two sections to build_json.py (after the existing sections).
+# Also add 'tax_rates_2026' and 'household_spending' to the final summary print.
+
+# ── 8. tax_rates_2026.json ────────────────────────────────────────────────────
+# This file is static — generated once from TaxeRates.csv using the node script.
+# It lives in Mortgage/JSON/ already. build_json.py just copies it if present.
+
+import shutil
+
+print("Checking tax_rates_2026.json...")
+TAX_SRC = STATIC / "tax_rates_2026.json"
+TAX_OUT = OUT / "tax_rates_2026.json"
+if TAX_SRC.exists():
+    shutil.copy(TAX_SRC, TAX_OUT)
+    print(f"  ✓ Copied tax_rates_2026.json from Static/")
+elif TAX_OUT.exists():
+    print(f"  ✓ tax_rates_2026.json already in JSON/ (no update)")
+else:
+    print(f"  WARNING: tax_rates_2026.json not found in Static/ or JSON/")
+    print(f"           Run: node Mortgage/Pipeline/build_tax_json.js")
+
+# ── 9. household_spending.json ────────────────────────────────────────────────
+
+print("Building household_spending.json...")
+HS_CSV = STATIC / "HouseholdSpending.csv"
+
+GEO_TO_CODE = {
+    'Canada':'CA','Newfoundland and Labrador':'NL','Prince Edward Island':'PE',
+    'Nova Scotia':'NS','New Brunswick':'NB','Quebec':'QC','Ontario':'ON',
+    'Manitoba':'MB','Saskatchewan':'SK','Alberta':'AB','British Columbia':'BC',
+}
+CAT_MAP = {
+    'Food expenditures':'food','Shelter':'shelter','Household operations':'hh_ops',
+    'Household furnishings and equipment':'furnishings','Clothing and accessories':'clothing',
+    'Transportation':'transportation','Health care':'health','Personal care':'personal_care',
+    'Recreation':'recreation','Education':'education',
+    'Reading materials and other printed matter':'reading',
+    'Tobacco products, alcoholic beverages and cannabis for non-medical use':'tobacco_alcohol',
+    'Games of chance':'gambling','Miscellaneous expenditures':'misc',
+}
+
+if HS_CSV.exists():
+    hs_df = pd.read_csv(HS_CSV, encoding="utf-8")
+    hs_df.columns = [c.strip() for c in hs_df.columns]
+    # Column names: REF_DATE, GEO, "Household expenditures, summary-level categories", VALUE
+    cat_col = [c for c in hs_df.columns if 'expenditure' in c.lower() or 'categor' in c.lower()][0]
+
+    hs_out = {
+        "_meta": {
+            "title": "Canadian household spending by province 2023",
+            "source": "Statistics Canada Survey of Household Spending 2023",
+            "source_table": "11-10-0222-01",
+            "year": 2023,
+            "unit": "CAD per household per year",
+            "note": "Shelter includes rent/mortgage — exclude when checking non-housing shared expenses.",
+        }
+    }
+    for _, row in hs_df.iterrows():
+        code = GEO_TO_CODE.get(str(row['GEO']).strip())
+        key  = CAT_MAP.get(str(row[cat_col]).strip())
+        if not code or not key:
+            continue
+        if code not in hs_out:
+            hs_out[code] = {}
+        try:
+            hs_out[code][key] = int(float(row['VALUE']))
+        except (ValueError, TypeError):
+            pass
+
+    write_json(hs_out, OUT / "household_spending.json")
+else:
+    print(f"  WARNING: HouseholdSpending.csv not found at {HS_CSV}")
+    print(f"           Place it in Mortgage/Static/HouseholdSpending.csv")
+
 print()
 print("All JSON files written to Mortgage/JSON/")
