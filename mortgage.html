@@ -744,6 +744,30 @@ const CATS = [
 const catVals = {};
 CATS.forEach(c => { catVals[c.id] = c.def; });
 
+// StatsCan 2023 household spending keys per display category
+// Source: Statistics Canada table 11-10-0222-01
+const STATSCAN_GROUPS = {
+  // Spending breakdown columns
+  'cat-groc':  ['food'],
+  'cat-ent':   ['recreation'],
+  'cat-trans': ['transportation'],
+  'cat-other': ['furnishings','tobacco_alcohol','misc'],
+  // Housing column (shelter + household operations) — shown separately
+  'housing':   ['shelter','hh_ops'],
+  // Personal catch-all — everything not in the above
+  'personal':  ['health','personal_care','clothing','education','reading','gambling'],
+};
+
+// Returns the StatsCan annual average for a group key given a province code.
+// Returns null if data not loaded yet.
+function statscanAvg(province, groupKey) {
+  const hs = DATA.household_spending && DATA.household_spending[province];
+  if (!hs) return null;
+  const keys = STATSCAN_GROUPS[groupKey];
+  if (!keys) return null;
+  return keys.reduce((sum, k) => sum + (hs[k] || 0), 0);
+}
+
 // ================================================================
 // THEME
 // ================================================================
@@ -1372,7 +1396,29 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     </tr>`;
   }).join('');
 
-  tbody.innerHTML = dataRows;
+  // ── StatsCan avg row ─────────────────────────────────────────────
+  // One row below the data rows: "Avg spending" label + per-category provincial averages.
+  // Housing columns show shelter+hh_ops avg; cat columns show their mapped avg; leftovers blank.
+  const scaledAvg = (groupKey) => {
+    const ann = statscanAvg(province, groupKey);
+    return ann != null ? `<span style="color:var(--ink-3);">${d(ann)}</span>` : '—';
+  };
+  const avgCatCells = CATS.map((c, ci) => {
+    const isFirst = ci === 0;
+    const isLast  = ci === CATS.length - 1;
+    return `<td${isLast ? ' class="div-r"' : ''} style="${isFirst ? divLStyle : ''}font-size:10px;color:var(--ink-3);">${scaledAvg(c.id)}</td>`;
+  }).join('');
+
+  const avgRow = statscanAvg(province, 'cat-groc') != null ? `
+    <tr style="border-top:1px dashed var(--line-2);">
+      <td style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);letter-spacing:0.04em;">Avg spending</td>
+      <td colspan="2" style="border-left:1.5px solid rgba(255,255,255,0.18);"></td>
+      <td colspan="5" style="border-left:1.5px solid rgba(255,255,255,0.18);font-size:10px;color:var(--ink-3);text-align:center;" title="StatsCan 2023: shelter + household operations">${scaledAvg('housing')}</td>
+      ${avgCatCells}
+      <td colspan="3" style="border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);"></td>
+    </tr>` : '';
+
+  tbody.innerHTML = dataRows + avgRow;
 
   // Mobile card view
   const modeCardRows = rows.map((r, ri) => {
@@ -1391,7 +1437,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       personal: d(r.per),
     };
   });
-  renderMobileSpendCards(modeCardRows, d, mode);
+  renderMobileSpendCards(modeCardRows, d, mode, province);
 
   document.getElementById('spend-warn').hidden = sharedSavingsAnn >= 0;
   document.getElementById('jpct-lbl').textContent = Math.round(jointPct*100);
@@ -2277,9 +2323,10 @@ function calculate() {
   if (ssEl) {
     const hs = DATA.household_spending && DATA.household_spending[province];
     if (hs) {
-      // Relevant non-shelter categories (user's shared expenses = groceries+transport+etc)
-      const statsRef = (hs.food||0) + (hs.transportation||0) + (hs.recreation||0) +
-                       (hs.health||0) + (hs.personal_care||0) + (hs.clothing||0) + (hs.misc||0);
+      // Sum only the cat columns (excl. housing) — matches STATSCAN_GROUPS for cat-*
+      const statsRef = ['food','recreation','transportation','furnishings','tobacco_alcohol','misc',
+                        'health','personal_care','clothing','education','reading','gambling']
+                       .reduce((s, k) => s + (hs[k] || 0), 0);
       const userCatAnn = catTotalBw * 26;
       const statsRefBw = statsRef / 26;
       const diffPct = statsRef > 0 ? Math.round((userCatAnn - statsRef) / statsRef * 100) : 0;
@@ -2450,7 +2497,7 @@ window.addEventListener('resize', function() {
 // ── MOBILE SPEND CARDS ───────────────────────────────────────────
 // Builds a card-per-person layout as an alternative to the wide table.
 // Called from renderSpendTable whenever the data changes.
-function renderMobileSpendCards(rows, d, mode) {
+function renderMobileSpendCards(rows, d, mode, province) {
   const isMob = window.innerWidth <= 768;
   const table = document.getElementById('spend-table');
   const cards = document.getElementById('spend-cards-mobile');
@@ -2524,7 +2571,13 @@ function renderMobileSpendCards(rows, d, mode) {
         ${CATS.map(c => {
           const p1v = p1.cats.find(x => x.id === c.id);
           const p2v = p2.cats.find(x => x.id === c.id);
-          return inputRow(c.label, c.id, p1v ? p1v.val : '—', p2v ? p2v.val : '—');
+          const avgAnn = statscanAvg(province, c.id);
+          const avgDisp = avgAnn != null ? d(avgAnn) : null;
+          const avgSubRow = avgDisp ? `<tr>
+            <td style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:1px 6px 4px 14px;border-bottom:1px dashed var(--line);">↳ avg spend</td>
+            <td colspan="3" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;padding:1px 6px 4px;border-bottom:1px dashed var(--line);">${avgDisp}</td>
+          </tr>` : '';
+          return inputRow(c.label, c.id, p1v ? p1v.val : '—', p2v ? p2v.val : '—') + avgSubRow;
         }).join('')}
         ${secRow('Leftovers', 'rgba(29,158,117,0.55)')}
         ${dataRow('Shared', p1.shared, p2.shared, cb.shared, sharedOkColor)}
