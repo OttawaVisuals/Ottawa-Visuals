@@ -429,7 +429,7 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="downpay" value="100,000" data-raw="100000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="downpay" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
@@ -477,7 +477,7 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="hprice" value="650,000" data-raw="650000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="hprice" value="500,000" data-raw="500000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
@@ -524,7 +524,6 @@ p{margin:0;}
         <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
         <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
         <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms" id="m-housing-s">incl. tax + heat</div></div>
-        <div class="met" id="m-cmhc-wrap" style="display:none;"><div class="ml">CMHC premium <span class="tip-btn">?<span class="tip-box" style="width:260px;">Mortgage default insurance required when down payment is under 20% on homes ≤ $1.5M. Added to your mortgage principal. Rates: 5–9.99% down → 4.0%; 10–14.99% → 3.1%; 15–19.99% → 2.8%.</span></span></div><div class="mv amber" id="m-cmhc">—</div><div class="ms" id="m-cmhc-s"></div></div>
         <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
         <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
         <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
@@ -546,7 +545,7 @@ p{margin:0;}
               <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Salary</th>
               <th colspan="5" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
               <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
-              <th colspan="3" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
+              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
             <tr>
               <th style="width:72px;"></th>
@@ -562,7 +561,6 @@ p{margin:0;}
               <th>Transport</th>
               <th class="div-r">Other</th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Shared</th>
-              <th style="border-left:1.5px solid rgba(255,255,255,0.18);" title="Shared leftover if rate were +2% (renewal stress)">+2% leeway</th>
               <th style="border-right:1.5px solid rgba(255,255,255,0.18);">Personal</th>
             </tr>
           </thead>
@@ -571,7 +569,10 @@ p{margin:0;}
       </div>
       <div id="spend-cards-mobile" style="display:none;"></div>
       <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
-      <div id="spend-statscan" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;display:none;"></div>
+      <div style="margin-top:6px;display:flex;align-items:center;gap:5px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Avg spending</span>
+        <span class="tip-btn" id="statscan-tip-btn">?<span class="tip-box" style="width:260px;">Average household spending by province, Statistics Canada Survey of Household Spending 2023 (table 11-10-0222-01). Values shown per category below each input reflect the provincial average for that spending group, scaled to the selected display period. Housing average includes shelter and household operations. Excludes CMHC-insured amounts.</span></span>
+      </div>
     </div>
 
     <!-- ROW 2: Stress tests + Amortization side by side -->
@@ -735,10 +736,10 @@ let charts = {};
 
 // Spending category definitions (label, id, default bi-weekly value)
 const CATS = [
-  { label:'Groceries',   id:'cat-groc',  def:600 },
+  { label:'Groceries',   id:'cat-groc',  def:500 },
   { label:'Entertain.',  id:'cat-ent',   def:200 },
-  { label:'Transport',   id:'cat-trans', def:300 },
-  { label:'Other',       id:'cat-other', def:150 },
+  { label:'Transport',   id:'cat-trans', def:450 },
+  { label:'Other',       id:'cat-other', def:250 },
 ];
 // Build input state object
 const catVals = {};
@@ -1373,13 +1374,6 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
     const lumpCell = r.lump > 0
       ? `<td class="neg div-r">${d(r.lump)}</td>`
       : `<td class="div-r" style="color:var(--ink-3);">—</td>`;
-    // +2% stress leeway (combined row only, for clarity)
-    const stressLeeway = remainStressAnn - lumpAnn - catTotalAnn;
-    const stressLeewayPerson = stressLeeway * r.ratio;
-    const stressClass = stressLeewayPerson >= 0 ? 'ok' : 'bad';
-    const stressCell = isCombined
-      ? `<td class="${stressClass}" style="${divLStyle}font-size:11px;">${d(stressLeeway)}</td>`
-      : `<td style="${divLStyle}color:var(--ink-3);font-size:11px;">${d(stressLeewayPerson)}</td>`;
     return `<tr style="${boldStyle}">
       <td>${r.label}</td>
       <td class="pos" style="${divLStyle}">${d(r.g)}</td>
@@ -1391,14 +1385,11 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       ${lumpCell}
       ${catCells}
       ${sharedCell}
-      ${stressCell}
       <td style="color:var(--ink-2);border-right:1.5px solid rgba(255,255,255,0.18);">${d(r.per)}</td>
     </tr>`;
   }).join('');
 
   // ── StatsCan avg row ─────────────────────────────────────────────
-  // One row below the data rows: "Avg spending" label + per-category provincial averages.
-  // Housing columns show shelter+hh_ops avg; cat columns show their mapped avg; leftovers blank.
   const scaledAvg = (groupKey) => {
     const ann = statscanAvg(province, groupKey);
     return ann != null ? `<span style="color:var(--ink-3);">${d(ann)}</span>` : '—';
@@ -1415,7 +1406,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
       <td colspan="2" style="border-left:1.5px solid rgba(255,255,255,0.18);"></td>
       <td colspan="5" style="border-left:1.5px solid rgba(255,255,255,0.18);font-size:10px;color:var(--ink-3);text-align:center;" title="StatsCan 2023: shelter + household operations">${scaledAvg('housing')}</td>
       ${avgCatCells}
-      <td colspan="3" style="border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);"></td>
+      <td colspan="2" style="border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);"></td>
     </tr>` : '';
 
   tbody.innerHTML = dataRows + avgRow;
@@ -1491,10 +1482,10 @@ function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal,
     data: {
       labels,
       datasets: [
-        { label:'Principal',     data:prinData,   borderColor:'rgba(232,160,48,0.9)',  backgroundColor:'rgba(232,160,48,0.45)', fill:'stack', tension:0.3, borderWidth:2,   pointRadius:0 },
-        { label:'Interest',      data:intData,    borderColor:'rgba(232,90,68,0.9)',   backgroundColor:'rgba(232,90,68,0.40)',  fill:'stack', tension:0.3, borderWidth:2,   pointRadius:0 },
-        { label:'Shared exp.',   data:sharedData, borderColor:'rgba(127,119,221,0.9)', backgroundColor:'rgba(127,119,221,0.35)', fill:'stack', tension:0.3, borderWidth:1.5, pointRadius:0 },
-        { label:'Leeway',        data:p1RemData,  borderColor:'#1D9E75',               backgroundColor:'rgba(29,158,117,0.50)', fill:'stack', tension:0.3, borderWidth:2.5, pointRadius:0 },
+        { label:'Principal',         data:prinData,        borderColor:'rgba(232,160,48,0.9)',  backgroundColor:'rgba(232,160,48,0.45)', fill:'stack',  tension:0.3, borderWidth:2,   pointRadius:0 },
+        { label:'Interest',          data:intData,         borderColor:'rgba(232,90,68,0.9)',   backgroundColor:'rgba(232,90,68,0.40)',  fill:'stack',  tension:0.3, borderWidth:2,   pointRadius:0 },
+        { label:'Shared exp.',       data:sharedData,      borderColor:'rgba(127,119,221,0.9)', backgroundColor:'rgba(127,119,221,0.35)', fill:'stack', tension:0.3, borderWidth:1.5, pointRadius:0 },
+        { label:'Leeway',            data:p1RemData,       borderColor:'#1D9E75',               backgroundColor:'rgba(29,158,117,0.50)', fill:'stack',  tension:0.3, borderWidth:2.5, pointRadius:0 },
       ],
     },
     options: {
@@ -2252,17 +2243,6 @@ function calculate() {
   const housingNote = condofee > 0 ? 'incl. tax + heat + condo' : 'incl. tax + heat';
   const housingNoteEl = document.getElementById('m-housing-s');
   if (housingNoteEl) housingNoteEl.textContent = housingNote;
-  // CMHC summary KPI
-  const cmhcWrap = document.getElementById('m-cmhc-wrap');
-  if (cmhcWrap) {
-    if (cmhcPremium > 0) {
-      cmhcWrap.style.display = '';
-      document.getElementById('m-cmhc').textContent = CAD(cmhcPremium);
-      document.getElementById('m-cmhc-s').textContent = (cmhcRatePct * 100).toFixed(1) + '% of loan · added to principal';
-    } else {
-      cmhcWrap.style.display = 'none';
-    }
-  }
   document.getElementById('m-interest').textContent = CAD(totalInt);
   document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
   const timeSavedStr = monthsSaved <= 0 ? '—'
@@ -2317,26 +2297,6 @@ function calculate() {
   const sharedExpBw = catTotalBw; // already bi-weekly
   document.getElementById('m-expenses').textContent = CAD(sharedExpBw * f);
   document.getElementById('m-expenses-s').textContent = modeLbl + ' · groceries, transport…';
-
-  // ── HOUSEHOLD SPENDING REFERENCE (StatsCan 2023) ─────────────────
-  const ssEl = document.getElementById('spend-statscan');
-  if (ssEl) {
-    const hs = DATA.household_spending && DATA.household_spending[province];
-    if (hs) {
-      // Sum only the cat columns (excl. housing) — matches STATSCAN_GROUPS for cat-*
-      const statsRef = ['food','recreation','transportation','furnishings','tobacco_alcohol','misc',
-                        'health','personal_care','clothing','education','reading','gambling']
-                       .reduce((s, k) => s + (hs[k] || 0), 0);
-      const userCatAnn = catTotalBw * 26;
-      const statsRefBw = statsRef / 26;
-      const diffPct = statsRef > 0 ? Math.round((userCatAnn - statsRef) / statsRef * 100) : 0;
-      const diffSign = diffPct >= 0 ? '+' : '';
-      ssEl.style.display = 'block';
-      ssEl.textContent = `StatsCan 2023 avg household (${province}, excl. shelter): ${CAD(statsRefBw)} bi-weekly · your shared: ${CAD(catTotalBw)} (${diffSign}${diffPct}%)`;
-    } else {
-      ssEl.style.display = 'none';
-    }
-  }
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
   renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
