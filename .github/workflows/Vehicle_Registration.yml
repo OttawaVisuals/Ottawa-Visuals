@@ -1,0 +1,39 @@
+name: Update StatCan Vehicle Registrations
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch filtered data
+        run: |
+          curl -s "https://www150.statcan.gc.ca/t1/tbl1/en/dtl!downloadDataAsCustomizedLayout-nonTraduit.action\
+          ?pid=2010002501\
+          &selectedMembers=[[1,2199,2208],[5,6,1,7],[2,3,4,5],[1]]\
+          &dimensionLayouts=layout2,layout2,layout2,layout2\
+          &vectorDisplay=false" \
+          -o Vehicles/statcan-vehicle-registrations.csv
+
+      - name: Convert to JSON
+        run: |
+          python3 -c "
+          import csv, json
+          with open('Vehicles/statcan-vehicle-registrations.csv', encoding='utf-8-sig') as f:
+              rows = list(csv.DictReader(f))
+          with open('Vehicles/statcan-vehicle-registrations.json', 'w') as f:
+              json.dump(rows, f, indent=2)
+          "
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Vehicles/statcan-vehicle-registrations.csv Vehicles/statcan-vehicle-registrations.json
+          git diff --staged --quiet || git commit -m "chore: update StatCan vehicle registrations $(date +'%Y-%m-%d')"
+          git push
