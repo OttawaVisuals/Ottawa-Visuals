@@ -18,11 +18,10 @@ jobs:
 
           url = "https://www150.statcan.gc.ca/t1/wds/sdmx/statcan/rest/data/DF_20100025/1+2199+2208.5+6+1+7.2+3+4+5.1"
           req = urllib.request.Request(url, headers={"Accept": "application/vnd.sdmx.data+json;version=1.0.0-wd"})
-          
+
           with urllib.request.urlopen(req) as r:
               data = json.load(r)
 
-          # Parse SDMX-JSON structure
           structure = data["structure"]
           dim_names = [d["name"] for d in structure["dimensions"]["series"]]
           dim_values = [d["values"] for d in structure["dimensions"]["series"]]
@@ -30,7 +29,7 @@ jobs:
 
           rows = []
           for series_key, series in data["dataSets"][0]["series"].items():
-              indices = [int(i) for i in series_key.split(":")]
+              indices = [int(i) for i in series_key.split(".")]
               dim_labels = {dim_names[i]: dim_values[i][indices[i]]["name"] for i in range(len(dim_names))}
               for obs_idx, obs in series["observations"].items():
                   row = dict(dim_labels)
