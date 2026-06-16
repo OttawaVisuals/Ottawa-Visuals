@@ -1,0 +1,35 @@
+name: Update ASE Speed Data
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'  # 10am UTC every Monday
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch data
+        run: |
+          curl -s "https://services.arcgis.com/G6F8XLCl5KtAlZ2G/arcgis/rest/services/Automated_Speed_Enforcement_Camera_Removal_%E2%80%93_Monitoring_Speed_Data/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson" \
+            -o Vehicles/ase-speed-data.geojson
+
+      - name: Convert to CSV
+        run: |
+          echo "ObjectId,Data_Type,Location,Camera_Install_Year,Date_of_Data_Collection,AvgSpeed,Pct85th,PctCompliance,PctHighEndSpeeders" > Vehicles/ase-speed-data.csv
+          jq -r '.features[].properties | [.ObjectId,.Data_Type,.Location,.Camera_Install_Year,.Date_of_Data_Collection,.AvgSpeed,.Pct85th,.PctCompliance,.PctHighEndSpeeders] | @csv' \
+            Vehicles/ase-speed-data.geojson >> Vehicles/ase-speed-data.csv
+
+      - name: Convert to JSON
+        run: |
+          jq '[.features[].properties]' Vehicles/ase-speed-data.geojson > Vehicles/ase-speed-data.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Vehicles/ase-speed-data.geojson Vehicles/ase-speed-data.csv Vehicles/ase-speed-data.json
+          git diff --staged --quiet || git commit -m "chore: update ASE speed data $(date +'%Y-%m-%d')"
+          git push
