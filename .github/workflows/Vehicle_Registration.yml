@@ -1,38 +1,31 @@
-name: Update StatCan Vehicle Registrations
+name: Update StatCan Data
 
 on:
   schedule:
-    - cron: '0 10 * * 1'
-  workflow_dispatch:
+    - cron: '0 10 * * 1'  # Every Monday at 10am UTC (StatCan releases quarterly)
+  workflow_dispatch:        # Allow manual trigger
 
 jobs:
-  fetch:
+  update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch data as CSV
-        run: |
-          curl -s -k \
-            -H "Accept: text/csv" \
-            "https://www150.statcan.gc.ca/t1/wds/sdmx/statcan/v1/rest/data/DF_20100025/1+2199+2208.5+6+1+7.2+3+4+5.1" \
-            -o Vehicles/statcan-vehicle-registrations.csv
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Convert CSV to JSON
-        run: |
-          python3 -c "
-          import csv, json
-          with open('Vehicles/statcan-vehicle-registrations.csv', encoding='utf-8-sig') as f:
-              rows = list(csv.DictReader(f))
-          with open('Vehicles/statcan-vehicle-registrations.json', 'w') as f:
-              json.dump(rows, f, indent=2)
-          print(f'Exported {len(rows)} rows')
-          "
+      - run: pip install requests pandas
 
-      - name: Commit if changed
+      - run: python Vehicles/VehiclesStats.py
+
+      - name: Commit updated CSV
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Vehicles/statcan-vehicle-registrations.csv Vehicles/statcan-vehicle-registrations.json
-          git diff --staged --quiet || git commit -m "chore: update StatCan vehicle registrations $(date +'%Y-%m-%d')"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add Vehicles/statcan_vehicle_registrations.csv
+          git diff --staged --quiet || git commit -m "Update StatCan vehicle registrations data"
           git push
