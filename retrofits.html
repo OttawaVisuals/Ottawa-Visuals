@@ -215,8 +215,11 @@ footer a:hover{color:var(--amber2)}
   <!-- Sankey -->
   <div class="card">
     <div class="card-title">Heating fuel flow — aggregate energy pre → post (GWh)</div>
-    <div style="overflow-x:auto"><svg id="sankey-svg" style="width:100%;min-width:500px" height="280"></svg></div>
-    <p class="note">Flow width = total energy (GWh) across all matched homes. Grey flows = same fuel, no switch. Coloured flows = fuel switch.</p>
+    <div style="overflow-x:auto;position:relative">
+      <svg id="sankey-svg" style="width:100%;min-width:500px" height="320"></svg>
+      <div id="sankey-tip" style="display:none;position:fixed;background:rgba(11,37,69,0.92);color:#fff;font-size:12px;font-family:Inter,sans-serif;padding:7px 11px;border-radius:6px;pointer-events:none;z-index:200;line-height:1.6;white-space:nowrap"></div>
+    </div>
+    <p class="note">Flow width = total energy (GWh) across all matched homes. Grey flows = same fuel, no switch. Coloured flows = fuel switch. Hover a flow for details.</p>
   </div>
 
   <!-- EUI -->
@@ -231,7 +234,7 @@ footer a:hover{color:var(--amber2)}
   <div class="card">
     <div class="card-title">Energy by fuel — pre (up) vs post (down) from baseline · median kWh</div>
     <div class="cw cw-lg"><canvas id="waterfall-chart"></canvas></div>
-    <p class="note">Bars above zero = pre-retrofit energy. Bars below zero = post-retrofit energy (mirrored). The gap between them is the saving. Electricity often increases when homes switch to heat pumps.</p>
+    <p class="note">Red outline = pre-retrofit energy (full height). Green fill = post-retrofit energy (from bottom). The empty gap at the top of each green bar = energy saved. Hover for exact values. Electricity often rises when homes switch to heat pumps.</p>
   </div>
 
   <!-- Insulation KPIs + distributions -->
@@ -239,9 +242,13 @@ footer a:hover{color:var(--amber2)}
     <div class="card-title">Insulation &amp; air leakage — median pre → post</div>
     <div class="kpi-grid" id="kpi-grid"></div>
     <p class="note" style="margin-bottom:1rem">RSI = thermal resistance (higher = better). ACH50 = air changes per hour at 50 Pa (lower = better).</p>
+    <div class="grid-2" style="margin-bottom:0.75rem">
+      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Roof insulation RSI — pre &amp; post</div><div class="cw cw-sm"><canvas id="roof-chart"></canvas></div></div>
+      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Air leakage ACH50 — pre &amp; post</div><div class="cw cw-sm"><canvas id="air-chart"></canvas></div></div>
+    </div>
     <div class="grid-2" style="margin-bottom:0">
-      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Roof insulation RSI distribution</div><div class="cw cw-sm"><canvas id="roof-chart"></canvas></div></div>
-      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.75rem">Air leakage ACH50 distribution</div><div class="cw cw-sm"><canvas id="air-chart"></canvas></div></div>
+      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin-bottom:.75rem">Roof RSI improvement (post − pre, among homes that improved)</div><div class="cw cw-sm"><canvas id="roof-delta-chart"></canvas></div></div>
+      <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin-bottom:.75rem">Air leakage reduction (pre − post, among homes that improved)</div><div class="cw cw-sm"><canvas id="air-delta-chart"></canvas></div></div>
     </div>
   </div>
 
@@ -263,8 +270,18 @@ footer a:hover{color:var(--amber2)}
 
   <!-- Wall + Foundation insulation -->
   <div class="grid-2">
-    <div class="card"><div class="card-title">Wall insulation RSI distribution</div><div class="cw cw-sm"><canvas id="wall-chart"></canvas></div></div>
-    <div class="card"><div class="card-title">Foundation insulation RSI distribution</div><div class="cw cw-sm"><canvas id="fnd-chart"></canvas></div></div>
+    <div class="card">
+      <div class="card-title">Wall insulation RSI — pre &amp; post</div>
+      <div class="cw cw-sm"><canvas id="wall-chart"></canvas></div>
+      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin:.75rem 0 .5rem">Improvement (among homes that improved)</div>
+      <div class="cw cw-sm"><canvas id="wall-delta-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Foundation insulation RSI — pre &amp; post</div>
+      <div class="cw cw-sm"><canvas id="fnd-chart"></canvas></div>
+      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin:.75rem 0 .5rem">Improvement (among homes that improved)</div>
+      <div class="cw cw-sm"><canvas id="fnd-delta-chart"></canvas></div>
+    </div>
   </div>
 
   <!-- Table -->
@@ -280,7 +297,7 @@ footer a:hover{color:var(--amber2)}
       <table>
         <thead><tr>
           <th>FSA</th><th>Type</th><th>Built</th><th>m²</th>
-          <th>EUI pre→post</th><th>Fuel</th><th>Saving</th><th>Depth</th>
+          <th>EUI kWh/m²</th><th>Fuel</th><th>Saving</th><th>Depth</th>
         </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
@@ -385,6 +402,8 @@ function render(){
   const preEUIs=FILTERED.map(r=>{const e=num(r.Pre_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null}).filter(v=>v!==null);
   const postEUIs=FILTERED.map(r=>{const e=num(r.Post_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null}).filter(v=>v!==null);
   const euiSave=median(preEUIs)-median(postEUIs);
+  window._euiMedianPre=Math.round(median(preEUIs)||0);
+  window._euiMedianPost=Math.round(median(postEUIs)||0);
   $('s-eui-saving').textContent=euiSave?Math.round(euiSave):'—';
 
   renderYearHist();renderAreaHist();renderTypeDonut();renderStoreyDonut();
@@ -469,10 +488,11 @@ function renderSankey(){
   const totalPre=Object.values(preMap).reduce((s,v)=>s+v,0);
 
   const cw=svg.parentElement.clientWidth||700;
-  const W=Math.max(cw,500),H=280,PAD=8,BAR=14,LX=140,RX=W-140;
+  const W=Math.max(cw,500),H=320,PAD=10,BAR=14,LX=145,RX=W-145;
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.setAttribute('height',H);
 
-  const usable=H-PAD*2;
+  const usable=H-PAD*2-20; // leave 20px bottom breathing room
 
   function layoutNodes(fuels,map,x){
     let y=PAD;
@@ -511,7 +531,22 @@ function renderSankey(){
     const path=`M${LX+BAR},${py} C${mx},${py} ${mx},${qy} ${RX},${qy} L${RX},${qy+fh} C${mx},${qy+fh} ${mx},${py+fh} ${LX+BAR},${py+fh}Z`;
     const el=document.createElementNS('http://www.w3.org/2000/svg','path');
     el.setAttribute('d',path);el.setAttribute('fill',col);el.setAttribute('opacity',same?'0.45':'0.7');
-    el.innerHTML=`<title>${a} → ${b}: ${(v.pre/1e6).toFixed(1)} GWh pre, ${(v.post/1e6).toFixed(1)} GWh post</title>`;
+    const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
+    el.setAttribute('data-tip', tipText);
+    el.style.cursor='pointer';
+    el.addEventListener('mouseenter',e=>{
+      const tip=document.getElementById('sankey-tip');
+      tip.textContent=tipText;
+      tip.style.display='block';
+    });
+    el.addEventListener('mousemove',e=>{
+      const tip=document.getElementById('sankey-tip');
+      tip.style.left=(e.clientX+14)+'px';
+      tip.style.top=(e.clientY-10)+'px';
+    });
+    el.addEventListener('mouseleave',()=>{
+      document.getElementById('sankey-tip').style.display='none';
+    });
     svg.appendChild(el);
   });
 
@@ -562,34 +597,53 @@ function renderEUI(preEUIs,postEUIs){
         y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
 }
 
-// ── Waterfall (mirror bars) ───────────────────────────────────────
+// ── Waterfall (floating bars: pre goes up from 0, post bar floats showing savings gap) ──
 function renderWaterfall(){
   dc('waterfall');
   const FUELS=[['Electricity','Electricity'],['NaturalGas','Natural Gas'],['Oil','Oil'],['Propane','Propane'],['Wood','Wood']];
-  // All-homes median (including zero for homes without that fuel)
-  const labels=[],preData=[],postData=[];
+  const labels=[],preVals=[],postVals=[];
+
   FUELS.forEach(([key,lbl])=>{
     const pre=FILTERED.map(r=>num(r[`Pre_${key}`])||0);
     const post=FILTERED.map(r=>num(r[`Post_${key}`])||0);
     const pm=Math.round(median(pre));
     const qm=Math.round(median(post));
-    if(pm===0&&qm===0)return; // skip fuels not used at all in this filter
-    labels.push(lbl);preData.push(pm);postData.push(-qm);
+    if(pm===0&&qm===0)return;
+    labels.push(lbl);preVals.push(pm);postVals.push(qm);
   });
   labels.push('TOTAL');
-  preData.push(Math.round(median(FILTERED.map(r=>num(r.Pre_TotalEnergy)||0))));
-  postData.push(-Math.round(median(FILTERED.map(r=>num(r.Post_TotalEnergy)||0))));
+  preVals.push(Math.round(median(FILTERED.map(r=>num(r.Pre_TotalEnergy)||0))));
+  postVals.push(Math.round(median(FILTERED.map(r=>num(r.Post_TotalEnergy)||0))));
+
+  // Floating bar: [bottom, top]
+  // Pre: transparent outline from 0 to preVal (shows the original baseline height)
+  // Post: solid green from postVal to preVal (the part that remains, gap above = savings)
+  const saving=preVals.map((p,i)=>p-postVals[i]);
 
   charts['waterfall']=new Chart($('waterfall-chart').getContext('2d'),{type:'bar',
     data:{labels,datasets:[
-      {label:'Pre-retrofit (↑)',data:preData,backgroundColor:'rgba(179,58,46,0.7)',borderColor:'#B33A2E',borderWidth:1,borderRadius:3,stack:'stack'},
-      {label:'Post-retrofit (↓)',data:postData,backgroundColor:'rgba(26,122,85,0.7)',borderColor:'#1A7A55',borderWidth:1,borderRadius:3,stack:'stack'},
+      {label:'Pre-retrofit',data:preVals.map(v=>[0,v]),
+        backgroundColor:'rgba(179,58,46,0.15)',borderColor:'#B33A2E',borderWidth:2,borderRadius:3},
+      {label:'Post-retrofit',data:preVals.map((p,i)=>[postVals[i],p]),
+        backgroundColor:'rgba(26,122,85,0.75)',borderColor:'#1A7A55',borderWidth:1.5,borderRadius:3},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
-        tooltip:{callbacks:{label:i=>`${i.dataset.label}: ${Math.abs(i.raw).toLocaleString()} kWh`}}},
-      scales:{x:{ticks:{font:{size:11},color:'#5C6E82'},grid:{display:false}},
-        y:{title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0',callback:v=>`${Math.abs(v/1000).toFixed(0)}k`},grid:{color:'#E8EDF4'}}}}});
+        tooltip:{callbacks:{
+          label(i){
+            const idx=i.dataIndex,ds=i.datasetIndex;
+            if(ds===0)return `Pre: ${preVals[idx].toLocaleString()} kWh`;
+            return[
+              `Post: ${postVals[idx].toLocaleString()} kWh`,
+              `Saving: ${saving[idx].toLocaleString()} kWh (${preVals[idx]>0?Math.round(saving[idx]/preVals[idx]*100):0}%)`
+            ];
+          }
+        }}},
+      scales:{
+        x:{ticks:{font:{size:11},color:'#5C6E82'},grid:{display:false}},
+        y:{title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},
+          ticks:{font:{size:11},color:'#8A9BB0',callback:v=>`${(v/1000).toFixed(0)}k`},
+          grid:{color:'#E8EDF4'},min:0}}}}});
 }
 
 // ── Insulation KPI ────────────────────────────────────────────────
@@ -635,11 +689,44 @@ function insulHist(canvasId,chartKey,preCol,postCol,max,step,unit){
       scales:{x:{title:{display:true,text:unit,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
         y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
 }
+function deltaHist(canvasId,chartKey,preCol,postCol,maxDelta,step,unit,invert){
+  // invert=true means improvement = pre-post (air leakage: lower is better)
+  dc(chartKey);
+  const deltas=[];
+  FILTERED.forEach(r=>{
+    const pre=num(r[preCol]),post=num(r[postCol]);
+    if(pre===null||post===null||pre<=0||post<=0)return;
+    const d=invert?(pre-post):(post-pre);
+    if(d>0&&d<=maxDelta)deltas.push(d); // only actual improvements
+  });
+  if(!deltas.length){dc(chartKey);return}
+  const bins={};
+  deltas.forEach(d=>{const k=(Math.floor(d/step)*step).toFixed(2);bins[k]=(bins[k]||0)+1});
+  const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+  const med=median(deltas);
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{type:'bar',
+    data:{labels:keys.map(k=>k.toFixed(invert?1:1)),datasets:[{
+      data:keys.map(k=>bins[k.toFixed(2)]||0),
+      backgroundColor:'rgba(26,122,85,0.6)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        annotation:{annotations:{medLine:{type:'line',xMin:med,xMax:med,borderColor:'#C8881A',borderWidth:1.5,borderDash:[4,3],label:{content:`med: ${med.toFixed(1)}`,display:true,position:'start',font:{size:9},color:'#C8881A',yAdjust:-8}}}},
+        tooltip:{callbacks:{title:i=>`+${i[0].label} ${unit}`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+}
+
 function renderInsulDist(){
   insulHist('roof-chart','roof','Pre_RoofInsulation','Post_RoofInsulation',14,0.5,'RSI');
   insulHist('air-chart','air','Pre_AirLeakage','Post_AirLeakage',20,0.5,'ACH50');
   insulHist('wall-chart','wall','Pre_WallInsulation','Post_WallInsulation',7,0.25,'RSI');
   insulHist('fnd-chart','fnd','Pre_FoundationInsulation','Post_FoundationInsulation',6,0.25,'RSI');
+  deltaHist('roof-delta-chart','roof-delta','Pre_RoofInsulation','Post_RoofInsulation',12,0.5,'RSI',false);
+  deltaHist('air-delta-chart','air-delta','Pre_AirLeakage','Post_AirLeakage',15,0.5,'ACH50',true);
+  deltaHist('wall-delta-chart','wall-delta','Pre_WallInsulation','Post_WallInsulation',5,0.25,'RSI',false);
+  deltaHist('fnd-delta-chart','fnd-delta','Pre_FoundationInsulation','Post_FoundationInsulation',5,0.25,'RSI',false);
 }
 
 // ── Measures bar ──────────────────────────────────────────────────
@@ -794,11 +881,17 @@ function makeInlineSVG(r){
     ['Heat pump',r.Pre_HPType||'—',r.Post_HPType||'—'],
     ['Pre energy',r.Pre_TotalEnergy?`${Math.round(num(r.Pre_TotalEnergy)).toLocaleString()} kWh`:'—',null],
     ['Post energy',null,r.Post_TotalEnergy?`${Math.round(num(r.Post_TotalEnergy)).toLocaleString()} kWh`:'—'],
-    ['EUI pre→post',r.Pre_TotalEnergy&&r.FloorArea?`${Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea))} kWh/m²`:'—',r.Post_TotalEnergy&&r.FloorArea?`${Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea))} kWh/m²`:'—'],
+    ['EUI (kWh/m²)',r.Pre_TotalEnergy&&r.FloorArea?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null,r.Post_TotalEnergy&&r.FloorArea?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null,'eui'],
     ['Pre audit',r.Pre_Date||'—',null],
     ['Post audit',null,r.Post_Date||'—'],
   ];
-  rows2.forEach(([lbl,pre,post])=>{
+  rows2.forEach(([lbl,pre,post,type])=>{
+    if(type==='eui'){
+      const bar=makeEUIBar(pre,post,window._euiMedianPre,window._euiMedianPost);
+      html+=`<tr><td style="padding:3px 8px 3px 0;color:#5C6E82;white-space:nowrap">${lbl}</td>
+        <td colspan="2" style="padding:4px 0">${bar}</td></tr>`;
+      return;
+    }
     const preCell=pre||'';const postCell=post!==null&&post!==undefined?post:'';
     const changed=pre&&post&&pre!==post;
     html+=`<tr><td style="padding:3px 8px 3px 0;color:#5C6E82;white-space:nowrap">${lbl}</td>
@@ -808,6 +901,43 @@ function makeInlineSVG(r){
   });
   html+=`</table></div></div>`;
   return html;
+}
+
+// ── EUI gradient bar for table ────────────────────────────────────
+function makeEUIBar(preEUI,postEUI,medPre,medPost){
+  const MAX=750,W=120,H=18,MH=10; // bar dims
+  if(!preEUI&&!postEUI)return'—';
+  const px=v=>Math.min(W,Math.max(0,Math.round(v/MAX*W)));
+  const preX=preEUI?px(preEUI):null;
+  const postX=postEUI?px(postEUI):null;
+  const medPreX=medPre?px(medPre):null;
+  const medPostX=medPost?px(medPost):null;
+
+  // gradient from green (low) to red (high)
+  let svg=`<svg viewBox="0 0 ${W} ${H+14}" width="${W}" height="${H+14}" style="display:block;overflow:visible">
+    <defs>
+      <linearGradient id="eg" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#1A7A55"/>
+        <stop offset="40%" stop-color="#C8881A"/>
+        <stop offset="100%" stop-color="#B33A2E"/>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eg)" rx="3" opacity="0.25"/>`;
+
+  // Median markers (thin vertical ticks)
+  if(medPreX!==null)svg+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#B33A2E" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
+  if(medPostX!==null)svg+=`<line x1="${medPostX}" y1="2" x2="${medPostX}" y2="${4+MH+2}" stroke="#1A7A55" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
+
+  // Dots for this home
+  if(preX!==null)svg+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#B33A2E" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
+  if(postX!==null)svg+=`<circle cx="${postX}" cy="${4+MH/2}" r="4" fill="#1A7A55" stroke="#fff" stroke-width="1.5"><title>Post: ${postEUI} kWh/m²</title></circle>`;
+
+  // Labels below
+  if(preX!==null)svg+=`<text x="${preX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#B33A2E" font-family="Inter,sans-serif">${preEUI}</text>`;
+  if(postX!==null)svg+=`<text x="${postX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#1A7A55" font-family="Inter,sans-serif">${postEUI}</text>`;
+
+  svg+=`</svg>`;
+  return svg;
 }
 
 function renderTable(){
@@ -831,13 +961,14 @@ function renderTable(){
     const fuelCell=flag(r,'FuelSwitch')
       ?`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span><span class="fuel-arrow"> → </span><span class="fuel-chip">${r.Post_HeatFuel||'?'}</span>`
       :`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span>`;
-    const preEUI=num(r.Pre_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):'—';
-    const postEUI=num(r.Post_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):'—';
+    const preEUI=num(r.Pre_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null;
+    const postEUI=num(r.Post_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null;
+    const euiCell=makeEUIBar(preEUI,postEUI,window._euiMedianPre,window._euiMedianPost);
 
     return`<tr class="data-row" onclick="toggleRow(${idx})" id="row-${idx}">
       <td>${r.FSA||'—'}</td><td>${r.BldgType||'—'}</td><td>${r.YearBuilt||'—'}</td>
       <td>${r.FloorArea?Math.round(parseFloat(r.FloorArea)):'—'}</td>
-      <td><span style="color:#B33A2E">${preEUI}</span> → <span style="color:#1A7A55">${postEUI}</span></td>
+      <td>${euiCell}</td>
       <td>${fuelCell}</td><td>${svCell}</td><td>${badge}</td>
     </tr>
     <tr class="detail-row" id="detail-${idx}"><td colspan="8"><div class="detail-inner" id="detail-inner-${idx}"></div></td></tr>`;
