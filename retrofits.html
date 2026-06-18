@@ -410,14 +410,14 @@ footer a:hover { color: var(--amber2); }
 <!-- Header -->
 <header>
   <div class="logo">retrofit<span>PEI</span></div>
-  <div class="header-badge">EnerGuide data · 8,714 audits</div>
+  <div class="header-badge">EnerGuide data · PEI</div>
 </header>
 
 <!-- Hero + filters -->
 <div class="hero">
   <p class="hero-eyebrow">Prince Edward Island · Home energy retrofits</p>
   <h1>What did <em>homes like yours</em> do — and did it work?</h1>
-  <p class="hero-sub">Real audit data from 8,714 PEI homes. Filter to find retrofits comparable to yours and see actual energy savings.</p>
+  <p class="hero-sub">Real audit data from PEI homes. Filter to find retrofits comparable to yours and see actual energy savings.</p>
 
   <div class="filter-bar">
     <div class="filter-group">
@@ -458,7 +458,7 @@ footer a:hover { color: var(--amber2); }
     <button class="filter-reset" onclick="resetFilters()">Reset</button>
   </div>
   <div class="filter-count-bar">
-    <span class="filter-count"><strong id="result-count">8,714</strong> retrofits match</span>
+    <span class="filter-count"><strong id="result-count">—</strong> retrofits match</span>
   </div>
 </div>
 
@@ -469,22 +469,22 @@ footer a:hover { color: var(--amber2); }
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Median energy saving</div>
-      <div class="stat-value green" id="s-median">12%</div>
-      <div class="stat-sub" id="s-median-sub">across matched homes</div>
+      <div class="stat-value green" id="s-median">—</div>
+      <div class="stat-sub" id="s-median-sub">loading…</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Deep retrofits</div>
-      <div class="stat-value" id="s-deep">395</div>
-      <div class="stat-sub" id="s-deep-sub">saved over 50%</div>
+      <div class="stat-value" id="s-deep">—</div>
+      <div class="stat-sub" id="s-deep-sub"></div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Heat pumps added</div>
-      <div class="stat-value accent" id="s-hp">1,507</div>
-      <div class="stat-sub" id="s-hp-sub">17% of retrofits</div>
+      <div class="stat-value accent" id="s-hp">—</div>
+      <div class="stat-sub" id="s-hp-sub"></div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Fuel switches</div>
-      <div class="stat-value" id="s-fs">292</div>
+      <div class="stat-value" id="s-fs">—</div>
       <div class="stat-sub">changed heating fuel</div>
     </div>
   </div>
@@ -546,7 +546,7 @@ footer a:hover { color: var(--amber2); }
 <script>
 /* ── Config ──────────────────────────────────────────────────────── */
 // Point this to wherever your CSV.gz lives in the repo
-const DATA_URL = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/ers_web_PE.csv.gz';
+const DATA_URL = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/ers_web_PE.csv';
 
 const MEASURES = [
   { key: 'Air_Tightness_Upgrade',         label: 'Air sealing improved',          color: '#C8881A' },
@@ -608,8 +608,11 @@ function load() {
     download: true,
     header: true,
     skipEmptyLines: true,
+    worker: false,
     complete: res => {
       ALL = res.data.map(r => ({ ...r, BldgType: norm(r.BldgType) }));
+      document.querySelector('.header-badge').textContent =
+        `EnerGuide data · ${ALL.length.toLocaleString()} PEI audits`;
       populateSelects();
       FILTERED = [...ALL];
       render();
@@ -617,12 +620,17 @@ function load() {
     error: err => {
       console.error(err);
       document.querySelector('main').innerHTML =
-        '<div class="state-msg"><strong>Could not load data</strong>Set DATA_URL to the path of ers_web_PE.csv.gz in your repo.</div>';
+        '<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder on GitHub.</div>';
     }
   });
 }
 
 function populateSelects() {
+  // Attach listeners first, before appending options
+  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id =>
+    $(id).addEventListener('change', applyFilters)
+  );
+
   const types = [...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
   const fuels = [...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
 
@@ -631,10 +639,6 @@ function populateSelects() {
 
   const fSel = $('fuel-sel');
   fuels.forEach(f => { const o=document.createElement('option'); o.value=f; o.textContent=f; fSel.appendChild(o); });
-
-  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id =>
-    $(id).addEventListener('change', applyFilters)
-  );
 }
 
 /* ── Filtering ───────────────────────────────────────────────────── */
