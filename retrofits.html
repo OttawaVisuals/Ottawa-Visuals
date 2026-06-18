@@ -8,417 +8,142 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ── Reset & tokens ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --navy:   #0B2545;
-  --navy2:  #162F52;
-  --amber:  #C8881A;
-  --amber2: #E8A124;
-  --green:  #1A7A55;
-  --green2: #22A370;
-  --red:    #B33A2E;
-  --cream:  #F7F4EE;
-  --surface:#E8EDF4;
-  --border: #D2D8E3;
-  --text:   #1C2B3A;
-  --muted:  #5C6E82;
-  --light:  #8A9BB0;
-  --white:  #FFFFFF;
-  --r-sm:   6px;
-  --r-md:   10px;
-  --r-lg:   16px;
-  --shadow: 0 1px 3px rgba(11,37,69,0.08), 0 4px 12px rgba(11,37,69,0.05);
+  --navy:#0B2545; --navy2:#162F52; --amber:#C8881A; --amber2:#E8A124;
+  --green:#1A7A55; --green2:#22A370; --red:#B33A2E;
+  --cream:#F7F4EE; --surface:#E8EDF4; --border:#D2D8E3;
+  --text:#1C2B3A; --muted:#5C6E82; --light:#8A9BB0; --white:#FFFFFF;
+  --r-sm:6px; --r-md:10px; --r-lg:16px;
+  --shadow:0 1px 3px rgba(11,37,69,0.08),0 4px 12px rgba(11,37,69,0.05);
 }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--cream); color:var(--text); font-size:15px; line-height:1.6; }
 
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--cream);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
+header { background:var(--navy); padding:0 2rem; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; height:56px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.logo { font-family:'Fraunces',Georgia,serif; font-size:18px; font-weight:300; color:var(--white); letter-spacing:-0.01em; }
+.logo span { color:var(--amber2); font-style:italic; }
+.header-badge { font-size:11px; color:rgba(255,255,255,0.45); letter-spacing:0.06em; text-transform:uppercase; }
 
-/* ── Header ─────────────────────────────────────────────────────── */
-header {
-  background: var(--navy);
-  padding: 0 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 56px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.logo {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 18px;
-  font-weight: 300;
-  color: var(--white);
-  letter-spacing: -0.01em;
-}
-.logo span { color: var(--amber2); font-style: italic; }
-.header-badge {
-  font-size: 11px;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
+.hero { background:var(--navy); padding:3.5rem 2rem 0; text-align:center; }
+.hero-eyebrow { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--amber2); margin-bottom:1rem; }
+.hero h1 { font-family:'Fraunces',Georgia,serif; font-size:clamp(2rem,5vw,3.25rem); font-weight:300; color:var(--white); line-height:1.15; letter-spacing:-0.02em; max-width:640px; margin:0 auto 1rem; }
+.hero h1 em { font-style:italic; color:var(--amber2); }
+.hero-sub { font-size:15px; color:rgba(255,255,255,0.55); max-width:480px; margin:0 auto 2.5rem; }
 
-/* ── Hero ────────────────────────────────────────────────────────── */
-.hero {
-  background: var(--navy);
-  padding: 3.5rem 2rem 0;
-  text-align: center;
-}
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--amber2);
-  margin-bottom: 1rem;
-}
-.hero h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  max-width: 640px;
-  margin: 0 auto 1rem;
-}
-.hero h1 em {
-  font-style: italic;
-  color: var(--amber2);
-}
-.hero-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.55);
-  max-width: 480px;
-  margin: 0 auto 2.5rem;
-}
+.filter-bar { background:var(--white); border-radius:var(--r-lg) var(--r-lg) 0 0; padding:1.5rem 1.5rem 0; max-width:900px; margin:0 auto; display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; }
+.filter-group { display:flex; flex-direction:column; gap:5px; flex:1; min-width:140px; }
+.filter-group label { font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); }
+.filter-group select { height:40px; border:1px solid var(--border); border-radius:var(--r-sm); padding:0 10px; font-family:'Inter',sans-serif; font-size:14px; color:var(--text); background:var(--white); cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C6E82' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; padding-right:28px; transition:border-color 0.15s; }
+.filter-group select:hover { border-color:var(--navy); }
+.filter-group select:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 3px rgba(200,136,26,0.15); }
+.filter-reset { height:40px; padding:0 16px; border:1px solid var(--border); border-radius:var(--r-sm); background:transparent; font-family:'Inter',sans-serif; font-size:13px; color:var(--muted); cursor:pointer; transition:all 0.15s; white-space:nowrap; align-self:flex-end; }
+.filter-reset:hover { border-color:var(--navy); color:var(--navy); }
+.filter-count-bar { max-width:900px; margin:0 auto; background:var(--white); padding:0.75rem 1.5rem 1.25rem; display:flex; align-items:center; gap:8px; }
+.filter-count { font-size:13px; color:var(--muted); }
+.filter-count strong { color:var(--text); font-weight:500; }
 
-/* Filter bar inside hero */
-.filter-bar {
-  background: var(--white);
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-  padding: 1.5rem 1.5rem 0;
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-end;
-}
-.filter-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 140px; }
-.filter-group label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.filter-group select {
-  height: 40px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 0 10px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--text);
-  background: var(--white);
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C6E82' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
-  transition: border-color 0.15s;
-}
-.filter-group select:hover { border-color: var(--navy); }
-.filter-group select:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(200,136,26,0.15); }
-.filter-reset {
-  height: 40px;
-  padding: 0 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  background: transparent;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-  align-self: flex-end;
-}
-.filter-reset:hover { border-color: var(--navy); color: var(--navy); }
-.filter-count-bar {
-  max-width: 860px;
-  margin: 0 auto;
-  background: var(--white);
-  padding: 0.75rem 1.5rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.filter-count {
-  font-size: 13px;
-  color: var(--muted);
-}
-.filter-count strong { color: var(--text); font-weight: 500; }
+main { max-width:900px; margin:0 auto; padding:2rem 2rem 4rem; }
 
-/* ── Main layout ─────────────────────────────────────────────────── */
-main {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 2rem 2rem 4rem;
-}
+/* Stats */
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:1.5rem; }
+.stat-card { background:var(--white); border:1px solid var(--border); border-radius:var(--r-md); padding:1.1rem 1.25rem; box-shadow:var(--shadow); }
+.stat-label { font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.stat-value { font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:300; color:var(--navy); line-height:1; letter-spacing:-0.02em; }
+.stat-value.accent { color:var(--amber); }
+.stat-value.green  { color:var(--green); }
+.stat-sub { font-size:12px; color:var(--light); margin-top:4px; }
 
-/* ── Stat cards ──────────────────────────────────────────────────── */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin-bottom: 2rem;
-}
-.stat-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 1.1rem 1.25rem;
-  box-shadow: var(--shadow);
-}
-.stat-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.stat-value {
-  font-family: 'Fraunces', Georgia, serif;
-  font-size: 2rem;
-  font-weight: 300;
-  color: var(--navy);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.stat-value.accent { color: var(--amber); }
-.stat-value.green  { color: var(--green); }
-.stat-sub {
-  font-size: 12px;
-  color: var(--light);
-  margin-top: 4px;
-}
+/* Cards */
+.card { background:var(--white); border:1px solid var(--border); border-radius:var(--r-lg); padding:1.5rem; margin-bottom:1.25rem; box-shadow:var(--shadow); }
+.card-title { font-size:11px; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); margin-bottom:1.25rem; }
+.chart-wrap { position:relative; width:100%; height:220px; }
+.chart-wrap-sm { position:relative; width:100%; height:180px; }
+.chart-wrap-lg { position:relative; width:100%; height:280px; }
 
-/* ── Section cards ───────────────────────────────────────────────── */
-.card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: 1.5rem;
-  margin-bottom: 1.25rem;
-  box-shadow: var(--shadow);
-}
-.card-title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 1.25rem;
-}
+/* Two-col grid */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem; }
+@media(max-width:620px) { .grid-2 { grid-template-columns:1fr; } }
 
-/* ── Measure bars ────────────────────────────────────────────────── */
-.measure-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 9px;
-}
-.measure-label {
-  font-size: 13px;
-  color: var(--text);
-  width: 190px;
-  flex-shrink: 0;
-}
-.bar-track {
-  flex: 1;
-  height: 7px;
-  background: var(--surface);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.bar-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-.bar-pct {
-  font-size: 12px;
-  color: var(--muted);
-  width: 34px;
-  text-align: right;
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-}
+/* Measures bar */
+.measure-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.measure-label { font-size:13px; color:var(--text); width:190px; flex-shrink:0; }
+.bar-track { flex:1; height:7px; background:var(--surface); border-radius:4px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:4px; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); }
+.bar-pct { font-size:12px; color:var(--muted); width:34px; text-align:right; flex-shrink:0; font-variant-numeric:tabular-nums; }
 
-/* ── Histogram ───────────────────────────────────────────────────── */
-.chart-wrap { position: relative; width: 100%; height: 200px; }
+/* KPI insulation */
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+.kpi-item { background:var(--surface); border-radius:var(--r-md); padding:1rem; }
+.kpi-name { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:8px; }
+.kpi-values { display:flex; align-items:center; gap:8px; }
+.kpi-pre { font-family:'Fraunces',Georgia,serif; font-size:1.5rem; font-weight:300; color:var(--red); }
+.kpi-arrow { color:var(--light); font-size:14px; }
+.kpi-post { font-family:'Fraunces',Georgia,serif; font-size:1.5rem; font-weight:300; color:var(--green); }
+.kpi-unit { font-size:11px; color:var(--light); margin-top:2px; }
+.kpi-delta { font-size:12px; margin-top:4px; }
+.kpi-delta.good { color:var(--green); }
+.kpi-delta.bad  { color:var(--red); }
 
-/* ── Table ───────────────────────────────────────────────────────── */
-.sort-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.sort-label { font-size: 12px; color: var(--muted); margin-right: 2px; }
-.sort-btn {
-  font-size: 12px;
-  padding: 4px 10px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.15s;
-}
-.sort-btn:hover { border-color: var(--navy); color: var(--navy); }
-.sort-btn.active {
-  background: var(--navy);
-  border-color: var(--navy);
-  color: var(--white);
-}
+/* Table */
+.sort-row { display:flex; gap:6px; margin-bottom:1rem; flex-wrap:wrap; align-items:center; }
+.sort-label { font-size:12px; color:var(--muted); margin-right:2px; }
+.sort-btn { font-size:12px; padding:4px 10px; border:1px solid var(--border); border-radius:20px; background:transparent; color:var(--muted); cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.15s; }
+.sort-btn:hover { border-color:var(--navy); color:var(--navy); }
+.sort-btn.active { background:var(--navy); border-color:var(--navy); color:var(--white); }
+.tbl-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { font-size:11px; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+td { padding:9px 10px; border-bottom:1px solid var(--surface); color:var(--text); vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--cream); }
+.badge { display:inline-block; font-size:11px; font-weight:500; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+.badge-deep    { background:#D4EFDF; color:#1A5C3A; }
+.badge-medium  { background:#D6E8F8; color:#1A4A72; }
+.badge-shallow { background:#EEF0F2; color:#4A5568; }
+.badge-neg     { background:#FADED9; color:#7C2318; }
+.saving-pos { color:var(--green); font-weight:500; font-variant-numeric:tabular-nums; }
+.saving-neg { color:var(--red);   font-weight:500; font-variant-numeric:tabular-nums; }
+.fuel-chip { display:inline-block; font-size:11px; padding:2px 6px; background:var(--surface); color:var(--muted); border-radius:4px; }
+.fuel-arrow { color:var(--light); font-size:11px; }
+.measure-chips { display:flex; flex-wrap:wrap; gap:4px; }
+.measure-chip { font-size:11px; padding:2px 6px; border-radius:4px; background:var(--navy); color:rgba(255,255,255,0.9); }
+.tbl-footer { font-size:12px; color:var(--light); margin-top:10px; text-align:right; }
 
-.tbl-scroll { overflow-x: auto; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-th {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: left;
-  padding: 6px 10px;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-td {
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--surface);
-  color: var(--text);
-  vertical-align: middle;
-}
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: var(--cream); }
+/* Sankey */
+#sankey-svg { width:100%; overflow:visible; }
 
-/* Badges */
-.badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.badge-deep    { background: #D4EFDF; color: #1A5C3A; }
-.badge-medium  { background: #D6E8F8; color: #1A4A72; }
-.badge-shallow { background: #EEF0F2; color: #4A5568; }
-.badge-neg     { background: #FADED9; color: #7C2318; }
+/* Spider */
+#spider-svg { width:100%; overflow:visible; }
 
-.saving-pos { color: var(--green); font-weight: 500; font-variant-numeric: tabular-nums; }
-.saving-neg { color: var(--red);   font-weight: 500; font-variant-numeric: tabular-nums; }
+.state-msg { text-align:center; padding:3rem 1rem; color:var(--muted); font-size:14px; }
+.state-msg strong { display:block; font-size:1rem; color:var(--text); margin-bottom:4px; }
 
-.fuel-chip {
-  display: inline-block;
-  font-size: 11px;
-  padding: 2px 6px;
-  background: var(--surface);
-  color: var(--muted);
-  border-radius: 4px;
-}
-.fuel-arrow { color: var(--light); font-size: 11px; }
+footer { background:var(--navy); color:rgba(255,255,255,0.4); font-size:12px; text-align:center; padding:1.5rem; line-height:1.8; }
+footer a { color:rgba(255,255,255,0.6); text-decoration:none; }
+footer a:hover { color:var(--amber2); }
 
-.measure-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.measure-chip {
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--navy);
-  color: rgba(255,255,255,0.9);
+@media(max-width:600px) {
+  header { padding:0 1rem; }
+  .hero { padding:2.5rem 1rem 0; }
+  .filter-bar,.filter-count-bar { padding-left:1rem; padding-right:1rem; }
+  main { padding:1.5rem 1rem 3rem; }
+  .measure-label { width:130px; }
 }
-
-.tbl-footer {
-  font-size: 12px;
-  color: var(--light);
-  margin-top: 10px;
-  text-align: right;
-}
-
-/* ── Empty / loading states ──────────────────────────────────────── */
-.state-msg {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--muted);
-  font-size: 14px;
-}
-.state-msg strong { display: block; font-size: 1rem; color: var(--text); margin-bottom: 4px; }
-
-/* ── Footer ──────────────────────────────────────────────────────── */
-footer {
-  background: var(--navy);
-  color: rgba(255,255,255,0.4);
-  font-size: 12px;
-  text-align: center;
-  padding: 1.5rem;
-  line-height: 1.8;
-}
-footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-footer a:hover { color: var(--amber2); }
-
-/* ── Responsive ──────────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  header { padding: 0 1rem; }
-  .hero { padding: 2.5rem 1rem 0; }
-  .filter-bar { padding: 1rem 1rem 0; gap: 8px; }
-  .filter-count-bar { padding: 0.75rem 1rem 1rem; }
-  main { padding: 1.5rem 1rem 3rem; }
-  .measure-label { width: 140px; }
-  .card { padding: 1.25rem 1rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bar-fill, .stat-value { transition: none !important; }
-}
+@media(prefers-reduced-motion:reduce) { .bar-fill { transition:none !important; } }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header>
   <div class="logo">retrofit<span>PEI</span></div>
-  <div class="header-badge">EnerGuide data · PEI</div>
+  <div class="header-badge" id="header-badge">EnerGuide data · PEI</div>
 </header>
 
-<!-- Hero + filters -->
 <div class="hero">
   <p class="hero-eyebrow">Prince Edward Island · Home energy retrofits</p>
   <h1>What did <em>homes like yours</em> do — and did it work?</h1>
   <p class="hero-sub">Real audit data from PEI homes. Filter to find retrofits comparable to yours and see actual energy savings.</p>
-
   <div class="filter-bar">
     <div class="filter-group">
       <label for="fsa-sel">Your FSA</label>
@@ -436,15 +161,11 @@ footer a:hover { color: var(--amber2); }
     </div>
     <div class="filter-group">
       <label for="type-sel">House type</label>
-      <select id="type-sel">
-        <option value="">All types</option>
-      </select>
+      <select id="type-sel"><option value="">All types</option></select>
     </div>
     <div class="filter-group">
-      <label for="fuel-sel">Current heating fuel</label>
-      <select id="fuel-sel">
-        <option value="">All fuels</option>
-      </select>
+      <label for="fuel-sel">Heating fuel</label>
+      <select id="fuel-sel"><option value="">All fuels</option></select>
     </div>
     <div class="filter-group">
       <label for="depth-sel">Retrofit depth</label>
@@ -462,10 +183,9 @@ footer a:hover { color: var(--amber2); }
   </div>
 </div>
 
-<!-- Main content -->
 <main>
 
-  <!-- Stat cards -->
+  <!-- KPI stats -->
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Median energy saving</div>
@@ -489,19 +209,68 @@ footer a:hover { color: var(--amber2); }
     </div>
   </div>
 
-  <!-- Measures breakdown -->
-  <div class="card">
-    <div class="card-title">What measures were done — % of matching retrofits</div>
-    <div id="measures-list"></div>
+  <!-- Row 1: Year built + Floor area -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Year built</div>
+      <div class="chart-wrap-sm"><canvas id="year-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Floor area (m²)</div>
+      <div class="chart-wrap-sm"><canvas id="area-chart"></canvas></div>
+    </div>
   </div>
 
-  <!-- Histogram -->
+  <!-- Row 2: Building type + Storeys -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Building type</div>
+      <div class="chart-wrap"><canvas id="type-chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Number of storeys</div>
+      <div class="chart-wrap"><canvas id="storey-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Sankey: fuel flow -->
+  <div class="card">
+    <div class="card-title">Heating fuel — pre to post retrofit</div>
+    <svg id="sankey-svg" height="260"></svg>
+    <p style="font-size:12px;color:var(--light);margin-top:8px;">Width of each flow proportional to number of homes. Same-fuel flows (no switch) shown in grey.</p>
+  </div>
+
+  <!-- Insulation KPIs -->
+  <div class="card">
+    <div class="card-title">Insulation &amp; air leakage — median pre → post (RSI or ACH50)</div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+    <p style="font-size:12px;color:var(--light);margin-top:12px;">RSI = thermal resistance (higher is better). ACH50 = air changes per hour at 50Pa (lower is better).</p>
+  </div>
+
+  <!-- Waterfall: energy by fuel -->
+  <div class="card">
+    <div class="card-title">Energy consumption — median pre vs post by fuel (kWh)</div>
+    <div class="chart-wrap-lg"><canvas id="waterfall-chart"></canvas></div>
+    <p style="font-size:12px;color:var(--light);margin-top:8px;">Electricity often increases after retrofit due to heat pump adoption, while oil and total energy decrease. Values are medians across matched homes.</p>
+  </div>
+
+  <!-- Row 3: Measures bar + Spider -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">What measures were done</div>
+      <div id="measures-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Retrofit profile — spider chart</div>
+      <svg id="spider-svg" height="240" viewBox="0 0 300 240"></svg>
+    </div>
+  </div>
+
+  <!-- Energy saving histogram -->
   <div class="card">
     <div class="card-title">Energy saving distribution</div>
-    <div class="chart-wrap">
-      <canvas id="hist" role="img" aria-label="Histogram showing distribution of energy saving percentages. Most retrofits achieve 0–30% savings.">Distribution of energy savings across matched retrofits.</canvas>
-    </div>
-    <p style="font-size:12px;color:var(--light);margin-top:10px;">Negative values mean energy use increased after retrofit — often due to fuel switching (e.g. oil → electric heat pump) where electricity consumption rises but total cost and emissions fall.</p>
+    <div class="chart-wrap"><canvas id="hist-chart"></canvas></div>
+    <p style="font-size:12px;color:var(--light);margin-top:10px;">Negative values mean energy use increased — often due to fuel switching where electricity rises but total cost and emissions fall.</p>
   </div>
 
   <!-- Table -->
@@ -515,18 +284,10 @@ footer a:hover { color: var(--amber2); }
     </div>
     <div class="tbl-scroll">
       <table>
-        <thead>
-          <tr>
-            <th>FSA</th>
-            <th>Type</th>
-            <th>Built</th>
-            <th>m²</th>
-            <th>Heating fuel</th>
-            <th>Saving</th>
-            <th>Depth</th>
-            <th>Key measures</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th>FSA</th><th>Type</th><th>Built</th><th>m²</th>
+          <th>Heating fuel</th><th>Saving</th><th>Depth</th><th>Key measures</th>
+        </tr></thead>
         <tbody id="tbl-body"></tbody>
       </table>
     </div>
@@ -540,165 +301,436 @@ footer a:hover { color: var(--amber2); }
   Values are modelled energy estimates, not metered consumption. Costs not available in source data.
 </footer>
 
-<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-/* ── Config ──────────────────────────────────────────────────────── */
-// Point this to wherever your CSV.gz lives in the repo
 const DATA_URL = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/ers_web_PE.csv';
 
+// ── Colour palette ────────────────────────────────────────────────
+const C = {
+  navy:'#0B2545', amber:'#C8881A', green:'#1A7A55', red:'#B33A2E',
+  blue:'#378ADD', purple:'#533AB7', teal:'#0F8E7A', orange:'#D85A30',
+  muted:'#8A9BB0', surface:'#E8EDF4', border:'#D2D8E3', cream:'#F7F4EE',
+};
+const FUEL_COLORS = {
+  'Oil':         '#B33A2E',
+  'Electricity': '#378ADD',
+  'Propane':     '#C8881A',
+  'Mixed Wood':  '#6B4C2A',
+  'Mixed wood':  '#6B4C2A',
+  'Hardwood':    '#8B6343',
+  'Natural Gas': '#533AB7',
+  'Wood Pellets':'#A07040',
+};
+
 const MEASURES = [
-  { key: 'Air_Tightness_Upgrade',         label: 'Air sealing improved',          color: '#C8881A' },
-  { key: 'Roof_Insulation_Upgrade',        label: 'Roof insulation upgraded',      color: '#0B2545' },
-  { key: 'Foundation_Insulation_Upgrade',  label: 'Foundation insulation upgraded',color: '#1A7A55' },
-  { key: 'Wall_Insulation_Upgrade',        label: 'Wall insulation upgraded',      color: '#378ADD' },
-  { key: 'HeatPump_Addition',             label: 'Heat pump added',               color: '#D85A30' },
-  { key: 'Heating_Change',               label: 'Heating system changed',         color: '#533AB7' },
-  { key: 'Windows_Change',               label: 'Windows changed',               color: '#888780' },
-  { key: 'Floor_Insulation_Upgrade',      label: 'Floor insulation upgraded',     color: '#5C6E82' },
+  { key:'Air_Tightness_Upgrade',         label:'Air sealing',          color:'#C8881A' },
+  { key:'Roof_Insulation_Upgrade',        label:'Roof insulation',      color:'#0B2545' },
+  { key:'Foundation_Insulation_Upgrade',  label:'Foundation insulation',color:'#1A7A55' },
+  { key:'Wall_Insulation_Upgrade',        label:'Wall insulation',      color:'#378ADD' },
+  { key:'HeatPump_Addition',             label:'Heat pump added',       color:'#D85A30' },
+  { key:'Heating_Change',               label:'Heating system changed', color:'#533AB7' },
+  { key:'Windows_Change',               label:'Windows changed',        color:'#8A9BB0' },
+  { key:'Floor_Insulation_Upgrade',      label:'Floor insulation',      color:'#5C6E82' },
 ];
 
-const CHIP_LABELS = {
-  Air_Tightness_Upgrade:         'Air sealing',
-  Roof_Insulation_Upgrade:       'Roof insulation',
-  Foundation_Insulation_Upgrade: 'Foundation ins.',
-  Wall_Insulation_Upgrade:       'Wall insulation',
-  HeatPump_Addition:            'Heat pump',
-  Heating_Change:               'New heating',
-  Windows_Change:               'Windows',
-  Floor_Insulation_Upgrade:     'Floor insulation',
-};
-
-/* ── State ───────────────────────────────────────────────────────── */
+// ── State ─────────────────────────────────────────────────────────
 let ALL = [], FILTERED = [], SORT = 'saving';
-let histChart = null;
+let charts = {};
 
-/* ── Utils ───────────────────────────────────────────────────────── */
+// ── Utilities ─────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
-const flag = (r, k) => r[k] === 'True' || r[k] === true;
-const num = v => { const n = parseFloat(v); return isNaN(n) ? null : n; };
-const norm = t => t ? t.trim().replace(/\b\w/g, c => c.toUpperCase()) : '';
-const fmtPct = v => v >= 0 ? `+${Math.round(v*100)}%` : `${Math.round(v*100)}%`;
+const flag = (r,k) => r[k]==='True'||r[k]===true;
+const num  = v => { const n=parseFloat(v); return isNaN(n)?null:n; };
+const norm = t => t ? t.trim().replace(/\b\w/g,c=>c.toUpperCase()) : '';
+const fmtPct = v => v>=0 ? `+${Math.round(v*100)}%` : `${Math.round(v*100)}%`;
 const median = arr => {
-  if (!arr.length) return null;
-  const s = [...arr].sort((a,b)=>a-b), m = Math.floor(s.length/2);
-  return s.length % 2 ? s[m] : (s[m-1]+s[m])/2;
+  if(!arr.length) return null;
+  const s=[...arr].sort((a,b)=>a-b), m=Math.floor(s.length/2);
+  return s.length%2 ? s[m] : (s[m-1]+s[m])/2;
 };
+const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
 
-/* Animated counter for the median stat */
-function animateTo(el, target, suffix='%') {
-  const start = parseFloat(el.dataset.cur || 0);
-  const delta = target - start;
-  const dur = 400, step = 16;
-  let t = 0;
-  const tick = () => {
-    t = Math.min(t + step, dur);
-    const ease = 1 - Math.pow(1 - t/dur, 3);
-    el.textContent = Math.round(start + delta * ease) + suffix;
-    if (t < dur) requestAnimationFrame(tick);
-    else el.dataset.cur = target;
-  };
-  requestAnimationFrame(tick);
+function destroyChart(key) {
+  if(charts[key]) { charts[key].destroy(); delete charts[key]; }
 }
 
-/* ── Load & populate ─────────────────────────────────────────────── */
+// ── Load ──────────────────────────────────────────────────────────
 function load() {
   Papa.parse(DATA_URL, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    worker: false,
+    download:true, header:true, skipEmptyLines:true, worker:false,
     complete: res => {
-      ALL = res.data.map(r => ({ ...r, BldgType: norm(r.BldgType) }));
-      document.querySelector('.header-badge').textContent =
-        `EnerGuide data · ${ALL.length.toLocaleString()} PEI audits`;
-      populateSelects();
+      ALL = res.data.map(r => ({...r, BldgType:norm(r.BldgType)}));
+      $('header-badge').textContent = `EnerGuide data · ${ALL.length.toLocaleString()} PEI audits`;
+
+      // Attach listeners before touching selects
+      ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id =>
+        $(id).addEventListener('change', applyFilters));
+
+      const types = [...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
+      const fuels = [...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
+      types.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; $('type-sel').appendChild(o); });
+      fuels.forEach(f => { const o=document.createElement('option'); o.value=f; o.textContent=f; $('fuel-sel').appendChild(o); });
+
       FILTERED = [...ALL];
       render();
     },
-    error: err => {
-      console.error(err);
+    error: () => {
       document.querySelector('main').innerHTML =
-        '<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder on GitHub.</div>';
+        '<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder.</div>';
     }
   });
 }
 
-function populateSelects() {
-  // Attach listeners first, before appending options
-  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id =>
-    $(id).addEventListener('change', applyFilters)
-  );
-
-  const types = [...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
-  const fuels = [...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
-
-  const tSel = $('type-sel');
-  types.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; tSel.appendChild(o); });
-
-  const fSel = $('fuel-sel');
-  fuels.forEach(f => { const o=document.createElement('option'); o.value=f; o.textContent=f; fSel.appendChild(o); });
-}
-
-/* ── Filtering ───────────────────────────────────────────────────── */
+// ── Filters ───────────────────────────────────────────────────────
 function applyFilters() {
-  const fsa   = $('fsa-sel').value;
-  const type  = $('type-sel').value;
-  const fuel  = $('fuel-sel').value;
-  const depth = $('depth-sel').value;
-
+  const fsa=$('fsa-sel').value, type=$('type-sel').value,
+        fuel=$('fuel-sel').value, depth=$('depth-sel').value;
   FILTERED = ALL.filter(r =>
-    (!fsa   || r.FSA === fsa) &&
-    (!type  || r.BldgType === type) &&
-    (!fuel  || r.Pre_HeatFuel === fuel) &&
-    (!depth || flag(r, depth))
+    (!fsa  || r.FSA===fsa) &&
+    (!type || r.BldgType===type) &&
+    (!fuel || r.Pre_HeatFuel===fuel) &&
+    (!depth|| flag(r,depth))
   );
   render();
 }
-
 function resetFilters() {
-  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id => $(id).value = '');
-  FILTERED = [...ALL];
-  render();
+  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id => $(id).value='');
+  FILTERED=[...ALL]; render();
 }
 
-/* ── Render ──────────────────────────────────────────────────────── */
+// ── Master render ─────────────────────────────────────────────────
 function render() {
   const n = FILTERED.length;
   $('result-count').textContent = n.toLocaleString();
-
-  const savings = FILTERED.map(r => num(r.EnergySavingPct)).filter(v => v !== null);
+  const savings = FILTERED.map(r=>num(r.EnergySavingPct)).filter(v=>v!==null);
   const med = median(savings);
 
-  // Stats
-  const medEl = $('s-median');
-  if (med !== null) {
-    animateTo(medEl, Math.round(med*100));
-    $('s-median-sub').textContent = med >= 0 ? 'median energy saved' : 'median increase';
-  } else {
-    medEl.textContent = '—';
-  }
-  const deep = FILTERED.filter(r=>flag(r,'Deep_Retrofit')).length;
-  const hp   = FILTERED.filter(r=>flag(r,'HeatPump_Addition')).length;
-  const fs   = FILTERED.filter(r=>flag(r,'FuelSwitch')).length;
-  $('s-deep').textContent = deep.toLocaleString();
-  $('s-deep-sub').textContent = n ? `${Math.round(deep/n*100)}% of matched homes` : '';
-  $('s-hp').textContent = hp.toLocaleString();
-  $('s-hp-sub').textContent = n ? `${Math.round(hp/n*100)}% of retrofits` : '';
-  $('s-fs').textContent = fs.toLocaleString();
+  // Top stats
+  $('s-median').textContent = med!==null ? Math.round(med*100)+'%' : '—';
+  $('s-median-sub').textContent = med!==null ? (med>=0?'median energy saved':'median energy increased') : '';
+  const deep=FILTERED.filter(r=>flag(r,'Deep_Retrofit')).length;
+  const hp  =FILTERED.filter(r=>flag(r,'HeatPump_Addition')).length;
+  const fs  =FILTERED.filter(r=>flag(r,'FuelSwitch')).length;
+  $('s-deep').textContent=deep.toLocaleString();
+  $('s-deep-sub').textContent=n?`${Math.round(deep/n*100)}% of matched homes`:'';
+  $('s-hp').textContent=hp.toLocaleString();
+  $('s-hp-sub').textContent=n?`${Math.round(hp/n*100)}% of retrofits`:'';
+  $('s-fs').textContent=fs.toLocaleString();
 
+  renderYearHist();
+  renderAreaHist();
+  renderTypeDonut();
+  renderStoreyDonut();
+  renderSankey();
+  renderKPI();
+  renderWaterfall();
   renderMeasures(n);
+  renderSpider(n);
   renderHist(savings);
   renderTable();
 }
 
+// ── Year built histogram ──────────────────────────────────────────
+function renderYearHist() {
+  destroyChart('year');
+  const decades = {};
+  FILTERED.forEach(r => {
+    const y = parseInt(r.YearBuilt);
+    if(!y||y<1850||y>2030) return;
+    const d = Math.floor(y/10)*10;
+    decades[d] = (decades[d]||0)+1;
+  });
+  const labels = Object.keys(decades).sort();
+  const data   = labels.map(k=>decades[k]);
+  const ctx = $('year-chart').getContext('2d');
+  charts['year'] = new Chart(ctx, {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:'#0B2545CC', borderWidth:0, borderRadius:2 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{title:i=>`${i[0].label}s`, label:i=>`${i.raw.toLocaleString()} homes`}} },
+      scales:{
+        x:{ ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45}, grid:{display:false} },
+        y:{ ticks:{font:{size:10},color:'#8A9BB0'}, grid:{color:'#E8EDF4'} }
+      }
+    }
+  });
+}
+
+// ── Floor area histogram ──────────────────────────────────────────
+function renderAreaHist() {
+  destroyChart('area');
+  const bins = {};
+  FILTERED.forEach(r => {
+    const a = parseFloat(r.FloorArea);
+    if(!a||a>700) return;
+    const b = Math.floor(a/50)*50;
+    bins[b] = (bins[b]||0)+1;
+  });
+  const labels = Object.keys(bins).sort((a,b)=>a-b);
+  const data   = labels.map(k=>bins[k]);
+  const ctx = $('area-chart').getContext('2d');
+  charts['area'] = new Chart(ctx, {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:'#1A7A55CC', borderWidth:0, borderRadius:2 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+50} m²`, label:i=>`${i.raw.toLocaleString()} homes`}} },
+      scales:{
+        x:{ ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45}, grid:{display:false} },
+        y:{ ticks:{font:{size:10},color:'#8A9BB0'}, grid:{color:'#E8EDF4'} }
+      }
+    }
+  });
+}
+
+// ── Building type donut ───────────────────────────────────────────
+function renderTypeDonut() {
+  destroyChart('type');
+  const counts = {};
+  FILTERED.forEach(r => { if(r.BldgType) counts[r.BldgType]=(counts[r.BldgType]||0)+1; });
+  // Merge small slices into "Other"
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const TOP = 5;
+  const top = entries.slice(0,TOP);
+  const other = entries.slice(TOP).reduce((s,[,v])=>s+v,0);
+  if(other>0) top.push(['Other',other]);
+  const DONUT_COLORS = ['#0B2545','#1A7A55','#C8881A','#378ADD','#D85A30','#8A9BB0'];
+  const ctx = $('type-chart').getContext('2d');
+  charts['type'] = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:top.map(e=>e[0]), datasets:[{ data:top.map(e=>e[1]), backgroundColor:DONUT_COLORS, borderWidth:2, borderColor:'#fff', hoverOffset:6 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins:{
+        legend:{ position:'right', labels:{font:{size:11},boxWidth:12,padding:10} },
+        tooltip:{ callbacks:{ label:i=>`${i.label}: ${i.raw.toLocaleString()} (${Math.round(i.raw/FILTERED.length*100)}%)` } }
+      }
+    }
+  });
+}
+
+// ── Storeys donut ─────────────────────────────────────────────────
+function renderStoreyDonut() {
+  destroyChart('storey');
+  const MAP = { 'Split entry / Raised basement':'Split entry/Raised base.', 'Two and a half':'2.5 storeys', 'Three storeys':'3 storeys', 'Two storeys':'2 storeys', 'One storey':'1 storey', 'One and a half':'1.5 storeys', 'Split entry/Raised base.':'Split entry', 'Split level':'Split level' };
+  const counts = {};
+  FILTERED.forEach(r => {
+    const s = MAP[r.Storeys]||r.Storeys||'Unknown';
+    counts[s]=(counts[s]||0)+1;
+  });
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const COLORS = ['#0B2545','#378ADD','#C8881A','#1A7A55','#D85A30','#533AB7'];
+  const ctx = $('storey-chart').getContext('2d');
+  charts['storey'] = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:entries.map(e=>e[0]), datasets:[{ data:entries.map(e=>e[1]), backgroundColor:COLORS, borderWidth:2, borderColor:'#fff', hoverOffset:6 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'55%',
+      plugins:{
+        legend:{ position:'right', labels:{font:{size:11},boxWidth:12,padding:10} },
+        tooltip:{ callbacks:{ label:i=>`${i.label}: ${i.raw.toLocaleString()} (${Math.round(i.raw/FILTERED.length*100)}%)` } }
+      }
+    }
+  });
+}
+
+// ── Sankey ────────────────────────────────────────────────────────
+function renderSankey() {
+  const svg = $('sankey-svg');
+  svg.innerHTML = '';
+  if(!FILTERED.length) return;
+
+  const flows = {};
+  FILTERED.forEach(r => {
+    const pre=r.Pre_HeatFuel, post=r.Post_HeatFuel;
+    if(!pre||!post) return;
+    const k=`${pre}|||${post}`;
+    flows[k]=(flows[k]||0)+1;
+  });
+
+  // Get unique fuels on each side
+  const preSet={}, postSet={};
+  Object.entries(flows).forEach(([k,v])=>{
+    const [a,b]=k.split('|||');
+    preSet[a]=(preSet[a]||0)+v;
+    postSet[b]=(postSet[b]||0)+v;
+  });
+
+  const preFuels  = Object.entries(preSet).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const postFuels = Object.entries(postSet).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+
+  const W=svg.parentElement.clientWidth||700, H=260, PAD=10;
+  const LX=130, RX=W-130, BAR_W=16;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+
+  const total = Object.values(flows).reduce((s,v)=>s+v,0);
+  const usableH = H-PAD*2;
+
+  // Layout nodes
+  function layoutNodes(fuels, countMap, x) {
+    let y=PAD;
+    return fuels.map(f => {
+      const h = Math.max(4, (countMap[f]/total)*usableH);
+      const node = {f,x,y,h};
+      y += h + 4;
+      return node;
+    });
+  }
+
+  const preNodes  = layoutNodes(preFuels,  preSet,  LX);
+  const postNodes = layoutNodes(postFuels, postSet, RX);
+
+  const preNodeMap={}, postNodeMap={};
+  preNodes.forEach(n=>preNodeMap[n.f]=n);
+  postNodes.forEach(n=>postNodeMap[n.f]=n);
+
+  // Track used height on each node
+  const preUsed={}, postUsed={};
+  preNodes.forEach(n=>{preUsed[n.f]=0;});
+  postNodes.forEach(n=>{postUsed[n.f]=0;});
+
+  // Sort flows: same-fuel first (will draw last = on top), then by size
+  const flowList = Object.entries(flows).sort((a,b)=>b[1]-a[1]);
+
+  // Draw flows
+  flowList.forEach(([k,v]) => {
+    const [a,b]=k.split('|||');
+    const pn=preNodeMap[a], qn=postNodeMap[b];
+    if(!pn||!qn) return;
+    const fh = (v/total)*usableH;
+    const py = pn.y + preUsed[a];
+    const qy = qn.y + postUsed[b];
+    preUsed[a]  += fh;
+    postUsed[b] += fh;
+    const sameFlow = a===b;
+    const col = sameFlow ? '#D2D8E3' : (FUEL_COLORS[a]||'#8A9BB0');
+    const opacity = sameFlow ? '0.5' : '0.65';
+    // Cubic bezier
+    const mx = (pn.x+BAR_W+qn.x)/2;
+    const path = `M${pn.x+BAR_W},${py} C${mx},${py} ${mx},${qy} ${qn.x},${qy} L${qn.x},${qy+fh} C${mx},${qy+fh} ${mx},${py+fh} ${pn.x+BAR_W},${py+fh} Z`;
+    const el=document.createElementNS('http://www.w3.org/2000/svg','path');
+    el.setAttribute('d',path);
+    el.setAttribute('fill',col);
+    el.setAttribute('opacity',opacity);
+    el.innerHTML=`<title>${a} → ${b}: ${v.toLocaleString()} homes</title>`;
+    svg.appendChild(el);
+  });
+
+  // Draw pre nodes
+  preNodes.forEach(n => {
+    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',n.x); rect.setAttribute('y',n.y);
+    rect.setAttribute('width',BAR_W); rect.setAttribute('height',n.h);
+    rect.setAttribute('fill',FUEL_COLORS[n.f]||'#8A9BB0');
+    rect.setAttribute('rx',2);
+    svg.appendChild(rect);
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',n.x-6); txt.setAttribute('y',n.y+n.h/2+4);
+    txt.setAttribute('text-anchor','end'); txt.setAttribute('font-size','11');
+    txt.setAttribute('fill','#1C2B3A'); txt.setAttribute('font-family','Inter,sans-serif');
+    txt.textContent=n.f;
+    svg.appendChild(txt);
+  });
+
+  // Draw post nodes
+  postNodes.forEach(n => {
+    const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',n.x); rect.setAttribute('y',n.y);
+    rect.setAttribute('width',BAR_W); rect.setAttribute('height',n.h);
+    rect.setAttribute('fill',FUEL_COLORS[n.f]||'#8A9BB0');
+    rect.setAttribute('rx',2);
+    svg.appendChild(rect);
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',n.x+BAR_W+6); txt.setAttribute('y',n.y+n.h/2+4);
+    txt.setAttribute('text-anchor','start'); txt.setAttribute('font-size','11');
+    txt.setAttribute('fill','#1C2B3A'); txt.setAttribute('font-family','Inter,sans-serif');
+    txt.textContent=n.f;
+    svg.appendChild(txt);
+  });
+}
+
+// ── Insulation KPI ────────────────────────────────────────────────
+function renderKPI() {
+  const KPIs = [
+    { label:'Roof insulation', preCol:'Pre_RoofInsulation', postCol:'Post_RoofInsulation', unit:'RSI', higherBetter:true },
+    { label:'Wall insulation', preCol:'Pre_WallInsulation',  postCol:'Post_WallInsulation',  unit:'RSI', higherBetter:true },
+    { label:'Foundation ins.', preCol:'Pre_FoundationInsulation', postCol:'Post_FoundationInsulation', unit:'RSI', higherBetter:true },
+    { label:'Air leakage',     preCol:'Pre_AirLeakage',     postCol:'Post_AirLeakage',     unit:'ACH50', higherBetter:false },
+  ];
+
+  $('kpi-grid').innerHTML = KPIs.map(k => {
+    const preVals  = FILTERED.map(r=>num(r[k.preCol])).filter(v=>v!==null&&v>0);
+    const postVals = FILTERED.map(r=>num(r[k.postCol])).filter(v=>v!==null&&v>0);
+    const preM  = median(preVals);
+    const postM = median(postVals);
+    if(preM===null||postM===null) return '';
+    const delta = postM - preM;
+    const improved = k.higherBetter ? delta>0 : delta<0;
+    const deltaTxt = `${delta>=0?'+':''}${delta.toFixed(1)} ${k.unit}`;
+    return `<div class="kpi-item">
+      <div class="kpi-name">${k.label}</div>
+      <div class="kpi-values">
+        <div class="kpi-pre">${preM.toFixed(1)}</div>
+        <div class="kpi-arrow">→</div>
+        <div class="kpi-post">${postM.toFixed(1)}</div>
+      </div>
+      <div class="kpi-unit">${k.unit}</div>
+      <div class="kpi-delta ${improved?'good':'bad'}">${deltaTxt} ${improved?'▲ improved':'▼ declined'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Waterfall / grouped bar for energy by fuel ────────────────────
+function renderWaterfall() {
+  destroyChart('waterfall');
+  const FUELS = ['Electricity','NaturalGas','Oil','Propane','Wood'];
+  const LABELS= ['Electricity','Natural Gas','Oil','Propane','Wood'];
+  const preData=[], postData=[];
+  FUELS.forEach(f => {
+    const preVals  = FILTERED.map(r=>num(r[`Pre_${f}`])).filter(v=>v!==null&&v>0);
+    const postVals = FILTERED.map(r=>num(r[`Post_${f}`])).filter(v=>v!==null&&v>0);
+    preData.push(preVals.length  ? Math.round(median(preVals))  : 0);
+    postData.push(postVals.length? Math.round(median(postVals)) : 0);
+  });
+  // Add total
+  const preTot  = FILTERED.map(r=>num(r.Pre_TotalEnergy)).filter(v=>v!==null&&v>0);
+  const postTot = FILTERED.map(r=>num(r.Post_TotalEnergy)).filter(v=>v!==null&&v>0);
+  const allLabels = [...LABELS, 'TOTAL'];
+  const allPre  = [...preData,  Math.round(median(preTot))];
+  const allPost = [...postData, Math.round(median(postTot))];
+
+  const ctx = $('waterfall-chart').getContext('2d');
+  charts['waterfall'] = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: allLabels,
+      datasets:[
+        { label:'Pre-retrofit',  data:allPre,  backgroundColor:'#B33A2E99', borderColor:'#B33A2E', borderWidth:1, borderRadius:3 },
+        { label:'Post-retrofit', data:allPost, backgroundColor:'#1A7A5599', borderColor:'#1A7A55', borderWidth:1, borderRadius:3 },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ position:'top', labels:{font:{size:12},boxWidth:12} },
+        tooltip:{ callbacks:{ label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} kWh` } }
+      },
+      scales:{
+        x:{ ticks:{font:{size:11},color:'#5C6E82'}, grid:{display:false} },
+        y:{ title:{display:true,text:'kWh (median)',font:{size:11},color:'#5C6E82'}, ticks:{font:{size:11},color:'#5C6E82'}, grid:{color:'#E8EDF4'} }
+      }
+    }
+  });
+}
+
+// ── Measures bar ──────────────────────────────────────────────────
 function renderMeasures(n) {
-  const el = $('measures-list');
-  if (!n) { el.innerHTML = '<div class="state-msg"><strong>No matches</strong>Try adjusting your filters.</div>'; return; }
-  el.innerHTML = MEASURES.map(m => {
-    const c = FILTERED.filter(r=>flag(r,m.key)).length;
-    const p = n ? Math.round(c/n*100) : 0;
+  if(!n) { $('measures-list').innerHTML='<div class="state-msg"><strong>No matches</strong></div>'; return; }
+  $('measures-list').innerHTML = MEASURES.map(m => {
+    const c=FILTERED.filter(r=>flag(r,m.key)).length;
+    const p=Math.round(c/n*100);
     return `<div class="measure-row">
       <div class="measure-label">${m.label}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${m.color}"></div></div>
@@ -707,114 +739,161 @@ function renderMeasures(n) {
   }).join('');
 }
 
-function renderHist(savings) {
-  const labels = ['<−40','−40','−30','−20','−10','0','10','20','30','40+'];
-  const bins   = new Array(10).fill(0);
-  savings.forEach(v => {
-    const pv = v * 100;
-    let i = Math.floor((pv + 50) / 10);
-    i = Math.max(0, Math.min(9, i));
-    bins[i]++;
+// ── Spider chart ──────────────────────────────────────────────────
+function renderSpider(n) {
+  const svg = $('spider-svg');
+  svg.innerHTML = '';
+  if(!n) return;
+
+  const axes = MEASURES.map(m => ({
+    label: m.label,
+    value: n ? FILTERED.filter(r=>flag(r,m.key)).length/n : 0,
+    color: m.color,
+  }));
+
+  const W=300, H=240, cx=140, cy=120, R=85;
+  const N=axes.length;
+
+  // Grid rings
+  [0.25,0.5,0.75,1].forEach(frac => {
+    const pts = axes.map((_,i)=>{
+      const angle = (i/N)*Math.PI*2 - Math.PI/2;
+      return [cx+Math.cos(angle)*R*frac, cy+Math.sin(angle)*R*frac];
+    });
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+    poly.setAttribute('fill','none'); poly.setAttribute('stroke','#D2D8E3'); poly.setAttribute('stroke-width','0.5');
+    svg.appendChild(poly);
+    // Label the 50% ring
+    if(frac===0.5) {
+      const el=document.createElementNS('http://www.w3.org/2000/svg','text');
+      el.setAttribute('x',cx+4); el.setAttribute('y',cy-R*0.5+3);
+      el.setAttribute('font-size','9'); el.setAttribute('fill','#8A9BB0'); el.setAttribute('font-family','Inter,sans-serif');
+      el.textContent='50%';
+      svg.appendChild(el);
+    }
   });
 
-  const ctx = $('hist').getContext('2d');
-  if (histChart) histChart.destroy();
-  histChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
+  // Axes
+  axes.forEach((_,i)=>{
+    const angle=(i/N)*Math.PI*2 - Math.PI/2;
+    const x2=cx+Math.cos(angle)*R, y2=cy+Math.sin(angle)*R;
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',cx); line.setAttribute('y1',cy);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    line.setAttribute('stroke','#D2D8E3'); line.setAttribute('stroke-width','0.5');
+    svg.appendChild(line);
+  });
+
+  // Data polygon
+  const dataPts = axes.map((a,i)=>{
+    const angle=(i/N)*Math.PI*2 - Math.PI/2;
+    return [cx+Math.cos(angle)*R*a.value, cy+Math.sin(angle)*R*a.value];
+  });
+  const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  poly.setAttribute('points',dataPts.map(p=>p.join(',')).join(' '));
+  poly.setAttribute('fill','rgba(11,37,69,0.12)'); poly.setAttribute('stroke','#0B2545'); poly.setAttribute('stroke-width','1.5');
+  svg.appendChild(poly);
+
+  // Dots
+  dataPts.forEach((p,i)=>{
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',p[0]); circle.setAttribute('cy',p[1]); circle.setAttribute('r','4');
+    circle.setAttribute('fill',axes[i].color); circle.setAttribute('stroke','#fff'); circle.setAttribute('stroke-width','1.5');
+    circle.innerHTML=`<title>${axes[i].label}: ${Math.round(axes[i].value*100)}%</title>`;
+    svg.appendChild(circle);
+  });
+
+  // Axis labels
+  axes.forEach((a,i)=>{
+    const angle=(i/N)*Math.PI*2 - Math.PI/2;
+    const lx=cx+Math.cos(angle)*(R+18), ly=cy+Math.sin(angle)*(R+18);
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx); txt.setAttribute('y',ly+3);
+    txt.setAttribute('text-anchor', Math.cos(angle)>0.1 ? 'start' : Math.cos(angle)<-0.1 ? 'end' : 'middle');
+    txt.setAttribute('font-size','9.5'); txt.setAttribute('fill','#1C2B3A');
+    txt.setAttribute('font-family','Inter,sans-serif');
+    txt.textContent=a.label;
+    svg.appendChild(txt);
+  });
+}
+
+// ── Energy saving histogram ───────────────────────────────────────
+function renderHist(savings) {
+  destroyChart('hist');
+  const bins=new Array(10).fill(0);
+  const labels=['<−40','−40','−30','−20','−10','0','10','20','30','40+'];
+  savings.forEach(v=>{
+    const pv=v*100;
+    let i=Math.floor((pv+50)/10);
+    i=Math.max(0,Math.min(9,i));
+    bins[i]++;
+  });
+  const ctx=$('hist-chart').getContext('2d');
+  charts['hist']=new Chart(ctx,{
+    type:'bar',
+    data:{
       labels,
-      datasets: [{
-        data: bins,
-        backgroundColor: bins.map((_,i) => i < 5 ? '#E8B4B0' : '#A8D5BE'),
-        borderColor:     bins.map((_,i) => i < 5 ? '#B33A2E' : '#1A7A55'),
-        borderWidth: 1,
-        borderRadius: 3,
-      }]
+      datasets:[{ data:bins, backgroundColor:bins.map((_,i)=>i<5?'#E8B4B0':'#A8D5BE'), borderColor:bins.map((_,i)=>i<5?'#B33A2E':'#1A7A55'), borderWidth:1, borderRadius:3 }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: {
-        callbacks: { title: items => `Saving: ${items[0].label}%`, label: i => ` ${i.raw.toLocaleString()} homes` }
-      }},
-      scales: {
-        x: {
-          title: { display: true, text: 'Energy saving %', font: { size: 11, family: 'Inter' }, color: '#5C6E82' },
-          ticks: { autoSkip: false, font: { size: 11 }, color: '#5C6E82' },
-          grid: { display: false }
-        },
-        y: {
-          title: { display: true, text: 'Homes', font: { size: 11, family: 'Inter' }, color: '#5C6E82' },
-          ticks: { font: { size: 11 }, color: '#5C6E82' },
-          grid: { color: '#E8EDF4' }
-        }
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{title:i=>`Saving: ${i[0].label}%`, label:i=>`${i.raw.toLocaleString()} homes`}} },
+      scales:{
+        x:{ title:{display:true,text:'Energy saving %',font:{size:11},color:'#5C6E82'}, ticks:{autoSkip:false,font:{size:11},color:'#5C6E82'}, grid:{display:false} },
+        y:{ title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'}, ticks:{font:{size:11},color:'#5C6E82'}, grid:{color:'#E8EDF4'} }
       }
     }
   });
 }
 
+// ── Table ─────────────────────────────────────────────────────────
+const CHIP_LABELS = {
+  Air_Tightness_Upgrade:'Air sealing', Roof_Insulation_Upgrade:'Roof ins.',
+  Foundation_Insulation_Upgrade:'Foundation', Wall_Insulation_Upgrade:'Wall ins.',
+  HeatPump_Addition:'Heat pump', Heating_Change:'New heating',
+  Windows_Change:'Windows', Floor_Insulation_Upgrade:'Floor ins.',
+};
 function sortBy(key) {
-  SORT = key;
-  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  SORT=key;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
   $('sb-'+key).classList.add('active');
   renderTable();
 }
-
 function renderTable() {
-  const MAX = 100;
-  let rows = [...FILTERED];
-  if (SORT === 'saving') rows.sort((a,b) => (num(b.EnergySavingPct)||0) - (num(a.EnergySavingPct)||0));
-  else if (SORT === 'year') rows.sort((a,b) => parseInt(a.YearBuilt||9999) - parseInt(b.YearBuilt||9999));
-  else if (SORT === 'area') rows.sort((a,b) => (num(b.FloorArea)||0) - (num(a.FloorArea)||0));
-
-  const shown = rows.slice(0, MAX);
-  const tbody = $('tbl-body');
-
-  if (!shown.length) {
-    tbody.innerHTML = `<tr><td colspan="8"><div class="state-msg"><strong>No matching retrofits</strong>Try broader filters.</div></td></tr>`;
-    $('tbl-footer').textContent = '';
-    return;
+  const MAX=100;
+  let rows=[...FILTERED];
+  if(SORT==='saving') rows.sort((a,b)=>(num(b.EnergySavingPct)||0)-(num(a.EnergySavingPct)||0));
+  else if(SORT==='year') rows.sort((a,b)=>parseInt(a.YearBuilt||9999)-parseInt(b.YearBuilt||9999));
+  else if(SORT==='area') rows.sort((a,b)=>(num(b.FloorArea)||0)-(num(a.FloorArea)||0));
+  const shown=rows.slice(0,MAX);
+  const tbody=$('tbl-body');
+  if(!shown.length) {
+    tbody.innerHTML=`<tr><td colspan="8"><div class="state-msg"><strong>No matching retrofits</strong>Try broader filters.</div></td></tr>`;
+    $('tbl-footer').textContent=''; return;
   }
-
-  tbody.innerHTML = shown.map(r => {
-    const sv = num(r.EnergySavingPct);
-    const svCell = sv !== null
-      ? `<span class="${sv>=0?'saving-pos':'saving-neg'}">${fmtPct(sv)}</span>`
-      : '—';
-
-    let badge = '';
-    if      (flag(r,'Deep_Retrofit'))    badge = '<span class="badge badge-deep">Deep</span>';
-    else if (flag(r,'Medium_Retrofit'))  badge = '<span class="badge badge-medium">Medium</span>';
-    else if (flag(r,'Shallow_Retrofit')) badge = '<span class="badge badge-shallow">Shallow</span>';
-    else if (sv !== null && sv < 0)      badge = '<span class="badge badge-neg">Increased</span>';
-
-    const fuelCell = flag(r,'FuelSwitch')
-      ? `<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span> <span class="fuel-arrow">→</span> <span class="fuel-chip">${r.Post_HeatFuel||'?'}</span>`
-      : `<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span>`;
-
-    const chips = Object.entries(CHIP_LABELS)
-      .filter(([k]) => flag(r, k))
-      .map(([,label]) => `<span class="measure-chip">${label}</span>`)
-      .join('');
-
+  tbody.innerHTML=shown.map(r=>{
+    const sv=num(r.EnergySavingPct);
+    const svCell=sv!==null?`<span class="${sv>=0?'saving-pos':'saving-neg'}">${fmtPct(sv)}</span>`:'—';
+    let badge='';
+    if(flag(r,'Deep_Retrofit'))    badge='<span class="badge badge-deep">Deep</span>';
+    else if(flag(r,'Medium_Retrofit'))  badge='<span class="badge badge-medium">Medium</span>';
+    else if(flag(r,'Shallow_Retrofit')) badge='<span class="badge badge-shallow">Shallow</span>';
+    else if(sv!==null&&sv<0)            badge='<span class="badge badge-neg">Increased</span>';
+    const fuelCell=flag(r,'FuelSwitch')
+      ?`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span><span class="fuel-arrow"> → </span><span class="fuel-chip">${r.Post_HeatFuel||'?'}</span>`
+      :`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span>`;
+    const chips=Object.entries(CHIP_LABELS).filter(([k])=>flag(r,k)).map(([,l])=>`<span class="measure-chip">${l}</span>`).join('');
     return `<tr>
-      <td>${r.FSA||'—'}</td>
-      <td>${r.BldgType||'—'}</td>
-      <td>${r.YearBuilt||'—'}</td>
-      <td>${r.FloorArea ? Math.round(parseFloat(r.FloorArea)) : '—'}</td>
-      <td>${fuelCell}</td>
-      <td>${svCell}</td>
-      <td>${badge}</td>
+      <td>${r.FSA||'—'}</td><td>${r.BldgType||'—'}</td><td>${r.YearBuilt||'—'}</td>
+      <td>${r.FloorArea?Math.round(parseFloat(r.FloorArea)):'—'}</td>
+      <td>${fuelCell}</td><td>${svCell}</td><td>${badge}</td>
       <td><div class="measure-chips">${chips||'<span style="color:var(--light);font-size:12px">None recorded</span>'}</div></td>
     </tr>`;
   }).join('');
-
-  $('tbl-footer').textContent = rows.length > MAX
-    ? `Showing top ${MAX} of ${rows.length.toLocaleString()} matching retrofits, sorted by energy saving`
-    : `${rows.length.toLocaleString()} matching retrofits`;
+  $('tbl-footer').textContent=rows.length>MAX?`Showing top ${MAX} of ${rows.length.toLocaleString()} matching retrofits`:`${rows.length.toLocaleString()} matching retrofits`;
 }
 
-/* ── Boot ────────────────────────────────────────────────────────── */
 load();
 </script>
 </body>
