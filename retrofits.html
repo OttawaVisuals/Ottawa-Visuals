@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PEI Retrofit Explorer</title>
+<title>Retrofit Explorer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -146,14 +146,29 @@ footer a:hover{color:var(--amber2)}
 <body>
 
 <header>
-  <div class="logo">retrofit<span>PEI</span></div>
-  <div class="header-badge" id="header-badge">EnerGuide data · PEI</div>
+  <div class="logo">retrofit<span id="logo-province">Canada</span></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <select id="province-sel" style="height:32px;border:1px solid rgba(255,255,255,.2);border-radius:var(--r-sm);padding:0 28px 0 10px;font-family:'Inter',sans-serif;font-size:13px;color:var(--white);background:rgba(255,255,255,.08) url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\") no-repeat right 8px center;cursor:pointer;appearance:none;transition:border-color .15s">
+      <option value="">Select province…</option>
+      <option value="AB">Alberta</option>
+      <option value="BC">British Columbia</option>
+      <option value="MB">Manitoba</option>
+      <option value="NB">New Brunswick</option>
+      <option value="NF">Newfoundland & Labrador</option>
+      <option value="NS">Nova Scotia</option>
+      <option value="ON">Ontario</option>
+      <option value="PE">Prince Edward Island</option>
+      <option value="QC">Quebec</option>
+      <option value="SK">Saskatchewan</option>
+    </select>
+    <div class="header-badge" id="header-badge">EnerGuide data</div>
+  </div>
 </header>
 
-<div class="hero">
-  <p class="hero-eyebrow">Prince Edward Island · Home energy retrofits</p>
+<div class="hero" id="hero-section">
+  <p class="hero-eyebrow" id="hero-eyebrow">Select a province above to begin</p>
   <h1>What did <em>homes like yours</em> do — and did it work?</h1>
-  <p class="hero-sub">Real audit data from PEI homes. Filter to find retrofits comparable to yours and see actual energy savings.</p>
+  <p class="hero-sub">Real audit data from Canadian homes. Select your province, then filter to find retrofits comparable to yours and see actual energy savings.</p>
   <div class="filter-bar">
     <div class="filter-group"><label for="fsa-sel">Your FSA</label>
       <select id="fsa-sel">
@@ -188,6 +203,17 @@ footer a:hover{color:var(--amber2)}
     <span class="filter-count"><strong id="result-count">—</strong> retrofits match</span>
   </div>
 </div>
+
+<!-- Shared SVG defs for EUI gradient (referenced by id, no random IDs needed) -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="eui-grad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#1A7A55"/>
+      <stop offset="40%" stop-color="#C8881A"/>
+      <stop offset="100%" stop-color="#B33A2E"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <main>
 
@@ -311,14 +337,29 @@ footer a:hover{color:var(--amber2)}
 </main>
 
 <footer>
-  Data: <a href="https://open.canada.ca/data/en/dataset/794f6e8f-c15f-4b0a-9d09-7e3a5bc6b3aa" target="_blank" rel="noopener">Natural Resources Canada EnerGuide</a> · PEI audits 2004–2025<br>
+  Data: <a href="https://open.canada.ca/data/en/dataset/794f6e8f-c15f-4b0a-9d09-7e3a5bc6b3aa" target="_blank" rel="noopener">Natural Resources Canada EnerGuide</a> · <span id="footer-province">Canadian home energy audits</span> 2004–2025<br>
   Values are modelled energy estimates, not metered consumption. Retrofit costs not available in source data.
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-const DATA_URL='https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/ers_web_PE.csv';
+const BASE_URL='https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/';
+
+const PROVINCES={
+  AB:{name:'Alberta',short:'AB'},
+  BC:{name:'British Columbia',short:'BC'},
+  MB:{name:'Manitoba',short:'MB'},
+  NB:{name:'New Brunswick',short:'NB'},
+  NF:{name:'Newfoundland & Labrador',short:'NF'},
+  NS:{name:'Nova Scotia',short:'NS'},
+  ON:{name:'Ontario',short:'ON'},
+  PE:{name:'Prince Edward Island',short:'PE'},
+  QC:{name:'Quebec',short:'QC'},
+  SK:{name:'Saskatchewan',short:'SK'},
+};
+
+let PROVINCE_CODE='';
 
 const FUEL_COLORS={
   'Oil':'#B33A2E','Electricity':'#378ADD','Propane':'#C8881A',
@@ -337,12 +378,7 @@ const MEASURES=[
   {key:'Floor_Insulation_Upgrade',     label:'Floor insulation',       color:'#5C6E82'},
 ];
 
-const CHIP_LABELS={
-  Air_Tightness_Upgrade:'Air sealing',Roof_Insulation_Upgrade:'Roof ins.',
-  Foundation_Insulation_Upgrade:'Foundation',Wall_Insulation_Upgrade:'Wall ins.',
-  HeatPump_Addition:'Heat pump',Heating_Change:'New heating',
-  Windows_Change:'Windows',Floor_Insulation_Upgrade:'Floor ins.'
-};
+
 
 let ALL=[],FILTERED=[],SORT='saving';
 const charts={};
@@ -362,23 +398,46 @@ function dc(key){if(charts[key]){charts[key].destroy();delete charts[key];}}
 
 // ── Load ──────────────────────────────────────────────────────────
 function load(){
+  if(!PROVINCE_CODE)return;
+  const prov=PROVINCES[PROVINCE_CODE];
+  const DATA_URL=`${BASE_URL}ers_web_${PROVINCE_CODE}.csv`;
+
+  // Update all province-specific text
+  $('logo-province').textContent=prov.short;
+  $('hero-eyebrow').textContent=`${prov.name} · Home energy retrofits`;
+  $('footer-province').textContent=`${prov.name} audits`;
+
+  // Show loading state
+  $('result-count').textContent='…';
+  $('header-badge').textContent=`EnerGuide data · ${prov.name} · loading…`;
+  ALL=[];FILTERED=[];
+
   Papa.parse(DATA_URL,{
     download:true,header:true,skipEmptyLines:true,worker:false,
     complete:res=>{
-      ALL=res.data.map(r=>({...r,BldgType:norm(r.BldgType)}));
-      $('header-badge').textContent=`EnerGuide data · ${ALL.length.toLocaleString()} PEI audits`;
+      ALL=res.data.map(r=>({
+        ...r,
+        BldgType:norm(r.BldgType),
+        // Normalise Mixed Wood casing at load time
+        Pre_HeatFuel:r.Pre_HeatFuel==='Mixed wood'?'Mixed Wood':r.Pre_HeatFuel,
+        Post_HeatFuel:r.Post_HeatFuel==='Mixed wood'?'Mixed Wood':r.Post_HeatFuel,
+      }));
+      $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${ALL.length.toLocaleString()} audits`;
+      // Reset and rebuild dynamic filter options
       ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
         $(id).addEventListener('change',applyFilters));
       const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
       const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
-      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;$('type-sel').appendChild(o);});
-      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;$('fuel-sel').appendChild(o);});
+      const typeEl=$('type-sel');typeEl.innerHTML='<option value="">All types</option>';
+      const fuelEl=$('fuel-sel');fuelEl.innerHTML='<option value="">All fuels</option>';
+      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeEl.appendChild(o);});
+      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
       FILTERED=[...ALL];
       render();
     },
     error:()=>{
       document.querySelector('main').innerHTML=
-        '<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder.</div>';
+        `<div class="state-msg"><strong>Could not load data</strong>Could not fetch ${prov.name} data. Check that ers_web_${PROVINCE_CODE}.csv exists in the Energy folder.</div>`;
     }
   });
 }
@@ -413,6 +472,7 @@ function render(){
   $('s-hp-sub').textContent=n?`${Math.round(hp/n*100)}% of retrofits`:'';
   $('s-fs').textContent=fs.toLocaleString();
 
+  // Compute EUIs once here and pass to all consumers
   const preEUIs=FILTERED.map(r=>{const e=num(r.Pre_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null;}).filter(v=>v!==null);
   const postEUIs=FILTERED.map(r=>{const e=num(r.Post_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null;}).filter(v=>v!==null);
   const euiSave=median(preEUIs)-median(postEUIs);
@@ -422,7 +482,7 @@ function render(){
 
   renderYearHist();renderAreaHist();renderTypeDonut();renderStoreyDonut();
   renderSankey();renderEUI(preEUIs,postEUIs);renderWaterfall();
-  renderKPI();renderInsulDist();renderMeasures(n);renderSpider(n);
+  renderKPI();renderInsulDist(preEUIs,postEUIs);renderMeasures(n);renderSpider(n);
   renderHist(savings);renderTable();
 }
 
@@ -629,6 +689,8 @@ function renderEUI(preEUIs,postEUIs){
 // ── Waterfall (pre bars from 0 on left, post bars from 0 on right, per fuel) ──
 function renderWaterfall(){
   dc('waterfall');
+  // NOTE: fuel column names are hardcoded (Pre_Electricity, Pre_NaturalGas, etc.)
+  // If new fuel types are added to the CSV, add them here. Key = CSV column suffix, lbl = display name.
   const FUELS=[['Electricity','Electricity'],['NaturalGas','Natural Gas'],['Oil','Oil'],['Propane','Propane'],['Wood','Wood']];
   const fuelLabels=[],preVals=[],postVals=[];
   FUELS.forEach(([key,lbl])=>{
@@ -801,13 +863,15 @@ function deltaHist(canvasId,chartKey,preCol,postCol,maxDelta,step,unit,invert){
 }
 
 // ── EUI delta histogram ───────────────────────────────────────────
-function euiDeltaHist(){
+function euiDeltaHist(preEUIs,postEUIs){
   dc('eui-delta');
+  // preEUIs and postEUIs are already per-home EUI values (kWh/m²) passed from render()
+  // We need paired deltas, so we recompute pairing from FILTERED (arrays may differ in length due to nulls)
   const deltas=[];
   FILTERED.forEach(r=>{
     const pre=num(r.Pre_TotalEnergy),post=num(r.Post_TotalEnergy),area=num(r.FloorArea);
     if(!pre||!post||!area||area<=0)return;
-    const d=(pre-post)/area; // positive = improvement (reduction in EUI)
+    const d=(pre-post)/area;
     if(d>0&&d<=500)deltas.push(d);
   });
   if(!deltas.length)return;
@@ -840,7 +904,7 @@ function euiDeltaHist(){
   });
 }
 
-function renderInsulDist(){
+function renderInsulDist(preEUIs,postEUIs){
   insulHist('roof-chart','roof','Pre_RoofInsulation','Post_RoofInsulation',14,0.5,'RSI');
   insulHist('air-chart','air','Pre_AirLeakage','Post_AirLeakage',20,0.5,'ACH50');
   insulHist('wall-chart','wall','Pre_WallInsulation','Post_WallInsulation',7,0.25,'RSI');
@@ -849,7 +913,7 @@ function renderInsulDist(){
   deltaHist('air-delta-chart','air-delta','Pre_AirLeakage','Post_AirLeakage',15,0.5,'ACH50',true);
   deltaHist('wall-delta-chart','wall-delta','Pre_WallInsulation','Post_WallInsulation',5,0.25,'RSI',false);
   deltaHist('fnd-delta-chart','fnd-delta','Pre_FoundationInsulation','Post_FoundationInsulation',5,0.25,'RSI',false);
-  euiDeltaHist();
+  euiDeltaHist(preEUIs,postEUIs);
 }
 
 // ── Measures bar ──────────────────────────────────────────────────
@@ -965,14 +1029,9 @@ function makeEUIBar(preEUI,postEUI,medPre,medPost){
   const postX=postEUI?px(postEUI):null;
   const medPreX=medPre?px(medPre):null;
   const medPostX=medPost?px(medPost):null;
-  const uid=Math.random().toString(36).slice(2,7);
+  // Use shared #eui-grad defined once in static HTML — no random IDs needed
   let s=`<svg viewBox="0 0 ${W} ${H+14}" width="${W}" height="${H+14}" style="display:block;overflow:visible">
-    <defs><linearGradient id="eg${uid}" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%" stop-color="#1A7A55"/>
-      <stop offset="40%" stop-color="#C8881A"/>
-      <stop offset="100%" stop-color="#B33A2E"/>
-    </linearGradient></defs>
-    <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eg${uid})" rx="3" opacity="0.25"/>`;
+    <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eui-grad)" rx="3" opacity="0.25"/>`;
   if(medPreX!==null)s+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#B33A2E" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
   if(medPostX!==null)s+=`<line x1="${medPostX}" y1="2" x2="${medPostX}" y2="${4+MH+2}" stroke="#1A7A55" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
   if(preX!==null)s+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#B33A2E" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
@@ -1112,7 +1171,15 @@ function toggleRow(idx){
   }
 }
 
-load();
+// Wire province selector
+$('province-sel').addEventListener('change',function(){
+  PROVINCE_CODE=this.value;
+  if(!PROVINCE_CODE)return;
+  // Reset filters when province changes
+  ['type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
+  $('fsa-sel').value='';
+  load();
+});
 
 </script>
 </body>
