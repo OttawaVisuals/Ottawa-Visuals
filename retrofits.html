@@ -228,13 +228,16 @@ footer a:hover{color:var(--amber2)}
     <div class="eui-row" id="eui-kpis"></div>
     <div class="cw cw-lg"><canvas id="eui-chart"></canvas></div>
     <p class="note">EUI = total energy ÷ floor area. A lower EUI means a more efficient home. Outliers above 500 kWh/m² clipped for scale.</p>
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin:1.25rem 0 .5rem">EUI reduction (kWh/m²) — among homes that improved</div>
+    <div class="cw cw-sm"><canvas id="eui-delta-chart"></canvas></div>
+    <p class="note" style="margin-top:8px">Only homes where EUI decreased after retrofit. Bin width = 10 kWh/m².</p>
   </div>
 
   <!-- Waterfall: mirror bars -->
   <div class="card">
-    <div class="card-title">Energy by fuel — pre (up) vs post (down) from baseline · median kWh</div>
+    <div class="card-title">Energy by fuel — pre vs post · median kWh across all matched homes</div>
     <div class="cw cw-lg"><canvas id="waterfall-chart"></canvas></div>
-    <p class="note">Red outline = pre-retrofit energy (full height). Green fill = post-retrofit energy (from bottom). The empty gap at the top of each green bar = energy saved. Hover for exact values. Electricity often rises when homes switch to heat pumps.</p>
+    <p class="note">Navy ▲ = pre-retrofit, green ▼ = post-retrofit. Each bar starts from zero. The height difference = energy saved. Electricity often rises when homes switch to heat pumps. Hover any bar for exact values.</p>
   </div>
 
   <!-- Insulation KPIs + distributions -->
@@ -623,75 +626,87 @@ function renderEUI(preEUIs,postEUIs){
   });
 }
 
-// ── Waterfall (floating bars) ─────────────────────────────────────
+// ── Waterfall (pre bars from 0 on left, post bars from 0 on right, per fuel) ──
 function renderWaterfall(){
   dc('waterfall');
   const FUELS=[['Electricity','Electricity'],['NaturalGas','Natural Gas'],['Oil','Oil'],['Propane','Propane'],['Wood','Wood']];
-  const labels=[],preVals=[],postVals=[];
+  const fuelLabels=[],preVals=[],postVals=[];
   FUELS.forEach(([key,lbl])=>{
     const pre=FILTERED.map(r=>num(r[`Pre_${key}`])||0);
     const post=FILTERED.map(r=>num(r[`Post_${key}`])||0);
     const pm=Math.round(median(pre));
     const qm=Math.round(median(post));
     if(pm===0&&qm===0)return;
-    labels.push(lbl);preVals.push(pm);postVals.push(qm);
+    fuelLabels.push(lbl);preVals.push(pm);postVals.push(qm);
   });
-  labels.push('TOTAL');
+  // Add TOTAL
+  fuelLabels.push('TOTAL');
   preVals.push(Math.round(median(FILTERED.map(r=>num(r.Pre_TotalEnergy)||0))));
   postVals.push(Math.round(median(FILTERED.map(r=>num(r.Post_TotalEnergy)||0))));
-  const saving=preVals.map((p,i)=>p-postVals[i]);
 
-  // Floating bar: [bottom, top]
-  // Pre dataset: [0, preVal] — full height outline showing original energy
-  // Post dataset: [postVal, preVal] — solid fill from post up to pre, gap at top = savings
+  // Build interleaved labels: for each fuel, show "Fuel (Pre)" then "Fuel (Post)"
+  // Pre bars get navy, post bars get green, both from 0
+  const labels=[];
+  const barData=[];
+  const barColors=[];
+  const barBorders=[];
+  const tooltipData=[];
+
+  fuelLabels.forEach((lbl,i)=>{
+    labels.push(lbl+' ▲');
+    barData.push(preVals[i]);
+    barColors.push('rgba(11,37,69,0.75)');
+    barBorders.push('#0B2545');
+    tooltipData.push({type:'pre',fuel:lbl,val:preVals[i],post:postVals[i]});
+
+    labels.push(lbl+' ▼');
+    barData.push(postVals[i]);
+    barColors.push('rgba(26,122,85,0.75)');
+    barBorders.push('#1A7A55');
+    tooltipData.push({type:'post',fuel:lbl,val:postVals[i],pre:preVals[i]});
+  });
+
   charts['waterfall']=new Chart($('waterfall-chart').getContext('2d'),{
     type:'bar',
     data:{
       labels,
-      datasets:[
-        {
-          label:'Pre-retrofit',
-          data:preVals.map(v=>[0,v]),
-          backgroundColor:'rgba(179,58,46,0.15)',
-          borderColor:'#B33A2E',
-          borderWidth:2,
-          borderRadius:3
-        },
-        {
-          label:'Post-retrofit',
-          data:preVals.map((p,i)=>[postVals[i],p]),
-          backgroundColor:'rgba(26,122,85,0.75)',
-          borderColor:'#1A7A55',
-          borderWidth:1.5,
-          borderRadius:3
-        }
-      ]
+      datasets:[{
+        data:barData,
+        backgroundColor:barColors,
+        borderColor:barBorders,
+        borderWidth:1,
+        borderRadius:3,
+        barPercentage:0.6
+      }]
     },
     options:{
-      responsive:true,
-      maintainAspectRatio:false,
+      responsive:true,maintainAspectRatio:false,
       plugins:{
-        legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        legend:{display:false},
         tooltip:{
           callbacks:{
+            title:i=>tooltipData[i[0].dataIndex].fuel,
             label:function(i){
-              const idx=i.dataIndex,ds=i.datasetIndex;
-              if(ds===0)return `Pre: ${preVals[idx].toLocaleString()} kWh`;
-              return [
-                `Post: ${postVals[idx].toLocaleString()} kWh`,
-                `Saving: ${saving[idx].toLocaleString()} kWh (${preVals[idx]>0?Math.round(saving[idx]/preVals[idx]*100):0}%)`
-              ];
+              const d=tooltipData[i.dataIndex];
+              if(d.type==='pre'){
+                const saving=d.val-d.post;
+                return[`Pre: ${d.val.toLocaleString()} kWh`,`Post: ${d.post.toLocaleString()} kWh`,`Saving: ${saving.toLocaleString()} kWh (${d.val>0?Math.round(saving/d.val*100):0}%)`];
+              }
+              const saving=d.pre-d.val;
+              return[`Post: ${d.val.toLocaleString()} kWh`,`Pre: ${d.pre.toLocaleString()} kWh`,`Saving: ${saving.toLocaleString()} kWh (${d.pre>0?Math.round(saving/d.pre*100):0}%)`];
             }
           }
         }
       },
       scales:{
-        x:{ticks:{font:{size:11},color:'#5C6E82'},grid:{display:false}},
+        x:{
+          ticks:{font:{size:10},color:'#5C6E82',maxRotation:0},
+          grid:{display:false}
+        },
         y:{
           title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},
           ticks:{font:{size:11},color:'#8A9BB0',callback:function(v){return `${(v/1000).toFixed(0)}k`;}},
-          grid:{color:'#E8EDF4'},
-          min:0
+          grid:{color:'#E8EDF4'},min:0
         }
       }
     }
@@ -756,21 +771,72 @@ function deltaHist(canvasId,chartKey,preCol,postCol,maxDelta,step,unit,invert){
     if(d>0&&d<=maxDelta)deltas.push(d);
   });
   if(!deltas.length)return;
+  // Use range labels: floor to bin start, label as "X–Y"
   const bins={};
-  deltas.forEach(d=>{const k=(Math.floor(d/step)*step).toFixed(2);bins[k]=(bins[k]||0)+1;});
+  deltas.forEach(d=>{
+    const lo=(Math.floor(d/step)*step);
+    const hi=lo+step;
+    const k=lo.toFixed(2); // key for sorting
+    if(!bins[k])bins[k]={lo,hi,count:0};
+    bins[k].count++;
+  });
   const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+  const entries=keys.map(k=>bins[k.toFixed(2)]);
   charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
     type:'bar',
-    data:{labels:keys.map(k=>k.toFixed(1)),datasets:[{
-      data:keys.map(k=>bins[k.toFixed(2)]||0),
+    data:{labels:entries.map(e=>`${e.lo.toFixed(1)}–${e.hi.toFixed(1)}`),datasets:[{
+      data:entries.map(e=>e.count),
       backgroundColor:'rgba(26,122,85,0.65)',
       borderColor:'#1A7A55',borderWidth:1,borderRadius:2
     }]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},
-        tooltip:{callbacks:{title:i=>`+${i[0].label} ${unit} improvement`,label:i=>`${i.raw.toLocaleString()} homes`}}},
-      scales:{x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
-              y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+        tooltip:{callbacks:{title:i=>`${i[0].label} ${unit} improvement`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:14},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
+  });
+}
+
+// ── EUI delta histogram ───────────────────────────────────────────
+function euiDeltaHist(){
+  dc('eui-delta');
+  const deltas=[];
+  FILTERED.forEach(r=>{
+    const pre=num(r.Pre_TotalEnergy),post=num(r.Post_TotalEnergy),area=num(r.FloorArea);
+    if(!pre||!post||!area||area<=0)return;
+    const d=(pre-post)/area; // positive = improvement (reduction in EUI)
+    if(d>0&&d<=500)deltas.push(d);
+  });
+  if(!deltas.length)return;
+  const step=10;
+  const bins={};
+  deltas.forEach(d=>{
+    const lo=Math.floor(d/step)*step;
+    const hi=lo+step;
+    const k=lo.toFixed(0);
+    if(!bins[k])bins[k]={lo,hi,count:0};
+    bins[k].count++;
+  });
+  const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+  const entries=keys.map(k=>bins[k.toFixed(0)]);
+  charts['eui-delta']=new Chart($('eui-delta-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:entries.map(e=>`${e.lo}–${e.hi}`),datasets:[{
+      data:entries.map(e=>e.count),
+      backgroundColor:'rgba(26,122,85,0.65)',
+      borderColor:'#1A7A55',borderWidth:1,borderRadius:2
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{title:i=>`${i[0].label} kWh/m² reduction`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:'EUI reduction (kWh/m²)',font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:14},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
   });
 }
 
@@ -783,6 +849,7 @@ function renderInsulDist(){
   deltaHist('air-delta-chart','air-delta','Pre_AirLeakage','Post_AirLeakage',15,0.5,'ACH50',true);
   deltaHist('wall-delta-chart','wall-delta','Pre_WallInsulation','Post_WallInsulation',5,0.25,'RSI',false);
   deltaHist('fnd-delta-chart','fnd-delta','Pre_FoundationInsulation','Post_FoundationInsulation',5,0.25,'RSI',false);
+  euiDeltaHist();
 }
 
 // ── Measures bar ──────────────────────────────────────────────────
