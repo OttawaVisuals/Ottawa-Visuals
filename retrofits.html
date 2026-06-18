@@ -317,9 +317,11 @@ footer a:hover{color:var(--amber2)}
 <script>
 const DATA_URL='https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/ers_web_PE.csv';
 
-const FUEL_COLORS={'Oil':'#B33A2E','Electricity':'#378ADD','Propane':'#C8881A',
+const FUEL_COLORS={
+  'Oil':'#B33A2E','Electricity':'#378ADD','Propane':'#C8881A',
   'Mixed Wood':'#6B4C2A','Mixed wood':'#6B4C2A','Hardwood':'#8B6343',
-  'Natural Gas':'#533AB7','Wood Pellets':'#A07040'};
+  'Natural Gas':'#533AB7','Wood Pellets':'#A07040'
+};
 
 const MEASURES=[
   {key:'Air_Tightness_Upgrade',        label:'Air sealing',           color:'#C8881A'},
@@ -332,17 +334,19 @@ const MEASURES=[
   {key:'Floor_Insulation_Upgrade',     label:'Floor insulation',       color:'#5C6E82'},
 ];
 
-const CHIP_LABELS={Air_Tightness_Upgrade:'Air sealing',Roof_Insulation_Upgrade:'Roof ins.',
+const CHIP_LABELS={
+  Air_Tightness_Upgrade:'Air sealing',Roof_Insulation_Upgrade:'Roof ins.',
   Foundation_Insulation_Upgrade:'Foundation',Wall_Insulation_Upgrade:'Wall ins.',
   HeatPump_Addition:'Heat pump',Heating_Change:'New heating',
-  Windows_Change:'Windows',Floor_Insulation_Upgrade:'Floor ins.'};
+  Windows_Change:'Windows',Floor_Insulation_Upgrade:'Floor ins.'
+};
 
 let ALL=[],FILTERED=[],SORT='saving';
 const charts={};
 
 const $=id=>document.getElementById(id);
 const flag=(r,k)=>r[k]==='True'||r[k]===true;
-const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n};
+const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n;};
 const norm=t=>t?t.trim().replace(/\b\w/g,c=>c.toUpperCase()):'';
 const fmtPct=v=>v>=0?`+${Math.round(v*100)}%`:`${Math.round(v*100)}%`;
 const median=arr=>{
@@ -351,7 +355,7 @@ const median=arr=>{
   const m=Math.floor(s.length/2);
   return s.length%2?s[m]:(s[m-1]+s[m])/2;
 };
-function dc(key){if(charts[key]){charts[key].destroy();delete charts[key]}}
+function dc(key){if(charts[key]){charts[key].destroy();delete charts[key];}}
 
 // ── Load ──────────────────────────────────────────────────────────
 function load(){
@@ -360,14 +364,19 @@ function load(){
     complete:res=>{
       ALL=res.data.map(r=>({...r,BldgType:norm(r.BldgType)}));
       $('header-badge').textContent=`EnerGuide data · ${ALL.length.toLocaleString()} PEI audits`;
-      ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).addEventListener('change',applyFilters));
+      ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
+        $(id).addEventListener('change',applyFilters));
       const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
       const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
-      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;$('type-sel').appendChild(o)});
-      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;$('fuel-sel').appendChild(o)});
-      FILTERED=[...ALL];render();
+      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;$('type-sel').appendChild(o);});
+      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;$('fuel-sel').appendChild(o);});
+      FILTERED=[...ALL];
+      render();
     },
-    error:()=>{document.querySelector('main').innerHTML='<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder.</div>'}
+    error:()=>{
+      document.querySelector('main').innerHTML=
+        '<div class="state-msg"><strong>Could not load data</strong>Check that ers_web_PE.csv is in your Energy folder.</div>';
+    }
   });
 }
 
@@ -379,7 +388,10 @@ function applyFilters(){
     (!fuel||r.Pre_HeatFuel===fuel)&&(!depth||flag(r,depth)));
   render();
 }
-function resetFilters(){['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');FILTERED=[...ALL];render()}
+function resetFilters(){
+  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
+  FILTERED=[...ALL];render();
+}
 
 // ── Render ────────────────────────────────────────────────────────
 function render(){
@@ -398,13 +410,12 @@ function render(){
   $('s-hp-sub').textContent=n?`${Math.round(hp/n*100)}% of retrofits`:'';
   $('s-fs').textContent=fs.toLocaleString();
 
-  // EUI saving stat
-  const preEUIs=FILTERED.map(r=>{const e=num(r.Pre_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null}).filter(v=>v!==null);
-  const postEUIs=FILTERED.map(r=>{const e=num(r.Post_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null}).filter(v=>v!==null);
+  const preEUIs=FILTERED.map(r=>{const e=num(r.Pre_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null;}).filter(v=>v!==null);
+  const postEUIs=FILTERED.map(r=>{const e=num(r.Post_TotalEnergy),a=num(r.FloorArea);return(e&&a&&a>0)?e/a:null;}).filter(v=>v!==null);
   const euiSave=median(preEUIs)-median(postEUIs);
+  $('s-eui-saving').textContent=euiSave?Math.round(euiSave):'—';
   window._euiMedianPre=Math.round(median(preEUIs)||0);
   window._euiMedianPost=Math.round(median(postEUIs)||0);
-  $('s-eui-saving').textContent=euiSave?Math.round(euiSave):'—';
 
   renderYearHist();renderAreaHist();renderTypeDonut();renderStoreyDonut();
   renderSankey();renderEUI(preEUIs,postEUIs);renderWaterfall();
@@ -412,59 +423,81 @@ function render(){
   renderHist(savings);renderTable();
 }
 
-// ── Year built ────────────────────────────────────────────────────
+// ── Year built histogram ──────────────────────────────────────────
 function renderYearHist(){
   dc('year');
   const bins={};
-  FILTERED.forEach(r=>{const y=parseInt(r.YearBuilt);if(!y||y<1850||y>2030)return;const d=Math.floor(y/10)*10;bins[d]=(bins[d]||0)+1});
+  FILTERED.forEach(r=>{
+    const y=parseInt(r.YearBuilt);
+    if(!y||y<1850||y>2030)return;
+    const d=Math.floor(y/10)*10;
+    bins[d]=(bins[d]||0)+1;
+  });
   const labels=Object.keys(bins).sort();
-  charts['year']=new Chart($('year-chart').getContext('2d'),{type:'bar',
+  charts['year']=new Chart($('year-chart').getContext('2d'),{
+    type:'bar',
     data:{labels,datasets:[{data:labels.map(k=>bins[k]),backgroundColor:'#0B2545CC',borderWidth:0,borderRadius:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}s`,label:i=>`${i.raw.toLocaleString()} homes`}}},
-      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}s`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
 }
 
-// ── Floor area ────────────────────────────────────────────────────
+// ── Floor area histogram ──────────────────────────────────────────
 function renderAreaHist(){
   dc('area');
   const bins={};
-  FILTERED.forEach(r=>{const a=parseFloat(r.FloorArea);if(!a||a>700)return;const b=Math.floor(a/50)*50;bins[b]=(bins[b]||0)+1});
+  FILTERED.forEach(r=>{
+    const a=parseFloat(r.FloorArea);
+    if(!a||a>700)return;
+    const b=Math.floor(a/50)*50;
+    bins[b]=(bins[b]||0)+1;
+  });
   const labels=Object.keys(bins).sort((a,b)=>a-b);
-  charts['area']=new Chart($('area-chart').getContext('2d'),{type:'bar',
+  charts['area']=new Chart($('area-chart').getContext('2d'),{
+    type:'bar',
     data:{labels,datasets:[{data:labels.map(k=>bins[k]),backgroundColor:'#1A7A55CC',borderWidth:0,borderRadius:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+50} m²`,label:i=>`${i.raw.toLocaleString()} homes`}}},
-      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+50} m²`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
 }
 
-// ── Donuts ────────────────────────────────────────────────────────
+// ── Donut helper ──────────────────────────────────────────────────
 function donut(canvasId,countMap,chartKey,n){
   dc(chartKey);
   const entries=Object.entries(countMap).sort((a,b)=>b[1]-a[1]);
-  const TOP=5,top=entries.slice(0,TOP),other=entries.slice(TOP).reduce((s,[,v])=>s+v,0);
+  const top=entries.slice(0,5);
+  const other=entries.slice(5).reduce((s,[,v])=>s+v,0);
   if(other>0)top.push(['Other',other]);
   const COLS=['#0B2545','#1A7A55','#C8881A','#378ADD','#D85A30','#8A9BB0'];
-  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{type:'doughnut',
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
+    type:'doughnut',
     data:{labels:top.map(e=>e[0]),datasets:[{data:top.map(e=>e[1]),backgroundColor:COLS,borderWidth:2,borderColor:'#fff',hoverOffset:6}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'55%',
       plugins:{legend:{position:'right',labels:{font:{size:11},boxWidth:12,padding:8}},
-        tooltip:{callbacks:{label:i=>`${i.label}: ${i.raw.toLocaleString()} (${Math.round(i.raw/n*100)}%)`}}}}});
+        tooltip:{callbacks:{label:i=>`${i.label}: ${i.raw.toLocaleString()} (${Math.round(i.raw/n*100)}%)`}}}}
+  });
 }
 function renderTypeDonut(){
-  const c={};FILTERED.forEach(r=>{if(r.BldgType)c[r.BldgType]=(c[r.BldgType]||0)+1});
+  const c={};FILTERED.forEach(r=>{if(r.BldgType)c[r.BldgType]=(c[r.BldgType]||0)+1;});
   donut('type-chart',c,'type',FILTERED.length);
 }
 function renderStoreyDonut(){
-  const MAP={'Split entry / Raised basement':'Split entry','Two and a half':'2.5 storeys','Three storeys':'3 storeys','Two storeys':'2 storeys','One storey':'1 storey','One and a half':'1.5 storeys','Split entry/Raised base.':'Split entry','Split level':'Split level'};
-  const c={};FILTERED.forEach(r=>{const s=MAP[r.Storeys]||r.Storeys||'Unknown';c[s]=(c[s]||0)+1});
+  const MAP={'Split entry / Raised basement':'Split entry','Two and a half':'2.5 storeys',
+    'Three storeys':'3 storeys','Two storeys':'2 storeys','One storey':'1 storey',
+    'One and a half':'1.5 storeys','Split level':'Split level'};
+  const c={};
+  FILTERED.forEach(r=>{const s=MAP[r.Storeys]||r.Storeys||'Unknown';c[s]=(c[s]||0)+1;});
   donut('storey-chart',c,'storey',FILTERED.length);
 }
 
-// ── Sankey (SVG, GWh flows) ───────────────────────────────────────
+// ── Sankey ────────────────────────────────────────────────────────
 function renderSankey(){
   const svg=$('sankey-svg');svg.innerHTML='';
   if(!FILTERED.length)return;
-
-  // Aggregate GWh per (pre_fuel, post_fuel) pair
   const flows={};
   FILTERED.forEach(r=>{
     const pf=r.Pre_HeatFuel,qf=r.Post_HeatFuel;
@@ -474,25 +507,20 @@ function renderSankey(){
     flows[k].pre+=(num(r.Pre_TotalEnergy)||0);
     flows[k].post+=(num(r.Post_TotalEnergy)||0);
   });
-
-  // Node totals
   const preMap={},postMap={};
   Object.entries(flows).forEach(([k,v])=>{
-    const[a,b]=k.split('|||');
+    const [a,b]=k.split('|||');
     preMap[a]=(preMap[a]||0)+v.pre;
     postMap[b]=(postMap[b]||0)+v.post;
   });
-
   const preFuels=Object.entries(preMap).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
   const postFuels=Object.entries(postMap).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
   const totalPre=Object.values(preMap).reduce((s,v)=>s+v,0);
-
   const cw=svg.parentElement.clientWidth||700;
   const W=Math.max(cw,500),H=320,PAD=10,BAR=14,LX=145,RX=W-145;
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
   svg.setAttribute('height',H);
-
-  const usable=H-PAD*2-20; // leave 20px bottom breathing room
+  const usable=H-PAD*2-20;
 
   function layoutNodes(fuels,map,x){
     let y=PAD;
@@ -501,26 +529,18 @@ function renderSankey(){
       const node={f,x,y,h};y+=h+4;return node;
     });
   }
-
   const preNodes=layoutNodes(preFuels,preMap,LX);
   const postNodes=layoutNodes(postFuels,postMap,RX);
   const preNM={},postNM={};
   preNodes.forEach(n=>preNM[n.f]=n);
   postNodes.forEach(n=>postNM[n.f]=n);
   const preUsed={},postUsed={};
-  preNodes.forEach(n=>preUsed[n.f]=0);
-  postNodes.forEach(n=>postUsed[n.f]=0);
+  preNodes.forEach(n=>{preUsed[n.f]=0;});
+  postNodes.forEach(n=>{postUsed[n.f]=0;});
 
-  // Draw flows (same-fuel last = on top)
-  const flowList=Object.entries(flows).sort((a,b)=>{
-    const[aa,ab]=a[0].split('|||');const[ba,bb]=b[0].split('|||');
-    if(aa===ab&&ba!==bb)return 1;
-    if(aa!==ab&&ba===bb)return -1;
-    return b[1].pre-a[1].pre;
-  });
-
+  const flowList=Object.entries(flows).sort((a,b)=>b[1].pre-a[1].pre);
   flowList.forEach(([k,v])=>{
-    const[a,b]=k.split('|||');
+    const [a,b]=k.split('|||');
     const pn=preNM[a],qn=postNM[b];if(!pn||!qn)return;
     const fh=Math.max(2,(v.pre/totalPre)*usable);
     const py=pn.y+preUsed[a],qy=qn.y+postUsed[b];
@@ -530,39 +550,42 @@ function renderSankey(){
     const mx=(LX+BAR+RX)/2;
     const path=`M${LX+BAR},${py} C${mx},${py} ${mx},${qy} ${RX},${qy} L${RX},${qy+fh} C${mx},${qy+fh} ${mx},${py+fh} ${LX+BAR},${py+fh}Z`;
     const el=document.createElementNS('http://www.w3.org/2000/svg','path');
-    el.setAttribute('d',path);el.setAttribute('fill',col);el.setAttribute('opacity',same?'0.45':'0.7');
-    const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
-    el.setAttribute('data-tip', tipText);
+    el.setAttribute('d',path);
+    el.setAttribute('fill',col);
+    el.setAttribute('opacity',same?'0.45':'0.7');
     el.style.cursor='pointer';
-    el.addEventListener('mouseenter',e=>{
-      const tip=document.getElementById('sankey-tip');
+    const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
+    el.addEventListener('mouseenter',()=>{
+      const tip=$('sankey-tip');
       tip.textContent=tipText;
       tip.style.display='block';
     });
     el.addEventListener('mousemove',e=>{
-      const tip=document.getElementById('sankey-tip');
+      const tip=$('sankey-tip');
       tip.style.left=(e.clientX+14)+'px';
       tip.style.top=(e.clientY-10)+'px';
     });
     el.addEventListener('mouseleave',()=>{
-      document.getElementById('sankey-tip').style.display='none';
+      $('sankey-tip').style.display='none';
     });
     svg.appendChild(el);
   });
 
-  // Nodes + labels
   function drawNodes(nodes,isLeft){
     nodes.forEach(n=>{
-      const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
-      r.setAttribute('x',n.x);r.setAttribute('y',n.y);r.setAttribute('width',BAR);r.setAttribute('height',Math.max(3,n.h));
-      r.setAttribute('fill',FUEL_COLORS[n.f]||'#8A9BB0');r.setAttribute('rx',2);
-      svg.appendChild(r);
+      const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',n.x);rect.setAttribute('y',n.y);
+      rect.setAttribute('width',BAR);rect.setAttribute('height',Math.max(3,n.h));
+      rect.setAttribute('fill',FUEL_COLORS[n.f]||'#8A9BB0');rect.setAttribute('rx',2);
+      svg.appendChild(rect);
       const t=document.createElementNS('http://www.w3.org/2000/svg','text');
       const tx=isLeft?n.x-6:n.x+BAR+6;
       t.setAttribute('x',tx);t.setAttribute('y',n.y+Math.max(3,n.h)/2+4);
       t.setAttribute('text-anchor',isLeft?'end':'start');
-      t.setAttribute('font-size','11');t.setAttribute('fill','#1C2B3A');t.setAttribute('font-family','Inter,sans-serif');
-      t.textContent=`${n.f} (${(preNM[n.f]?preMap[n.f]:postMap[n.f])/1e6<0.1?'<0.1':((preNM[n.f]?preMap[n.f]:postMap[n.f])/1e6).toFixed(1)} GWh)`;
+      t.setAttribute('font-size','11');t.setAttribute('fill','#1C2B3A');
+      t.setAttribute('font-family','Inter,sans-serif');
+      const ghw=isLeft?(preMap[n.f]||0):(postMap[n.f]||0);
+      t.textContent=`${n.f} (${(ghw/1e6).toFixed(1)} GWh)`;
       svg.appendChild(t);
     });
   }
@@ -578,31 +601,33 @@ function renderEUI(preEUIs,postEUIs){
     <div class="eui-arrow-big">→</div>
     <div class="eui-stat"><div class="eui-val eui-post-val">${postM?Math.round(postM):'—'}</div><div class="eui-lbl">Post-retrofit median<br>kWh/m²</div></div>
     ${saving?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving}</div><div style="font-size:12px;color:var(--muted)">kWh/m² saved</div></div>`:''}`;
-
   dc('eui');
-  // Two overlapping histograms, cap at 500
   function euiBins(vals,step=20){
-    const b={};vals.forEach(v=>{if(v>500)return;const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1});return b;
+    const b={};
+    vals.forEach(v=>{if(v>500)return;const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
+    return b;
   }
   const preBins=euiBins(preEUIs),postBins=euiBins(postEUIs);
   const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
-  charts['eui']=new Chart($('eui-chart').getContext('2d'),{type:'bar',
+  charts['eui']=new Chart($('eui-chart').getContext('2d'),{
+    type:'bar',
     data:{labels:allKeys,datasets:[
       {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
       {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+20} kWh/m²`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+20} kWh/m²`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
       scales:{x:{title:{display:true,text:'kWh/m²',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
-        y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
 }
 
-// ── Waterfall (floating bars: pre goes up from 0, post bar floats showing savings gap) ──
+// ── Waterfall (floating bars) ─────────────────────────────────────
 function renderWaterfall(){
   dc('waterfall');
   const FUELS=[['Electricity','Electricity'],['NaturalGas','Natural Gas'],['Oil','Oil'],['Propane','Propane'],['Wood','Wood']];
   const labels=[],preVals=[],postVals=[];
-
   FUELS.forEach(([key,lbl])=>{
     const pre=FILTERED.map(r=>num(r[`Pre_${key}`])||0);
     const post=FILTERED.map(r=>num(r[`Post_${key}`])||0);
@@ -614,36 +639,63 @@ function renderWaterfall(){
   labels.push('TOTAL');
   preVals.push(Math.round(median(FILTERED.map(r=>num(r.Pre_TotalEnergy)||0))));
   postVals.push(Math.round(median(FILTERED.map(r=>num(r.Post_TotalEnergy)||0))));
-
-  // Floating bar: [bottom, top]
-  // Pre: transparent outline from 0 to preVal (shows the original baseline height)
-  // Post: solid green from postVal to preVal (the part that remains, gap above = savings)
   const saving=preVals.map((p,i)=>p-postVals[i]);
 
-  charts['waterfall']=new Chart($('waterfall-chart').getContext('2d'),{type:'bar',
-    data:{labels,datasets:[
-      {label:'Pre-retrofit',data:preVals.map(v=>[0,v]),
-        backgroundColor:'rgba(179,58,46,0.15)',borderColor:'#B33A2E',borderWidth:2,borderRadius:3},
-      {label:'Post-retrofit',data:preVals.map((p,i)=>[postVals[i],p]),
-        backgroundColor:'rgba(26,122,85,0.75)',borderColor:'#1A7A55',borderWidth:1.5,borderRadius:3},
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
-        tooltip:{callbacks:{
-          label(i){
-            const idx=i.dataIndex,ds=i.datasetIndex;
-            if(ds===0)return `Pre: ${preVals[idx].toLocaleString()} kWh`;
-            return[
-              `Post: ${postVals[idx].toLocaleString()} kWh`,
-              `Saving: ${saving[idx].toLocaleString()} kWh (${preVals[idx]>0?Math.round(saving[idx]/preVals[idx]*100):0}%)`
-            ];
+  // Floating bar: [bottom, top]
+  // Pre dataset: [0, preVal] — full height outline showing original energy
+  // Post dataset: [postVal, preVal] — solid fill from post up to pre, gap at top = savings
+  charts['waterfall']=new Chart($('waterfall-chart').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {
+          label:'Pre-retrofit',
+          data:preVals.map(v=>[0,v]),
+          backgroundColor:'rgba(179,58,46,0.15)',
+          borderColor:'#B33A2E',
+          borderWidth:2,
+          borderRadius:3
+        },
+        {
+          label:'Post-retrofit',
+          data:preVals.map((p,i)=>[postVals[i],p]),
+          backgroundColor:'rgba(26,122,85,0.75)',
+          borderColor:'#1A7A55',
+          borderWidth:1.5,
+          borderRadius:3
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{
+          callbacks:{
+            label:function(i){
+              const idx=i.dataIndex,ds=i.datasetIndex;
+              if(ds===0)return `Pre: ${preVals[idx].toLocaleString()} kWh`;
+              return [
+                `Post: ${postVals[idx].toLocaleString()} kWh`,
+                `Saving: ${saving[idx].toLocaleString()} kWh (${preVals[idx]>0?Math.round(saving[idx]/preVals[idx]*100):0}%)`
+              ];
+            }
           }
-        }}},
+        }
+      },
       scales:{
         x:{ticks:{font:{size:11},color:'#5C6E82'},grid:{display:false}},
-        y:{title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},
-          ticks:{font:{size:11},color:'#8A9BB0',callback:v=>`${(v/1000).toFixed(0)}k`},
-          grid:{color:'#E8EDF4'},min:0}}}}});
+        y:{
+          title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},
+          ticks:{font:{size:11},color:'#8A9BB0',callback:function(v){return `${(v/1000).toFixed(0)}k`;}},
+          grid:{color:'#E8EDF4'},
+          min:0
+        }
+      }
+    }
+  });
 }
 
 // ── Insulation KPI ────────────────────────────────────────────────
@@ -660,7 +712,7 @@ function renderKPI(){
     const pm=median(pv),qm=median(qv);
     if(pm===null||qm===null)return'';
     const d=qm-pm,imp=k.hi?d>0:d<0;
-    return`<div class="kpi-item">
+    return `<div class="kpi-item">
       <div class="kpi-name">${k.label}</div>
       <div class="kpi-values"><div class="kpi-pre">${pm.toFixed(1)}</div><div class="kpi-arrow">→</div><div class="kpi-post">${qm.toFixed(1)}</div></div>
       <div class="kpi-unit">${k.unit}</div>
@@ -669,53 +721,57 @@ function renderKPI(){
   }).join('');
 }
 
-// ── Insulation distributions ──────────────────────────────────────
-function insulHist(canvasId,chartKey,preCol,postCol,max,step,unit){
+// ── Insulation pre/post histogram ─────────────────────────────────
+function insulHist(canvasId,chartKey,preCol,postCol,maxVal,step,unit){
   dc(chartKey);
-  function bins(col,cap,st){
+  function mkBins(col){
     const b={};
-    FILTERED.forEach(r=>{const v=num(r[col]);if(v===null||v<=0||v>cap)return;const k=(Math.floor(v/st)*st).toFixed(1);b[k]=(b[k]||0)+1});
+    FILTERED.forEach(r=>{const v=num(r[col]);if(v===null||v<=0||v>maxVal)return;const k=(Math.floor(v/step)*step).toFixed(2);b[k]=(b[k]||0)+1;});
     return b;
   }
-  const pBins=bins(preCol,max,step),qBins=bins(postCol,max,step);
+  const pBins=mkBins(preCol),qBins=mkBins(postCol);
   const allKeys=[...new Set([...Object.keys(pBins),...Object.keys(qBins)])].map(Number).sort((a,b)=>a-b);
-  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{type:'bar',
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
+    type:'bar',
     data:{labels:allKeys.map(k=>k.toFixed(1)),datasets:[
-      {label:'Pre',data:allKeys.map(k=>pBins[k.toFixed(1)]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post',data:allKeys.map(k=>qBins[k.toFixed(1)]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre',data:allKeys.map(k=>pBins[k.toFixed(2)]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post',data:allKeys.map(k=>qBins[k.toFixed(2)]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}},tooltip:{callbacks:{title:i=>`${i[0].label} ${unit}`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}},
+        tooltip:{callbacks:{title:i=>`${i[0].label} ${unit}`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
       scales:{x:{title:{display:true,text:unit,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
-        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+              y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
 }
+
+// ── Delta (improvement) histogram ─────────────────────────────────
 function deltaHist(canvasId,chartKey,preCol,postCol,maxDelta,step,unit,invert){
-  // invert=true means improvement = pre-post (air leakage: lower is better)
   dc(chartKey);
   const deltas=[];
   FILTERED.forEach(r=>{
     const pre=num(r[preCol]),post=num(r[postCol]);
     if(pre===null||post===null||pre<=0||post<=0)return;
     const d=invert?(pre-post):(post-pre);
-    if(d>0&&d<=maxDelta)deltas.push(d); // only actual improvements
+    if(d>0&&d<=maxDelta)deltas.push(d);
   });
-  if(!deltas.length){dc(chartKey);return}
+  if(!deltas.length)return;
   const bins={};
-  deltas.forEach(d=>{const k=(Math.floor(d/step)*step).toFixed(2);bins[k]=(bins[k]||0)+1});
+  deltas.forEach(d=>{const k=(Math.floor(d/step)*step).toFixed(2);bins[k]=(bins[k]||0)+1;});
   const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
-  const med=median(deltas);
-  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{type:'bar',
-    data:{labels:keys.map(k=>k.toFixed(invert?1:1)),datasets:[{
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
+    type:'bar',
+    data:{labels:keys.map(k=>k.toFixed(1)),datasets:[{
       data:keys.map(k=>bins[k.toFixed(2)]||0),
-      backgroundColor:'rgba(26,122,85,0.6)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2
+      backgroundColor:'rgba(26,122,85,0.65)',
+      borderColor:'#1A7A55',borderWidth:1,borderRadius:2
     }]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},
-        annotation:{annotations:{medLine:{type:'line',xMin:med,xMax:med,borderColor:'#C8881A',borderWidth:1.5,borderDash:[4,3],label:{content:`med: ${med.toFixed(1)}`,display:true,position:'start',font:{size:9},color:'#C8881A',yAdjust:-8}}}},
-        tooltip:{callbacks:{title:i=>`+${i[0].label} ${unit}`,label:i=>`${i.raw.toLocaleString()} homes`}}},
-      scales:{
-        x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
-        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+        tooltip:{callbacks:{title:i=>`+${i[0].label} ${unit} improvement`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
+              y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
 }
 
 function renderInsulDist(){
@@ -731,10 +787,10 @@ function renderInsulDist(){
 
 // ── Measures bar ──────────────────────────────────────────────────
 function renderMeasures(n){
-  if(!n){$('measures-list').innerHTML='<div class="state-msg"><strong>No matches</strong></div>';return}
+  if(!n){$('measures-list').innerHTML='<div class="state-msg"><strong>No matches</strong></div>';return;}
   $('measures-list').innerHTML=MEASURES.map(m=>{
     const c=FILTERED.filter(r=>flag(r,m.key)).length,p=Math.round(c/n*100);
-    return`<div class="measure-row"><div class="measure-label">${m.label}</div><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${m.color}"></div></div><div class="bar-pct">${p}%</div></div>`;
+    return `<div class="measure-row"><div class="measure-label">${m.label}</div><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${m.color}"></div></div><div class="bar-pct">${p}%</div></div>`;
   }).join('');
 }
 
@@ -744,39 +800,31 @@ function renderSpider(n){
   if(!n)return;
   const axes=MEASURES.map(m=>({label:m.label,value:n?FILTERED.filter(r=>flag(r,m.key)).length/n:0,color:m.color}));
   const W=340,H=280,cx=155,cy=140,R=88,N=axes.length;
-
-  // Grid rings with % labels
   [0.25,0.5,0.75,1].forEach(frac=>{
-    const pts=axes.map((_,i)=>{const a=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(a)*R*frac,cy+Math.sin(a)*R*frac]});
+    const pts=axes.map((_,i)=>{const a=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(a)*R*frac,cy+Math.sin(a)*R*frac];});
     const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
     poly.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
     poly.setAttribute('fill','none');poly.setAttribute('stroke','#D2D8E3');poly.setAttribute('stroke-width','0.75');
     svg.appendChild(poly);
-    // ring label at top
     const rl=document.createElementNS('http://www.w3.org/2000/svg','text');
     rl.setAttribute('x',cx+3);rl.setAttribute('y',cy-R*frac+3);
     rl.setAttribute('font-size','8');rl.setAttribute('fill','#8A9BB0');rl.setAttribute('font-family','Inter,sans-serif');
     rl.textContent=`${Math.round(frac*100)}%`;
     svg.appendChild(rl);
   });
-
-  // Spoke lines
   axes.forEach((_,i)=>{
-    const a=(i/N)*Math.PI*2-Math.PI/2,x2=cx+Math.cos(a)*R,y2=cy+Math.sin(a)*R;
+    const a=(i/N)*Math.PI*2-Math.PI/2;
     const line=document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1',cx);line.setAttribute('y1',cy);line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('x1',cx);line.setAttribute('y1',cy);
+    line.setAttribute('x2',cx+Math.cos(a)*R);line.setAttribute('y2',cy+Math.sin(a)*R);
     line.setAttribute('stroke','#D2D8E3');line.setAttribute('stroke-width','0.75');
     svg.appendChild(line);
   });
-
-  // Data polygon
-  const pts=axes.map((a,i)=>{const ang=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(ang)*R*a.value,cy+Math.sin(ang)*R*a.value]});
+  const pts=axes.map((a,i)=>{const ang=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(ang)*R*a.value,cy+Math.sin(ang)*R*a.value];});
   const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
   poly.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
   poly.setAttribute('fill','rgba(11,37,69,0.12)');poly.setAttribute('stroke','#0B2545');poly.setAttribute('stroke-width','1.5');
   svg.appendChild(poly);
-
-  // Dots + axis labels
   axes.forEach((a,i)=>{
     const ang=(i/N)*Math.PI*2-Math.PI/2;
     const dx=cx+Math.cos(ang)*R*a.value,dy=cy+Math.sin(ang)*R*a.value;
@@ -785,30 +833,26 @@ function renderSpider(n){
     circle.setAttribute('fill',a.color);circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','1.5');
     circle.innerHTML=`<title>${a.label}: ${Math.round(a.value*100)}%</title>`;
     svg.appendChild(circle);
-
-    // Label positioned further out with word-wrap via two <tspan> lines
     const LABEL_R=R+26;
     const lx=cx+Math.cos(ang)*LABEL_R,ly=cy+Math.sin(ang)*LABEL_R;
     const anchor=Math.cos(ang)>0.2?'start':Math.cos(ang)<-0.2?'end':'middle';
     const words=a.label.split(' ');
-    const line1=words.slice(0,Math.ceil(words.length/2)).join(' ');
-    const line2=words.slice(Math.ceil(words.length/2)).join(' ');
+    const half=Math.ceil(words.length/2);
+    const line1=words.slice(0,half).join(' ');
+    const line2=words.slice(half).join(' ');
     const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
     txt.setAttribute('x',lx);txt.setAttribute('y',ly);
     txt.setAttribute('text-anchor',anchor);txt.setAttribute('font-size','9.5');
     txt.setAttribute('fill','#1C2B3A');txt.setAttribute('font-family','Inter,sans-serif');
     txt.innerHTML=`<tspan x="${lx}" dy="-0.5em">${line1}</tspan><tspan x="${lx}" dy="1.2em">${line2}</tspan>`;
     svg.appendChild(txt);
-
-    // Pct value on the dot side
-    const pct=Math.round(a.value*100);
-    const vx=cx+Math.cos(ang)*(R*a.value-10),vy=cy+Math.sin(ang)*(R*a.value-10);
-    if(pct>5){
+    if(Math.round(a.value*100)>5){
+      const vx=cx+Math.cos(ang)*(R*a.value-10),vy=cy+Math.sin(ang)*(R*a.value-10);
       const vt=document.createElementNS('http://www.w3.org/2000/svg','text');
       vt.setAttribute('x',vx);vt.setAttribute('y',vy+3);
       vt.setAttribute('text-anchor','middle');vt.setAttribute('font-size','8');
       vt.setAttribute('fill','#fff');vt.setAttribute('font-family','Inter,sans-serif');vt.setAttribute('font-weight','500');
-      vt.textContent=`${pct}%`;
+      vt.textContent=`${Math.round(a.value*100)}%`;
       svg.appendChild(vt);
     }
   });
@@ -817,127 +861,135 @@ function renderSpider(n){
 // ── Energy saving histogram (1% bins) ────────────────────────────
 function renderHist(savings){
   dc('hist');
-  // Full range, 1% bins
-  if(!savings.length){dc('hist');return}
+  if(!savings.length)return;
   const minV=Math.floor(Math.min(...savings)*100);
   const maxV=Math.ceil(Math.max(...savings)*100);
   const bins={};
   for(let i=minV;i<=maxV;i++)bins[i]=0;
-  savings.forEach(v=>{const b=Math.round(v*100);if(bins[b]!==undefined)bins[b]++});
+  savings.forEach(v=>{const b=Math.round(v*100);if(bins[b]!==undefined)bins[b]++;});
   const labels=Object.keys(bins).map(Number).sort((a,b)=>a-b);
-  const data=labels.map(k=>bins[k]);
-  charts['hist']=new Chart($('hist-chart').getContext('2d'),{type:'bar',
-    data:{labels:labels.map(k=>`${k}%`),datasets:[{data,backgroundColor:labels.map(k=>k<0?'rgba(179,58,46,0.6)':'rgba(26,122,85,0.6)'),borderColor:labels.map(k=>k<0?'#B33A2E':'#1A7A55'),borderWidth:0.5,borderRadius:0,barPercentage:1.0,categoryPercentage:1.0}]},
+  charts['hist']=new Chart($('hist-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:labels.map(k=>`${k}%`),datasets:[{
+      data:labels.map(k=>bins[k]),
+      backgroundColor:labels.map(k=>k<0?'rgba(179,58,46,0.6)':'rgba(26,122,85,0.6)'),
+      borderColor:labels.map(k=>k<0?'#B33A2E':'#1A7A55'),
+      borderWidth:0.5,borderRadius:0,barPercentage:1.0,categoryPercentage:1.0
+    }]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label} saving`,label:i=>`${i.raw.toLocaleString()} homes`}}},
-      scales:{x:{title:{display:true,text:'Energy saving %',font:{size:11},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:30,callback:(v,i)=>{const l=labels[i];return l%10===0?`${l}%`:''}},grid:{display:false}},
-        y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}});
+      scales:{
+        x:{title:{display:true,text:'Energy saving %',font:{size:11},color:'#5C6E82'},
+          ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:30,
+            callback:function(v,i){const l=labels[i];return l%10===0?`${l}%`:''}},
+          grid:{display:false}},
+        y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
+  });
 }
 
-// ── Table with inline expand ──────────────────────────────────────
-function sortBy(key){SORT=key;document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));$('sb-'+key).classList.add('active');renderTable()}
+// ── EUI gradient bar for table ────────────────────────────────────
+function makeEUIBar(preEUI,postEUI,medPre,medPost){
+  const MAX=750,W=120,H=18,MH=10;
+  if(!preEUI&&!postEUI)return '—';
+  const px=v=>Math.min(W,Math.max(0,Math.round(v/MAX*W)));
+  const preX=preEUI?px(preEUI):null;
+  const postX=postEUI?px(postEUI):null;
+  const medPreX=medPre?px(medPre):null;
+  const medPostX=medPost?px(medPost):null;
+  const uid=Math.random().toString(36).slice(2,7);
+  let s=`<svg viewBox="0 0 ${W} ${H+14}" width="${W}" height="${H+14}" style="display:block;overflow:visible">
+    <defs><linearGradient id="eg${uid}" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#1A7A55"/>
+      <stop offset="40%" stop-color="#C8881A"/>
+      <stop offset="100%" stop-color="#B33A2E"/>
+    </linearGradient></defs>
+    <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eg${uid})" rx="3" opacity="0.25"/>`;
+  if(medPreX!==null)s+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#B33A2E" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
+  if(medPostX!==null)s+=`<line x1="${medPostX}" y1="2" x2="${medPostX}" y2="${4+MH+2}" stroke="#1A7A55" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
+  if(preX!==null)s+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#B33A2E" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
+  if(postX!==null)s+=`<circle cx="${postX}" cy="${4+MH/2}" r="4" fill="#1A7A55" stroke="#fff" stroke-width="1.5"><title>Post: ${postEUI} kWh/m²</title></circle>`;
+  if(preX!==null)s+=`<text x="${preX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#B33A2E" font-family="Inter,sans-serif">${preEUI}</text>`;
+  if(postX!==null)s+=`<text x="${postX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#1A7A55" font-family="Inter,sans-serif">${postEUI}</text>`;
+  s+=`</svg>`;
+  return s;
+}
+
+// ── Table ─────────────────────────────────────────────────────────
+function sortBy(key){
+  SORT=key;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  $('sb-'+key).classList.add('active');
+  renderTable();
+}
 
 function makeInlineSVG(r){
   const KPIs=[
-    {label:'Roof RSI',pre:num(r.Pre_RoofInsulation),post:num(r.Post_RoofInsulation),max:12,hi:true,unit:'RSI'},
-    {label:'Wall RSI',pre:num(r.Pre_WallInsulation),post:num(r.Post_WallInsulation),max:6,hi:true,unit:'RSI'},
-    {label:'Fnd RSI',pre:num(r.Pre_FoundationInsulation),post:num(r.Post_FoundationInsulation),max:4,hi:true,unit:'RSI'},
-    {label:'Air ACH50',pre:num(r.Pre_AirLeakage),post:num(r.Post_AirLeakage),max:20,hi:false,unit:'ACH50'},
+    {label:'Roof RSI',pre:num(r.Pre_RoofInsulation),post:num(r.Post_RoofInsulation),max:12,hi:true},
+    {label:'Wall RSI',pre:num(r.Pre_WallInsulation),post:num(r.Post_WallInsulation),max:6,hi:true},
+    {label:'Fnd RSI',pre:num(r.Pre_FoundationInsulation),post:num(r.Post_FoundationInsulation),max:4,hi:true},
+    {label:'Air ACH50',pre:num(r.Pre_AirLeakage),post:num(r.Post_AirLeakage),max:20,hi:false},
   ];
-  const barW=160,barH=12,gap=28,startX=70,rows=KPIs.length;
-  const svgH=rows*gap+10;
+  const barW=160,barH=12,gap=28,startX=70;
+  const svgH=KPIs.length*gap+10;
   let html=`<div style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start">
-  <div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem">Envelope measures</div>
-  <svg viewBox="0 0 ${startX+barW+60} ${svgH}" style="width:${startX+barW+60}px;max-width:100%;display:block">`;
-
+  <div>
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem">Envelope measures</div>
+    <svg viewBox="0 0 ${startX+barW+60} ${svgH}" style="width:${startX+barW+60}px;max-width:100%;display:block">`;
   KPIs.forEach((k,i)=>{
     const y=i*gap+8;
-    // Label
     html+=`<text x="${startX-6}" y="${y+barH/2+4}" text-anchor="end" font-size="10" fill="#5C6E82" font-family="Inter,sans-serif">${k.label}</text>`;
-    // Pre bar (full width = max)
     const preW=k.pre?Math.max(2,Math.min(barW,k.pre/k.max*barW)):0;
     const postW=k.post?Math.max(2,Math.min(barW,k.post/k.max*barW)):0;
     html+=`<rect x="${startX}" y="${y}" width="${barW}" height="${barH}" fill="#E8EDF4" rx="3"/>`;
     html+=`<rect x="${startX}" y="${y}" width="${preW}" height="${barH/2}" fill="#B33A2E99" rx="2"/>`;
     html+=`<rect x="${startX}" y="${y+barH/2}" width="${postW}" height="${barH/2}" fill="#1A7A5599" rx="2"/>`;
-    // Values
     const pStr=k.pre?k.pre.toFixed(1):'—',qStr=k.post?k.post.toFixed(1):'—';
     const imp=k.hi?(k.post||0)>(k.pre||0):(k.post||0)<(k.pre||0);
-    const col=imp?'#1A7A55':'#B33A2E';
-    html+=`<text x="${startX+barW+6}" y="${y+barH/2+4}" font-size="10" fill="#5C6E82" font-family="Inter,sans-serif">${pStr}→<tspan fill="${col}">${qStr}</tspan></text>`;
+    html+=`<text x="${startX+barW+6}" y="${y+barH/2+4}" font-size="10" fill="#5C6E82" font-family="Inter,sans-serif">${pStr}→<tspan fill="${imp?'#1A7A55':'#B33A2E'}">${qStr}</tspan></text>`;
   });
   html+=`</svg>
-  <div style="display:flex;gap:12px;margin-top:4px">
-    <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#B33A2E99;border-radius:2px"></span>Pre</span>
-    <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#1A7A5599;border-radius:2px"></span>Post</span>
-  </div></div>`;
+    <div style="display:flex;gap:12px;margin-top:4px">
+      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#B33A2E99;border-radius:2px"></span>Pre</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#1A7A5599;border-radius:2px"></span>Post</span>
+    </div>
+  </div>`;
 
-  // HVAC detail
-  html+=`<div><div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem">HVAC &amp; energy</div>
-  <table style="font-size:12px;border-collapse:collapse">`;
-  const rows2=[
-    ['Heating fuel',r.Pre_HeatFuel,r.Post_HeatFuel],
-    ['Heating type',r.Pre_HeatType,r.Post_HeatType],
-    ['Heat pump',r.Pre_HPType||'—',r.Post_HPType||'—'],
-    ['Pre energy',r.Pre_TotalEnergy?`${Math.round(num(r.Pre_TotalEnergy)).toLocaleString()} kWh`:'—',null],
-    ['Post energy',null,r.Post_TotalEnergy?`${Math.round(num(r.Post_TotalEnergy)).toLocaleString()} kWh`:'—'],
-    ['EUI (kWh/m²)',r.Pre_TotalEnergy&&r.FloorArea?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null,r.Post_TotalEnergy&&r.FloorArea?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null,'eui'],
-    ['Pre audit',r.Pre_Date||'—',null],
-    ['Post audit',null,r.Post_Date||'—'],
+  // EUI bar in detail panel
+  const preEUI=num(r.Pre_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null;
+  const postEUI=num(r.Post_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null;
+
+  html+=`<div>
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem">HVAC &amp; energy</div>
+    <table style="font-size:12px;border-collapse:collapse">`;
+  const rows=[
+    ['Heating fuel',r.Pre_HeatFuel,r.Post_HeatFuel,null],
+    ['Heating type',r.Pre_HeatType,r.Post_HeatType,null],
+    ['Heat pump',r.Pre_HPType||'—',r.Post_HPType||'—',null],
+    ['Pre energy',r.Pre_TotalEnergy?`${Math.round(num(r.Pre_TotalEnergy)).toLocaleString()} kWh`:'—',null,null],
+    ['Post energy',null,r.Post_TotalEnergy?`${Math.round(num(r.Post_TotalEnergy)).toLocaleString()} kWh`:'—',null],
+    ['EUI kWh/m²',preEUI,postEUI,'eui'],
+    ['Pre audit',r.Pre_Date||'—',null,null],
+    ['Post audit',null,r.Post_Date||'—',null],
   ];
-  rows2.forEach(([lbl,pre,post,type])=>{
+  rows.forEach(([lbl,pre,post,type])=>{
     if(type==='eui'){
-      const bar=makeEUIBar(pre,post,window._euiMedianPre,window._euiMedianPost);
       html+=`<tr><td style="padding:3px 8px 3px 0;color:#5C6E82;white-space:nowrap">${lbl}</td>
-        <td colspan="2" style="padding:4px 0">${bar}</td></tr>`;
+        <td colspan="2" style="padding:4px 0">${makeEUIBar(pre,post,window._euiMedianPre,window._euiMedianPost)}</td></tr>`;
       return;
     }
-    const preCell=pre||'';const postCell=post!==null&&post!==undefined?post:'';
+    const preCell=pre||'';
+    const postCell=post!==null&&post!==undefined?post:'';
     const changed=pre&&post&&pre!==post;
-    html+=`<tr><td style="padding:3px 8px 3px 0;color:#5C6E82;white-space:nowrap">${lbl}</td>
+    html+=`<tr>
+      <td style="padding:3px 8px 3px 0;color:#5C6E82;white-space:nowrap">${lbl}</td>
       <td style="padding:3px 6px;color:${changed?'#B33A2E':'#1C2B3A'}">${preCell}</td>
       ${post!==null&&post!==undefined?`<td style="padding:3px 0 3px 6px;color:${changed?'#1A7A55':'#1C2B3A'}">→ ${postCell}</td>`:'<td></td>'}
     </tr>`;
   });
   html+=`</table></div></div>`;
   return html;
-}
-
-// ── EUI gradient bar for table ────────────────────────────────────
-function makeEUIBar(preEUI,postEUI,medPre,medPost){
-  const MAX=750,W=120,H=18,MH=10; // bar dims
-  if(!preEUI&&!postEUI)return'—';
-  const px=v=>Math.min(W,Math.max(0,Math.round(v/MAX*W)));
-  const preX=preEUI?px(preEUI):null;
-  const postX=postEUI?px(postEUI):null;
-  const medPreX=medPre?px(medPre):null;
-  const medPostX=medPost?px(medPost):null;
-
-  // gradient from green (low) to red (high)
-  let svg=`<svg viewBox="0 0 ${W} ${H+14}" width="${W}" height="${H+14}" style="display:block;overflow:visible">
-    <defs>
-      <linearGradient id="eg" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0%" stop-color="#1A7A55"/>
-        <stop offset="40%" stop-color="#C8881A"/>
-        <stop offset="100%" stop-color="#B33A2E"/>
-      </linearGradient>
-    </defs>
-    <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eg)" rx="3" opacity="0.25"/>`;
-
-  // Median markers (thin vertical ticks)
-  if(medPreX!==null)svg+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#B33A2E" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
-  if(medPostX!==null)svg+=`<line x1="${medPostX}" y1="2" x2="${medPostX}" y2="${4+MH+2}" stroke="#1A7A55" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
-
-  // Dots for this home
-  if(preX!==null)svg+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#B33A2E" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
-  if(postX!==null)svg+=`<circle cx="${postX}" cy="${4+MH/2}" r="4" fill="#1A7A55" stroke="#fff" stroke-width="1.5"><title>Post: ${postEUI} kWh/m²</title></circle>`;
-
-  // Labels below
-  if(preX!==null)svg+=`<text x="${preX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#B33A2E" font-family="Inter,sans-serif">${preEUI}</text>`;
-  if(postX!==null)svg+=`<text x="${postX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#1A7A55" font-family="Inter,sans-serif">${postEUI}</text>`;
-
-  svg+=`</svg>`;
-  return svg;
 }
 
 function renderTable(){
@@ -948,8 +1000,10 @@ function renderTable(){
   else if(SORT==='area')rows.sort((a,b)=>(num(b.FloorArea)||0)-(num(a.FloorArea)||0));
   const shown=rows.slice(0,MAX);
   const tbody=$('tbl-body');
-  if(!shown.length){tbody.innerHTML=`<tr><td colspan="8"><div class="state-msg"><strong>No matching retrofits</strong></div></td></tr>`;$('tbl-footer').textContent='';return}
-
+  if(!shown.length){
+    tbody.innerHTML=`<tr><td colspan="8"><div class="state-msg"><strong>No matching retrofits</strong></div></td></tr>`;
+    $('tbl-footer').textContent='';return;
+  }
   tbody.innerHTML=shown.map((r,idx)=>{
     const sv=num(r.EnergySavingPct);
     const svCell=sv!==null?`<span class="${sv>=0?'saving-pos':'saving-neg'}">${fmtPct(sv)}</span>`:'—';
@@ -963,26 +1017,23 @@ function renderTable(){
       :`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span>`;
     const preEUI=num(r.Pre_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null;
     const postEUI=num(r.Post_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null;
-    const euiCell=makeEUIBar(preEUI,postEUI,window._euiMedianPre,window._euiMedianPost);
-
-    return`<tr class="data-row" onclick="toggleRow(${idx})" id="row-${idx}">
+    return `<tr class="data-row" onclick="toggleRow(${idx})" id="row-${idx}">
       <td>${r.FSA||'—'}</td><td>${r.BldgType||'—'}</td><td>${r.YearBuilt||'—'}</td>
       <td>${r.FloorArea?Math.round(parseFloat(r.FloorArea)):'—'}</td>
-      <td>${euiCell}</td>
+      <td>${makeEUIBar(preEUI,postEUI,window._euiMedianPre,window._euiMedianPost)}</td>
       <td>${fuelCell}</td><td>${svCell}</td><td>${badge}</td>
     </tr>
     <tr class="detail-row" id="detail-${idx}"><td colspan="8"><div class="detail-inner" id="detail-inner-${idx}"></div></td></tr>`;
   }).join('');
-
-  // Store rows for expand
   window._tableRows=shown;
-  $('tbl-footer').textContent=rows.length>MAX?`Showing top ${MAX} of ${rows.length.toLocaleString()} matching retrofits`:`${rows.length.toLocaleString()} matching retrofits`;
+  $('tbl-footer').textContent=rows.length>MAX
+    ?`Showing top ${MAX} of ${rows.length.toLocaleString()} matching retrofits`
+    :`${rows.length.toLocaleString()} matching retrofits`;
 }
 
 function toggleRow(idx){
   const dataRow=$(`row-${idx}`),detailRow=$(`detail-${idx}`),inner=$(`detail-inner-${idx}`);
   const isOpen=dataRow.classList.contains('open');
-  // Close all others
   document.querySelectorAll('.data-row.open').forEach(r=>r.classList.remove('open'));
   document.querySelectorAll('.detail-row.open').forEach(r=>r.classList.remove('open'));
   if(!isOpen){
@@ -995,6 +1046,7 @@ function toggleRow(idx){
 }
 
 load();
+
 </script>
 </body>
 </html>
