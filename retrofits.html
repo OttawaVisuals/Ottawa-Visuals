@@ -168,28 +168,20 @@ footer a:hover{color:var(--amber2)}
 <div class="hero" id="hero-section">
   <p class="hero-eyebrow" id="hero-eyebrow">Select a province above to begin</p>
   <h1>What did <em>homes like yours</em> do — and did it work?</h1>
-  <p class="hero-sub">Real audit data from Canadian homes. Select your province, then filter to find retrofits comparable to yours and see actual energy savings.</p>
+  <p class="hero-sub">Real audit data from Canadian homes. Select your province, then pick your FSA to find retrofits comparable to yours and see actual energy savings — or browse province-wide trends by house type.</p>
   <div class="filter-bar">
     <div class="filter-group"><label for="fsa-sel">Your FSA</label>
       <select id="fsa-sel">
-        <option value="">All areas</option>
-        <option value="C0A">C0A — Rural west &amp; central</option>
-        <option value="C0B">C0B — Rural east</option>
-        <option value="C0C">C0C — Rural (limited data)</option>
-        <option value="C1A">C1A — Charlottetown core</option>
-        <option value="C1B">C1B — Charlottetown east</option>
-        <option value="C1C">C1C — Charlottetown west</option>
-        <option value="C1E">C1E — Charlottetown north</option>
-        <option value="C1N">C1N — Charlottetown south</option>
+        <option value="">All areas (province-wide)</option>
       </select>
     </div>
     <div class="filter-group"><label for="type-sel">House type</label>
       <select id="type-sel"><option value="">All types</option></select>
     </div>
-    <div class="filter-group"><label for="fuel-sel">Heating fuel</label>
+    <div class="filter-group" style="display:none"><label for="fuel-sel">Heating fuel</label>
       <select id="fuel-sel"><option value="">All fuels</option></select>
     </div>
-    <div class="filter-group"><label for="depth-sel">Retrofit depth</label>
+    <div class="filter-group" style="display:none"><label for="depth-sel">Retrofit depth</label>
       <select id="depth-sel">
         <option value="">Any depth</option>
         <option value="Deep_Retrofit">Deep — over 50% savings</option>
@@ -337,8 +329,8 @@ footer a:hover{color:var(--amber2)}
     </div>
   </div>
 
-  <!-- Table -->
-  <div class="card">
+  <!-- Table (FSA mode only — province-wide view has no row-level data) -->
+  <div class="card" id="table-card">
     <div class="card-title">Individual retrofits — click a row for detail</div>
     <div class="sort-row">
       <span class="sort-label">Sort by</span>
@@ -366,10 +358,12 @@ footer a:hover{color:var(--amber2)}
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <script>
+// NOTE: PapaParse/pako removed — data now ships as pre-split JSON, no CSV
+// parsing or gzip decompression needed client-side.
 const BASE_URL='https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/';
+const FSA_JSON_BASE=`${BASE_URL}fsa_json/`;       // fsa_json/<PROV>/<FSA>.json + _index.json
+const PROVINCE_JSON_BASE=`${BASE_URL}province_json/`; // province_json/<PROV>.json
 
 const PROVINCES={
   AB:{name:'Alberta',short:'AB'},
@@ -385,6 +379,10 @@ const PROVINCES={
 };
 
 let PROVINCE_CODE='';
+let SELECTED_FSA='';          // '' = province-wide view, else FSA-view
+let SELECTED_TYPE='';         // house-type filter, used by BOTH views (province dropdown
+                               // drives the precomputed slice; FSA view filters FILTERED as before)
+let MODE='none';              // 'none' | 'province' | 'fsa'
 
 const FUEL_COLORS={
   'Oil':'#B33A2E','Electricity':'#378ADD','Propane':'#C8881A',
@@ -406,50 +404,15 @@ const MEASURES=[
 
 
 let ALL=[],FILTERED=[],SORT='saving';
-let KEYS_LOADED=false;
 const charts={};
-
-// ── Dictionary decode ────────────────────────────────────────────
-// ers_web_keys.json maps {ColumnName: {lowercase_value: intCode}}.
-// CSV cells for those columns now hold the intCode instead of the string.
-// Build reverse lookups (intCode -> original-cased display string) once.
-let DECODERS={}; // {colName: {code:String -> displayString}}
-
-function buildDecoders(keysJson){
-  DECODERS={};
-  Object.entries(keysJson).forEach(([col,map])=>{
-    const rev={};
-    Object.entries(map).forEach(([rawVal,code])=>{
-      let display;
-      if(col==='FSA'){
-        display=rawVal.toUpperCase();
-      }else if(col==='Pre_HeatFuel'||col==='Post_HeatFuel'){
-        // Match existing fuel-name casing used by FUEL_COLORS / waterfall labels
-        display=rawVal.replace(/\b\w/g,c=>c.toUpperCase());
-        if(display==='Mixed Wood')display='Mixed Wood';
-      }else if(col==='Pre_HPType'||col==='Post_HPType'){
-        display=(rawVal==='0'||rawVal.indexOf('n/a')===0)?'':rawVal.replace(/\b\w/g,c=>c.toUpperCase());
-      }else if(col==='Storeys'){
-        // renderStoreyDonut's MAP expects sentence-case, not title-case
-        display=rawVal.charAt(0).toUpperCase()+rawVal.slice(1);
-      }else{
-        display=norm(rawVal);
-      }
-      rev[String(code)]=display;
-    });
-    DECODERS[col]=rev;
-  });
-}
-function decode(col,val){
-  if(val===null||val===undefined||val==='')return val;
-  const dec=DECODERS[col];
-  if(!dec)return val;
-  return dec[String(val)]!==undefined?dec[String(val)]:val;
-}
+const FSA_CACHE=new Map();        // `${prov}|${fsa}` -> reconstructed row objects
+const PROVINCE_SUMMARY_CACHE=new Map(); // prov -> parsed province_json payload
+const FSA_INDEX_CACHE=new Map();  // prov -> [{fsa,row_count}, ...] from _index.json
+let LOAD_TOKEN=0; // guards against a slow stale fetch landing after a newer one started
 
 const $=id=>document.getElementById(id);
 const flag=(r,k)=>r[k]==='True'||r[k]===true||r[k]==='1'||r[k]===1;
-const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n;};
+const num=v=>{const n=parseFloat(v);return v===null||v===undefined||isNaN(n)?null:n;};
 const norm=t=>t?t.trim().replace(/\b\w/g,c=>c.toUpperCase()):'';
 const fmtPct=v=>v>=0?`+${Math.round(v*100)}%`:`${Math.round(v*100)}%`;
 const median=arr=>{
@@ -464,82 +427,185 @@ function dc(key){if(charts[key]){charts[key].destroy();delete charts[key];}}
 const KEYS_URL=`${BASE_URL}ers_web_keys.json`;
 const CODED_COLS=['FSA','BldgType','Storeys','FoundationType','Pre_HeatFuel','Post_HeatFuel','Pre_HeatType','Post_HeatType','Pre_HPType','Post_HPType'];
 
-function fetchKeysOnce(){
-  if(KEYS_LOADED)return Promise.resolve();
-  return fetch(KEYS_URL)
-    .then(r=>{if(!r.ok)throw new Error('keys fetch failed');return r.json();})
-    .then(json=>{buildDecoders(json);KEYS_LOADED=true;});
+function fetchJSON(url){
+  return fetch(url).then(r=>{
+    if(!r.ok)throw new Error(`fetch failed (${r.status}): ${url}`);
+    return r.json();
+  });
 }
 
-function fetchAndDecompressCSV(url){
-  return fetch(url)
-    .then(r=>{if(!r.ok)throw new Error('csv fetch failed');return r.arrayBuffer();})
-    .then(buf=>{
-      const bytes=new Uint8Array(buf);
-      // Detect gzip magic bytes (1f 8b); fall back to treating as plain text otherwise.
-      const isGz=bytes.length>2&&bytes[0]===0x1f&&bytes[1]===0x8b;
-      return isGz?pako.inflate(bytes,{to:'string'}):new TextDecoder('utf-8').decode(bytes);
+// Reconstruct row objects from the {columns,rows} array-of-arrays format
+// the split_fsa_json.py pipeline emits (saves ~75% bytes vs array-of-objects
+// by not repeating ~50 key names on every row over the wire).
+function reconstructRows(payload){
+  const cols=payload.columns;
+  return payload.rows.map(row=>{
+    const obj={};
+    for(let i=0;i<cols.length;i++)obj[cols[i]]=row[i];
+    return obj;
+  });
+}
+
+function fetchFsaIndex(prov){
+  if(FSA_INDEX_CACHE.has(prov))return Promise.resolve(FSA_INDEX_CACHE.get(prov));
+  return fetchJSON(`${FSA_JSON_BASE}${prov}/_index.json`)
+    .then(idx=>{FSA_INDEX_CACHE.set(prov,idx);return idx;});
+}
+
+function fetchFsaRows(prov,fsa){
+  const key=`${prov}|${fsa}`;
+  if(FSA_CACHE.has(key))return Promise.resolve(FSA_CACHE.get(key));
+  console.time(`[load] fsa fetch ${fsa}`);
+  return fetchJSON(`${FSA_JSON_BASE}${prov}/${fsa}.json`)
+    .then(payload=>{
+      const rows=reconstructRows(payload);
+      FSA_CACHE.set(key,rows);
+      console.timeEnd(`[load] fsa fetch ${fsa}`);
+      return rows;
     });
+}
+
+function fetchProvinceSummary(prov){
+  if(PROVINCE_SUMMARY_CACHE.has(prov))return Promise.resolve(PROVINCE_SUMMARY_CACHE.get(prov));
+  console.time(`[load] province summary ${prov}`);
+  return fetchJSON(`${PROVINCE_JSON_BASE}${prov}.json`)
+    .then(payload=>{
+      PROVINCE_SUMMARY_CACHE.set(prov,payload);
+      console.timeEnd(`[load] province summary ${prov}`);
+      return payload;
+    });
+}
+
+// Populate the FSA dropdown for the current province from its _index.json.
+// Replaces the old hardcoded PEI-only <option> list.
+function populateFsaDropdown(prov,fsaIndex){
+  const sel=$('fsa-sel');
+  sel.innerHTML='<option value="">All areas (province-wide)</option>';
+  fsaIndex.forEach(e=>{
+    const o=document.createElement('option');
+    o.value=e.fsa;
+    o.textContent=`${e.fsa} (${e.row_count.toLocaleString()} homes)`;
+    sel.appendChild(o);
+  });
+}
+
+// Populate the house-type dropdown. Source of truth differs by mode:
+// province mode -> keys of by_type in the precomputed summary (fixed, ~6 types)
+// fsa mode -> distinct BldgType values actually present in that FSA's rows
+function populateTypeDropdown(types){
+  const sel=$('type-sel');
+  const prevValue=sel.value;
+  sel.innerHTML='<option value="">All types</option>';
+  types.forEach(t=>{
+    if(t==='All types')return; // already represented by the blank option
+    const o=document.createElement('option');o.value=t;o.textContent=t;sel.appendChild(o);
+  });
+  if([...sel.options].some(o=>o.value===prevValue))sel.value=prevValue;
 }
 
 function load(){
   if(!PROVINCE_CODE)return;
   const prov=PROVINCES[PROVINCE_CODE];
-  const DATA_URL=`${BASE_URL}ers_web_${PROVINCE_CODE}_csv.gz`;
+  const myToken=++LOAD_TOKEN;
 
-  // Update all province-specific text
   $('logo-province').textContent=prov.short;
   $('hero-eyebrow').textContent=`${prov.name} · Home energy retrofits`;
   $('footer-province').textContent=`${prov.name} audits`;
-
-  // Show loading state
-  $('result-count').textContent='…';
   $('header-badge').textContent=`EnerGuide data · ${prov.name} · loading…`;
-  ALL=[];FILTERED=[];
 
-  Promise.all([fetchKeysOnce(),fetchAndDecompressCSV(DATA_URL)])
-    .then(([,csvText])=>{
-      const res=Papa.parse(csvText,{header:true,skipEmptyLines:true});
-      ALL=res.data.map(r=>{
-        const row={...r};
-        CODED_COLS.forEach(col=>{row[col]=decode(col,r[col]);});
-        return row;
-      });
-      $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${ALL.length.toLocaleString()} audits`;
-      // Reset and rebuild dynamic filter options
-      ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
-        $(id).addEventListener('change',applyFilters));
-      const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
-      const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
-      const typeEl=$('type-sel');typeEl.innerHTML='<option value="">All types</option>';
-      const fuelEl=$('fuel-sel');fuelEl.innerHTML='<option value="">All fuels</option>';
-      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeEl.appendChild(o);});
-      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
-      FILTERED=[...ALL];
-      render();
-    })
-    .catch(err=>{
-      console.error(err);
-      document.querySelector('main').innerHTML=
-        `<div class="state-msg"><strong>Could not load data</strong>Could not fetch or decode ${prov.name} data. Check that ers_web_${PROVINCE_CODE}_csv.gz and ers_web_keys.json exist in the Energy folder.</div>`;
-    });
+  // Always (re)build the FSA dropdown for the selected province first —
+  // needed whether the user ends up in province or FSA mode.
+  fetchFsaIndex(PROVINCE_CODE).then(idx=>{
+    if(myToken!==LOAD_TOKEN)return;
+    populateFsaDropdown(PROVINCE_CODE,idx);
+    if(SELECTED_FSA){
+      loadFsaView(myToken);
+    }else{
+      loadProvinceView(myToken);
+    }
+  }).catch(err=>{
+    if(myToken!==LOAD_TOKEN)return;
+    console.error(err);
+    document.querySelector('main').innerHTML=
+      `<div class="state-msg"><strong>Could not load data</strong>Could not fetch the FSA index for ${prov.name}.</div>`;
+  });
+}
+
+function loadFsaView(myToken){
+  MODE='fsa';
+  const prov=PROVINCES[PROVINCE_CODE];
+  $('result-count').textContent='…';
+  fetchFsaRows(PROVINCE_CODE,SELECTED_FSA).then(rows=>{
+    if(myToken!==LOAD_TOKEN)return;
+    ALL=rows;
+    const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
+    const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
+    populateTypeDropdown(types);
+    const fuelEl=$('fuel-sel');fuelEl.innerHTML='<option value="">All fuels</option>';
+    fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
+    showFsaFilterControls(true);
+    $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${SELECTED_FSA} · ${ALL.length.toLocaleString()} audits`;
+    applyFilters(); // re-applies type/fuel/depth on top of the freshly loaded FSA rows
+  }).catch(err=>{
+    if(myToken!==LOAD_TOKEN)return;
+    console.error(err);
+    document.querySelector('main').innerHTML=
+      `<div class="state-msg"><strong>Could not load data</strong>Could not fetch data for FSA ${SELECTED_FSA}.</div>`;
+  });
+}
+
+function loadProvinceView(myToken){
+  MODE='province';
+  const prov=PROVINCES[PROVINCE_CODE];
+  $('result-count').textContent='…';
+  fetchProvinceSummary(PROVINCE_CODE).then(payload=>{
+    if(myToken!==LOAD_TOKEN)return;
+    const types=Object.keys(payload.by_type);
+    populateTypeDropdown(types);
+    showFsaFilterControls(false);
+    $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${payload.total_rows.toLocaleString()} audits`;
+    renderProvince(payload);
+  }).catch(err=>{
+    if(myToken!==LOAD_TOKEN)return;
+    console.error(err);
+    document.querySelector('main').innerHTML=
+      `<div class="state-msg"><strong>Could not load data</strong>Could not fetch the province summary for ${prov.name}.</div>`;
+  });
+}
+
+// Fuel + depth filters are FSA-view only (see project notes): province-wide
+// view only exposes FSA + house type. Hide/show the two extra controls
+// and the reset button's behaviour accordingly.
+function showFsaFilterControls(show){
+  const display=show?'':'none';
+  $('fuel-sel').closest('.filter-group').style.display=display;
+  $('depth-sel').closest('.filter-group').style.display=display;
 }
 
 function applyFilters(){
-  const fsa=$('fsa-sel').value,type=$('type-sel').value,
+  // Only meaningful in FSA mode — province mode re-fetches/re-slices via
+  // loadProvinceView()+renderProvince() instead.
+  if(MODE!=='fsa'){return;}
+  const type=$('type-sel').value,
         fuel=$('fuel-sel').value,depth=$('depth-sel').value;
   FILTERED=ALL.filter(r=>
-    (!fsa||r.FSA===fsa)&&(!type||r.BldgType===type)&&
+    (!type||r.BldgType===type)&&
     (!fuel||r.Pre_HeatFuel===fuel)&&(!depth||flag(r,depth)));
   render();
 }
 function resetFilters(){
-  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
-  FILTERED=[...ALL];render();
+  ['type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
+  if(MODE==='fsa'){
+    FILTERED=[...ALL];render();
+  }else if(MODE==='province'){
+    SELECTED_TYPE='';
+    loadProvinceView(LOAD_TOKEN);
+  }
 }
 
 // ── Render ────────────────────────────────────────────────────────
 function render(){
+  $('table-card').style.display='';
   const n=FILTERED.length;
   $('result-count').textContent=n.toLocaleString();
   const savings=FILTERED.map(r=>num(r.EnergySavingPct)).filter(v=>v!==null);
@@ -1161,8 +1227,16 @@ function renderSpider(n){
 function renderHist(savings){
   dc('hist');
   if(!savings.length)return;
-  const minV=Math.floor(Math.min(...savings)*100);
-  const maxV=Math.ceil(Math.max(...savings)*100);
+  // Avoid Math.min(...savings)/Math.max(...savings): spreading 600k+ elements
+  // as call arguments overflows the engine's call stack. Plain loop has no such limit.
+  let minRaw=savings[0],maxRaw=savings[0];
+  for(let i=1;i<savings.length;i++){
+    const v=savings[i];
+    if(v<minRaw)minRaw=v;
+    if(v>maxRaw)maxRaw=v;
+  }
+  const minV=Math.floor(minRaw*100);
+  const maxV=Math.ceil(maxRaw*100);
   const bins={};
   for(let i=minV;i<=maxV;i++)bins[i]=0;
   savings.forEach(v=>{const b=Math.round(v*100);if(bins[b]!==undefined)bins[b]++;});
@@ -1187,6 +1261,534 @@ function renderHist(savings){
     }
   });
 }
+
+// ════════════════════════════════════════════════════════════════
+// PROVINCE-WIDE VIEW (no FSA selected) — reads precomputed bins/medians
+// from province_json/<PROV>.json instead of scanning raw rows. Kept
+// separate from the FSA-mode renderers above by design: FSA mode is
+// proven/working code operating on real rows, this operates on a fixed,
+// limited filter surface (house type only — see project notes on why
+// fuel/depth aren't available province-wide) precomputed in Python.
+// Bin widths/thresholds here MUST match precompute_province_stats.py
+// exactly or the two views will show different numbers for the same data.
+// ════════════════════════════════════════════════════════════════
+
+function renderProvince(payload){
+  const slice=payload.by_type[SELECTED_TYPE||'All types'];
+  if(!slice){
+    $('result-count').textContent='0';
+    return;
+  }
+  const n=slice.row_count||0;
+  $('result-count').textContent=n.toLocaleString();
+
+  const med=slice.median_saving_pct;
+  $('s-median').textContent=med!=null?Math.round(med*100)+'%':'—';
+  $('s-median-sub').textContent=med!=null?(med>=0?'median energy saved':'median energy increased'):'';
+
+  $('s-deep').textContent=(slice.deep_retrofit_count||0).toLocaleString();
+  $('s-deep-sub').textContent=n?`${Math.round((slice.deep_retrofit_count||0)/n*100)}% of matched homes`:'';
+  $('s-hp').textContent=(slice.heat_pump_count||0).toLocaleString();
+  $('s-hp-sub').textContent=n?`${Math.round((slice.heat_pump_count||0)/n*100)}% of retrofits`:'';
+  $('s-fs').textContent=(slice.fuel_switch_count||0).toLocaleString();
+
+  $('s-eui-saving').textContent=slice.eui_saving!=null?slice.eui_saving:'—';
+  window._euiMedianPre=Math.round(slice.eui_pre_median||0);
+  window._euiMedianPost=Math.round(slice.eui_post_median||0);
+
+  $('s-ghg-saving').textContent=slice.ghg_saving!=null?slice.ghg_saving.toFixed(1):'—';
+
+  $('s-solar').textContent=(slice.solar_post_count||0).toLocaleString();
+  $('s-solar-sub').textContent=n?`${slice.solar_post_pct||0}% of matched homes`:'';
+
+  renderProvinceYearHist(slice);
+  renderProvinceAreaHist(slice);
+  renderProvinceTypeDonut(payload);
+  renderProvinceStoreyDonut(slice);
+  renderProvinceSankey(slice);
+  renderProvinceEUI(slice);
+  renderProvinceGHG(slice);
+  renderProvinceHeatLoss(slice);
+  renderProvinceSolar(slice);
+  renderProvinceWaterfall(slice);
+  renderProvinceKPI(slice);
+  renderProvinceInsulDist(slice);
+  renderProvinceMeasures(slice);
+  renderProvinceSpider(slice);
+  renderProvinceHist(slice);
+  $('table-card').style.display='none';
+}
+
+// Bin objects from precompute_province_stats.py have integer/numeric keys
+// already (e.g. {"1990":42}); this turns one into Chart.js-ready
+// sorted [labels, data] arrays, mirroring how each FSA-mode renderer
+// builds `allKeys` from its own bins{} object.
+function sortedBinArrays(bins){
+  const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+  return [keys, keys.map(k=>bins[k]||0)];
+}
+
+function renderProvinceYearHist(slice){
+  dc('year');
+  const [labels,data]=sortedBinArrays(slice.year_built_bins||{});
+  charts['year']=new Chart($('year-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:'#0B2545CC',borderWidth:0,borderRadius:2}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}s`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+function renderProvinceAreaHist(slice){
+  dc('area');
+  const [labels,data]=sortedBinArrays(slice.floor_area_bins||{});
+  charts['area']=new Chart($('area-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:'#1A7A55CC',borderWidth:0,borderRadius:2}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+50} m²`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{ticks:{font:{size:10},color:'#8A9BB0',maxRotation:45},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+// Same donut() helper used by FSA mode — it already takes a precomputed
+// countMap, so no province-specific variant needed for the drawing itself.
+function renderProvinceTypeDonut(payload){
+  const allSlice=payload.by_type['All types'];
+  donut('type-chart',allSlice.type_counts||{},'type',allSlice.row_count||0);
+}
+function renderProvinceStoreyDonut(slice){
+  donut('storey-chart',slice.storey_counts||{},'storey',slice.row_count||0);
+}
+
+function renderProvinceSankey(slice){
+  const svg=$('sankey-svg');svg.innerHTML='';
+  const flows=slice.sankey_flows||{};
+  if(!Object.keys(flows).length)return;
+  const preMap={},postMap={};
+  Object.entries(flows).forEach(([k,v])=>{
+    const [a,b]=k.split('|||');
+    preMap[a]=(preMap[a]||0)+v.pre;
+    postMap[b]=(postMap[b]||0)+v.post;
+  });
+  const preFuels=Object.entries(preMap).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const postFuels=Object.entries(postMap).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const totalPre=Object.values(preMap).reduce((s,v)=>s+v,0);
+  const cw=svg.parentElement.clientWidth||700;
+  const W=Math.max(cw,500),H=320,PAD=10,BAR=14,LX=145,RX=W-145;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.setAttribute('height',H);
+  const usable=H-PAD*2-20;
+
+  function layoutNodes(fuels,map,x){
+    let y=PAD;
+    return fuels.map(f=>{
+      const h=Math.max(3,(map[f]/totalPre)*usable);
+      const node={f,x,y,h};y+=h+4;return node;
+    });
+  }
+  const preNodes=layoutNodes(preFuels,preMap,LX);
+  const postNodes=layoutNodes(postFuels,postMap,RX);
+  const preNM={},postNM={};
+  preNodes.forEach(n=>preNM[n.f]=n);
+  postNodes.forEach(n=>postNM[n.f]=n);
+  const preUsed={},postUsed={};
+  preNodes.forEach(n=>{preUsed[n.f]=0;});
+  postNodes.forEach(n=>{postUsed[n.f]=0;});
+
+  const flowList=Object.entries(flows).sort((a,b)=>b[1].pre-a[1].pre);
+  flowList.forEach(([k,v])=>{
+    const [a,b]=k.split('|||');
+    const pn=preNM[a],qn=postNM[b];if(!pn||!qn)return;
+    const fh=Math.max(2,(v.pre/totalPre)*usable);
+    const py=pn.y+preUsed[a],qy=qn.y+postUsed[b];
+    preUsed[a]+=fh;postUsed[b]+=fh;
+    const same=a===b;
+    const col=same?'#C8D0DB':(FUEL_COLORS[a]||'#8A9BB0');
+    const mx=(LX+BAR+RX)/2;
+    const path=`M${LX+BAR},${py} C${mx},${py} ${mx},${qy} ${RX},${qy} L${RX},${qy+fh} C${mx},${qy+fh} ${mx},${py+fh} ${LX+BAR},${py+fh}Z`;
+    const el=document.createElementNS('http://www.w3.org/2000/svg','path');
+    el.setAttribute('d',path);
+    el.setAttribute('fill',col);
+    el.setAttribute('opacity',same?'0.45':'0.7');
+    el.style.cursor='pointer';
+    const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
+    el.addEventListener('mouseenter',()=>{
+      const tip=$('sankey-tip');
+      tip.textContent=tipText;
+      tip.style.display='block';
+    });
+    el.addEventListener('mousemove',e=>{
+      const tip=$('sankey-tip');
+      tip.style.left=(e.clientX+14)+'px';
+      tip.style.top=(e.clientY-10)+'px';
+    });
+    el.addEventListener('mouseleave',()=>{
+      $('sankey-tip').style.display='none';
+    });
+    svg.appendChild(el);
+  });
+
+  function drawNodes(nodes,isLeft){
+    nodes.forEach(n=>{
+      const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',n.x);rect.setAttribute('y',n.y);
+      rect.setAttribute('width',BAR);rect.setAttribute('height',Math.max(3,n.h));
+      rect.setAttribute('fill',FUEL_COLORS[n.f]||'#8A9BB0');rect.setAttribute('rx',2);
+      svg.appendChild(rect);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      const tx=isLeft?n.x-6:n.x+BAR+6;
+      t.setAttribute('x',tx);t.setAttribute('y',n.y+Math.max(3,n.h)/2+4);
+      t.setAttribute('text-anchor',isLeft?'end':'start');
+      t.setAttribute('font-size','11');t.setAttribute('fill','#1C2B3A');
+      t.setAttribute('font-family','Inter,sans-serif');
+      const ghw=isLeft?(preMap[n.f]||0):(postMap[n.f]||0);
+      t.textContent=`${n.f} (${(ghw/1e6).toFixed(1)} GWh)`;
+      svg.appendChild(t);
+    });
+  }
+  drawNodes(preNodes,true);drawNodes(postNodes,false);
+}
+
+function renderProvinceEUI(slice){
+  const preM=slice.eui_pre_median,postM=slice.eui_post_median;
+  const saving=slice.eui_saving;
+  $('eui-kpis').innerHTML=`
+    <div class="eui-stat"><div class="eui-val eui-pre-val">${preM!=null?Math.round(preM):'—'}</div><div class="eui-lbl">Pre-retrofit median<br>kWh/m²</div></div>
+    <div class="eui-arrow-big">→</div>
+    <div class="eui-stat"><div class="eui-val eui-post-val">${postM!=null?Math.round(postM):'—'}</div><div class="eui-lbl">Post-retrofit median<br>kWh/m²</div></div>
+    ${saving?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving}</div><div style="font-size:12px;color:var(--muted)">kWh/m² saved</div></div>`:''}`;
+  dc('eui');
+  const [preKeys,preData]=sortedBinArrays(slice.eui_pre_bins||{});
+  const [postKeys,postData]=sortedBinArrays(slice.eui_post_bins||{});
+  const allKeys=[...new Set([...preKeys,...postKeys])].sort((a,b)=>a-b);
+  const preBins=slice.eui_pre_bins||{},postBins=slice.eui_post_bins||{};
+  charts['eui']=new Chart($('eui-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys,datasets:[
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+20} kWh/m²`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:'kWh/m²',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+function renderProvinceGHG(slice){
+  const preM=slice.ghg_pre_median,postM=slice.ghg_post_median;
+  const saving=slice.ghg_saving;
+  $('ghg-kpis').innerHTML=`
+    <div class="eui-stat"><div class="eui-val eui-pre-val">${preM!=null?preM.toFixed(1):'—'}</div><div class="eui-lbl">Pre-retrofit median<br>tCO2e/yr</div></div>
+    <div class="eui-arrow-big">→</div>
+    <div class="eui-stat"><div class="eui-val eui-post-val">${postM!=null?postM.toFixed(1):'—'}</div><div class="eui-lbl">Post-retrofit median<br>tCO2e/yr</div></div>
+    ${saving!=null?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving.toFixed(1)}</div><div style="font-size:12px;color:var(--muted)">tCO2e/yr saved</div></div>`:''}`;
+  dc('ghg');
+  const preBins=slice.ghg_pre_bins||{},postBins=slice.ghg_post_bins||{};
+  if(!Object.keys(preBins).length&&!Object.keys(postBins).length)return;
+  const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
+  charts['ghg']=new Chart($('ghg-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys,datasets:[
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+1} tCO2e/yr`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:'tCO2e/yr',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+function renderProvinceHeatLoss(slice){
+  dc('heatloss');
+  const preBins=slice.heatloss_pre_bins||{},postBins=slice.heatloss_post_bins||{};
+  if(!Object.keys(preBins).length&&!Object.keys(postBins).length)return;
+  const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
+  charts['heatloss']=new Chart($('heatloss-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys,datasets:[
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+5} GJ/yr`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:'GJ/yr',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+function renderProvinceSolar(slice){
+  const prePct=slice.solar_pre_pct||0,postPct=slice.solar_post_pct||0;
+  const medSize=slice.solar_median_kw;
+  $('solar-kpis').innerHTML=`
+    <div class="eui-stat"><div class="eui-val eui-pre-val">${prePct}%</div><div class="eui-lbl">Pre-retrofit<br>with solar PV</div></div>
+    <div class="eui-arrow-big">→</div>
+    <div class="eui-stat"><div class="eui-val eui-post-val">${postPct}%</div><div class="eui-lbl">Post-retrofit<br>with solar PV</div></div>
+    ${medSize?`<div style="margin-left:auto;text-align:right"><div class="eui-saving" style="color:var(--amber)">${medSize.toFixed(1)}</div><div style="font-size:12px;color:var(--muted)">median kW among adopters</div></div>`:''}`;
+}
+
+function renderProvinceWaterfall(slice){
+  dc('waterfall');
+  const waterfall=slice.waterfall||[];
+  const labels=[],barData=[],barColors=[],barBorders=[],tooltipData=[];
+  waterfall.forEach(w=>{
+    labels.push(w.fuel+' ▲');
+    barData.push(w.pre);
+    barColors.push('rgba(11,37,69,0.75)');
+    barBorders.push('#0B2545');
+    tooltipData.push({type:'pre',fuel:w.fuel,val:w.pre,post:w.post});
+
+    labels.push(w.fuel+' ▼');
+    barData.push(w.post);
+    barColors.push('rgba(26,122,85,0.75)');
+    barBorders.push('#1A7A55');
+    tooltipData.push({type:'post',fuel:w.fuel,val:w.post,pre:w.pre});
+  });
+
+  charts['waterfall']=new Chart($('waterfall-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[{data:barData,backgroundColor:barColors,borderColor:barBorders,borderWidth:1,borderRadius:3,barPercentage:0.6}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:i=>tooltipData[i[0].dataIndex].fuel,
+          label:function(i){
+            const d=tooltipData[i.dataIndex];
+            if(d.type==='pre'){
+              const saving=d.val-d.post;
+              return[`Pre: ${d.val.toLocaleString()} kWh`,`Post: ${d.post.toLocaleString()} kWh`,`Saving: ${saving.toLocaleString()} kWh (${d.val>0?Math.round(saving/d.val*100):0}%)`];
+            }
+            const saving=d.pre-d.val;
+            return[`Post: ${d.val.toLocaleString()} kWh`,`Pre: ${d.pre.toLocaleString()} kWh`,`Saving: ${saving.toLocaleString()} kWh (${d.pre>0?Math.round(saving/d.pre*100):0}%)`];
+          }
+        }}
+      },
+      scales:{
+        x:{ticks:{font:{size:10},color:'#5C6E82',maxRotation:0},grid:{display:false}},
+        y:{title:{display:true,text:'kWh (median, all homes)',font:{size:11},color:'#5C6E82'},
+          ticks:{font:{size:11},color:'#8A9BB0',callback:function(v){return `${(v/1000).toFixed(0)}k`;}},
+          grid:{color:'#E8EDF4'},min:0}
+      }
+    }
+  });
+}
+
+function renderProvinceKPI(slice){
+  const kpis=slice.insulation_kpis||[];
+  $('kpi-grid').innerHTML=kpis.map(k=>{
+    const d=k.post-k.pre,imp=k.higher_is_better?d>0:d<0;
+    return `<div class="kpi-item">
+      <div class="kpi-name">${k.label}</div>
+      <div class="kpi-values"><div class="kpi-pre">${k.pre.toFixed(1)}</div><div class="kpi-arrow">→</div><div class="kpi-post">${k.post.toFixed(1)}</div></div>
+      <div class="kpi-unit">${k.unit}</div>
+      <div class="kpi-delta ${imp?'good':'bad'}">${d>=0?'+':''}${d.toFixed(1)} ${k.unit} ${imp?'▲ improved':'▼ declined'}</div>
+    </div>`;
+  }).join('');
+}
+
+function provinceInsulHist(canvasId,chartKey,histData,unit){
+  dc(chartKey);
+  const preBins=histData.pre_bins||{},postBins=histData.post_bins||{};
+  const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys.map(k=>k.toFixed(1)),datasets:[
+      {label:'Pre',data:allKeys.map(k=>preBins[k.toFixed(2)]??preBins[k]??0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post',data:allKeys.map(k=>postBins[k.toFixed(2)]??postBins[k]??0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}},
+        tooltip:{callbacks:{title:i=>`${i[0].label} ${unit}`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:unit,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:12},grid:{display:false}},
+              y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+function provinceDeltaHist(canvasId,chartKey,deltaBins,unit){
+  dc(chartKey);
+  const keys=Object.keys(deltaBins).map(Number).sort((a,b)=>a-b);
+  if(!keys.length)return;
+  // delta_bins keys are bin-start values; infer step from the smallest gap
+  // (matches how precompute_province_stats.py's bin_counts() keys them).
+  // Bin counts are always small (a few hundred at most) so a spread here is
+  // safe, but a loop is used anyway for consistency with renderHist's fix.
+  let step=1;
+  if(keys.length>1){
+    step=keys[1]-keys[0];
+    for(let i=2;i<keys.length;i++)step=Math.min(step,keys[i]-keys[i-1]);
+  }
+  charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
+    type:'bar',
+    data:{labels:keys.map(k=>`${k.toFixed(1)}–${(k+step).toFixed(1)}`),datasets:[{
+      data:keys.map(k=>deltaBins[k]),
+      backgroundColor:'rgba(26,122,85,0.65)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{title:i=>`${i[0].label} ${unit} improvement`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:`Improvement (${unit})`,font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:14},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
+  });
+}
+
+function provinceEuiDeltaHist(eui_delta_bins){
+  dc('eui-delta');
+  const keys=Object.keys(eui_delta_bins).map(Number).sort((a,b)=>a-b);
+  if(!keys.length)return;
+  let step=10;
+  if(keys.length>1){
+    step=keys[1]-keys[0];
+    for(let i=2;i<keys.length;i++)step=Math.min(step,keys[i]-keys[i-1]);
+  }
+  charts['eui-delta']=new Chart($('eui-delta-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:keys.map(k=>`${k}–${k+step}`),datasets:[{
+      data:keys.map(k=>eui_delta_bins[k]),
+      backgroundColor:'rgba(26,122,85,0.65)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{title:i=>`${i[0].label} kWh/m² reduction`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:'EUI reduction (kWh/m²)',font:{size:10},color:'#5C6E82'},ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:14},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
+  });
+}
+
+function renderProvinceInsulDist(slice){
+  const ih=slice.insulation_histograms||{};
+  if(ih.roof)provinceInsulHist('roof-chart','roof',ih.roof,ih.roof.unit||'RSI');
+  if(ih.air)provinceInsulHist('air-chart','air',ih.air,ih.air.unit||'ACH50');
+  if(ih.wall)provinceInsulHist('wall-chart','wall',ih.wall,ih.wall.unit||'RSI');
+  if(ih.fnd)provinceInsulHist('fnd-chart','fnd',ih.fnd,ih.fnd.unit||'RSI');
+  if(ih.roof)provinceDeltaHist('roof-delta-chart','roof-delta',ih.roof.delta_bins||{},ih.roof.unit||'RSI');
+  if(ih.air)provinceDeltaHist('air-delta-chart','air-delta',ih.air.delta_bins||{},ih.air.unit||'ACH50');
+  if(ih.wall)provinceDeltaHist('wall-delta-chart','wall-delta',ih.wall.delta_bins||{},ih.wall.unit||'RSI');
+  if(ih.fnd)provinceDeltaHist('fnd-delta-chart','fnd-delta',ih.fnd.delta_bins||{},ih.fnd.unit||'RSI');
+  provinceEuiDeltaHist(slice.eui_delta_bins||{});
+}
+
+function renderProvinceMeasures(slice){
+  const n=slice.row_count||0;
+  const measures=slice.measures||[];
+  if(!n){$('measures-list').innerHTML='<div class="state-msg"><strong>No matches</strong></div>';return;}
+  $('measures-list').innerHTML=measures.map(m=>
+    `<div class="measure-row"><div class="measure-label">${m.label}</div><div class="bar-track"><div class="bar-fill" style="width:${m.pct}%;background:${MEASURES.find(x=>x.key===m.key)?.color||'#8A9BB0'}"></div></div><div class="bar-pct">${m.pct}%</div></div>`
+  ).join('');
+}
+
+function renderProvinceSpider(slice){
+  const svg=$('spider-svg');svg.innerHTML='';
+  const n=slice.row_count||0;
+  if(!n)return;
+  const measures=slice.measures||[];
+  const axes=measures.map(m=>({
+    label:m.label,
+    value:m.pct/100,
+    color:MEASURES.find(x=>x.key===m.key)?.color||'#8A9BB0'
+  }));
+  const W=340,H=280,cx=155,cy=140,R=88,N=axes.length;
+  [0.25,0.5,0.75,1].forEach(frac=>{
+    const pts=axes.map((_,i)=>{const a=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(a)*R*frac,cy+Math.sin(a)*R*frac];});
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+    poly.setAttribute('fill','none');poly.setAttribute('stroke','#D2D8E3');poly.setAttribute('stroke-width','0.75');
+    svg.appendChild(poly);
+    const rl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    rl.setAttribute('x',cx+3);rl.setAttribute('y',cy-R*frac+3);
+    rl.setAttribute('font-size','8');rl.setAttribute('fill','#8A9BB0');rl.setAttribute('font-family','Inter,sans-serif');
+    rl.textContent=`${Math.round(frac*100)}%`;
+    svg.appendChild(rl);
+  });
+  axes.forEach((_,i)=>{
+    const a=(i/N)*Math.PI*2-Math.PI/2;
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',cx);line.setAttribute('y1',cy);
+    line.setAttribute('x2',cx+Math.cos(a)*R);line.setAttribute('y2',cy+Math.sin(a)*R);
+    line.setAttribute('stroke','#D2D8E3');line.setAttribute('stroke-width','0.75');
+    svg.appendChild(line);
+  });
+  const pts=axes.map((a,i)=>{const ang=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(ang)*R*a.value,cy+Math.sin(ang)*R*a.value];});
+  const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  poly.setAttribute('points',pts.map(p=>p.join(',')).join(' '));
+  poly.setAttribute('fill','rgba(11,37,69,0.12)');poly.setAttribute('stroke','#0B2545');poly.setAttribute('stroke-width','1.5');
+  svg.appendChild(poly);
+  axes.forEach((a,i)=>{
+    const ang=(i/N)*Math.PI*2-Math.PI/2;
+    const dx=cx+Math.cos(ang)*R*a.value,dy=cy+Math.sin(ang)*R*a.value;
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',dx);circle.setAttribute('cy',dy);circle.setAttribute('r','4');
+    circle.setAttribute('fill',a.color);circle.setAttribute('stroke','#fff');circle.setAttribute('stroke-width','1.5');
+    circle.innerHTML=`<title>${a.label}: ${Math.round(a.value*100)}%</title>`;
+    svg.appendChild(circle);
+    const LABEL_R=R+26;
+    const lx=cx+Math.cos(ang)*LABEL_R,ly=cy+Math.sin(ang)*LABEL_R;
+    const anchor=Math.cos(ang)>0.2?'start':Math.cos(ang)<-0.2?'end':'middle';
+    const words=a.label.split(' ');
+    const half=Math.ceil(words.length/2);
+    const line1=words.slice(0,half).join(' ');
+    const line2=words.slice(half).join(' ');
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',lx);txt.setAttribute('y',ly);
+    txt.setAttribute('text-anchor',anchor);txt.setAttribute('font-size','9.5');
+    txt.setAttribute('fill','#1C2B3A');txt.setAttribute('font-family','Inter,sans-serif');
+    txt.innerHTML=`<tspan x="${lx}" dy="-0.5em">${line1}</tspan><tspan x="${lx}" dy="1.2em">${line2}</tspan>`;
+    svg.appendChild(txt);
+    if(Math.round(a.value*100)>5){
+      const vx=cx+Math.cos(ang)*(R*a.value-10),vy=cy+Math.sin(ang)*(R*a.value-10);
+      const vt=document.createElementNS('http://www.w3.org/2000/svg','text');
+      vt.setAttribute('x',vx);vt.setAttribute('y',vy+3);
+      vt.setAttribute('text-anchor','middle');vt.setAttribute('font-size','8');
+      vt.setAttribute('fill','#fff');vt.setAttribute('font-family','Inter,sans-serif');vt.setAttribute('font-weight','500');
+      vt.textContent=`${Math.round(a.value*100)}%`;
+      svg.appendChild(vt);
+    }
+  });
+}
+
+function renderProvinceHist(slice){
+  dc('hist');
+  const bins=slice.savings_pct_bins||{};
+  const keys=Object.keys(bins).map(Number).sort((a,b)=>a-b);
+  if(!keys.length)return;
+  charts['hist']=new Chart($('hist-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:keys.map(k=>`${k}%`),datasets:[{
+      data:keys.map(k=>bins[k]),
+      backgroundColor:keys.map(k=>k<0?'rgba(179,58,46,0.6)':'rgba(26,122,85,0.6)'),
+      borderColor:keys.map(k=>k<0?'#B33A2E':'#1A7A55'),
+      borderWidth:0.5,borderRadius:0,barPercentage:1.0,categoryPercentage:1.0
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${i[0].label} saving`,label:i=>`${i.raw.toLocaleString()} homes`}}},
+      scales:{
+        x:{title:{display:true,text:'Energy saving %',font:{size:11},color:'#5C6E82'},
+          ticks:{font:{size:9},color:'#8A9BB0',maxTicksLimit:30,
+            callback:function(v,i){const l=keys[i];return l%10===0?`${l}%`:''}},
+          grid:{display:false}},
+        y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}
+      }
+    }
+  });
+}
+
+// (Table card is hidden entirely in province mode — see renderProvince() —
+// since no row-level data is shipped province-wide.)
 
 // ── EUI gradient bar for table ────────────────────────────────────
 function makeEUIBar(preEUI,postEUI,medPre,medPost){
@@ -1347,10 +1949,38 @@ $('province-sel').addEventListener('change',function(){
   PROVINCE_CODE=this.value;
   if(!PROVINCE_CODE)return;
   // Reset filters when province changes
+  SELECTED_FSA='';SELECTED_TYPE='';
   ['type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
   $('fsa-sel').value='';
   load();
 });
+
+// FSA dropdown switches between province-wide and FSA-level view.
+// Listener is attached once here (not rebuilt per-load like type/fuel/depth
+// used to be) since #fsa-sel itself is never replaced, only its <option>s.
+$('fsa-sel').addEventListener('change',function(){
+  SELECTED_FSA=this.value;
+  if(!PROVINCE_CODE)return;
+  ['type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
+  if(SELECTED_FSA){
+    loadFsaView(LOAD_TOKEN);
+  }else{
+    loadProvinceView(LOAD_TOKEN);
+  }
+});
+
+// House-type dropdown: behaviour differs by mode (see applyFilters/renderProvince).
+$('type-sel').addEventListener('change',function(){
+  SELECTED_TYPE=this.value;
+  if(MODE==='fsa'){
+    applyFilters();
+  }else if(MODE==='province'){
+    const payload=PROVINCE_SUMMARY_CACHE.get(PROVINCE_CODE);
+    if(payload)renderProvince(payload);
+  }
+});
+$('fuel-sel').addEventListener('change',applyFilters);
+$('depth-sel').addEventListener('change',applyFilters);
 
 </script>
 </body>
