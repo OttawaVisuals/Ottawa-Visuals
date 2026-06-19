@@ -221,9 +221,11 @@ footer a:hover{color:var(--amber2)}
   <div class="stats-grid">
     <div class="stat-card"><div class="stat-label">Median energy saving</div><div class="stat-value green" id="s-median">—</div><div class="stat-sub" id="s-median-sub">loading…</div></div>
     <div class="stat-card"><div class="stat-label">Median EUI saving</div><div class="stat-value green" id="s-eui-saving">—</div><div class="stat-sub">kWh/m² saved</div></div>
+    <div class="stat-card"><div class="stat-label">Median GHG saving</div><div class="stat-value green" id="s-ghg-saving">—</div><div class="stat-sub">tCO2e/yr saved</div></div>
     <div class="stat-card"><div class="stat-label">Deep retrofits</div><div class="stat-value" id="s-deep">—</div><div class="stat-sub" id="s-deep-sub"></div></div>
     <div class="stat-card"><div class="stat-label">Heat pumps added</div><div class="stat-value accent" id="s-hp">—</div><div class="stat-sub" id="s-hp-sub"></div></div>
     <div class="stat-card"><div class="stat-label">Fuel switches</div><div class="stat-value" id="s-fs">—</div><div class="stat-sub">changed heating fuel</div></div>
+    <div class="stat-card"><div class="stat-label">Solar PV added</div><div class="stat-value accent" id="s-solar">—</div><div class="stat-sub" id="s-solar-sub"></div></div>
   </div>
 
   <!-- Year + Floor area -->
@@ -257,6 +259,28 @@ footer a:hover{color:var(--amber2)}
     <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#1A7A55;margin:1.25rem 0 .5rem">EUI reduction (kWh/m²) — among homes that improved</div>
     <div class="cw cw-sm"><canvas id="eui-delta-chart"></canvas></div>
     <p class="note" style="margin-top:8px">Only homes where EUI decreased after retrofit. Bin width = 10 kWh/m².</p>
+  </div>
+
+  <!-- GHG emissions -->
+  <div class="card">
+    <div class="card-title">GHG emissions — tCO2e per year</div>
+    <div class="eui-row" id="ghg-kpis"></div>
+    <div class="cw cw-lg"><canvas id="ghg-chart"></canvas></div>
+    <p class="note">Modelled annual greenhouse gas emissions from home energy use. Fuel switching to electricity can lower GHG even when total energy use rises, depending on grid mix.</p>
+  </div>
+
+  <!-- Heat loss -->
+  <div class="card">
+    <div class="card-title">Heat loss — pre &amp; post (GJ/yr)</div>
+    <div class="cw cw-lg"><canvas id="heatloss-chart"></canvas></div>
+    <p class="note">Total modelled heat loss through the building envelope and ventilation. Lower is better.</p>
+  </div>
+
+  <!-- Solar PV -->
+  <div class="card">
+    <div class="card-title">Solar PV adoption</div>
+    <div class="eui-row" id="solar-kpis"></div>
+    <p class="note">Share of matched homes with solar PV recorded pre- and post-retrofit, and the median system size among adopters.</p>
   </div>
 
   <!-- Waterfall: mirror bars -->
@@ -343,6 +367,7 @@ footer a:hover{color:var(--amber2)}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <script>
 const BASE_URL='https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Energy/';
 
@@ -381,10 +406,49 @@ const MEASURES=[
 
 
 let ALL=[],FILTERED=[],SORT='saving';
+let KEYS_LOADED=false;
 const charts={};
 
+// ── Dictionary decode ────────────────────────────────────────────
+// ers_web_keys.json maps {ColumnName: {lowercase_value: intCode}}.
+// CSV cells for those columns now hold the intCode instead of the string.
+// Build reverse lookups (intCode -> original-cased display string) once.
+let DECODERS={}; // {colName: {code:String -> displayString}}
+
+function buildDecoders(keysJson){
+  DECODERS={};
+  Object.entries(keysJson).forEach(([col,map])=>{
+    const rev={};
+    Object.entries(map).forEach(([rawVal,code])=>{
+      let display;
+      if(col==='FSA'){
+        display=rawVal.toUpperCase();
+      }else if(col==='Pre_HeatFuel'||col==='Post_HeatFuel'){
+        // Match existing fuel-name casing used by FUEL_COLORS / waterfall labels
+        display=rawVal.replace(/\b\w/g,c=>c.toUpperCase());
+        if(display==='Mixed Wood')display='Mixed Wood';
+      }else if(col==='Pre_HPType'||col==='Post_HPType'){
+        display=(rawVal==='0'||rawVal.indexOf('n/a')===0)?'':rawVal.replace(/\b\w/g,c=>c.toUpperCase());
+      }else if(col==='Storeys'){
+        // renderStoreyDonut's MAP expects sentence-case, not title-case
+        display=rawVal.charAt(0).toUpperCase()+rawVal.slice(1);
+      }else{
+        display=norm(rawVal);
+      }
+      rev[String(code)]=display;
+    });
+    DECODERS[col]=rev;
+  });
+}
+function decode(col,val){
+  if(val===null||val===undefined||val==='')return val;
+  const dec=DECODERS[col];
+  if(!dec)return val;
+  return dec[String(val)]!==undefined?dec[String(val)]:val;
+}
+
 const $=id=>document.getElementById(id);
-const flag=(r,k)=>r[k]==='True'||r[k]===true;
+const flag=(r,k)=>r[k]==='True'||r[k]===true||r[k]==='1'||r[k]===1;
 const num=v=>{const n=parseFloat(v);return isNaN(n)?null:n;};
 const norm=t=>t?t.trim().replace(/\b\w/g,c=>c.toUpperCase()):'';
 const fmtPct=v=>v>=0?`+${Math.round(v*100)}%`:`${Math.round(v*100)}%`;
@@ -397,10 +461,31 @@ const median=arr=>{
 function dc(key){if(charts[key]){charts[key].destroy();delete charts[key];}}
 
 // ── Load ──────────────────────────────────────────────────────────
+const KEYS_URL=`${BASE_URL}ers_web_keys.json`;
+const CODED_COLS=['FSA','BldgType','Storeys','FoundationType','Pre_HeatFuel','Post_HeatFuel','Pre_HeatType','Post_HeatType','Pre_HPType','Post_HPType'];
+
+function fetchKeysOnce(){
+  if(KEYS_LOADED)return Promise.resolve();
+  return fetch(KEYS_URL)
+    .then(r=>{if(!r.ok)throw new Error('keys fetch failed');return r.json();})
+    .then(json=>{buildDecoders(json);KEYS_LOADED=true;});
+}
+
+function fetchAndDecompressCSV(url){
+  return fetch(url)
+    .then(r=>{if(!r.ok)throw new Error('csv fetch failed');return r.arrayBuffer();})
+    .then(buf=>{
+      const bytes=new Uint8Array(buf);
+      // Detect gzip magic bytes (1f 8b); fall back to treating as plain text otherwise.
+      const isGz=bytes.length>2&&bytes[0]===0x1f&&bytes[1]===0x8b;
+      return isGz?pako.inflate(bytes,{to:'string'}):new TextDecoder('utf-8').decode(bytes);
+    });
+}
+
 function load(){
   if(!PROVINCE_CODE)return;
   const prov=PROVINCES[PROVINCE_CODE];
-  const DATA_URL=`${BASE_URL}ers_web_${PROVINCE_CODE}.csv`;
+  const DATA_URL=`${BASE_URL}ers_web_${PROVINCE_CODE}_csv.gz`;
 
   // Update all province-specific text
   $('logo-province').textContent=prov.short;
@@ -412,16 +497,14 @@ function load(){
   $('header-badge').textContent=`EnerGuide data · ${prov.name} · loading…`;
   ALL=[];FILTERED=[];
 
-  Papa.parse(DATA_URL,{
-    download:true,header:true,skipEmptyLines:true,worker:false,
-    complete:res=>{
-      ALL=res.data.map(r=>({
-        ...r,
-        BldgType:norm(r.BldgType),
-        // Normalise Mixed Wood casing at load time
-        Pre_HeatFuel:r.Pre_HeatFuel==='Mixed wood'?'Mixed Wood':r.Pre_HeatFuel,
-        Post_HeatFuel:r.Post_HeatFuel==='Mixed wood'?'Mixed Wood':r.Post_HeatFuel,
-      }));
+  Promise.all([fetchKeysOnce(),fetchAndDecompressCSV(DATA_URL)])
+    .then(([,csvText])=>{
+      const res=Papa.parse(csvText,{header:true,skipEmptyLines:true});
+      ALL=res.data.map(r=>{
+        const row={...r};
+        CODED_COLS.forEach(col=>{row[col]=decode(col,r[col]);});
+        return row;
+      });
       $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${ALL.length.toLocaleString()} audits`;
       // Reset and rebuild dynamic filter options
       ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
@@ -434,12 +517,12 @@ function load(){
       fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
       FILTERED=[...ALL];
       render();
-    },
-    error:()=>{
+    })
+    .catch(err=>{
+      console.error(err);
       document.querySelector('main').innerHTML=
-        `<div class="state-msg"><strong>Could not load data</strong>Could not fetch ${prov.name} data. Check that ers_web_${PROVINCE_CODE}.csv exists in the Energy folder.</div>`;
-    }
-  });
+        `<div class="state-msg"><strong>Could not load data</strong>Could not fetch or decode ${prov.name} data. Check that ers_web_${PROVINCE_CODE}_csv.gz and ers_web_keys.json exist in the Energy folder.</div>`;
+    });
 }
 
 function applyFilters(){
@@ -480,8 +563,17 @@ function render(){
   window._euiMedianPre=Math.round(median(preEUIs)||0);
   window._euiMedianPost=Math.round(median(postEUIs)||0);
 
+  const ghgPre=FILTERED.map(r=>num(r.Pre_GHG)).filter(v=>v!==null);
+  const ghgPost=FILTERED.map(r=>num(r.Post_GHG)).filter(v=>v!==null);
+  const ghgSave=median(ghgPre)!==null&&median(ghgPost)!==null?median(ghgPre)-median(ghgPost):null;
+  $('s-ghg-saving').textContent=ghgSave!==null?ghgSave.toFixed(1):'—';
+
+  const solarPost=FILTERED.filter(r=>num(r.Post_SolarPV)>0).length;
+  $('s-solar').textContent=solarPost.toLocaleString();
+  $('s-solar-sub').textContent=n?`${Math.round(solarPost/n*100)}% of matched homes`:'';
+
   renderYearHist();renderAreaHist();renderTypeDonut();renderStoreyDonut();
-  renderSankey();renderEUI(preEUIs,postEUIs);renderWaterfall();
+  renderSankey();renderEUI(preEUIs,postEUIs);renderGHG();renderHeatLoss();renderSolar(n);renderWaterfall();
   renderKPI();renderInsulDist(preEUIs,postEUIs);renderMeasures(n);renderSpider(n);
   renderHist(savings);renderTable();
 }
@@ -549,11 +641,11 @@ function renderTypeDonut(){
   donut('type-chart',c,'type',FILTERED.length);
 }
 function renderStoreyDonut(){
-  const MAP={'Split entry / Raised basement':'Split entry','Two and a half':'2.5 storeys',
-    'Three storeys':'3 storeys','Two storeys':'2 storeys','One storey':'1 storey',
-    'One and a half':'1.5 storeys','Split level':'Split level'};
+  const MAP={'split entry / raised basement':'Split entry','two and a half':'2.5 storeys',
+    'three storeys':'3 storeys','two storeys':'2 storeys','one storey':'1 storey',
+    'one and a half':'1.5 storeys','split level':'Split level','split entry/raised base.':'Split entry'};
   const c={};
-  FILTERED.forEach(r=>{const s=MAP[r.Storeys]||r.Storeys||'Unknown';c[s]=(c[s]||0)+1;});
+  FILTERED.forEach(r=>{const key=(r.Storeys||'').toLowerCase();const s=MAP[key]||r.Storeys||'Unknown';c[s]=(c[s]||0)+1;});
   donut('storey-chart',c,'storey',FILTERED.length);
 }
 
@@ -684,6 +776,82 @@ function renderEUI(preEUIs,postEUIs){
       scales:{x:{title:{display:true,text:'kWh/m²',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
               y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
   });
+}
+
+// ── GHG emissions ─────────────────────────────────────────────────
+function renderGHG(){
+  const ghgPre=FILTERED.map(r=>num(r.Pre_GHG)).filter(v=>v!==null);
+  const ghgPost=FILTERED.map(r=>num(r.Post_GHG)).filter(v=>v!==null);
+  const preM=median(ghgPre),postM=median(ghgPost);
+  const saving=preM!==null&&postM!==null?(preM-postM):null;
+  $('ghg-kpis').innerHTML=`
+    <div class="eui-stat"><div class="eui-val eui-pre-val">${preM!==null?preM.toFixed(1):'—'}</div><div class="eui-lbl">Pre-retrofit median<br>tCO2e/yr</div></div>
+    <div class="eui-arrow-big">→</div>
+    <div class="eui-stat"><div class="eui-val eui-post-val">${postM!==null?postM.toFixed(1):'—'}</div><div class="eui-lbl">Post-retrofit median<br>tCO2e/yr</div></div>
+    ${saving!==null?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving.toFixed(1)}</div><div style="font-size:12px;color:var(--muted)">tCO2e/yr saved</div></div>`:''}`;
+  dc('ghg');
+  if(!ghgPre.length&&!ghgPost.length)return;
+  function ghgBins(vals,step=1){
+    const b={};
+    vals.forEach(v=>{if(v>30)return;const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
+    return b;
+  }
+  const preBins=ghgBins(ghgPre),postBins=ghgBins(ghgPost);
+  const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
+  charts['ghg']=new Chart($('ghg-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys,datasets:[
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+1} tCO2e/yr`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:'tCO2e/yr',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+// ── Heat loss ─────────────────────────────────────────────────────
+function renderHeatLoss(){
+  dc('heatloss');
+  const pre=FILTERED.map(r=>num(r.Pre_HeatLoss)).filter(v=>v!==null&&v>0&&v<=150);
+  const post=FILTERED.map(r=>num(r.Post_HeatLoss)).filter(v=>v!==null&&v>0&&v<=150);
+  if(!pre.length&&!post.length)return;
+  function bins(vals,step=5){
+    const b={};
+    vals.forEach(v=>{const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
+    return b;
+  }
+  const preBins=bins(pre),postBins=bins(post);
+  const allKeys=[...new Set([...Object.keys(preBins),...Object.keys(postBins)])].map(Number).sort((a,b)=>a-b);
+  charts['heatloss']=new Chart($('heatloss-chart').getContext('2d'),{
+    type:'bar',
+    data:{labels:allKeys,datasets:[
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
+        tooltip:{callbacks:{title:i=>`${i[0].label}–${+i[0].label+5} GJ/yr`,label:i=>`${i.dataset.label}: ${i.raw.toLocaleString()} homes`}}},
+      scales:{x:{title:{display:true,text:'GJ/yr',font:{size:11},color:'#5C6E82'},ticks:{font:{size:10},color:'#8A9BB0',maxTicksLimit:20},grid:{display:false}},
+              y:{title:{display:true,text:'Homes',font:{size:11},color:'#5C6E82'},ticks:{font:{size:11},color:'#8A9BB0'},grid:{color:'#E8EDF4'}}}}
+  });
+}
+
+// ── Solar PV ──────────────────────────────────────────────────────
+function renderSolar(n){
+  const preAdopt=FILTERED.filter(r=>num(r.Pre_SolarPV)>0);
+  const postAdopt=FILTERED.filter(r=>num(r.Post_SolarPV)>0);
+  const prePct=n?Math.round(preAdopt.length/n*100):0;
+  const postPct=n?Math.round(postAdopt.length/n*100):0;
+  const sizes=postAdopt.map(r=>num(r.Post_SolarPV)).filter(v=>v!==null&&v>0);
+  const medSize=median(sizes);
+  $('solar-kpis').innerHTML=`
+    <div class="eui-stat"><div class="eui-val eui-pre-val">${prePct}%</div><div class="eui-lbl">Pre-retrofit<br>with solar PV</div></div>
+    <div class="eui-arrow-big">→</div>
+    <div class="eui-stat"><div class="eui-val eui-post-val">${postPct}%</div><div class="eui-lbl">Post-retrofit<br>with solar PV</div></div>
+    ${medSize?`<div style="margin-left:auto;text-align:right"><div class="eui-saving" style="color:var(--amber)">${medSize.toFixed(1)}</div><div style="font-size:12px;color:var(--muted)">median kW among adopters</div></div>`:''}`;
 }
 
 // ── Waterfall (pre bars from 0 on left, post bars from 0 on right, per fuel) ──
@@ -1096,6 +1264,9 @@ function makeInlineSVG(r){
     ['Pre energy',r.Pre_TotalEnergy?`${Math.round(num(r.Pre_TotalEnergy)).toLocaleString()} kWh`:'—',null,null],
     ['Post energy',null,r.Post_TotalEnergy?`${Math.round(num(r.Post_TotalEnergy)).toLocaleString()} kWh`:'—',null],
     ['EUI kWh/m²',preEUI,postEUI,'eui'],
+    ['GHG tCO2e/yr',num(r.Pre_GHG)!==null?num(r.Pre_GHG).toFixed(1):'—',num(r.Post_GHG)!==null?num(r.Post_GHG).toFixed(1):'—',null],
+    ['Heat loss GJ/yr',num(r.Pre_HeatLoss)!==null?num(r.Pre_HeatLoss).toFixed(1):'—',num(r.Post_HeatLoss)!==null?num(r.Post_HeatLoss).toFixed(1):'—',null],
+    ['Solar PV kW',num(r.Pre_SolarPV)?num(r.Pre_SolarPV).toFixed(1):'—',num(r.Post_SolarPV)?num(r.Post_SolarPV).toFixed(1):'—',null],
     ['Pre audit',r.Pre_Date||'—',null,null],
     ['Post audit',null,r.Post_Date||'—',null],
   ];
