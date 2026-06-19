@@ -408,6 +408,8 @@ const MEASURES=[
 let ALL=[],FILTERED=[],SORT='saving';
 let KEYS_LOADED=false;
 const charts={};
+const PROVINCE_CACHE=new Map(); // provinceCode -> decoded ALL rows, kept across switches
+let LOAD_TOKEN=0; // guards against a slow stale fetch landing after a newer one started
 
 // ── Dictionary decode ────────────────────────────────────────────
 // ers_web_keys.json maps {ColumnName: {lowercase_value: intCode}}.
@@ -472,13 +474,16 @@ function fetchKeysOnce(){
 }
 
 function fetchAndDecompressCSV(url){
+  console.time('[load] fetch+decompress');
   return fetch(url)
     .then(r=>{if(!r.ok)throw new Error('csv fetch failed');return r.arrayBuffer();})
     .then(buf=>{
       const bytes=new Uint8Array(buf);
       // Detect gzip magic bytes (1f 8b); fall back to treating as plain text otherwise.
       const isGz=bytes.length>2&&bytes[0]===0x1f&&bytes[1]===0x8b;
-      return isGz?pako.inflate(bytes,{to:'string'}):new TextDecoder('utf-8').decode(bytes);
+      const text=isGz?pako.inflate(bytes,{to:'string'}):new TextDecoder('utf-8').decode(bytes);
+      console.timeEnd('[load] fetch+decompress');
+      return text;
     });
 }
 
@@ -486,11 +491,22 @@ function load(){
   if(!PROVINCE_CODE)return;
   const prov=PROVINCES[PROVINCE_CODE];
   const DATA_URL=`${BASE_URL}ers_web_${PROVINCE_CODE}_csv.gz`;
+  const myToken=++LOAD_TOKEN;
 
   // Update all province-specific text
   $('logo-province').textContent=prov.short;
   $('hero-eyebrow').textContent=`${prov.name} · Home energy retrofits`;
   $('footer-province').textContent=`${prov.name} audits`;
+
+  // Instant path: we already loaded this province this session.
+  if(PROVINCE_CACHE.has(PROVINCE_CODE)){
+    ALL=PROVINCE_CACHE.get(PROVINCE_CODE);
+    FILTERED=[...ALL];
+    $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${ALL.length.toLocaleString()} audits`;
+    rebuildFilterOptions();
+    render();
+    return;
+  }
 
   // Show loading state
   $('result-count').textContent='…';
@@ -499,30 +515,52 @@ function load(){
 
   Promise.all([fetchKeysOnce(),fetchAndDecompressCSV(DATA_URL)])
     .then(([,csvText])=>{
+      if(myToken!==LOAD_TOKEN)return; // a newer province switch superseded this load
+
+      console.time('[load] papa parse');
       const res=Papa.parse(csvText,{header:true,skipEmptyLines:true});
-      ALL=res.data.map(r=>{
-        const row={...r};
-        CODED_COLS.forEach(col=>{row[col]=decode(col,r[col]);});
-        return row;
-      });
+      console.timeEnd('[load] papa parse');
+
+      console.time('[load] decode columns');
+      // Decode coded columns in place on Papa's own row objects instead of
+      // spreading each row into a brand-new object (halves allocations on 600k+ rows).
+      const data=res.data;
+      for(let i=0;i<data.length;i++){
+        const row=data[i];
+        for(let c=0;c<CODED_COLS.length;c++){
+          const col=CODED_COLS[c];
+          row[col]=decode(col,row[col]);
+        }
+      }
+      console.timeEnd('[load] decode columns');
+
+      ALL=data;
+      PROVINCE_CACHE.set(PROVINCE_CODE,ALL);
       $('header-badge').textContent=`EnerGuide data · ${prov.name} · ${ALL.length.toLocaleString()} audits`;
-      // Reset and rebuild dynamic filter options
-      ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
-        $(id).addEventListener('change',applyFilters));
-      const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
-      const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
-      const typeEl=$('type-sel');typeEl.innerHTML='<option value="">All types</option>';
-      const fuelEl=$('fuel-sel');fuelEl.innerHTML='<option value="">All fuels</option>';
-      types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeEl.appendChild(o);});
-      fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
+      rebuildFilterOptions();
       FILTERED=[...ALL];
       render();
     })
     .catch(err=>{
+      if(myToken!==LOAD_TOKEN)return;
       console.error(err);
       document.querySelector('main').innerHTML=
         `<div class="state-msg"><strong>Could not load data</strong>Could not fetch or decode ${prov.name} data. Check that ers_web_${PROVINCE_CODE}_csv.gz and ers_web_keys.json exist in the Energy folder.</div>`;
     });
+}
+
+function rebuildFilterOptions(){
+  // Reset and rebuild dynamic filter options
+  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
+    $(id).removeEventListener('change',applyFilters)); // avoid stacking duplicate listeners on repeat province loads
+  ['fsa-sel','type-sel','fuel-sel','depth-sel'].forEach(id=>
+    $(id).addEventListener('change',applyFilters));
+  const types=[...new Set(ALL.map(r=>r.BldgType).filter(Boolean))].sort();
+  const fuels=[...new Set(ALL.map(r=>r.Pre_HeatFuel).filter(Boolean))].sort();
+  const typeEl=$('type-sel');typeEl.innerHTML='<option value="">All types</option>';
+  const fuelEl=$('fuel-sel');fuelEl.innerHTML='<option value="">All fuels</option>';
+  types.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;typeEl.appendChild(o);});
+  fuels.forEach(f=>{const o=document.createElement('option');o.value=f;o.textContent=f;fuelEl.appendChild(o);});
 }
 
 function applyFilters(){
