@@ -55,6 +55,18 @@ main{max-width:900px;margin:0 auto;padding:2rem 2rem 4rem}
 .card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
 .card-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
 .note{font-size:12px;color:var(--light);margin-top:10px;line-height:1.5}
+.methodology{max-width:900px;margin:1.5rem auto 0;padding:0 1rem}
+.methodology details{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden}
+.methodology summary{cursor:pointer;list-style:none;padding:1rem 1.25rem;font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:300;color:var(--navy);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.methodology summary::-webkit-details-marker{display:none}
+.methodology summary::after{content:'+';font-family:'Inter',sans-serif;font-size:22px;color:var(--amber);transition:transform .2s}
+.methodology details[open] summary::after{content:'–'}
+.methodology summary:hover{background:var(--cream)}
+.methodology .method-body{padding:0 1.25rem 1.25rem;font-size:14px;line-height:1.65;color:var(--text)}
+.methodology .method-body h4{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:1.25rem 0 .4rem}
+.methodology .method-body p{margin:0 0 .6rem}
+.methodology .method-body code{background:var(--surface);padding:1px 5px;border-radius:4px;font-size:12.5px}
+.methodology .method-body .caveats{border-left:3px solid var(--amber);padding-left:12px;color:var(--muted);font-size:13px}
 
 /* ── Stats ── */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem}
@@ -115,6 +127,9 @@ td{padding:9px 10px;border-bottom:1px solid var(--surface);color:var(--text);ver
 tr.data-row:last-child td{border-bottom:none}
 tr.data-row:hover td{background:var(--cream);cursor:pointer}
 tr.data-row.open td{background:var(--cream)}
+tr.data-row:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+tr.data-row:focus-visible td:first-child{box-shadow:inset 3px 0 0 var(--amber)}
+#sankey-svg path:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
 tr.detail-row td{padding:0;border-bottom:1px solid var(--border);background:var(--cream)}
 .detail-inner{padding:1rem 1rem 1.25rem;display:none}
 tr.detail-row.open .detail-inner{display:block}
@@ -279,7 +294,7 @@ footer a:hover{color:var(--amber2)}
   <div class="card">
     <div class="card-title">Energy by fuel — pre vs post · median kWh across all matched homes</div>
     <div class="cw cw-lg"><canvas id="waterfall-chart"></canvas></div>
-    <p class="note">Navy ▲ = pre-retrofit, green ▼ = post-retrofit. Each bar starts from zero. The height difference = energy saved. Electricity often rises when homes switch to heat pumps. Hover any bar for exact values.</p>
+    <p class="note">Navy ▲ = pre-retrofit, green ▼ = post-retrofit. Each bar starts from zero. The height difference = energy saved. Electricity often rises when homes switch to heat pumps. Each bar is an <strong>independent median</strong>, so the individual fuel bars will not add up exactly to the TOTAL bar — that is expected behaviour of medians, not an error. Hover any bar for exact values.</p>
   </div>
 
   <!-- Insulation KPIs + distributions -->
@@ -352,6 +367,52 @@ footer a:hover{color:var(--amber2)}
 
 </main>
 
+<section class="methodology" aria-label="Methodology">
+  <details>
+    <summary>How this data was built — methodology</summary>
+    <div class="method-body">
+      <p>This tool visualises real home-energy audits, but the numbers go through several steps before they reach the charts. Here is the whole journey in plain terms.</p>
+
+      <h4>1 · Where the data comes from</h4>
+      <p>Every figure starts from Natural Resources Canada's <strong>EnerGuide / Energy Rating System (ERS)</strong> open dataset — the official record of home-energy audits across Canada, covering audit years <strong>2004–2025</strong>. An audit is a trained energy advisor visiting a home and modelling, with NRCan's HOT2000 software, how much energy it uses and where that energy is lost.</p>
+
+      <h4>2 · Matching "before" and "after"</h4>
+      <p>Each audit record is tagged as an evaluation type. We treat type <strong>D</strong> as the <em>initial</em> ("before") evaluation and type <strong>E</strong> as the <em>follow-up</em> ("after") evaluation. A home is identified by a stable address ID, and we keep it only when it has <strong>exactly one</strong> before and <strong>exactly one</strong> after audit, with the after audit <strong>dated later</strong> than the before. That paired record becomes one <strong>pre → post</strong> row. A home audited only once is dropped — there is nothing to compare it to.</p>
+
+      <h4>3 · Making sure it's really the same home</h4>
+      <p>To avoid accidentally comparing two different homes (or a home that had a major addition), a pair is kept only if, between the two audits, the <strong>floor area changed by no more than 10%</strong> and the <strong>house type, number of storeys, and number of dwelling units stayed the same</strong>. Pairs that fail these checks are removed before anything is counted.</p>
+
+      <h4>4 · Putting everything in the same units</h4>
+      <p>The source records each fuel in its own unit, so we convert everything to a common one — <strong>kilowatt-hours (kWh)</strong> — before comparing: natural gas from cubic metres, oil and propane from litres, wood from tonnes, and the overall total from megajoules. Electricity is already in kWh. Greenhouse-gas emissions come straight from the audit (tonnes CO₂e per year) and already include emissions from electricity using each province's grid mix, so fuel-switching to electricity is accounted for fairly.</p>
+
+      <h4>5 · Fields we calculate ourselves</h4>
+      <p>From the audit values we derive the numbers you see:</p>
+      <p><strong>EUI (energy use intensity)</strong> = total energy ÷ floor area, in <code>kWh/m²</code> — lets a small efficient home and a large one be compared fairly.<br>
+      <strong>Energy saving %</strong> = (before − after) ÷ before. Positive means energy use dropped; negative means it rose (common when a home switches to a heat pump — electricity goes up even as emissions fall).<br>
+      <strong>Retrofit depth</strong>, based on how much total energy fell: <em>Shallow</em> = up to 10% saved, <em>Medium</em> = 10–50% saved, <em>Deep</em> = 50% or more saved.<br>
+      <strong>Fuel switch</strong> = the main heating fuel changed (e.g. gas → electricity).</p>
+
+      <h4>6 · What counts as an "upgrade"</h4>
+      <p>Each measure is flagged per home using a sensible threshold, so tiny modelling wiggles don't get counted as real work:</p>
+      <p><strong>Roof / wall / foundation / floor insulation</strong> — the insulation value went up by more than 10%.<br>
+      <strong>Air sealing</strong> — air leakage dropped by more than 10%.<br>
+      <strong>Windows changed</strong> — the recorded window type is different before vs after.<br>
+      <strong>Heating system changed</strong> — the heating fuel or equipment type is different.<br>
+      <strong>Heat pump added</strong> — no heat pump recorded before, one recorded after.</p>
+
+      <h4>7 · Two views, two ways of counting</h4>
+      <p>When you pick a single <strong>FSA</strong> (the first three characters of a postal code), the tool loads the actual individual audit records for that area and calculates everything live in your browser — that is why you also get the sortable table of individual homes.</p>
+      <p>When you look at a whole <strong>province</strong>, doing that over hundreds of thousands of records would be slow, so the medians and chart shapes are <strong>pre-calculated once</strong> with a Python script and shipped as a compact summary, broken down by house type. Both paths use the <em>same</em> bucket widths and definitions, so the two views agree.</p>
+
+      <h4>8 · How the histograms are built</h4>
+      <p>Charts that show a distribution group values into fixed-width "buckets" and count how many homes fall in each — for example energy-use buckets are <code>20 kWh/m²</code> wide, heat-loss buckets <code>5 GJ/yr</code>, and the saving-% chart uses <code>1%</code> steps. The "improvement" charts only count homes that actually got better on that measure, so homes that stayed flat don't dilute the picture.</p>
+
+      <h4>9 · Things to keep in mind</h4>
+      <p class="caveats">These are <strong>modelled</strong> energy estimates from the audit software, not metered utility bills — actual consumption varies with weather and occupant behaviour. Each bar in the fuel chart is an independent median, so individual fuels won't sum exactly to the total. Outliers (e.g. EUI above 500 kWh/m²) are clipped so the charts stay readable. Pre-retrofit solar is rarely recorded in the source, so "solar added" reflects systems present at the follow-up audit and may slightly overcount homes that already had panels. The source data contains <strong>no cost information</strong>, so this tool cannot show payback or dollar figures.</p>
+    </div>
+  </details>
+</section>
+
 <footer>
   Data: <a href="https://open.canada.ca/data/en/dataset/794f6e8f-c15f-4b0a-9d09-7e3a5bc6b3aa" target="_blank" rel="noopener">Natural Resources Canada EnerGuide</a> · <span id="footer-province">Canadian home energy audits</span> 2004–2025<br>
   Values are modelled energy estimates, not metered consumption. Retrofit costs not available in source data.
@@ -401,6 +462,27 @@ const MEASURES=[
   {key:'Floor_Insulation_Upgrade',     label:'Floor insulation',       color:'#5C6E82'},
 ];
 
+// ── Bin widths (single source of truth) ───────────────────────────
+// FSA-mode renderers bin raw rows on the fly; these widths MUST match the
+// ones used in precompute_province_stats.py, or the province-wide view and
+// the FSA view will show differently-shaped histograms for the same data.
+// Keeping them in one object makes that contract explicit and editable in
+// one place instead of scattered as magic numbers across ~6 renderers.
+const BINS={
+  year:10,        // year-built decade buckets
+  area:50,        // floor-area buckets (m²)
+  eui:20,         // energy-use-intensity buckets (kWh/m²)
+  ghg:1,          // GHG buckets (tCO2e/yr)
+  heatloss:5,     // heat-loss buckets (GJ/yr)
+  savingsPct:1    // energy-saving histogram (whole %)
+};
+
+// Pre/post bar palette. Pre = navy, Post = green — a colour-blind-safe pair
+// (the old pre=red / post=green pairing is the classic red–green confusion
+// case). Used by every pre/post comparison histogram.
+const PRE_FILL='rgba(11,37,69,0.5)', PRE_LINE='#0B2545';
+const POST_FILL='rgba(26,122,85,0.5)', POST_LINE='#1A7A55';
+
 
 
 let ALL=[],FILTERED=[],SORT='saving';
@@ -423,9 +505,43 @@ const median=arr=>{
 };
 function dc(key){if(charts[key]){charts[key].destroy();delete charts[key];}}
 
+// Wire a Sankey flow path for interaction across input types:
+//  - mouse: hover shows the floating tip and tracks the cursor
+//  - touch: tap shows the tip near the finger (mobile had no tooltip before)
+//  - keyboard: the path is focusable; focus shows the tip, blur hides it
+//  - screen readers: the same text is exposed as an aria-label
+// `anchorXY` returns {x,y} in client coords for positioning on touch/focus.
+function attachFlowTip(el,tipText){
+  el.style.cursor='pointer';
+  el.setAttribute('tabindex','0');
+  el.setAttribute('role','img');
+  el.setAttribute('aria-label',tipText.replace(/ \| /g,', '));
+  const tip=$('sankey-tip');
+  const showAt=(x,y)=>{tip.textContent=tipText;tip.style.display='block';tip.style.left=(x+14)+'px';tip.style.top=(y-10)+'px';};
+  const hide=()=>{tip.style.display='none';};
+  el.addEventListener('mouseenter',e=>showAt(e.clientX,e.clientY));
+  el.addEventListener('mousemove',e=>showAt(e.clientX,e.clientY));
+  el.addEventListener('mouseleave',hide);
+  el.addEventListener('touchstart',e=>{
+    const t=e.touches[0];if(t)showAt(t.clientX,t.clientY);
+    e.stopPropagation();
+  },{passive:true});
+  el.addEventListener('focus',()=>{
+    const r=el.getBoundingClientRect();
+    showAt(r.left+r.width/2,r.top+r.height/2);
+  });
+  el.addEventListener('blur',hide);
+}
+// One document-level tap outside any flow dismisses an open touch tip.
+document.addEventListener('touchstart',e=>{
+  if(!(e.target instanceof SVGPathElement))$('sankey-tip').style.display='none';
+},{passive:true});
+
 // ── Load ──────────────────────────────────────────────────────────
-const KEYS_URL=`${BASE_URL}ers_web_keys.json`;
-const CODED_COLS=['FSA','BldgType','Storeys','FoundationType','Pre_HeatFuel','Post_HeatFuel','Pre_HeatType','Post_HeatType','Pre_HPType','Post_HPType'];
+// NOTE: the FSA JSON now ships already-decoded (human-readable BldgType,
+// fuel, etc.), so the old ers_web_keys.json lookup table and CODED_COLS
+// decode step have been removed — they were dead code and the keys file
+// no longer exists on the server.
 
 function fetchJSON(url){
   return fetch(url).then(r=>{
@@ -599,7 +715,7 @@ function resetFilters(){
     FILTERED=[...ALL];render();
   }else if(MODE==='province'){
     SELECTED_TYPE='';
-    loadProvinceView(LOAD_TOKEN);
+    loadProvinceView(++LOAD_TOKEN);
   }
 }
 
@@ -651,7 +767,7 @@ function renderYearHist(){
   FILTERED.forEach(r=>{
     const y=parseInt(r.YearBuilt);
     if(!y||y<1850||y>2030)return;
-    const d=Math.floor(y/10)*10;
+    const d=Math.floor(y/BINS.year)*BINS.year;
     bins[d]=(bins[d]||0)+1;
   });
   const labels=Object.keys(bins).sort();
@@ -672,7 +788,7 @@ function renderAreaHist(){
   FILTERED.forEach(r=>{
     const a=parseFloat(r.FloorArea);
     if(!a||a>700)return;
-    const b=Math.floor(a/50)*50;
+    const b=Math.floor(a/BINS.area)*BINS.area;
     bins[b]=(bins[b]||0)+1;
   });
   const labels=Object.keys(bins).sort((a,b)=>a-b);
@@ -774,21 +890,8 @@ function renderSankey(){
     el.setAttribute('d',path);
     el.setAttribute('fill',col);
     el.setAttribute('opacity',same?'0.45':'0.7');
-    el.style.cursor='pointer';
     const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
-    el.addEventListener('mouseenter',()=>{
-      const tip=$('sankey-tip');
-      tip.textContent=tipText;
-      tip.style.display='block';
-    });
-    el.addEventListener('mousemove',e=>{
-      const tip=$('sankey-tip');
-      tip.style.left=(e.clientX+14)+'px';
-      tip.style.top=(e.clientY-10)+'px';
-    });
-    el.addEventListener('mouseleave',()=>{
-      $('sankey-tip').style.display='none';
-    });
+    attachFlowTip(el,tipText);
     svg.appendChild(el);
   });
 
@@ -823,7 +926,7 @@ function renderEUI(preEUIs,postEUIs){
     <div class="eui-stat"><div class="eui-val eui-post-val">${postM?Math.round(postM):'—'}</div><div class="eui-lbl">Post-retrofit median<br>kWh/m²</div></div>
     ${saving?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving}</div><div style="font-size:12px;color:var(--muted)">kWh/m² saved</div></div>`:''}`;
   dc('eui');
-  function euiBins(vals,step=20){
+  function euiBins(vals,step=BINS.eui){
     const b={};
     vals.forEach(v=>{if(v>500)return;const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
     return b;
@@ -833,8 +936,8 @@ function renderEUI(preEUIs,postEUIs){
   charts['eui']=new Chart($('eui-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -857,7 +960,7 @@ function renderGHG(){
     ${saving!==null?`<div style="margin-left:auto;text-align:right"><div class="eui-saving">−${saving.toFixed(1)}</div><div style="font-size:12px;color:var(--muted)">tCO2e/yr saved</div></div>`:''}`;
   dc('ghg');
   if(!ghgPre.length&&!ghgPost.length)return;
-  function ghgBins(vals,step=1){
+  function ghgBins(vals,step=BINS.ghg){
     const b={};
     vals.forEach(v=>{if(v>30)return;const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
     return b;
@@ -867,8 +970,8 @@ function renderGHG(){
   charts['ghg']=new Chart($('ghg-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -884,7 +987,7 @@ function renderHeatLoss(){
   const pre=FILTERED.map(r=>num(r.Pre_HeatLoss)).filter(v=>v!==null&&v>0&&v<=150);
   const post=FILTERED.map(r=>num(r.Post_HeatLoss)).filter(v=>v!==null&&v>0&&v<=150);
   if(!pre.length&&!post.length)return;
-  function bins(vals,step=5){
+  function bins(vals,step=BINS.heatloss){
     const b={};
     vals.forEach(v=>{const k=Math.floor(v/step)*step;b[k]=(b[k]||0)+1;});
     return b;
@@ -894,8 +997,8 @@ function renderHeatLoss(){
   charts['heatloss']=new Chart($('heatloss-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -1045,8 +1148,8 @@ function insulHist(canvasId,chartKey,preCol,postCol,maxVal,step,unit){
   charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
     type:'bar',
     data:{labels:allKeys.map(k=>k.toFixed(1)),datasets:[
-      {label:'Pre',data:allKeys.map(k=>pBins[k.toFixed(2)]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post',data:allKeys.map(k=>qBins[k.toFixed(2)]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre',data:allKeys.map(k=>pBins[k.toFixed(2)]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post',data:allKeys.map(k=>qBins[k.toFixed(2)]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}},
@@ -1164,6 +1267,9 @@ function renderSpider(n){
   const svg=$('spider-svg');svg.innerHTML='';
   if(!n)return;
   const axes=MEASURES.map(m=>({label:m.label,value:n?FILTERED.filter(r=>flag(r,m.key)).length/n:0,color:m.color}));
+  svg.setAttribute('role','img');
+  svg.setAttribute('aria-label','Share of retrofits including each measure: '+
+    axes.map(a=>`${a.label} ${Math.round(a.value*100)}%`).join(', '));
   const W=340,H=280,cx=155,cy=140,R=88,N=axes.length;
   [0.25,0.5,0.75,1].forEach(frac=>{
     const pts=axes.map((_,i)=>{const a=(i/N)*Math.PI*2-Math.PI/2;return[cx+Math.cos(a)*R*frac,cy+Math.sin(a)*R*frac];});
@@ -1357,8 +1463,16 @@ function renderProvinceAreaHist(slice){
 // Same donut() helper used by FSA mode — it already takes a precomputed
 // countMap, so no province-specific variant needed for the drawing itself.
 function renderProvinceTypeDonut(payload){
-  const allSlice=payload.by_type['All types'];
-  donut('type-chart',allSlice.type_counts||{},'type',allSlice.row_count||0);
+  // When a specific house type is selected the full-mix donut is misleading
+  // (it stays unchanged while the result count drops). Show the selected
+  // type as a single slice instead, so the donut matches the active filter.
+  if(SELECTED_TYPE && payload.by_type[SELECTED_TYPE]){
+    const slice=payload.by_type[SELECTED_TYPE];
+    donut('type-chart',{[SELECTED_TYPE]:slice.row_count||0},'type',slice.row_count||0);
+  }else{
+    const allSlice=payload.by_type['All types'];
+    donut('type-chart',allSlice.type_counts||{},'type',allSlice.row_count||0);
+  }
 }
 function renderProvinceStoreyDonut(slice){
   donut('storey-chart',slice.storey_counts||{},'storey',slice.row_count||0);
@@ -1414,21 +1528,8 @@ function renderProvinceSankey(slice){
     el.setAttribute('d',path);
     el.setAttribute('fill',col);
     el.setAttribute('opacity',same?'0.45':'0.7');
-    el.style.cursor='pointer';
     const tipText=`${a} → ${b} | Pre: ${(v.pre/1e6).toFixed(2)} GWh | Post: ${(v.post/1e6).toFixed(2)} GWh | Change: ${((v.post-v.pre)/1e6).toFixed(2)} GWh`;
-    el.addEventListener('mouseenter',()=>{
-      const tip=$('sankey-tip');
-      tip.textContent=tipText;
-      tip.style.display='block';
-    });
-    el.addEventListener('mousemove',e=>{
-      const tip=$('sankey-tip');
-      tip.style.left=(e.clientX+14)+'px';
-      tip.style.top=(e.clientY-10)+'px';
-    });
-    el.addEventListener('mouseleave',()=>{
-      $('sankey-tip').style.display='none';
-    });
+    attachFlowTip(el,tipText);
     svg.appendChild(el);
   });
 
@@ -1469,8 +1570,8 @@ function renderProvinceEUI(slice){
   charts['eui']=new Chart($('eui-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -1495,8 +1596,8 @@ function renderProvinceGHG(slice){
   charts['ghg']=new Chart($('ghg-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -1514,8 +1615,8 @@ function renderProvinceHeatLoss(slice){
   charts['heatloss']=new Chart($('heatloss-chart').getContext('2d'),{
     type:'bar',
     data:{labels:allKeys,datasets:[
-      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre-retrofit',data:allKeys.map(k=>preBins[k]||0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post-retrofit',data:allKeys.map(k=>postBins[k]||0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:12},boxWidth:12}},
@@ -1603,8 +1704,8 @@ function provinceInsulHist(canvasId,chartKey,histData,unit){
   charts[chartKey]=new Chart($(canvasId).getContext('2d'),{
     type:'bar',
     data:{labels:allKeys.map(k=>k.toFixed(1)),datasets:[
-      {label:'Pre',data:allKeys.map(k=>preBins[k.toFixed(2)]??preBins[k]??0),backgroundColor:'rgba(179,58,46,0.5)',borderColor:'#B33A2E',borderWidth:1,borderRadius:2},
-      {label:'Post',data:allKeys.map(k=>postBins[k.toFixed(2)]??postBins[k]??0),backgroundColor:'rgba(26,122,85,0.5)',borderColor:'#1A7A55',borderWidth:1,borderRadius:2},
+      {label:'Pre',data:allKeys.map(k=>preBins[k.toFixed(2)]??preBins[k]??0),backgroundColor:PRE_FILL,borderColor:PRE_LINE,borderWidth:1,borderRadius:2},
+      {label:'Post',data:allKeys.map(k=>postBins[k.toFixed(2)]??postBins[k]??0),backgroundColor:POST_FILL,borderColor:POST_LINE,borderWidth:1,borderRadius:2},
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}},
@@ -1802,11 +1903,11 @@ function makeEUIBar(preEUI,postEUI,medPre,medPost){
   // Use shared #eui-grad defined once in static HTML — no random IDs needed
   let s=`<svg viewBox="0 0 ${W} ${H+14}" width="${W}" height="${H+14}" style="display:block;overflow:visible">
     <rect x="0" y="4" width="${W}" height="${MH}" fill="url(#eui-grad)" rx="3" opacity="0.25"/>`;
-  if(medPreX!==null)s+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#B33A2E" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
+  if(medPreX!==null)s+=`<line x1="${medPreX}" y1="2" x2="${medPreX}" y2="${4+MH+2}" stroke="#0B2545" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
   if(medPostX!==null)s+=`<line x1="${medPostX}" y1="2" x2="${medPostX}" y2="${4+MH+2}" stroke="#1A7A55" stroke-width="1" stroke-dasharray="2,1" opacity="0.5"/>`;
-  if(preX!==null)s+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#B33A2E" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
+  if(preX!==null)s+=`<circle cx="${preX}" cy="${4+MH/2}" r="4" fill="#0B2545" stroke="#fff" stroke-width="1.5"><title>Pre: ${preEUI} kWh/m²</title></circle>`;
   if(postX!==null)s+=`<circle cx="${postX}" cy="${4+MH/2}" r="4" fill="#1A7A55" stroke="#fff" stroke-width="1.5"><title>Post: ${postEUI} kWh/m²</title></circle>`;
-  if(preX!==null)s+=`<text x="${preX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#B33A2E" font-family="Inter,sans-serif">${preEUI}</text>`;
+  if(preX!==null)s+=`<text x="${preX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#0B2545" font-family="Inter,sans-serif">${preEUI}</text>`;
   if(postX!==null)s+=`<text x="${postX}" y="${4+MH+11}" text-anchor="middle" font-size="8" fill="#1A7A55" font-family="Inter,sans-serif">${postEUI}</text>`;
   s+=`</svg>`;
   return s;
@@ -1839,7 +1940,7 @@ function makeInlineSVG(r){
     const preW=k.pre?Math.max(2,Math.min(barW,k.pre/k.max*barW)):0;
     const postW=k.post?Math.max(2,Math.min(barW,k.post/k.max*barW)):0;
     html+=`<rect x="${startX}" y="${y}" width="${barW}" height="${barH}" fill="#E8EDF4" rx="3"/>`;
-    html+=`<rect x="${startX}" y="${y}" width="${preW}" height="${barH/2}" fill="#B33A2E99" rx="2"/>`;
+    html+=`<rect x="${startX}" y="${y}" width="${preW}" height="${barH/2}" fill="#0B254599" rx="2"/>`;
     html+=`<rect x="${startX}" y="${y+barH/2}" width="${postW}" height="${barH/2}" fill="#1A7A5599" rx="2"/>`;
     const pStr=k.pre?k.pre.toFixed(1):'—',qStr=k.post?k.post.toFixed(1):'—';
     const imp=k.hi?(k.post||0)>(k.pre||0):(k.post||0)<(k.pre||0);
@@ -1847,7 +1948,7 @@ function makeInlineSVG(r){
   });
   html+=`</svg>
     <div style="display:flex;gap:12px;margin-top:4px">
-      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#B33A2E99;border-radius:2px"></span>Pre</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#0B254599;border-radius:2px"></span>Pre</span>
       <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5C6E82"><span style="display:inline-block;width:16px;height:4px;background:#1A7A5599;border-radius:2px"></span>Post</span>
     </div>
   </div>`;
@@ -1916,7 +2017,7 @@ function renderTable(){
       :`<span class="fuel-chip">${r.Pre_HeatFuel||'?'}</span>`;
     const preEUI=num(r.Pre_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Pre_TotalEnergy)/num(r.FloorArea)):null;
     const postEUI=num(r.Post_TotalEnergy)&&num(r.FloorArea)?Math.round(num(r.Post_TotalEnergy)/num(r.FloorArea)):null;
-    return `<tr class="data-row" onclick="toggleRow(${idx})" id="row-${idx}">
+    return `<tr class="data-row" onclick="toggleRow(${idx})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleRow(${idx});}" tabindex="0" role="button" aria-expanded="false" id="row-${idx}">
       <td>${r.FSA||'—'}</td><td>${r.BldgType||'—'}</td><td>${r.YearBuilt||'—'}</td>
       <td>${r.FloorArea?Math.round(parseFloat(r.FloorArea)):'—'}</td>
       <td>${makeEUIBar(preEUI,postEUI,window._euiMedianPre,window._euiMedianPost)}</td>
@@ -1933,10 +2034,11 @@ function renderTable(){
 function toggleRow(idx){
   const dataRow=$(`row-${idx}`),detailRow=$(`detail-${idx}`),inner=$(`detail-inner-${idx}`);
   const isOpen=dataRow.classList.contains('open');
-  document.querySelectorAll('.data-row.open').forEach(r=>r.classList.remove('open'));
+  document.querySelectorAll('.data-row.open').forEach(r=>{r.classList.remove('open');r.setAttribute('aria-expanded','false');});
   document.querySelectorAll('.detail-row.open').forEach(r=>r.classList.remove('open'));
   if(!isOpen){
     dataRow.classList.add('open');detailRow.classList.add('open');
+    dataRow.setAttribute('aria-expanded','true');
     if(!inner.dataset.rendered){
       inner.innerHTML=makeInlineSVG(window._tableRows[idx]);
       inner.dataset.rendered='1';
@@ -1962,10 +2064,13 @@ $('fsa-sel').addEventListener('change',function(){
   SELECTED_FSA=this.value;
   if(!PROVINCE_CODE)return;
   ['type-sel','fuel-sel','depth-sel'].forEach(id=>$(id).value='');
+  // Mint a fresh token so a slow fetch from a previously-selected FSA that
+  // lands after this one is discarded by the myToken!==LOAD_TOKEN guard.
+  const myToken=++LOAD_TOKEN;
   if(SELECTED_FSA){
-    loadFsaView(LOAD_TOKEN);
+    loadFsaView(myToken);
   }else{
-    loadProvinceView(LOAD_TOKEN);
+    loadProvinceView(myToken);
   }
 });
 
