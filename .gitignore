@@ -2,3 +2,23 @@ _site/
 .sass-cache/
 .DS_Store
 Thumbs.db
+
+# Personal / data exports — never commit
+conversations.json
+*.dms
+data-*.zip
+
+# Large source / working files (kept locally, not published by the site)
+*.pbix
+*.xlsx
+*.xls
+~$*
+
+# GIS shapefile components (the site uses the derived .json / geo.js)
+*.shp
+*.shx
+*.dbf
+*.sbn
+*.sbx
+*.cpg
+*.prj
