@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ottawa Visuals — Project Progress</title>
+<style>
+  :root{
+    --maple:#c8102e; --maple-soft:#e3324c;
+    --ink:#1d2733; --muted:#64748b; --line:#e6eaf0;
+    --bg:#f6f8fb; --card:#ffffff;
+    --live:#16a34a; --prog:#2563eb; --proto:#9333ea; --idea:#d97706; --backlog:#94a3b8;
+    --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px;}
+  header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  header.top h1{font-size:26px;margin:0;letter-spacing:-.02em;}
+  .leaf{font-size:26px}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:14px;}
+
+  /* summary */
+  .summary{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:24px 26px;box-shadow:var(--shadow);margin-bottom:26px;}
+  .ring{position:relative;width:132px;height:132px;}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;}
+  .ring .pct b{font-size:30px;letter-spacing:-.02em}
+  .ring .pct span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:14px;}
+  .stat{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  .stat b{font-size:22px;display:block;letter-spacing:-.02em}
+  .stat small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .stat .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+
+  /* filters */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;}
+  .filters button{border:1px solid var(--line);background:var(--card);color:var(--ink);
+    padding:7px 14px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;
+    transition:.15s;}
+  .filters button:hover{border-color:var(--maple)}
+  .filters button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* layout columns */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+  @media(max-width:840px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr;justify-items:center;text-align:center}}
+
+  /* cards */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:16px 18px;box-shadow:var(--shadow);}
+  .card h3{margin:0 0 4px;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff;
+    text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+  .desc{color:var(--muted);font-size:13.5px;margin:6px 0 12px}
+  .bar{height:9px;background:#eef2f7;border-radius:999px;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:999px;width:0;
+    transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+  .barrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
+    font-size:12px;color:var(--muted)}
+  .barrow b{color:var(--ink);font-size:13px}
+  .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .chip{font-size:11.5px;background:var(--bg);border:1px solid var(--line);
+    border-radius:7px;padding:3px 8px;color:var(--muted)}
+  .chip a{color:var(--prog);text-decoration:none}
+  .open{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+  .open b{color:var(--ink);font-weight:600}
+
+  .section-title{font-size:13px;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--muted);margin:34px 0 14px;font-weight:700;display:flex;align-items:center;gap:10px}
+  .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* timeline */
+  .timeline{position:relative;margin:6px 0 0;padding-left:26px}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl{position:relative;padding:0 0 20px}
+  .tl::before{content:"";position:absolute;left:-23px;top:3px;width:14px;height:14px;border-radius:50%;
+    border:3px solid var(--card);box-shadow:0 0 0 2px var(--line)}
+  .tl.done::before{background:var(--live);box-shadow:0 0 0 2px var(--live)}
+  .tl.now::before{background:var(--prog);box-shadow:0 0 0 2px var(--prog)}
+  .tl.next::before{background:#fff;box-shadow:0 0 0 2px var(--backlog)}
+  .tl h4{margin:0;font-size:14.5px}
+  .tl p{margin:2px 0 0;color:var(--muted);font-size:13px}
+  .tl .when{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--maple);font-weight:700}
+
+  footer{margin-top:50px;color:var(--muted);font-size:12px;text-align:center}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="leaf">🍁</span>
+    <h1>Ottawa Visuals — Project Progress</h1>
+  </header>
+  <p class="sub">Personal data-visualization roadmap · generated from <code>PROJECTS.md</code> · <span id="today"></span></p>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="ring">
+      <svg width="132" height="132" viewBox="0 0 132 132">
+        <circle cx="66" cy="66" r="58" fill="none" stroke="#eef2f7" stroke-width="12"/>
+        <circle id="ringFill" cx="66" cy="66" r="58" fill="none" stroke="var(--maple)" stroke-width="12"
+                stroke-linecap="round" stroke-dasharray="364.4" stroke-dashoffset="364.4"/>
+      </svg>
+      <div class="pct"><b id="ringPct">0%</b><span>overall</span></div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters" id="filters"></div>
+
+  <!-- PROJECTS -->
+  <div class="grid" id="board"></div>
+
+  <!-- MILESTONES -->
+  <div class="section-title">Milestones &amp; Roadmap</div>
+  <div class="timeline" id="timeline"></div>
+
+  <footer>Open this file anytime to see progress · edit the <code>DATA</code> array in the source to update.</footer>
+</div>
+
+<script>
+/* ---- single source of truth: edit here to update progress ---- */
+const STATUS = {
+  live:    {label:"Live",        color:"var(--live)"},
+  prog:    {label:"In Progress", color:"var(--prog)"},
+  proto:   {label:"Prototype",   color:"var(--proto)"},
+  idea:    {label:"Planned",     color:"var(--idea)"},
+  backlog: {label:"Backlog",     color:"var(--backlog)"},
+};
+
+const DATA = [
+  {name:"Ottawa Traffic Stops & Violations", status:"live", pct:100,
+   desc:"OPS traffic stops by result type (charged / warning / no action). Featured Power BI dashboard.",
+   tags:["Power BI"], link:{t:"/#report-traffic", u:"https://ottawavisuals.github.io/Ottawa-Visuals/#report-traffic"}},
+  {name:"Ottawa Ward Elections", status:"live", pct:90,
+   desc:"Interactive ward-level election map with Deneb custom visual, ward labels & leader lines.",
+   tags:["HTML","Map"], link:{t:"/ottawa_ward_elections", u:"https://ottawavisuals.github.io/Ottawa-Visuals/ottawa_ward_elections"},
+   open:"Ward redistribution impact pass."},
+  {name:"Ottawa Mortgage / Affordability", status:"live", pct:90,
+   desc:"Federal-employee housing affordability + retirement planning calculator with census context.",
+   tags:["HTML","Calculator"], link:{t:"/mortgage", u:"https://ottawavisuals.github.io/Ottawa-Visuals/mortgage"}},
+  {name:"Retrofit Explorer (Energy)", status:"live", pct:85,
+   desc:"EnerGuide home-energy retrofit data per province/FSA. Choropleth, pre/post EUI, fuel waterfall.",
+   tags:["Chart.js","Map","Energy repo"], link:{t:"Energy/retrofits", u:"https://ottawavisuals.github.io/Energy/retrofits"},
+   open:"Finalize fuel-chart variant; push CA.json; reconcile data URLs."},
+
+  {name:"Ontario Elections (coalition scenarios)", status:"prog", pct:70,
+   desc:"Past elections with “Liberal + NDP coalition” what-ifs, per-riding survivor logic, multi-zoom GeoJSON map.",
+   tags:["HTML","Map","GeoJSON"], open:"Clean up map-merge placement; finalize majority/turnout sections."},
+  {name:"Ontario Court Cases", status:"prog", pct:30,
+   desc:"Extraction & structuring of Ontario Court traffic cases → CSV/JSON, then a visual.",
+   tags:["Data prep"], open:"Finish extraction; design the visual."},
+  {name:"Canada Geothermal Feasibility Map", status:"proto", pct:15,
+   desc:"GSC bedrock geology + NRCan open-file data → national feasibility map.",
+   tags:["Map","GIS"], open:"Decide story angle; process shapefiles."},
+
+  {name:"Ottawa Quality of Life Over Time ⭐", status:"idea", pct:10,
+   desc:"Flagship civic project for the next mayoral race: RTO impact, tax-vs-outcomes, who benefits. TomTom traffic, 311/911, GHG, parking & office rents.",
+   tags:["HTML","Multi-source"], open:"Scope visuals; collect TomTom + GHG + parking data."},
+  {name:"OC Transpo Ridership & KPIs", status:"idea", pct:5,
+   desc:"Ridership + service KPIs over time, filling the gap on OC Transpo's site via Transit Committee minutes.",
+   tags:["Transit","eScribe"], open:"Collect KPI PDFs from eScribe."},
+  {name:"Ottawa City Finances / Budget", status:"idea", pct:5,
+   desc:"Municipal spending dashboard tied to the property-tax / quality-of-life narrative.",
+   tags:["Budget"]},
+  {name:"Ottawa Real Estate (weekly updates)", status:"idea", pct:10,
+   desc:"Real-estate trends with an automated weekly refresh pipeline. Prototyped in chat.",
+   tags:["HTML","Auto-update"]},
+  {name:"Province Spending by Category", status:"idea", pct:5,
+   desc:"Provincial spend across healthcare, education, etc.", tags:["Budget"]},
+  {name:"Canada Car & Gas Sales vs GHG", status:"idea", pct:5,
+   desc:"Vehicle + gasoline sales vs. GHG reduction targets.", tags:["Climate"]},
+  {name:"Voter Apathy Across Canada", status:"idea", pct:5,
+   desc:"Historical participation rates, province-wide + per district.", tags:["Elections"]},
+  {name:"Political Spending Transparency", status:"idea", pct:0,
+   desc:"MP / Poilievre expenses; Alberta oil-company profits & capital flows.", tags:["Accountability"]},
+
+  {name:"Ottawa Census Data", status:"backlog", pct:0, desc:"Age, income, languages…", tags:["Census"]},
+  {name:"Ottawa Biking", status:"backlog", pct:0, desc:"% commute vs % roadway; spending; NCC vs City.", tags:["Transit"]},
+  {name:"RTO Road Maintenance", status:"backlog", pct:0, desc:"Road-maintenance spend; office permits.", tags:["Budget"]},
+  {name:"Ottawa Weather Dashboard", status:"backlog", pct:0, desc:"Auto-updating Tableau Public temperature dashboard.", tags:["Tableau"]},
+  {name:"Ottawa Building Permits", status:"backlog", pct:0, desc:"Permit data analysis/visual.", tags:["Open data"]},
+  {name:"Collision / Bike-Crash Map", status:"backlog", pct:0, desc:"Ottawa collision data map.", tags:["Map"]},
+  {name:"PWHL Hockey Dashboard", status:"backlog", pct:0, desc:"Power BI on the PWHL API (side project).", tags:["Power BI","Sports"]},
+  {name:"Stop-Sign / Speed Monitoring", status:"backlog", pct:0, desc:"Raspberry Pi camera at a local intersection.", tags:["Hardware"]},
+  {name:"Gas / Grid Emissions", status:"backlog", pct:0, desc:"Ontario gas distribution, Yukon hourly grid emissions, IESO.", tags:["Energy"]},
+];
+
+const MILESTONES = [
+  {state:"done", when:"2025 · Aug", h:"Ottawa Traffic dashboard live", p:"First published Power BI — OPS stops, red lights, speed."},
+  {state:"done", when:"2026 · Spring", h:"Ward Elections + Mortgage tools live", p:"Interactive ward map and the housing-affordability calculator shipped."},
+  {state:"done", when:"2026 · Jun", h:"Retrofit Explorer live", p:"EnerGuide retrofit data site with FSA choropleth on GitHub Pages."},
+  {state:"now",  when:"Now", h:"Ontario Elections build", p:"Coalition scenarios + multi-zoom GeoJSON map in progress; court-cases data prep underway."},
+  {state:"next", when:"Next", h:"Quality of Life flagship", p:"Scope the mayoral-race civic dashboard; gather TomTom, 311/911, GHG, parking & rent data."},
+  {state:"next", when:"Later", h:"Transit, budget & census layers", p:"OC Transpo KPIs, city finances, census and biking visuals."},
+];
+
+/* ---------- render ---------- */
+const $=s=>document.querySelector(s);
+document.getElementById("today").textContent =
+  new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+
+// overall = average progress across all projects
+const overall = Math.round(DATA.reduce((a,d)=>a+d.pct,0)/DATA.length);
+
+// status counts
+const counts={}; Object.keys(STATUS).forEach(k=>counts[k]=0);
+DATA.forEach(d=>counts[d.status]++);
+
+// stats cards
+$("#stats").innerHTML = Object.entries(STATUS).map(([k,v])=>`
+  <div class="stat"><b>${counts[k]}</b>
+   <small><span class="dot" style="background:${v.color}"></span>${v.label}</small></div>`).join("")
+  + `<div class="stat"><b>${DATA.length}</b><small>Total projects</small></div>`;
+
+// ring
+const C=2*Math.PI*58;
+const rf=$("#ringFill"); rf.style.strokeDasharray=C;
+$("#ringPct").textContent=overall+"%";
+
+// filters
+const order=["all","live","prog","proto","idea","backlog"];
+$("#filters").innerHTML = order.map(k=>{
+  const lbl = k==="all" ? "All" : STATUS[k].label;
+  const n = k==="all" ? DATA.length : counts[k];
+  return `<button data-f="${k}" class="${k==='all'?'active':''}">${lbl} <span style="opacity:.6">${n}</span></button>`;
+}).join("");
+
+// board
+function card(d){
+  const s=STATUS[d.status];
+  const link = d.link ? `<span class="chip"><a href="${d.link.u}" target="_blank" rel="noopener">${d.link.t} ↗</a></span>`:"";
+  const tags=(d.tags||[]).map(t=>`<span class="chip">${t}</span>`).join("");
+  const open=d.open?`<p class="open"><b>Next:</b> ${d.open}</p>`:"";
+  return `<div class="card" data-status="${d.status}">
+    <h3>${d.name}<span class="badge" style="background:${s.color}">${s.label}</span></h3>
+    <p class="desc">${d.desc}</p>
+    <div class="barrow"><span>Progress</span><b>${d.pct}%</b></div>
+    <div class="bar"><i data-pct="${d.pct}" style="background:${s.color}"></i></div>
+    <div class="meta">${link}${tags}</div>${open}
+  </div>`;
+}
+const board=$("#board");
+board.innerHTML = DATA.slice().sort((a,b)=>b.pct-a.pct).map(card).join("");
+
+// timeline
+$("#timeline").innerHTML = MILESTONES.map(m=>`
+  <div class="tl ${m.state}">
+    <div class="when">${m.when}</div>
+    <h4>${m.h}</h4><p>${m.p}</p>
+  </div>`).join("");
+
+// animate after paint
+requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  rf.style.transition="stroke-dashoffset 1.3s cubic-bezier(.22,1,.36,1)";
+  rf.style.strokeDashoffset = C*(1-overall/100);
+  document.querySelectorAll(".bar > i").forEach(i=>i.style.width=i.dataset.pct+"%");
+}));
+
+// filtering
+$("#filters").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  document.querySelectorAll("#filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  const f=b.dataset.f;
+  document.querySelectorAll("#board .card").forEach(c=>{
+    const show = f==="all" || c.dataset.status===f;
+    c.classList.toggle("hidden",!show);
+    if(show){const i=c.querySelector(".bar>i"); i.style.width=i.dataset.pct+"%";}
+  });
+});
+</script>
+</body>
+</html>
