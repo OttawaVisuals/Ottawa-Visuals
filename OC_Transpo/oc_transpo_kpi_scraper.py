@@ -202,56 +202,52 @@ class State:
 # Discovery
 # --------------------------------------------------------------------------- #
 def discover_via_api(session: requests.Session, throttle: Throttle,
-                     years: range) -> list[Meeting]:
+                     years: range, committee: str) -> list[Meeting]:
     """
-    Best-effort: ask the eScribe PastMeetings page method for Transit meetings.
+    Enumerate meetings via eScribe's calendar page method and keep those whose
+    MeetingName matches `committee` (case-insensitive substring, e.g. "transit").
 
-    NOTE: the live portal drives this list with JS-set query state that is hard
-    to reproduce exactly; if it returns nothing, fall back to the --seed file.
-    Several query-string strategies are tried so a tweak on your end is easy.
+    One JSON POST per year to GetCalendarMeetings returns every meeting in the
+    range; we filter client-side. (The param names are calendarStartDate /
+    calendarEndDate — verified against the live portal.)
     """
     found: dict[str, Meeting] = {}
-    endpoint = urljoin(BASE_URL, "MeetingsCalendarView.aspx/PastMeetings")
+    endpoint = urljoin(BASE_URL, "MeetingsCalendarView.aspx/GetCalendarMeetings")
+    needle = committee.lower()
     for year in years:
-        for label, type_val in TRANSIT_TYPES.items():
-            for qs in (f"?Year={year}", f"?Year={year}&Type={type_val}", ""):
-                try:
-                    throttle.wait()
-                    r = session.post(
-                        endpoint + qs,
-                        headers={"Content-Type": "application/json; charset=UTF-8",
-                                 "X-Requested-With": "XMLHttpRequest",
-                                 "Referer": f"{BASE_URL}?Year={year}"},
-                        data=json.dumps({"type": type_val, "pageNumber": 1}),
-                        timeout=DEFAULT_TIMEOUT,
-                    )
-                    if r.status_code != 200:
-                        continue
-                    payload = r.json().get("d", {})
-                    meetings = payload.get("Meetings") or []
-                    for m in meetings:
-                        mid = (m.get("Id") or m.get("MeetingId")
-                               or m.get("MeetingGuid") or "")
-                        g = GUID_RE.search(str(mid))
-                        if not g:
-                            continue
-                        mid = g.group(0)
-                        found[mid] = Meeting(
-                            meeting_id=mid,
-                            name=str(m.get("Name") or m.get("MeetingName")
-                                     or label),
-                            date=_norm_date(m.get("Date") or m.get("MeetingDate")
-                                            or m.get("StartDate") or ""),
-                        )
-                    if meetings:
-                        log.info("API: %d meetings for %s %s", len(meetings),
-                                 label, year)
-                        break  # this qs worked for this type/year
-                except Exception as e:
-                    log.debug("API probe failed (%s %s): %s", label, year, e)
+        body = ("{'calendarStartDate':'%d-01-01','calendarEndDate':'%d-12-31'}"
+                % (year, year))
+        try:
+            throttle.wait()
+            r = session.post(
+                endpoint,
+                headers={"Content-Type": "application/json; charset=UTF-8",
+                         "X-Requested-With": "XMLHttpRequest",
+                         "Referer": f"{BASE_URL}?Year={year}"},
+                data=body, timeout=DEFAULT_TIMEOUT,
+            )
+            r.raise_for_status()
+            meetings = r.json().get("d") or []
+        except Exception as e:
+            log.warning("API discovery failed for %d: %s", year, e)
+            continue
+        hits = 0
+        for m in meetings:
+            name = str(m.get("MeetingName", ""))
+            if needle not in name.lower():
+                continue
+            g = GUID_RE.search(str(m.get("ID", "")))
+            if not g:
+                continue
+            mid = g.group(0)
+            found[mid] = Meeting(meeting_id=mid, name=name,
+                                 date=_norm_date(m.get("StartDate", "")))
+            hits += 1
+        log.info("API: %d '%s' meeting(s) found for %d (of %d total)",
+                 hits, committee, year, len(meetings))
     if not found:
-        log.warning("API discovery returned nothing — use --seed meetings.txt "
-                    "(see README for how to collect the links).")
+        log.warning("API discovery found no '%s' meetings — check --committee / "
+                    "--years, or use --seed meetings.txt.", committee)
     return list(found.values())
 
 
@@ -417,9 +413,9 @@ def extract_pdf(pdf: Path):
 # --------------------------------------------------------------------------- #
 def _norm_date(s: str) -> str:
     s = str(s)
-    m = re.search(r"(\d{4})-(\d{2})-(\d{2})", s)
+    m = re.search(r"(\d{4})[-/](\d{2})[-/](\d{2})", s)
     if m:
-        return m.group(0)
+        return f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
     m = re.search(r"(January|February|March|April|May|June|July|August|"
                   r"September|October|November|December)\s+(\d{1,2}),\s+(\d{4})",
                   s, re.I)
@@ -447,7 +443,10 @@ def main(argv=None):
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="data", help="output directory (default: data)")
     ap.add_argument("--seed", type=Path, help="file of meeting URLs/GUIDs, one per line")
-    ap.add_argument("--years", default="", help="e.g. 2019-2026 (API discovery)")
+    ap.add_argument("--years", default="", help="e.g. 2019-2026 — auto-discover meetings")
+    ap.add_argument("--committee", default="transit",
+                    help="substring to match meeting names during --years "
+                         "discovery (default: transit)")
     ap.add_argument("--delay", type=float, default=DEFAULT_DELAY,
                     help=f"seconds between requests (default {DEFAULT_DELAY})")
     ap.add_argument("--all", action="store_true",
@@ -504,7 +503,8 @@ def main(argv=None):
     for m in load_seed(args.seed):
         meetings[m.meeting_id] = m
     if args.years:
-        for m in discover_via_api(session, throttle, parse_years(args.years)):
+        for m in discover_via_api(session, throttle, parse_years(args.years),
+                                  args.committee):
             meetings.setdefault(m.meeting_id, m)
     if not meetings:
         log.error("No meetings to process. Provide --seed meetings.txt and/or "
