@@ -21,22 +21,40 @@ pip install -r requirements.txt
 On a Raspberry Pi these install cleanly from piwheels (all pure-Python /
 wheels available for ARM).
 
-## Quick start
+## Quick start (auto-discovery — no seed file needed)
 ```bash
-# 1) Seed the meeting list (one-time, ~10 min in your browser).
-cp meetings.sample.txt meetings.txt
-#    then paste the Transit meeting links/GUIDs into meetings.txt
-#    (instructions are inside the file).
+# Preview every Transit meeting 2019-2026 and what would download:
+python3 oc_transpo_kpi_scraper.py --years 2019-2026 --dry-run
 
-# 2) Preview what would be downloaded (no files written):
-python3 oc_transpo_kpi_scraper.py --seed meetings.txt --dry-run
+# Real run — download the KPI/ridership PDFs:
+python3 oc_transpo_kpi_scraper.py --years 2019-2026
 
-# 3) Real run — download KPI/ridership PDFs:
-python3 oc_transpo_kpi_scraper.py --seed meetings.txt
-
-# 4) Also parse the PDFs into text + table CSVs:
-python3 oc_transpo_kpi_scraper.py --seed meetings.txt --extract
+# Also parse each PDF into text + table CSVs (needs pdfplumber):
+python3 oc_transpo_kpi_scraper.py --years 2019-2026 --extract
 ```
+`--years` enumerates meetings straight from eScribe's calendar API and keeps the
+ones whose name contains the `--committee` substring (default `transit`, which
+covers both "Transit Committee" and the older "Transit Commission").
+
+### Optional: a hand-picked seed list instead of / in addition to --years
+```bash
+cp meetings.sample.txt meetings.txt    # paste specific meeting links/GUIDs
+python3 oc_transpo_kpi_scraper.py --seed meetings.txt
+```
+
+## Running overnight on Windows
+```powershell
+# (optional) install the PDF parser for --extract:
+pip install pdfplumber
+
+# stop the PC sleeping while it runs, then start the job logging to a file:
+powercfg /change standby-timeout-ac 0
+python oc_transpo_kpi_scraper.py --years 2019-2026 --extract --delay 4 *> data\run.log
+```
+Leave the terminal open. It checkpoints after every meeting/file
+(`data\state.json`), so if it stops you can re-run the same command and it
+resumes, skipping finished work. (`*>` redirects both stdout and stderr in
+PowerShell; in cmd.exe use `> data\run.log 2>&1`.)
 
 ## Running overnight on the Pi
 ```bash
@@ -55,8 +73,9 @@ For a recurring refresh, add a cron entry (e.g. weekly, Sunday 02:00):
 ## Options
 | Flag | Meaning |
 |------|---------|
-| `--seed FILE` | Meeting URLs/GUIDs to process (the reliable source). |
-| `--years 2019-2026` | Also try the eScribe list API for those years (best effort — see note). |
+| `--seed FILE` | Meeting URLs/GUIDs to process (use instead of, or with, --years). |
+| `--years 2019-2026` | Auto-discover meetings from eScribe's calendar API for those years. |
+| `--committee transit` | Name substring to keep during --years discovery (default: transit). |
 | `--all` | Download every attachment, not just KPI/ridership matches. |
 | `--extract` | Pull text + tables out of each PDF (needs pdfplumber; heavier CPU). |
 | `--delay 4` | Seconds between requests (be polite; default 3). |
@@ -89,9 +108,5 @@ or use `--all` to grab everything and filter later.
   User-Agent; the script uses a normal browser UA. `robots.txt` only disallows
   `PetalBot`, so polite crawling is fine — keep `--delay` ≥ 3s and don't run
   parallel copies. The resume logic avoids re-downloading.
-- **API discovery (`--years`) is best-effort.** The portal's meeting list is
-  rendered by JavaScript with filter state the script can't always reproduce, so
-  it may return nothing. The `--seed` file is the dependable path; `--years` is a
-  bonus that may need a tweak to the query string in `discover_via_api()`.
 - GIS/heavy libraries are not used, so this is light on the Pi (network/IO
   bound). `--extract` is the only CPU-notable step.

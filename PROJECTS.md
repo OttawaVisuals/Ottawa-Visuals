@@ -75,9 +75,12 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ## 💡 Planned / Scoped Ideas
 
-### OC Transpo Transit Ridership + Service KPIs
+### OC Transpo Transit Ridership + Service KPIs  🔄 ~25%
 - Ridership + service-quality KPIs over time. Data gap on OC Transpo site (KPIs only 2019–2022 downloadable).
-- **Plan:** pull from Transit Committee meetings on eScribe (PDF attachments; site blocks bots → manual/assisted collection).
+- **Built:** Pi/Windows-ready scraper in [`OC_Transpo/`](OC_Transpo/oc_transpo_kpi_scraper.py) — auto-discovers Transit
+  Committee/Commission meetings via eScribe's calendar API, downloads the KPI/ridership
+  PDF attachments, and optionally extracts text/tables. Rate-limited, resumable, OS-trust-store TLS.
+- **Next:** run it to harvest the PDFs, then design the visual.
 
 ### Ottawa City Finances / Budget Dashboard
 - Municipal spending; ties into the property-tax / quality-of-life narrative.
