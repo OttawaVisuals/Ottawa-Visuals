@@ -14,6 +14,14 @@ data-*.zip
 *.xls
 ~$*
 
+# OC Transpo scraper — output, logs, personal seed list, venv
+OC_Transpo/data/
+OC_Transpo/data_*/
+OC_Transpo/meetings.txt
+OC_Transpo/scraper.log
+**/__pycache__/
+.venv/
+
 # GIS shapefile components (the site uses the derived .json / geo.js)
 *.shp
 *.shx

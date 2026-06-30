@@ -1,0 +1,17 @@
+# Seed list of Transit Committee / Transit Commission meetings.
+# One per line. You can paste either the full Meeting.aspx URL or just the GUID.
+# Blank lines and lines starting with # are ignored.
+#
+# How to collect these (5-10 min, one time):
+#   1. Open https://pub-ottawa.escribemeetings.com/ in your browser.
+#   2. Use the committee filter / search for "Transit Committee" and
+#      "Transit Commission" (the older name), and each year you care about.
+#   3. Right-click each meeting -> Copy link, and paste it below.
+# After that, the scraper handles all the PDF downloading/parsing unattended.
+#
+# Examples (these are real Transit meetings, safe to start with):
+https://pub-ottawa.escribemeetings.com/Meeting.aspx?Id=fd5150e2-915e-4491-9143-99f184793543&Agenda=Agenda&lang=English
+https://pub-ottawa.escribemeetings.com/Meeting.aspx?Id=fbeb7e49-bd29-4b2b-8dd0-2685f89dc12c&Agenda=Agenda&lang=English
+https://pub-ottawa.escribemeetings.com/Meeting.aspx?Id=f1f8872c-69d4-4b00-9b30-62e8e1f9d6a2&Agenda=Agenda&lang=English
+# or just the GUID:
+31225698-d538-4ea1-ad16-3c096140edb1
