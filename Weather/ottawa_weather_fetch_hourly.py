@@ -5,8 +5,14 @@ Ottawa HOURLY weather fetcher + extreme-weather index builder (ECCC).
 Companion to ottawa_weather_fetch.py, which handles the long DAILY record
 (1889-present) used for the main climate-evolution story. This script instead
 targets a "recent extremes" angle that needs hourly resolution: sustained wind
-speed, humidex, wind chill, and weather-condition events (thunderstorms,
-freezing rain, blowing snow) that don't show up in daily summaries.
+speed, humidex, wind chill, weather-condition events (thunderstorms, freezing
+rain, blowing snow), and hour-counts for heat (hot_hours, Temp >= 30 C any
+time of day) and overnight warmth (tropical_hours, Temp >= 20 C during
+21:00-05:59 LST) -- the hourly equivalent of the daily script's "hot day" /
+"tropical night" day-counts, showing duration/intensity rather than just
+occurrence. Thunderstorm hours are also split into plain vs "severe" (hail or
+the "Heavy Thunderstorms" qualifier in ECCC's Weather text), since a bare
+"thunderstorm" flag can't distinguish a brief rumble from a hail-producing storm.
 
 Stations (verified by hand before writing this script - see PLAN.md):
   4337   Ottawa Macdonald-Cartier Intl A (historic)   hourly 1953-2011
@@ -95,6 +101,9 @@ HIGH_WIND_KMH = 50.0          # hourly Wind Spd >= this -> "high-wind hour"
 DAMAGING_WIND_KMH = 70.0      # hourly Wind Spd >= this -> "damaging-wind hour"
 EXTREME_HUMIDEX = 40.0        # Hmdx >= this -> "extreme humidex hour"
 EXTREME_WINDCHILL = -35.0     # Wind Chill <= this -> "extreme wind-chill hour"
+HOT_HOUR_C = 30.0             # hourly Temp >= this -> "hot hour" (same threshold as the daily "hot day")
+TROPICAL_HOUR_C = 20.0        # overnight hourly Temp >= this -> "tropical hour"
+NIGHT_HOURS = set(range(21, 24)) | set(range(0, 6))  # 21:00-05:59 LST, for tropical hours
 MIN_HOURS_COMPLETE = 300 * 24  # a year needs this many valid hourly readings to be "complete"
 
 # Weather-text keywords -> event-count columns (case-insensitive substring match).
@@ -104,6 +113,12 @@ WEATHER_EVENTS = {
     "blowing_snow_hours": "blowing snow",
     "ice_pellet_hours": "ice pellet",
 }
+# A plain "thunderstorm" match doesn't distinguish a brief rumble from a severe
+# storm. ECCC's Weather text does carry that signal though (checked by hand):
+# entries like "Thunderstorms,Hail" or "Heavy Thunderstorms,..." exist in both
+# the historic and modern station text, back to 1953. A storm hour is "severe"
+# if it's tagged with hail or with the "Heavy Thunderstorms" qualifier.
+SEVERE_THUNDER_KEYWORDS = ("hail", "heavy thunderstorm")
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 RAW_DIR = DATA_DIR / "raw"
@@ -237,6 +252,7 @@ def hourly_to_day_extremes(df: pd.DataFrame) -> pd.DataFrame:
     d = pd.DataFrame()
     dt_col = col(df, "Date/Time (LST)") or col(df, "Date/Time")
     d["datetime"] = pd.to_datetime(df[dt_col], errors="coerce")
+    d["temp"] = pd.to_numeric(df[col(df, "Temp")], errors="coerce") if col(df, "Temp") else pd.NA
     d["wind_spd"] = pd.to_numeric(df[col(df, "Wind Spd")], errors="coerce")
     d["hmdx"] = pd.to_numeric(df[col(df, "Hmdx")], errors="coerce") if col(df, "Hmdx") else pd.NA
     d["wind_chill"] = pd.to_numeric(df[col(df, "Wind Chill")], errors="coerce") if col(df, "Wind Chill") else pd.NA
@@ -244,9 +260,14 @@ def hourly_to_day_extremes(df: pd.DataFrame) -> pd.DataFrame:
     d["weather"] = df[weather_col].fillna("") if weather_col else ""
     d = d.dropna(subset=["datetime"])
     d["date"] = d["datetime"].dt.normalize()
+    d["hour"] = d["datetime"].dt.hour
+    d["is_night"] = d["hour"].isin(NIGHT_HOURS)
 
     weather_lower = d["weather"].str.lower()
     event_flags = {name: weather_lower.str.contains(kw) for name, kw in WEATHER_EVENTS.items()}
+    is_thunder = weather_lower.str.contains("thunderstorm")
+    is_severe = is_thunder & weather_lower.str.contains("|".join(SEVERE_THUNDER_KEYWORDS))
+    event_flags["severe_thunderstorm_hours"] = is_severe
 
     grouped = d.groupby("date")
     out = pd.DataFrame({
@@ -258,8 +279,11 @@ def hourly_to_day_extremes(df: pd.DataFrame) -> pd.DataFrame:
         "extreme_humidex_hours": grouped["hmdx"].apply(lambda s: (s >= EXTREME_HUMIDEX).sum()),
         "wind_chill_min": grouped["wind_chill"].min(),
         "extreme_windchill_hours": grouped["wind_chill"].apply(lambda s: (s <= EXTREME_WINDCHILL).sum()),
+        "hot_hours": grouped["temp"].apply(lambda s: (s >= HOT_HOUR_C).sum()),
     })
-    for name in WEATHER_EVENTS:
+    trop = d[d["is_night"]].groupby("date")["temp"].apply(lambda s: (s >= TROPICAL_HOUR_C).sum())
+    out["tropical_hours"] = trop.reindex(out.index).fillna(0)
+    for name in list(WEATHER_EVENTS) + ["severe_thunderstorm_hours"]:
         out[name] = event_flags[name].groupby(d["date"]).sum()
 
     # A day with zero valid wind readings means this station had no real
@@ -270,7 +294,8 @@ def hourly_to_day_extremes(df: pd.DataFrame) -> pd.DataFrame:
     # through to the next station instead of "winning" with a bogus 0.
     no_data = out["hours_present"] == 0
     count_cols = ["hours_present", "high_wind_hours", "damaging_wind_hours",
-                  "extreme_humidex_hours", "extreme_windchill_hours", *WEATHER_EVENTS]
+                  "extreme_humidex_hours", "extreme_windchill_hours", "hot_hours",
+                  "tropical_hours", *WEATHER_EVENTS, "severe_thunderstorm_hours"]
     out.loc[no_data, count_cols] = pd.NA
     return out.reset_index()
 
@@ -306,8 +331,10 @@ def compute_indices(day_extremes: pd.DataFrame) -> list[dict]:
             "extreme_humidex_days": _count(g["extreme_humidex_hours"] > 0),
             "min_wind_chill": _round(g["wind_chill_min"].min()),
             "extreme_windchill_days": _count(g["extreme_windchill_hours"] > 0),
+            "hot_hours": int(g["hot_hours"].fillna(0).sum()),
+            "tropical_hours": int(g["tropical_hours"].fillna(0).sum()),
         }
-        for name in WEATHER_EVENTS:
+        for name in list(WEATHER_EVENTS) + ["severe_thunderstorm_hours"]:
             rec[name.replace("_hours", "_days")] = _count(g[name] > 0)
         out.append(rec)
     return sorted(out, key=lambda r: r["year"])
