@@ -22,6 +22,12 @@ OC_Transpo/scraper.log
 **/__pycache__/
 .venv/
 
+# Weather fetcher — raw/large CSVs and logs (the small indices JSON IS committed)
+Weather/data/raw/
+Weather/data/*.csv
+Weather/weather_fetch.log
+Weather/weather_fetch_hourly.log
+
 # GIS shapefile components (the site uses the derived .json / geo.js)
 *.shp
 *.shx
