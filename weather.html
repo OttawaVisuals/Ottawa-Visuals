@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Ottawa's Changing Climate — Ottawa Visuals</title>
+<meta name="description" content="135 years of Environment Canada weather data — how Ottawa's climate has shifted, and how extreme weather has changed."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="assets/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ── TOKENS (matches mortgage.html / site-wide) ───────────────────── */
+:root {
+  --font-display:"Barlow","DIN Next",system-ui,sans-serif;
+  --font-cond:"Barlow Condensed","DIN Condensed",system-ui,sans-serif;
+  --font-body:"Inter","Aptos","Segoe UI",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --bg:#0e1117; --bg-2:#161a23; --bg-3:#1d2230;
+  --line:#2a2f3d; --line-2:#383e4e;
+  --ink:#eef1f7; --ink-2:#b6bdcc; --ink-3:#7a8094;
+  --accent:#e85a44; --accent-2:#ff8a76;
+  --accent-bg:rgba(232,90,68,0.12); --hl:rgba(232,90,68,0.18);
+  --green:#1D9E75; --amber:#e8a030; --red:#e85a44; --blue:#378ADD; --purple:#7f77dd;
+}
+[data-theme="light"] {
+  --bg:#f7f6f2; --bg-2:#ffffff; --bg-3:#f0eee7;
+  --line:#e3e1d8; --line-2:#c9c6bb;
+  --ink:#14171f; --ink-2:#4b5163; --ink-3:#7a8094;
+  --accent:#c9442f; --accent-2:#e26a52;
+  --accent-bg:rgba(201,68,47,0.08); --hl:rgba(201,68,47,0.14);
+}
+/* ── RESET ─────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;cursor:pointer;}
+p{margin:0;}
+h1,h2,h3{margin:0;font-family:var(--font-display);}
+::selection{background:var(--accent);color:white;}
+/* ── TOPBAR ────────────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--bg) 85%,transparent);border-bottom:1px solid var(--line);height:52px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:-0.01em;}
+.brand-logo{width:28px;height:28px;border-radius:999px;background:var(--ink);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+.brand-logo img{width:110%;height:110%;object-fit:cover;}
+[data-theme="light"] .brand-logo img{filter:invert(1);}
+.brand small{font-family:var(--font-mono);font-size:10px;font-weight:400;color:var(--ink-3);letter-spacing:0.08em;text-transform:uppercase;}
+.topbar nav{display:flex;gap:2px;}
+.topbar nav a{padding:6px 10px;color:var(--ink-2);font-size:13px;border-radius:6px;transition:color .15s,background .15s;}
+.topbar nav a:hover{color:var(--ink);background:var(--bg-2);}
+.topbar nav a.active{color:var(--accent);}
+.spacer{flex:1;}
+.icon-btn{width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);transition:border-color .15s,color .15s;}
+.icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+@media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+/* ── REPORT LAYOUT ─────────────────────────────────────────────── */
+.report{max-width:1080px;margin:0 auto;padding:28px 20px 90px;display:flex;flex-direction:column;gap:36px;}
+.hero{display:flex;flex-direction:column;gap:10px;padding-top:8px;}
+.hero .eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;}
+.hero h1{font-size:34px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;}
+.hero p{color:var(--ink-2);font-size:15px;max-width:680px;}
+.section{display:flex;flex-direction:column;gap:12px;}
+.section-head h2{font-size:20px;font-weight:700;letter-spacing:-0.01em;}
+.section-head p{color:var(--ink-2);font-size:13px;max-width:680px;margin-top:4px;}
+.card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:16px;}
+.card-title{font-family:var(--font-cond);font-weight:600;font-size:14px;letter-spacing:0.01em;color:var(--ink-2);margin-bottom:10px;}
+.note{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media (max-width:860px){ .grid-2,.grid-4{grid-template-columns:1fr 1fr;} }
+@media (max-width:560px){ .grid-2,.grid-4{grid-template-columns:1fr;} }
+.cw{position:relative;height:260px;}
+.cw-sm{height:150px;}
+/* ── STAT CALLOUTS ─────────────────────────────────────────────── */
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;}
+.stat{background:var(--bg-3);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:150px;}
+.stat .num{font-family:var(--font-display);font-weight:800;font-size:26px;letter-spacing:-0.01em;}
+.stat .num.up{color:var(--red);} .stat .num.down{color:var(--blue);} .stat .num.flat{color:var(--ink-2);}
+.stat .lbl{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:2px;letter-spacing:0.02em;}
+/* ── WARMING STRIPES ────────────────────────────────────────────── */
+.stripes{display:flex;height:130px;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+.stripe{flex:1;min-width:1px;transition:opacity .1s;}
+.stripe:hover{opacity:0.65;}
+.stripes-axis{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:6px;}
+.stripes-legend{display:flex;align-items:center;gap:8px;margin-top:10px;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
+.stripes-legend .bar{height:8px;flex:1;max-width:180px;border-radius:4px;background:linear-gradient(90deg,var(--blue),#eee,var(--red));}
+#stripe-tip{position:fixed;pointer-events:none;background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;font-family:var(--font-mono);font-size:11px;color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;z-index:60;white-space:nowrap;}
+/* ── YEAR PICKER ───────────────────────────────────────────────── */
+.year-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.year-picker select{background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font-family:var(--font-body);font-size:14px;color:var(--ink);appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px;}
+.year-picker span.vs{color:var(--ink-3);font-family:var(--font-mono);font-size:12px;}
+.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;}
+@media (max-width:700px){ .compare-grid{grid-template-columns:1fr 1fr;} }
+.compare-cell{background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
+.compare-cell .k{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.02em;}
+.compare-cell .v{font-family:var(--font-display);font-weight:700;font-size:18px;margin-top:2px;}
+.compare-cell .d{font-family:var(--font-mono);font-size:11px;margin-top:3px;}
+.compare-cell .d.up{color:var(--red);} .compare-cell .d.down{color:var(--blue);} .compare-cell .d.flat{color:var(--ink-3);}
+/* ── METHODOLOGY / FOOTER ─────────────────────────────────────── */
+.methodology{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:12.5px;color:var(--ink-2);}
+.methodology h3{font-size:13px;margin-bottom:8px;color:var(--ink);}
+.methodology ul{margin:6px 0 0;padding-left:18px;}
+.methodology li{margin-bottom:4px;}
+footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);font-family:var(--font-mono);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+#load-error{display:none;background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;padding:14px 16px;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="mortgage.html">Mortgage</a>
+    <a href="weather.html" class="active">Weather</a>
+    <a href="index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a href="weather.html#methodology" style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 8px;border:1px solid var(--line);border-radius:6px;">Methodology</a>
+  </div>
+</header>
+
+<div class="report">
+
+  <div class="hero">
+    <span class="eyebrow">Ottawa Visuals · Climate</span>
+    <h1>Ottawa's Changing Climate</h1>
+    <p>135 years of daily weather records show a clear warming trend — and a more nuanced
+       story about extremes: not simply "more of everything," but a shift in <em>which</em>
+       kinds of extreme weather Ottawa sees.</p>
+  </div>
+
+  <div id="load-error">Couldn't load the climate data files. Try refreshing, or check that
+    <code>Weather/data/weather_indices.json</code> and <code>weather_hourly_indices.json</code>
+    are reachable from this page.</div>
+
+  <div id="app" style="display:none;display:flex;flex-direction:column;gap:36px;">
+
+    <!-- WARMING STRIPES -->
+    <div class="section">
+      <div class="section-head">
+        <h2>135 years, at a glance</h2>
+        <p>Each stripe is one year's average temperature, colour-coded from the coldest to the
+           hottest year on record. Hover a stripe for the year and value.</p>
+      </div>
+      <div class="card">
+        <div class="stripes" id="stripes"></div>
+        <div class="stripes-axis" id="stripes-axis"></div>
+        <div class="stripes-legend">
+          <span id="stripe-min">—</span>
+          <span class="bar"></span>
+          <span id="stripe-max">—</span>
+        </div>
+        <div class="stat-row" id="warming-stats" style="margin-top:16px;"></div>
+      </div>
+    </div>
+
+    <!-- ANNUAL MEAN TEMP -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Annual mean temperature</h2>
+        <p>Yearly average temperature (thin line) with a 10-year rolling average (bold line)
+           to see past the year-to-year noise.</p>
+      </div>
+      <div class="card"><div class="cw"><canvas id="chart-annual"></canvas></div></div>
+    </div>
+
+    <!-- SEASONAL -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Warming isn't even across seasons</h2>
+        <p>Mean temperature by season, each with its own trend line. Winters typically warm
+           fastest — worth checking against Ottawa's own record.</p>
+      </div>
+      <div class="grid-4" id="seasonal-grid"></div>
+    </div>
+
+    <!-- HOT vs COLD EXTREMES -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Hot extremes are up. Cold extremes are down.</h2>
+        <p>Count of days per year hitting each threshold. This is the honest "extreme weather"
+           story: not a flat increase in all extremes, but a shift in which kind occurs.
+           Click a legend item to isolate a line.</p>
+      </div>
+      <div class="card"><div class="cw"><canvas id="chart-extremes"></canvas></div></div>
+    </div>
+
+    <!-- SNOW -> RAIN -->
+    <div class="section">
+      <div class="section-head">
+        <h2>The snow-to-rain shift</h2>
+        <p>Rain's share of total precipitation (by water-equivalent volume) — a rising line
+           means winters are trending toward more rain and less snow.</p>
+      </div>
+      <div class="card"><div class="cw"><canvas id="chart-rainfraction"></canvas></div></div>
+    </div>
+
+    <!-- HOURLY EXTREMES -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Recent extremes, hour by hour <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(1953–present)</span></h2>
+        <p>Wind, humidex and wind-chill only exist at hourly resolution, so this record is
+           shorter than the 1889 daily one — but still 70+ years.</p>
+      </div>
+      <div class="grid-4" id="hourly-grid"></div>
+      <p class="note">Hourly precipitation amount is not usable here — it's essentially
+        unrecorded for this station in every decade checked, 1953–present — so no
+        rainfall-intensity index is shown. Precipitation totals above come from the daily
+        record instead.</p>
+    </div>
+
+    <!-- YEAR YOU REMEMBER -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Pick a year you remember</h2>
+        <p>See how that year's climate compares to the most recent complete year on record.</p>
+      </div>
+      <div class="card">
+        <div class="year-picker">
+          <label for="year-select" style="font-family:var(--font-mono);font-size:11px;color:var(--ink-3);">YEAR</label>
+          <select id="year-select"></select>
+          <span class="vs">vs. most recent complete year (<span id="latest-year-label">—</span>)</span>
+        </div>
+        <div class="compare-grid" id="compare-grid"></div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="section" id="methodology">
+      <div class="methodology">
+        <h3>Data & methodology</h3>
+        <p>Source: Environment and Climate Change Canada, <a href="https://climate.weather.gc.ca/" target="_blank" rel="noopener" style="color:var(--accent);">climate.weather.gc.ca</a> (public, no API key).</p>
+        <ul>
+          <li><strong>Daily record (1889–present):</strong> Ottawa CDA station, which is still
+            active today; a modern airport station only fills specific missing days, never a
+            wholesale switch-over.</li>
+          <li><strong>Hourly record (1953–present):</strong> the historic Ottawa Macdonald-Cartier
+            Intl A station (1953–2011) handing off to the modern station (2012–present).</li>
+          <li>Thresholds used: hot day ≥ 30 °C, extreme cold ≤ −25 °C, tropical night ≥ 20 °C,
+            heavy-rain day ≥ 25 mm, high-wind hour ≥ 50 km/h, extreme humidex ≥ 40, extreme
+            wind chill ≤ −35.</li>
+          <li>A year is only plotted in full-record trend lines once it has enough valid
+            observations to be considered complete (partial start/current years are excluded
+            from trend statistics, though shown where noted).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="stripe-tip"></div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: Environment and Climate Change Canada</span>
+</footer>
+
+<script>
+// Embedded on the homepage inside an iframe (see index.html REPORTS "weather"
+// entry) — hide this page's own topbar there since the host page already has one.
+// (Using direct style manipulation, not document.write: this script runs at the
+// end of body, after the page has already loaded, and document.write() at that
+// point implicitly calls document.open() first, wiping the whole rendered page.)
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+
+const DATA_BASE = 'Weather/data/';
+let dailyMeta = null, hourlyMeta = null, dailyYears = [], hourlyYears = [];
+const CHARTS = []; // { chart, colorVars: {datasetIndex: cssVarName} }
+
+function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+// ================================================================
+// THEME (same pattern as mortgage.html)
+// ================================================================
+const root = document.documentElement;
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  document.getElementById('theme-toggle').innerHTML = mode === 'dark'
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  refreshChartColors();
+  buildStripes();
+}
+let savedTheme = 'dark';
+try { savedTheme = localStorage.getItem('ov-theme') || 'dark'; } catch(e){}
+root.setAttribute('data-theme', savedTheme);
+document.getElementById('theme-toggle').addEventListener('click', () =>
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+// ================================================================
+// LOAD DATA
+// ================================================================
+Promise.all([
+  fetch(DATA_BASE + 'weather_indices.json').then(r => r.json()),
+  fetch(DATA_BASE + 'weather_hourly_indices.json').then(r => r.json()),
+]).then(([daily, hourly]) => {
+  dailyMeta = daily.meta; hourlyMeta = hourly.meta;
+  dailyYears = daily.years; hourlyYears = hourly.years;
+  document.getElementById('app').style.display = 'flex';
+  init();
+}).catch(err => {
+  console.error(err);
+  document.getElementById('load-error').style.display = 'block';
+});
+
+const completeDaily = () => dailyYears.filter(y => y.complete);
+const completeHourly = () => hourlyYears.filter(y => y.complete);
+
+// ================================================================
+// STATS HELPERS
+// ================================================================
+function mean(arr){ const v = arr.filter(x => x != null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; }
+
+function decadeDelta(years, field, n = 10) {
+  const rows = years.filter(y => y[field] != null);
+  if (rows.length < n * 2) return null;
+  const first = mean(rows.slice(0, n).map(y => y[field]));
+  const last = mean(rows.slice(-n).map(y => y[field]));
+  return { first, last, delta: last - first };
+}
+
+function fmt(n, dec = 1) { return n == null || isNaN(n) ? '—' : n.toFixed(dec); }
+function fmtSigned(n, dec = 1) { return n == null || isNaN(n) ? '—' : (n > 0 ? '+' : '') + n.toFixed(dec); }
+
+// ================================================================
+// COLOR INTERPOLATION (for warming stripes)
+// ================================================================
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+  const n = parseInt(hex, 16);
+  return [(n>>16)&255, (n>>8)&255, n&255];
+}
+function lerpColor(hexA, hexB, t) {
+  const a = hexToRgb(hexA), b = hexToRgb(hexB);
+  const c = a.map((v,i) => Math.round(v + (b[i]-v)*t));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function tempColor(t, tMin, tMax) {
+  const mid = (tMin + tMax) / 2;
+  if (t <= mid) return lerpColor(cssVar('--blue'), '#eeeeee', (t - tMin) / (mid - tMin || 1));
+  return lerpColor('#eeeeee', cssVar('--red'), (t - mid) / (tMax - mid || 1));
+}
+
+// ================================================================
+// WARMING STRIPES
+// ================================================================
+function buildStripes() {
+  const years = completeDaily();
+  if (!years.length) return;
+  const temps = years.map(y => y.mean_temp);
+  const tMin = Math.min(...temps), tMax = Math.max(...temps);
+  const el = document.getElementById('stripes');
+  el.innerHTML = '';
+  const tip = document.getElementById('stripe-tip');
+  years.forEach(y => {
+    const div = document.createElement('div');
+    div.className = 'stripe';
+    div.style.background = tempColor(y.mean_temp, tMin, tMax);
+    div.addEventListener('mousemove', e => {
+      tip.style.display = 'block';
+      tip.style.left = (e.clientX + 14) + 'px';
+      tip.style.top = (e.clientY + 14) + 'px';
+      tip.textContent = `${y.year} — ${fmt(y.mean_temp)}°C`;
+    });
+    div.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+    el.appendChild(div);
+  });
+  const axis = document.getElementById('stripes-axis');
+  axis.innerHTML = `<span>${years[0].year}</span><span>${years[years.length-1].year}</span>`;
+  const minYear = years.find(y => y.mean_temp === tMin);
+  const maxYear = years.find(y => y.mean_temp === tMax);
+  document.getElementById('stripe-min').textContent = `${fmt(tMin)}°C (${minYear.year})`;
+  document.getElementById('stripe-max').textContent = `${fmt(tMax)}°C (${maxYear.year})`;
+
+  const d = decadeDelta(years, 'mean_temp');
+  const statRow = document.getElementById('warming-stats');
+  statRow.innerHTML = '';
+  if (d) {
+    statRow.appendChild(statCard(fmtSigned(d.delta), 'FIRST vs LAST DECADE, MEAN TEMP (°C)', d.delta > 0 ? 'up' : 'down'));
+  }
+  const hotD = decadeDelta(years, 'hot_days');
+  if (hotD) statRow.appendChild(statCard(fmtSigned(hotD.delta, 0), 'CHANGE IN HOT DAYS/YR (≥30°C)', hotD.delta > 0 ? 'up' : 'down'));
+  const coldD = decadeDelta(years, 'extreme_cold_days');
+  if (coldD) statRow.appendChild(statCard(fmtSigned(coldD.delta, 0), 'CHANGE IN EXTREME-COLD DAYS/YR (≤−25°C)', coldD.delta > 0 ? 'up' : 'down'));
+}
+function statCard(num, label, cls) {
+  const d = document.createElement('div');
+  d.className = 'stat';
+  d.innerHTML = `<div class="num ${cls}">${num}</div><div class="lbl">${label}</div>`;
+  return d;
+}
+
+// ================================================================
+// CHART.JS HELPERS
+// ================================================================
+function baseOptions(extraScales = {}) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { color: cssVar('--ink-2'), font: { family: 'Inter', size: 11 }, boxWidth: 12, usePointStyle: true } },
+      tooltip: { backgroundColor: cssVar('--bg-3'), titleColor: cssVar('--ink'), bodyColor: cssVar('--ink-2'), borderColor: cssVar('--line'), borderWidth: 1 },
+    },
+    scales: {
+      x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 }, maxRotation: 0, autoSkip: true, autoSkipPadding: 20 }, grid: { color: cssVar('--line') } },
+      y: Object.assign({ ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, extraScales),
+    },
+  };
+}
+function rollingAvg(arr, window) {
+  return arr.map((_, i) => {
+    const lo = Math.max(0, i - window + 1);
+    const slice = arr.slice(lo, i + 1).filter(v => v != null);
+    return slice.length ? slice.reduce((a,b)=>a+b,0) / slice.length : null;
+  });
+}
+function makeChart(canvasId, labels, datasetSpecs, scaleExtra) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const colorVars = {};
+  const datasets = datasetSpecs.map((s, i) => {
+    colorVars[i] = s.colorVar;
+    return {
+      label: s.label, data: s.data,
+      borderColor: cssVar(s.colorVar), backgroundColor: cssVar(s.colorVar) + '33',
+      borderWidth: s.borderWidth || 2, pointRadius: s.pointRadius != null ? s.pointRadius : 0,
+      borderDash: s.dash || [], fill: !!s.fill, tension: 0.25, spanGaps: true,
+    };
+  });
+  const chart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: baseOptions(scaleExtra) });
+  CHARTS.push({ chart, colorVars });
+  return chart;
+}
+function refreshChartColors() {
+  CHARTS.forEach(({ chart, colorVars }) => {
+    chart.options.plugins.legend.labels.color = cssVar('--ink-2');
+    chart.options.plugins.tooltip.backgroundColor = cssVar('--bg-3');
+    chart.options.plugins.tooltip.titleColor = cssVar('--ink');
+    chart.options.plugins.tooltip.bodyColor = cssVar('--ink-2');
+    chart.options.plugins.tooltip.borderColor = cssVar('--line');
+    chart.options.scales.x.ticks.color = cssVar('--ink-3');
+    chart.options.scales.x.grid.color = cssVar('--line');
+    chart.options.scales.y.ticks.color = cssVar('--ink-3');
+    chart.options.scales.y.grid.color = cssVar('--line');
+    chart.data.datasets.forEach((ds, i) => {
+      const v = colorVars[i];
+      if (v) { ds.borderColor = cssVar(v); ds.backgroundColor = cssVar(v) + '33'; }
+    });
+    chart.update('none');
+  });
+}
+
+// ================================================================
+// SECTION BUILDERS
+// ================================================================
+function buildAnnualChart() {
+  const years = completeDaily();
+  const labels = years.map(y => y.year);
+  const temps = years.map(y => y.mean_temp);
+  makeChart('chart-annual', labels, [
+    { label: 'Annual mean (°C)', data: temps, colorVar: '--ink-3', borderWidth: 1, pointRadius: 0 },
+    { label: '10-yr rolling avg', data: rollingAvg(temps, 10), colorVar: '--accent', borderWidth: 3, pointRadius: 0 },
+  ]);
+}
+function buildSeasonalGrid() {
+  const years = completeDaily();
+  const labels = years.map(y => y.year);
+  const seasons = [
+    { key: 'mean_temp_winter', label: 'Winter', colorVar: '--blue' },
+    { key: 'mean_temp_spring', label: 'Spring', colorVar: '--green' },
+    { key: 'mean_temp_summer', label: 'Summer', colorVar: '--red' },
+    { key: 'mean_temp_fall', label: 'Fall', colorVar: '--amber' },
+  ];
+  const grid = document.getElementById('seasonal-grid');
+  seasons.forEach(s => {
+    const cardId = `chart-season-${s.key}`;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<div class="card-title">${s.label}</div><div class="cw cw-sm"><canvas id="${cardId}"></canvas></div>`;
+    grid.appendChild(card);
+    const data = years.map(y => y[s.key]);
+    makeChart(cardId, labels, [
+      { label: s.label, data, colorVar: '--ink-3', borderWidth: 1, pointRadius: 0 },
+      { label: 'Trend', data: rollingAvg(data, 10), colorVar: s.colorVar, borderWidth: 2.5, pointRadius: 0 },
+    ]);
+  });
+}
+function buildExtremesChart() {
+  const years = completeDaily();
+  const labels = years.map(y => y.year);
+  makeChart('chart-extremes', labels, [
+    { label: 'Hot days ≥30°C', data: years.map(y => y.hot_days), colorVar: '--red', borderWidth: 2, pointRadius: 0 },
+    { label: 'Extreme-cold days ≤−25°C', data: years.map(y => y.extreme_cold_days), colorVar: '--blue', borderWidth: 2, pointRadius: 0 },
+    { label: 'Tropical nights ≥20°C', data: years.map(y => y.tropical_nights), colorVar: '--purple', borderWidth: 1.5, pointRadius: 0, dash: [4,3] },
+    { label: 'Frost days <0°C', data: years.map(y => y.frost_days), colorVar: '--amber', borderWidth: 1.5, pointRadius: 0, dash: [4,3] },
+  ]);
+}
+function buildRainFractionChart() {
+  const years = completeDaily().filter(y => y.rain_fraction != null);
+  const labels = years.map(y => y.year);
+  const frac = years.map(y => y.rain_fraction * 100);
+  makeChart('chart-rainfraction', labels, [
+    { label: 'Rain share of precip (%)', data: frac, colorVar: '--ink-3', borderWidth: 1, pointRadius: 0 },
+    { label: '10-yr rolling avg', data: rollingAvg(frac, 10), colorVar: '--amber', borderWidth: 3, pointRadius: 0 },
+  ], { suggestedMin: 0, suggestedMax: 100 });
+}
+function buildHourlyGrid() {
+  const years = completeHourly();
+  const labels = years.map(y => y.year);
+  const metrics = [
+    { key: 'max_wind_spd', label: 'Max wind speed (km/h)', colorVar: '--blue', rolling: true },
+    { key: 'extreme_humidex_days', label: 'Extreme-humidex days (≥40)', colorVar: '--red', rolling: true },
+    { key: 'extreme_windchill_days', label: 'Extreme wind-chill days (≤−35)', colorVar: '--purple', rolling: true },
+    { key: 'thunderstorm_days', label: 'Thunderstorm days/yr', colorVar: '--amber', rolling: true },
+  ];
+  const grid = document.getElementById('hourly-grid');
+  metrics.forEach(m => {
+    const cardId = `chart-hourly-${m.key}`;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<div class="card-title">${m.label}</div><div class="cw cw-sm"><canvas id="${cardId}"></canvas></div>`;
+    grid.appendChild(card);
+    const data = years.map(y => y[m.key]);
+    makeChart(cardId, labels, [
+      { label: m.label, data, colorVar: '--ink-3', borderWidth: 1, pointRadius: 0 },
+      { label: 'Trend', data: rollingAvg(data, 10), colorVar: m.colorVar, borderWidth: 2.5, pointRadius: 0 },
+    ]);
+  });
+}
+
+// ================================================================
+// YEAR-YOU-REMEMBER TOOL
+// ================================================================
+function buildYearPicker() {
+  const years = completeDaily();
+  const select = document.getElementById('year-select');
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y.year; opt.textContent = y.year;
+    select.appendChild(opt);
+  });
+  const latest = years[years.length - 1];
+  document.getElementById('latest-year-label').textContent = latest.year;
+  select.value = years[0].year;
+  select.addEventListener('change', () => renderCompare(parseInt(select.value, 10)));
+  renderCompare(years[0].year);
+}
+function renderCompare(selectedYear) {
+  const years = completeDaily();
+  const latest = years[years.length - 1];
+  const chosen = years.find(y => y.year === selectedYear);
+  if (!chosen) return;
+  const fields = [
+    { key: 'mean_temp', label: 'MEAN TEMP', unit: '°C', dec: 1 },
+    { key: 'hot_days', label: 'HOT DAYS (≥30°C)', unit: '', dec: 0 },
+    { key: 'extreme_cold_days', label: 'EXTREME-COLD DAYS', unit: '', dec: 0 },
+    { key: 'frost_days', label: 'FROST DAYS', unit: '', dec: 0 },
+    { key: 'growing_season_len', label: 'GROWING SEASON', unit: ' days', dec: 0 },
+    { key: 'rain_fraction', label: 'RAIN SHARE OF PRECIP', unit: '%', dec: 0, scale: 100 },
+  ];
+  const grid = document.getElementById('compare-grid');
+  grid.innerHTML = '';
+  fields.forEach(f => {
+    const cv = chosen[f.key], lv = latest[f.key];
+    const scale = f.scale || 1;
+    const cell = document.createElement('div');
+    cell.className = 'compare-cell';
+    let deltaHtml = '<div class="d flat">no comparable data</div>';
+    if (cv != null && lv != null) {
+      const delta = (lv - cv) * scale;
+      const cls = Math.abs(delta) < 0.05 ? 'flat' : (delta > 0 ? 'up' : 'down');
+      deltaHtml = `<div class="d ${cls}">${fmtSigned(delta, f.dec)}${f.unit} vs ${latest.year}</div>`;
+    }
+    cell.innerHTML = `<div class="k">${f.label}, ${chosen.year}</div>
+      <div class="v">${cv != null ? fmt(cv * scale, f.dec) : '—'}${f.unit}</div>
+      ${deltaHtml}`;
+    grid.appendChild(cell);
+  });
+}
+
+// ================================================================
+// INIT
+// ================================================================
+function init() {
+  buildStripes();
+  buildAnnualChart();
+  buildSeasonalGrid();
+  buildExtremesChart();
+  buildRainFractionChart();
+  buildHourlyGrid();
+  buildYearPicker();
+  refreshChartColors();
+}
+</script>
+</body>
+</html>

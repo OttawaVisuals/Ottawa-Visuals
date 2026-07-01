@@ -107,7 +107,16 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 - **Ottawa Census Data** — age, income, languages… *(site roadmap)*
 - **Ottawa Biking** — % of commute vs. % of city roadway; city spending; NCC vs. City. *(site roadmap)*
 - **RTO Road Maintenance** — spending on road maintenance; office permits. *(site roadmap)*
-- **Ottawa Temperature / Weather Dashboard** — Tableau Public, auto-updating (early 2025 exploration).
+- **Ottawa Temperature / Weather Dashboard** — 🔄 ~25% · scoped + scaffolded in
+  [`Weather/`](Weather/PLAN.md). Goal: 135-yr climate evolution + honest "how have
+  extremes changed" story. Built + run: daily fetch/index script
+  [`Weather/ottawa_weather_fetch.py`](Weather/ottawa_weather_fetch.py) (station 4333 back
+  to 1889 + 49568 gap-fill → `weather_indices.json`, 138 yrs). Built: hourly
+  fetch/extremes script
+  [`Weather/ottawa_weather_fetch_hourly.py`](Weather/ottawa_weather_fetch_hourly.py)
+  (station 4337 1953–2011 + 49568 2012–present → wind/humidex/wind-chill/storm-day
+  counts). **Next:** run the hourly script (~40–45 min, one-time), then build
+  `weather.html` (Chart.js, like Retrofit Explorer).
 - **Ottawa Building Permits** — permit data analysis/visual.
 - **Bike Collision / Traffic Collision Map** — Ottawa collision data.
 - **PWHL Hockey Dashboard** — Power BI on the PWHL API (side project).
