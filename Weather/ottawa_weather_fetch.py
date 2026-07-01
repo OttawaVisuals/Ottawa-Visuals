@@ -109,6 +109,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 RAW_DIR = DATA_DIR / "raw"
 COMBINED_CSV = DATA_DIR / "ottawa_daily_combined.csv"
 INDICES_JSON = DATA_DIR / "weather_indices.json"
+DAILY_SERIES_JSON = DATA_DIR / "weather_daily_series.json"
 
 log = logging.getLogger("ottawa_weather")
 
@@ -385,6 +386,30 @@ def _count(mask: pd.Series) -> int:
     return int(mask.fillna(False).sum())
 
 
+def build_daily_series(daily: pd.DataFrame) -> dict[str, list]:
+    """Per-year array of 365 daily mean temps, aligned by day-of-year with
+    Feb 29 dropped (so every year lines up index-for-index) -- feeds the
+    animated radial "daily temperature" chart. Missing days are null, not
+    interpolated, so incomplete years show real gaps rather than a fake shape."""
+    d = daily.dropna(subset=["date"]).copy()
+    is_feb29 = (d["date"].dt.month == 2) & (d["date"].dt.day == 29)
+    d = d[~is_feb29]
+    doy = d["date"].dt.dayofyear
+    is_leap = d["date"].dt.is_leap_year
+    after_feb = d["date"].dt.month > 2
+    d["slot"] = doy - (is_leap & after_feb).astype(int) - 1  # 0-364, Jan 1 = 0
+    d["yr"] = d["date"].dt.year
+
+    series: dict[str, list] = {}
+    for year, g in d.groupby("yr"):
+        arr: list = [None] * 365
+        for slot, temp in zip(g["slot"], g["tmean"]):
+            if 0 <= slot < 365 and pd.notna(temp):
+                arr[int(slot)] = round(float(temp), 1)
+        series[str(int(year))] = arr
+    return series
+
+
 # --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
@@ -469,7 +494,18 @@ def main(argv=None) -> int:
     complete = sum(1 for y in years if y["complete"])
     log.info("Wrote %s: %d years (%d complete).",
              INDICES_JSON.name, len(years), complete)
-    log.info("Done. The dashboard reads data/weather_indices.json.")
+
+    series = build_daily_series(daily)
+    series_payload = {
+        "meta": {"note": "365 mean-temp values per year, Jan 1 = index 0, Feb 29 dropped; "
+                          "missing days are null.", "n_years": len(series)},
+        "series": series,
+    }
+    # Compact (no indent/spaces): this file is ~135 years x 365 numbers, and
+    # pretty-printing would roughly double it for no reader benefit.
+    DAILY_SERIES_JSON.write_text(json.dumps(series_payload, separators=(",", ":")), encoding="utf-8")
+    log.info("Wrote %s (%d years).", DAILY_SERIES_JSON.name, len(series))
+    log.info("Done. The dashboard reads data/weather_indices.json + weather_daily_series.json.")
     return 0
 
 

@@ -5,7 +5,7 @@
 <title>Ottawa's Changing Climate — Ottawa Visuals</title>
 <meta name="description" content="135 years of Environment Canada weather data — how Ottawa's climate has shifted, and how extreme weather has changed."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link rel="icon" type="image/png" href="assets/avatar.png"/>
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
@@ -57,7 +57,7 @@ h1,h2,h3{margin:0;font-family:var(--font-display);}
 .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
 @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
 /* ── REPORT LAYOUT ─────────────────────────────────────────────── */
-.report{max-width:1080px;margin:0 auto;padding:28px 20px 90px;display:flex;flex-direction:column;gap:36px;}
+.report{max-width:1440px;margin:0 auto;padding:28px 32px 90px;display:flex;flex-direction:column;gap:36px;}
 .hero{display:flex;flex-direction:column;gap:10px;padding-top:8px;}
 .hero .eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;}
 .hero h1{font-size:34px;font-weight:800;letter-spacing:-0.02em;line-height:1.15;}
@@ -69,8 +69,7 @@ h1,h2,h3{margin:0;font-family:var(--font-display);}
 .card-title{font-family:var(--font-cond);font-weight:600;font-size:14px;letter-spacing:0.01em;color:var(--ink-2);margin-bottom:10px;}
 .note{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:8px;line-height:1.5;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-@media (max-width:860px){ .grid-2,.grid-4{grid-template-columns:1fr 1fr;} }
+.grid-4{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media (max-width:560px){ .grid-2,.grid-4{grid-template-columns:1fr;} }
 .cw{position:relative;height:260px;}
 .cw-sm{height:150px;}
@@ -88,6 +87,13 @@ h1,h2,h3{margin:0;font-family:var(--font-display);}
 .stripes-legend{display:flex;align-items:center;gap:8px;margin-top:10px;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
 .stripes-legend .bar{height:8px;flex:1;max-width:180px;border-radius:4px;background:linear-gradient(90deg,var(--blue),#eee,var(--red));}
 #stripe-tip{position:fixed;pointer-events:none;background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;font-family:var(--font-mono);font-size:11px;color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;z-index:60;white-space:nowrap;}
+/* ── SPIRAL ────────────────────────────────────────────────────── */
+.spiral-wrap{position:relative;display:flex;justify-content:center;}
+.spiral-wrap canvas{max-width:100%;height:auto;transition:opacity .18s ease;}
+.spiral-year{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:34px;letter-spacing:-0.01em;color:var(--ink);pointer-events:none;text-shadow:0 0 12px var(--bg-2),0 0 4px var(--bg-2);}
+.spiral-controls{display:flex;align-items:center;gap:12px;margin-top:14px;}
+.spiral-controls #spiral-slider{flex:1;accent-color:var(--accent);}
+.spiral-controls .icon-btn{flex-shrink:0;font-size:12px;}
 /* ── YEAR PICKER ───────────────────────────────────────────────── */
 .year-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .year-picker select{background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font-family:var(--font-body);font-size:14px;color:var(--ink);appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px;}
@@ -113,7 +119,7 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
 <!-- TOPBAR -->
 <header class="topbar">
   <a href="index.html" class="brand">
-    <span class="brand-logo"><img src="assets/avatar.png" alt=""></span>
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
     <span>Ottawa Visuals<small>data, charted simply</small></span>
   </a>
   <nav>
@@ -176,6 +182,28 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
       <div class="card"><div class="cw"><canvas id="chart-annual"></canvas></div></div>
     </div>
 
+    <!-- DAILY TEMPERATURE SPIRAL -->
+    <div class="section">
+      <div class="section-head">
+        <h2>The shape of a year</h2>
+        <p>Each dot is one day, arranged clockwise from Jan 1 at the top; distance from the
+           centre and colour both encode that day's mean temperature — the same colour scale as
+           the stripes above. Watch the shape swell in summer and pull in each winter, decade
+           after decade.</p>
+      </div>
+      <div class="card">
+        <div class="spiral-wrap">
+          <canvas id="chart-spiral" width="520" height="520"></canvas>
+          <div class="spiral-year" id="spiral-year">—</div>
+        </div>
+        <div class="spiral-controls">
+          <button class="icon-btn" id="spiral-play" title="Play/pause" aria-label="Play or pause">▶</button>
+          <input type="range" id="spiral-slider" min="0" max="1" value="0" step="1">
+          <span class="note" id="spiral-range-label" style="margin:0;"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- SEASONAL -->
     <div class="section">
       <div class="section-head">
@@ -212,13 +240,23 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
       <div class="section-head">
         <h2>Recent extremes, hour by hour <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(1953–present)</span></h2>
         <p>Wind, humidex and wind-chill only exist at hourly resolution, so this record is
-           shorter than the 1889 daily one — but still 70+ years.</p>
+           shorter than the 1889 daily one — but still 70+ years. Hot/tropical are shown as
+           <strong>hours</strong> here, not days — the same underlying threshold as the daily
+           chart above, but counting actual duration instead of just whether a day tipped over
+           the line at all.</p>
       </div>
       <div class="grid-4" id="hourly-grid"></div>
       <p class="note">Hourly precipitation amount is not usable here — it's essentially
         unrecorded for this station in every decade checked, 1953–present — so no
         rainfall-intensity index is shown. Precipitation totals above come from the daily
-        record instead.</p>
+        record instead.<br><br>
+        Max wind speed is the station's own hourly reading, not a storm-chasing measurement —
+        it won't catch a tornado unless the funnel happens to pass directly over the sensor.
+        The Sept 21, 2018 Ottawa–Gatineau EF3 tornado, for example, shows up as an unremarkable
+        50 km/h that hour: the touchdown path was several km from the station, and an
+        hourly-averaged reading smooths out anything that lasts only seconds to minutes anyway.
+        Station wind records are a poor instrument for tracking tornado trends — that needs
+        damage-survey data, which this dataset doesn't have.</p>
     </div>
 
     <!-- YEAR YOU REMEMBER -->
@@ -248,9 +286,14 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
             wholesale switch-over.</li>
           <li><strong>Hourly record (1953–present):</strong> the historic Ottawa Macdonald-Cartier
             Intl A station (1953–2011) handing off to the modern station (2012–present).</li>
-          <li>Thresholds used: hot day ≥ 30 °C, extreme cold ≤ −25 °C, tropical night ≥ 20 °C,
-            heavy-rain day ≥ 25 mm, high-wind hour ≥ 50 km/h, extreme humidex ≥ 40, extreme
-            wind chill ≤ −35.</li>
+          <li>Thresholds used: hot day/hour ≥ 30 °C, extreme cold ≤ −25 °C, tropical night/hour
+            ≥ 20 °C (tropical hours counted 21:00–05:59), heavy-rain day ≥ 25 mm, high-wind hour
+            ≥ 50 km/h, extreme humidex ≥ 40, extreme wind chill ≤ −35.</li>
+          <li><strong>Thunderstorm severity:</strong> ECCC's hourly weather-condition text
+            distinguishes plain "Thunderstorms" from storms tagged "Hail" or "Heavy
+            Thunderstorms" — a day only counts as <em>severe</em> if one of those stronger tags
+            appears. A bare thunderstorm flag alone says nothing about intensity, so both are
+            shown separately rather than lumped together.</li>
           <li>A year is only plotted in full-record trend lines once it has enough valid
             observations to be considered complete (partial start/current years are excluded
             from trend statistics, though shown where noted).</li>
@@ -280,7 +323,7 @@ if (window.self !== window.top) {
 }
 
 const DATA_BASE = 'Weather/data/';
-let dailyMeta = null, hourlyMeta = null, dailyYears = [], hourlyYears = [];
+let dailyMeta = null, hourlyMeta = null, dailyYears = [], hourlyYears = [], dailySeries = {};
 const CHARTS = []; // { chart, colorVars: {datasetIndex: cssVarName} }
 
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -297,6 +340,7 @@ function setTheme(mode) {
     : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
   refreshChartColors();
   buildStripes();
+  redrawSpiralCurrent();
 }
 let savedTheme = 'dark';
 try { savedTheme = localStorage.getItem('ov-theme') || 'dark'; } catch(e){}
@@ -310,9 +354,11 @@ document.getElementById('theme-toggle').addEventListener('click', () =>
 Promise.all([
   fetch(DATA_BASE + 'weather_indices.json').then(r => r.json()),
   fetch(DATA_BASE + 'weather_hourly_indices.json').then(r => r.json()),
-]).then(([daily, hourly]) => {
+  fetch(DATA_BASE + 'weather_daily_series.json').then(r => r.json()),
+]).then(([daily, hourly, series]) => {
   dailyMeta = daily.meta; hourlyMeta = hourly.meta;
   dailyYears = daily.years; hourlyYears = hourly.years;
+  dailySeries = series.series;
   document.getElementById('app').style.display = 'flex';
   init();
 }).catch(err => {
@@ -406,6 +452,128 @@ function statCard(num, label, cls) {
   d.className = 'stat';
   d.innerHTML = `<div class="num ${cls}">${num}</div><div class="lbl">${label}</div>`;
   return d;
+}
+
+// ================================================================
+// DAILY TEMPERATURE SPIRAL
+// ================================================================
+const MONTH_STARTS = [0,31,59,90,120,151,181,212,243,273,304,334]; // non-leap day-of-year, 0-indexed
+const MONTH_NAMES = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+let spiralTMin = -30, spiralTMax = 30;
+let spiralYearsList = [];
+let spiralIndex = 0;
+let spiralPlaying = false;
+let spiralTimer = null;
+const SPIRAL_INTERVAL_MS = 550;
+
+function computeSpiralRange() {
+  let lo = Infinity, hi = -Infinity;
+  Object.values(dailySeries).forEach(arr => {
+    arr.forEach(v => { if (v != null) { if (v < lo) lo = v; if (v > hi) hi = v; } });
+  });
+  if (isFinite(lo) && isFinite(hi)) { spiralTMin = lo; spiralTMax = hi; }
+}
+
+function drawSpiral(year) {
+  const canvas = document.getElementById('chart-spiral');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const maxR = Math.min(W, H) / 2 - 46;
+  const minR = maxR * 0.16;
+  const temps = dailySeries[String(year)] || [];
+  ctx.clearRect(0, 0, W, H);
+
+  // Month spokes + labels
+  ctx.strokeStyle = cssVar('--line');
+  ctx.fillStyle = cssVar('--ink-3');
+  ctx.font = "10px 'JetBrains Mono', monospace";
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  MONTH_STARTS.forEach((startDay, i) => {
+    const angle = (startDay / 365) * 2 * Math.PI - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(angle) * minR, cy + Math.sin(angle) * minR);
+    ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    const labelAngle = ((startDay + 15) / 365) * 2 * Math.PI - Math.PI / 2;
+    const lx = cx + Math.cos(labelAngle) * (maxR + 16), ly = cy + Math.sin(labelAngle) * (maxR + 16);
+    ctx.fillText(MONTH_NAMES[i], lx, ly);
+  });
+
+  // Connecting line through the days present (breaks across gaps)
+  ctx.beginPath();
+  let started = false;
+  for (let i = 0; i < 365; i++) {
+    const t = temps[i];
+    if (t == null) { started = false; continue; }
+    const angle = (i / 365) * 2 * Math.PI - Math.PI / 2;
+    const r = minR + (t - spiralTMin) / (spiralTMax - spiralTMin) * (maxR - minR);
+    const x = cx + Math.cos(angle) * r, y = cy + Math.sin(angle) * r;
+    if (!started) { ctx.moveTo(x, y); started = true; } else { ctx.lineTo(x, y); }
+  }
+  ctx.strokeStyle = cssVar('--line-2');
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // One dot per day, coloured on the same diverging scale as the warming stripes
+  for (let i = 0; i < 365; i++) {
+    const t = temps[i];
+    if (t == null) continue;
+    const angle = (i / 365) * 2 * Math.PI - Math.PI / 2;
+    const r = minR + (t - spiralTMin) / (spiralTMax - spiralTMin) * (maxR - minR);
+    const x = cx + Math.cos(angle) * r, y = cy + Math.sin(angle) * r;
+    ctx.beginPath();
+    ctx.arc(x, y, 2.6, 0, 2 * Math.PI);
+    ctx.fillStyle = tempColor(t, spiralTMin, spiralTMax);
+    ctx.fill();
+  }
+
+  document.getElementById('spiral-year').textContent = year;
+}
+
+function redrawSpiralCurrent() {
+  if (spiralYearsList.length) drawSpiral(spiralYearsList[spiralIndex]);
+}
+
+function spiralGoTo(idx) {
+  spiralIndex = Math.max(0, Math.min(spiralYearsList.length - 1, idx));
+  const canvas = document.getElementById('chart-spiral');
+  canvas.style.opacity = '0.25';
+  requestAnimationFrame(() => {
+    drawSpiral(spiralYearsList[spiralIndex]);
+    canvas.style.opacity = '1';
+  });
+  document.getElementById('spiral-slider').value = spiralIndex;
+}
+
+function spiralSetPlaying(playing) {
+  spiralPlaying = playing;
+  document.getElementById('spiral-play').textContent = playing ? '⏸' : '▶';
+  if (spiralTimer) clearInterval(spiralTimer);
+  if (playing) {
+    spiralTimer = setInterval(() => spiralGoTo((spiralIndex + 1) % spiralYearsList.length), SPIRAL_INTERVAL_MS);
+  }
+}
+
+function buildSpiral() {
+  computeSpiralRange();
+  // Only cycle through years complete enough for a real shape -- partial
+  // start/current years would otherwise flash a mostly-empty ring.
+  spiralYearsList = completeDaily().map(y => y.year).filter(y => dailySeries[String(y)]);
+  if (!spiralYearsList.length) return;
+  const slider = document.getElementById('spiral-slider');
+  slider.min = 0; slider.max = spiralYearsList.length - 1; slider.value = 0;
+  document.getElementById('spiral-range-label').textContent =
+    `${spiralYearsList[0]}–${spiralYearsList[spiralYearsList.length - 1]}`;
+  slider.addEventListener('input', () => {
+    spiralSetPlaying(false);
+    spiralGoTo(parseInt(slider.value, 10));
+  });
+  document.getElementById('spiral-play').addEventListener('click', () => spiralSetPlaying(!spiralPlaying));
+  spiralGoTo(0);
+  spiralSetPlaying(true);
 }
 
 // ================================================================
@@ -525,10 +693,11 @@ function buildHourlyGrid() {
   const years = completeHourly();
   const labels = years.map(y => y.year);
   const metrics = [
-    { key: 'max_wind_spd', label: 'Max wind speed (km/h)', colorVar: '--blue', rolling: true },
-    { key: 'extreme_humidex_days', label: 'Extreme-humidex days (≥40)', colorVar: '--red', rolling: true },
-    { key: 'extreme_windchill_days', label: 'Extreme wind-chill days (≤−35)', colorVar: '--purple', rolling: true },
-    { key: 'thunderstorm_days', label: 'Thunderstorm days/yr', colorVar: '--amber', rolling: true },
+    { key: 'max_wind_spd', label: 'Max wind speed (km/h)', colorVar: '--blue' },
+    { key: 'hot_hours', label: 'Hot hours/yr (Temp ≥30°C)', colorVar: '--red' },
+    { key: 'tropical_hours', label: 'Tropical hours/yr (overnight ≥20°C)', colorVar: '--purple' },
+    { key: 'extreme_humidex_days', label: 'Extreme-humidex days (≥40)', colorVar: '--red' },
+    { key: 'extreme_windchill_days', label: 'Extreme wind-chill days (≤−35)', colorVar: '--purple' },
   ];
   const grid = document.getElementById('hourly-grid');
   metrics.forEach(m => {
@@ -543,6 +712,18 @@ function buildHourlyGrid() {
       { label: 'Trend', data: rollingAvg(data, 10), colorVar: m.colorVar, borderWidth: 2.5, pointRadius: 0 },
     ]);
   });
+
+  // Thunderstorm days: total vs. "severe" (hail, or the "Heavy Thunderstorms"
+  // qualifier in ECCC's Weather text) -- a plain thunderstorm flag can't tell
+  // a brief rumble from a hail-producing storm, so show both.
+  const stormCard = document.createElement('div');
+  stormCard.className = 'card';
+  stormCard.innerHTML = `<div class="card-title">Thunderstorm days/yr — total vs. severe</div><div class="cw cw-sm"><canvas id="chart-hourly-thunderstorm"></canvas></div>`;
+  grid.appendChild(stormCard);
+  makeChart('chart-hourly-thunderstorm', labels, [
+    { label: 'Thunderstorm days (any)', data: years.map(y => y.thunderstorm_days), colorVar: '--ink-3', borderWidth: 1, pointRadius: 0 },
+    { label: 'Severe (hail / heavy)', data: years.map(y => y.severe_thunderstorm_days), colorVar: '--amber', borderWidth: 2.5, pointRadius: 0 },
+  ]);
 }
 
 // ================================================================
@@ -600,6 +781,7 @@ function renderCompare(selectedYear) {
 // ================================================================
 function init() {
   buildStripes();
+  buildSpiral();
   buildAnnualChart();
   buildSeasonalGrid();
   buildExtremesChart();

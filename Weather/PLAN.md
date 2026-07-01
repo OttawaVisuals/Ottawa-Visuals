@@ -71,27 +71,46 @@ Standard ETCCDI-style indices:
 Each year also carries a `data_days` count + `complete` flag so sparse early
 years can be greyed out or excluded.
 
+**Daily temperature series** (`data/weather_daily_series.json`, compact/no
+indent) — a per-year array of 365 mean-temp values (Jan 1 = index 0, Feb 29
+dropped so every year aligns index-for-index; missing days are `null`, not
+interpolated). Feeds the animated radial "shape of a year" chart. Verified the
+leap-year alignment against the raw CSV directly (Mar 1 lands on index 59 in
+both a leap year like 2024 and a non-leap year like 2023).
+
 **Hourly extremes (1953–present only)** — a separate, shorter-range dataset for
 the "recent extremes" angle, in `data/weather_hourly_indices.json`:
 
 | Category | Index |
 |---|---|
 | Wind | Max wind speed/yr; high-wind days (≥ 50 km/h); damaging-wind days (≥ 70 km/h) |
-| Heat | Max humidex; extreme-humidex days (Hmdx ≥ 40) |
-| Cold | Min wind chill; extreme-wind-chill days (≤ −35) |
-| Events | Thunderstorm / freezing-rain / blowing-snow / ice-pellet days (from `Weather` text) |
+| Heat | Max humidex; extreme-humidex days (Hmdx ≥ 40); **hot hours/yr (Temp ≥ 30 °C, any time)** |
+| Cold | Min wind chill; extreme-wind-chill days (≤ −35); **tropical hours/yr (Temp ≥ 20 °C, 21:00–05:59 LST)** |
+| Events | Freezing-rain / blowing-snow / ice-pellet days; thunderstorm days **split into total vs. severe** (hail or "Heavy Thunderstorms" qualifier in the `Weather` text — a bare thunderstorm flag can't tell a brief rumble from a hail-producing storm) |
 
-Same `hours_present` + `complete` pattern as the daily file. This dataset spans
-1953–present (73 yrs), not the full 1889–present daily record.
+`hot_hours`/`tropical_hours` are the hour-resolution counterparts of the daily
+script's `hot_days`/`tropical_nights` — same thresholds, but counting duration
+instead of just whether a day tipped over the line at all. Same `hours_present`
++ `complete` pattern as the daily file. This dataset spans 1953–present
+(73 yrs), not the full 1889–present daily record.
 
 ## 4. Dashboard sections (visuals)
 1. **Warming stripes** hero banner (instantly legible, shareable).
 2. **Annual mean temperature** line + trend/regression + decadal averages.
-3. **Seasonal small-multiples** (winter warming is usually strongest).
-4. **Extremes panel** — hot-days trend ↑ beside extreme-cold-days trend ↓.
+3. **The shape of a year** — animated radial/spiral chart: 365 dots arranged
+   clockwise from Jan 1, distance-from-centre and colour both encoding that
+   day's mean temp (same diverging blue→red scale as the stripes, but its own
+   min/max since a single year's daily range dwarfs the stripes' *annual
+   mean* range). Auto-plays through 136 complete years with a year counter,
+   play/pause, and a scrub slider.
+4. **Seasonal small-multiples**, 2×2 (Winter/Spring row, Summer/Fall row).
+5. **Extremes panel** — hot-days trend ↑ beside extreme-cold-days trend ↓.
    This *is* the honest "extreme" story.
-5. **Snow → rain regime shift** — stacked area of rain vs snow over time.
-6. **"Pick a year you remember"** interactive — user picks a birth/move-in year
+6. **Snow → rain regime shift** — rain's share of total precip over time.
+7. **Hourly extremes grid**, 2×3 — max wind, hot hours, tropical hours,
+   extreme-humidex days, extreme-wind-chill days, and thunderstorm days
+   (total vs. severe).
+8. **"Pick a year you remember"** interactive — user picks a birth/move-in year
    and sees how the climate has changed since. Personal hook = engagement.
 
 ## 5. Tech stack (matches Retrofit Explorer)
@@ -148,10 +167,37 @@ Same `hours_present` + `complete` pattern as the daily file. This dataset spans
   implicitly calls `document.open()` when run after page load); fixed to a
   direct `style.display` set instead. Verified both the standalone and
   embedded views in-browser after the fix.
-- [ ] Commit to git (nothing committed yet as of this status).
-
-**Known pre-existing site bug, unrelated to this project:** `index.html` and
-`mortgage.html` both reference the logo as `assets/avatar.png`, but the real
-file is at `assets/img/avatar.png` — a 404 on every page using that pattern,
-including the new `weather.html` (copied the same convention faithfully).
-Flagged as a separate background task rather than fixed inline here.
+- [x] Committed to git (12 files; raw CSVs and `.claude/` stayed untracked as
+  intended).
+- [x] Second round of feedback addressed:
+  - Fixed the pre-existing `assets/avatar.png` → `assets/img/avatar.png`
+    broken-path bug site-wide (index.html, mortgage.html, weather.html —
+    img src + favicon link in all three). Kept the PNG over the JPG since it
+    has real alpha transparency (checked the pixel data), which matters
+    inside the circular, `overflow:hidden` logo container.
+  - Widened `.report` to 1440px (was 1080px) to use more laptop-width screen.
+  - Seasonal and hourly-extremes grids changed from a 1×4 row to a fixed
+    2-column grid (2×2 / 2×3).
+  - Added `hot_hours`/`tropical_hours` to the hourly script (temperature
+    extraction was added to `hourly_to_day_extremes()`, which previously only
+    tracked wind/humidex/wind-chill, not raw Temp) and added `severe_thunderstorm_days`
+    (hail / "Heavy Thunderstorms" qualifier in the `Weather` text). Rebuilt
+    from the already-cached raw hourly CSVs via `--no-fetch` — no re-fetch
+    needed, under a minute to rebuild.
+  - Built the animated radial "shape of a year" chart. Required a new
+    `weather_daily_series.json` export from the daily script (365-value
+    per-year mean-temp arrays, Feb 29 dropped, leap-year alignment verified
+    directly against the raw CSV — Mar 1 lands on index 59 in both a leap and
+    non-leap year). Hand-rolled on `<canvas>`, not Chart.js.
+  - Answered two data questions with real evidence, not speculation: pulled
+    the station's hourly wind reading for the Sept 21, 2018 Ottawa–Gatineau
+    EF3 tornado (peaked at just 50 km/h that hour — confirms the "too
+    localized for a fixed station to catch" hypothesis) and inspected the raw
+    `Weather` text strings, which confirmed the thunderstorm metric *was* a
+    bare presence flag before this round, missing intensity — now split into
+    total vs. severe. Both write-ups added to the dashboard's own hourly
+    section note and methodology block, not just this file.
+  - Verified all of the above in-browser (not just read the code): 14 charts
+    all render non-empty canvas content, the spiral animates and redraws
+    correctly after slider-scrub and after a theme toggle, both grids report
+    the expected `grid-template-columns`, and no console errors at any point.
