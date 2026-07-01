@@ -36,6 +36,19 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 - **Location:** `C:\Energy` · **Live:** https://ottawavisuals.github.io/Energy/retrofits
 - **Open:** finalize fuel-chart variant; push `CA.json`; reconcile data-source URLs.
 
+### Ottawa Weather / Climate Evolution
+- **Progress:** ~90% (live, iterating) · 135-yr daily (1889–present, station 4333) + 73-yr hourly
+  (1953–present, stations 4337→49568) ECCC pipelines feeding an interactive dashboard: warming
+  stripes, an animated multi-year "spaghetti plot" of daily temperature (365-day radial sweep,
+  years accumulate as faint traces), seasonal small-multiples, hot-vs-cold extremes, snow→rain
+  regime shift, hourly wind/hot-hours/tropical-hours/humidex/wind-chill/thunderstorm extremes
+  (thunderstorms split into total vs. severe), and a "pick a year you remember" comparison tool.
+- Honest framing, checked against a peer-reviewed 1890–2019 Ottawa climate study: not "more
+  extreme weather" broadly, but a real shift in *which* kind of extreme occurs.
+- **Data:** Environment and Climate Change Canada (climate.weather.gc.ca) — scripted, resumable
+  fetch pipelines in [`Weather/`](Weather/PLAN.md).
+- **Page:** `/weather.html` · also on the homepage as Report № 04 · Climate.
+
 ---
 
 ## 🔄 In Progress
@@ -107,16 +120,6 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 - **Ottawa Census Data** — age, income, languages… *(site roadmap)*
 - **Ottawa Biking** — % of commute vs. % of city roadway; city spending; NCC vs. City. *(site roadmap)*
 - **RTO Road Maintenance** — spending on road maintenance; office permits. *(site roadmap)*
-- **Ottawa Temperature / Weather Dashboard** — 🔄 ~25% · scoped + scaffolded in
-  [`Weather/`](Weather/PLAN.md). Goal: 135-yr climate evolution + honest "how have
-  extremes changed" story. Built + run: daily fetch/index script
-  [`Weather/ottawa_weather_fetch.py`](Weather/ottawa_weather_fetch.py) (station 4333 back
-  to 1889 + 49568 gap-fill → `weather_indices.json`, 138 yrs). Built: hourly
-  fetch/extremes script
-  [`Weather/ottawa_weather_fetch_hourly.py`](Weather/ottawa_weather_fetch_hourly.py)
-  (station 4337 1953–2011 + 49568 2012–present → wind/humidex/wind-chill/storm-day
-  counts). **Next:** run the hourly script (~40–45 min, one-time), then build
-  `weather.html` (Chart.js, like Retrofit Explorer).
 - **Ottawa Building Permits** — permit data analysis/visual.
 - **Bike Collision / Traffic Collision Map** — Ottawa collision data.
 - **PWHL Hockey Dashboard** — Power BI on the PWHL API (side project).
