@@ -89,7 +89,9 @@ h1,h2,h3{margin:0;font-family:var(--font-display);}
 #stripe-tip{position:fixed;pointer-events:none;background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:6px 9px;font-family:var(--font-mono);font-size:11px;color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;z-index:60;white-space:nowrap;}
 /* ── SPIRAL ────────────────────────────────────────────────────── */
 .spiral-wrap{position:relative;display:flex;justify-content:center;}
-.spiral-wrap canvas{max-width:100%;height:auto;transition:opacity .18s ease;}
+.spiral-canvases{position:relative;}
+.spiral-canvases canvas{display:block;max-width:100%;height:auto;}
+.spiral-canvases canvas#chart-spiral-fg{position:absolute;top:0;left:0;width:100%;height:100%;}
 .spiral-year{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-display);font-weight:800;font-size:34px;letter-spacing:-0.01em;color:var(--ink);pointer-events:none;text-shadow:0 0 12px var(--bg-2),0 0 4px var(--bg-2);}
 .spiral-controls{display:flex;align-items:center;gap:12px;margin-top:14px;}
 .spiral-controls #spiral-slider{flex:1;accent-color:var(--accent);}
@@ -186,14 +188,18 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
     <div class="section">
       <div class="section-head">
         <h2>The shape of a year</h2>
-        <p>Each dot is one day, arranged clockwise from Jan 1 at the top; distance from the
-           centre and colour both encode that day's mean temperature — the same colour scale as
-           the stripes above. Watch the shape swell in summer and pull in each winter, decade
-           after decade.</p>
+        <p>Each ring traces one year's daily mean temperature, drawn clockwise from Jan 1 at the
+           top — distance from the centre encodes the temperature. The current year draws
+           day-by-day in full colour; every year already drawn stays on the chart as a faint
+           trace, tinted by that year's overall warmth (same colour scale as the stripes above),
+           so the shape's drift over 135 years builds up in front of you.</p>
       </div>
       <div class="card">
         <div class="spiral-wrap">
-          <canvas id="chart-spiral" width="520" height="520"></canvas>
+          <div class="spiral-canvases">
+            <canvas id="chart-spiral-bg" width="520" height="520"></canvas>
+            <canvas id="chart-spiral-fg" width="520" height="520"></canvas>
+          </div>
           <div class="spiral-year" id="spiral-year">—</div>
         </div>
         <div class="spiral-controls">
@@ -457,14 +463,23 @@ function statCard(num, label, cls) {
 // ================================================================
 // DAILY TEMPERATURE SPIRAL
 // ================================================================
+// Two stacked canvases: chart-spiral-bg accumulates every year already
+// shown as a faint, year-tinted trace (never cleared except on rebake);
+// chart-spiral-fg is cleared and redrawn every animation frame, showing
+// only the currently-sweeping (or currently-selected) year in full colour.
 const MONTH_STARTS = [0,31,59,90,120,151,181,212,243,273,304,334]; // non-leap day-of-year, 0-indexed
 const MONTH_NAMES = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-let spiralTMin = -30, spiralTMax = 30;
+let spiralTMin = -30, spiralTMax = 30;           // daily range -> radius + active-trace colour
+let spiralAnnualTMin = 0, spiralAnnualTMax = 10; // annual-mean range -> baked-trace colour (matches the stripes)
 let spiralYearsList = [];
-let spiralIndex = 0;
+let spiralIndex = 0;      // year currently sweeping (playing) or shown (scrubbed)
 let spiralPlaying = false;
-let spiralTimer = null;
-const SPIRAL_INTERVAL_MS = 550;
+let spiralAnimHandle = null; // rAF handle for the in-progress day-by-day sweep
+let spiralTimer = null;      // setTimeout handle for the pause between years
+let spiralSliderRAF = null;  // coalesces rapid slider "input" events to one redraw/frame
+const SPIRAL_SWEEP_MS = 900;  // time to draw all 365 days of one year
+const SPIRAL_PAUSE_MS = 200;  // gap between one year finishing and the next starting
+const SPIRAL_BAKED_ALPHA = 0.10;
 
 function computeSpiralRange() {
   let lo = Infinity, hi = -Infinity;
@@ -473,19 +488,25 @@ function computeSpiralRange() {
   });
   if (isFinite(lo) && isFinite(hi)) { spiralTMin = lo; spiralTMax = hi; }
 }
+function computeSpiralAnnualRange() {
+  const temps = completeDaily().map(y => y.mean_temp);
+  if (temps.length) { spiralAnnualTMin = Math.min(...temps); spiralAnnualTMax = Math.max(...temps); }
+}
 
-function drawSpiral(year) {
-  const canvas = document.getElementById('chart-spiral');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
+function spiralGeom(W, H) {
   const cx = W / 2, cy = H / 2;
   const maxR = Math.min(W, H) / 2 - 46;
   const minR = maxR * 0.16;
-  const temps = dailySeries[String(year)] || [];
-  ctx.clearRect(0, 0, W, H);
+  return { cx, cy, maxR, minR };
+}
+function polarPoint(geom, dayIdx, temp) {
+  const angle = (dayIdx / 365) * 2 * Math.PI - Math.PI / 2;
+  const r = geom.minR + (temp - spiralTMin) / (spiralTMax - spiralTMin) * (geom.maxR - geom.minR);
+  return [geom.cx + Math.cos(angle) * r, geom.cy + Math.sin(angle) * r];
+}
 
-  // Month spokes + labels
+function drawSpokes(ctx, W, H) {
+  const geom = spiralGeom(W, H);
   ctx.strokeStyle = cssVar('--line');
   ctx.fillStyle = cssVar('--ink-3');
   ctx.font = "10px 'JetBrains Mono', monospace";
@@ -493,74 +514,167 @@ function drawSpiral(year) {
   MONTH_STARTS.forEach((startDay, i) => {
     const angle = (startDay / 365) * 2 * Math.PI - Math.PI / 2;
     ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(angle) * minR, cy + Math.sin(angle) * minR);
-    ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
+    ctx.moveTo(geom.cx + Math.cos(angle) * geom.minR, geom.cy + Math.sin(angle) * geom.minR);
+    ctx.lineTo(geom.cx + Math.cos(angle) * geom.maxR, geom.cy + Math.sin(angle) * geom.maxR);
     ctx.lineWidth = 1;
     ctx.stroke();
     const labelAngle = ((startDay + 15) / 365) * 2 * Math.PI - Math.PI / 2;
-    const lx = cx + Math.cos(labelAngle) * (maxR + 16), ly = cy + Math.sin(labelAngle) * (maxR + 16);
+    const lx = geom.cx + Math.cos(labelAngle) * (geom.maxR + 16), ly = geom.cy + Math.sin(labelAngle) * (geom.maxR + 16);
     ctx.fillText(MONTH_NAMES[i], lx, ly);
   });
+}
 
-  // Connecting line through the days present (breaks across gaps)
+// Full-year trace, single flat colour -- used for baked (past) years.
+function strokeYearFlat(ctx, W, H, temps, color) {
+  const geom = spiralGeom(W, H);
   ctx.beginPath();
   let started = false;
   for (let i = 0; i < 365; i++) {
     const t = temps[i];
     if (t == null) { started = false; continue; }
-    const angle = (i / 365) * 2 * Math.PI - Math.PI / 2;
-    const r = minR + (t - spiralTMin) / (spiralTMax - spiralTMin) * (maxR - minR);
-    const x = cx + Math.cos(angle) * r, y = cy + Math.sin(angle) * r;
+    const [x, y] = polarPoint(geom, i, t);
     if (!started) { ctx.moveTo(x, y); started = true; } else { ctx.lineTo(x, y); }
   }
-  ctx.strokeStyle = cssVar('--line-2');
+  ctx.strokeStyle = color;
   ctx.lineWidth = 1;
   ctx.stroke();
+}
 
-  // One dot per day, coloured on the same diverging scale as the warming stripes
-  for (let i = 0; i < 365; i++) {
+// Partial-year trace up to (inclusive) uptoDay, one colour per day-to-day
+// segment -- used for the actively-sweeping year. Returns the last drawn
+// point (for the sweep-position marker).
+function strokeYearGradient(ctx, W, H, temps, uptoDay) {
+  const geom = spiralGeom(W, H);
+  let prev = null;
+  for (let i = 0; i <= uptoDay; i++) {
     const t = temps[i];
-    if (t == null) continue;
-    const angle = (i / 365) * 2 * Math.PI - Math.PI / 2;
-    const r = minR + (t - spiralTMin) / (spiralTMax - spiralTMin) * (maxR - minR);
-    const x = cx + Math.cos(angle) * r, y = cy + Math.sin(angle) * r;
-    ctx.beginPath();
-    ctx.arc(x, y, 2.6, 0, 2 * Math.PI);
-    ctx.fillStyle = tempColor(t, spiralTMin, spiralTMax);
-    ctx.fill();
+    if (t == null) { prev = null; continue; }
+    const pt = polarPoint(geom, i, t);
+    if (prev) {
+      ctx.beginPath();
+      ctx.moveTo(prev[0], prev[1]);
+      ctx.lineTo(pt[0], pt[1]);
+      ctx.strokeStyle = tempColor(t, spiralTMin, spiralTMax);
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+    prev = pt;
   }
-
-  document.getElementById('spiral-year').textContent = year;
+  return prev;
 }
 
-function redrawSpiralCurrent() {
-  if (spiralYearsList.length) drawSpiral(spiralYearsList[spiralIndex]);
+function bakeYear(ctx, W, H, year) {
+  const temps = dailySeries[String(year)];
+  if (!temps) return;
+  const rec = dailyYears.find(y => y.year === year);
+  const color = rec && rec.mean_temp != null
+    ? tempColor(rec.mean_temp, spiralAnnualTMin, spiralAnnualTMax)
+    : cssVar('--ink-3');
+  ctx.save();
+  ctx.globalAlpha = SPIRAL_BAKED_ALPHA;
+  strokeYearFlat(ctx, W, H, temps, color);
+  ctx.restore();
 }
 
-function spiralGoTo(idx) {
-  spiralIndex = Math.max(0, Math.min(spiralYearsList.length - 1, idx));
-  const canvas = document.getElementById('chart-spiral');
-  canvas.style.opacity = '0.25';
-  requestAnimationFrame(() => {
-    drawSpiral(spiralYearsList[spiralIndex]);
-    canvas.style.opacity = '1';
+// Rebuilds the background layer from scratch: spokes + every year strictly
+// before `index`. Used both for forward playback (index = next unplayed
+// year) and for the slider (jumping anywhere re-derives the right history).
+function rebakeBackgroundUpTo(index) {
+  const bg = document.getElementById('chart-spiral-bg');
+  const ctx = bg.getContext('2d');
+  ctx.clearRect(0, 0, bg.width, bg.height);
+  drawSpokes(ctx, bg.width, bg.height);
+  for (let i = 0; i < index; i++) bakeYear(ctx, bg.width, bg.height, spiralYearsList[i]);
+}
+
+function clearForeground() {
+  const fg = document.getElementById('chart-spiral-fg');
+  fg.getContext('2d').clearRect(0, 0, fg.width, fg.height);
+}
+
+function drawSweepMarker(ctx, pt) {
+  if (!pt) return;
+  ctx.beginPath();
+  ctx.arc(pt[0], pt[1], 4, 0, 2 * Math.PI);
+  ctx.fillStyle = cssVar('--ink');
+  ctx.fill();
+}
+
+// Animates one year's trace being drawn day-by-day on the foreground layer.
+function sweepYear(index, onDone) {
+  const fg = document.getElementById('chart-spiral-fg');
+  const ctx = fg.getContext('2d');
+  const temps = dailySeries[String(spiralYearsList[index])] || [];
+  document.getElementById('spiral-year').textContent = spiralYearsList[index];
+  document.getElementById('spiral-slider').value = index;
+  const start = performance.now();
+  function frame(now) {
+    const frac = Math.min(1, (now - start) / SPIRAL_SWEEP_MS);
+    const uptoDay = Math.floor(frac * 364);
+    clearForeground();
+    const lastPt = strokeYearGradient(ctx, fg.width, fg.height, temps, uptoDay);
+    drawSweepMarker(ctx, lastPt);
+    if (frac < 1) {
+      spiralAnimHandle = requestAnimationFrame(frame);
+    } else {
+      spiralAnimHandle = null;
+      onDone();
+    }
+  }
+  spiralAnimHandle = requestAnimationFrame(frame);
+}
+
+function spiralPlayNext() {
+  if (!spiralPlaying) return;
+  sweepYear(spiralIndex, () => {
+    rebakeBackgroundUpTo(spiralIndex + 1);
+    if (spiralIndex >= spiralYearsList.length - 1) {
+      spiralSetPlaying(false); // reached the end -- stop and leave the full accumulated shape on screen
+      return;
+    }
+    spiralIndex += 1;
+    if (spiralPlaying) spiralTimer = setTimeout(spiralPlayNext, SPIRAL_PAUSE_MS);
   });
-  document.getElementById('spiral-slider').value = spiralIndex;
 }
 
 function spiralSetPlaying(playing) {
   spiralPlaying = playing;
   document.getElementById('spiral-play').textContent = playing ? '⏸' : '▶';
-  if (spiralTimer) clearInterval(spiralTimer);
-  if (playing) {
-    spiralTimer = setInterval(() => spiralGoTo((spiralIndex + 1) % spiralYearsList.length), SPIRAL_INTERVAL_MS);
+  if (spiralAnimHandle) { cancelAnimationFrame(spiralAnimHandle); spiralAnimHandle = null; }
+  if (spiralTimer) { clearTimeout(spiralTimer); spiralTimer = null; }
+  if (!playing) return;
+  if (spiralIndex >= spiralYearsList.length - 1) {
+    // Replaying after reaching the end -- start the accumulation over.
+    spiralIndex = 0;
+    rebakeBackgroundUpTo(0);
   }
+  spiralPlayNext();
+}
+
+// Manual scrub: show the selected year fully drawn (no sweep animation),
+// background rebuilt to exactly the years before it.
+function spiralGoToInstant(index) {
+  spiralIndex = Math.max(0, Math.min(spiralYearsList.length - 1, index));
+  rebakeBackgroundUpTo(spiralIndex);
+  const fg = document.getElementById('chart-spiral-fg');
+  const ctx = fg.getContext('2d');
+  clearForeground();
+  const temps = dailySeries[String(spiralYearsList[spiralIndex])] || [];
+  strokeYearGradient(ctx, fg.width, fg.height, temps, 364);
+  document.getElementById('spiral-year').textContent = spiralYearsList[spiralIndex];
+  document.getElementById('spiral-slider').value = spiralIndex;
+}
+
+function redrawSpiralCurrent() {
+  if (spiralYearsList.length) spiralGoToInstant(spiralIndex);
 }
 
 function buildSpiral() {
   computeSpiralRange();
+  computeSpiralAnnualRange();
   // Only cycle through years complete enough for a real shape -- partial
-  // start/current years would otherwise flash a mostly-empty ring.
+  // start/current years would otherwise bake in a mostly-empty ring.
   spiralYearsList = completeDaily().map(y => y.year).filter(y => dailySeries[String(y)]);
   if (!spiralYearsList.length) return;
   const slider = document.getElementById('spiral-slider');
@@ -569,10 +683,13 @@ function buildSpiral() {
     `${spiralYearsList[0]}–${spiralYearsList[spiralYearsList.length - 1]}`;
   slider.addEventListener('input', () => {
     spiralSetPlaying(false);
-    spiralGoTo(parseInt(slider.value, 10));
+    const idx = parseInt(slider.value, 10);
+    if (spiralSliderRAF) cancelAnimationFrame(spiralSliderRAF);
+    spiralSliderRAF = requestAnimationFrame(() => { spiralGoToInstant(idx); spiralSliderRAF = null; });
   });
   document.getElementById('spiral-play').addEventListener('click', () => spiralSetPlaying(!spiralPlaying));
-  spiralGoTo(0);
+  rebakeBackgroundUpTo(0);
+  spiralGoToInstant(0);
   spiralSetPlaying(true);
 }
 
