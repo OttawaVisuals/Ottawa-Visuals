@@ -97,12 +97,17 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
 ## 4. Dashboard sections (visuals)
 1. **Warming stripes** hero banner (instantly legible, shareable).
 2. **Annual mean temperature** line + trend/regression + decadal averages.
-3. **The shape of a year** — animated radial/spiral chart: 365 dots arranged
-   clockwise from Jan 1, distance-from-centre and colour both encoding that
-   day's mean temp (same diverging blue→red scale as the stripes, but its own
-   min/max since a single year's daily range dwarfs the stripes' *annual
-   mean* range). Auto-plays through 136 complete years with a year counter,
-   play/pause, and a scrub slider.
+3. **The shape of a year** — animated radial/spiral chart, two stacked
+   canvases: a persistent background that *accumulates* every year already
+   shown as a faint (10% alpha), year-tinted trace (colour = that year's
+   annual mean, same scale as the stripes), and a foreground that draws the
+   current year day-by-day as a colour-graded line (colour = that day's temp,
+   own min/max since a single year's daily range dwarfs the stripes' *annual
+   mean* range) with a small marker at the sweep's leading edge. Auto-plays
+   through all 136 complete years (~900ms/year sweep), stopping at the end
+   with the full 136-year "spaghetti plot" left on screen; a scrub slider
+   jumps anywhere and rebuilds the background to match exactly (years before
+   the selected one), so scrubbing backward correctly un-accumulates too.
 4. **Seasonal small-multiples**, 2×2 (Winter/Spring row, Summer/Fall row).
 5. **Extremes panel** — hot-days trend ↑ beside extreme-cold-days trend ↓.
    This *is* the honest "extreme" story.
@@ -201,3 +206,21 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
     all render non-empty canvas content, the spiral animates and redraws
     correctly after slider-scrub and after a theme toggle, both grids report
     the expected `grid-template-columns`, and no console errors at any point.
+- [x] Third round — reworked the spiral into an accumulating "spaghetti plot":
+  split into two stacked canvases (`chart-spiral-bg` persists every completed
+  year as a faint, year-tinted trace; `chart-spiral-fg` is cleared/redrawn
+  every frame for the actively-sweeping year only), replaced per-day dots with
+  a colour-graded line (segment-by-segment `tempColor()`, since canvas has no
+  native per-vertex stroke colour) plus a single leading-edge marker dot, and
+  switched the animation from an instant year-to-year swap to a real
+  day-by-day sweep (~900ms/year) driven by `performance.now()` elapsed time,
+  not frame count, so it's correct regardless of frame rate. Reaching the last
+  year stops playback rather than looping, leaving the full 136-year
+  accumulated shape on screen; pressing play again restarts the accumulation
+  from scratch. The slider always fully rebuilds the background to the exact
+  years before the selected index (`rebakeBackgroundUpTo()`), so it's correct
+  scrubbing in either direction, not just append-only — verified in-browser
+  that non-empty background pixel counts genuinely grow on forward playback
+  (701→1023→1132 samples across three checkpoints) and shrink on backward
+  scrub (1023→532), and that a slider drag's rapid `input` events are
+  coalesced to one redraw per animation frame rather than one per event.
