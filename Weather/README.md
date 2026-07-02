@@ -66,11 +66,50 @@ Note: hourly `Precip. Amount` is essentially never populated for this station
 (checked across every decade, both stations) — no rainfall-intensity index is
 computed from hourly data. Precipitation totals come from the daily pipeline.
 
+### Lightning strikes (2021–present) — supplementary, not ECCC
+
+```bash
+python ottawa_lightning_fetch.py          # 2021-01 -> today
+```
+
+Downloads strike counts from **LightningMaps.org / Blitzortung.org**, a
+crowdsourced volunteer detector network — not ECCC. Fetches gzipped
+per-10-minute files from geographic "Area 21" (found empirically — there's no
+documented area-to-region mapping, so every area number was sampled and
+checked against Ottawa's coordinates), filters each file to a bounding box
+around the Ottawa region, and counts strikes.
+
+**Why this is a weaker source than everything else in this repo:** the
+network has grown over time (day-to-day availability was patchy in early
+2021), so a rising strike count over the life of this dataset may partly
+reflect more volunteer detectors coming online, not more real lightning. No
+completeness guarantee, unlike a calibrated government station. Treat it as
+supplementary color, not on the same footing as the ECCC series.
+
+**Volume:** 10-minute granularity means ~52,600 file attempts/year. Full range
+(2021–present) is ~260k attempts — measured at ~0.02–0.08s/file with 8–24
+concurrent workers (10 workers, the default, targets a middle ground: fast
+enough to finish in a couple of hours, not so aggressive on a volunteer-run
+server). Fully resumable — already-fetched days are skipped on re-run.
+
+| File | Committed? | What |
+|---|---|---|
+| `data/raw/lightning_daily_counts.csv` | no (gitignored) | per-day count cache, resumable |
+| `data/weather_lightning_indices.json` | **yes** | small per-year strike-count file |
+
+```bash
+python ottawa_lightning_fetch.py --start 2023-01-01 --end 2023-12-31  # shorter range
+python ottawa_lightning_fetch.py --workers 20     # faster, heavier on their server
+python ottawa_lightning_fetch.py --refresh-today  # re-pull today even if cached
+python ottawa_lightning_fetch.py --no-fetch       # rebuild JSON from cache only
+```
+
 ## Dashboard
 
-`weather.html` (repo root) reads all three JSON files above. Live sections:
+`weather.html` (repo root) reads all four JSON files above. Live sections:
 warming stripes, an animated radial "shape of a year" daily-temperature chart,
 annual mean temp trend, seasonal small-multiples, hot-vs-cold extremes,
 snow→rain regime shift, an hourly-extremes grid (wind/hot-hours/tropical-hours/
-humidex/wind-chill/thunderstorms), a year-comparison tool, and a methodology
-block. Wired into the homepage (`index.html` `REPORTS[]`, № 04 · Climate).
+humidex/wind-chill/thunderstorms), a lightning-strike panel, a year-comparison
+tool, and a methodology block. Wired into the homepage (`index.html`
+`REPORTS[]`, № 04 · Climate).
