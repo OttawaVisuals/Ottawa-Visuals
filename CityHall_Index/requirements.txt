@@ -1,0 +1,5 @@
+requests>=2.31
+beautifulsoup4>=4.12
+truststore>=0.9          # uses the OS trust store (eScribe sends an incomplete cert chain)
+# optional, only needed for --extract (text/table extraction from PDFs):
+# pdfplumber>=0.11

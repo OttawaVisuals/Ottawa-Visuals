@@ -36,3 +36,8 @@ Weather/weather_fetch_hourly.log
 *.sbx
 *.cpg
 *.prj
+
+# City Hall eScribe indexer — output/logs
+CityHall_Index/data/
+CityHall_Index/data_*/
+CityHall_Index/*.log
