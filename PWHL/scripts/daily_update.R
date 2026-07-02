@@ -913,12 +913,21 @@ fetch_team_roster <- function(team_id, season_id) {
   res <- GET(base_url, query = c(common_params, list(view = "roster", team_id = team_id, season_id = season_id)))
   if (http_error(res)) return(NULL)
 
+  # Unlike the other feeds this script parses, each roster entry has a
+  # `draftinfo` field that's an empty array (`[]`) rather than a scalar --
+  # that breaks jsonlite's auto-simplification into a data.frame (it comes
+  # back as a plain nested list instead), so flatten=TRUE + as_tibble()
+  # silently produced zero rows for every team. Parse fully unsimplified
+  # and flatten each player to scalars by hand instead.
   txt <- content(res, as = "text", encoding = "UTF-8")
-  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+  js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
   roster <- js$SiteKit$Roster
   if (is.null(roster) || length(roster) == 0) return(NULL)
 
-  df <- tryCatch(as_tibble(roster), error = function(e) NULL)
+  df <- tryCatch(
+    bind_rows(map(roster, function(p) as_tibble(lapply(p, scalar_chr)))),
+    error = function(e) NULL
+  )
   if (is.null(df) || nrow(df) == 0) return(NULL)
 
   df %>%
@@ -1046,10 +1055,23 @@ fetch_bracket_for_season <- function(season_id) {
     if (is.null(t)) NA_character_ else scalar_chr(t$name)
   }
 
+  # A JSON collection with exactly one item sometimes arrives as a bare
+  # object instead of a 1-element array (e.g. a playoff round with a single
+  # matchup) -- a plain `for` loop over that object would then iterate over
+  # its individual FIELDS instead of over "the one item", and blow up with
+  # "$ operator is invalid for atomic vectors" the moment a leaf value (like
+  # a round number "1") gets treated as an item. Detect a bare single object
+  # (named list) and wrap it before iterating.
+  as_item_list <- function(x) {
+    if (is.null(x) || length(x) == 0) return(list())
+    nm <- names(x)
+    if (!is.null(nm) && any(nzchar(nm))) list(x) else x
+  }
+
   rows <- list()
-  for (round in brackets$rounds) {
-    for (matchup in (round$matchups %||% list())) {
-      for (g in (matchup$games %||% list())) {
+  for (round in as_item_list(brackets$rounds)) {
+    for (matchup in as_item_list(round$matchups)) {
+      for (g in as_item_list(matchup$games)) {
         rows[[length(rows) + 1]] <- tibble(
           season_id         = as.character(season_id),
           round             = scalar_chr(round$round),
