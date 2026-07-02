@@ -909,9 +909,26 @@ if (nrow(all_standings) > 0) {
 
 message("\n=== Updating Team Rosters ===")
 
+# Diagnostic counters -- by this point in the script, dozens of prior
+# sections (schedule, standings, etc.) have already made API calls, so
+# rate limiting is plausible here in a way isolated testing won't reveal.
+# Track *why* fetches come back empty so a repeat failure is diagnosable
+# from the log instead of another guess-and-redeploy cycle.
+roster_fetch_stats <- new.env()
+roster_fetch_stats$http_error <- 0
+roster_fetch_stats$empty <- 0
+roster_fetch_stats$parse_fail <- 0
+roster_fetch_stats$ok <- 0
+
 fetch_team_roster <- function(team_id, season_id) {
   res <- GET(base_url, query = c(common_params, list(view = "roster", team_id = team_id, season_id = season_id)))
-  if (http_error(res)) return(NULL)
+  if (http_error(res)) {
+    roster_fetch_stats$http_error <- roster_fetch_stats$http_error + 1
+    if (roster_fetch_stats$http_error == 1) {
+      message("    (roster HTTP ", status_code(res), " for team ", team_id, "/season ", season_id, ")")
+    }
+    return(NULL)
+  }
 
   # Unlike the other feeds this script parses, each roster entry has a
   # `draftinfo` field that's an empty array (`[]`) rather than a scalar --
@@ -922,13 +939,20 @@ fetch_team_roster <- function(team_id, season_id) {
   txt <- content(res, as = "text", encoding = "UTF-8")
   js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
   roster <- js$SiteKit$Roster
-  if (is.null(roster) || length(roster) == 0) return(NULL)
+  if (is.null(roster) || length(roster) == 0) {
+    roster_fetch_stats$empty <- roster_fetch_stats$empty + 1
+    return(NULL)
+  }
 
   df <- tryCatch(
     bind_rows(map(roster, function(p) as_tibble(lapply(p, scalar_chr)))),
     error = function(e) NULL
   )
-  if (is.null(df) || nrow(df) == 0) return(NULL)
+  if (is.null(df) || nrow(df) == 0) {
+    roster_fetch_stats$parse_fail <- roster_fetch_stats$parse_fail + 1
+    return(NULL)
+  }
+  roster_fetch_stats$ok <- roster_fetch_stats$ok + 1
 
   df %>%
     mutate(
@@ -947,7 +971,7 @@ team_season_pairs <- read_csv(file.path(data_dir, "pwhl_teams.csv"), show_col_ty
 
 all_rosters <- map2_dfr(team_season_pairs$season_id, team_season_pairs$team_id, function(sid, tid) {
   result <- fetch_team_roster(tid, sid)
-  Sys.sleep(0.2)
+  Sys.sleep(0.4)
   result
 })
 
@@ -955,7 +979,8 @@ if (nrow(all_rosters) > 0) {
   write_csv(all_rosters, file.path(data_dir, "pwhl_team_rosters.csv"))
   message("  ✓ Updated rosters for ", nrow(team_season_pairs), " team-season(s)")
 } else {
-  message("  ⚠ No roster data returned")
+  message("  ⚠ No roster data returned (http_error=", roster_fetch_stats$http_error,
+          " empty=", roster_fetch_stats$empty, " parse_fail=", roster_fetch_stats$parse_fail, ")")
 }
 
 # ============================
@@ -1038,80 +1063,105 @@ if (nrow(players_needing_season_stats) > 0) {
 
 message("\n=== Updating Playoff Bracket ===")
 
+# Turn a value that should be "a list of item-objects" into one, tolerating
+# a single item arriving as a bare object instead of a 1-element array (an
+# observed quirk of this feed -- e.g. a playoff round with only one
+# matchup). Returns NULL (not a crash) for anything that still isn't a
+# usable list of objects afterward, so callers can just skip it.
+as_object_list <- function(x) {
+  if (!is.list(x) || length(x) == 0) return(NULL)
+  nm <- names(x)
+  if (!is.null(nm) && any(nzchar(nm))) list(x) else x
+}
+
 fetch_bracket_for_season <- function(season_id) {
-  res <- GET(base_url, query = c(common_params, list(view = "brackets", season_id = season_id)))
-  if (http_error(res)) return(NULL)
+  tryCatch({
+    res <- GET(base_url, query = c(common_params, list(view = "brackets", season_id = season_id)))
+    if (http_error(res)) return(NULL)
 
-  txt <- content(res, as = "text", encoding = "UTF-8")
-  js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
-  brackets <- js$SiteKit$Brackets
-  if (is.null(brackets) || is.null(brackets$rounds) || length(brackets$rounds) == 0) return(NULL)
+    txt <- content(res, as = "text", encoding = "UTF-8")
+    js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
+    brackets <- js$SiteKit$Brackets
+    if (!is.list(brackets)) return(NULL)
 
-  teams_map <- brackets$teams %||% list()
-  team_name <- function(tid) {
-    tid_chr <- scalar_chr(tid)
-    if (is.na(tid_chr)) return(NA_character_)
-    t <- teams_map[[tid_chr]]
-    if (is.null(t)) NA_character_ else scalar_chr(t$name)
-  }
+    rounds <- as_object_list(brackets$rounds)
+    if (is.null(rounds)) return(NULL)
 
-  # A JSON collection with exactly one item sometimes arrives as a bare
-  # object instead of a 1-element array (e.g. a playoff round with a single
-  # matchup) -- a plain `for` loop over that object would then iterate over
-  # its individual FIELDS instead of over "the one item", and blow up with
-  # "$ operator is invalid for atomic vectors" the moment a leaf value (like
-  # a round number "1") gets treated as an item. Detect a bare single object
-  # (named list) and wrap it before iterating.
-  as_item_list <- function(x) {
-    if (is.null(x) || length(x) == 0) return(list())
-    nm <- names(x)
-    if (!is.null(nm) && any(nzchar(nm))) list(x) else x
-  }
+    teams_map <- brackets$teams
+    team_name <- function(tid) {
+      tid_chr <- scalar_chr(tid)
+      if (is.na(tid_chr) || !is.list(teams_map)) return(NA_character_)
+      t <- teams_map[[tid_chr]]
+      if (!is.list(t)) NA_character_ else scalar_chr(t$name)
+    }
 
-  rows <- list()
-  for (round in as_item_list(brackets$rounds)) {
-    for (matchup in as_item_list(round$matchups)) {
-      for (g in as_item_list(matchup$games)) {
-        rows[[length(rows) + 1]] <- tibble(
-          season_id         = as.character(season_id),
-          round             = scalar_chr(round$round),
-          round_name        = scalar_chr(round$round_name),
-          series_letter     = scalar_chr(matchup$series_letter),
-          team1_id          = scalar_chr(matchup$team1),
-          team1_name        = team_name(matchup$team1),
-          team2_id          = scalar_chr(matchup$team2),
-          team2_name        = team_name(matchup$team2),
-          team1_series_wins = suppressWarnings(as.integer(matchup$team1_wins)),
-          team2_series_wins = suppressWarnings(as.integer(matchup$team2_wins)),
-          game_id           = scalar_chr(g$game_id),
-          home_team_id      = scalar_chr(g$home_team),
-          home_goals        = suppressWarnings(as.integer(g$home_goal_count)),
-          visiting_team_id  = scalar_chr(g$visiting_team),
-          visiting_goals    = suppressWarnings(as.integer(g$visiting_goal_count)),
-          game_status       = scalar_chr(g$game_status),
-          game_date         = scalar_chr(g$date_time)
-        )
+    # Every level here is defensive rather than assuming a fixed shape: skip
+    # anything that isn't a real list-of-objects instead of doing `$` on it
+    # and crashing the whole run over one malformed entry.
+    rows <- list()
+    for (round in rounds) {
+      if (!is.list(round)) next
+      matchups <- as_object_list(round$matchups)
+      if (is.null(matchups)) next
+
+      for (matchup in matchups) {
+        if (!is.list(matchup)) next
+        games <- as_object_list(matchup$games)
+        if (is.null(games)) next
+
+        for (g in games) {
+          if (!is.list(g)) next
+          rows[[length(rows) + 1]] <- tibble(
+            season_id         = as.character(season_id),
+            round             = scalar_chr(round$round),
+            round_name        = scalar_chr(round$round_name),
+            series_letter     = scalar_chr(matchup$series_letter),
+            team1_id          = scalar_chr(matchup$team1),
+            team1_name        = team_name(matchup$team1),
+            team2_id          = scalar_chr(matchup$team2),
+            team2_name        = team_name(matchup$team2),
+            team1_series_wins = suppressWarnings(as.integer(matchup$team1_wins)),
+            team2_series_wins = suppressWarnings(as.integer(matchup$team2_wins)),
+            game_id           = scalar_chr(g$game_id),
+            home_team_id      = scalar_chr(g$home_team),
+            home_goals        = suppressWarnings(as.integer(g$home_goal_count)),
+            visiting_team_id  = scalar_chr(g$visiting_team),
+            visiting_goals    = suppressWarnings(as.integer(g$visiting_goal_count)),
+            game_status       = scalar_chr(g$game_status),
+            game_date         = scalar_chr(g$date_time)
+          )
+        }
       }
     }
-  }
-  if (length(rows) == 0) return(NULL)
-  bind_rows(rows)
+    if (length(rows) == 0) return(NULL)
+    bind_rows(rows)
+  }, error = function(e) {
+    message("  ⚠ Bracket fetch failed for season ", season_id, ", skipping: ", conditionMessage(e))
+    NULL
+  })
 }
 
 # Full refresh every run, same reasoning as standings/rosters -- cheap
 # (most seasons return nothing, since most seasons have no playoffs yet).
-all_brackets <- map_dfr(all_seasons$season_id, function(sid) {
-  result <- fetch_bracket_for_season(sid)
-  Sys.sleep(0.3)
-  result
-})
+# fetch_bracket_for_season() already catches its own errors per season; this
+# outer tryCatch is a second safety net so a failure in the map/bind/write
+# itself still can't block section 11 from running.
+tryCatch({
+  all_brackets <- map_dfr(all_seasons$season_id, function(sid) {
+    result <- fetch_bracket_for_season(sid)
+    Sys.sleep(0.3)
+    result
+  })
 
-if (nrow(all_brackets) > 0) {
-  write_csv(all_brackets, file.path(data_dir, "pwhl_playoff_bracket.csv"))
-  message("  ✓ Updated playoff bracket (", length(unique(all_brackets$season_id)), " season(s) with playoff data)")
-} else {
-  message("  ✓ No playoff bracket data found")
-}
+  if (nrow(all_brackets) > 0) {
+    write_csv(all_brackets, file.path(data_dir, "pwhl_playoff_bracket.csv"))
+    message("  ✓ Updated playoff bracket (", length(unique(all_brackets$season_id)), " season(s) with playoff data)")
+  } else {
+    message("  ✓ No playoff bracket data found")
+  }
+}, error = function(e) {
+  message("  ⚠ Playoff bracket update failed, skipping: ", conditionMessage(e))
+})
 
 # ============================
 # 11) UPDATE PLAYER MEDIA
