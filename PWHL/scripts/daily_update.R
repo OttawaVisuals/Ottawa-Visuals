@@ -40,6 +40,23 @@ common_params <- list(
   client_code = client_code
 )
 
+# readr guesses column types from the file's own values. Once enough real
+# (non-blank) game_length/referee-number values accumulate, its heuristic can
+# flip a column from <character> to <time>/<logical>, and bind_rows() then
+# refuses to combine it with the freshly-fetched <character> data -- this is
+# exactly what broke every run from 2026-04-25 onward. Pin the ambiguous
+# columns explicitly so the guess can't drift out from under us.
+game_summary_col_types <- cols(
+  game_id              = col_character(),
+  season_id            = col_character(),
+  game_length          = col_character(),
+  referee1_number      = col_character(),
+  referee2_number      = col_character(),
+  linesperson1_number  = col_character(),
+  linesperson2_number  = col_character(),
+  .default             = col_guess()
+)
+
 `%||%` <- function(x, y) if (!is.null(x)) x else y
 
 scalar_chr <- function(x) {
@@ -272,7 +289,8 @@ fetch_game_details <- function(gid) {
     game_length_seconds = parse_game_length_to_seconds(game_length_raw),
     venue               = gs$venue %||% NA_character_,
     num_periods         = suppressWarnings(as.integer(meta$number_of_periods %||% meta$periods %||% NA)),
-    shootout_rounds     = suppressWarnings(as.integer(meta$shootout_rounds %||% meta$shootout %||% NA))
+    shootout_rounds     = suppressWarnings(as.integer(meta$shootout_rounds %||% meta$shootout %||% NA)),
+    is_final            = identical(scalar_chr(meta$final), "1")
   )
 
   officials_df <- extract_officials(gs)
@@ -291,23 +309,35 @@ fetch_game_details <- function(gid) {
 
 message("\n=== Checking for New Games ===")
 
-# Load existing game IDs and ensure consistent types
-existing_games <- read_csv(file.path(data_dir, "pwhl_season_game_ids.csv"), 
-                          show_col_types = FALSE) %>%
+# A game_id can show up in the schedule months before it's actually played --
+# PWHL publishes the full season schedule upfront. So "new" can't mean
+# "game_id not seen before"; it has to mean "final/played game whose summary
+# we either don't have yet, or only have as a pre-game placeholder (fetched
+# before the game was actually final -- home_score/visitor_score stuck at 0,
+# no officials, no attendance)". Track completion state against
+# pwhl_game_summaries.csv's own is_final flag, not the schedule file.
+existing_summaries_raw <- read_csv(file.path(data_dir, "pwhl_game_summaries.csv"),
+                                    col_types = game_summary_col_types) %>%
   mutate(
     season_id = as.character(season_id),
     game_id = as.character(game_id)
   )
+if (!"is_final" %in% names(existing_summaries_raw)) {
+  existing_summaries_raw$is_final <- FALSE
+}
+existing_final_ids <- existing_summaries_raw %>%
+  filter(is_final %in% TRUE) %>%
+  distinct(season_id, game_id)
 
 # Get current schedule for all seasons
 all_seasons <- tibble()
 for (sid in 1:20) {
   res <- GET(base_url, query = c(common_params, list(view = "schedule", season_id = sid)))
   if (http_error(res)) next
-  
+
   txt <- content(res, as = "text", encoding = "UTF-8")
   js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
-  
+
   if (!is.null(js$SiteKit$Schedule) && length(js$SiteKit$Schedule) > 0) {
     all_seasons <- bind_rows(all_seasons, tibble(season_id = sid))
   }
@@ -321,28 +351,34 @@ fetch_schedule_for_season <- function(sid) {
   txt <- content(res, as = "text", encoding = "UTF-8")
   js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
   if (is.null(js$SiteKit$Schedule)) return(NULL)
-  
+
   sched_df <- as_tibble(js$SiteKit$Schedule)
   sched_df %>% mutate(season_id = as.character(sid))
 }
 
 all_games <- map_dfr(all_seasons$season_id, fetch_schedule_for_season)
 
+# Keep the full schedule (with played/final status) so future runs can tell
+# which already-known game_ids are actually done, not just which exist.
 current_games <- all_games %>%
-  select(season_id, game_id) %>%
-  mutate(game_id = as.character(game_id))
+  mutate(
+    game_id = as.character(game_id),
+    is_final = final == "1" | grepl("^final", game_status, ignore.case = TRUE)
+  ) %>%
+  select(season_id, game_id, date_played, game_status, is_final)
 
-# Find new games
+write_csv(current_games, file.path(data_dir, "pwhl_season_game_ids.csv"))
+
+# Find new (final, not-yet-properly-summarized) games
 new_games <- current_games %>%
-  anti_join(existing_games, by = c("season_id", "game_id"))
+  filter(is_final) %>%
+  select(season_id, game_id) %>%
+  anti_join(existing_final_ids, by = c("season_id", "game_id"))
 
 if (nrow(new_games) == 0) {
-  message("  ✓ No new games found")
+  message("  ✓ No new completed games found")
 } else {
-  message("  ✓ Found ", nrow(new_games), " new game(s)")
-  
-  # Update game IDs file
-  write_csv(current_games, file.path(data_dir, "pwhl_season_game_ids.csv"))
+  message("  ✓ Found ", nrow(new_games), " new completed game(s)")
 }
 
 # ============================
@@ -363,21 +399,32 @@ if (nrow(new_games) > 0) {
   new_game_players <- new_game_details %>% map("players") %>% compact() %>% bind_rows()
   
   if (nrow(new_game_summaries) > 0) {
-    existing_summaries <- read_csv(file.path(data_dir, "pwhl_game_summaries.csv"), 
-                                   show_col_types = FALSE) %>%
+    existing_summaries <- read_csv(file.path(data_dir, "pwhl_game_summaries.csv"),
+                                   col_types = game_summary_col_types) %>%
       mutate(game_id = as.character(game_id), season_id = as.character(season_id))
-    updated_summaries <- bind_rows(existing_summaries, new_game_summaries)
+    # Upsert by game_id: a game may already have a pre-game placeholder row
+    # (fetched before it was final) that this refetch should replace, not duplicate.
+    updated_summaries <- existing_summaries %>%
+      anti_join(new_game_summaries, by = c("season_id", "game_id")) %>%
+      bind_rows(new_game_summaries)
     write_csv(updated_summaries, file.path(data_dir, "pwhl_game_summaries.csv"))
-    message("  ✓ Added ", nrow(new_game_summaries), " game summaries")
+    message("  ✓ Updated ", nrow(new_game_summaries), " game summaries")
   }
-  
+
   if (nrow(new_game_players) > 0) {
-    existing_players <- read_csv(file.path(data_dir, "pwhl_game_players.csv"), 
+    existing_players <- read_csv(file.path(data_dir, "pwhl_game_players.csv"),
                                  show_col_types = FALSE) %>%
-      mutate(game_id = as.character(game_id), season_id = as.character(season_id))
-    updated_players <- bind_rows(existing_players, new_game_players)
+      mutate(
+        game_id = as.character(game_id),
+        season_id = as.character(season_id),
+        person_id = as.character(person_id),
+        player_id = as.character(player_id)
+      )
+    updated_players <- existing_players %>%
+      anti_join(new_game_players, by = c("season_id", "game_id")) %>%
+      bind_rows(new_game_players)
     write_csv(updated_players, file.path(data_dir, "pwhl_game_players.csv"))
-    message("  ✓ Added ", nrow(new_game_players), " game player records")
+    message("  ✓ Updated ", nrow(new_game_players), " game player records")
   }
 }
 
@@ -466,9 +513,9 @@ if (nrow(new_games) > 0) {
 
 message("\n=== Checking for New Players ===")
 
-existing_players_info <- read_csv(file.path(data_dir, "pwhl_players_info.csv"), 
+existing_players_info <- read_csv(file.path(data_dir, "pwhl_players_info.csv"),
                                  show_col_types = FALSE) %>%
-  mutate(player_id = as.character(player_id))
+  mutate(player_id = as.character(player_id), jersey_number = as.character(jersey_number))
 
 if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
   new_player_ids <- new_game_players %>%
@@ -602,85 +649,96 @@ if (nrow(current_transactions) > nrow(existing_transactions)) {
 
 if (nrow(new_games) > 0) {
   message("\n=== Updating Play-by-Play Data ===")
-  
-  # Get fastRhockey seasons to get schedule metadata
-  pwhl_seasons <- pwhl_season_id()
-  
-  # Fetch schedule for new games to get season_yr and game_type
-  sched_for_new <- map2_dfr(
-    pwhl_seasons$season_yr,
-    pwhl_seasons$game_type_label,
-    function(yr, gtype) {
-      out <- tryCatch(
-        pwhl_schedule(season = yr, game_type = gtype),
-        error = function(e) NULL
-      )
-      if (!is.null(out) && nrow(out) > 0) {
-        out %>%
-          mutate(season_yr = yr, game_type_label = gtype, game_id = as.character(game_id))
-      } else {
-        NULL
-      }
-    }
-  )
-  
-  # Filter to only new games
-  new_games_pbp <- sched_for_new %>%
-    filter(game_id %in% new_games$game_id)
-  
-  if (nrow(new_games_pbp) > 0) {
-    new_pbp_list <- vector("list", nrow(new_games_pbp))
-    fail_log <- tibble(game_id = character(), error = character())
-    
-    for (i in seq_len(nrow(new_games_pbp))) {
-      gid <- new_games_pbp$game_id[i]
-      message("  Fetching PBP for game ", gid)
-      
-      pbp <- tryCatch(
-        fastRhockey::pwhl_pbp(game_id = gid),
-        error = function(e) {
-          fail_log <<- bind_rows(
-            fail_log,
-            tibble(game_id = as.character(gid), error = conditionMessage(e))
-          )
+
+  # Everything in this section depends on the fastRhockey package hitting an
+  # external API; a failure here shouldn't take down the game/player/
+  # transaction updates above, which are already written to disk by now.
+  pbp_result <- tryCatch({
+    # Get fastRhockey seasons to get schedule metadata
+    pwhl_seasons <- pwhl_season_id()
+
+    # Fetch schedule for new games to get season_yr and game_type
+    sched_for_new <- map2_dfr(
+      pwhl_seasons$season_yr,
+      pwhl_seasons$game_type_label,
+      function(yr, gtype) {
+        out <- tryCatch(
+          pwhl_schedule(season = yr, game_type = gtype),
+          error = function(e) NULL
+        )
+        if (!is.null(out) && nrow(out) > 0) {
+          out %>%
+            mutate(season_yr = yr, game_type_label = gtype, game_id = as.character(game_id))
+        } else {
           NULL
         }
-      )
-      
-      if (!is.null(pbp) && nrow(pbp) > 0) {
-        new_pbp_list[[i]] <- pbp
       }
-      
-      Sys.sleep(0.4)
-    }
-    
-    # Drop NULLs
-    new_pbp_list <- new_pbp_list[!vapply(new_pbp_list, is.null, logical(1))]
-    
-    if (length(new_pbp_list) > 0) {
-      new_pbp <- bind_rows(new_pbp_list) %>%
-        mutate(game_id = as.character(game_id))
-      
-      # Join with schedule metadata
-      sched_join <- new_games_pbp %>%
-        select(game_id, game_date, home_team, away_team, 
-               home_score, away_score, season_yr, game_type_label)
-      
-      new_pbp <- new_pbp %>%
-        left_join(sched_join, by = "game_id")
-      
-      existing_pbp <- read_csv(file.path(data_dir, "pwhl_pbp.csv"), 
-                               show_col_types = FALSE) %>%
-        mutate(game_id = as.character(game_id))
-      updated_pbp <- bind_rows(existing_pbp, new_pbp)
-      write_csv(updated_pbp, file.path(data_dir, "pwhl_pbp.csv"))
-      message("  ✓ Added ", nrow(new_pbp), " play-by-play events")
-      
-      if (nrow(fail_log) > 0) {
-        message("  ⚠ ", nrow(fail_log), " games failed to fetch PBP")
+    )
+
+    # Filter to only new games
+    new_games_pbp <- sched_for_new %>%
+      filter(game_id %in% new_games$game_id)
+
+    if (nrow(new_games_pbp) > 0) {
+      new_pbp_list <- vector("list", nrow(new_games_pbp))
+      fail_log <- tibble(game_id = character(), error = character())
+
+      for (i in seq_len(nrow(new_games_pbp))) {
+        gid <- new_games_pbp$game_id[i]
+        message("  Fetching PBP for game ", gid)
+
+        pbp <- tryCatch(
+          fastRhockey::pwhl_pbp(game_id = gid),
+          error = function(e) {
+            fail_log <<- bind_rows(
+              fail_log,
+              tibble(game_id = as.character(gid), error = conditionMessage(e))
+            )
+            NULL
+          }
+        )
+
+        if (!is.null(pbp) && nrow(pbp) > 0) {
+          new_pbp_list[[i]] <- pbp
+        }
+
+        Sys.sleep(0.4)
+      }
+
+      # Drop NULLs
+      new_pbp_list <- new_pbp_list[!vapply(new_pbp_list, is.null, logical(1))]
+
+      if (length(new_pbp_list) > 0) {
+        new_pbp <- bind_rows(new_pbp_list) %>%
+          mutate(game_id = as.character(game_id))
+
+        # Join with schedule metadata
+        sched_join <- new_games_pbp %>%
+          select(game_id, game_date, home_team, away_team,
+                 home_score, away_score, season_yr, game_type_label)
+
+        new_pbp <- new_pbp %>%
+          left_join(sched_join, by = "game_id")
+
+        existing_pbp <- read_csv(file.path(data_dir, "pwhl_pbp.csv"),
+                                 show_col_types = FALSE) %>%
+          mutate(game_id = as.character(game_id))
+        updated_pbp <- existing_pbp %>%
+          anti_join(new_pbp, by = "game_id") %>%
+          bind_rows(new_pbp)
+        write_csv(updated_pbp, file.path(data_dir, "pwhl_pbp.csv"))
+        message("  ✓ Added ", nrow(new_pbp), " play-by-play events")
+
+        if (nrow(fail_log) > 0) {
+          message("  ⚠ ", nrow(fail_log), " games failed to fetch PBP")
+        }
       }
     }
-  }
+    TRUE
+  }, error = function(e) {
+    message("  ⚠ Play-by-play update failed, skipping: ", conditionMessage(e))
+    FALSE
+  })
 }
 
 # ============================
