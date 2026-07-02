@@ -66,6 +66,28 @@ scalar_chr <- function(x) {
   as.character(x[1])
 }
 
+# For wide, loosely-typed tables (many digit-only ID/flag columns): cast
+# `old`'s shared columns to match `new`'s types before bind_rows(). Without
+# this, a digit-only column written to CSV can silently round-trip back as
+# <double> on the next read_csv() while the freshly-fetched data is
+# <character> (or vice versa), and bind_rows() hard-errors on the mismatch.
+align_col_types <- function(old, new) {
+  for (col in intersect(names(old), names(new))) {
+    target <- class(new[[col]])[1]
+    if (!identical(class(old[[col]])[1], target)) {
+      old[[col]] <- switch(target,
+        character = as.character(old[[col]]),
+        numeric   = suppressWarnings(as.numeric(old[[col]])),
+        double    = suppressWarnings(as.double(old[[col]])),
+        integer   = suppressWarnings(as.integer(old[[col]])),
+        logical   = as.logical(old[[col]]),
+        old[[col]]
+      )
+    }
+  }
+  old
+}
+
 # ============================
 # HELPER FUNCTIONS (same as initial setup)
 # ============================
@@ -406,6 +428,7 @@ if (nrow(new_games) > 0) {
     # (fetched before it was final) that this refetch should replace, not duplicate.
     updated_summaries <- existing_summaries %>%
       anti_join(new_game_summaries, by = c("season_id", "game_id")) %>%
+      align_col_types(new_game_summaries) %>%
       bind_rows(new_game_summaries)
     write_csv(updated_summaries, file.path(data_dir, "pwhl_game_summaries.csv"))
     message("  ✓ Updated ", nrow(new_game_summaries), " game summaries")
@@ -422,6 +445,7 @@ if (nrow(new_games) > 0) {
       )
     updated_players <- existing_players %>%
       anti_join(new_game_players, by = c("season_id", "game_id")) %>%
+      align_col_types(new_game_players) %>%
       bind_rows(new_game_players)
     write_csv(updated_players, file.path(data_dir, "pwhl_game_players.csv"))
     message("  ✓ Updated ", nrow(new_game_players), " game player records")
@@ -478,7 +502,12 @@ if (nrow(new_games) > 0) {
 
     if (!"id" %in% names(df)) return(NULL)
 
-    df %>% mutate(season_id = as.character(season_id), player_id = as.character(player_id), game_id = as.character(id))
+    # Drop the raw `id` column once game_id captures it as character --
+    # keeping both around is how a digit-only column silently drifts back to
+    # <double> on the next read_csv() and blows up bind_rows() (as it just did).
+    df %>%
+      mutate(season_id = as.character(season_id), player_id = as.character(player_id), game_id = as.character(id)) %>%
+      select(-id)
   }
   
   if (nrow(new_player_list) > 0) {
@@ -491,14 +520,16 @@ if (nrow(new_games) > 0) {
     })
     
     if (nrow(updated_logs) > 0) {
-      existing_logs <- read_csv(file.path(data_dir, "pwhl_player_game_logs.csv"), 
+      existing_logs <- read_csv(file.path(data_dir, "pwhl_player_game_logs.csv"),
                                 show_col_types = FALSE) %>%
-        mutate(game_id = as.character(game_id), season_id = as.character(season_id), 
-               player_id = as.character(player_id))
+        mutate(game_id = as.character(game_id), season_id = as.character(season_id),
+               player_id = as.character(player_id)) %>%
+        select(-any_of("id"))
       
       # Remove old entries for updated players, then add new data
       final_logs <- existing_logs %>%
         anti_join(new_player_list, by = c("season_id", "player_id")) %>%
+        align_col_types(updated_logs) %>%
         bind_rows(updated_logs)
       
       write_csv(final_logs, file.path(data_dir, "pwhl_player_game_logs.csv"))
@@ -576,7 +607,9 @@ if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
     })
     
     if (nrow(new_profiles) > 0) {
-      updated_info <- bind_rows(existing_players_info, new_profiles)
+      updated_info <- existing_players_info %>%
+        align_col_types(new_profiles) %>%
+        bind_rows(new_profiles)
       write_csv(updated_info, file.path(data_dir, "pwhl_players_info.csv"))
       message("  ✓ Added ", nrow(new_profiles), " player profiles")
     }
@@ -725,6 +758,7 @@ if (nrow(new_games) > 0) {
           mutate(game_id = as.character(game_id))
         updated_pbp <- existing_pbp %>%
           anti_join(new_pbp, by = "game_id") %>%
+          align_col_types(new_pbp) %>%
           bind_rows(new_pbp)
         write_csv(updated_pbp, file.path(data_dir, "pwhl_pbp.csv"))
         message("  ✓ Added ", nrow(new_pbp), " play-by-play events")
