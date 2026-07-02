@@ -456,15 +456,37 @@ if (nrow(new_games) > 0) {
 # 3) UPDATE PLAYER GAME LOGS
 # ============================
 
-if (nrow(new_games) > 0) {
-  message("\n=== Updating Player Game Logs ===")
-  
-  # Get unique player/season combinations from new games
-  new_player_list <- new_game_players %>%
-    filter(!is.na(player_id)) %>%
-    mutate(player_id = as.character(player_id), season_id = as.character(season_id)) %>%
-    distinct(season_id, player_id)
-  
+message("\n=== Updating Player Game Logs ===")
+
+# Determine which players need a log refresh by comparing actual roster
+# appearances (pwhl_game_players.csv, which section 2 keeps complete for
+# every final game) against what's already logged -- not by reusing
+# new_games/new_game_players. Those only cover *this run's* newly-final
+# games, so once summaries catch up, new_games goes to zero forever and a
+# player log gap from an earlier crashed run would never get retried.
+all_game_players <- read_csv(file.path(data_dir, "pwhl_game_players.csv"), show_col_types = FALSE) %>%
+  mutate(
+    season_id = as.character(season_id),
+    game_id = as.character(game_id),
+    player_id = as.character(player_id)
+  ) %>%
+  filter(!is.na(player_id))
+
+existing_log_appearances <- read_csv(file.path(data_dir, "pwhl_player_game_logs.csv"), show_col_types = FALSE) %>%
+  mutate(
+    season_id = as.character(season_id),
+    game_id = as.character(game_id),
+    player_id = as.character(player_id)
+  ) %>%
+  select(-any_of("id")) %>%
+  distinct(season_id, player_id, game_id)
+
+new_player_list <- all_game_players %>%
+  distinct(season_id, player_id, game_id) %>%
+  anti_join(existing_log_appearances, by = c("season_id", "player_id", "game_id")) %>%
+  distinct(season_id, player_id)
+
+{
   fetch_player_game_log <- function(season_id, player_id) {
     res <- GET(base_url, query = c(common_params, list(
       view = "player", category = "gamebygame", season_id = season_id, player_id = player_id
@@ -535,6 +557,8 @@ if (nrow(new_games) > 0) {
       write_csv(final_logs, file.path(data_dir, "pwhl_player_game_logs.csv"))
       message("  ✓ Updated logs for ", nrow(new_player_list), " players")
     }
+  } else {
+    message("  ✓ No player game logs missing")
   }
 }
 
@@ -548,12 +572,14 @@ existing_players_info <- read_csv(file.path(data_dir, "pwhl_players_info.csv"),
                                  show_col_types = FALSE) %>%
   mutate(player_id = as.character(player_id), jersey_number = as.character(jersey_number))
 
-if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
-  new_player_ids <- new_game_players %>%
-    filter(!is.na(player_id)) %>%
+# Same reasoning as section 3: check against every known roster appearance,
+# not just today's new_game_players, so a profile gap from an earlier
+# crashed run still gets caught up once summaries stop finding anything new.
+{
+  new_player_ids <- all_game_players %>%
     distinct(player_id) %>%
     anti_join(existing_players_info, by = "player_id")
-  
+
   if (nrow(new_player_ids) > 0) {
     message("  ✓ Found ", nrow(new_player_ids), " new player(s)")
     
@@ -616,8 +642,6 @@ if (nrow(new_games) > 0 && nrow(new_game_players) > 0) {
   } else {
     message("  ✓ No new players")
   }
-} else {
-  message("  ✓ No new players")
 }
 
 # ============================
@@ -680,9 +704,24 @@ if (nrow(current_transactions) > nrow(existing_transactions)) {
 # 6) UPDATE PLAY-BY-PLAY DATA
 # ============================
 
-if (nrow(new_games) > 0) {
-  message("\n=== Updating Play-by-Play Data ===")
+message("\n=== Updating Play-by-Play Data ===")
 
+# Same reasoning as sections 3/4: compare against every final game
+# (pwhl_season_game_ids.csv, rewritten fresh every run in section 1) rather
+# than new_games, so a PBP gap from an earlier crashed run still gets
+# caught up once game-summary detection stops finding anything "new".
+all_final_games <- read_csv(file.path(data_dir, "pwhl_season_game_ids.csv"), show_col_types = FALSE) %>%
+  mutate(season_id = as.character(season_id), game_id = as.character(game_id)) %>%
+  filter(is_final)
+
+existing_pbp_game_ids <- read_csv(file.path(data_dir, "pwhl_pbp.csv"), show_col_types = FALSE) %>%
+  mutate(game_id = as.character(game_id)) %>%
+  distinct(game_id)
+
+games_needing_pbp <- all_final_games %>%
+  anti_join(existing_pbp_game_ids, by = "game_id")
+
+if (nrow(games_needing_pbp) > 0) {
   # Everything in this section depends on the fastRhockey package hitting an
   # external API; a failure here shouldn't take down the game/player/
   # transaction updates above, which are already written to disk by now.
@@ -708,9 +747,9 @@ if (nrow(new_games) > 0) {
       }
     )
 
-    # Filter to only new games
+    # Filter to only games missing PBP
     new_games_pbp <- sched_for_new %>%
-      filter(game_id %in% new_games$game_id)
+      filter(game_id %in% games_needing_pbp$game_id)
 
     if (nrow(new_games_pbp) > 0) {
       new_pbp_list <- vector("list", nrow(new_games_pbp))
@@ -773,6 +812,8 @@ if (nrow(new_games) > 0) {
     message("  ⚠ Play-by-play update failed, skipping: ", conditionMessage(e))
     FALSE
   })
+} else {
+  message("  ✓ No play-by-play gaps found")
 }
 
 # ============================
