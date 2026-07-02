@@ -28,8 +28,8 @@ jobs:
       
       - name: Install R packages
         run: |
-          Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "purrr", "readr", "tibble", "rvest", "stringr", "glue"))'
-          Rscript -e 'install.packages("fastRhockey")'
+          Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "purrr", "readr", "tibble", "rvest", "stringr", "glue", "remotes"))'
+          Rscript -e 'remotes::install_github("sportsdataverse/fastRhockey")'
       
       - name: Run daily update script
         run: |
