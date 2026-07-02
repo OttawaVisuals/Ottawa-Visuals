@@ -817,6 +817,348 @@ if (nrow(games_needing_pbp) > 0) {
 }
 
 # ============================
+# 7) UPDATE STANDINGS
+# ============================
+
+message("\n=== Updating Standings ===")
+
+# Standings live on a different feed (statviewfeed, not modulekit) with a
+# different public key, and the response is wrapped in bare parentheses
+# instead of a named JSONP callback -- strip those instead of the
+# callback-regex used elsewhere. Two calls per season: "league" grouping has
+# the core W/L/points/GF/GA, "division" grouping has PP/PK detail; join them
+# on team_id.
+fetch_standings_view <- function(season_id, group_by) {
+  res <- GET(
+    base_url,
+    query = list(
+      feed          = "statviewfeed",
+      view          = "teams",
+      groupTeamsBy  = group_by,
+      context       = "overall",
+      site_id       = "2",
+      season        = season_id,
+      special       = if (group_by == "division") "true" else "false",
+      key           = "694cfeed58c932ee",
+      client_code   = client_code,
+      league_id     = "1",
+      division      = if (group_by == "division") "-1" else "undefined",
+      sort          = "points",
+      lang          = "en"
+    )
+  )
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  txt <- sub("^\\(", "", txt)
+  txt <- sub("\\)$", "", txt)
+  js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
+  if (is.null(js) || length(js) == 0) return(NULL)
+
+  data_list <- js[[1]]$sections[[1]]$data
+  if (is.null(data_list) || length(data_list) == 0) return(NULL)
+
+  rows <- map(data_list, function(x) {
+    row <- x$row
+    row$team_id   <- scalar_chr(x$prop$team_code$teamLink %||% x$prop$name$teamLink)
+    row$team_code <- sub("^[a-z]+ - ", "", scalar_chr(row$team_code))
+    row$name      <- sub("^[a-z]+ - ", "", scalar_chr(row$name))
+    as_tibble(row)
+  })
+  bind_rows(rows)
+}
+
+fetch_standings_for_season <- function(season_id) {
+  league_df   <- fetch_standings_view(season_id, "league")
+  Sys.sleep(0.2)
+  division_df <- fetch_standings_view(season_id, "division")
+  if (is.null(league_df) && is.null(division_df)) return(NULL)
+
+  if (!is.null(division_df)) {
+    division_df <- division_df %>% select(-any_of(c("name", "rank")))
+  }
+
+  combined <- if (!is.null(league_df) && !is.null(division_df)) {
+    league_df %>% left_join(division_df, by = c("team_id", "team_code"))
+  } else {
+    league_df %||% division_df
+  }
+
+  combined %>% mutate(season_id = as.character(season_id))
+}
+
+# Always a full refresh, not an upsert -- standings are a current snapshot,
+# not an append-only log, and the dataset is small enough (a handful of
+# rows per season) that there's no benefit to tracking a diff.
+all_standings <- map_dfr(all_seasons$season_id, function(sid) {
+  result <- fetch_standings_for_season(sid)
+  Sys.sleep(0.3)
+  result
+})
+
+if (nrow(all_standings) > 0) {
+  write_csv(all_standings, file.path(data_dir, "pwhl_standings.csv"))
+  message("  ✓ Updated standings for ", length(unique(all_standings$season_id)), " season(s)")
+} else {
+  message("  ⚠ No standings data returned")
+}
+
+# ============================
+# 8) UPDATE TEAM ROSTERS
+# ============================
+
+message("\n=== Updating Team Rosters ===")
+
+fetch_team_roster <- function(team_id, season_id) {
+  res <- GET(base_url, query = c(common_params, list(view = "roster", team_id = team_id, season_id = season_id)))
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+  roster <- js$SiteKit$Roster
+  if (is.null(roster) || length(roster) == 0) return(NULL)
+
+  df <- tryCatch(as_tibble(roster), error = function(e) NULL)
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+
+  df %>%
+    mutate(
+      team_id   = as.character(team_id),
+      season_id = as.character(season_id),
+      player_id = as.character(player_id)
+    )
+}
+
+# Current roster is a snapshot (like standings), not an append-only log --
+# full refresh every run, keyed off the team/season pairs already known
+# from pwhl_teams.csv.
+team_season_pairs <- read_csv(file.path(data_dir, "pwhl_teams.csv"), show_col_types = FALSE) %>%
+  mutate(team_id = as.character(team_id), season_id = as.character(season_id)) %>%
+  distinct(season_id, team_id)
+
+all_rosters <- map2_dfr(team_season_pairs$season_id, team_season_pairs$team_id, function(sid, tid) {
+  result <- fetch_team_roster(tid, sid)
+  Sys.sleep(0.2)
+  result
+})
+
+if (nrow(all_rosters) > 0) {
+  write_csv(all_rosters, file.path(data_dir, "pwhl_team_rosters.csv"))
+  message("  ✓ Updated rosters for ", nrow(team_season_pairs), " team-season(s)")
+} else {
+  message("  ⚠ No roster data returned")
+}
+
+# ============================
+# 9) UPDATE PLAYER SEASON STATS
+# ============================
+
+message("\n=== Updating Player Season Stats ===")
+
+fetch_player_season_stats <- function(player_id) {
+  res <- GET(base_url, query = c(common_params, list(view = "player", category = "seasonstats", player_id = player_id)))
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+  player_data <- js$SiteKit$Player
+  if (is.null(player_data)) return(NULL)
+
+  rows <- list()
+  for (stat_type in c("regular", "playoff", "exhibition")) {
+    block <- player_data[[stat_type]]
+    if (is.null(block) || length(block) == 0) next
+    df <- tryCatch(as_tibble(block), error = function(e) NULL)
+    if (is.null(df) || nrow(df) == 0) next
+    rows[[stat_type]] <- df %>% mutate(stat_type = stat_type)
+  }
+  if (length(rows) == 0) return(NULL)
+
+  bind_rows(rows) %>%
+    mutate(player_id = as.character(player_id), season_id = as.character(season_id))
+}
+
+# Self-healing like sections 3/4/6: refresh anyone whose game log just
+# changed this run, plus backfill anyone who has never been fetched at all
+# (covers both new players and this feature's own bootstrap on first run).
+existing_season_stats_ids <- tryCatch(
+  read_csv(file.path(data_dir, "pwhl_player_season_stats.csv"), show_col_types = FALSE) %>%
+    mutate(player_id = as.character(player_id)) %>%
+    distinct(player_id),
+  error = function(e) tibble(player_id = character())
+)
+
+players_needing_season_stats <- bind_rows(
+  new_player_list %>% select(player_id),
+  all_game_players %>% distinct(player_id) %>% anti_join(existing_season_stats_ids, by = "player_id")
+) %>%
+  distinct(player_id) %>%
+  filter(!is.na(player_id))
+
+if (nrow(players_needing_season_stats) > 0) {
+  updated_season_stats <- map_dfr(players_needing_season_stats$player_id, function(pid) {
+    result <- fetch_player_season_stats(pid)
+    Sys.sleep(0.2)
+    result
+  })
+
+  if (nrow(updated_season_stats) > 0) {
+    existing_season_stats <- tryCatch(
+      read_csv(file.path(data_dir, "pwhl_player_season_stats.csv"), show_col_types = FALSE) %>%
+        mutate(player_id = as.character(player_id)),
+      error = function(e) tibble()
+    )
+    final_season_stats <- if (nrow(existing_season_stats) > 0) {
+      existing_season_stats %>%
+        anti_join(players_needing_season_stats, by = "player_id") %>%
+        align_col_types(updated_season_stats) %>%
+        bind_rows(updated_season_stats)
+    } else {
+      updated_season_stats
+    }
+    write_csv(final_season_stats, file.path(data_dir, "pwhl_player_season_stats.csv"))
+    message("  ✓ Updated season stats for ", nrow(players_needing_season_stats), " player(s)")
+  }
+} else {
+  message("  ✓ No player season stats missing")
+}
+
+# ============================
+# 10) UPDATE PLAYOFF BRACKET
+# ============================
+
+message("\n=== Updating Playoff Bracket ===")
+
+fetch_bracket_for_season <- function(season_id) {
+  res <- GET(base_url, query = c(common_params, list(view = "brackets", season_id = season_id)))
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
+  brackets <- js$SiteKit$Brackets
+  if (is.null(brackets) || is.null(brackets$rounds) || length(brackets$rounds) == 0) return(NULL)
+
+  teams_map <- brackets$teams %||% list()
+  team_name <- function(tid) {
+    tid_chr <- scalar_chr(tid)
+    if (is.na(tid_chr)) return(NA_character_)
+    t <- teams_map[[tid_chr]]
+    if (is.null(t)) NA_character_ else scalar_chr(t$name)
+  }
+
+  rows <- list()
+  for (round in brackets$rounds) {
+    for (matchup in (round$matchups %||% list())) {
+      for (g in (matchup$games %||% list())) {
+        rows[[length(rows) + 1]] <- tibble(
+          season_id         = as.character(season_id),
+          round             = scalar_chr(round$round),
+          round_name        = scalar_chr(round$round_name),
+          series_letter     = scalar_chr(matchup$series_letter),
+          team1_id          = scalar_chr(matchup$team1),
+          team1_name        = team_name(matchup$team1),
+          team2_id          = scalar_chr(matchup$team2),
+          team2_name        = team_name(matchup$team2),
+          team1_series_wins = suppressWarnings(as.integer(matchup$team1_wins)),
+          team2_series_wins = suppressWarnings(as.integer(matchup$team2_wins)),
+          game_id           = scalar_chr(g$game_id),
+          home_team_id      = scalar_chr(g$home_team),
+          home_goals        = suppressWarnings(as.integer(g$home_goal_count)),
+          visiting_team_id  = scalar_chr(g$visiting_team),
+          visiting_goals    = suppressWarnings(as.integer(g$visiting_goal_count)),
+          game_status       = scalar_chr(g$game_status),
+          game_date         = scalar_chr(g$date_time)
+        )
+      }
+    }
+  }
+  if (length(rows) == 0) return(NULL)
+  bind_rows(rows)
+}
+
+# Full refresh every run, same reasoning as standings/rosters -- cheap
+# (most seasons return nothing, since most seasons have no playoffs yet).
+all_brackets <- map_dfr(all_seasons$season_id, function(sid) {
+  result <- fetch_bracket_for_season(sid)
+  Sys.sleep(0.3)
+  result
+})
+
+if (nrow(all_brackets) > 0) {
+  write_csv(all_brackets, file.path(data_dir, "pwhl_playoff_bracket.csv"))
+  message("  ✓ Updated playoff bracket (", length(unique(all_brackets$season_id)), " season(s) with playoff data)")
+} else {
+  message("  ✓ No playoff bracket data found")
+}
+
+# ============================
+# 11) UPDATE PLAYER MEDIA
+# ============================
+
+message("\n=== Updating Player Media ===")
+
+fetch_player_media <- function(player_id) {
+  res <- GET(base_url, query = c(common_params, list(view = "player", category = "media", player_id = player_id)))
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+  media <- js$SiteKit$Player
+  if (is.null(media) || length(media) == 0) return(NULL)
+
+  df <- tryCatch(as_tibble(media), error = function(e) NULL)
+  if (is.null(df) || nrow(df) == 0) return(NULL)
+
+  df %>%
+    mutate(player_id = as.character(player_id)) %>%
+    rename(media_id = id) %>%
+    select(any_of(c("player_id", "media_id", "media_type", "is_primary", "url", "thumb", "title", "width", "height", "uploaded")))
+}
+
+# This file was an orphaned one-time bootstrap snapshot (initial_setup.R,
+# which fetched it, was never committed) -- self-heal by fetching anyone
+# who has never had a media row captured at all.
+existing_media_ids <- tryCatch(
+  read_csv(file.path(data_dir, "pwhl_players_media.csv"), show_col_types = FALSE) %>%
+    mutate(player_id = as.character(player_id)) %>%
+    distinct(player_id),
+  error = function(e) tibble(player_id = character())
+)
+
+players_needing_media <- all_game_players %>%
+  distinct(player_id) %>%
+  filter(!is.na(player_id)) %>%
+  anti_join(existing_media_ids, by = "player_id")
+
+if (nrow(players_needing_media) > 0) {
+  updated_media <- map_dfr(players_needing_media$player_id, function(pid) {
+    result <- fetch_player_media(pid)
+    Sys.sleep(0.2)
+    result
+  })
+
+  if (nrow(updated_media) > 0) {
+    existing_media <- tryCatch(
+      read_csv(file.path(data_dir, "pwhl_players_media.csv"), show_col_types = FALSE) %>%
+        mutate(player_id = as.character(player_id)),
+      error = function(e) tibble()
+    )
+    final_media <- if (nrow(existing_media) > 0) {
+      existing_media %>%
+        anti_join(players_needing_media, by = "player_id") %>%
+        align_col_types(updated_media) %>%
+        bind_rows(updated_media)
+    } else {
+      updated_media
+    }
+    write_csv(final_media, file.path(data_dir, "pwhl_players_media.csv"))
+    message("  ✓ Updated media for ", nrow(players_needing_media), " player(s)")
+  }
+} else {
+  message("  ✓ No player media missing")
+}
+
+# ============================
 # DONE
 # ============================
 
