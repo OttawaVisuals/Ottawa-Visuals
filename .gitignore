@@ -27,6 +27,7 @@ Weather/data/raw/
 Weather/data/*.csv
 Weather/weather_fetch.log
 Weather/weather_fetch_hourly.log
+Weather/lightning_fetch.log
 
 # GIS shapefile components (the site uses the derived .json / geo.js)
 *.shp

@@ -55,6 +55,25 @@ naive "extreme weather is rising."
 - **Hourly fields used:** Wind Spd (continuous, not just daily max gust), Hmdx
   (humidex), Wind Chill, and the `Weather` text condition field (thunderstorm /
   freezing rain / blowing snow / ice pellets, via keyword match).
+- **Lightning strikes (2021–present), separate/supplementary source:**
+  investigated Canada's official Lightning Detection Network (CLDN) first,
+  since it's ECCC and matches everything else here — ruled out: the only
+  public bulk access is a rolling near-real-time feed
+  (`dd.weather.gc.ca/today/lightning/`, live since Jan 2023), not a historical
+  archive; the 45-million-flash 1999–2018 academic dataset almost certainly
+  came from a research data-sharing agreement, not open download. Fell back to
+  **LightningMaps.org / Blitzortung.org**, a crowdsourced volunteer network —
+  real, working, public, no auth, but a materially weaker source: found its
+  `data.lightningmaps.org/Public/Strokes/Areas/<N>/YYYY/MM/DD/HH/*.json.gz`
+  archive (gzipped, one file per 10-minute window), and since there's no
+  documented area-number-to-region mapping, sampled all ~98 areas by hand and
+  checked their lat/lon to find **Area 21** (covers ~25–49.7°N, -89.9 to
+  -67.6°W — confirmed real strikes within a few km of Ottawa in a sample
+  file). Data exists from ~Feb 2021, patchily at first (some early days 404
+  entirely where neighbours don't) — consistent with a still-growing detector
+  network. **This means a rising strike count over this dataset's life may
+  partly reflect more detectors coming online, not more real lightning** —
+  flagged prominently in the dashboard, not just here.
 
 ## 3. Metrics / climate indices (per year, computed once → JSON)
 Standard ETCCDI-style indices:
@@ -224,3 +243,18 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
   (701→1023→1132 samples across three checkpoints) and shrink on backward
   scrub (1023→532), and that a slider drag's rapid `input` events are
   coalesced to one redraw per animation frame rather than one per event.
+- [ ] Fourth round — lightning strikes. Built `ottawa_lightning_fetch.py`
+  after ruling out CLDN (ECCC's own network) for public bulk historical
+  access — see §2 for the investigation. Landed on LightningMaps.org/
+  Blitzortung, Area 21, empirically discovered (no documented area→region
+  map). Measured real request latency before committing to a design:
+  sequential ~47h for the full 2021–present range, 8-concurrent ~5.7h,
+  24-concurrent ~1.4h with zero errors/throttling observed — shipped with a
+  default of 10 workers as a deliberate middle ground (fast enough to be
+  practical, not maxed out against a volunteer-run server). Smoke-tested on
+  a storm day (2500 strikes), a quiet day (1 strike), a winter day (0
+  strikes, 0 failures — confirms 404-as-"no data" is handled correctly, not
+  miscounted as an error), and confirmed resumability (re-running an
+  already-fetched range does zero new requests). Full 2021–present run
+  kicked off in the background; **not yet wired into weather.html** — next
+  step once the fetch finishes.
