@@ -1,331 +1,344 @@
-game_id,season_id,game_date,home_team,visitor_team,home_score,visitor_score,attendance,game_length,game_length_seconds,venue,num_periods,shootout_rounds,referee1_name,referee1_number,referee2_name,referee2_number,linesperson1_name,linesperson1_number,linesperson2_name,linesperson2_number
-2,1,"Monday, January  1, 2024",PWHL Toronto,PWHL New York,0,4,2537,2:27,8820,Mattamy Athletic Centre | Toronto,NA,0,Jake Kamrass,NA,Lacey Senuk,NA,Antoine Bujold-Roux (72),NA,Erin Zach (60),NA
-3,1,"Tuesday, January  2, 2024",PWHL Ottawa,PWHL Montreal,2,3,8318,2:23,8580,TD Place | Ottawa,NA,0,Elizabeth Mantha (15),NA,Liam Maaskant,NA,Jessica Chartrand (26),NA,Anthony Lapointe (78),NA
-4,1,"Wednesday, January  3, 2024",PWHL Boston,PWHL Minnesota,2,3,4012,2:21,8460,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Jordan Deckard,NA,TJ Dockery (70),NA,Kirsten Welsh (10),NA
-5,1,"Friday, January  5, 2024",PWHL New York,PWHL Toronto,2,3,2152,2:25,8700,Total Mortgage Arena | Bridgeport,NA,0,Chelsea Rapin (22),NA,Samantha Hiller (12),NA,Stephanie Gagnon (22),NA,Erin Zach (60),NA
-6,1,"Saturday, January  6, 2024",PWHL Minnesota,PWHL Montreal,3,0,13316,2:21,8460,Xcel Energy Center,NA,0,Melissa Doyle (48),NA,Amy Martin (52),NA,Greg Offerman (95),NA,Sarah Buckner (10),NA
-9,1,"Wednesday, January 10, 2024",PWHL New York,PWHL Montreal,2,5,2201,2:26,8760,UBS Arena | Elmont,NA,0,Jim Curtin (23),NA,Charly Hurley (43),NA,Patrick Dapuzzo (77),NA,Antoine Bujold-Roux (72),NA
-8,1,"Wednesday, January 10, 2024",PWHL Minnesota,PWHL Toronto,3,1,4707,2:20,8400,Xcel Energy Center,NA,0,Alexandra Clarke (7),NA,Adam Tobias (16),NA,Luke Pye (80),NA,Sarah Buckner (10),NA
-10,1,"Saturday, January 13, 2024",PWHL Toronto,PWHL Ottawa,1,5,2417,2:16,8160,Mattamy Athletic Centre | Toronto,NA,0,Krysta Ansell (19),NA,Grace Barlow (73),NA,Sophie Thomson (75),NA,Spencer Knox (81),NA
-11,1,"Saturday, January 13, 2024",PWHL Montreal,PWHL Boston,2,3,3245,2:30,9000,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (51),NA,Lacey Senuk (39),NA,Jessica Chartrand (63),NA,Shawn Oliver (56),NA
-12,1,"Sunday, January 14, 2024",PWHL Minnesota,PWHL New York,2,3,7951,2:24,8640,Xcel Energy Center,NA,0,Jake Kamrass (3),NA,Amanda Tassoni (21),NA,Sarah Buckner (10),NA,Erin Zach (60),NA
-13,1,"Tuesday, January 16, 2024",PWHL Montreal,PWHL New York,3,2,6334,2:29,8940,Place Bell | Laval,NA,0,Jenn Berezowski (65),NA,Harrison O'Pray (27),NA,Jarrett T. Burton (90),NA,Luke Pye (80),NA
-14,1,"Wednesday, January 17, 2024",PWHL Toronto,PWHL Boston,2,3,2491,2:20,8400,Mattamy Athletic Centre | Toronto,NA,0,Jack Hennigan (11),NA,David Elford (44),NA,Laura Gutauskas (67),NA,Ali Beres (68),NA
-15,1,"Wednesday, January 17, 2024",PWHL Ottawa,PWHL Minnesota,2,3,5609,2:26,8760,TD Place | Ottawa,NA,0,Damian Figueira (20),NA,Harrison O'Pray (27),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA
-16,1,"Saturday, January 20, 2024",PWHL Boston,PWHL New York,1,4,4007,2:13,7980,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Shauna Neary (88),NA,Stephanie Gagnon (76),NA,Kirsten Welsh (64),NA
-17,1,"Saturday, January 20, 2024",PWHL Montreal,PWHL Toronto,3,4,3232,2:36,9360,Verdun Auditorium | Montreal,NA,2,Elizabeth Mantha (15),NA,Chelsea Rapin (2),NA,Laura Gutauskas (67),NA,Anthony Lapointe (78),NA
-18,1,"Tuesday, January 23, 2024",PWHL Ottawa,PWHL Toronto,3,1,6316,2:17,8220,TD Place | Ottawa,NA,0,Chad Ingalls (25),NA,Liam Maaskant (62),NA,Stephanie Gagnon (76),NA,Dustin McCrank (68),NA
-19,1,"Wednesday, January 24, 2024",PWHL Ottawa,PWHL Boston,2,3,5208,2:24,8640,TD Place | Ottawa,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Justine Todd (70),NA,Shawn Oliver (56),NA
-20,1,"Wednesday, January 24, 2024",PWHL Minnesota,PWHL Montreal,1,2,5001,2:23,8580,Xcel Energy Center,NA,0,Charly Hurley (43),NA,Melissa Doyle (48),NA,Sarah Buckner (10),NA,Antoine Bujold-Roux (72),NA
-21,1,"Friday, January 26, 2024",PWHL Toronto,PWHL New York,2,0,2506,2:17,8220,Mattamy Athletic Centre | Toronto,NA,0,Cianna Murray (13),NA,Krysta Ansell (19),NA,Sophie Thomson (75),NA,Erin Zach (60),NA
-22,1,"Saturday, January 27, 2024",PWHL Montreal,PWHL Ottawa,2,1,8646,2:29,8940,Place Bell | Laval,NA,0,Shauna Neary (88),NA,Alexandra Clarke (7),NA,Ali Beres (68),NA,Spencer Knox (81),NA
-23,1,"Saturday, January 27, 2024",PWHL Boston,PWHL Minnesota,4,3,4059,2:21,8460,Tsongas Center | Lowell,NA,0,Marie-Eve Couture (51),NA,Katie Glover (45),NA,Anthony Lapointe (78),NA,Jeremy Faucher (85),NA
-24,1,"Sunday, January 28, 2024",PWHL New York,PWHL Minnesota,1,2,2393,2:30,9000,Total Mortgage Arena | Bridgeport,NA,0,Katie Glover (45),NA,Jake Kamrass (3),NA,Jarrett T. Burton (90),NA,Patrick Dapuzzo (77),NA
-25,1,"Saturday, February  3, 2024",PWHL Toronto,PWHL Minnesota,4,1,2470,2:19,8340,Mattamy Athletic Centre | Toronto,NA,0,Amy Martin (52),NA,Grace Barlow (22),NA,Melissa Brunn (73),NA,TJ Dockery (50),NA
-26,1,"Sunday, February  4, 2024",PWHL Ottawa,PWHL New York,3,4,8062,2:30,9000,TD Place | Ottawa,NA,0,Samantha Hiller (12),NA,Laura Schmidlein (53),NA,Greg Offerman (95),NA,Melissa Brunn (73),NA
-27,1,"Sunday, February  4, 2024",PWHL Boston,PWHL Montreal,1,2,4210,2:19,8340,Tsongas Center | Lowell,NA,0,Sydney Harris (46),NA,Jim Curtin (23),NA,Erika Greenen (88),NA,Abigail Torres,NA
-29,1,"Wednesday, February 14, 2024",PWHL Boston,PWHL Toronto,3,5,1791,2:20,8400,Tsongas Center | Lowell,NA,0,Laura Schmidlein (53),NA,Jake Kamrass (3),NA,Patrick Dapuzzo (77),NA,Jenny Cameron (49),NA
-28,1,"Wednesday, February 14, 2024",PWHL Minnesota,PWHL Ottawa,2,1,6276,2:14,8040,Xcel Energy Center,NA,0,Cianna Murray (13),NA,Kyle Bauman (18),NA,Erin Zach (60),NA,Greg Offerman (95),NA
-30,1,"Friday, February 16, 2024",PWHL Toronto,PWHL Montreal,3,0,19285,2:20,8400,Scotiabank Arena | Toronto,NA,0,Brandy Beecroft (47),NA,Jordan Deckard (9),NA,Ali Beres (67),NA,Luke Pye (80),NA
-31,1,"Saturday, February 17, 2024",PWHL Ottawa,PWHL Minnesota,1,2,8407,2:21,8460,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Jack Hennigan (44),NA,Melissa Brunn (73),NA,Jarrett T. Burton (90),NA
-32,1,"Saturday, February 17, 2024",PWHL Boston,PWHL New York,1,2,4002,2:25,8700,Tsongas Center | Lowell,NA,0,Laura White (47),NA,Lacey Senuk (39),NA,Sarah Buckner (10),NA,Justine Todd (70),NA
-33,1,"Sunday, February 18, 2024",PWHL Montreal,PWHL Minnesota,2,1,10172,2:16,8160,Place Bell | Laval,NA,0,Alex Lepkowski (14),NA,Hillary Brennan (61),NA,Melissa Brunn (73),NA,Adam Burnett (94),NA
-83,1,"Monday, February 19, 2024",PWHL Boston,PWHL Ottawa,2,4,2849,2:27,8820,Tsongas Center | Lowell,NA,0,Jared Cummins (1),NA,Sydney Harris (46),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (67),NA
-34,1,"Wednesday, February 21, 2024",PWHL Boston,PWHL Ottawa,3,1,1889,2:17,8220,Tsongas Center | Lowell,NA,0,Hillary Brennan (61),NA,Andrew Bell (6),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA
-35,1,"Wednesday, February 21, 2024",PWHL New York,PWHL Montreal,3,2,2128,2:27,8820,UBS Arena | Elmont,NA,1,Sydney Harris (46),NA,Liam Maaskant (62),NA,Dustin McCrank (84),NA,Kirsten Welsh (64),NA
-36,1,"Friday, February 23, 2024",PWHL Toronto,PWHL New York,2,1,2494,2:29,8940,Mattamy Athletic Centre | Toronto,NA,1,Alexandra Clarke (7),NA,Damian Figueira (20),NA,Dustin McCrank (84),NA,Erin Zach (60),NA
-37,1,"Saturday, February 24, 2024",PWHL Montreal,PWHL Ottawa,6,3,3232,2:24,8640,Verdun Auditorium | Montreal,NA,0,Beatrice Fortin (26),NA,Elizabeth Mantha (15),NA,Justine Todd (70),NA,Anthony Lapointe (78),NA
-38,1,"Sunday, February 25, 2024",PWHL Minnesota,PWHL Boston,0,2,10186,2:20,8400,Xcel Energy Center,NA,0,Samantha Hiller (12),NA,Laura White (47),NA,Jarrett T. Burton (90),NA,Shawn Oliver (56),NA
-40,1,"Tuesday, February 27, 2024",PWHL Minnesota,PWHL Toronto,3,4,2718,2:35,9300,3M Arena at Mariucci | Minneapolis,NA,0,Tatu Kunto (17),NA,Alex Lepkowski (14),NA,Patrick Dapuzzo (77),NA,Greg Offerman (95),NA
-39,1,"Wednesday, February 28, 2024",PWHL Ottawa,PWHL New York,4,2,6889,2:32,9120,TD Place | Ottawa,NA,0,David Elford (11),NA,Marie-Eve Couture (51),NA,Joanie Duchesneau (74),NA,Laura Gutauskas (67),NA
-41,1,"Saturday, March  2, 2024",PWHL Ottawa,PWHL Toronto,2,5,8447,2:22,8520,TD Place | Ottawa,NA,0,Damian Figueira (20),NA,Melissa Doyle (48),NA,Spencer Knox (81),NA,Sophie Thomson (75),NA
-42,1,"Saturday, March  2, 2024",PWHL Montreal,PWHL Boston,3,1,3232,2:22,8520,Verdun Auditorium | Montreal,NA,0,Grace Barlow (22),NA,Amy Martin (52),NA,Stephanie Gagnon (76),NA,Joanie Duchesneau (74),NA
-43,1,"Sunday, March  3, 2024",PWHL New York,PWHL Minnesota,0,2,4459,2:18,8280,UBS Arena | Elmont,NA,0,Kyle Bauman (18),NA,Kelly Cooke (29),NA,Abigail Torres (65),NA,Erin Zach (60),NA
-44,1,"Tuesday, March  5, 2024",PWHL Minnesota,PWHL Ottawa,4,3,4585,2:31,9060,Xcel Energy Center,NA,1,Chad Ingalls (25),NA,Bobby Jo Love (5),NA,Ali Beres (67),NA,Dustin McCrank (84),NA
-46,1,"Wednesday, March  6, 2024",PWHL New York,PWHL Montreal,3,4,728,2:30,9000,Total Mortgage Arena | Bridgeport,NA,0,Shauna Neary (49),NA,Harrison O'Pray (27),NA,Antoine Bujold-Roux (72),NA,Kirsten Welsh (64),NA
-45,1,"Wednesday, March  6, 2024",PWHL Toronto,PWHL Boston,3,1,2479,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Cianna Murray (13),NA,Chris Rumble (24),NA,Adam Burnett (94),NA,Luke Pye (80),NA
-47,1,"Friday, March  8, 2024",PWHL Toronto,PWHL Montreal,3,0,2554,2:29,8940,Mattamy Athletic Centre | Toronto,NA,0,Chelsea Rapin (2),NA,Kyle Bauman (18),NA,Anthony Lapointe (78),NA,Sophie Thomson (75),NA
-48,1,"Sunday, March 10, 2024",PWHL Boston,PWHL New York,3,2,4607,2:20,8400,Tsongas Center | Lowell,NA,0,Amanda Tassoni (21),NA,Jim Curtin (23),NA,Laura Gutauskas (67),NA,Patrick Dapuzzo (77),NA
-49,1,"Sunday, March 10, 2024",PWHL Montreal,PWHL Ottawa,2,4,10172,2:24,8640,Place Bell | Laval,NA,0,Jake Kamrass (3),NA,Krysta Ansell (19),NA,Adam Burnett (94),NA,Ali Beres (67),NA
-50,1,"Wednesday, March 13, 2024",PWHL Minnesota,PWHL Boston,4,0,4669,2:20,8400,Xcel Energy Center,NA,0,Jared Cummins (1),NA,Tatu Kunto (17),NA,TJ Dockery (50),NA,Justine Todd (70),NA
-51,1,"Saturday, March 16, 2024",PWHL Minnesota,PWHL New York,5,1,9006,2:18,8280,Xcel Energy Center,NA,0,Kyle Bauman (18),NA,Beatrice Fortin (26),NA,Joanie Duchesneau (74),NA,Sarah Buckner (10),NA
-65,1,"Saturday, March 16, 2024",PWHL Boston,PWHL Ottawa,2,1,13736,2:40,9600,Little Caesars Arena | Detroit,NA,1,Elizabeth Mantha (15),NA,Jack Hennigan (44),NA,Kirsten Welsh (64),NA,Jarrett T. Burton (90),NA
-66,1,"Sunday, March 17, 2024",PWHL Montreal,PWHL Toronto,1,2,8850,2:14,8040,PPG Paints Arena | Pittsburgh,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Anthony Lapointe (78),NA,Shawn Oliver (56),NA
-53,1,"Wednesday, March 20, 2024",PWHL New York,PWHL Ottawa,0,3,1702,2:24,8640,Total Mortgage Arena | Bridgeport,NA,0,Chris Rumble (24),NA,Hillary Brennan (61),NA,Luke Pye (80),NA,Spencer Knox (81),NA
-52,1,"Wednesday, March 20, 2024",PWHL Toronto,PWHL Boston,2,1,2525,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Andrew Bell (6),NA,Alexandra Clarke (7),NA,Jeremy Faucher (85),NA,Adam Burnett (94),NA
-54,1,"Saturday, March 23, 2024",PWHL Ottawa,PWHL Toronto,5,3,8448,2:25,8700,TD Place | Ottawa,NA,0,Brandy Beecroft (33),NA,Harrison O'Pray (27),NA,TJ Dockery (50),NA,Sarah Buckner (10),NA
-55,1,"Sunday, March 24, 2024",PWHL Minnesota,PWHL Montreal,3,2,7268,2:35,9300,Xcel Energy Center,NA,1,Jenn Berezowski (4),NA,Cianna Murray (13),NA,Ali Beres (68),NA,Dustin McCrank (84),NA
-56,1,"Monday, March 25, 2024",PWHL New York,PWHL Boston,3,2,2834,2:24,8640,UBS Arena | Elmont,NA,0,Jake Kamrass (3),NA,Sydney Harris (46),NA,Matthew Heinen (82),NA,Antoine Bujold-Roux (72),NA
-58,1,"Thursday, April 18, 2024",PWHL Montreal,PWHL Minnesota,4,3,3084,2:23,8580,Verdun Auditorium | Montreal,NA,0,Tatu Kunto (17),NA,Laura Schmidlein (53),NA,Shawn Oliver (56),NA,Adam Burnett (94),NA
-57,1,"Thursday, April 18, 2024",PWHL Boston,PWHL Toronto,2,1,4084,2:18,8280,Tsongas Center | Lowell,NA,0,Katie Glover (45),NA,Alex Lepkowski (14),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA
-67,1,"Saturday, April 20, 2024",PWHL Montreal,PWHL Toronto,2,3,21105,2:34,9240,Bell Centre | Montréal,NA,0,Grace Barlow (22),NA,Jenn Berezowski (4),NA,Laura Gutauskas (67),NA,Dustin McCrank (84),NA
-68,1,"Saturday, April 20, 2024",PWHL New York,PWHL Boston,1,2,5132,2:26,8760,Prudential Center | Newark,NA,0,Krysta Ansell (19),NA,Katie Glover (45),NA,Joanie Duchesneau (74),NA,Justine Todd (70),NA
-59,1,"Saturday, April 20, 2024",PWHL Ottawa,PWHL Minnesota,4,0,8110,2:20,8400,TD Place | Ottawa,NA,0,Beatrice Fortin (26),NA,Damian Figueira (20),NA,Sophie Thomson (75),NA,Stephanie Gagnon (76),NA
-69,1,"Wednesday, April 24, 2024",PWHL Ottawa,PWHL Boston,3,2,7686,2:26,8760,TD Place | Ottawa,NA,1,Chad Ingalls (25),NA,Hillary Brennan (61),NA,Laura Gutauskas (67),NA,Antoine Bujold-Roux (72),NA
-60,1,"Wednesday, April 24, 2024",PWHL Montreal,PWHL New York,5,2,3232,2:26,8760,Verdun Auditorium | Montreal,NA,0,Elizabeth Mantha (15),NA,Chris Rumble (24),NA,Stephanie Gagnon (76),NA,Jarrett T. Burton (90),NA
-62,1,"Saturday, April 27, 2024",PWHL Ottawa,PWHL Montreal,0,2,8452,2:23,8580,TD Place | Ottawa,NA,0,Jake Kamrass (3),NA,Liam Maaskant (62),NA,Adam Burnett (94),NA,Anthony Lapointe (78),NA
-70,1,"Saturday, April 27, 2024",PWHL Minnesota,PWHL Boston,1,2,9977,2:20,8400,Xcel Energy Center,NA,0,Kyle Bauman (18),NA,Marie-Eve Couture (51),NA,Sarah Buckner (10),NA,Melissa Brunn (73),NA
-61,1,"Sunday, April 28, 2024",PWHL New York,PWHL Toronto,2,6,1668,2:28,8880,UBS Arena | Elmont,NA,0,Jack Hennigan (44),NA,Amy Martin (52),NA,TJ Dockery (70),NA,Justine Todd (50),NA
-71,1,"Tuesday, April 30, 2024",PWHL New York,PWHL Ottawa,4,3,2992,2:24,8640,Prudential Center | Newark,NA,0,Andrew Bell (6),NA,Samantha Hiller (12),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA
-63,1,"Wednesday, May  1, 2024",PWHL Toronto,PWHL Minnesota,4,1,2571,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Lacey Senuk (39),NA,David Elford (11),NA,Sophie Thomson (75),NA,Jeremy Faucher (85),NA
-73,1,"Saturday, May  4, 2024",PWHL New York,PWHL Minnesota,5,2,1563,2:28,8880,UBS Arena | Elmont,NA,0,Beatrice Fortin (26),NA,Alex Lepkowski (14),NA,Laura Gutauskas (68),NA,Greg Offerman (95),NA
-64,1,"Saturday, May  4, 2024",PWHL Boston,PWHL Montreal,4,3,5964,2:31,9060,Tsongas Center | Lowell,NA,0,Jim Curtin (23),NA,Laura Schmidlein (53),NA,TJ Dockery (70),NA,Erin Zach (60),NA
-72,1,"Sunday, May  5, 2024",PWHL Toronto,PWHL Ottawa,5,2,2620,2:37,9420,Mattamy Athletic Centre | Toronto,NA,0,Shauna Neary (49),NA,Cianna Murray (13),NA,Shawn Oliver (56),NA,Ali Beres (67),NA
-74,2,"Monday, December  4, 2023",PWHL Boston,PWHL Toronto,2,5,NA,2:20,8400,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Jordan Deckard,NA,Chris Rumble,NA,,NA,,NA
-75,2,"Monday, December  4, 2023",PWHL Minnesota,PWHL Ottawa,8,4,NA,2:34,9240,Utica University Nexus Center - Mastrovito Hyundai,NA,1,Damian Figueira,NA,Liam Maaskant,NA,,NA,,NA
-76,2,"Monday, December  4, 2023",PWHL New York,PWHL Montreal,4,0,NA,2:22,8520,Utica University Nexus Center - Mastrovito Hyundai,NA,1,Cianna Murray,NA,Jake Kamrass,NA,,NA,,NA
-77,2,"Tuesday, December  5, 2023",PWHL Toronto,PWHL Minnesota,4,5,NA,2:34,9240,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Jordan Deckard,NA,Damian Figueira,NA,,NA,,NA
-78,2,"Tuesday, December  5, 2023",PWHL Montreal,PWHL Boston,3,1,NA,2:35,9300,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Cianna Murray,NA,Hillary Brennan,NA,,NA,,NA
-79,2,"Tuesday, December  5, 2023",PWHL Ottawa,PWHL New York,1,2,NA,2:32,9120,Utica University Nexus Center - Mastrovito Hyundai,NA,2,Cianna Murray,NA,,NA,,NA,,NA
-80,2,"Thursday, December  7, 2023",PWHL Minnesota,PWHL Montreal,4,3,NA,1:58,7080,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Cianna Murray,NA,Jake Kamrass,NA,,NA,,NA
-81,2,"Thursday, December  7, 2023",PWHL Toronto,PWHL New York,4,6,NA,2:19,8340,Utica University Nexus Center - Mastrovito Hyundai,NA,0,,NA,,NA,,NA,,NA
-82,2,"Thursday, December  7, 2023",PWHL Boston,PWHL Ottawa,3,1,NA,2:15,8100,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Chris Rumble,NA,,NA,,NA,,NA
-84,3,"Wednesday, May  8, 2024",PWHL Toronto,PWHL Minnesota,4,0,8473,2:14,8040,Coca-Cola Coliseum | Toronto,NA,0,Jared Cummins (1),NA,Alexandra Clarke (7),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA
-85,3,"Thursday, May  9, 2024",PWHL Montreal,PWHL Boston,1,2,9135,3:09,11340,Place Bell | Laval,NA,0,Lacey Senuk (39),NA,David Elford (11),NA,Erin Zach (60),NA,Shawn Oliver (56),NA
-86,3,"Friday, May 10, 2024",PWHL Toronto,PWHL Minnesota,2,0,8581,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Andrew Bell (6),NA,Elizabeth Mantha (15),NA,Dustin McCrank (84),NA,Anthony Lapointe (78),NA
-87,3,"Saturday, May 11, 2024",PWHL Montreal,PWHL Boston,1,2,10172,4:47,17220,Place Bell | Laval,NA,0,Grace Barlow (22),NA,Alex Lepkowski (14),NA,Antoine Bujold-Roux (72),NA,Anthony Lapointe (78),NA
-88,3,"Monday, May 13, 2024",PWHL Minnesota,PWHL Toronto,2,0,3344,2:18,8280,Xcel Energy Center,NA,0,Jordan Deckard (9),NA,Jack Hennigan (44),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA
-89,3,"Tuesday, May 14, 2024",PWHL Boston,PWHL Montreal,3,2,2781,2:39,9540,Tsongas Center | Lowell,NA,0,Beatrice Fortin (26),NA,Jake Kamrass (3),NA,Patrick Dapuzzo (77),NA,Jeremy Faucher (85),NA
-90,3,"Wednesday, May 15, 2024",PWHL Minnesota,PWHL Toronto,1,0,2766,3:18,11880,Xcel Energy Center,NA,0,David Elford (11),NA,Grace Barlow (22),NA,Kirsten Welsh (64),NA,Dustin McCrank (84),NA
-92,3,"Friday, May 17, 2024",PWHL Toronto,PWHL Minnesota,1,4,8501,2:17,8220,Coca-Cola Coliseum | Toronto,NA,0,Jared Cummins (1),NA,Jake Kamrass (3),NA,Anthony Lapointe (78),NA,Shawn Oliver (56),NA
-94,3,"Sunday, May 19, 2024",PWHL Boston,PWHL Minnesota,4,3,4508,2:21,8460,Tsongas Center | Lowell,NA,0,Jack Hennigan (44),NA,Alex Lepkowski (14),NA,Antoine Bujold-Roux (72),NA,Greg Offerman (95),NA
-95,3,"Tuesday, May 21, 2024",PWHL Boston,PWHL Minnesota,0,3,4543,2:27,8820,Tsongas Center | Lowell,NA,0,Jared Cummins (1),NA,David Elford (11),NA,Jeremy Faucher (85),NA,Laura Gutauskas (68),NA
-96,3,"Friday, May 24, 2024",PWHL Minnesota,PWHL Boston,4,1,9054,2:20,8400,Xcel Energy Center,NA,0,Jake Kamrass (3),NA,Grace Barlow (22),NA,Shawn Oliver (56),NA,Anthony Lapointe (78),NA
-97,3,"Sunday, May 26, 2024",PWHL Minnesota,PWHL Boston,0,1,13104,3:56,14160,Xcel Energy Center,NA,0,Jared Cummins (1),NA,Jack Hennigan (44),NA,Laura Gutauskas (68),NA,Antoine Bujold-Roux (72),NA
-98,3,"Wednesday, May 29, 2024",PWHL Boston,PWHL Minnesota,0,3,6309,2:25,8700,Tsongas Center | Lowell,NA,0,David Elford (11),NA,Alex Lepkowski (14),NA,Jeremy Faucher (85),NA,Greg Offerman (95),NA
-99,4,"Wednesday, November 20, 2024",Boston Fleet,Montréal Victoire,3,1,NA,2:17,8220,Verdun Auditorium | Montreal,NA,0,Jarrett T. Burton (90),NA,Marie-Eve Couture (51),NA,Jessica Chartrand (63),NA,Shawn Oliver (56),NA
-100,4,"Wednesday, November 20, 2024",Minnesota Frost,Toronto Sceptres,3,1,NA,1:57,7020,Ford Performance Centre | Toronto,NA,0,Jack Hennigan (44),NA,Chad Ingalls (25),NA,Ali Beres (67),NA,Dustin McCrank (84),NA
-101,4,"Thursday, November 21, 2024",Ottawa Charge,Boston Fleet,6,1,NA,2:10,7800,Verdun Auditorium | Montreal,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (51),NA,Joanie Duchesneau (74),NA,Anthony Lapointe (78),NA
-102,4,"Thursday, November 21, 2024",New York Sirens,Minnesota Frost,3,4,NA,2:21,8460,Ford Performance Centre | Toronto,NA,0,Alexandra Clarke (7),NA,Damian Figueira (20),NA,TJ Dockery (70),NA,Spencer Knox (81),NA
-103,4,"Friday, November 22, 2024",Montréal Victoire,Ottawa Charge,6,3,NA,2:10,7800,Verdun Auditorium | Montreal,NA,0,Jenn Berezowski (4),NA,Marie-Eve Couture (51),NA,Stephanie Gagnon (76),NA,Anthony Lapointe (78),NA
-104,4,"Friday, November 22, 2024",Toronto Sceptres,New York Sirens,2,5,NA,2:14,8040,Ford Performance Centre | Toronto,NA,0,Lacey Senuk (39),NA,Hillary Brennan (61),NA,Laura Gutauskas (68),NA,Erin Zach (60),NA
-105,5,"Saturday, November 30, 2024",Toronto Sceptres,Boston Fleet,3,1,8089,2:25,8700,Coca-Cola Coliseum | Toronto,NA,0,Grace Barlow (22),NA,Jenn Berezowski (4),NA,Adam Burnett (94),NA,Erin Zach (60),NA
-106,5,"Saturday, November 30, 2024",Montréal Victoire,Ottawa Charge,4,3,10033,2:29,8940,Place Bell | Laval,NA,1,Beatrice Fortin (26),NA,Jack Hennigan (44),NA,Ali Beres (67),NA,Laura Gutauskas (68),NA
-107,5,"Sunday, December  1, 2024",Minnesota Frost,New York Sirens,3,4,8022,2:26,8760,Xcel Energy Center,NA,0,Laura White (47),NA,Jared Cummins (1),NA,Erika Greenen (88),NA,Greg Offerman (95),NA
-108,5,"Tuesday, December  3, 2024",Ottawa Charge,Toronto Sceptres,3,2,6451,2:25,8700,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Brandy Beecroft (33),NA,Shawn Oliver (56),NA,Jessica Chartrand (63),NA
-109,5,"Wednesday, December  4, 2024",Boston Fleet,Minnesota Frost,1,2,3811,2:19,8340,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Amanda Tassoni (21),NA,Jenny Cameron (71),NA,Kirsten Welsh (64),NA
-110,5,"Wednesday, December  4, 2024",Montréal Victoire,New York Sirens,1,4,5415,2:25,8700,Place Bell | Laval,NA,0,Tatu Kunto (17),NA,Amy Martin (52),NA,Joanie Duchesneau (74),NA,Anthony Lapointe (78),NA
-172,5,"Friday, December  6, 2024",Ottawa Charge,Montréal Victoire,1,2,11065,2:23,8580,Canadian Tire Centre | Ottawa,NA,0,Samantha Hiller (12),NA,Alexandra Clarke (7),NA,TJ Dockery (70),NA,Patrick Dapuzzo (77),NA
-111,5,"Saturday, December  7, 2024",Toronto Sceptres,Minnesota Frost,3,6,7584,2:16,8160,Coca-Cola Coliseum | Toronto,NA,0,Chad Ingalls (25),NA,Shauna Neary (49),NA,Sophie Thomson (75),NA,Justine Todd (50),NA
-112,5,"Sunday, December  8, 2024",Boston Fleet,New York Sirens,4,2,4003,2:38,9480,Tsongas Center | Lowell,NA,0,Katie Glover (45),NA,Charly Hurley (43),NA,Sarah Buckner (10),NA,Antoine Bujold-Roux (72),NA
-113,5,"Tuesday, December 17, 2024",Boston Fleet,Ottawa Charge,3,2,2854,2:17,8220,Tsongas Center | Lowell,NA,0,Kyle Bauman (18),NA,Kelly Cooke (29),NA,Stephanie Gagnon (76),NA,Joanie Duchesneau (74),NA
-114,5,"Wednesday, December 18, 2024",New York Sirens,Toronto Sceptres,4,2,2851,2:25,8700,Prudential Center | Newark,NA,0,Laura Schmidlein (53),NA,Amanda Tassoni (21),NA,Antoine Bujold-Roux (72),NA,Patrick Dapuzzo (77),NA
-115,5,"Thursday, December 19, 2024",Minnesota Frost,Ottawa Charge,5,2,4686,2:30,9000,Xcel Energy Center,NA,0,Cianna Murray (13),NA,Samantha Hiller (12),NA,Dustin McCrank (84),NA,Kirsten Welsh (64),NA
-116,5,"Saturday, December 21, 2024",Toronto Sceptres,Montréal Victoire,3,4,8251,2:32,9120,Coca-Cola Coliseum | Toronto,NA,0,Michelle McKenna (28),NA,Jared Cummins (14),NA,Spencer Knox (81),NA,Erin Zach (60),NA
-117,5,"Sunday, December 22, 2024",New York Sirens,Minnesota Frost,3,4,2722,2:38,9480,Prudential Center | Newark,NA,2,Krysta Ansell (19),NA,Sydney Harris (46),NA,TJ Dockery (70),NA,Adam Burnett (94),NA
-118,5,"Friday, December 27, 2024",Toronto Sceptres,Boston Fleet,4,2,8264,2:27,8820,Coca-Cola Coliseum | Toronto,NA,0,Damian Figueira (32),NA,Jarrett T. Burton (8),NA,Erika Greenen (88),NA,Stephanie Gagnon (76),NA
-119,5,"Saturday, December 28, 2024",Minnesota Frost,Montréal Victoire,2,3,8726,2:22,8520,Xcel Energy Center,NA,0,Lacey Senuk (39),NA,Melissa Doyle (48),NA,Melissa Brunn (73),NA,Adam Burnett (94),NA
-120,5,"Sunday, December 29, 2024",New York Sirens,Ottawa Charge,1,3,2946,2:20,8400,Prudential Center | Newark,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Matthew Heinen (82),NA,Abigail Torres (65),NA
-121,5,"Monday, December 30, 2024",Montréal Victoire,Boston Fleet,3,1,10172,2:33,9180,Place Bell | Laval,NA,0,Hillary Brennan (40),NA,Cianna Murray (13),NA,Justine Todd (50),NA,Luke Pye (80),NA
-122,5,"Tuesday, December 31, 2024",Toronto Sceptres,Ottawa Charge,1,2,8278,2:28,8880,Coca-Cola Coliseum | Toronto,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Jessica Chartrand (63),NA,Anthony Lapointe (78),NA
-123,5,"Thursday, January  2, 2025",Minnesota Frost,Boston Fleet,4,3,5066,2:29,8940,Xcel Energy Center,NA,0,Jenn Berezowski (4),NA,Kyle Bauman (18),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA
-124,5,"Saturday, January  4, 2025",Minnesota Frost,New York Sirens,0,5,6414,2:18,8280,Xcel Energy Center,NA,0,Lacey Senuk (39),NA,Beatrice Fortin (26),NA,Sarah Buckner (66),NA,Laura Gutauskas (68),NA
-173,5,"Sunday, January  5, 2025",Boston Fleet,Montréal Victoire,3,2,12608,2:42,9720,Climate Pledge Arena | Seattle,NA,1,Andrew Bell (6),NA,Katie Glover (45),NA,Greg Offerman (95),NA,Erin Zach (60),NA
-125,5,"Tuesday, January  7, 2025",New York Sirens,Ottawa Charge,2,3,1569,2:18,8280,Prudential Center | Newark,NA,0,Kyle Bauman (18),NA,Melissa Doyle (48),NA,Ali Beres (67),NA,Kirsten Welsh (64),NA
-126,5,"Wednesday, January  8, 2025",Minnesota Frost,Boston Fleet,2,1,4248,2:21,8460,Xcel Energy Center,NA,0,Elizabeth Mantha (15),NA,Chad Ingalls (25),NA,Jeremy Faucher (85),NA,Ali Beres (67),NA
-174,5,"Wednesday, January  8, 2025",Toronto Sceptres,Montréal Victoire,2,4,19038,2:18,8280,Rogers Arena | Vancouver,NA,0,Grace Barlow (22),NA,Jared Cummins (14),NA,Melissa Brunn (73),NA,Anthony Lapointe (78),NA
-127,5,"Saturday, January 11, 2025",Ottawa Charge,Boston Fleet,1,2,8295,2:28,8880,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-128,5,"Sunday, January 12, 2025",New York Sirens,Toronto Sceptres,1,0,3258,2:33,9180,Prudential Center | Newark,NA,0,Jake Kamrass (3),NA,Harrison O'Pray (27),NA,Jenny Cameron (71),NA,Patrick Dapuzzo (77),NA
-175,5,"Sunday, January 12, 2025",Minnesota Frost,Montréal Victoire,4,2,14018,2:24,8640,Ball Arena | Denver,NA,0,Cianna Murray (13),NA,Jack Hennigan (44),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA
-129,5,"Tuesday, January 14, 2025",Ottawa Charge,Toronto Sceptres,2,4,6526,2:22,8520,TD Place | Ottawa,NA,0,Michelle McKenna (10),NA,Jared Cummins (14),NA,Alexia Cheyroux (98),NA,Jeremy Faucher (85),NA
-130,5,"Wednesday, January 15, 2025",New York Sirens,Minnesota Frost,3,2,1780,2:41,9660,Prudential Center | Newark,NA,1,Andrew Bell (6),NA,Laura White (47),NA,Luke Pye (80),NA,Erika Greenen (88),NA
-131,5,"Friday, January 17, 2025",Montréal Victoire,Minnesota Frost,4,2,10172,2:29,8940,Place Bell | Laval,NA,0,Marie-Eve Couture (20),NA,Sydney Harris (28),NA,Adam Burnett (94),NA,Alexia Cheyroux (98),NA
-176,5,"Sunday, January 19, 2025",Montréal Victoire,Ottawa Charge,2,1,18259,2:25,8700,Videotron Centre | Quebec City,NA,0,Elizabeth Mantha (15),NA,Amy Martin (31),NA,Antoine Bujold-Roux (72),NA,Spencer Knox (81),NA
-132,5,"Tuesday, January 21, 2025",Minnesota Frost,Ottawa Charge,0,1,4165,2:16,8160,Xcel Energy Center,NA,0,Tatu Kunto (17),NA,Chris Rumble (24),NA,Melissa Brunn (73),NA,Sarah Buckner (66),NA
-133,5,"Wednesday, January 22, 2025",Boston Fleet,Toronto Sceptres,4,1,3951,2:20,8400,Tsongas Center | Lowell,NA,0,Amanda Tassoni (21),NA,Damian Figueira (32),NA,Shawn Oliver (56),NA,Matthew Heinen (82),NA
-177,5,"Saturday, January 25, 2025",Toronto Sceptres,New York Sirens,4,2,19102,2:24,8640,Scotiabank Arena | Toronto,NA,0,Grace Barlow (22),NA,Alexandra Clarke (7),NA,Greg Offerman (95),NA,Laura Gutauskas (68),NA
-134,5,"Sunday, January 26, 2025",Minnesota Frost,Boston Fleet,5,2,7838,2:01,7260,Xcel Energy Center,NA,0,Jared Cummins (14),NA,Laura Schmidlein (23),NA,Dustin McCrank (84),NA,Erin Zach (60),NA
-135,5,"Monday, January 27, 2025",Ottawa Charge,New York Sirens,0,3,5629,2:34,9240,TD Place | Ottawa,NA,0,Damian Figueira (32),NA,Brandy Beecroft (33),NA,Ali Beres (67),NA,Spencer Knox (81),NA
-136,5,"Tuesday, January 28, 2025",Minnesota Frost,Toronto Sceptres,4,3,4540,2:39,9540,Xcel Energy Center,NA,1,Hillary Brennan (40),NA,Harrison O'Pray (27),NA,Matthew Heinen (82),NA,Kirsten Welsh (64),NA
-137,5,"Wednesday, January 29, 2025",Montréal Victoire,Ottawa Charge,4,1,6150,2:31,9060,Place Bell | Laval,NA,0,Shauna Neary (49),NA,Chris Rumble (24),NA,Luke Pye (80),NA,Erin Zach (60),NA
-138,5,"Thursday, January 30, 2025",Montréal Victoire,Toronto Sceptres,4,3,7242,2:44,9840,Place Bell | Laval,NA,1,Jack Hennigan (44),NA,Chad Ingalls (25),NA,Jessica Chartrand (63),NA,Stephanie Gagnon (76),NA
-139,5,"Friday, January 31, 2025",Boston Fleet,New York Sirens,3,2,5912,2:52,10320,Tsongas Center | Lowell,NA,1,Jenn Berezowski (4),NA,Andrew Bell (6),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA
-140,5,"Saturday, February  1, 2025",Toronto Sceptres,Ottawa Charge,4,2,8351,2:32,9120,Coca-Cola Coliseum | Toronto,NA,0,Beatrice Fortin (26),NA,David Elford (11),NA,Sophie Thomson (75),NA,Dustin McCrank (84),NA
-141,5,"Sunday, February  2, 2025",New York Sirens,Montréal Victoire,1,2,4346,2:27,8820,Prudential Center | Newark,NA,0,Lacey Senuk (39),NA,Katie Glover (45),NA,Patrick Dapuzzo (77),NA,Spencer Knox (81),NA
-142,5,"Tuesday, February 11, 2025",Toronto Sceptres,Minnesota Frost,3,2,8183,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Marie-Eve Couture (20),NA,Bobby Jo Love (5),NA,Justine Todd (50),NA,TJ Dockery (70),NA
-143,5,"Wednesday, February 12, 2025",New York Sirens,Boston Fleet,0,4,1729,2:25,8700,Prudential Center | Newark,NA,0,Tatu Kunto (17),NA,Elizabeth Mantha (15),NA,Patrick Dapuzzo (77),NA,Stephanie Gagnon (76),NA
-144,5,"Thursday, February 13, 2025",Ottawa Charge,Minnesota Frost,8,3,5854,2:19,8340,TD Place | Ottawa,NA,0,Alexandra Clarke (7),NA,Michelle McKenna (10),NA,Melissa Brunn (73),NA,Jeremy Faucher (85),NA
-145,5,"Friday, February 14, 2025",Toronto Sceptres,Boston Fleet,3,1,8124,2:19,8340,Coca-Cola Coliseum | Toronto,NA,0,Cianna Murray (13),NA,Grace Barlow (22),NA,Melissa Brunn (73),NA,Jessica Chartrand (63),NA
-146,5,"Saturday, February 15, 2025",Montréal Victoire,New York Sirens,6,2,10172,2:28,8880,Place Bell | Laval,NA,0,Krysta Ansell (19),NA,Chris Rumble (24),NA,Joanie Duchesneau (74),NA,TJ Dockery (70),NA
-147,5,"Sunday, February 16, 2025",Boston Fleet,Minnesota Frost,4,2,6032,2:25,8700,Tsongas Center | Lowell,NA,0,Grace Barlow (22),NA,Melissa Doyle (48),NA,Matthew Heinen (82),NA,Patrick Dapuzzo (77),NA
-178,5,"Sunday, February 16, 2025",Ottawa Charge,Toronto Sceptres,2,3,17518,2:37,9420,Rogers Place | Edmonton,NA,0,Lacey Senuk (39),NA,Bobby Jo Love (5),NA,Justine Todd (50),NA,Sophie Thomson (75),NA
-148,5,"Monday, February 17, 2025",New York Sirens,Boston Fleet,1,4,3715,2:28,8880,Prudential Center | Newark,NA,0,Amy Martin (31),NA,Amanda Tassoni (21),NA,TJ Dockery (70),NA,Erika Greenen (88),NA
-149,5,"Tuesday, February 18, 2025",Montréal Victoire,Minnesota Frost,0,4,6696,2:23,8580,Place Bell | Laval,NA,0,Samantha Hiller (12),NA,David Elford (11),NA,Dustin McCrank (84),NA,Laura Gutauskas (68),NA
-150,5,"Wednesday, February 19, 2025",New York Sirens,Toronto Sceptres,1,4,1569,2:21,8460,Prudential Center | Newark,NA,0,Sydney Harris (28),NA,Kyle Bauman (18),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA
-151,5,"Thursday, February 20, 2025",Ottawa Charge,Boston Fleet,2,3,5458,2:28,8880,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Hillary Brennan (40),NA,Joanie Duchesneau (74),NA,Shawn Oliver (56),NA
-152,5,"Saturday, February 22, 2025",Ottawa Charge,Montréal Victoire,3,1,8424,2:25,8700,TD Place | Ottawa,NA,0,Shauna Neary (49),NA,Beatrice Fortin (26),NA,Anthony Lapointe (78),NA,Spencer Knox (81),NA
-153,5,"Sunday, February 23, 2025",Minnesota Frost,Toronto Sceptres,1,2,8770,2:22,8520,Xcel Energy Center,NA,0,Laura Schmidlein (23),NA,Andrew Bell (6),NA,Abigail Torres (65),NA,Adam Burnett (94),NA
-179,5,"Sunday, February 23, 2025",New York Sirens,Boston Fleet,2,3,8512,2:35,9300,KeyBank Center | Buffalo,NA,2,Jared Cummins (14),NA,Samantha Hiller (12),NA,Sarah Buckner (66),NA,TJ Dockery (70),NA
-154,5,"Tuesday, February 25, 2025",Montréal Victoire,Toronto Sceptres,3,1,6101,2:24,8640,Place Bell | Laval,NA,0,Brandy Beecroft (33),NA,Chad Ingalls (25),NA,Patrick Dapuzzo (77),NA,Jessica Chartrand (63),NA
-155,5,"Wednesday, February 26, 2025",Ottawa Charge,New York Sirens,5,4,5005,2:46,9960,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Andrew Bell (6),NA,Stephanie Gagnon (76),NA,Jessica Chartrand (63),NA
-180,5,"Saturday, March  1, 2025",Montréal Victoire,Boston Fleet,3,2,17324,2:31,9060,Bell Centre | Montréal,NA,0,Alexandra Clarke (7),NA,Tatu Kunto (17),NA,Anthony Lapointe (78),NA,Erin Zach (60),NA
-156,5,"Tuesday, March  4, 2025",Montréal Victoire,Minnesota Frost,2,1,8923,2:31,9060,Place Bell | Laval,NA,1,Jake Kamrass (3),NA,Marie-Eve Couture (20),NA,Sophie Thomson (75),NA,Shawn Oliver (56),NA
-157,5,"Wednesday, March  5, 2025",Boston Fleet,New York Sirens,5,2,3252,2:20,8400,Tsongas Center | Lowell,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Erika Greenen (88),NA,Anthony Lapointe (78),NA
-158,5,"Thursday, March  6, 2025",Toronto Sceptres,Montréal Victoire,4,1,8618,2:29,8940,Coca-Cola Coliseum | Toronto,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Justine Todd (50),NA,Spencer Knox (81),NA
-181,5,"Friday, March  7, 2025",Minnesota Frost,Ottawa Charge,5,0,10782,2:20,8400,Lenovo Center | Raleigh,NA,0,Laura Schmidlein (23),NA,Jake Kamrass (3),NA,Laura Gutauskas (68),NA,Dustin McCrank (84),NA
-182,5,"Saturday, March  8, 2025",Boston Fleet,Montréal Victoire,2,3,5968,2:18,8280,Agganis Arena | Boston,NA,0,Kyle Bauman (18),NA,Lacey Senuk (39),NA,Erin Zach (60),NA,Stephanie Gagnon (76),NA
-159,5,"Sunday, March  9, 2025",Toronto Sceptres,Minnesota Frost,1,2,8510,2:22,8520,Coca-Cola Coliseum | Toronto,NA,0,Grace Barlow (22),NA,Jarrett T. Burton (8),NA,Adam Burnett (94),NA,Sophie Thomson (75),NA
-160,5,"Tuesday, March 11, 2025",Ottawa Charge,Minnesota Frost,3,2,5851,2:27,8820,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Grace Barlow (22),NA,Joanie Duchesneau (74),NA,Antoine Bujold-Roux (72),NA
-161,5,"Wednesday, March 12, 2025",New York Sirens,Montréal Victoire,3,2,1944,2:48,10080,Prudential Center | Newark,NA,0,Samantha Hiller (12),NA,Tatu Kunto (17),NA,Ali Beres (67),NA,Matthew Heinen (82),NA
-162,5,"Saturday, March 15, 2025",Ottawa Charge,Boston Fleet,2,5,8096,2:26,8760,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Elizabeth Mantha (15),NA,Jessica Chartrand (63),NA,Justine Todd (50),NA
-183,5,"Sunday, March 16, 2025",New York Sirens,Minnesota Frost,4,1,14288,2:24,8640,Little Caesars Arena | Detroit,NA,0,Chad Ingalls (25),NA,Amy Martin (31),NA,Luke Pye (80),NA,Ali Beres (67),NA
-163,5,"Tuesday, March 18, 2025",Boston Fleet,Montréal Victoire,3,2,3375,2:44,9840,Tsongas Center | Lowell,NA,1,Amanda Tassoni (21),NA,Shauna Neary (49),NA,Erin Zach (60),NA,Shawn Oliver (56),NA
-164,5,"Wednesday, March 19, 2025",Toronto Sceptres,New York Sirens,2,1,8351,2:39,9540,Coca-Cola Coliseum | Toronto,NA,0,Damian Figueira (32),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Jeremy Faucher (85),NA
-165,5,"Saturday, March 22, 2025",New York Sirens,Ottawa Charge,2,5,4767,2:25,8700,Prudential Center | Newark,NA,0,Katie Glover (45),NA,David Elford (11),NA,Erika Greenen (88),NA,Joanie Duchesneau (74),NA
-166,5,"Sunday, March 23, 2025",Montréal Victoire,Toronto Sceptres,1,2,10172,2:21,8460,Place Bell | Laval,NA,0,Bobby Jo Love (5),NA,Cianna Murray (13),NA,Dustin McCrank (84),NA,Stephanie Gagnon (76),NA
-167,5,"Tuesday, March 25, 2025",Ottawa Charge,New York Sirens,3,6,5707,2:42,9720,TD Place | Ottawa,NA,0,Lacey Senuk (39),NA,Andrew Bell (6),NA,Jeremy Faucher (85),NA,Laura Gutauskas (68),NA
-184,5,"Wednesday, March 26, 2025",Boston Fleet,Toronto Sceptres,2,4,6028,2:23,8580,Agganis Arena | Boston,NA,0,Jared Cummins (14),NA,Jenn Berezowski (4),NA,TJ Dockery (70),NA,Kirsten Welsh (64),NA
-168,5,"Wednesday, March 26, 2025",Minnesota Frost,Montréal Victoire,1,4,6330,2:22,8520,Xcel Energy Center,NA,0,Amy Martin (31),NA,Sydney Harris (28),NA,Antoine Bujold-Roux (72),NA,Shawn Oliver (56),NA
-185,5,"Saturday, March 29, 2025",Boston Fleet,Ottawa Charge,1,2,8578,2:28,8880,Enterprise Center | St. Louis,NA,0,Jack Hennigan (44),NA,Shauna Neary (49),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA
-169,5,"Sunday, March 30, 2025",Minnesota Frost,Toronto Sceptres,5,2,9536,2:14,8040,Xcel Energy Center,NA,0,Marie-Eve Couture (20),NA,Jake Kamrass (3),NA,Ali Beres (67),NA,Erin Zach (60),NA
-170,5,"Tuesday, April  1, 2025",Montréal Victoire,New York Sirens,0,1,8798,2:31,9060,Place Bell | Laval,NA,0,Laura Schmidlein (23),NA,Jarrett T. Burton (8),NA,Sophie Thomson (75),NA,Matthew Heinen (82),NA
-171,5,"Wednesday, April  2, 2025",Boston Fleet,Ottawa Charge,0,4,3807,2:18,8280,Tsongas Center | Lowell,NA,0,Kyle Bauman (18),NA,Brandy Beecroft (33),NA,Laura Gutauskas (68),NA,Jeremy Faucher (85),NA
-188,5,"Saturday, April 26, 2025",Ottawa Charge,Montréal Victoire,3,2,8576,2:32,9120,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA
-187,5,"Saturday, April 26, 2025",Boston Fleet,Toronto Sceptres,3,0,5619,2:16,8160,Tsongas Center | Lowell,NA,0,Tatu Kunto (17),NA,Sydney Harris (28),NA,Jessica Chartrand (63),NA,Patrick Dapuzzo (77),NA
-186,5,"Sunday, April 27, 2025",Minnesota Frost,New York Sirens,0,2,6472,2:22,8520,Xcel Energy Center,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Greg Offerman (95),NA,Sarah Buckner (66),NA
-190,5,"Monday, April 28, 2025",Montréal Victoire,Boston Fleet,3,2,8812,2:45,9900,Place Bell | Laval,NA,0,Amy Martin (31),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Jeremy Faucher (85),NA
-189,5,"Tuesday, April 29, 2025",Toronto Sceptres,New York Sirens,2,1,8532,2:27,8820,Coca-Cola Coliseum | Toronto,NA,1,Alexandra Clarke (7),NA,Jared Cummins (14),NA,Erin Zach (60),NA,Dustin McCrank (84),NA
-191,5,"Wednesday, April 30, 2025",Ottawa Charge,Minnesota Frost,0,3,5494,2:24,8640,TD Place | Ottawa,NA,0,Jared Cummins (14),NA,Shauna Neary (49),NA,Jessica Chartrand (63),NA,Antoine Bujold-Roux (72),NA
-194,5,"Saturday, May  3, 2025",Toronto Sceptres,Ottawa Charge,1,2,8593,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Samantha Hiller (12),NA,Tatu Kunto (17),NA,Spencer Knox (81),NA,Sophie Thomson (75),NA
-193,5,"Saturday, May  3, 2025",Boston Fleet,Minnesota Frost,1,8,5013,2:26,8760,Tsongas Center | Lowell,NA,0,David Elford (11),NA,Laura Schmidlein (23),NA,Greg Offerman (95),NA,Ali Beres (67),NA
-192,5,"Saturday, May  3, 2025",New York Sirens,Montréal Victoire,2,3,2737,2:23,8580,Prudential Center | Newark,NA,0,Katie Glover (45),NA,Sydney Harris (28),NA,Dustin McCrank (84),NA,Sarah Buckner (66),NA
-195,6,"Wednesday, May  7, 2025",Toronto Sceptres,Minnesota Frost,3,2,6868,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Amy Martin (31),NA,David Elford (11),NA,TJ Dockery (70),NA,Laura Gutauskas (68),NA
-197,6,"Thursday, May  8, 2025",Montréal Victoire,Ottawa Charge,2,3,6570,2:29,8940,Place Bell | Laval,NA,0,Jake Kamrass (3),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Antoine Bujold-Roux (72),NA
-196,6,"Friday, May  9, 2025",Toronto Sceptres,Minnesota Frost,3,5,7659,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Dustin McCrank (84),NA,Sarah Buckner (66),NA
-199,6,"Sunday, May 11, 2025",Montréal Victoire,Ottawa Charge,3,2,7114,5:34,20040,Place Bell | Laval,NA,0,Elizabeth Mantha (15),NA,Chad Ingalls (25),NA,Sophie Thomson (75),NA,Erin Zach (60),NA
-203,6,"Sunday, May 11, 2025",Minnesota Frost,Toronto Sceptres,7,5,3917,2:31,9060,Xcel Energy Center,NA,0,Marie-Eve Couture (20),NA,Jack Hennigan (44),NA,Justine Todd (50),NA,Greg Offerman (95),NA
-200,6,"Tuesday, May 13, 2025",Ottawa Charge,Montréal Victoire,1,0,7282,2:26,8760,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Andrew Bell (6),NA,Antoine Bujold-Roux (72),NA,Ali Beres (67),NA
-204,6,"Wednesday, May 14, 2025",Minnesota Frost,Toronto Sceptres,4,3,3107,2:48,10080,Xcel Energy Center,NA,0,Jake Kamrass (3),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Kirsten Welsh (64),NA
-201,6,"Friday, May 16, 2025",Ottawa Charge,Montréal Victoire,2,1,8011,2:32,9120,TD Place | Ottawa,NA,0,Sydney Harris (28),NA,Jack Hennigan (44),NA,Greg Offerman (95),NA,TJ Dockery (70),NA
-206,6,"Tuesday, May 20, 2025",Ottawa Charge,Minnesota Frost,2,1,6184,2:53,10380,TD Place | Ottawa,NA,0,Alexandra Clarke (7),NA,David Elford (11),NA,Sophie Thomson (75),NA,Patrick Dapuzzo (77),NA
-207,6,"Thursday, May 22, 2025",Ottawa Charge,Minnesota Frost,1,2,8206,3:04,11040,TD Place | Ottawa,NA,0,Sydney Harris (28),NA,Jack Hennigan (44),NA,Laura Gutauskas (68),NA,Antoine Bujold-Roux (72),NA
-208,6,"Saturday, May 24, 2025",Minnesota Frost,Ottawa Charge,2,1,8098,4:26,15960,Xcel Energy Center,NA,0,Tatu Kunto (17),NA,Marie-Eve Couture (20),NA,Dustin McCrank (84),NA,Greg Offerman (95),NA
-209,6,"Monday, May 26, 2025",Minnesota Frost,Ottawa Charge,2,1,11024,2:59,10740,NA,NA,0,David Elford (11),NA,Sydney Harris (28),NA,Laura Gutauskas (68),NA,Patrick Dapuzzo (77),NA
-330,7,"Thursday, November 13, 2025",New York Sirens,Minnesota Frost,2,5,NA,2:26,8760,Codey Arena,NA,0,Jared Cummins (14),NA,Jack Hennigan (44),NA,,NA,TJ Dockery (70),NA
-331,7,"Friday, November 14, 2025",New York Sirens,Minnesota Frost,6,2,NA,2:20,8400,Codey Arena,NA,0,Jared Cummins (14),NA,Jack Hennigan (44),NA,Stephanie Gagnon (76),NA,TJ Dockery (70),NA
-332,7,"Saturday, November 15, 2025",Montréal Victoire,Boston Fleet,3,2,NA,2:24,8640,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (20),NA,Beatrice Fortin (26),NA,Stephanie Gagnon (76),NA,Laura Gutauskas (68),NA
-333,7,"Saturday, November 15, 2025",Vancouver Goldeneyes,Seattle Torrent,3,0,101,2:20,8400,Pacific Coliseum | Vancouver,NA,0,Grace Barlow (22),NA,Michelle McKenna (10),NA,Chase Eising (87),NA,Matthew Williams (61),NA
-334,7,"Sunday, November 16, 2025",Ottawa Charge,Toronto Sceptres,2,3,NA,2:21,8460,TD Place | Ottawa,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Alexia Cheyroux (98),NA
-335,7,"Sunday, November 16, 2025",Vancouver Goldeneyes,Seattle Torrent,2,4,86,2:28,8880,Pacific Coliseum | Vancouver,NA,0,Grace Barlow (22),NA,Michelle McKenna (10),NA,Katie Glover (89),NA,Colleen Butler (59),NA
-336,7,"Monday, November 17, 2025",Ottawa Charge,Toronto Sceptres,0,3,NA,2:12,7920,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Hillary Brennan (40),NA,Jessica Chartrand (63),NA,Ali Beres (67),NA
-337,7,"Monday, November 17, 2025",Montréal Victoire,Boston Fleet,3,2,NA,2:26,8760,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (20),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Marlowe Schott (86),NA
-210,8,"Friday, November 21, 2025",Minnesota Frost,Toronto Sceptres,1,2,9138,2:17,8220,Grand Casino Arena | St. Paul,NA,0,Jared Cummins (14),NA,Alexandra Clarke (7),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA
-211,8,"Friday, November 21, 2025",Vancouver Goldeneyes,Seattle Torrent,4,3,14958,2:37,9420,Pacific Coliseum | Vancouver,NA,0,Cianna Murray (13),NA,Kyle Bauman (18),NA,Sophie Thomson (75),NA,Melissa Brunn (73),NA
-212,8,"Saturday, November 22, 2025",Ottawa Charge,New York Sirens,0,4,7371,2:28,8880,TD Place | Ottawa,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Spencer Knox (81),NA,Erin Zach (60),NA
-213,8,"Sunday, November 23, 2025",Boston Fleet,Montréal Victoire,2,0,5166,2:21,8460,Tsongas Center | Lowell,NA,0,Jake Kamrass (3),NA,Kelly Cooke (29),NA,Anthony Lapointe (78),NA,Antoine Bujold-Roux (72),NA
-214,8,"Tuesday, November 25, 2025",Montréal Victoire,New York Sirens,4,0,8392,2:34,9240,Place Bell | Laval,NA,0,Samantha Hiller (12),NA,Sydney Harris (28),NA,Joanie Duchesneau (74),NA,Antoine Bujold-Roux (72),NA
-215,8,"Wednesday, November 26, 2025",Ottawa Charge,Vancouver Goldeneyes,5,1,5507,2:25,8700,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Jenn Berezowski (4),NA,Ali Beres (67),NA,Stephanie Gagnon (76),NA
-216,8,"Friday, November 28, 2025",Seattle Torrent,Minnesota Frost,0,3,16014,2:34,9240,Climate Pledge Arena | Seattle,NA,0,Bobby Jo Love (5),NA,Michelle McKenna (10),NA,Laura Gutauskas (68),NA,Sarah Buckner (66),NA
-217,8,"Saturday, November 29, 2025",New York Sirens,Vancouver Goldeneyes,5,1,3517,2:16,8160,Prudential Center | Newark,NA,0,Shauna Neary (49),NA,Alexandra Clarke (7),NA,Erika Greenen (88),NA,Erin Zach (60),NA
-218,8,"Saturday, November 29, 2025",Toronto Sceptres,Boston Fleet,1,3,8277,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Beatrice Fortin (26),NA,Brandy Beecroft (33),NA,Dustin McCrank (84),NA,TJ Dockery (70),NA
-219,8,"Tuesday, December  2, 2025",Ottawa Charge,Minnesota Frost,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-220,8,"Wednesday, December  3, 2025",Boston Fleet,Vancouver Goldeneyes,0,0,NA,,NA,Agganis Arena | Boston,NA,0,,NA,,NA,,NA,,NA
-221,8,"Wednesday, December  3, 2025",Seattle Torrent,New York Sirens,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-222,8,"Thursday, December  4, 2025",Toronto Sceptres,Ottawa Charge,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-223,8,"Saturday, December  6, 2025",Vancouver Goldeneyes,New York Sirens,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-224,8,"Sunday, December  7, 2025",Montréal Victoire,Toronto Sceptres,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-225,8,"Sunday, December  7, 2025",Boston Fleet,Minnesota Frost,0,0,NA,,NA,Agganis Arena | Boston,NA,0,,NA,,NA,,NA,,NA
-226,8,"Tuesday, December 16, 2025",Vancouver Goldeneyes,Ottawa Charge,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-227,8,"Wednesday, December 17, 2025",Toronto Sceptres,Montréal Victoire,0,0,NA,,NA,Scotiabank Centre | Halifax,NA,0,,NA,,NA,,NA,,NA
-228,8,"Wednesday, December 17, 2025",New York Sirens,Boston Fleet,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-229,8,"Wednesday, December 17, 2025",Seattle Torrent,Ottawa Charge,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-230,8,"Friday, December 19, 2025",Minnesota Frost,Boston Fleet,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-231,8,"Saturday, December 20, 2025",Vancouver Goldeneyes,Montréal Victoire,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-232,8,"Sunday, December 21, 2025",New York Sirens,Toronto Sceptres,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-233,8,"Sunday, December 21, 2025",Minnesota Frost,Ottawa Charge,0,0,NA,,NA,Allstate Arena | Chicago,NA,0,,NA,,NA,,NA,,NA
-234,8,"Sunday, December 21, 2025",Seattle Torrent,Boston Fleet,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-235,8,"Tuesday, December 23, 2025",Toronto Sceptres,Ottawa Charge,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-236,8,"Tuesday, December 23, 2025",Seattle Torrent,Montréal Victoire,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-237,8,"Saturday, December 27, 2025",Ottawa Charge,Boston Fleet,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-238,8,"Saturday, December 27, 2025",Montréal Victoire,Toronto Sceptres,0,0,NA,,NA,Bell Centre | Montréal,NA,0,,NA,,NA,,NA,,NA
-239,8,"Saturday, December 27, 2025",Vancouver Goldeneyes,Minnesota Frost,0,0,NA,,NA,Rogers Place | Edmonton,NA,0,,NA,,NA,,NA,,NA
-240,8,"Sunday, December 28, 2025",New York Sirens,Seattle Torrent,0,0,NA,,NA,American Airlines Center | Dallas,NA,0,,NA,,NA,,NA,,NA
-241,8,"Tuesday, December 30, 2025",Toronto Sceptres,Minnesota Frost,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-242,8,"Wednesday, December 31, 2025",New York Sirens,Vancouver Goldeneyes,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-243,8,"Friday, January  2, 2026",New York Sirens,Montréal Victoire,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-244,8,"Saturday, January  3, 2026",Ottawa Charge,Minnesota Frost,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-245,8,"Saturday, January  3, 2026",Toronto Sceptres,Seattle Torrent,0,0,NA,,NA,TD Coliseum | Hamilton,NA,0,,NA,,NA,,NA,,NA
-246,8,"Saturday, January  3, 2026",Boston Fleet,Vancouver Goldeneyes,0,0,NA,,NA,Little Caesars Arena | Detroit,NA,0,,NA,,NA,,NA,,NA
-247,8,"Sunday, January  4, 2026",Montréal Victoire,Minnesota Frost,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-248,8,"Tuesday, January  6, 2026",Toronto Sceptres,New York Sirens,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-250,8,"Wednesday, January  7, 2026",Boston Fleet,Seattle Torrent,0,0,NA,,NA,Agganis Arena | Boston,NA,0,,NA,,NA,,NA,,NA
-249,8,"Friday, January  9, 2026",Ottawa Charge,Vancouver Goldeneyes,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-251,8,"Sunday, January 11, 2026",Boston Fleet,Ottawa Charge,0,0,NA,,NA,Scotiabank Centre | Halifax,NA,0,,NA,,NA,,NA,,NA
-252,8,"Sunday, January 11, 2026",Minnesota Frost,Seattle Torrent,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-253,8,"Sunday, January 11, 2026",Montréal Victoire,Vancouver Goldeneyes,0,0,NA,,NA,Videotron Centre | Quebec City,NA,0,,NA,,NA,,NA,,NA
-254,8,"Tuesday, January 13, 2026",Montréal Victoire,Ottawa Charge,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-255,8,"Wednesday, January 14, 2026",Boston Fleet,Toronto Sceptres,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-256,8,"Friday, January 16, 2026",New York Sirens,Minnesota Frost,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-257,8,"Saturday, January 17, 2026",Toronto Sceptres,Vancouver Goldeneyes,0,0,NA,,NA,TBD,NA,0,,NA,,NA,,NA,,NA
-258,8,"Sunday, January 18, 2026",New York Sirens,Montréal Victoire,0,0,NA,,NA,Capital One Arena | Washington,NA,0,,NA,,NA,,NA,,NA
-259,8,"Sunday, January 18, 2026",Seattle Torrent,Boston Fleet,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-260,8,"Tuesday, January 20, 2026",New York Sirens,Ottawa Charge,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-261,8,"Tuesday, January 20, 2026",Seattle Torrent,Toronto Sceptres,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-262,8,"Wednesday, January 21, 2026",Minnesota Frost,Montréal Victoire,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-263,8,"Thursday, January 22, 2026",Vancouver Goldeneyes,Toronto Sceptres,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-264,8,"Saturday, January 24, 2026",Montréal Victoire,Ottawa Charge,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-265,8,"Sunday, January 25, 2026",Minnesota Frost,New York Sirens,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-266,8,"Sunday, January 25, 2026",Seattle Torrent,Vancouver Goldeneyes,0,0,NA,,NA,Ball Arena | Denver,NA,0,,NA,,NA,,NA,,NA
-267,8,"Wednesday, January 28, 2026",Montréal Victoire,Toronto Sceptres,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-269,8,"Wednesday, January 28, 2026",Boston Fleet,New York Sirens,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-268,8,"Wednesday, January 28, 2026",Ottawa Charge,Seattle Torrent,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-270,8,"Wednesday, January 28, 2026",Minnesota Frost,Vancouver Goldeneyes,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-271,8,"Thursday, February 26, 2026",New York Sirens,Montréal Victoire,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-272,8,"Friday, February 27, 2026",Seattle Torrent,Toronto Sceptres,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-273,8,"Saturday, February 28, 2026",Ottawa Charge,Boston Fleet,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-274,8,"Sunday, March  1, 2026",Montréal Victoire,Minnesota Frost,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-275,8,"Sunday, March  1, 2026",Vancouver Goldeneyes,Toronto Sceptres,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-276,8,"Tuesday, March  3, 2026",Toronto Sceptres,Montréal Victoire,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-277,8,"Wednesday, March  4, 2026",Ottawa Charge,Seattle Torrent,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-278,8,"Thursday, March  5, 2026",New York Sirens,Boston Fleet,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-279,8,"Sunday, March  8, 2026",New York Sirens,Ottawa Charge,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-280,8,"Sunday, March  8, 2026",Toronto Sceptres,Minnesota Frost,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-281,8,"Tuesday, March 10, 2026",Vancouver Goldeneyes,Boston Fleet,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-282,8,"Wednesday, March 11, 2026",Ottawa Charge,Montréal Victoire,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-283,8,"Wednesday, March 11, 2026",Seattle Torrent,Boston Fleet,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-284,8,"Friday, March 13, 2026",Minnesota Frost,Seattle Torrent,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-285,8,"Saturday, March 14, 2026",Vancouver Goldeneyes,Ottawa Charge,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-286,8,"Sunday, March 15, 2026",Montréal Victoire,Boston Fleet,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-287,8,"Sunday, March 15, 2026",Toronto Sceptres,Seattle Torrent,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-288,8,"Sunday, March 15, 2026",Minnesota Frost,New York Sirens,0,0,NA,,NA,Ball Arena | Denver,NA,0,,NA,,NA,,NA,,NA
-289,8,"Tuesday, March 17, 2026",Boston Fleet,Toronto Sceptres,0,0,NA,,NA,Agganis Arena | Boston,NA,0,,NA,,NA,,NA,,NA
-290,8,"Wednesday, March 18, 2026",Minnesota Frost,Ottawa Charge,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-291,8,"Wednesday, March 18, 2026",Vancouver Goldeneyes,New York Sirens,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-292,8,"Thursday, March 19, 2026",Montréal Victoire,Seattle Torrent,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-293,8,"Saturday, March 21, 2026",Vancouver Goldeneyes,Minnesota Frost,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-294,8,"Saturday, March 21, 2026",Boston Fleet,Seattle Torrent,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-295,8,"Sunday, March 22, 2026",Ottawa Charge,Montréal Victoire,0,0,NA,,NA,Canada Life Centre | Winnipeg,NA,0,,NA,,NA,,NA,,NA
-296,8,"Tuesday, March 24, 2026",Boston Fleet,Vancouver Goldeneyes,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-297,8,"Wednesday, March 25, 2026",Minnesota Frost,Montréal Victoire,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-298,8,"Wednesday, March 25, 2026",Seattle Torrent,New York Sirens,0,0,NA,,NA,Allstate Arena | Chicago,NA,0,,NA,,NA,,NA,,NA
-299,8,"Friday, March 27, 2026",Toronto Sceptres,Boston Fleet,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-300,8,"Saturday, March 28, 2026",Montréal Victoire,New York Sirens,0,0,NA,,NA,Little Caesars Arena | Detroit,NA,0,,NA,,NA,,NA,,NA
-301,8,"Sunday, March 29, 2026",Toronto Sceptres,Vancouver Goldeneyes,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-302,8,"Sunday, March 29, 2026",Minnesota Frost,Boston Fleet,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-303,8,"Sunday, March 29, 2026",Seattle Torrent,Ottawa Charge,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-305,8,"Wednesday, April  1, 2026",Montréal Victoire,Vancouver Goldeneyes,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-304,8,"Wednesday, April  1, 2026",New York Sirens,Minnesota Frost,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-306,8,"Wednesday, April  1, 2026",Ottawa Charge,Toronto Sceptres,0,0,NA,,NA,Scotiabank Saddledome | Calgary,NA,0,,NA,,NA,,NA,,NA
-308,8,"Saturday, April  4, 2026",New York Sirens,Seattle Torrent,0,0,NA,,NA,TBD,NA,0,,NA,,NA,,NA,,NA
-307,8,"Saturday, April  4, 2026",Minnesota Frost,Vancouver Goldeneyes,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-309,8,"Tuesday, April  7, 2026",Montréal Victoire,Seattle Torrent,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-310,8,"Tuesday, April  7, 2026",Vancouver Goldeneyes,Boston Fleet,0,0,NA,,NA,Rogers Place | Edmonton,NA,0,,NA,,NA,,NA,,NA
-311,8,"Wednesday, April  8, 2026",Ottawa Charge,Seattle Torrent,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-314,8,"Saturday, April 11, 2026",Boston Fleet,Montréal Victoire,0,0,NA,,NA,TBD,NA,0,,NA,,NA,,NA,,NA
-312,8,"Saturday, April 11, 2026",Minnesota Frost,New York Sirens,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-313,8,"Saturday, April 11, 2026",Toronto Sceptres,Ottawa Charge,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-315,8,"Tuesday, April 14, 2026",Vancouver Goldeneyes,Seattle Torrent,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-317,8,"Wednesday, April 15, 2026",Boston Fleet,Minnesota Frost,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-316,8,"Wednesday, April 15, 2026",New York Sirens,Toronto Sceptres,0,0,NA,,NA,Prudential Center | Newark,NA,0,,NA,,NA,,NA,,NA
-318,8,"Friday, April 17, 2026",Montréal Victoire,Boston Fleet,0,0,NA,,NA,Place Bell | Laval,NA,0,,NA,,NA,,NA,,NA
-320,8,"Saturday, April 18, 2026",Seattle Torrent,Vancouver Goldeneyes,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-319,8,"Saturday, April 18, 2026",Ottawa Charge,New York Sirens,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-321,8,"Sunday, April 19, 2026",Minnesota Frost,Toronto Sceptres,0,0,NA,,NA,Grand Casino Arena | St. Paul,NA,0,,NA,,NA,,NA,,NA
-322,8,"Tuesday, April 21, 2026",Toronto Sceptres,New York Sirens,0,0,NA,,NA,Coca-Cola Coliseum | Toronto,NA,0,,NA,,NA,,NA,,NA
-323,8,"Tuesday, April 21, 2026",Vancouver Goldeneyes,Montréal Victoire,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
-324,8,"Wednesday, April 22, 2026",Boston Fleet,Ottawa Charge,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-325,8,"Wednesday, April 22, 2026",Seattle Torrent,Minnesota Frost,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-329,8,"Saturday, April 25, 2026",Boston Fleet,New York Sirens,0,0,NA,,NA,Tsongas Center | Lowell,NA,0,,NA,,NA,,NA,,NA
-328,8,"Saturday, April 25, 2026",Ottawa Charge,Toronto Sceptres,0,0,NA,,NA,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA
-326,8,"Saturday, April 25, 2026",Seattle Torrent,Montréal Victoire,0,0,NA,,NA,Climate Pledge Arena | Seattle,NA,0,,NA,,NA,,NA,,NA
-327,8,"Saturday, April 25, 2026",Vancouver Goldeneyes,Minnesota Frost,0,0,NA,,NA,Pacific Coliseum | Vancouver,NA,0,,NA,,NA,,NA,,NA
+game_id,season_id,game_date,home_team,visitor_team,home_score,visitor_score,attendance,game_length,game_length_seconds,venue,num_periods,shootout_rounds,referee1_name,referee1_number,referee2_name,referee2_number,linesperson1_name,linesperson1_number,linesperson2_name,linesperson2_number,is_final
+2,1,"Monday, January  1, 2024",PWHL Toronto,PWHL New York,0,4,2537,2:27,8820,Mattamy Athletic Centre | Toronto,NA,0,Jake Kamrass,NA,Lacey Senuk,NA,Antoine Bujold-Roux (72),NA,Erin Zach (60),NA,TRUE
+3,1,"Tuesday, January  2, 2024",PWHL Ottawa,PWHL Montreal,2,3,8318,2:23,8580,TD Place | Ottawa,NA,0,Elizabeth Mantha (15),NA,Liam Maaskant,NA,Jessica Chartrand (26),NA,Anthony Lapointe (78),NA,TRUE
+4,1,"Wednesday, January  3, 2024",PWHL Boston,PWHL Minnesota,2,3,4012,2:21,8460,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Jordan Deckard,NA,TJ Dockery (70),NA,Kirsten Welsh (10),NA,TRUE
+5,1,"Friday, January  5, 2024",PWHL New York,PWHL Toronto,2,3,2152,2:25,8700,Total Mortgage Arena | Bridgeport,NA,0,Chelsea Rapin (22),NA,Samantha Hiller (12),NA,Stephanie Gagnon (22),NA,Erin Zach (60),NA,TRUE
+6,1,"Saturday, January  6, 2024",PWHL Minnesota,PWHL Montreal,3,0,13316,2:21,8460,Xcel Energy Center | St. Paul,NA,0,Melissa Doyle (48),NA,Amy Martin (52),NA,Greg Offerman (95),NA,Sarah Buckner (10),NA,TRUE
+9,1,"Wednesday, January 10, 2024",PWHL New York,PWHL Montreal,2,5,2201,2:26,8760,UBS Arena | Elmont,NA,0,Jim Curtin (23),NA,Charly Hurley (43),NA,Patrick Dapuzzo (77),NA,Antoine Bujold-Roux (72),NA,TRUE
+8,1,"Wednesday, January 10, 2024",PWHL Minnesota,PWHL Toronto,3,1,4707,2:20,8400,Xcel Energy Center | St. Paul,NA,0,Alexandra Clarke (7),NA,Adam Tobias (16),NA,Luke Pye (80),NA,Sarah Buckner (10),NA,TRUE
+10,1,"Saturday, January 13, 2024",PWHL Toronto,PWHL Ottawa,1,5,2417,2:16,8160,Mattamy Athletic Centre | Toronto,NA,0,Krysta Ansell (19),NA,Grace Barlow (73),NA,Sophie Thomson (75),NA,Spencer Knox (81),NA,TRUE
+11,1,"Saturday, January 13, 2024",PWHL Montreal,PWHL Boston,2,3,3245,2:30,9000,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (51),NA,Lacey Senuk (39),NA,Jessica Chartrand (63),NA,Shawn Oliver (56),NA,TRUE
+12,1,"Sunday, January 14, 2024",PWHL Minnesota,PWHL New York,2,3,7951,2:24,8640,Xcel Energy Center | St. Paul,NA,0,Jake Kamrass (3),NA,Amanda Tassoni (21),NA,Sarah Buckner (10),NA,Erin Zach (60),NA,TRUE
+13,1,"Tuesday, January 16, 2024",PWHL Montreal,PWHL New York,3,2,6334,2:29,8940,Place Bell | Laval,NA,0,Jenn Berezowski (65),NA,Harrison O'Pray (27),NA,Jarrett T. Burton (90),NA,Luke Pye (80),NA,TRUE
+15,1,"Wednesday, January 17, 2024",PWHL Ottawa,PWHL Minnesota,2,3,5609,2:26,8760,TD Place | Ottawa,NA,0,Damian Figueira (20),NA,Harrison O'Pray (27),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA,TRUE
+14,1,"Wednesday, January 17, 2024",PWHL Toronto,PWHL Boston,2,3,2491,2:20,8400,Mattamy Athletic Centre | Toronto,NA,0,Jack Hennigan (11),NA,David Elford (44),NA,Laura Gutauskas (67),NA,Ali Beres (68),NA,TRUE
+16,1,"Saturday, January 20, 2024",PWHL Boston,PWHL New York,1,4,4007,2:13,7980,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Shauna Neary (88),NA,Stephanie Gagnon (76),NA,Kirsten Welsh (64),NA,TRUE
+17,1,"Saturday, January 20, 2024",PWHL Montreal,PWHL Toronto,3,4,3232,2:36,9360,Verdun Auditorium | Montreal,NA,2,Elizabeth Mantha (15),NA,Chelsea Rapin (2),NA,Laura Gutauskas (67),NA,Anthony Lapointe (78),NA,TRUE
+18,1,"Tuesday, January 23, 2024",PWHL Ottawa,PWHL Toronto,3,1,6316,2:17,8220,TD Place | Ottawa,NA,0,Chad Ingalls (25),NA,Liam Maaskant (62),NA,Stephanie Gagnon (76),NA,Dustin McCrank (68),NA,TRUE
+19,1,"Wednesday, January 24, 2024",PWHL Ottawa,PWHL Boston,2,3,5208,2:24,8640,TD Place | Ottawa,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Justine Todd (70),NA,Shawn Oliver (56),NA,TRUE
+20,1,"Wednesday, January 24, 2024",PWHL Minnesota,PWHL Montreal,1,2,5001,2:23,8580,Xcel Energy Center | St. Paul,NA,0,Charly Hurley (43),NA,Melissa Doyle (48),NA,Sarah Buckner (10),NA,Antoine Bujold-Roux (72),NA,TRUE
+21,1,"Friday, January 26, 2024",PWHL Toronto,PWHL New York,2,0,2506,2:17,8220,Mattamy Athletic Centre | Toronto,NA,0,Cianna Murray (13),NA,Krysta Ansell (19),NA,Sophie Thomson (75),NA,Erin Zach (60),NA,TRUE
+22,1,"Saturday, January 27, 2024",PWHL Montreal,PWHL Ottawa,2,1,8646,2:29,8940,Place Bell | Laval,NA,0,Shauna Neary (88),NA,Alexandra Clarke (7),NA,Ali Beres (68),NA,Spencer Knox (81),NA,TRUE
+23,1,"Saturday, January 27, 2024",PWHL Boston,PWHL Minnesota,4,3,4059,2:21,8460,Tsongas Center | Lowell,NA,0,Marie-Eve Couture (51),NA,Katie Glover (45),NA,Anthony Lapointe (78),NA,Jeremy Faucher (85),NA,TRUE
+24,1,"Sunday, January 28, 2024",PWHL New York,PWHL Minnesota,1,2,2393,2:30,9000,Total Mortgage Arena | Bridgeport,NA,0,Katie Glover (45),NA,Jake Kamrass (3),NA,Jarrett T. Burton (90),NA,Patrick Dapuzzo (77),NA,TRUE
+25,1,"Saturday, February  3, 2024",PWHL Toronto,PWHL Minnesota,4,1,2470,2:19,8340,Mattamy Athletic Centre | Toronto,NA,0,Amy Martin (52),NA,Grace Barlow (22),NA,Melissa Brunn (73),NA,TJ Dockery (50),NA,TRUE
+26,1,"Sunday, February  4, 2024",PWHL Ottawa,PWHL New York,3,4,8062,2:30,9000,TD Place | Ottawa,NA,0,Samantha Hiller (12),NA,Laura Schmidlein (53),NA,Greg Offerman (95),NA,Melissa Brunn (73),NA,TRUE
+27,1,"Sunday, February  4, 2024",PWHL Boston,PWHL Montreal,1,2,4210,2:19,8340,Tsongas Center | Lowell,NA,0,Sydney Harris (46),NA,Jim Curtin (23),NA,Erika Greenen (88),NA,Abigail Torres,NA,TRUE
+29,1,"Wednesday, February 14, 2024",PWHL Boston,PWHL Toronto,3,5,1791,2:20,8400,Tsongas Center | Lowell,NA,0,Laura Schmidlein (53),NA,Jake Kamrass (3),NA,Patrick Dapuzzo (77),NA,Jenny Cameron (49),NA,TRUE
+28,1,"Wednesday, February 14, 2024",PWHL Minnesota,PWHL Ottawa,2,1,6276,2:14,8040,Xcel Energy Center | St. Paul,NA,0,Cianna Murray (13),NA,Kyle Bauman (18),NA,Erin Zach (60),NA,Greg Offerman (95),NA,TRUE
+30,1,"Friday, February 16, 2024",PWHL Toronto,PWHL Montreal,3,0,19285,2:20,8400,Scotiabank Arena | Toronto,NA,0,Brandy Beecroft (47),NA,Jordan Deckard (9),NA,Ali Beres (67),NA,Luke Pye (80),NA,TRUE
+31,1,"Saturday, February 17, 2024",PWHL Ottawa,PWHL Minnesota,1,2,8407,2:21,8460,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Jack Hennigan (44),NA,Melissa Brunn (73),NA,Jarrett T. Burton (90),NA,TRUE
+32,1,"Saturday, February 17, 2024",PWHL Boston,PWHL New York,1,2,4002,2:25,8700,Tsongas Center | Lowell,NA,0,Laura White (47),NA,Lacey Senuk (39),NA,Sarah Buckner (10),NA,Justine Todd (70),NA,TRUE
+33,1,"Sunday, February 18, 2024",PWHL Montreal,PWHL Minnesota,2,1,10172,2:16,8160,Place Bell | Laval,NA,0,Alex Lepkowski (14),NA,Hillary Brennan (61),NA,Melissa Brunn (73),NA,Adam Burnett (94),NA,TRUE
+83,1,"Monday, February 19, 2024",PWHL Boston,PWHL Ottawa,2,4,2849,2:27,8820,Tsongas Center | Lowell,NA,0,Jared Cummins (1),NA,Sydney Harris (46),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (67),NA,TRUE
+34,1,"Wednesday, February 21, 2024",PWHL Boston,PWHL Ottawa,3,1,1889,2:17,8220,Tsongas Center | Lowell,NA,0,Hillary Brennan (61),NA,Andrew Bell (6),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA,TRUE
+35,1,"Wednesday, February 21, 2024",PWHL New York,PWHL Montreal,3,2,2128,2:27,8820,UBS Arena | Elmont,NA,1,Sydney Harris (46),NA,Liam Maaskant (62),NA,Dustin McCrank (84),NA,Kirsten Welsh (64),NA,TRUE
+36,1,"Friday, February 23, 2024",PWHL Toronto,PWHL New York,2,1,2494,2:29,8940,Mattamy Athletic Centre | Toronto,NA,1,Alexandra Clarke (7),NA,Damian Figueira (20),NA,Dustin McCrank (84),NA,Erin Zach (60),NA,TRUE
+37,1,"Saturday, February 24, 2024",PWHL Montreal,PWHL Ottawa,6,3,3232,2:24,8640,Verdun Auditorium | Montreal,NA,0,Beatrice Fortin (26),NA,Elizabeth Mantha (15),NA,Justine Todd (70),NA,Anthony Lapointe (78),NA,TRUE
+38,1,"Sunday, February 25, 2024",PWHL Minnesota,PWHL Boston,0,2,10186,2:20,8400,Xcel Energy Center | St. Paul,NA,0,Samantha Hiller (12),NA,Laura White (47),NA,Jarrett T. Burton (90),NA,Shawn Oliver (56),NA,TRUE
+40,1,"Tuesday, February 27, 2024",PWHL Minnesota,PWHL Toronto,3,4,2718,2:35,9300,3M Arena at Mariucci | Minneapolis,NA,0,Tatu Kunto (17),NA,Alex Lepkowski (14),NA,Patrick Dapuzzo (77),NA,Greg Offerman (95),NA,TRUE
+39,1,"Wednesday, February 28, 2024",PWHL Ottawa,PWHL New York,4,2,6889,2:32,9120,TD Place | Ottawa,NA,0,David Elford (11),NA,Marie-Eve Couture (51),NA,Joanie Duchesneau (74),NA,Laura Gutauskas (67),NA,TRUE
+41,1,"Saturday, March  2, 2024",PWHL Ottawa,PWHL Toronto,2,5,8447,2:22,8520,TD Place | Ottawa,NA,0,Damian Figueira (20),NA,Melissa Doyle (48),NA,Spencer Knox (81),NA,Sophie Thomson (75),NA,TRUE
+42,1,"Saturday, March  2, 2024",PWHL Montreal,PWHL Boston,3,1,3232,2:22,8520,Verdun Auditorium | Montreal,NA,0,Grace Barlow (22),NA,Amy Martin (52),NA,Stephanie Gagnon (76),NA,Joanie Duchesneau (74),NA,TRUE
+43,1,"Sunday, March  3, 2024",PWHL New York,PWHL Minnesota,0,2,4459,2:18,8280,UBS Arena | Elmont,NA,0,Kyle Bauman (18),NA,Kelly Cooke (29),NA,Abigail Torres (65),NA,Erin Zach (60),NA,TRUE
+44,1,"Tuesday, March  5, 2024",PWHL Minnesota,PWHL Ottawa,4,3,4585,2:31,9060,Xcel Energy Center | St. Paul,NA,1,Chad Ingalls (25),NA,Bobby Jo Love (5),NA,Ali Beres (67),NA,Dustin McCrank (84),NA,TRUE
+46,1,"Wednesday, March  6, 2024",PWHL New York,PWHL Montreal,3,4,728,2:30,9000,Total Mortgage Arena | Bridgeport,NA,0,Shauna Neary (49),NA,Harrison O'Pray (27),NA,Antoine Bujold-Roux (72),NA,Kirsten Welsh (64),NA,TRUE
+45,1,"Wednesday, March  6, 2024",PWHL Toronto,PWHL Boston,3,1,2479,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Cianna Murray (13),NA,Chris Rumble (24),NA,Adam Burnett (94),NA,Luke Pye (80),NA,TRUE
+47,1,"Friday, March  8, 2024",PWHL Toronto,PWHL Montreal,3,0,2554,2:29,8940,Mattamy Athletic Centre | Toronto,NA,0,Chelsea Rapin (2),NA,Kyle Bauman (18),NA,Anthony Lapointe (78),NA,Sophie Thomson (75),NA,TRUE
+48,1,"Sunday, March 10, 2024",PWHL Boston,PWHL New York,3,2,4607,2:20,8400,Tsongas Center | Lowell,NA,0,Amanda Tassoni (21),NA,Jim Curtin (23),NA,Laura Gutauskas (67),NA,Patrick Dapuzzo (77),NA,TRUE
+49,1,"Sunday, March 10, 2024",PWHL Montreal,PWHL Ottawa,2,4,10172,2:24,8640,Place Bell | Laval,NA,0,Jake Kamrass (3),NA,Krysta Ansell (19),NA,Adam Burnett (94),NA,Ali Beres (67),NA,TRUE
+50,1,"Wednesday, March 13, 2024",PWHL Minnesota,PWHL Boston,4,0,4669,2:20,8400,Xcel Energy Center | St. Paul,NA,0,Jared Cummins (1),NA,Tatu Kunto (17),NA,TJ Dockery (50),NA,Justine Todd (70),NA,TRUE
+51,1,"Saturday, March 16, 2024",PWHL Minnesota,PWHL New York,5,1,9006,2:18,8280,Xcel Energy Center | St. Paul,NA,0,Kyle Bauman (18),NA,Beatrice Fortin (26),NA,Joanie Duchesneau (74),NA,Sarah Buckner (10),NA,TRUE
+65,1,"Saturday, March 16, 2024",PWHL Boston,PWHL Ottawa,2,1,13736,2:40,9600,Little Caesars Arena | Detroit,NA,1,Elizabeth Mantha (15),NA,Jack Hennigan (44),NA,Kirsten Welsh (64),NA,Jarrett T. Burton (90),NA,TRUE
+66,1,"Sunday, March 17, 2024",PWHL Montreal,PWHL Toronto,1,2,8850,2:14,8040,PPG Paints Arena | Pittsburgh,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Anthony Lapointe (78),NA,Shawn Oliver (56),NA,TRUE
+53,1,"Wednesday, March 20, 2024",PWHL New York,PWHL Ottawa,0,3,1702,2:24,8640,Total Mortgage Arena | Bridgeport,NA,0,Chris Rumble (24),NA,Hillary Brennan (61),NA,Luke Pye (80),NA,Spencer Knox (81),NA,TRUE
+52,1,"Wednesday, March 20, 2024",PWHL Toronto,PWHL Boston,2,1,2525,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Andrew Bell (6),NA,Alexandra Clarke (7),NA,Jeremy Faucher (85),NA,Adam Burnett (94),NA,TRUE
+54,1,"Saturday, March 23, 2024",PWHL Ottawa,PWHL Toronto,5,3,8448,2:25,8700,TD Place | Ottawa,NA,0,Brandy Beecroft (33),NA,Harrison O'Pray (27),NA,TJ Dockery (50),NA,Sarah Buckner (10),NA,TRUE
+55,1,"Sunday, March 24, 2024",PWHL Minnesota,PWHL Montreal,3,2,7268,2:35,9300,Xcel Energy Center | St. Paul,NA,1,Jenn Berezowski (4),NA,Cianna Murray (13),NA,Ali Beres (68),NA,Dustin McCrank (84),NA,TRUE
+56,1,"Monday, March 25, 2024",PWHL New York,PWHL Boston,3,2,2834,2:24,8640,UBS Arena | Elmont,NA,0,Jake Kamrass (3),NA,Sydney Harris (46),NA,Matthew Heinen (82),NA,Antoine Bujold-Roux (72),NA,TRUE
+57,1,"Thursday, April 18, 2024",PWHL Boston,PWHL Toronto,2,1,4084,2:18,8280,Tsongas Center | Lowell,NA,0,Katie Glover (45),NA,Alex Lepkowski (14),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA,TRUE
+58,1,"Thursday, April 18, 2024",PWHL Montreal,PWHL Minnesota,4,3,3084,2:23,8580,Verdun Auditorium | Montreal,NA,0,Tatu Kunto (17),NA,Laura Schmidlein (53),NA,Shawn Oliver (56),NA,Adam Burnett (94),NA,TRUE
+67,1,"Saturday, April 20, 2024",PWHL Montreal,PWHL Toronto,2,3,21105,2:34,9240,Bell Centre | Montréal,NA,0,Grace Barlow (22),NA,Jenn Berezowski (4),NA,Laura Gutauskas (67),NA,Dustin McCrank (84),NA,TRUE
+68,1,"Saturday, April 20, 2024",PWHL New York,PWHL Boston,1,2,5132,2:26,8760,Prudential Center | Newark,NA,0,Krysta Ansell (19),NA,Katie Glover (45),NA,Joanie Duchesneau (74),NA,Justine Todd (70),NA,TRUE
+59,1,"Saturday, April 20, 2024",PWHL Ottawa,PWHL Minnesota,4,0,8110,2:20,8400,TD Place | Ottawa,NA,0,Beatrice Fortin (26),NA,Damian Figueira (20),NA,Sophie Thomson (75),NA,Stephanie Gagnon (76),NA,TRUE
+60,1,"Wednesday, April 24, 2024",PWHL Montreal,PWHL New York,5,2,3232,2:26,8760,Verdun Auditorium | Montreal,NA,0,Elizabeth Mantha (15),NA,Chris Rumble (24),NA,Stephanie Gagnon (76),NA,Jarrett T. Burton (90),NA,TRUE
+69,1,"Wednesday, April 24, 2024",PWHL Ottawa,PWHL Boston,3,2,7686,2:26,8760,TD Place | Ottawa,NA,1,Chad Ingalls (25),NA,Hillary Brennan (61),NA,Laura Gutauskas (67),NA,Antoine Bujold-Roux (72),NA,TRUE
+62,1,"Saturday, April 27, 2024",PWHL Ottawa,PWHL Montreal,0,2,8452,2:23,8580,TD Place | Ottawa,NA,0,Jake Kamrass (3),NA,Liam Maaskant (62),NA,Adam Burnett (94),NA,Anthony Lapointe (78),NA,TRUE
+70,1,"Saturday, April 27, 2024",PWHL Minnesota,PWHL Boston,1,2,9977,2:20,8400,Xcel Energy Center | St. Paul,NA,0,Kyle Bauman (18),NA,Marie-Eve Couture (51),NA,Sarah Buckner (10),NA,Melissa Brunn (73),NA,TRUE
+61,1,"Sunday, April 28, 2024",PWHL New York,PWHL Toronto,2,6,1668,2:28,8880,UBS Arena | Elmont,NA,0,Jack Hennigan (44),NA,Amy Martin (52),NA,TJ Dockery (70),NA,Justine Todd (50),NA,TRUE
+71,1,"Tuesday, April 30, 2024",PWHL New York,PWHL Ottawa,4,3,2992,2:24,8640,Prudential Center | Newark,NA,0,Andrew Bell (6),NA,Samantha Hiller (12),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA,TRUE
+63,1,"Wednesday, May  1, 2024",PWHL Toronto,PWHL Minnesota,4,1,2571,2:22,8520,Mattamy Athletic Centre | Toronto,NA,0,Lacey Senuk (39),NA,David Elford (11),NA,Sophie Thomson (75),NA,Jeremy Faucher (85),NA,TRUE
+73,1,"Saturday, May  4, 2024",PWHL New York,PWHL Minnesota,5,2,1563,2:28,8880,UBS Arena | Elmont,NA,0,Beatrice Fortin (26),NA,Alex Lepkowski (14),NA,Laura Gutauskas (68),NA,Greg Offerman (95),NA,TRUE
+64,1,"Saturday, May  4, 2024",PWHL Boston,PWHL Montreal,4,3,5964,2:31,9060,Tsongas Center | Lowell,NA,0,Jim Curtin (23),NA,Laura Schmidlein (53),NA,TJ Dockery (70),NA,Erin Zach (60),NA,TRUE
+72,1,"Sunday, May  5, 2024",PWHL Toronto,PWHL Ottawa,5,2,2620,2:37,9420,Mattamy Athletic Centre | Toronto,NA,0,Shauna Neary (49),NA,Cianna Murray (13),NA,Shawn Oliver (56),NA,Ali Beres (67),NA,TRUE
+74,2,"Monday, December  4, 2023",PWHL Boston,PWHL Toronto,2,5,NA,2:20,8400,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Jordan Deckard,NA,Chris Rumble,NA,,NA,,NA,TRUE
+75,2,"Monday, December  4, 2023",PWHL Minnesota,PWHL Ottawa,8,4,NA,2:34,9240,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Damian Figueira,NA,Liam Maaskant,NA,,NA,,NA,TRUE
+76,2,"Monday, December  4, 2023",PWHL New York,PWHL Montreal,4,0,NA,2:22,8520,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Cianna Murray,NA,Jake Kamrass,NA,,NA,,NA,TRUE
+77,2,"Tuesday, December  5, 2023",PWHL Toronto,PWHL Minnesota,4,5,NA,2:34,9240,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Jordan Deckard,NA,Damian Figueira,NA,,NA,,NA,TRUE
+78,2,"Tuesday, December  5, 2023",PWHL Montreal,PWHL Boston,3,1,NA,2:35,9300,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Cianna Murray,NA,Hillary Brennan,NA,,NA,,NA,TRUE
+79,2,"Tuesday, December  5, 2023",PWHL Ottawa,PWHL New York,1,2,NA,2:32,9120,Utica University Nexus Center - Mastrovito Hyundai,NA,2,Cianna Murray,NA,,NA,,NA,,NA,TRUE
+80,2,"Thursday, December  7, 2023",PWHL Minnesota,PWHL Montreal,4,3,NA,1:58,7080,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Cianna Murray,NA,Jake Kamrass,NA,,NA,,NA,TRUE
+81,2,"Thursday, December  7, 2023",PWHL Toronto,PWHL New York,4,6,NA,2:19,8340,Utica University Nexus Center - Mastrovito Hyundai,NA,0,,NA,,NA,,NA,,NA,TRUE
+82,2,"Thursday, December  7, 2023",PWHL Boston,PWHL Ottawa,3,1,NA,2:15,8100,Utica University Nexus Center - Mastrovito Hyundai,NA,0,Chris Rumble,NA,,NA,,NA,,NA,TRUE
+84,3,"Wednesday, May  8, 2024",PWHL Toronto,PWHL Minnesota,4,0,8473,2:14,8040,Coca-Cola Coliseum | Toronto,NA,0,Jared Cummins (1),NA,Alexandra Clarke (7),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA,TRUE
+85,3,"Thursday, May  9, 2024",PWHL Montreal,PWHL Boston,1,2,9135,3:09,11340,Place Bell | Laval,NA,0,Lacey Senuk (39),NA,David Elford (11),NA,Erin Zach (60),NA,Shawn Oliver (56),NA,TRUE
+86,3,"Friday, May 10, 2024",PWHL Toronto,PWHL Minnesota,2,0,8581,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Andrew Bell (6),NA,Elizabeth Mantha (15),NA,Dustin McCrank (84),NA,Anthony Lapointe (78),NA,TRUE
+87,3,"Saturday, May 11, 2024",PWHL Montreal,PWHL Boston,1,2,10172,4:47,17220,Place Bell | Laval,NA,0,Grace Barlow (22),NA,Alex Lepkowski (14),NA,Antoine Bujold-Roux (72),NA,Anthony Lapointe (78),NA,TRUE
+88,3,"Monday, May 13, 2024",PWHL Minnesota,PWHL Toronto,2,0,3344,2:18,8280,Xcel Energy Center | St. Paul,NA,0,Jordan Deckard (9),NA,Jack Hennigan (44),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA,TRUE
+89,3,"Tuesday, May 14, 2024",PWHL Boston,PWHL Montreal,3,2,2781,2:39,9540,Tsongas Center | Lowell,NA,0,Beatrice Fortin (26),NA,Jake Kamrass (3),NA,Patrick Dapuzzo (77),NA,Jeremy Faucher (85),NA,TRUE
+90,3,"Wednesday, May 15, 2024",PWHL Minnesota,PWHL Toronto,1,0,2766,3:18,11880,Xcel Energy Center | St. Paul,NA,0,David Elford (11),NA,Grace Barlow (22),NA,Kirsten Welsh (64),NA,Dustin McCrank (84),NA,TRUE
+92,3,"Friday, May 17, 2024",PWHL Toronto,PWHL Minnesota,1,4,8501,2:17,8220,Coca-Cola Coliseum | Toronto,NA,0,Jared Cummins (1),NA,Jake Kamrass (3),NA,Anthony Lapointe (78),NA,Shawn Oliver (56),NA,TRUE
+94,3,"Sunday, May 19, 2024",PWHL Boston,PWHL Minnesota,4,3,4508,2:21,8460,Tsongas Center | Lowell,NA,0,Jack Hennigan (44),NA,Alex Lepkowski (14),NA,Antoine Bujold-Roux (72),NA,Greg Offerman (95),NA,TRUE
+95,3,"Tuesday, May 21, 2024",PWHL Boston,PWHL Minnesota,0,3,4543,2:27,8820,Tsongas Center | Lowell,NA,0,Jared Cummins (1),NA,David Elford (11),NA,Jeremy Faucher (85),NA,Laura Gutauskas (68),NA,TRUE
+96,3,"Friday, May 24, 2024",PWHL Minnesota,PWHL Boston,4,1,9054,2:20,8400,Xcel Energy Center | St. Paul,NA,0,Jake Kamrass (3),NA,Grace Barlow (22),NA,Shawn Oliver (56),NA,Anthony Lapointe (78),NA,TRUE
+97,3,"Sunday, May 26, 2024",PWHL Minnesota,PWHL Boston,0,1,13104,3:56,14160,Xcel Energy Center | St. Paul,NA,0,Jared Cummins (1),NA,Jack Hennigan (44),NA,Laura Gutauskas (68),NA,Antoine Bujold-Roux (72),NA,TRUE
+98,3,"Wednesday, May 29, 2024",PWHL Boston,PWHL Minnesota,0,3,6309,2:25,8700,Tsongas Center | Lowell,NA,0,David Elford (11),NA,Alex Lepkowski (14),NA,Jeremy Faucher (85),NA,Greg Offerman (95),NA,TRUE
+99,4,"Wednesday, November 20, 2024",Boston Fleet,Montréal Victoire,3,1,NA,2:17,8220,Verdun Auditorium | Montreal,NA,0,Jarrett T. Burton (90),NA,Marie-Eve Couture (51),NA,Jessica Chartrand (63),NA,Shawn Oliver (56),NA,TRUE
+100,4,"Wednesday, November 20, 2024",Minnesota Frost,Toronto Sceptres,3,1,NA,1:57,7020,Ford Performance Centre | Toronto,NA,0,Jack Hennigan (44),NA,Chad Ingalls (25),NA,Ali Beres (67),NA,Dustin McCrank (84),NA,TRUE
+101,4,"Thursday, November 21, 2024",Ottawa Charge,Boston Fleet,6,1,NA,2:10,7800,Verdun Auditorium | Montreal,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (51),NA,Joanie Duchesneau (74),NA,Anthony Lapointe (78),NA,TRUE
+102,4,"Thursday, November 21, 2024",New York Sirens,Minnesota Frost,3,4,NA,2:21,8460,Ford Performance Centre | Toronto,NA,0,Alexandra Clarke (7),NA,Damian Figueira (20),NA,TJ Dockery (70),NA,Spencer Knox (81),NA,TRUE
+103,4,"Friday, November 22, 2024",Montréal Victoire,Ottawa Charge,6,3,NA,2:10,7800,Verdun Auditorium | Montreal,NA,0,Jenn Berezowski (4),NA,Marie-Eve Couture (51),NA,Stephanie Gagnon (76),NA,Anthony Lapointe (78),NA,TRUE
+104,4,"Friday, November 22, 2024",Toronto Sceptres,New York Sirens,2,5,NA,2:14,8040,Ford Performance Centre | Toronto,NA,0,Lacey Senuk (39),NA,Hillary Brennan (61),NA,Laura Gutauskas (68),NA,Erin Zach (60),NA,TRUE
+105,5,"Saturday, November 30, 2024",Toronto Sceptres,Boston Fleet,3,1,8089,2:25,8700,Coca-Cola Coliseum | Toronto,NA,0,Grace Barlow (22),NA,Jenn Berezowski (4),NA,Adam Burnett (94),NA,Erin Zach (60),NA,TRUE
+106,5,"Saturday, November 30, 2024",Montréal Victoire,Ottawa Charge,4,3,10033,2:29,8940,Place Bell | Laval,NA,1,Beatrice Fortin (26),NA,Jack Hennigan (44),NA,Ali Beres (67),NA,Laura Gutauskas (68),NA,TRUE
+107,5,"Sunday, December  1, 2024",Minnesota Frost,New York Sirens,3,4,8022,2:26,8760,Xcel Energy Center | St. Paul,NA,0,Laura White (47),NA,Jared Cummins (1),NA,Erika Greenen (88),NA,Greg Offerman (95),NA,TRUE
+108,5,"Tuesday, December  3, 2024",Ottawa Charge,Toronto Sceptres,3,2,6451,2:25,8700,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Brandy Beecroft (33),NA,Shawn Oliver (56),NA,Jessica Chartrand (63),NA,TRUE
+109,5,"Wednesday, December  4, 2024",Boston Fleet,Minnesota Frost,1,2,3811,2:19,8340,Tsongas Center | Lowell,NA,0,Kelly Cooke (29),NA,Amanda Tassoni (21),NA,Jenny Cameron (71),NA,Kirsten Welsh (64),NA,TRUE
+110,5,"Wednesday, December  4, 2024",Montréal Victoire,New York Sirens,1,4,5415,2:25,8700,Place Bell | Laval,NA,0,Tatu Kunto (17),NA,Amy Martin (52),NA,Joanie Duchesneau (74),NA,Anthony Lapointe (78),NA,TRUE
+172,5,"Friday, December  6, 2024",Ottawa Charge,Montréal Victoire,1,2,11065,2:23,8580,Canadian Tire Centre | Ottawa,NA,0,Samantha Hiller (12),NA,Alexandra Clarke (7),NA,TJ Dockery (70),NA,Patrick Dapuzzo (77),NA,TRUE
+111,5,"Saturday, December  7, 2024",Toronto Sceptres,Minnesota Frost,3,6,7584,2:16,8160,Coca-Cola Coliseum | Toronto,NA,0,Chad Ingalls (25),NA,Shauna Neary (49),NA,Sophie Thomson (75),NA,Justine Todd (50),NA,TRUE
+112,5,"Sunday, December  8, 2024",Boston Fleet,New York Sirens,4,2,4003,2:38,9480,Tsongas Center | Lowell,NA,0,Katie Glover (45),NA,Charly Hurley (43),NA,Sarah Buckner (10),NA,Antoine Bujold-Roux (72),NA,TRUE
+113,5,"Tuesday, December 17, 2024",Boston Fleet,Ottawa Charge,3,2,2854,2:17,8220,Tsongas Center | Lowell,NA,0,Kyle Bauman (18),NA,Kelly Cooke (29),NA,Stephanie Gagnon (76),NA,Joanie Duchesneau (74),NA,TRUE
+114,5,"Wednesday, December 18, 2024",New York Sirens,Toronto Sceptres,4,2,2851,2:25,8700,Prudential Center | Newark,NA,0,Laura Schmidlein (53),NA,Amanda Tassoni (21),NA,Antoine Bujold-Roux (72),NA,Patrick Dapuzzo (77),NA,TRUE
+115,5,"Thursday, December 19, 2024",Minnesota Frost,Ottawa Charge,5,2,4686,2:30,9000,Xcel Energy Center | St. Paul,NA,0,Cianna Murray (13),NA,Samantha Hiller (12),NA,Dustin McCrank (84),NA,Kirsten Welsh (64),NA,TRUE
+116,5,"Saturday, December 21, 2024",Toronto Sceptres,Montréal Victoire,3,4,8251,2:32,9120,Coca-Cola Coliseum | Toronto,NA,0,Michelle McKenna (28),NA,Jared Cummins (14),NA,Spencer Knox (81),NA,Erin Zach (60),NA,TRUE
+117,5,"Sunday, December 22, 2024",New York Sirens,Minnesota Frost,3,4,2722,2:38,9480,Prudential Center | Newark,NA,2,Krysta Ansell (19),NA,Sydney Harris (46),NA,TJ Dockery (70),NA,Adam Burnett (94),NA,TRUE
+118,5,"Friday, December 27, 2024",Toronto Sceptres,Boston Fleet,4,2,8264,2:27,8820,Coca-Cola Coliseum | Toronto,NA,0,Damian Figueira (32),NA,Jarrett T. Burton (8),NA,Erika Greenen (88),NA,Stephanie Gagnon (76),NA,TRUE
+119,5,"Saturday, December 28, 2024",Minnesota Frost,Montréal Victoire,2,3,8726,2:22,8520,Xcel Energy Center | St. Paul,NA,0,Lacey Senuk (39),NA,Melissa Doyle (48),NA,Melissa Brunn (73),NA,Adam Burnett (94),NA,TRUE
+120,5,"Sunday, December 29, 2024",New York Sirens,Ottawa Charge,1,3,2946,2:20,8400,Prudential Center | Newark,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Matthew Heinen (82),NA,Abigail Torres (65),NA,TRUE
+121,5,"Monday, December 30, 2024",Montréal Victoire,Boston Fleet,3,1,10172,2:33,9180,Place Bell | Laval,NA,0,Hillary Brennan (40),NA,Cianna Murray (13),NA,Justine Todd (50),NA,Luke Pye (80),NA,TRUE
+122,5,"Tuesday, December 31, 2024",Toronto Sceptres,Ottawa Charge,1,2,8278,2:28,8880,Coca-Cola Coliseum | Toronto,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Jessica Chartrand (63),NA,Anthony Lapointe (78),NA,TRUE
+123,5,"Thursday, January  2, 2025",Minnesota Frost,Boston Fleet,4,3,5066,2:29,8940,Xcel Energy Center | St. Paul,NA,0,Jenn Berezowski (4),NA,Kyle Bauman (18),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA,TRUE
+124,5,"Saturday, January  4, 2025",Minnesota Frost,New York Sirens,0,5,6414,2:18,8280,Xcel Energy Center | St. Paul,NA,0,Lacey Senuk (39),NA,Beatrice Fortin (26),NA,Sarah Buckner (66),NA,Laura Gutauskas (68),NA,TRUE
+173,5,"Sunday, January  5, 2025",Boston Fleet,Montréal Victoire,3,2,12608,2:42,9720,Climate Pledge Arena | Seattle,NA,1,Andrew Bell (6),NA,Katie Glover (45),NA,Greg Offerman (95),NA,Erin Zach (60),NA,TRUE
+125,5,"Tuesday, January  7, 2025",New York Sirens,Ottawa Charge,2,3,1569,2:18,8280,Prudential Center | Newark,NA,0,Kyle Bauman (18),NA,Melissa Doyle (48),NA,Ali Beres (67),NA,Kirsten Welsh (64),NA,TRUE
+126,5,"Wednesday, January  8, 2025",Minnesota Frost,Boston Fleet,2,1,4248,2:21,8460,Xcel Energy Center | St. Paul,NA,0,Elizabeth Mantha (15),NA,Chad Ingalls (25),NA,Jeremy Faucher (85),NA,Ali Beres (67),NA,TRUE
+174,5,"Wednesday, January  8, 2025",Toronto Sceptres,Montréal Victoire,2,4,19038,2:18,8280,Rogers Arena | Vancouver,NA,0,Grace Barlow (22),NA,Jared Cummins (14),NA,Melissa Brunn (73),NA,Anthony Lapointe (78),NA,TRUE
+127,5,"Saturday, January 11, 2025",Ottawa Charge,Boston Fleet,1,2,8295,2:28,8880,TD Place | Ottawa,NA,0,,NA,,NA,,NA,,NA,TRUE
+128,5,"Sunday, January 12, 2025",New York Sirens,Toronto Sceptres,1,0,3258,2:33,9180,Prudential Center | Newark,NA,0,Jake Kamrass (3),NA,Harrison O'Pray (27),NA,Jenny Cameron (71),NA,Patrick Dapuzzo (77),NA,TRUE
+175,5,"Sunday, January 12, 2025",Minnesota Frost,Montréal Victoire,4,2,14018,2:24,8640,Ball Arena | Denver,NA,0,Cianna Murray (13),NA,Jack Hennigan (44),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA,TRUE
+129,5,"Tuesday, January 14, 2025",Ottawa Charge,Toronto Sceptres,2,4,6526,2:22,8520,TD Place | Ottawa,NA,0,Michelle McKenna (10),NA,Jared Cummins (14),NA,Alexia Cheyroux (98),NA,Jeremy Faucher (85),NA,TRUE
+130,5,"Wednesday, January 15, 2025",New York Sirens,Minnesota Frost,3,2,1780,2:41,9660,Prudential Center | Newark,NA,1,Andrew Bell (6),NA,Laura White (47),NA,Luke Pye (80),NA,Erika Greenen (88),NA,TRUE
+131,5,"Friday, January 17, 2025",Montréal Victoire,Minnesota Frost,4,2,10172,2:29,8940,Place Bell | Laval,NA,0,Marie-Eve Couture (20),NA,Sydney Harris (28),NA,Adam Burnett (94),NA,Alexia Cheyroux (98),NA,TRUE
+176,5,"Sunday, January 19, 2025",Montréal Victoire,Ottawa Charge,2,1,18259,2:25,8700,Videotron Centre | Quebec City,NA,0,Elizabeth Mantha (15),NA,Amy Martin (31),NA,Antoine Bujold-Roux (72),NA,Spencer Knox (81),NA,TRUE
+132,5,"Tuesday, January 21, 2025",Minnesota Frost,Ottawa Charge,0,1,4165,2:16,8160,Xcel Energy Center | St. Paul,NA,0,Tatu Kunto (17),NA,Chris Rumble (24),NA,Melissa Brunn (73),NA,Sarah Buckner (66),NA,TRUE
+133,5,"Wednesday, January 22, 2025",Boston Fleet,Toronto Sceptres,4,1,3951,2:20,8400,Tsongas Center | Lowell,NA,0,Amanda Tassoni (21),NA,Damian Figueira (32),NA,Shawn Oliver (56),NA,Matthew Heinen (82),NA,TRUE
+177,5,"Saturday, January 25, 2025",Toronto Sceptres,New York Sirens,4,2,19102,2:24,8640,Scotiabank Arena | Toronto,NA,0,Grace Barlow (22),NA,Alexandra Clarke (7),NA,Greg Offerman (95),NA,Laura Gutauskas (68),NA,TRUE
+134,5,"Sunday, January 26, 2025",Minnesota Frost,Boston Fleet,5,2,7838,2:01,7260,Xcel Energy Center | St. Paul,NA,0,Jared Cummins (14),NA,Laura Schmidlein (23),NA,Dustin McCrank (84),NA,Erin Zach (60),NA,TRUE
+135,5,"Monday, January 27, 2025",Ottawa Charge,New York Sirens,0,3,5629,2:34,9240,TD Place | Ottawa,NA,0,Damian Figueira (32),NA,Brandy Beecroft (33),NA,Ali Beres (67),NA,Spencer Knox (81),NA,TRUE
+136,5,"Tuesday, January 28, 2025",Minnesota Frost,Toronto Sceptres,4,3,4540,2:39,9540,Xcel Energy Center | St. Paul,NA,1,Hillary Brennan (40),NA,Harrison O'Pray (27),NA,Matthew Heinen (82),NA,Kirsten Welsh (64),NA,TRUE
+137,5,"Wednesday, January 29, 2025",Montréal Victoire,Ottawa Charge,4,1,6150,2:31,9060,Place Bell | Laval,NA,0,Shauna Neary (49),NA,Chris Rumble (24),NA,Luke Pye (80),NA,Erin Zach (60),NA,TRUE
+138,5,"Thursday, January 30, 2025",Montréal Victoire,Toronto Sceptres,4,3,7242,2:44,9840,Place Bell | Laval,NA,1,Jack Hennigan (44),NA,Chad Ingalls (25),NA,Jessica Chartrand (63),NA,Stephanie Gagnon (76),NA,TRUE
+139,5,"Friday, January 31, 2025",Boston Fleet,New York Sirens,3,2,5912,2:52,10320,Tsongas Center | Lowell,NA,1,Jenn Berezowski (4),NA,Andrew Bell (6),NA,Joanie Duchesneau (74),NA,Jeremy Faucher (85),NA,TRUE
+140,5,"Saturday, February  1, 2025",Toronto Sceptres,Ottawa Charge,4,2,8351,2:32,9120,Coca-Cola Coliseum | Toronto,NA,0,Beatrice Fortin (26),NA,David Elford (11),NA,Sophie Thomson (75),NA,Dustin McCrank (84),NA,TRUE
+141,5,"Sunday, February  2, 2025",New York Sirens,Montréal Victoire,1,2,4346,2:27,8820,Prudential Center | Newark,NA,0,Lacey Senuk (39),NA,Katie Glover (45),NA,Patrick Dapuzzo (77),NA,Spencer Knox (81),NA,TRUE
+142,5,"Tuesday, February 11, 2025",Toronto Sceptres,Minnesota Frost,3,2,8183,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Marie-Eve Couture (20),NA,Bobby Jo Love (5),NA,Justine Todd (50),NA,TJ Dockery (70),NA,TRUE
+143,5,"Wednesday, February 12, 2025",New York Sirens,Boston Fleet,0,4,1729,2:25,8700,Prudential Center | Newark,NA,0,Tatu Kunto (17),NA,Elizabeth Mantha (15),NA,Patrick Dapuzzo (77),NA,Stephanie Gagnon (76),NA,TRUE
+144,5,"Thursday, February 13, 2025",Ottawa Charge,Minnesota Frost,8,3,5854,2:19,8340,TD Place | Ottawa,NA,0,Alexandra Clarke (7),NA,Michelle McKenna (10),NA,Melissa Brunn (73),NA,Jeremy Faucher (85),NA,TRUE
+145,5,"Friday, February 14, 2025",Toronto Sceptres,Boston Fleet,3,1,8124,2:19,8340,Coca-Cola Coliseum | Toronto,NA,0,Cianna Murray (13),NA,Grace Barlow (22),NA,Melissa Brunn (73),NA,Jessica Chartrand (63),NA,TRUE
+146,5,"Saturday, February 15, 2025",Montréal Victoire,New York Sirens,6,2,10172,2:28,8880,Place Bell | Laval,NA,0,Krysta Ansell (19),NA,Chris Rumble (24),NA,Joanie Duchesneau (74),NA,TJ Dockery (70),NA,TRUE
+147,5,"Sunday, February 16, 2025",Boston Fleet,Minnesota Frost,4,2,6032,2:25,8700,Tsongas Center | Lowell,NA,0,Grace Barlow (22),NA,Melissa Doyle (48),NA,Matthew Heinen (82),NA,Patrick Dapuzzo (77),NA,TRUE
+178,5,"Sunday, February 16, 2025",Ottawa Charge,Toronto Sceptres,2,3,17518,2:37,9420,Rogers Place | Edmonton,NA,0,Lacey Senuk (39),NA,Bobby Jo Love (5),NA,Justine Todd (50),NA,Sophie Thomson (75),NA,TRUE
+148,5,"Monday, February 17, 2025",New York Sirens,Boston Fleet,1,4,3715,2:28,8880,Prudential Center | Newark,NA,0,Amy Martin (31),NA,Amanda Tassoni (21),NA,TJ Dockery (70),NA,Erika Greenen (88),NA,TRUE
+149,5,"Tuesday, February 18, 2025",Montréal Victoire,Minnesota Frost,0,4,6696,2:23,8580,Place Bell | Laval,NA,0,Samantha Hiller (12),NA,David Elford (11),NA,Dustin McCrank (84),NA,Laura Gutauskas (68),NA,TRUE
+150,5,"Wednesday, February 19, 2025",New York Sirens,Toronto Sceptres,1,4,1569,2:21,8460,Prudential Center | Newark,NA,0,Sydney Harris (28),NA,Kyle Bauman (18),NA,Greg Offerman (95),NA,Kirsten Welsh (64),NA,TRUE
+151,5,"Thursday, February 20, 2025",Ottawa Charge,Boston Fleet,2,3,5458,2:28,8880,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Hillary Brennan (40),NA,Joanie Duchesneau (74),NA,Shawn Oliver (56),NA,TRUE
+152,5,"Saturday, February 22, 2025",Ottawa Charge,Montréal Victoire,3,1,8424,2:25,8700,TD Place | Ottawa,NA,0,Shauna Neary (49),NA,Beatrice Fortin (26),NA,Anthony Lapointe (78),NA,Spencer Knox (81),NA,TRUE
+153,5,"Sunday, February 23, 2025",Minnesota Frost,Toronto Sceptres,1,2,8770,2:22,8520,Xcel Energy Center | St. Paul,NA,0,Laura Schmidlein (23),NA,Andrew Bell (6),NA,Abigail Torres (65),NA,Adam Burnett (94),NA,TRUE
+179,5,"Sunday, February 23, 2025",New York Sirens,Boston Fleet,2,3,8512,2:35,9300,KeyBank Center | Buffalo,NA,2,Jared Cummins (14),NA,Samantha Hiller (12),NA,Sarah Buckner (66),NA,TJ Dockery (70),NA,TRUE
+154,5,"Tuesday, February 25, 2025",Montréal Victoire,Toronto Sceptres,3,1,6101,2:24,8640,Place Bell | Laval,NA,0,Brandy Beecroft (33),NA,Chad Ingalls (25),NA,Patrick Dapuzzo (77),NA,Jessica Chartrand (63),NA,TRUE
+155,5,"Wednesday, February 26, 2025",Ottawa Charge,New York Sirens,5,4,5005,2:46,9960,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Andrew Bell (6),NA,Stephanie Gagnon (76),NA,Jessica Chartrand (63),NA,TRUE
+180,5,"Saturday, March  1, 2025",Montréal Victoire,Boston Fleet,3,2,17324,2:31,9060,Bell Centre | Montréal,NA,0,Alexandra Clarke (7),NA,Tatu Kunto (17),NA,Anthony Lapointe (78),NA,Erin Zach (60),NA,TRUE
+156,5,"Tuesday, March  4, 2025",Montréal Victoire,Minnesota Frost,2,1,8923,2:31,9060,Place Bell | Laval,NA,1,Jake Kamrass (3),NA,Marie-Eve Couture (20),NA,Sophie Thomson (75),NA,Shawn Oliver (56),NA,TRUE
+157,5,"Wednesday, March  5, 2025",Boston Fleet,New York Sirens,5,2,3252,2:20,8400,Tsongas Center | Lowell,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Erika Greenen (88),NA,Anthony Lapointe (78),NA,TRUE
+158,5,"Thursday, March  6, 2025",Toronto Sceptres,Montréal Victoire,4,1,8618,2:29,8940,Coca-Cola Coliseum | Toronto,NA,0,David Elford (11),NA,Brandy Beecroft (33),NA,Justine Todd (50),NA,Spencer Knox (81),NA,TRUE
+181,5,"Friday, March  7, 2025",Minnesota Frost,Ottawa Charge,5,0,10782,2:20,8400,Lenovo Center | Raleigh,NA,0,Laura Schmidlein (23),NA,Jake Kamrass (3),NA,Laura Gutauskas (68),NA,Dustin McCrank (84),NA,TRUE
+182,5,"Saturday, March  8, 2025",Boston Fleet,Montréal Victoire,2,3,5968,2:18,8280,Agganis Arena | Boston,NA,0,Kyle Bauman (18),NA,Lacey Senuk (39),NA,Erin Zach (60),NA,Stephanie Gagnon (76),NA,TRUE
+159,5,"Sunday, March  9, 2025",Toronto Sceptres,Minnesota Frost,1,2,8510,2:22,8520,Coca-Cola Coliseum | Toronto,NA,0,Grace Barlow (22),NA,Jarrett T. Burton (8),NA,Adam Burnett (94),NA,Sophie Thomson (75),NA,TRUE
+160,5,"Tuesday, March 11, 2025",Ottawa Charge,Minnesota Frost,3,2,5851,2:27,8820,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Grace Barlow (22),NA,Joanie Duchesneau (74),NA,Antoine Bujold-Roux (72),NA,TRUE
+161,5,"Wednesday, March 12, 2025",New York Sirens,Montréal Victoire,3,2,1944,2:48,10080,Prudential Center | Newark,NA,0,Samantha Hiller (12),NA,Tatu Kunto (17),NA,Ali Beres (67),NA,Matthew Heinen (82),NA,TRUE
+162,5,"Saturday, March 15, 2025",Ottawa Charge,Boston Fleet,2,5,8096,2:26,8760,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Elizabeth Mantha (15),NA,Jessica Chartrand (63),NA,Justine Todd (50),NA,TRUE
+183,5,"Sunday, March 16, 2025",New York Sirens,Minnesota Frost,4,1,14288,2:24,8640,Little Caesars Arena | Detroit,NA,0,Chad Ingalls (25),NA,Amy Martin (31),NA,Luke Pye (80),NA,Ali Beres (67),NA,TRUE
+163,5,"Tuesday, March 18, 2025",Boston Fleet,Montréal Victoire,3,2,3375,2:44,9840,Tsongas Center | Lowell,NA,1,Amanda Tassoni (21),NA,Shauna Neary (49),NA,Erin Zach (60),NA,Shawn Oliver (56),NA,TRUE
+164,5,"Wednesday, March 19, 2025",Toronto Sceptres,New York Sirens,2,1,8351,2:39,9540,Coca-Cola Coliseum | Toronto,NA,0,Damian Figueira (32),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Jeremy Faucher (85),NA,TRUE
+165,5,"Saturday, March 22, 2025",New York Sirens,Ottawa Charge,2,5,4767,2:25,8700,Prudential Center | Newark,NA,0,Katie Glover (45),NA,David Elford (11),NA,Erika Greenen (88),NA,Joanie Duchesneau (74),NA,TRUE
+166,5,"Sunday, March 23, 2025",Montréal Victoire,Toronto Sceptres,1,2,10172,2:21,8460,Place Bell | Laval,NA,0,Bobby Jo Love (5),NA,Cianna Murray (13),NA,Dustin McCrank (84),NA,Stephanie Gagnon (76),NA,TRUE
+167,5,"Tuesday, March 25, 2025",Ottawa Charge,New York Sirens,3,6,5707,2:42,9720,TD Place | Ottawa,NA,0,Lacey Senuk (39),NA,Andrew Bell (6),NA,Jeremy Faucher (85),NA,Laura Gutauskas (68),NA,TRUE
+184,5,"Wednesday, March 26, 2025",Boston Fleet,Toronto Sceptres,2,4,6028,2:23,8580,Agganis Arena | Boston,NA,0,Jared Cummins (14),NA,Jenn Berezowski (4),NA,TJ Dockery (70),NA,Kirsten Welsh (64),NA,TRUE
+168,5,"Wednesday, March 26, 2025",Minnesota Frost,Montréal Victoire,1,4,6330,2:22,8520,Xcel Energy Center | St. Paul,NA,0,Amy Martin (31),NA,Sydney Harris (28),NA,Antoine Bujold-Roux (72),NA,Shawn Oliver (56),NA,TRUE
+185,5,"Saturday, March 29, 2025",Boston Fleet,Ottawa Charge,1,2,8578,2:28,8880,Enterprise Center | St. Louis,NA,0,Jack Hennigan (44),NA,Shauna Neary (49),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA,TRUE
+169,5,"Sunday, March 30, 2025",Minnesota Frost,Toronto Sceptres,5,2,9536,2:14,8040,Xcel Energy Center | St. Paul,NA,0,Marie-Eve Couture (20),NA,Jake Kamrass (3),NA,Ali Beres (67),NA,Erin Zach (60),NA,TRUE
+170,5,"Tuesday, April  1, 2025",Montréal Victoire,New York Sirens,0,1,8798,2:31,9060,Place Bell | Laval,NA,0,Laura Schmidlein (23),NA,Jarrett T. Burton (8),NA,Sophie Thomson (75),NA,Matthew Heinen (82),NA,TRUE
+171,5,"Wednesday, April  2, 2025",Boston Fleet,Ottawa Charge,0,4,3807,2:18,8280,Tsongas Center | Lowell,NA,0,Kyle Bauman (18),NA,Brandy Beecroft (33),NA,Laura Gutauskas (68),NA,Jeremy Faucher (85),NA,TRUE
+188,5,"Saturday, April 26, 2025",Ottawa Charge,Montréal Victoire,3,2,8576,2:32,9120,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA,TRUE
+187,5,"Saturday, April 26, 2025",Boston Fleet,Toronto Sceptres,3,0,5619,2:16,8160,Tsongas Center | Lowell,NA,0,Tatu Kunto (17),NA,Sydney Harris (28),NA,Jessica Chartrand (63),NA,Patrick Dapuzzo (77),NA,TRUE
+186,5,"Sunday, April 27, 2025",Minnesota Frost,New York Sirens,0,2,6472,2:22,8520,Xcel Energy Center | St. Paul,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Greg Offerman (95),NA,Sarah Buckner (66),NA,TRUE
+190,5,"Monday, April 28, 2025",Montréal Victoire,Boston Fleet,3,2,8812,2:45,9900,Place Bell | Laval,NA,0,Amy Martin (31),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Jeremy Faucher (85),NA,TRUE
+189,5,"Tuesday, April 29, 2025",Toronto Sceptres,New York Sirens,2,1,8532,2:27,8820,Coca-Cola Coliseum | Toronto,NA,1,Alexandra Clarke (7),NA,Jared Cummins (14),NA,Erin Zach (60),NA,Dustin McCrank (84),NA,TRUE
+191,5,"Wednesday, April 30, 2025",Ottawa Charge,Minnesota Frost,0,3,5494,2:24,8640,TD Place | Ottawa,NA,0,Jared Cummins (14),NA,Shauna Neary (49),NA,Jessica Chartrand (63),NA,Antoine Bujold-Roux (72),NA,TRUE
+194,5,"Saturday, May  3, 2025",Toronto Sceptres,Ottawa Charge,1,2,8593,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Samantha Hiller (12),NA,Tatu Kunto (17),NA,Spencer Knox (81),NA,Sophie Thomson (75),NA,TRUE
+193,5,"Saturday, May  3, 2025",Boston Fleet,Minnesota Frost,1,8,5013,2:26,8760,Tsongas Center | Lowell,NA,0,David Elford (11),NA,Laura Schmidlein (23),NA,Greg Offerman (95),NA,Ali Beres (67),NA,TRUE
+192,5,"Saturday, May  3, 2025",New York Sirens,Montréal Victoire,2,3,2737,2:23,8580,Prudential Center | Newark,NA,0,Katie Glover (45),NA,Sydney Harris (28),NA,Dustin McCrank (84),NA,Sarah Buckner (66),NA,TRUE
+195,6,"Wednesday, May  7, 2025",Toronto Sceptres,Minnesota Frost,3,2,6868,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Amy Martin (31),NA,David Elford (11),NA,TJ Dockery (70),NA,Laura Gutauskas (68),NA,TRUE
+197,6,"Thursday, May  8, 2025",Montréal Victoire,Ottawa Charge,2,3,6570,2:29,8940,Place Bell | Laval,NA,0,Jake Kamrass (3),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Antoine Bujold-Roux (72),NA,TRUE
+196,6,"Friday, May  9, 2025",Toronto Sceptres,Minnesota Frost,3,5,7659,2:26,8760,Coca-Cola Coliseum | Toronto,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Dustin McCrank (84),NA,Sarah Buckner (66),NA,TRUE
+199,6,"Sunday, May 11, 2025",Montréal Victoire,Ottawa Charge,3,2,7114,5:34,20040,Place Bell | Laval,NA,0,Elizabeth Mantha (15),NA,Chad Ingalls (25),NA,Sophie Thomson (75),NA,Erin Zach (60),NA,TRUE
+203,6,"Sunday, May 11, 2025",Minnesota Frost,Toronto Sceptres,7,5,3917,2:31,9060,Xcel Energy Center | St. Paul,NA,0,Marie-Eve Couture (20),NA,Jack Hennigan (44),NA,Justine Todd (50),NA,Greg Offerman (95),NA,TRUE
+200,6,"Tuesday, May 13, 2025",Ottawa Charge,Montréal Victoire,1,0,7282,2:26,8760,TD Place | Ottawa,NA,0,Tatu Kunto (17),NA,Andrew Bell (6),NA,Antoine Bujold-Roux (72),NA,Ali Beres (67),NA,TRUE
+204,6,"Wednesday, May 14, 2025",Minnesota Frost,Toronto Sceptres,4,3,3107,2:48,10080,Xcel Energy Center | St. Paul,NA,0,Jake Kamrass (3),NA,Alexandra Clarke (7),NA,Patrick Dapuzzo (77),NA,Kirsten Welsh (64),NA,TRUE
+201,6,"Friday, May 16, 2025",Ottawa Charge,Montréal Victoire,2,1,8011,2:32,9120,TD Place | Ottawa,NA,0,Sydney Harris (28),NA,Jack Hennigan (44),NA,Greg Offerman (95),NA,TJ Dockery (70),NA,TRUE
+206,6,"Tuesday, May 20, 2025",Ottawa Charge,Minnesota Frost,2,1,6184,2:53,10380,TD Place | Ottawa,NA,0,Alexandra Clarke (7),NA,David Elford (11),NA,Sophie Thomson (75),NA,Patrick Dapuzzo (77),NA,TRUE
+207,6,"Thursday, May 22, 2025",Ottawa Charge,Minnesota Frost,1,2,8206,3:04,11040,TD Place | Ottawa,NA,0,Sydney Harris (28),NA,Jack Hennigan (44),NA,Laura Gutauskas (68),NA,Antoine Bujold-Roux (72),NA,TRUE
+208,6,"Saturday, May 24, 2025",Minnesota Frost,Ottawa Charge,2,1,8098,4:26,15960,Xcel Energy Center | St. Paul,NA,0,Tatu Kunto (17),NA,Marie-Eve Couture (20),NA,Dustin McCrank (84),NA,Greg Offerman (95),NA,TRUE
+209,6,"Monday, May 26, 2025",Minnesota Frost,Ottawa Charge,2,1,11024,2:59,10740,Xcel Energy Center | St. Paul,NA,0,David Elford (11),NA,Sydney Harris (28),NA,Laura Gutauskas (68),NA,Patrick Dapuzzo (77),NA,TRUE
+330,7,"Thursday, November 13, 2025",New York Sirens,Minnesota Frost,2,5,NA,2:26,8760,Codey Arena,NA,0,Jared Cummins (14),NA,Jack Hennigan (44),NA,,NA,TJ Dockery (70),NA,TRUE
+331,7,"Friday, November 14, 2025",New York Sirens,Minnesota Frost,6,2,NA,2:20,8400,Codey Arena,NA,0,Jared Cummins (14),NA,Jack Hennigan (44),NA,Stephanie Gagnon (76),NA,TJ Dockery (70),NA,TRUE
+332,7,"Saturday, November 15, 2025",Montréal Victoire,Boston Fleet,3,2,NA,2:24,8640,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (20),NA,Beatrice Fortin (26),NA,Stephanie Gagnon (76),NA,Laura Gutauskas (68),NA,TRUE
+333,7,"Saturday, November 15, 2025",Vancouver Goldeneyes,Seattle Torrent,3,0,101,2:20,8400,Pacific Coliseum | Vancouver,NA,0,Grace Barlow (22),NA,Michelle McKenna (10),NA,Chase Eising (87),NA,Matthew Williams (61),NA,TRUE
+334,7,"Sunday, November 16, 2025",Ottawa Charge,Toronto Sceptres,2,3,NA,2:21,8460,TD Place | Ottawa,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Alexia Cheyroux (98),NA,TRUE
+335,7,"Sunday, November 16, 2025",Vancouver Goldeneyes,Seattle Torrent,2,4,86,2:28,8880,Pacific Coliseum | Vancouver,NA,0,Grace Barlow (22),NA,Michelle McKenna (10),NA,Katie Glover (89),NA,Colleen Butler (59),NA,TRUE
+336,7,"Monday, November 17, 2025",Ottawa Charge,Toronto Sceptres,0,3,NA,2:12,7920,TD Place | Ottawa,NA,0,Jenn Berezowski (4),NA,Hillary Brennan (40),NA,Jessica Chartrand (63),NA,Ali Beres (67),NA,TRUE
+337,7,"Monday, November 17, 2025",Montréal Victoire,Boston Fleet,3,2,NA,2:26,8760,Verdun Auditorium | Montreal,NA,0,Marie-Eve Couture (20),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Marlowe Schott (86),NA,TRUE
+210,8,"Friday, November 21, 2025",Minnesota Frost,Toronto Sceptres,1,2,9138,2:17,8220,Grand Casino Arena | St. Paul,NA,0,Jared Cummins (14),NA,Alexandra Clarke (7),NA,Sarah Buckner (66),NA,Greg Offerman (95),NA,TRUE
+211,8,"Friday, November 21, 2025",Vancouver Goldeneyes,Seattle Torrent,4,3,14958,2:37,9420,Pacific Coliseum | Vancouver,NA,0,Cianna Murray (13),NA,Kyle Bauman (18),NA,Sophie Thomson (75),NA,Melissa Brunn (73),NA,TRUE
+212,8,"Saturday, November 22, 2025",Ottawa Charge,New York Sirens,0,4,7371,2:28,8880,TD Place | Ottawa,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Spencer Knox (81),NA,Erin Zach (60),NA,TRUE
+213,8,"Sunday, November 23, 2025",Boston Fleet,Montréal Victoire,2,0,5166,2:21,8460,Tsongas Center | Lowell,NA,0,Jake Kamrass (3),NA,Kelly Cooke (29),NA,Anthony Lapointe (78),NA,Antoine Bujold-Roux (72),NA,TRUE
+214,8,"Tuesday, November 25, 2025",Montréal Victoire,New York Sirens,4,0,8392,2:34,9240,Place Bell | Laval,NA,0,Samantha Hiller (12),NA,Sydney Harris (28),NA,Joanie Duchesneau (74),NA,Antoine Bujold-Roux (72),NA,TRUE
+215,8,"Wednesday, November 26, 2025",Ottawa Charge,Vancouver Goldeneyes,5,1,5507,2:25,8700,TD Place | Ottawa,NA,0,Jack Hennigan (44),NA,Jenn Berezowski (4),NA,Ali Beres (67),NA,Stephanie Gagnon (76),NA,TRUE
+216,8,"Friday, November 28, 2025",Seattle Torrent,Minnesota Frost,0,3,16014,2:34,9240,Climate Pledge Arena | Seattle,NA,0,Bobby Jo Love (5),NA,Michelle McKenna (10),NA,Laura Gutauskas (68),NA,Sarah Buckner (66),NA,TRUE
+217,8,"Saturday, November 29, 2025",New York Sirens,Vancouver Goldeneyes,5,1,3517,2:16,8160,Prudential Center | Newark,NA,0,Shauna Neary (49),NA,Alexandra Clarke (7),NA,Erika Greenen (88),NA,Erin Zach (60),NA,TRUE
+218,8,"Saturday, November 29, 2025",Toronto Sceptres,Boston Fleet,1,3,8277,2:20,8400,Coca-Cola Coliseum | Toronto,NA,0,Beatrice Fortin (26),NA,Brandy Beecroft (33),NA,Dustin McCrank (84),NA,TJ Dockery (70),NA,TRUE
+219,8,"Tuesday, December  2, 2025",Ottawa Charge,Minnesota Frost,1,5,5174,2:22,8520,TD Place | Ottawa,NA,0,David Elford (11),NA,Melissa Doyle (48),NA,Jessica Chartrand (63),NA,Anthony Lapointe (78),NA,TRUE
+220,8,"Wednesday, December  3, 2025",Boston Fleet,Vancouver Goldeneyes,2,0,3516,2:19,8340,Agganis Arena | Boston,NA,0,Amanda Tassoni (21),NA,Chad Ingalls (25),NA,Stephanie Gagnon (76),NA,Patrick Dapuzzo (77),NA,TRUE
+221,8,"Wednesday, December  3, 2025",Seattle Torrent,New York Sirens,2,1,8622,2:38,9480,Climate Pledge Arena | Seattle,NA,0,Kyle Bauman (18),NA,Amy Martin (31),NA,Harrison Heyer (84),NA,Katie Glover (98),NA,TRUE
+222,8,"Thursday, December  4, 2025",Toronto Sceptres,Ottawa Charge,3,1,7715,2:23,8580,Coca-Cola Coliseum | Toronto,NA,0,Damian Figueira (32),NA,Jack Hennigan (44),NA,Sophie Thomson (75),NA,Ali Beres (67),NA,TRUE
+223,8,"Saturday, December  6, 2025",Vancouver Goldeneyes,New York Sirens,4,0,9502,2:18,8280,Pacific Coliseum | Vancouver,NA,0,Amy Martin (31),NA,Lacey Senuk (39),NA,Marlowe Schott (98),NA,Matthew Williams (98),NA,TRUE
+224,8,"Sunday, December  7, 2025",Montréal Victoire,Toronto Sceptres,3,1,8113,2:31,9060,Place Bell | Laval,NA,0,Jared Cummins (14),NA,Laura Schmidlein (23),NA,Joanie Duchesneau (74),NA,Jessica Chartrand (63),NA,TRUE
+225,8,"Sunday, December  7, 2025",Boston Fleet,Minnesota Frost,4,1,5338,2:25,8700,Agganis Arena | Boston,NA,0,Andrew Bell (6),NA,Hillary Brennan (40),NA,Erika Greenen (88),NA,Patrick Dapuzzo (77),NA,TRUE
+226,8,"Tuesday, December 16, 2025",Vancouver Goldeneyes,Ottawa Charge,2,1,9250,2:19,8340,Pacific Coliseum | Vancouver,NA,0,Lacey Senuk (98),NA,Jared Cummins (14),NA,Dustin McCrank (84),NA,Amy Laroche (62),NA,TRUE
+227,8,"Wednesday, December 17, 2025",Toronto Sceptres,Montréal Victoire,1,2,10438,2:41,9660,Scotiabank Centre | Halifax,NA,2,Shauna Neary (49),NA,Andrew Bell (6),NA,Sophie Thomson (75),NA,Patrick Dapuzzo (77),NA,TRUE
+228,8,"Wednesday, December 17, 2025",New York Sirens,Boston Fleet,0,2,1884,2:16,8160,Prudential Center | Newark,NA,0,Jarrett T. Burton (8),NA,Brandy Beecroft (33),NA,Heidi Niskanen,NA,Spencer Knox (81),NA,TRUE
+229,8,"Wednesday, December 17, 2025",Seattle Torrent,Ottawa Charge,4,1,9389,2:24,8640,Climate Pledge Arena | Seattle,NA,0,Lacey Senuk (39),NA,Jared Cummins (14),NA,Dustin McCrank (84),NA,Melissa Brunn (73),NA,TRUE
+230,8,"Friday, December 19, 2025",Minnesota Frost,Boston Fleet,5,2,7216,2:21,8460,Grand Casino Arena | St. Paul,NA,0,Kyle Bauman (18),NA,Amanda Tassoni (21),NA,Erika Greenen (88),NA,Sarah Buckner (66),NA,TRUE
+231,8,"Saturday, December 20, 2025",Vancouver Goldeneyes,Montréal Victoire,2,4,12127,2:31,9060,Pacific Coliseum | Vancouver,NA,0,Jake Kamrass (3),NA,Beatrice Fortin (26),NA,Matthew Williams (98),NA,Joanie Duchesneau (74),NA,TRUE
+232,8,"Sunday, December 21, 2025",New York Sirens,Toronto Sceptres,3,4,3517,2:28,8880,Prudential Center | Newark,NA,0,Kelly Cooke (29),NA,Tatu Kunto (17),NA,Stephanie Gagnon (76),NA,Jenny Cameron (71),NA,TRUE
+233,8,"Sunday, December 21, 2025",Minnesota Frost,Ottawa Charge,2,3,7238,2:33,9180,Allstate Arena | Chicago,NA,0,Samantha Hiller (12),NA,Cianna Murray (13),NA,Erika Greenen (88),NA,Antoine Bujold-Roux (72),NA,TRUE
+234,8,"Sunday, December 21, 2025",Seattle Torrent,Boston Fleet,1,3,11023,2:30,9000,Climate Pledge Arena | Seattle,NA,0,Jake Kamrass (3),NA,Beatrice Fortin (26),NA,Matthew Williams (98),NA,Joanie Duchesneau (74),NA,TRUE
+235,8,"Tuesday, December 23, 2025",Toronto Sceptres,Ottawa Charge,3,4,8108,2:29,8940,Coca-Cola Coliseum | Toronto,NA,0,Cianna Murray (13),NA,Grace Barlow (22),NA,Kirsten Welsh (64),NA,Chase Eising (87),NA,TRUE
+236,8,"Tuesday, December 23, 2025",Seattle Torrent,Montréal Victoire,2,1,10276,2:28,8880,Climate Pledge Arena | Seattle,NA,0,Chad Ingalls (25),NA,Sydney Harris (28),NA,Harrison Heyer (84),NA,Ali Beres (67),NA,TRUE
+237,8,"Saturday, December 27, 2025",Ottawa Charge,Boston Fleet,3,2,8497,2:37,9420,TD Place | Ottawa,NA,1,Laura Schmidlein (23),NA,Amanda Tassoni (21),NA,Colleen Butler (98),NA,Spencer Knox (81),NA,TRUE
+238,8,"Saturday, December 27, 2025",Montréal Victoire,Toronto Sceptres,1,2,18107,2:22,8520,Bell Centre | Montréal,NA,0,Marie-Eve Couture (20),NA,Jake Kamrass (3),NA,Kirsten Welsh (64),NA,Amy Laroche (62),NA,TRUE
+239,8,"Saturday, December 27, 2025",Vancouver Goldeneyes,Minnesota Frost,1,2,10264,2:29,8940,Rogers Place | Edmonton,NA,0,Alexandra Clarke (7),NA,Cianna Murray (13),NA,Ali Beres (67),NA,Antoine Bujold-Roux (72),NA,TRUE
+240,8,"Sunday, December 28, 2025",New York Sirens,Seattle Torrent,4,3,8514,2:31,9060,American Airlines Center | Dallas,NA,0,Tatu Kunto (17),NA,Grace Barlow (22),NA,Justine Todd (50),NA,Laura Gutauskas (68),NA,TRUE
+241,8,"Tuesday, December 30, 2025",Toronto Sceptres,Minnesota Frost,1,5,8318,2:12,7920,Coca-Cola Coliseum | Toronto,NA,0,Jenn Berezowski (4),NA,Jarrett T. Burton (8),NA,Melissa Brunn (73),NA,Marlowe Schott (98),NA,TRUE
+242,8,"Wednesday, December 31, 2025",New York Sirens,Vancouver Goldeneyes,2,0,2735,2:22,8520,Prudential Center | Newark,NA,0,Sydney Harris (28),NA,Hillary Brennan (40),NA,TJ Dockery (70),NA,Erin Zach (60),NA,TRUE
+243,8,"Friday, January  2, 2026",New York Sirens,Montréal Victoire,4,3,3513,2:39,9540,Prudential Center | Newark,NA,0,Elizabeth Mantha (15),NA,Jenn Berezowski (4),NA,Katie Glover (98),NA,Kirsten Welsh (64),NA,TRUE
+244,8,"Saturday, January  3, 2026",Ottawa Charge,Minnesota Frost,5,2,8235,2:26,8760,TD Place | Ottawa,NA,0,Michelle McKenna (10),NA,Laura Schmidlein (23),NA,Erin Zach (60),NA,Sophie Thomson (75),NA,TRUE
+245,8,"Saturday, January  3, 2026",Toronto Sceptres,Seattle Torrent,2,3,16012,2:15,8100,TD Coliseum | Hamilton,NA,2,Jack Hennigan (44),NA,Melissa Doyle (48),NA,Jessica Chartrand (63),NA,Sarah Buckner (66),NA,TRUE
+246,8,"Saturday, January  3, 2026",Boston Fleet,Vancouver Goldeneyes,3,4,9624,2:27,8820,Little Caesars Arena | Detroit,NA,0,Elizabeth Mantha (15),NA,Amy Martin (31),NA,Katie Glover (98),NA,Dustin McCrank (84),NA,TRUE
+247,8,"Sunday, January  4, 2026",Montréal Victoire,Minnesota Frost,3,2,10172,2:28,8880,Place Bell | Laval,NA,0,Jack Hennigan (44),NA,Melissa Doyle (48),NA,Greg Offerman (95),NA,Sarah Buckner (66),NA,TRUE
+248,8,"Tuesday, January  6, 2026",Toronto Sceptres,New York Sirens,0,2,7924,2:18,8280,Coca-Cola Coliseum | Toronto,NA,0,Jarrett T. Burton (8),NA,Samantha Hiller (12),NA,Justine Todd (50),NA,Greg Offerman (95),NA,TRUE
+250,8,"Wednesday, January  7, 2026",Boston Fleet,Seattle Torrent,2,1,6003,2:19,8340,Agganis Arena | Boston,NA,0,Marie-Eve Couture (20),NA,Andrew Bell (6),NA,Laura Gutauskas (68),NA,Heidi Niskanen,NA,TRUE
+249,8,"Friday, January  9, 2026",Ottawa Charge,Vancouver Goldeneyes,4,2,7889,2:23,8580,TD Place | Ottawa,NA,0,Andrew Bell (6),NA,Shauna Neary (49),NA,Marlowe Schott (98),NA,Joanie Duchesneau (74),NA,TRUE
+251,8,"Sunday, January 11, 2026",Boston Fleet,Ottawa Charge,1,2,10452,2:36,9360,Scotiabank Centre | Halifax,NA,2,Jared Cummins (14),NA,Elizabeth Mantha (15),NA,Spencer Knox (81),NA,Sophie Thomson (75),NA,TRUE
+252,8,"Sunday, January 11, 2026",Minnesota Frost,Seattle Torrent,6,2,9787,2:26,8760,Grand Casino Arena | St. Paul,NA,0,Tatu Kunto (17),NA,Cianna Murray (13),NA,Greg Offerman (95),NA,Erin Zach (60),NA,TRUE
+253,8,"Sunday, January 11, 2026",Montréal Victoire,Vancouver Goldeneyes,1,0,14624,2:26,8760,Videotron Centre | Quebec City,NA,0,Beatrice Fortin (26),NA,Chad Ingalls (25),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA,TRUE
+254,8,"Tuesday, January 13, 2026",Montréal Victoire,Ottawa Charge,2,1,7408,2:20,8400,Place Bell | Laval,NA,0,David Elford (11),NA,Damian Figueira (32),NA,Harrison Heyer (84),NA,Marlowe Schott (98),NA,TRUE
+255,8,"Wednesday, January 14, 2026",Boston Fleet,Toronto Sceptres,2,1,3372,2:27,8820,Tsongas Center | Lowell,NA,0,Kyle Bauman (18),NA,Hillary Brennan (40),NA,Harrison Heyer (84),NA,Matthew Williams (98),NA,TRUE
+256,8,"Friday, January 16, 2026",New York Sirens,Minnesota Frost,2,3,4244,2:31,9060,Prudential Center | Newark,NA,0,Shauna Neary (49),NA,Brandy Beecroft (33),NA,Matthew Williams (98),NA,Greg Offerman (95),NA,TRUE
+257,8,"Saturday, January 17, 2026",Toronto Sceptres,Vancouver Goldeneyes,2,1,17856,2:33,9180,Scotiabank Arena | Toronto,NA,0,Alexandra Clarke (7),NA,Lacey Senuk (39),NA,Ali Beres (67),NA,Dustin McCrank (84),NA,TRUE
+258,8,"Sunday, January 18, 2026",New York Sirens,Montréal Victoire,2,1,17228,2:26,8760,Capital One Arena | Washington,NA,0,Jack Hennigan (44),NA,Shauna Neary (49),NA,TJ Dockery (70),NA,Sarah Buckner (66),NA,TRUE
+259,8,"Sunday, January 18, 2026",Seattle Torrent,Boston Fleet,1,2,12774,2:45,9900,Climate Pledge Arena | Seattle,NA,2,Cianna Murray (13),NA,Michelle McKenna (10),NA,Chase Eising (87),NA,Colleen Butler (98),NA,TRUE
+260,8,"Tuesday, January 20, 2026",New York Sirens,Ottawa Charge,3,4,2759,2:20,8400,Prudential Center | Newark,NA,0,David Elford (11),NA,Chad Ingalls (25),NA,Anthony Lapointe (78),NA,Katie Glover (98),NA,TRUE
+261,8,"Tuesday, January 20, 2026",Seattle Torrent,Toronto Sceptres,6,4,10160,2:31,9060,Climate Pledge Arena | Seattle,NA,0,Jarrett T. Burton (8),NA,Sydney Harris (28),NA,Amy Laroche (62),NA,Kirsten Welsh (64),NA,TRUE
+262,8,"Wednesday, January 21, 2026",Minnesota Frost,Montréal Victoire,1,2,6113,2:24,8640,Grand Casino Arena | St. Paul,NA,0,Melissa Doyle (48),NA,Kyle Bauman (18),NA,TJ Dockery (70),NA,Marlowe Schott (98),NA,TRUE
+263,8,"Thursday, January 22, 2026",Vancouver Goldeneyes,Toronto Sceptres,5,0,14006,2:18,8280,Pacific Coliseum | Vancouver,NA,0,Grace Barlow (22),NA,Jarrett T. Burton (8),NA,Amy Laroche (62),NA,Kirsten Welsh (64),NA,TRUE
+264,8,"Saturday, January 24, 2026",Montréal Victoire,Ottawa Charge,3,1,10172,2:36,9360,Place Bell | Laval,NA,0,Grace Barlow (22),NA,Michelle McKenna (10),NA,Justine Todd (50),NA,Spencer Knox (81),NA,TRUE
+265,8,"Sunday, January 25, 2026",Minnesota Frost,New York Sirens,6,2,7752,2:19,8340,Grand Casino Arena | St. Paul,NA,0,Marie-Eve Couture (20),NA,Samantha Hiller (12),NA,Chase Eising (87),NA,Marlowe Schott (98),NA,TRUE
+266,8,"Sunday, January 25, 2026",Seattle Torrent,Vancouver Goldeneyes,1,3,11612,2:23,8580,Ball Arena | Denver,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Anthony Lapointe (78),NA,Erin Zach (60),NA,TRUE
+267,8,"Wednesday, January 28, 2026",Montréal Victoire,Toronto Sceptres,3,0,8018,2:25,8700,Place Bell | Laval,NA,0,Jack Hennigan (44),NA,Elizabeth Mantha (15),NA,Sophie Thomson (75),NA,Heidi Niskanen,NA,TRUE
+269,8,"Wednesday, January 28, 2026",Boston Fleet,New York Sirens,4,3,4697,2:48,10080,Tsongas Center | Lowell,NA,1,Sydney Harris (28),NA,Damian Figueira (32),NA,Erika Greenen (88),NA,Patrick Dapuzzo (77),NA,TRUE
+268,8,"Wednesday, January 28, 2026",Ottawa Charge,Seattle Torrent,4,2,6787,2:31,9060,TD Place | Ottawa,NA,0,Marie-Eve Couture (20),NA,Kyle Bauman (18),NA,Stephanie Gagnon (76),NA,Jessica Chartrand (63),NA,TRUE
+270,8,"Wednesday, January 28, 2026",Minnesota Frost,Vancouver Goldeneyes,4,1,5249,2:16,8160,Grand Casino Arena | St. Paul,NA,0,Andrew Bell (6),NA,Brandy Beecroft (33),NA,Melissa Brunn (73),NA,Colleen Butler (98),NA,TRUE
+271,8,"Thursday, February 26, 2026",New York Sirens,Montréal Victoire,1,4,3488,2:30,9000,Prudential Center | Newark,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Heidi Niskanen,NA,TRUE
+272,8,"Friday, February 27, 2026",Seattle Torrent,Toronto Sceptres,2,5,17335,2:26,8760,Climate Pledge Arena | Seattle,NA,0,Laura Schmidlein (23),NA,Jack Hennigan (44),NA,Matthew Williams (98),NA,Amy Laroche (62),NA,TRUE
+273,8,"Saturday, February 28, 2026",Ottawa Charge,Boston Fleet,2,3,8572,2:34,9240,TD Place | Ottawa,NA,2,Beatrice Fortin (26),NA,Jake Kamrass (3),NA,Dustin McCrank (84),NA,Sophie Thomson (75),NA,TRUE
+274,8,"Sunday, March  1, 2026",Montréal Victoire,Minnesota Frost,4,0,10172,2:22,8520,Place Bell | Laval,NA,0,Amy Martin (31),NA,Marie-Eve Couture (20),NA,Sophie Thomson (75),NA,Dustin McCrank (84),NA,TRUE
+275,8,"Sunday, March  1, 2026",Vancouver Goldeneyes,Toronto Sceptres,1,2,13264,2:19,8340,Pacific Coliseum | Vancouver,NA,0,Laura Schmidlein (23),NA,Jack Hennigan (44),NA,Matthew Williams (61),NA,Chase Eising (87),NA,TRUE
+276,8,"Tuesday, March  3, 2026",Toronto Sceptres,Montréal Victoire,3,4,8671,2:41,9660,Coca-Cola Coliseum | Toronto,NA,2,Sydney Harris (28),NA,Damian Figueira (32),NA,Spencer Knox (81),NA,Ali Beres (67),NA,TRUE
+277,8,"Wednesday, March  4, 2026",Ottawa Charge,Seattle Torrent,4,3,6997,2:23,8580,TD Place | Ottawa,NA,0,Sydney Harris (28),NA,Alexandra Clarke (7),NA,Anthony Lapointe (78),NA,TJ Dockery (70),NA,TRUE
+278,8,"Thursday, March  5, 2026",New York Sirens,Boston Fleet,0,1,3765,2:30,9000,Prudential Center | Newark,NA,0,Elizabeth Mantha (15),NA,Marie-Eve Couture (20),NA,Patrick Dapuzzo (77),NA,Melissa Brunn (73),NA,TRUE
+280,8,"Sunday, March  8, 2026",Toronto Sceptres,Minnesota Frost,2,3,8604,2:32,9120,Coca-Cola Coliseum | Toronto,NA,0,Cianna Murray (13),NA,Grace Barlow (22),NA,Justine Todd (50),NA,Dustin McCrank (84),NA,TRUE
+279,8,"Sunday, March  8, 2026",New York Sirens,Ottawa Charge,6,2,8264,2:37,9420,Prudential Center | Newark,NA,0,Jenn Berezowski (4),NA,Jared Cummins (14),NA,Laura Gutauskas (68),NA,Melissa Brunn (73),NA,TRUE
+281,8,"Tuesday, March 10, 2026",Vancouver Goldeneyes,Boston Fleet,1,2,9731,2:21,8460,Pacific Coliseum | Vancouver,NA,0,Hillary Brennan (40),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Harrison Heyer (84),NA,TRUE
+283,8,"Wednesday, March 11, 2026",Seattle Torrent,Boston Fleet,3,2,13350,2:30,9000,Climate Pledge Arena | Seattle,NA,0,Hillary Brennan (40),NA,David Elford (11),NA,Anthony Lapointe (78),NA,Katie Glover (89),NA,TRUE
+284,8,"Friday, March 13, 2026",Minnesota Frost,Seattle Torrent,4,1,11120,2:24,8640,Grand Casino Arena | St. Paul,NA,0,Melissa Doyle (48),NA,Tatu Kunto (17),NA,Joanie Duchesneau (74),NA,Chase Eising (87),NA,TRUE
+285,8,"Saturday, March 14, 2026",Vancouver Goldeneyes,Ottawa Charge,2,3,11201,2:36,9360,Pacific Coliseum | Vancouver,NA,0,Jack Hennigan (44),NA,Samantha Hiller (12),NA,Erin Zach (60),NA,Ali Beres (67),NA,TRUE
+286,8,"Sunday, March 15, 2026",Montréal Victoire,Boston Fleet,3,4,10172,2:38,9480,Place Bell | Laval,NA,0,Amy Martin (31),NA,Jenn Berezowski (4),NA,Stephanie Gagnon (76),NA,TJ Dockery (70),NA,TRUE
+287,8,"Sunday, March 15, 2026",Toronto Sceptres,Seattle Torrent,2,0,8270,2:18,8280,Coca-Cola Coliseum | Toronto,NA,0,Jake Kamrass (3),NA,Jarrett T. Burton (8),NA,Joanie Duchesneau (74),NA,Sophie Thomson (75),NA,TRUE
+288,8,"Sunday, March 15, 2026",Minnesota Frost,New York Sirens,4,3,15512,2:33,9180,Ball Arena | Denver,NA,0,Cianna Murray (13),NA,Alexandra Clarke (7),NA,Dustin McCrank (84),NA,Laura Gutauskas (68),NA,TRUE
+289,8,"Tuesday, March 17, 2026",Boston Fleet,Toronto Sceptres,0,2,6095,2:21,8460,Agganis Arena | Boston,NA,0,Chad Ingalls (25),NA,Lacey Senuk (39),NA,Erika Greenen (88),NA,Patrick Dapuzzo (77),NA,TRUE
+290,8,"Wednesday, March 18, 2026",Minnesota Frost,Ottawa Charge,5,0,6673,2:14,8040,Grand Casino Arena | St. Paul,NA,0,Amy Martin (31),NA,Alexandra Clarke (7),NA,Antoine Bujold-Roux (72),NA,Harrison Heyer (84),NA,TRUE
+291,8,"Wednesday, March 18, 2026",Vancouver Goldeneyes,New York Sirens,5,2,9296,2:26,8760,Pacific Coliseum | Vancouver,NA,0,Shauna Neary (49),NA,Jack Hennigan (44),NA,Chase Eising (87),NA,Colleen Butler (98),NA,TRUE
+292,8,"Thursday, March 19, 2026",Montréal Victoire,Seattle Torrent,4,1,10033,2:21,8460,Place Bell | Laval,NA,0,Lacey Senuk (39),NA,David Elford (11),NA,Patrick Dapuzzo (77),NA,Laura Gutauskas (68),NA,TRUE
+293,8,"Saturday, March 21, 2026",Vancouver Goldeneyes,Minnesota Frost,1,3,10366,2:19,8340,Pacific Coliseum | Vancouver,NA,0,Michelle McKenna (10),NA,Sydney Harris (28),NA,Colleen Butler (98),NA,Matthew Williams (61),NA,TRUE
+294,8,"Saturday, March 21, 2026",Boston Fleet,Seattle Torrent,3,0,6164,2:22,8520,Tsongas Center | Lowell,NA,0,Cianna Murray (13),NA,Kyle Bauman (18),NA,Laura Gutauskas (68),NA,Erika Greenen (88),NA,TRUE
+295,8,"Sunday, March 22, 2026",Ottawa Charge,Montréal Victoire,2,1,15225,3:31,12660,Canada Life Centre | Winnipeg,NA,0,Sydney Harris (28),NA,Amy Martin (31),NA,Justine Todd (50),NA,Erin Zach (60),NA,TRUE
+296,8,"Tuesday, March 24, 2026",Boston Fleet,Vancouver Goldeneyes,2,0,4178,2:24,8640,Tsongas Center | Lowell,NA,0,Amanda Tassoni (21),NA,Shauna Neary (49),NA,Erin Zach (60),NA,Patrick Dapuzzo (77),NA,TRUE
+297,8,"Wednesday, March 25, 2026",Minnesota Frost,Montréal Victoire,0,3,6803,2:12,7920,Grand Casino Arena | St. Paul,NA,0,Jared Cummins (14),NA,Jake Kamrass (3),NA,Chase Eising (87),NA,Laura Gutauskas (68),NA,TRUE
+298,8,"Wednesday, March 25, 2026",Seattle Torrent,New York Sirens,4,1,10006,2:24,8640,Allstate Arena | Chicago,NA,0,Jenn Berezowski (4),NA,Jack Hennigan (44),NA,TJ Dockery (70),NA,Katie Glover (89),NA,TRUE
+299,8,"Friday, March 27, 2026",Toronto Sceptres,Boston Fleet,0,4,8636,2:18,8280,Coca-Cola Coliseum | Toronto,NA,0,Andrew Bell (6),NA,Jared Cummins (14),NA,Sarah Buckner (66),NA,Marlowe Schott (98),NA,TRUE
+300,8,"Saturday, March 28, 2026",Montréal Victoire,New York Sirens,3,1,15938,2:26,8760,Little Caesars Arena | Detroit,NA,0,Samantha Hiller (12),NA,Andrew Bell (6),NA,Justine Todd (50),NA,TJ Dockery (70),NA,TRUE
+301,8,"Sunday, March 29, 2026",Toronto Sceptres,Vancouver Goldeneyes,2,3,8631,2:18,8280,Coca-Cola Coliseum | Toronto,NA,0,Samantha Hiller (12),NA,Shauna Neary (49),NA,Justine Todd (50),NA,Sarah Buckner (66),NA,TRUE
+302,8,"Sunday, March 29, 2026",Minnesota Frost,Boston Fleet,2,4,9925,2:29,8940,Grand Casino Arena | St. Paul,NA,0,Jared Cummins (14),NA,Lacey Senuk (39),NA,Antoine Bujold-Roux (72),NA,Laura Gutauskas (68),NA,TRUE
+303,8,"Sunday, March 29, 2026",Seattle Torrent,Ottawa Charge,0,2,16586,2:24,8640,Climate Pledge Arena | Seattle,NA,0,Alexandra Clarke (7),NA,Cianna Murray (13),NA,Katie Glover (89),NA,Chase Eising (87),NA,TRUE
+304,8,"Wednesday, April  1, 2026",New York Sirens,Minnesota Frost,4,3,4265,2:40,9600,Prudential Center | Newark,NA,0,Sydney Harris (28),NA,Jack Hennigan (44),NA,Erika Greenen (88),NA,Patrick Dapuzzo (77),NA,TRUE
+305,8,"Wednesday, April  1, 2026",Montréal Victoire,Vancouver Goldeneyes,3,0,9176,2:27,8820,Place Bell | Laval,NA,0,Shauna Neary (49),NA,Amy Martin (31),NA,Stephanie Gagnon (76),NA,Anthony Lapointe (78),NA,TRUE
+306,8,"Wednesday, April  1, 2026",Ottawa Charge,Toronto Sceptres,1,2,16150,2:24,8640,Scotiabank Saddledome | Calgary,NA,0,Alexandra Clarke (7),NA,Lacey Senuk (39),NA,Ali Beres (67),NA,Chase Eising (87),NA,TRUE
+282,8,"Friday, April  3, 2026",Ottawa Charge,Montréal Victoire,0,3,17114,2:23,8580,Canadian Tire Centre | Ottawa,NA,0,Jared Cummins (14),NA,Shauna Neary (49),NA,Sophie Thomson (75),NA,Dustin McCrank (84),NA,TRUE
+307,8,"Saturday, April  4, 2026",Minnesota Frost,Vancouver Goldeneyes,6,5,8392,2:33,9180,Grand Casino Arena | St. Paul,NA,0,Grace Barlow (22),NA,Cianna Murray (13),NA,Sarah Buckner (66),NA,TJ Dockery (70),NA,TRUE
+308,8,"Saturday, April  4, 2026",New York Sirens,Seattle Torrent,2,1,18006,2:41,9660,Madison Square Garden | New York,NA,1,Jake Kamrass (3),NA,Amy Martin (31),NA,Laura Gutauskas (68),NA,Antoine Bujold-Roux (72),NA,TRUE
+309,8,"Tuesday, April  7, 2026",Montréal Victoire,Seattle Torrent,4,1,9247,2:31,9060,Place Bell | Laval,NA,0,Cianna Murray (13),NA,Alexandra Clarke (7),NA,Laura Gutauskas (68),NA,Anthony Lapointe (78),NA,TRUE
+310,8,"Tuesday, April  7, 2026",Vancouver Goldeneyes,Boston Fleet,1,5,10794,2:38,9480,Rogers Place | Edmonton,NA,0,Grace Barlow (22),NA,Lacey Senuk (39),NA,Sophie Thomson (75),NA,Patrick Dapuzzo (77),NA,TRUE
+311,8,"Wednesday, April  8, 2026",Ottawa Charge,Seattle Torrent,3,5,6644,2:28,8880,TD Place | Ottawa,NA,0,Alexandra Clarke (7),NA,Cianna Murray (13),NA,Dustin McCrank (84),NA,Antoine Bujold-Roux (72),NA,TRUE
+312,8,"Saturday, April 11, 2026",Minnesota Frost,New York Sirens,4,1,9159,2:21,8460,Grand Casino Arena | St. Paul,NA,0,Amy Martin (31),NA,Jack Hennigan (44),NA,Chase Eising (87),NA,Erin Zach (60),NA,TRUE
+313,8,"Saturday, April 11, 2026",Toronto Sceptres,Ottawa Charge,0,2,8716,2:28,8880,Coca-Cola Coliseum | Toronto,NA,0,David Elford (11),NA,Lacey Senuk (39),NA,Justine Todd (50),NA,Antoine Bujold-Roux (72),NA,TRUE
+314,8,"Saturday, April 11, 2026",Boston Fleet,Montréal Victoire,0,1,17850,2:29,8940,TD Garden | Boston,NA,0,Jared Cummins (14),NA,Shauna Neary (49),NA,Sarah Buckner (66),NA,Patrick Dapuzzo (77),NA,TRUE
+315,8,"Tuesday, April 14, 2026",Vancouver Goldeneyes,Seattle Torrent,4,1,10094,2:26,8760,Pacific Coliseum | Vancouver,NA,0,Amy Martin (31),NA,Lacey Senuk (39),NA,Chase Eising (87),NA,TJ Dockery (70),NA,TRUE
+317,8,"Wednesday, April 15, 2026",Boston Fleet,Minnesota Frost,3,2,4170,2:21,8460,Tsongas Center | Lowell,NA,0,Jake Kamrass (3),NA,Jared Cummins (14),NA,Erin Zach (60),NA,Patrick Dapuzzo (77),NA,TRUE
+316,8,"Wednesday, April 15, 2026",New York Sirens,Toronto Sceptres,3,2,6273,2:24,8640,Prudential Center | Newark,NA,0,Jack Hennigan (44),NA,Shauna Neary (49),NA,Anthony Lapointe (78),NA,Katie Glover (89),NA,TRUE
+318,8,"Friday, April 17, 2026",Montréal Victoire,Boston Fleet,3,2,10172,2:29,8940,Place Bell | Laval,NA,0,Jack Hennigan (44),NA,Jake Kamrass (3),NA,Dustin McCrank (84),NA,Katie Glover (89),NA,TRUE
+319,8,"Saturday, April 18, 2026",Ottawa Charge,New York Sirens,5,1,8605,2:28,8880,TD Place | Ottawa,NA,0,Cianna Murray (13),NA,Jared Cummins (14),NA,Justine Todd (50),NA,Patrick Dapuzzo (77),NA,TRUE
+320,8,"Saturday, April 18, 2026",Seattle Torrent,Vancouver Goldeneyes,5,6,12719,2:39,9540,Climate Pledge Arena | Seattle,NA,0,Laura Schmidlein (23),NA,Lacey Senuk (39),NA,Matthew Williams (61),NA,Chase Eising (87),NA,TRUE
+321,8,"Sunday, April 19, 2026",Minnesota Frost,Toronto Sceptres,0,2,8530,2:17,8220,Grand Casino Arena | St. Paul,NA,0,Samantha Hiller (12),NA,Jake Kamrass (3),NA,Sarah Buckner (66),NA,Erin Zach (60),NA,TRUE
+322,8,"Tuesday, April 21, 2026",Toronto Sceptres,New York Sirens,0,1,8685,2:30,9000,Coca-Cola Coliseum | Toronto,NA,0,Grace Barlow (22),NA,Damian Figueira (32),NA,Justine Todd (50),NA,Sophie Thomson (75),NA,TRUE
+323,8,"Tuesday, April 21, 2026",Vancouver Goldeneyes,Montréal Victoire,4,3,10946,2:31,9060,Pacific Coliseum | Vancouver,NA,0,Shauna Neary (49),NA,Jared Cummins (14),NA,Antoine Bujold-Roux (72),NA,Chase Eising (98),NA,TRUE
+324,8,"Wednesday, April 22, 2026",Boston Fleet,Ottawa Charge,1,2,5215,2:30,9000,Tsongas Center | Lowell,NA,0,Samantha Hiller (12),NA,David Elford (11),NA,TJ Dockery (70),NA,Patrick Dapuzzo (77),NA,TRUE
+325,8,"Wednesday, April 22, 2026",Seattle Torrent,Minnesota Frost,5,4,11982,2:25,8700,Climate Pledge Arena | Seattle,NA,0,Jared Cummins (14),NA,Shauna Neary (49),NA,Antoine Bujold-Roux (72),NA,Katie Glover (89),NA,TRUE
+329,8,"Saturday, April 25, 2026",Boston Fleet,New York Sirens,4,0,6120,2:18,8280,Tsongas Center | Lowell,NA,0,Lacey Senuk (39),NA,Jared Cummins (14),NA,Laura Gutauskas (68),NA,Sarah Buckner (66),NA,TRUE
+328,8,"Saturday, April 25, 2026",Ottawa Charge,Toronto Sceptres,3,0,8306,2:25,8700,TD Place | Ottawa,NA,0,Damian Figueira (32),NA,Shauna Neary (49),NA,Patrick Dapuzzo (77),NA,Sophie Thomson (75),NA,TRUE
+327,8,"Saturday, April 25, 2026",Vancouver Goldeneyes,Minnesota Frost,4,3,11310,2:32,9120,Pacific Coliseum | Vancouver,NA,0,Cianna Murray (13),NA,David Elford (11),NA,Matthew Williams (61),NA,Chase Eising (87),NA,TRUE
+326,8,"Saturday, April 25, 2026",Seattle Torrent,Montréal Victoire,1,2,17151,2:37,9420,Climate Pledge Arena | Seattle,NA,2,Samantha Hiller (12),NA,Sydney Harris (28),NA,Erin Zach (60),NA,Katie Glover (89),NA,TRUE
+338,9,"Thursday, April 30, 2026",Boston Fleet,Ottawa Charge,2,1,4285,2:28,8880,Tsongas Center | Lowell,NA,0,David Elford (11),NA,Grace Barlow (22),NA,Laura Gutauskas (68),NA,Patrick Dapuzzo (77),NA,TRUE
+340,9,"Saturday, May  2, 2026",Montréal Victoire,Minnesota Frost,4,5,9364,2:55,10500,Place Bell | Laval,NA,0,David Elford (11),NA,Samantha Hiller (12),NA,Katie Glover (89),NA,Dustin McCrank (84),NA,TRUE
+339,9,"Saturday, May  2, 2026",Boston Fleet,Ottawa Charge,1,3,6017,2:28,8880,Tsongas Center | Lowell,NA,0,Jake Kamrass (3),NA,Cianna Murray (13),NA,Justine Todd (50),NA,Patrick Dapuzzo (77),NA,TRUE
+341,9,"Tuesday, May  5, 2026",Montréal Victoire,Minnesota Frost,1,0,7530,4:17,15420,Place Bell | Laval,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Sophie Thomson (75),NA,Antoine Bujold-Roux (72),NA,TRUE
+342,9,"Thursday, May  7, 2026",Minnesota Frost,Montréal Victoire,1,2,6516,2:21,8460,Grand Casino Arena | St. Paul,NA,0,Jake Kamrass (3),NA,Lacey Senuk (39),NA,Sarah Buckner (66),NA,Dustin McCrank (84),NA,TRUE
+343,9,"Friday, May  8, 2026",Ottawa Charge,Boston Fleet,2,1,13112,2:25,8700,Canadian Tire Centre | Ottawa,NA,0,Shauna Neary (49),NA,Jared Cummins (14),NA,Justine Todd (50),NA,Sophie Thomson (75),NA,TRUE
+345,9,"Friday, May  8, 2026",Minnesota Frost,Montréal Victoire,3,1,5312,2:14,8040,Grand Casino Arena | St. Paul,NA,0,Damian Figueira (32),NA,Cianna Murray (13),NA,Patrick Dapuzzo (77),NA,Katie Glover (89),NA,TRUE
+344,9,"Sunday, May 10, 2026",Ottawa Charge,Boston Fleet,4,3,11297,3:38,13080,Canadian Tire Centre | Ottawa,NA,0,Jake Kamrass (3),NA,Sydney Harris (28),NA,Anthony Lapointe (78),NA,Sarah Buckner (66),NA,TRUE
+347,9,"Tuesday, May 12, 2026",Montréal Victoire,Minnesota Frost,2,1,6104,2:21,8460,Place Bell | Laval,NA,0,Sydney Harris (28),NA,Jared Cummins (14),NA,Sophie Thomson (75),NA,Antoine Bujold-Roux (72),NA,TRUE
+350,9,"Thursday, May 14, 2026",Montréal Victoire,Ottawa Charge,3,2,5062,2:45,9900,Place Bell | Laval,NA,0,Jake Kamrass (3),NA,Lacey Senuk (39),NA,Laura Gutauskas (68),NA,Dustin McCrank (84),NA,TRUE
+351,9,"Saturday, May 16, 2026",Montréal Victoire,Ottawa Charge,2,1,9232,3:13,11580,Place Bell | Laval,NA,0,Jared Cummins (14),NA,Sydney Harris (28),NA,Sophie Thomson (75),NA,Patrick Dapuzzo (77),NA,TRUE
+348,9,"Monday, May 18, 2026",Ottawa Charge,Montréal Victoire,2,1,16894,2:29,8940,Canadian Tire Centre | Ottawa,NA,0,Jake Kamrass (3),NA,Lacey Senuk (39),NA,Laura Gutauskas (68),NA,Dustin McCrank (84),NA,TRUE
+349,9,"Wednesday, May 20, 2026",Ottawa Charge,Montréal Victoire,0,4,12362,2:23,8580,Canadian Tire Centre | Ottawa,NA,0,Jake Kamrass (3),NA,Jared Cummins (14),NA,Dustin McCrank (84),NA,Sophie Thomson (75),NA,TRUE
