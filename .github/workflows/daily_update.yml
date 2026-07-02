@@ -27,6 +27,13 @@ jobs:
           sudo apt-get install -y libcurl4-openssl-dev libxml2-dev libssl-dev
       
       - name: Install R packages
+        env:
+          # remotes::install_github() falls back to a bundled shared PAT for
+          # anonymous GitHub API calls when GITHUB_PAT/GH_PAT isn't set, and
+          # that shared token is routinely dead ("Bad credentials", 401).
+          # Use the job's own token instead -- it has read access to public
+          # repos, which is all install_github needs.
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           Rscript -e 'install.packages(c("httr", "jsonlite", "dplyr", "purrr", "readr", "tibble", "rvest", "stringr", "glue", "remotes"))'
           Rscript -e 'remotes::install_github("sportsdataverse/fastRhockey")'
