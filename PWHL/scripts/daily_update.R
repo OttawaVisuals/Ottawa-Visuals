@@ -1150,15 +1150,26 @@ fetch_bracket_for_season <- function(season_id) {
       message("    [bracket debug] round: class=", paste(class(round), collapse = "/"),
               " is.list=", is.list(round), " is.data.frame=", is.data.frame(round))
       if (!is.list(round)) next
-      matchups <- as_object_list(round$matchups)
+      raw_matchups <- round$matchups
+      message("    [bracket debug]   raw_matchups: class=", paste(class(raw_matchups), collapse = "/"),
+              " is.list=", is.list(raw_matchups), " length=", length(raw_matchups),
+              " names=", paste(utils::head(names(raw_matchups), 10), collapse = ","))
+      matchups <- as_object_list(raw_matchups)
       if (is.null(matchups)) next
 
       for (matchup in matchups) {
+        message("    [bracket debug]     matchup: class=", paste(class(matchup), collapse = "/"),
+                " is.list=", is.list(matchup))
         if (!is.list(matchup)) next
-        games <- as_object_list(matchup$games)
+        raw_games <- matchup$games
+        message("    [bracket debug]       raw_games: class=", paste(class(raw_games), collapse = "/"),
+                " is.list=", is.list(raw_games), " length=", length(raw_games),
+                " names=", paste(utils::head(names(raw_games), 10), collapse = ","))
+        games <- as_object_list(raw_games)
         if (is.null(games)) next
 
         for (g in games) {
+          message("    [bracket debug]         g: class=", paste(class(g), collapse = "/"), " is.list=", is.list(g))
           if (!is.list(g)) next
           rows[[length(rows) + 1]] <- tibble(
             season_id         = as.character(season_id),
