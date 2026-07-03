@@ -255,6 +255,36 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
   a storm day (2500 strikes), a quiet day (1 strike), a winter day (0
   strikes, 0 failures — confirms 404-as-"no data" is handled correctly, not
   miscounted as an error), and confirmed resumability (re-running an
-  already-fetched range does zero new requests). Full 2021–present run
-  kicked off in the background; **not yet wired into weather.html** — next
-  step once the fetch finishes.
+  already-fetched range does zero new requests). Kicked off the full
+  2021–present run in the background — user asked to run it themselves
+  overnight instead, so stopped it (`TaskStop`) after ~212 days; fully
+  resumable, so that progress wasn't wasted.
+  - **Upgraded to keep full per-strike detail** (exact time + lat/lon, not
+    just a daily count) after the user said "more data is better, we can
+    refine later" while their overnight run was already in progress.
+    Checked `src`/`srv` (the other fields in each record) empirically before
+    deciding to drop them — both are constant *per file*, not per strike
+    (src=2 in every file sampled across 2021/2024/2025; srv differs between
+    files but not within one — consistent with a fixed source-type tag and a
+    backend-server ID, not meteorological data), so neither is worth keeping.
+    No official field documentation found for either despite a real search
+    effort — this is an evidence-based inference, stated as such, not a
+    confirmed fact.
+  - Restructured resumability around this: a day now only counts as "done"
+    once `data/raw/lightning_strikes/<date>.csv` exists, and — this also
+    fixed a real bug — that file is only written when the day had zero
+    failed windows. The original version cached a day as done even with
+    partial failures (just logged a misleading "will retry next run" that
+    never actually happened, since the resume check only looked at whether
+    the day was in the cache at all). The old count-only cache is kept as a
+    read-only fallback for days not yet re-fetched, so nothing already
+    collected is thrown away.
+  - Edited the script file directly while the user's overnight run was still
+    executing — safe, since Python has already loaded the old code into
+    memory and doesn't re-read the file mid-run. Verified the upgraded
+    script separately on a day the live run had already passed
+    (2021-08-27): re-fetched correctly (full-detail cache was empty),
+    produced a real 4-row time/lat/lon file matching the count the live run
+    had logged for that day, and correctly skipped it on a second run.
+  - **Not yet wired into weather.html** — next step once the user's
+    upgraded backfill run finishes.

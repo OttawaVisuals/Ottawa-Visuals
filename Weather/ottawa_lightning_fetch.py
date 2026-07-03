@@ -2,10 +2,11 @@
 """
 Ottawa lightning-strike fetcher (LightningMaps.org / Blitzortung.org).
 
-Companion to the ECCC daily/hourly weather scripts. This targets a strike-
-*count* angle -- "how many lightning strikes hit the Ottawa region per year"
--- as a complement to (not a replacement for) the ECCC-derived thunderstorm
-day-counts in ottawa_weather_fetch_hourly.py.
+Companion to the ECCC daily/hourly weather scripts. This targets lightning as
+a complement to (not a replacement for) the ECCC-derived thunderstorm
+day-counts in ottawa_weather_fetch_hourly.py. Keeps full per-strike detail
+(exact time + lat/lon), not just a daily count, so a map view or time-of-day
+analysis is possible later without re-fetching anything.
 
 Everything below was verified by hand before writing this script, not assumed:
 
@@ -27,7 +28,13 @@ Area 21 simply 404s -- that's normal, not an error.
 Record format inside each file (one dict per line, trailing comma, *not*
 strictly valid JSON as a whole -- e.g. "time" is an unquoted ISO datetime):
   {"time":2024-07-15T18:00:03,"lat":46.010341,"lon":-77.17748,"src":2,"srv":416}
-Parsed here with a regex, not json.loads(), because of that.
+Parsed here with a regex, not json.loads(), because of that. "time"/"lat"/"lon"
+are kept; "src"/"srv" are not -- checked empirically across files from
+2021/2024/2025 and both are constant *within* a file (e.g. src=2 in every file
+sampled; srv differs *between* files -- 416, 1, 2 -- but not within one),
+consistent with src being a fixed data-source-type tag and srv the backend
+server ID that produced that batch. Neither varies per-strike, so neither
+carries information worth the extra columns.
 
 Coverage & the network-growth caveat (important, read before trusting a trend)
 --------------------------------------------------------------------------
@@ -54,19 +61,36 @@ to push harder on their infrastructure.
 
 What it produces (all under ./data/)
 ------------------------------------
-  data/raw/lightning_daily_counts.csv   per-day counts, resumable cache (gitignored)
-  data/weather_lightning_indices.json   per-year/month totals            (COMMITTED)
+  data/raw/lightning_strikes/<date>.csv   time,lat,lon per strike, one file/day
+                                           (gitignored; THE resumability marker --
+                                           a day only counts as done once this
+                                           file exists, and it's only written
+                                           when that day's fetch had zero
+                                           failed windows)
+  data/raw/lightning_daily_counts.csv     legacy count-only cache from an
+                                           earlier version of this script
+                                           (gitignored; read as a fallback for
+                                           any day not yet re-fetched with full
+                                           detail, so that earlier progress
+                                           isn't wasted -- not written to anymore)
+  data/weather_lightning_indices.json     per-year totals, derived from the
+                                           per-day files              (COMMITTED)
 
 Usage
 -----
   pip install -r requirements.txt
-  python ottawa_lightning_fetch.py                  # full 2021-02 -> today
+  python ottawa_lightning_fetch.py                  # full 2021-01 -> today
   python ottawa_lightning_fetch.py --start 2023-01-01 --end 2023-12-31
   python ottawa_lightning_fetch.py --workers 20      # faster, heavier on their server
   python ottawa_lightning_fetch.py --no-fetch        # rebuild JSON from cache only
-  python ottawa_lightning_fetch.py --refresh-today    # re-pull today even if cached
+  python ottawa_lightning_fetch.py --refresh-today   # re-pull today even if cached
 
-Re-runs are resumable: days already in the cache CSV are skipped.
+Re-runs are resumable: a day is skipped only once its per-day CSV exists under
+data/raw/lightning_strikes/. Note this means upgrading from an earlier
+count-only run of this script re-fetches every day -- that's expected, it's
+how the full per-strike detail gets backfilled -- and as a side effect it also
+retries (and fixes the count for) any day that previously had partial network
+failures, since the old version incorrectly cached those as "done".
 """
 
 from __future__ import annotations
@@ -114,9 +138,17 @@ DEFAULT_WORKERS = 10
 DATA_DIR = Path(__file__).resolve().parent / "data"
 RAW_DIR = DATA_DIR / "raw"
 DAILY_CACHE_CSV = RAW_DIR / "lightning_daily_counts.csv"
+RAW_STRIKES_DIR = RAW_DIR / "lightning_strikes"  # one CSV/day: time,lat,lon (full detail, resumable)
 INDICES_JSON = DATA_DIR / "weather_lightning_indices.json"
 
-RECORD_RE = re.compile(r'"lat":([\-\d.]+),"lon":([\-\d.]+)')
+# Captures time+lat+lon per strike. "src"/"srv" are also present in the source
+# (e.g. {"time":2024-07-15T18:00:03,"lat":46.01,"lon":-77.18,"src":2,"srv":416})
+# but checked empirically across files from 2021/2024/2025: "src" is constant
+# (=2) in every file sampled -- a fixed data-source-type tag, not per-strike --
+# and "srv" is constant *within* a file but differs *between* files (416, 1, 2),
+# consistent with it being the backend server ID that produced that batch, an
+# infrastructure detail. Neither varies per-strike, so neither is kept.
+RECORD_RE = re.compile(r'"time":([^,]+),"lat":([\-\d.]+),"lon":([\-\d.]+)')
 
 log = logging.getLogger("ottawa_lightning")
 
@@ -134,53 +166,82 @@ def make_session(pool_size: int) -> requests.Session:
     return s
 
 
-def fetch_window(session: requests.Session, day: dt.date, hour: int, minute: str) -> int:
-    """Fetch one 10-minute file; return the count of records inside the Ottawa
-    bounding box. A 404 (no strikes anywhere in Area 21 that window) -> 0."""
+def fetch_window(session: requests.Session, day: dt.date, hour: int, minute: str) -> list | None:
+    """Fetch one 10-minute file; return the list of (time, lat, lon) records
+    inside the Ottawa bounding box, or None on a real failure. A 404 (no
+    strikes anywhere in Area 21 that window) is normal -> empty list."""
     ymd = day.strftime("%Y/%m/%d")
     stamp = f"{day.strftime('%Y%m%d')}_{hour:02d}{minute}"
     url = f"{BASE_URL}/{ymd}/{hour:02d}/{stamp}_a21.json.gz"
     try:
         r = session.get(url, timeout=15)
     except requests.RequestException:
-        return -1  # transient failure, distinct from "genuinely no data"
+        return None  # transient failure, distinct from "genuinely no data"
     if r.status_code == 404:
-        return 0
+        return []
     if r.status_code != 200:
-        return -1
+        return None
     try:
         import gzip
         text = gzip.decompress(r.content).decode("utf-8", errors="replace")
     except Exception:
-        return -1
-    count = 0
+        return None
+    out = []
     for m in RECORD_RE.finditer(text):
-        lat, lon = float(m.group(1)), float(m.group(2))
+        time_str, lat, lon = m.group(1), float(m.group(2)), float(m.group(3))
         if LAT_MIN <= lat <= LAT_MAX and LON_MIN <= lon <= LON_MAX:
-            count += 1
-    return count
+            out.append((time_str, lat, lon))
+    return out
 
 
 def fetch_day(session: requests.Session, day: dt.date, workers: int) -> tuple[int, int]:
-    """Fetch all 144 windows for one day concurrently. Returns (count, failures)."""
+    """Fetch all 144 windows for one day concurrently, write the matched
+    strikes' full (time, lat, lon) to a per-day CSV, and return (count,
+    failures). Writing the CSV -- even with zero rows -- marks the day done."""
     windows = [(h, m) for h in range(24) for m in ("00", "10", "20", "30", "40", "50")]
-    count = 0
+    records: list[tuple[str, float, float]] = []
     failures = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as ex:
         futures = [ex.submit(fetch_window, session, day, h, m) for h, m in windows]
         for fut in concurrent.futures.as_completed(futures):
-            n = fut.result()
-            if n < 0:
+            result = fut.result()
+            if result is None:
                 failures += 1
             else:
-                count += n
-    return count, failures
+                records.extend(result)
+    if failures == 0:
+        write_raw_day(day.isoformat(), records)
+    return len(records), failures
+
+
+def write_raw_day(date_str: str, records: list[tuple[str, float, float]]) -> None:
+    RAW_STRIKES_DIR.mkdir(parents=True, exist_ok=True)
+    path = RAW_STRIKES_DIR / f"{date_str}.csv"
+    records.sort(key=lambda r: r[0])
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["time", "lat", "lon"])
+        w.writerows(records)
+
+
+def raw_day_done(date_str: str) -> bool:
+    return (RAW_STRIKES_DIR / f"{date_str}.csv").exists()
 
 
 # --------------------------------------------------------------------------- #
 # Resumable per-day cache
 # --------------------------------------------------------------------------- #
-def load_cached_days() -> dict[str, int]:
+# Two generations of cache exist:
+#   - legacy: data/raw/lightning_daily_counts.csv (date,count,failures), from
+#     before this script kept full per-strike detail. Read-only fallback below
+#     for any day not yet re-fetched with full detail -- keeps that progress
+#     useful instead of throwing it away.
+#   - current: data/raw/lightning_strikes/<date>.csv (time,lat,lon per strike).
+#     A day is only considered "done" once this file exists, which -- unlike
+#     the legacy cache -- is *not* written when a day had any failed windows,
+#     so a day that failed partially is correctly retried on the next run
+#     rather than silently staying under-counted forever.
+def load_legacy_counts() -> dict[str, int]:
     if not DAILY_CACHE_CSV.exists():
         return {}
     out = {}
@@ -190,14 +251,14 @@ def load_cached_days() -> dict[str, int]:
     return out
 
 
-def append_cache_row(date_str: str, count: int, failures: int) -> None:
-    is_new = not DAILY_CACHE_CSV.exists()
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
-    with DAILY_CACHE_CSV.open("a", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        if is_new:
-            w.writerow(["date", "count", "failures"])
-        w.writerow([date_str, count, failures])
+def load_raw_counts() -> dict[str, int]:
+    if not RAW_STRIKES_DIR.exists():
+        return {}
+    out = {}
+    for path in RAW_STRIKES_DIR.glob("*.csv"):
+        with path.open(newline="", encoding="utf-8") as f:
+            out[path.stem] = sum(1 for _ in f) - 1  # minus header
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -256,9 +317,12 @@ def main(argv=None) -> int:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     RAW_DIR.mkdir(parents=True, exist_ok=True)
 
-    cached = load_cached_days()
-    log.info("Ottawa lightning fetch: %s -> %s, %d days already cached, workers=%d",
-             start, end, len(cached), args.workers)
+    raw_counts = load_raw_counts()
+    legacy_counts = load_legacy_counts()
+    n_legacy_only = sum(1 for d in legacy_counts if d not in raw_counts)
+    log.info("Ottawa lightning fetch: %s -> %s, %d days with full detail already cached "
+             "(+%d legacy count-only days will be upgraded to full detail), workers=%d",
+             start, end, len(raw_counts), n_legacy_only, args.workers)
 
     if not args.no_fetch:
         session = make_session(pool_size=args.workers)
@@ -268,30 +332,36 @@ def main(argv=None) -> int:
         total_days = (end - start).days + 1
         while day <= end:
             date_str = day.isoformat()
-            need = date_str not in cached
+            need = not raw_day_done(date_str)
             if day == today and args.refresh_today:
                 need = True
             if need:
                 count, failures = fetch_day(session, day, args.workers)
-                append_cache_row(date_str, count, failures)
-                cached[date_str] = count
                 n_done += 1
                 if failures:
-                    log.warning("  %s: %d strikes (%d failed windows, will retry next run)", date_str, count, failures)
-                elif n_done % 30 == 0:
-                    elapsed = time.time() - t_start
-                    rate = elapsed / n_done
-                    remaining = (total_days - n_done) * rate
-                    log.info("  ...%s: %d strikes  [%d/%d days fetched, ~%.0fs left]",
-                             date_str, count, n_done, total_days, remaining)
+                    log.warning("  %s: %d strikes but %d windows failed -- not cached, will retry next run",
+                                date_str, count, failures)
+                else:
+                    raw_counts[date_str] = count
+                    if n_done % 30 == 0:
+                        elapsed = time.time() - t_start
+                        rate = elapsed / n_done
+                        remaining = (total_days - n_done) * rate
+                        log.info("  ...%s: %d strikes  [%d/%d days fetched, ~%.0fs left]",
+                                 date_str, count, n_done, total_days, remaining)
             day += dt.timedelta(days=1)
         log.info("Fetch complete: %d new days in %.1fs.", n_done, time.time() - t_start)
 
-    payload = build_indices(cached)
+    # Prefer full-detail counts; fall back to the legacy count-only cache for
+    # any day not yet re-fetched (e.g. --end cut a run short before reaching it).
+    combined = {**legacy_counts, **raw_counts}
+    payload = build_indices(combined)
     INDICES_JSON.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     total_strikes = sum(y["strikes"] for y in payload["years"])
-    log.info("Wrote %s: %d years, %d total strikes in the Ottawa region.",
-             INDICES_JSON.name, len(payload["years"]), total_strikes)
+    log.info("Wrote %s: %d years, %d total strikes in the Ottawa region (%d days have full "
+             "per-strike detail in data/raw/lightning_strikes/, %d still legacy count-only).",
+             INDICES_JSON.name, len(payload["years"]), total_strikes,
+             len(raw_counts), len(combined) - len(raw_counts))
     log.info("Done. The dashboard reads data/weather_lightning_indices.json.")
     return 0
 
