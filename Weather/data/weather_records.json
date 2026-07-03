@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-03T13:07:10",
+    "generated": "2026-07-03T16:35:20",
     "daily_source": "ECCC daily, Ottawa CDA (1889-present)",
     "hourly_source": "ECCC hourly, airport stations 4337/49568 (1953-present)",
     "lightning_source": "LightningMaps.org / Blitzortung Area 21 (2021-present)",
@@ -186,6 +186,174 @@
         "value": 9079,
         "date": "2023-08-03",
         "label": "Aug 3, 2023"
+      }
+    ]
+  },
+  "climate": {
+    "normals": {
+      "early": "1891\u20131920",
+      "recent": "1996\u20132025"
+    },
+    "year_range": [
+      1890,
+      2025
+    ],
+    "shifts": [
+      {
+        "key": "mean_temp",
+        "label": "Annual average",
+        "unit": "\u00b0C",
+        "then": 5.52,
+        "now": 7.36,
+        "delta": 1.84,
+        "dir": "up",
+        "then_s": "5.5\u00b0C",
+        "now_s": "7.4\u00b0C",
+        "delta_s": "+1.8\u00b0C"
+      },
+      {
+        "key": "mean_temp_winter",
+        "label": "Winter average",
+        "unit": "\u00b0C",
+        "then": -10.1,
+        "now": -6.99,
+        "delta": 3.11,
+        "dir": "up",
+        "then_s": "-10.1\u00b0C",
+        "now_s": "-7.0\u00b0C",
+        "delta_s": "+3.1\u00b0C"
+      },
+      {
+        "key": "tropical_nights",
+        "label": "Warm nights \u2265 20 \u00b0C",
+        "unit": "/yr",
+        "then": 2.93,
+        "now": 9.0,
+        "delta": 6.07,
+        "dir": "up",
+        "then_s": "3/yr",
+        "now_s": "9/yr",
+        "delta_s": "+6"
+      },
+      {
+        "key": "extreme_cold_days",
+        "label": "Extreme-cold days \u2264 \u221225 \u00b0C",
+        "unit": "/yr",
+        "then": 11.8,
+        "now": 3.87,
+        "delta": -7.93,
+        "dir": "down",
+        "then_s": "12/yr",
+        "now_s": "4/yr",
+        "delta_s": "-8"
+      },
+      {
+        "key": "growing_season_len",
+        "label": "Growing season",
+        "unit": " days",
+        "then": 197.37,
+        "now": 209.1,
+        "delta": 11.73,
+        "dir": "up",
+        "then_s": "197 days",
+        "now_s": "209 days",
+        "delta_s": "+12"
+      },
+      {
+        "key": "total_snow",
+        "label": "Snowfall",
+        "unit": " cm/yr",
+        "then": 239.24,
+        "now": 182.25,
+        "delta": -56.99,
+        "dir": "down",
+        "then_s": "239 cm/yr",
+        "now_s": "182 cm/yr",
+        "delta_s": "-57"
+      }
+    ],
+    "warmest_years": [
+      {
+        "year": 2024,
+        "value": 9.4
+      },
+      {
+        "year": 1998,
+        "value": 8.6
+      },
+      {
+        "year": 2023,
+        "value": 8.6
+      },
+      {
+        "year": 2012,
+        "value": 8.5
+      },
+      {
+        "year": 2010,
+        "value": 8.5
+      },
+      {
+        "year": 2021,
+        "value": 8.4
+      },
+      {
+        "year": 2006,
+        "value": 8.1
+      },
+      {
+        "year": 1999,
+        "value": 8.0
+      },
+      {
+        "year": 2001,
+        "value": 8.0
+      },
+      {
+        "year": 2011,
+        "value": 8.0
+      }
+    ],
+    "coldest_years": [
+      {
+        "year": 1904,
+        "value": 3.7
+      },
+      {
+        "year": 1917,
+        "value": 3.8
+      },
+      {
+        "year": 1926,
+        "value": 4.0
+      },
+      {
+        "year": 1934,
+        "value": 4.0
+      },
+      {
+        "year": 1940,
+        "value": 4.3
+      },
+      {
+        "year": 1943,
+        "value": 4.3
+      },
+      {
+        "year": 1893,
+        "value": 4.3
+      },
+      {
+        "year": 1907,
+        "value": 4.4
+      },
+      {
+        "year": 1935,
+        "value": 4.5
+      },
+      {
+        "year": 1939,
+        "value": 4.5
       }
     ]
   }

@@ -303,3 +303,14 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
   hourly observation. Verified in-browser in both themes: 8 all-time + 4 streak
   cards and 4 leaderboards render, colours recolor on theme toggle, no console
   errors.
+- [x] Records section extended with a **climate-change lead**: six "then vs now"
+  dumbbell cards over 30-yr normals (1891–1920 vs 1996–2025) and a warmest-vs-
+  coldest-years recency timeline (10 warmest all since 1998, 10 coldest all
+  before 1944). Framing kept honest: the warming lives in nights/winters/season
+  (winter +3.1 °C, warm nights tripled, extreme-cold days −67%, growing season
+  +12 d, snow −24%), while daytime peak heat (days ≥ 30 °C) is essentially flat
+  and the hottest day is still 1944. Caught and fixed a real self-contradiction
+  this surfaced: the hero "at a glance" stat and the homepage takeaway both
+  claimed "+6 hot days/yr", a first-vs-last-decade window artifact (the 1910s
+  already had ~23 hot days; over 30-yr normals it's ~flat) — swapped both to the
+  robust "warm nights, now ~3×" signal so the page no longer argues with itself.
