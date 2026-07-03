@@ -919,6 +919,7 @@ roster_fetch_stats$http_error <- 0
 roster_fetch_stats$empty <- 0
 roster_fetch_stats$parse_fail <- 0
 roster_fetch_stats$ok <- 0
+roster_fetch_stats$last_error <- NULL
 
 fetch_team_roster <- function(team_id, season_id) {
   res <- GET(base_url, query = c(common_params, list(view = "roster", team_id = team_id, season_id = season_id)))
@@ -944,10 +945,32 @@ fetch_team_roster <- function(team_id, season_id) {
     return(NULL)
   }
 
-  df <- tryCatch(
-    bind_rows(map(roster, function(p) as_tibble(lapply(p, scalar_chr)))),
-    error = function(e) NULL
-  )
+  # Parse each player independently so one malformed entry doesn't lose the
+  # whole team's roster, and capture the first real failure's detail --
+  # the previous version's single tryCatch around the whole team just
+  # returned NULL on any error with no way to tell what actually broke.
+  player_rows <- map(roster, function(p) {
+    if (!is.list(p)) return(NULL)
+    tryCatch(
+      as_tibble(lapply(p, scalar_chr)),
+      error = function(e) {
+        if (is.null(roster_fetch_stats$last_error)) {
+          roster_fetch_stats$last_error <- paste0(
+            conditionMessage(e),
+            " | player class=", paste(class(p), collapse = "/"),
+            " | fields=", paste(utils::head(names(p), 20), collapse = ",")
+          )
+        }
+        NULL
+      }
+    )
+  })
+  df <- tryCatch(bind_rows(compact(player_rows)), error = function(e) {
+    if (is.null(roster_fetch_stats$last_error)) {
+      roster_fetch_stats$last_error <- paste0("bind_rows: ", conditionMessage(e))
+    }
+    NULL
+  })
   if (is.null(df) || nrow(df) == 0) {
     roster_fetch_stats$parse_fail <- roster_fetch_stats$parse_fail + 1
     return(NULL)
@@ -977,10 +1000,12 @@ all_rosters <- map2_dfr(team_season_pairs$season_id, team_season_pairs$team_id, 
 
 if (nrow(all_rosters) > 0) {
   write_csv(all_rosters, file.path(data_dir, "pwhl_team_rosters.csv"))
-  message("  ✓ Updated rosters for ", nrow(team_season_pairs), " team-season(s)")
+  message("  ✓ Updated rosters (", roster_fetch_stats$ok, " of ", nrow(team_season_pairs), " team-season(s) succeeded)")
 } else {
   message("  ⚠ No roster data returned (http_error=", roster_fetch_stats$http_error,
-          " empty=", roster_fetch_stats$empty, " parse_fail=", roster_fetch_stats$parse_fail, ")")
+          " empty=", roster_fetch_stats$empty, " parse_fail=", roster_fetch_stats$parse_fail,
+          " ok=", roster_fetch_stats$ok, ")",
+          if (!is.null(roster_fetch_stats$last_error)) paste0(" | first error: ", roster_fetch_stats$last_error) else "")
 }
 
 # ============================
@@ -1066,9 +1091,16 @@ message("\n=== Updating Playoff Bracket ===")
 # Turn a value that should be "a list of item-objects" into one, tolerating
 # a single item arriving as a bare object instead of a 1-element array (an
 # observed quirk of this feed -- e.g. a playoff round with only one
-# matchup). Returns NULL (not a crash) for anything that still isn't a
-# usable list of objects afterward, so callers can just skip it.
+# matchup), and the case where jsonlite still hands back a data.frame
+# despite simplifyVector = FALSE (a data.frame IS a list in R, so a plain
+# is.list() check doesn't catch it; iterating one directly walks its
+# COLUMNS as atomic vectors, not its rows). Returns NULL for anything that
+# still isn't a usable list of objects afterward, so callers can skip it.
 as_object_list <- function(x) {
+  if (is.data.frame(x)) {
+    if (nrow(x) == 0) return(NULL)
+    return(purrr::transpose(x))
+  }
   if (!is.list(x) || length(x) == 0) return(NULL)
   nm <- names(x)
   if (!is.null(nm) && any(nzchar(nm))) list(x) else x
@@ -1084,7 +1116,22 @@ fetch_bracket_for_season <- function(season_id) {
     brackets <- js$SiteKit$Brackets
     if (!is.list(brackets)) return(NULL)
 
-    rounds <- as_object_list(brackets$rounds)
+    raw_rounds <- brackets$rounds
+    if (is.null(raw_rounds) || length(raw_rounds) == 0) return(NULL)
+
+    # The is.list() guards below have twice failed to prevent this exact
+    # crash despite reasoning that they should -- something about this
+    # feed's actual parsed shape isn't what it looks like from isolated
+    # testing. Log the real structure so a third failure is diagnosable
+    # instead of another guess. Cheap: at most ~3 seasons x 2 rounds.
+    message("    [bracket debug] season ", season_id,
+            " rounds: class=", paste(class(raw_rounds), collapse = "/"),
+            " is.data.frame=", is.data.frame(raw_rounds),
+            " is.list=", is.list(raw_rounds),
+            " length=", length(raw_rounds),
+            " names=", paste(utils::head(names(raw_rounds), 10), collapse = ","))
+
+    rounds <- as_object_list(raw_rounds)
     if (is.null(rounds)) return(NULL)
 
     teams_map <- brackets$teams
@@ -1100,6 +1147,8 @@ fetch_bracket_for_season <- function(season_id) {
     # and crashing the whole run over one malformed entry.
     rows <- list()
     for (round in rounds) {
+      message("    [bracket debug] round: class=", paste(class(round), collapse = "/"),
+              " is.list=", is.list(round), " is.data.frame=", is.data.frame(round))
       if (!is.list(round)) next
       matchups <- as_object_list(round$matchups)
       if (is.null(matchups)) next
