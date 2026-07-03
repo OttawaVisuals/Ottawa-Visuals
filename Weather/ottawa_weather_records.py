@@ -49,6 +49,12 @@ except ImportError:  # pragma: no cover
 DATA_DIR = Path(__file__).resolve().parent / "data"
 RAW_DIR = DATA_DIR / "raw"
 DAILY_CSV = DATA_DIR / "ottawa_daily_combined.csv"
+INDICES_JSON = DATA_DIR / "weather_indices.json"
+
+# WMO-style 30-year climate normals: the first full 30 years of complete record
+# vs the most recent 30. Used for the "then vs now" climate-shift cards.
+NORMAL_EARLY = (1891, 1920)
+NORMAL_RECENT = (1996, 2025)
 HOURLY_STATIONS = [4337, 49568]  # historic first: it wins on overlapping hours
 LIGHTNING_DIR = RAW_DIR / "lightning_strikes"
 OUT_JSON = DATA_DIR / "weather_records.json"
@@ -234,6 +240,75 @@ def build_lightning(records: dict) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# Climate shift ("then vs now") + warmest/coldest-year recency
+# --------------------------------------------------------------------------- #
+# Each shift: which per-year index to average, a human label, how to format the
+# value, and whether a *warming* climate pushes it up or down (for the honest
+# framing note — every one of these is a warming signal, in different clothes).
+CLIMATE_SHIFTS = [
+    ("mean_temp",          "Annual average",            "temp",  "°C"),
+    ("mean_temp_winter",   "Winter average",            "temp",  "°C"),
+    ("tropical_nights",    "Warm nights ≥ 20 °C",       "count", "/yr"),
+    ("extreme_cold_days",  "Extreme-cold days ≤ −25 °C","count", "/yr"),
+    ("growing_season_len", "Growing season",            "count", " days"),
+    ("total_snow",         "Snowfall",                  "count", " cm/yr"),
+]
+
+
+def _fmt_val(v, kind, unit):
+    if kind == "temp":
+        return f"{v:.1f}{unit}"
+    return f"{round(v):g}{unit}"
+
+
+def _fmt_delta(d, kind):
+    if kind == "temp":
+        return f"{d:+.1f}°C"
+    return f"{round(d):+g}"
+
+
+def build_climate(records: dict) -> None:
+    if not INDICES_JSON.exists():
+        log.warning("Missing %s; climate 'then vs now' block skipped.", INDICES_JSON.name)
+        return
+    idx = pd.DataFrame(json.load(open(INDICES_JSON, encoding="utf-8"))["years"])
+    comp = idx[idx["complete"] == True]  # noqa: E712
+    early = comp[(comp["year"] >= NORMAL_EARLY[0]) & (comp["year"] <= NORMAL_EARLY[1])]
+    recent = comp[(comp["year"] >= NORMAL_RECENT[0]) & (comp["year"] <= NORMAL_RECENT[1])]
+
+    shifts = []
+    for key, label, kind, unit in CLIMATE_SHIFTS:
+        if key not in comp.columns:
+            continue
+        then, now = float(early[key].mean()), float(recent[key].mean())
+        shifts.append({
+            "key": key, "label": label, "unit": unit,
+            "then": round(then, 2), "now": round(now, 2), "delta": round(now - then, 2),
+            "dir": "up" if now >= then else "down",
+            "then_s": _fmt_val(then, kind, unit),
+            "now_s": _fmt_val(now, kind, unit),
+            "delta_s": _fmt_delta(now - then, kind),
+        })
+
+    mt = comp.dropna(subset=["mean_temp"]).sort_values("mean_temp", ascending=False)
+    warm = [{"year": int(r["year"]), "value": round(float(r["mean_temp"]), 1)}
+            for _, r in mt.head(10).iterrows()]
+    cold = [{"year": int(r["year"]), "value": round(float(r["mean_temp"]), 1)}
+            for _, r in mt.tail(10).sort_values("mean_temp").iterrows()]
+
+    records["climate"] = {
+        "normals": {"early": f"{NORMAL_EARLY[0]}–{NORMAL_EARLY[1]}",
+                    "recent": f"{NORMAL_RECENT[0]}–{NORMAL_RECENT[1]}"},
+        "year_range": [int(comp["year"].min()), int(comp["year"].max())],
+        "shifts": shifts,
+        "warmest_years": warm,
+        "coldest_years": cold,
+    }
+    log.info("Climate shift block done (%d shifts; %d-yr normals).",
+             len(shifts), NORMAL_RECENT[1] - NORMAL_RECENT[0] + 1)
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 def main(argv=None) -> int:
@@ -252,6 +327,7 @@ def main(argv=None) -> int:
     except FileNotFoundError as exc:
         log.warning("Hourly cache missing (%s); hourly records skipped.", exc)
     build_lightning(records)
+    build_climate(records)
 
     payload = {
         "meta": {

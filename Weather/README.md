@@ -129,9 +129,20 @@ Distils the data the three fetchers already cached into a small "records"
 file: all-time single records (hottest/coldest day, highest humidex, lowest
 wind chill, snowiest/rainiest day, windiest hour, warmest/coldest year),
 longest streaks (consecutive hours ≥ 20 °C, days ≥ 30 °C, days below 0 °C,
-frost-free stretch), and short top-5 leaderboards (hottest/coldest hours,
-snowiest days, biggest lightning days). Does **no** downloading — it only reads
-the CSV caches the daily/hourly/lightning scripts produced, so run it after them.
+frost-free stretch), short top-5 leaderboards (hottest/coldest hours,
+snowiest days, biggest lightning days), and a **climate-shift block** comparing
+two 30-year normals (1891–1920 vs 1996–2025) for a "then vs now" set of KPIs
+plus the 10 warmest/coldest years for the recency timeline. Does **no**
+downloading — it only reads the CSV caches the daily/hourly/lightning scripts
+produced, so run it after them.
+
+The climate block deliberately uses 30-year normals, not first-vs-last-decade
+deltas: daytime-max heat (hot days ≥ 30 °C) is noisy and roughly flat across
+normal windows — the 1910s already ran as hot as today — so a decade-endpoint
+"hot days" delta is a window artifact. The robust warming signals are overnight
+warmth (warm nights ~tripled), winter mean (+3 °C), the collapsing cold tail
+(extreme-cold days down two-thirds), season length, and snow→rain — which is
+also why the dashboard's hero KPI is "warm nights", not "hot days".
 
 All-time temperature/precip records use the **daily** record (1889+), so the
 headline "hottest day ever" reflects the full history (Ottawa's record highs
