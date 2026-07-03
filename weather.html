@@ -79,6 +79,22 @@ h1,h2,h3{margin:0;font-family:var(--font-display);}
 .stat .num{font-family:var(--font-display);font-weight:800;font-size:26px;letter-spacing:-0.01em;}
 .stat .num.up{color:var(--red);} .stat .num.down{color:var(--blue);} .stat .num.flat{color:var(--ink-2);}
 .stat .lbl{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:2px;letter-spacing:0.02em;}
+/* ── RECORDS ───────────────────────────────────────────────────── */
+.rec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media (max-width:820px){ .rec-grid{grid-template-columns:1fr 1fr;} }
+@media (max-width:420px){ .rec-grid{grid-template-columns:1fr;} }
+.rec{background:var(--bg-3);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;}
+.rec .rec-val{font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:-0.01em;line-height:1.05;}
+.rec .rec-val.hot{color:var(--red);} .rec .rec-val.cold{color:var(--blue);}
+.rec .rec-lbl{font-family:var(--font-cond);font-weight:600;font-size:13px;color:var(--ink-2);line-height:1.2;}
+.rec .rec-when{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:auto;}
+.rec-subhead{font-family:var(--font-cond);font-weight:600;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;}
+.lb-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.lb-table td{padding:5px 0;border-top:1px solid var(--line);}
+.lb-table tr:first-child td{border-top:none;}
+.lb-table .lb-rank{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);width:20px;}
+.lb-table .lb-when{color:var(--ink-2);}
+.lb-table .lb-val{text-align:right;font-family:var(--font-display);font-weight:700;color:var(--ink);white-space:nowrap;padding-left:8px;}
 /* ── WARMING STRIPES ────────────────────────────────────────────── */
 .stripes{display:flex;height:130px;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
 .stripe{flex:1;min-width:1px;transition:opacity .1s;}
@@ -282,6 +298,24 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
       <p class="note" id="lightning-note"></p>
     </div>
 
+    <!-- RECORDS -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Records &amp; extremes</h2>
+        <p>The single most extreme readings on record. All-time temperature, snow and rain
+           records come from the full daily history (1889+); humidex, wind chill, wind speed and
+           the hour-by-hour leaderboards only exist in the shorter hourly record (1953+), so they
+           can't reach the pre-war heat — see the note below.</p>
+      </div>
+      <div class="rec-subhead">All-time records</div>
+      <div class="rec-grid" id="rec-alltime"></div>
+      <div class="rec-subhead">Longest streaks</div>
+      <div class="rec-grid" id="rec-streaks"></div>
+      <div class="rec-subhead">Leaderboards</div>
+      <div class="grid-2" id="rec-leaderboards"></div>
+      <p class="note" id="records-note"></p>
+    </div>
+
     <!-- YEAR YOU REMEMBER -->
     <div class="section">
       <div class="section-head">
@@ -348,6 +382,7 @@ if (window.self !== window.top) {
 const DATA_BASE = 'Weather/data/';
 let dailyMeta = null, hourlyMeta = null, dailyYears = [], hourlyYears = [], dailySeries = {};
 let lightningMeta = null, lightningYears = [], lightningByMonth = [], lightningByHour = [];
+let records = null;
 const CHARTS = []; // { chart, colorVars: {datasetIndex: cssVarName} }
 
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -380,12 +415,14 @@ Promise.all([
   fetch(DATA_BASE + 'weather_hourly_indices.json').then(r => r.json()),
   fetch(DATA_BASE + 'weather_daily_series.json').then(r => r.json()),
   fetch(DATA_BASE + 'weather_lightning_indices.json').then(r => r.json()),
-]).then(([daily, hourly, series, lightning]) => {
+  fetch(DATA_BASE + 'weather_records.json').then(r => r.json()),
+]).then(([daily, hourly, series, lightning, recs]) => {
   dailyMeta = daily.meta; hourlyMeta = hourly.meta;
   dailyYears = daily.years; hourlyYears = hourly.years;
   dailySeries = series.series;
   lightningMeta = lightning.meta; lightningYears = lightning.years;
   lightningByMonth = lightning.strikes_by_month; lightningByHour = lightning.strikes_by_hour;
+  records = recs;
   document.getElementById('app').style.display = 'flex';
   init();
 }).catch(err => {
@@ -967,9 +1004,62 @@ function renderCompare(selectedYear) {
 }
 
 // ================================================================
+// RECORDS
+// ================================================================
+function recCard(val, unit, cls, lbl, when) {
+  return `<div class="rec"><div class="rec-val ${cls}">${val}${unit}</div>
+    <div class="rec-lbl">${lbl}</div><div class="rec-when">${when}</div></div>`;
+}
+
+function buildRecords() {
+  if (!records) return;
+  const a = records.all_time;
+  document.getElementById('rec-alltime').innerHTML = [
+    recCard(fmt(a.hottest_day.value), '°C', 'hot', 'Hottest day', a.hottest_day.label),
+    recCard(fmt(a.coldest_day.value), '°C', 'cold', 'Coldest night', a.coldest_day.label),
+    recCard(fmt(a.highest_humidex.value, 0), '', 'hot', 'Highest humidex · 1953+', a.highest_humidex.label),
+    recCard(fmt(a.lowest_windchill.value, 0), '', 'cold', 'Lowest wind chill · 1953+', a.lowest_windchill.label),
+    recCard(fmt(a.snowiest_day.value), ' cm', 'cold', 'Snowiest day', a.snowiest_day.label),
+    recCard(fmt(a.rainiest_day.value), ' mm', '', 'Rainiest day', a.rainiest_day.label),
+    recCard(fmt(a.windiest_hour.value, 0), ' km/h', '', 'Windiest hour · 1953+', a.windiest_hour.label),
+    recCard(fmt(a.warmest_year.value), '°C', 'hot', 'Warmest year (' + a.warmest_year.label + ')', 'annual mean'),
+  ].join('');
+
+  const s = records.streaks;
+  document.getElementById('rec-streaks').innerHTML = [
+    recCard(s.hours_20.value, ' hrs', 'hot', 'Consecutive hours ≥ 20 °C', s.hours_20.when),
+    recCard(s.hot_days.value, ' days', 'hot', 'Days in a row ≥ 30 °C', s.hot_days.when),
+    recCard(s.deep_freeze_days.value, ' days', 'cold', 'Days in a row below 0 °C', s.deep_freeze_days.when),
+    recCard(s.frost_free_days.value, ' days', '', 'Longest frost-free stretch', s.frost_free_days.when),
+  ].join('');
+
+  const lb = records.leaderboards;
+  const lbCard = (title, rows, fmtVal) => {
+    const trs = rows.map((r, i) => `<tr><td class="lb-rank">${i + 1}</td>
+      <td class="lb-when">${r.label}</td><td class="lb-val">${fmtVal(r.value)}</td></tr>`).join('');
+    return `<div class="card"><div class="card-title">${title}</div><table class="lb-table">${trs}</table></div>`;
+  };
+  document.getElementById('rec-leaderboards').innerHTML = [
+    lbCard('Hottest hours · 1953+', lb.hottest_hours, v => fmt(v) + '°C'),
+    lbCard('Coldest hours · 1953+', lb.coldest_hours, v => fmt(v) + '°C'),
+    lbCard('Snowiest days · 1889+', lb.snowiest_days, v => fmt(v) + ' cm'),
+    lbCard('Biggest lightning days · 2021+', lb.biggest_lightning_days, v => v.toLocaleString() + ' strikes'),
+  ].join('');
+
+  document.getElementById('records-note').innerHTML =
+    `Ottawa's five hottest days on record are all exactly 37.8 °C (100 °F) — early-1900s readings
+     were logged in whole degrees Fahrenheit, so the all-time high is shown as a single record
+     rather than a top-5. The hourly leaderboards begin in 1953, so their hottest hour (36.4 °C)
+     sits below the 1889+ daily record high — the pre-war heat predates hourly observation.
+     Lightning day-counts come from a crowdsourced network whose coverage has grown over time, so
+     treat that ranking as indicative rather than definitive.`;
+}
+
+// ================================================================
 // INIT
 // ================================================================
 function init() {
+  buildRecords();
   buildStripes();
   buildSpiral();
   buildAnnualChart();

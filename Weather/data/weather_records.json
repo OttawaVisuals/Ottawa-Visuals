@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "generated": "2026-07-03T13:07:10",
+    "daily_source": "ECCC daily, Ottawa CDA (1889-present)",
+    "hourly_source": "ECCC hourly, airport stations 4337/49568 (1953-present)",
+    "lightning_source": "LightningMaps.org / Blitzortung Area 21 (2021-present)",
+    "note": "All-time temperature/precip records use the 1889+ daily record; humidex, wind chill, wind speed and the hour-resolution leaderboards only exist in the 1953+ hourly record."
+  },
+  "all_time": {
+    "hottest_day": {
+      "value": 37.8,
+      "date": "1944-08-14",
+      "label": "Aug 14, 1944"
+    },
+    "coldest_day": {
+      "value": -38.9,
+      "date": "1933-12-29",
+      "label": "Dec 29, 1933"
+    },
+    "snowiest_day": {
+      "value": 55.9,
+      "date": "1894-01-29",
+      "label": "Jan 29, 1894"
+    },
+    "rainiest_day": {
+      "value": 108.6,
+      "date": "2004-09-09",
+      "label": "Sep 9, 2004"
+    },
+    "warmest_year": {
+      "value": 9.4,
+      "date": 2024,
+      "label": "2024"
+    },
+    "coldest_year": {
+      "value": 3.7,
+      "date": 1904,
+      "label": "1904"
+    },
+    "highest_humidex": {
+      "value": 47.0,
+      "datetime": "2006-08-01T15:00:00",
+      "label": "Aug 1, 2006 \u00b7 3 PM"
+    },
+    "lowest_windchill": {
+      "value": -48.0,
+      "datetime": "1968-01-08T07:00:00",
+      "label": "Jan 8, 1968 \u00b7 7 AM"
+    },
+    "windiest_hour": {
+      "value": 80.0,
+      "datetime": "1954-10-15T23:00:00",
+      "label": "Oct 15, 1954 \u00b7 11 PM"
+    }
+  },
+  "streaks": {
+    "hot_days": {
+      "value": 12,
+      "when": "Aug 1911"
+    },
+    "deep_freeze_days": {
+      "value": 60,
+      "when": "Feb 1945"
+    },
+    "frost_free_days": {
+      "value": 185,
+      "when": "Oct 2007"
+    },
+    "hours_20": {
+      "value": 198,
+      "when": "Jul 1987"
+    },
+    "hours_30": {
+      "value": 13,
+      "when": "Aug 2006"
+    },
+    "hours_below_20neg": {
+      "value": 104,
+      "when": "Jan 1957"
+    }
+  },
+  "leaderboards": {
+    "snowiest_days": [
+      {
+        "value": 55.9,
+        "date": "1894-01-29",
+        "label": "Jan 29, 1894"
+      },
+      {
+        "value": 53.3,
+        "date": "1912-11-25",
+        "label": "Nov 25, 1912"
+      },
+      {
+        "value": 48.3,
+        "date": "1947-03-02",
+        "label": "Mar 2, 1947"
+      },
+      {
+        "value": 45.7,
+        "date": "1895-02-08",
+        "label": "Feb 8, 1895"
+      },
+      {
+        "value": 45.2,
+        "date": "1960-02-19",
+        "label": "Feb 19, 1960"
+      }
+    ],
+    "hottest_hours": [
+      {
+        "value": 36.4,
+        "datetime": "2001-08-09T15:00:00",
+        "label": "Aug 9, 2001 \u00b7 3 PM"
+      },
+      {
+        "value": 36.1,
+        "datetime": "1963-07-01T16:00:00",
+        "label": "Jul 1, 1963 \u00b7 4 PM"
+      },
+      {
+        "value": 36.1,
+        "datetime": "1955-07-21T15:00:00",
+        "label": "Jul 21, 1955 \u00b7 3 PM"
+      },
+      {
+        "value": 36.1,
+        "datetime": "1966-07-03T14:00:00",
+        "label": "Jul 3, 1966 \u00b7 2 PM"
+      },
+      {
+        "value": 36.1,
+        "datetime": "1955-08-01T14:00:00",
+        "label": "Aug 1, 1955 \u00b7 2 PM"
+      }
+    ],
+    "coldest_hours": [
+      {
+        "value": -35.0,
+        "datetime": "1957-01-15T08:00:00",
+        "label": "Jan 15, 1957 \u00b7 8 AM"
+      },
+      {
+        "value": -35.0,
+        "datetime": "1981-01-04T06:00:00",
+        "label": "Jan 4, 1981 \u00b7 6 AM"
+      },
+      {
+        "value": -34.2,
+        "datetime": "1981-01-03T07:00:00",
+        "label": "Jan 3, 1981 \u00b7 7 AM"
+      },
+      {
+        "value": -32.8,
+        "datetime": "1968-01-08T08:00:00",
+        "label": "Jan 8, 1968 \u00b7 8 AM"
+      },
+      {
+        "value": -32.2,
+        "datetime": "1962-02-02T05:00:00",
+        "label": "Feb 2, 1962 \u00b7 5 AM"
+      }
+    ],
+    "biggest_lightning_days": [
+      {
+        "value": 28801,
+        "date": "2026-07-01",
+        "label": "Jul 1, 2026"
+      },
+      {
+        "value": 16092,
+        "date": "2023-07-01",
+        "label": "Jul 1, 2023"
+      },
+      {
+        "value": 9766,
+        "date": "2021-07-20",
+        "label": "Jul 20, 2021"
+      },
+      {
+        "value": 9344,
+        "date": "2021-09-15",
+        "label": "Sep 15, 2021"
+      },
+      {
+        "value": 9079,
+        "date": "2023-08-03",
+        "label": "Aug 3, 2023"
+      }
+    ]
+  }
+}

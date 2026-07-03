@@ -119,12 +119,37 @@ python ottawa_lightning_fetch.py --refresh-today  # re-pull today even if cached
 python ottawa_lightning_fetch.py --no-fetch       # rebuild JSON from cache only
 ```
 
+### Records & extremes — derived, no fetching
+
+```bash
+python ottawa_weather_records.py          # reads the caches above, writes weather_records.json
+```
+
+Distils the data the three fetchers already cached into a small "records"
+file: all-time single records (hottest/coldest day, highest humidex, lowest
+wind chill, snowiest/rainiest day, windiest hour, warmest/coldest year),
+longest streaks (consecutive hours ≥ 20 °C, days ≥ 30 °C, days below 0 °C,
+frost-free stretch), and short top-5 leaderboards (hottest/coldest hours,
+snowiest days, biggest lightning days). Does **no** downloading — it only reads
+the CSV caches the daily/hourly/lightning scripts produced, so run it after them.
+
+All-time temperature/precip records use the **daily** record (1889+), so the
+headline "hottest day ever" reflects the full history (Ottawa's record highs
+predate 1953). Humidex, wind chill, wind speed and the hour-resolution
+leaderboards can only come from the **hourly** record (1953+); the dashboard
+labels those "1953+" so the two ranges don't look contradictory.
+
+| File | Committed? | What |
+|---|---|---|
+| `data/weather_records.json` | **yes** | all-time records, streaks, and leaderboards the dashboard reads |
+
 ## Dashboard
 
-`weather.html` (repo root) reads all four JSON files above. Live sections:
+`weather.html` (repo root) reads all five JSON files above. Live sections:
 warming stripes, an animated radial "shape of a year" daily-temperature chart,
 annual mean temp trend, seasonal small-multiples, hot-vs-cold extremes,
 snow→rain regime shift, an hourly-extremes grid (wind/hot-hours/tropical-hours/
-humidex/wind-chill/thunderstorms), a lightning-strike panel, a year-comparison
-tool, and a methodology block. Wired into the homepage (`index.html`
-`REPORTS[]`, № 04 · Climate).
+humidex/wind-chill/thunderstorms), a lightning-strike panel, a records &
+extremes section (all-time records, longest streaks, leaderboards), a
+year-comparison tool, and a methodology block. Wired into the homepage
+(`index.html` `REPORTS[]`, № 04 · Climate).

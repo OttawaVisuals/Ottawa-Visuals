@@ -286,5 +286,20 @@ instead of just whether a day tipped over the line at all. Same `hours_present`
     (2021-08-27): re-fetched correctly (full-detail cache was empty),
     produced a real 4-row time/lat/lon file matching the count the live run
     had logged for that day, and correctly skipped it on a second run.
-  - **Not yet wired into weather.html** — next step once the user's
-    upgraded backfill run finishes.
+  - **Wired into weather.html**: a lightning-strike panel (strikes/year,
+    days-with-lightning/year, strikes-by-month, strikes-by-hour) with the
+    growing-detector-network caveat shown inline. Full 2021–present backfill
+    completed (2,009 per-day files) and `weather_lightning_indices.json`
+    committed.
+- [x] Records & extremes section. Added a third, fetch-free pipeline script
+  (`ottawa_weather_records.py`) that reads the caches the daily/hourly/lightning
+  scripts already produced and emits `data/weather_records.json`: all-time
+  single records, longest streaks, and top-5 leaderboards. Wired a "Records &
+  extremes" section into `weather.html` (all-time cards, streak cards, four
+  leaderboard tables) with a note handling two honesty points — the five
+  hottest days are all exactly 37.8 °C (100 °F, a Fahrenheit-era rounding
+  artifact, so shown as one record not a top-5), and the hourly leaderboards
+  (1953+) sit below the daily all-time high because the pre-war heat predates
+  hourly observation. Verified in-browser in both themes: 8 all-time + 4 streak
+  cards and 4 leaderboards render, colours recolor on theme toggle, no console
+  errors.
