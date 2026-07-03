@@ -7,16 +7,46 @@
       "lon_min": -76.8972,
       "lon_max": -74.49719999999999
     },
-    "generated": "2026-07-02T19:25:11",
+    "generated": "2026-07-02T21:06:17",
     "caveat": "Crowdsourced volunteer detector network, not a calibrated government instrument. Station density has grown over time (day-to-day availability was patchy in early 2021), so a rising strike count may partly reflect more detectors coming online rather than more real lightning. Treat as supplementary and lower-confidence versus the ECCC daily/hourly series.",
-    "n_years": 1
+    "n_years": 6
   },
   "years": [
     {
+      "year": 2021,
+      "strikes": 58289,
+      "days_with_strikes": 174,
+      "days_recorded": 365
+    },
+    {
+      "year": 2022,
+      "strikes": 82211,
+      "days_with_strikes": 153,
+      "days_recorded": 365
+    },
+    {
+      "year": 2023,
+      "strikes": 94132,
+      "days_with_strikes": 135,
+      "days_recorded": 365
+    },
+    {
       "year": 2024,
-      "strikes": 2501,
-      "days_with_strikes": 2,
-      "days_recorded": 3
+      "strikes": 47782,
+      "days_with_strikes": 147,
+      "days_recorded": 366
+    },
+    {
+      "year": 2025,
+      "strikes": 37331,
+      "days_with_strikes": 127,
+      "days_recorded": 365
+    },
+    {
+      "year": 2026,
+      "strikes": 40612,
+      "days_with_strikes": 63,
+      "days_recorded": 183
     }
   ]
 }

@@ -72,12 +72,16 @@ computed from hourly data. Precipitation totals come from the daily pipeline.
 python ottawa_lightning_fetch.py          # 2021-01 -> today
 ```
 
-Downloads strike counts from **LightningMaps.org / Blitzortung.org**, a
-crowdsourced volunteer detector network — not ECCC. Fetches gzipped
-per-10-minute files from geographic "Area 21" (found empirically — there's no
-documented area-to-region mapping, so every area number was sampled and
-checked against Ottawa's coordinates), filters each file to a bounding box
-around the Ottawa region, and counts strikes.
+Downloads full per-strike detail (exact time + lat/lon, not just a count) from
+**LightningMaps.org / Blitzortung.org**, a crowdsourced volunteer detector
+network — not ECCC. Fetches gzipped per-10-minute files from geographic "Area
+21" (found empirically — there's no documented area-to-region mapping, so
+every area number was sampled and checked against Ottawa's coordinates),
+filters each file to a bounding box around the Ottawa region, and keeps every
+matching strike. Checked the source's other fields (`src`, `srv`) empirically
+before deciding to drop them — both are constant per-file, not per-strike
+(consistent with a data-source tag and a backend-server ID respectively), so
+neither carries strike-specific information worth keeping.
 
 **Why this is a weaker source than everything else in this repo:** the
 network has grown over time (day-to-day availability was patchy in early
@@ -90,12 +94,23 @@ supplementary color, not on the same footing as the ECCC series.
 (2021–present) is ~260k attempts — measured at ~0.02–0.08s/file with 8–24
 concurrent workers (10 workers, the default, targets a middle ground: fast
 enough to finish in a couple of hours, not so aggressive on a volunteer-run
-server). Fully resumable — already-fetched days are skipped on re-run.
+server). Fully resumable — a day is only skipped once its own file exists
+under `data/raw/lightning_strikes/`, and that file is only written when the
+day had zero failed windows, so a partially-failed day is correctly retried
+next run rather than silently staying under-counted.
 
 | File | Committed? | What |
 |---|---|---|
-| `data/raw/lightning_daily_counts.csv` | no (gitignored) | per-day count cache, resumable |
-| `data/weather_lightning_indices.json` | **yes** | small per-year strike-count file |
+| `data/raw/lightning_strikes/<date>.csv` | no (gitignored) | full per-strike detail (time, lat, lon), one file/day — the resumability marker |
+| `data/raw/lightning_daily_counts.csv` | no (gitignored) | legacy count-only cache from an earlier version; read as a fallback, no longer written |
+| `data/weather_lightning_indices.json` | **yes** | small per-year strike-count file, derived from the per-day files |
+
+An earlier version of this script only kept daily counts. If you have a
+`lightning_daily_counts.csv` from that version, re-running the current script
+will re-fetch every day to backfill full detail (expected — full per-strike
+data wasn't kept the first time, so there's nothing to upgrade in place) —
+until then, those legacy counts are used as a fallback in the output JSON so
+nothing is lost in the meantime.
 
 ```bash
 python ottawa_lightning_fetch.py --start 2023-01-01 --end 2023-12-31  # shorter range
