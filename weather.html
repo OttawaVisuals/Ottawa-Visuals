@@ -265,6 +265,23 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
         damage-survey data, which this dataset doesn't have.</p>
     </div>
 
+    <!-- LIGHTNING -->
+    <div class="section">
+      <div class="section-head">
+        <h2>Lightning strikes <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(2021–present)</span></h2>
+        <p>Actual strike counts, not just thunderstorm-day counts — from a different, non-ECCC
+           source with a much shorter record. Read the caveat below before drawing a trend from
+           this one.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-title">Strikes per year — Ottawa region</div><div class="cw cw-sm"><canvas id="chart-lightning-year"></canvas></div></div>
+        <div class="card"><div class="card-title">Days per year with any lightning</div><div class="cw cw-sm"><canvas id="chart-lightning-days"></canvas></div></div>
+        <div class="card"><div class="card-title">Which months get the lightning</div><div class="cw cw-sm"><canvas id="chart-lightning-month"></canvas></div></div>
+        <div class="card"><div class="card-title">Time of day (approx. Ottawa local)</div><div class="cw cw-sm"><canvas id="chart-lightning-hour"></canvas></div></div>
+      </div>
+      <p class="note" id="lightning-note"></p>
+    </div>
+
     <!-- YEAR YOU REMEMBER -->
     <div class="section">
       <div class="section-head">
@@ -330,6 +347,7 @@ if (window.self !== window.top) {
 
 const DATA_BASE = 'Weather/data/';
 let dailyMeta = null, hourlyMeta = null, dailyYears = [], hourlyYears = [], dailySeries = {};
+let lightningMeta = null, lightningYears = [], lightningByMonth = [], lightningByHour = [];
 const CHARTS = []; // { chart, colorVars: {datasetIndex: cssVarName} }
 
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -361,10 +379,13 @@ Promise.all([
   fetch(DATA_BASE + 'weather_indices.json').then(r => r.json()),
   fetch(DATA_BASE + 'weather_hourly_indices.json').then(r => r.json()),
   fetch(DATA_BASE + 'weather_daily_series.json').then(r => r.json()),
-]).then(([daily, hourly, series]) => {
+  fetch(DATA_BASE + 'weather_lightning_indices.json').then(r => r.json()),
+]).then(([daily, hourly, series, lightning]) => {
   dailyMeta = daily.meta; hourlyMeta = hourly.meta;
   dailyYears = daily.years; hourlyYears = hourly.years;
   dailySeries = series.series;
+  lightningMeta = lightning.meta; lightningYears = lightning.years;
+  lightningByMonth = lightning.strikes_by_month; lightningByHour = lightning.strikes_by_hour;
   document.getElementById('app').style.display = 'flex';
   init();
 }).catch(err => {
@@ -733,8 +754,19 @@ function makeChart(canvasId, labels, datasetSpecs, scaleExtra) {
   CHARTS.push({ chart, colorVars });
   return chart;
 }
+function makeBarChart(canvasId, labels, datasetSpecs, scaleExtra) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const colorVars = {};
+  const datasets = datasetSpecs.map((s, i) => {
+    colorVars[i] = s.colorVar;
+    return { label: s.label, data: s.data, backgroundColor: cssVar(s.colorVar) + 'aa', borderColor: cssVar(s.colorVar), borderWidth: 1, borderRadius: 3 };
+  });
+  const chart = new Chart(ctx, { type: 'bar', data: { labels, datasets }, options: baseOptions(scaleExtra) });
+  CHARTS.push({ chart, colorVars, bar: true });
+  return chart;
+}
 function refreshChartColors() {
-  CHARTS.forEach(({ chart, colorVars }) => {
+  CHARTS.forEach(({ chart, colorVars, bar }) => {
     chart.options.plugins.legend.labels.color = cssVar('--ink-2');
     chart.options.plugins.tooltip.backgroundColor = cssVar('--bg-3');
     chart.options.plugins.tooltip.titleColor = cssVar('--ink');
@@ -746,7 +778,9 @@ function refreshChartColors() {
     chart.options.scales.y.grid.color = cssVar('--line');
     chart.data.datasets.forEach((ds, i) => {
       const v = colorVars[i];
-      if (v) { ds.borderColor = cssVar(v); ds.backgroundColor = cssVar(v) + '33'; }
+      if (!v) return;
+      if (bar) { ds.backgroundColor = cssVar(v) + 'aa'; ds.borderColor = cssVar(v); }
+      else { ds.borderColor = cssVar(v); ds.backgroundColor = cssVar(v) + '33'; }
     });
     chart.update('none');
   });
@@ -844,6 +878,45 @@ function buildHourlyGrid() {
 }
 
 // ================================================================
+// LIGHTNING
+// ================================================================
+const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const HOUR_LABELS = Array.from({length: 24}, (_, h) =>
+  h === 0 ? '12am' : h < 12 ? `${h}am` : h === 12 ? '12pm' : `${h - 12}pm`);
+
+function buildLightningCharts() {
+  if (!lightningYears.length) return;
+  const labels = lightningYears.map(y => y.year);
+  const lastYear = lightningYears[lightningYears.length - 1];
+  const today = new Date();
+  const isPartial = y => y.year === today.getFullYear() && y.days_recorded < 360;
+
+  makeChart('chart-lightning-year', labels, [
+    { label: 'Strikes/yr', data: lightningYears.map(y => y.strikes), colorVar: '--amber', borderWidth: 2.5, pointRadius: lightningYears.map(y => isPartial(y) ? 4 : 0) },
+  ]);
+  makeChart('chart-lightning-days', labels, [
+    { label: 'Days with lightning', data: lightningYears.map(y => y.days_with_strikes), colorVar: '--blue', borderWidth: 2.5, pointRadius: 0 },
+  ]);
+  makeBarChart('chart-lightning-month', MONTH_ABBR, [
+    { label: 'Strikes', data: lightningByMonth, colorVar: '--amber' },
+  ]);
+  makeBarChart('chart-lightning-hour', HOUR_LABELS, [
+    { label: 'Strikes', data: lightningByHour, colorVar: '--purple' },
+  ]);
+
+  document.getElementById('lightning-note').innerHTML =
+    `Source: LightningMaps.org / Blitzortung.org, a crowdsourced volunteer detector network —
+     not Environment Canada.
+     ${isPartial(lastYear) ? `${lastYear.year} is a partial year so far (${lastYear.days_recorded} of ~365 days).` : ''}
+     <strong>Volunteer station density has grown since this record began in 2021</strong> — a rising
+     strike count over these few years may partly reflect more detectors coming online, not more real
+     lightning, so treat any year-over-year trend here as suggestive, not conclusive, unlike the
+     136-year ECCC record above. Time-of-day is shifted from the source's UTC timestamps to a fixed
+     UTC−4 (EDT) approximation — not daylight-saving aware, so winter hours (a small fraction of all
+     strikes) may be off by up to an hour.`;
+}
+
+// ================================================================
 // YEAR-YOU-REMEMBER TOOL
 // ================================================================
 function buildYearPicker() {
@@ -904,6 +977,7 @@ function init() {
   buildExtremesChart();
   buildRainFractionChart();
   buildHourlyGrid();
+  buildLightningCharts();
   buildYearPicker();
   refreshChartColors();
 }
