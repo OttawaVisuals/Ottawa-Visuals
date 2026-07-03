@@ -1116,22 +1116,7 @@ fetch_bracket_for_season <- function(season_id) {
     brackets <- js$SiteKit$Brackets
     if (!is.list(brackets)) return(NULL)
 
-    raw_rounds <- brackets$rounds
-    if (is.null(raw_rounds) || length(raw_rounds) == 0) return(NULL)
-
-    # The is.list() guards below have twice failed to prevent this exact
-    # crash despite reasoning that they should -- something about this
-    # feed's actual parsed shape isn't what it looks like from isolated
-    # testing. Log the real structure so a third failure is diagnosable
-    # instead of another guess. Cheap: at most ~3 seasons x 2 rounds.
-    message("    [bracket debug] season ", season_id,
-            " rounds: class=", paste(class(raw_rounds), collapse = "/"),
-            " is.data.frame=", is.data.frame(raw_rounds),
-            " is.list=", is.list(raw_rounds),
-            " length=", length(raw_rounds),
-            " names=", paste(utils::head(names(raw_rounds), 10), collapse = ","))
-
-    rounds <- as_object_list(raw_rounds)
+    rounds <- as_object_list(brackets$rounds)
     if (is.null(rounds)) return(NULL)
 
     teams_map <- brackets$teams
@@ -1142,53 +1127,48 @@ fetch_bracket_for_season <- function(season_id) {
       if (!is.list(t)) NA_character_ else scalar_chr(t$name)
     }
 
-    # Every level here is defensive rather than assuming a fixed shape: skip
-    # anything that isn't a real list-of-objects instead of doing `$` on it
-    # and crashing the whole run over one malformed entry.
+    # Root cause of the earlier crash, found via step-by-step debug logging:
+    # the loop variable was named `round`, and the tibble() call below
+    # builds a column ALSO named "round" -- tibble evaluates columns
+    # sequentially and the in-progress column name shadows the bare `round`
+    # symbol on its own right-hand side, so `round$round` resolved against
+    # the (not-yet-existent) column instead of the loop variable, at which
+    # point it's atomic/NULL and `$` fails. Every is.list() guard tested
+    # fine right up to that line because the loop variable really was a
+    # proper list the whole time -- it just wasn't what got looked up.
+    # Renamed to `rnd`/`m`/`gm` throughout so no loop variable can collide
+    # with an output column name (or, for `round`, a base R function name).
     rows <- list()
-    for (round in rounds) {
-      message("    [bracket debug] round: class=", paste(class(round), collapse = "/"),
-              " is.list=", is.list(round), " is.data.frame=", is.data.frame(round))
-      if (!is.list(round)) next
-      raw_matchups <- round$matchups
-      message("    [bracket debug]   raw_matchups: class=", paste(class(raw_matchups), collapse = "/"),
-              " is.list=", is.list(raw_matchups), " length=", length(raw_matchups),
-              " names=", paste(utils::head(names(raw_matchups), 10), collapse = ","))
-      matchups <- as_object_list(raw_matchups)
+    for (rnd in rounds) {
+      if (!is.list(rnd)) next
+      matchups <- as_object_list(rnd$matchups)
       if (is.null(matchups)) next
 
-      for (matchup in matchups) {
-        message("    [bracket debug]     matchup: class=", paste(class(matchup), collapse = "/"),
-                " is.list=", is.list(matchup))
-        if (!is.list(matchup)) next
-        raw_games <- matchup$games
-        message("    [bracket debug]       raw_games: class=", paste(class(raw_games), collapse = "/"),
-                " is.list=", is.list(raw_games), " length=", length(raw_games),
-                " names=", paste(utils::head(names(raw_games), 10), collapse = ","))
-        games <- as_object_list(raw_games)
+      for (m in matchups) {
+        if (!is.list(m)) next
+        games <- as_object_list(m$games)
         if (is.null(games)) next
 
-        for (g in games) {
-          message("    [bracket debug]         g: class=", paste(class(g), collapse = "/"), " is.list=", is.list(g))
-          if (!is.list(g)) next
+        for (gm in games) {
+          if (!is.list(gm)) next
           rows[[length(rows) + 1]] <- tibble(
             season_id         = as.character(season_id),
-            round             = scalar_chr(round$round),
-            round_name        = scalar_chr(round$round_name),
-            series_letter     = scalar_chr(matchup$series_letter),
-            team1_id          = scalar_chr(matchup$team1),
-            team1_name        = team_name(matchup$team1),
-            team2_id          = scalar_chr(matchup$team2),
-            team2_name        = team_name(matchup$team2),
-            team1_series_wins = suppressWarnings(as.integer(matchup$team1_wins)),
-            team2_series_wins = suppressWarnings(as.integer(matchup$team2_wins)),
-            game_id           = scalar_chr(g$game_id),
-            home_team_id      = scalar_chr(g$home_team),
-            home_goals        = suppressWarnings(as.integer(g$home_goal_count)),
-            visiting_team_id  = scalar_chr(g$visiting_team),
-            visiting_goals    = suppressWarnings(as.integer(g$visiting_goal_count)),
-            game_status       = scalar_chr(g$game_status),
-            game_date         = scalar_chr(g$date_time)
+            round             = scalar_chr(rnd$round),
+            round_name        = scalar_chr(rnd$round_name),
+            series_letter     = scalar_chr(m$series_letter),
+            team1_id          = scalar_chr(m$team1),
+            team1_name        = team_name(m$team1),
+            team2_id          = scalar_chr(m$team2),
+            team2_name        = team_name(m$team2),
+            team1_series_wins = suppressWarnings(as.integer(m$team1_wins)),
+            team2_series_wins = suppressWarnings(as.integer(m$team2_wins)),
+            game_id           = scalar_chr(gm$game_id),
+            home_team_id      = scalar_chr(gm$home_team),
+            home_goals        = suppressWarnings(as.integer(gm$home_goal_count)),
+            visiting_team_id  = scalar_chr(gm$visiting_team),
+            visiting_goals    = suppressWarnings(as.integer(gm$visiting_goal_count)),
+            game_status       = scalar_chr(gm$game_status),
+            game_date         = scalar_chr(gm$date_time)
           )
         }
       }
