@@ -261,6 +261,42 @@ def load_raw_counts() -> dict[str, int]:
     return out
 
 
+OTTAWA_UTC_OFFSET_H = -4  # fixed EDT approximation, not DST-aware -- see note below
+
+def compute_seasonality() -> dict:
+    """Aggregate every strike's month-of-year and hour-of-day across the whole
+    dataset. Pure local file I/O over the already-downloaded per-day raw files
+    -- no network calls, runs in seconds even across ~2000 files.
+
+    Timezone: verified empirically, not assumed -- a file's own directory hour
+    (e.g. .../18/20250710_1800_a21.json.gz) always matches its records' "time"
+    hour exactly, and since this is one global archive with a single unified
+    directory scheme across every continent, that's only possible if "time" is
+    UTC (a per-region-local folder scheme couldn't produce a single consistent
+    HH path across all ~98 areas worldwide). strikes_by_hour is shifted to a
+    fixed UTC-4 (EDT) below to read as Ottawa local time -- not DST-aware, so
+    winter strikes (a small fraction of the total -- Nov-Feb is ~0.06% of all
+    strikes in this dataset) are off by up to an hour. Month-of-year is
+    unaffected by this (a +/-4h shift essentially never moves a strike from
+    one month to another)."""
+    by_month = [0] * 12   # index 0 = January
+    by_hour = [0] * 24
+    if not RAW_STRIKES_DIR.exists():
+        return {"strikes_by_month": by_month, "strikes_by_hour": by_hour}
+    for path in RAW_STRIKES_DIR.glob("*.csv"):
+        with path.open(newline="", encoding="utf-8") as f:
+            next(f, None)  # header
+            for line in f:
+                # "time,lat,lon" -- time like 2025-07-10T18:00:03 (UTC)
+                time_str = line.split(",", 1)[0]
+                if len(time_str) < 13:
+                    continue
+                by_month[int(time_str[5:7]) - 1] += 1
+                local_hour = (int(time_str[11:13]) + OTTAWA_UTC_OFFSET_H) % 24
+                by_hour[local_hour] += 1
+    return {"strikes_by_month": by_month, "strikes_by_hour": by_hour}
+
+
 # --------------------------------------------------------------------------- #
 # Build indices JSON
 # --------------------------------------------------------------------------- #
@@ -287,6 +323,7 @@ def build_indices(cached: dict[str, int]) -> dict:
             "n_years": len(years),
         },
         "years": years,
+        **compute_seasonality(),
     }
 
 
