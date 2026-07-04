@@ -105,14 +105,15 @@ p{margin:0;}
 .met .mv.blue{color:var(--blue);}
 /* ── AFFORDABILITY BAR ──────────────────────────────────────────── */
 .afford-wrap{margin-bottom:12px;}
-.afford-bar{display:flex;width:100%;height:30px;border-radius:7px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line);}
-.afford-seg{display:flex;align-items:center;justify-content:center;min-width:0;transition:width .35s ease;overflow:hidden;}
-.afford-seg span{font-family:var(--font-mono);font-size:11px;font-weight:500;color:#fff;white-space:nowrap;padding:0 4px;text-shadow:0 1px 2px rgba(0,0,0,0.25);}
-.afford-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:7px;}
-.afl{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-2);}
-.afl b{font-family:var(--font-mono);font-weight:600;color:var(--ink);}
-.afl .afd{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.afl-total{font-size:11px;color:var(--ink-3);margin-left:auto;}
+.afford-bar{display:flex;width:100%;height:64px;border-radius:8px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line);}
+.afford-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;transition:width .35s ease;overflow:hidden;padding:0 4px;}
+.afford-seg span{white-space:nowrap;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.3);overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;}
+.afford-seg .as-name{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.03em;text-transform:uppercase;opacity:0.9;}
+.afford-seg .as-val{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:-0.01em;line-height:1.1;}
+.afford-seg .as-pct{font-family:var(--font-mono);font-size:10px;opacity:0.85;}
+.afford-seg.narrow .as-name,.afford-seg.narrow .as-val{display:none;}
+.afford-seg.tiny span{display:none;}
+.afl-total{font-size:11px;color:var(--ink-3);margin-top:7px;text-align:right;}
 .afl-total b{font-family:var(--font-mono);color:var(--ink-2);}
 /* ── BADGES ─────────────────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;}
@@ -542,19 +543,23 @@ p{margin:0;}
           <option value="annual">Annual</option>
         </select>
       </h3>
-      <!-- AFFORDABILITY BAR: Housing / Shared / Leftover of net income -->
+      <!-- AFFORDABILITY BAR: Tax / Housing / Shared / Leftover of gross income -->
       <div class="afford-wrap" id="afford-wrap">
         <div class="afford-bar" id="afford-bar">
-          <div class="afford-seg" id="ab-housing" style="background:var(--red);"><span></span></div>
-          <div class="afford-seg" id="ab-shared" style="background:var(--amber);"><span></span></div>
-          <div class="afford-seg" id="ab-left" style="background:var(--green);"><span></span></div>
+          <div class="afford-seg" id="ab-tax" style="background:var(--ink-3);">
+            <span class="as-name">Tax + deductions</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-housing" style="background:var(--red);">
+            <span class="as-name">Housing</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-shared" style="background:var(--purple);">
+            <span class="as-name">Shared costs</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-left" style="background:var(--green);">
+            <span class="as-name">Leftover</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
         </div>
-        <div class="afford-legend">
-          <div class="afl"><span class="afd" style="background:var(--red);"></span>Housing <b id="afl-housing">—</b></div>
-          <div class="afl"><span class="afd" style="background:var(--amber);"></span>Shared costs <b id="afl-shared">—</b></div>
-          <div class="afl"><span class="afd" style="background:var(--green);"></span>Leftover <b id="afl-left">—</b></div>
-          <span class="afl-total">of <b id="afl-total">—</b> net income</span>
-        </div>
+        <div class="afl-total">of <b id="afl-total">—</b> gross income</div>
       </div>
       <div class="mrow">
         <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
@@ -2336,27 +2341,30 @@ function calculate() {
   document.getElementById('m-expenses-s').textContent = modeLbl + ' · groceries, transport…';
 
   // ── AFFORDABILITY BAR ────────────────────────────────────────────
-  // Housing (red) / Shared costs (amber) / Leftover (green), share of net income.
+  // Tax (grey) / Housing (red) / Shared costs (amber) / Leftover (green),
+  // share of GROSS income.
   {
+    const abTax     = Math.max((grossIncome - netTotal) / 26 * f, 0);
     const abHousing = mHousing;
     const abShared  = sharedExpBw * f;
     const abLeft    = Math.max(leftoverAnn / 26 * f, 0);
-    const abTotal   = abHousing + abShared + abLeft;
+    const abTotal   = abTax + abHousing + abShared + abLeft;
     const pct = v => abTotal > 0 ? (v / abTotal * 100) : 0;
     const setSeg = (id, v) => {
       const el = document.getElementById(id);
       const p = pct(v);
       el.style.width = p + '%';
-      // Only show the % label when the segment is wide enough to fit it.
-      el.querySelector('span').textContent = p >= 9 ? Math.round(p) + '%' : '';
+      // Progressively hide labels as the segment gets narrower.
+      el.classList.toggle('narrow', p < 12);
+      el.classList.toggle('tiny', p < 5);
+      el.querySelector('.as-val').textContent = CAD(v);
+      el.querySelector('.as-pct').textContent = Math.round(p) + '%';
     };
+    setSeg('ab-tax',     abTax);
     setSeg('ab-housing', abHousing);
     setSeg('ab-shared',  abShared);
     setSeg('ab-left',    abLeft);
-    document.getElementById('afl-housing').textContent = CAD(abHousing);
-    document.getElementById('afl-shared').textContent  = CAD(abShared);
-    document.getElementById('afl-left').textContent    = CAD(abLeft);
-    document.getElementById('afl-total').textContent   = CAD(abTotal);
+    document.getElementById('afl-total').textContent = CAD(abTotal);
   }
 
   // ── AMORTIZATION CHART ───────────────────────────────────────────
