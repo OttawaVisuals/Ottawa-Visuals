@@ -14,6 +14,7 @@
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
   if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', t);
+  if (window.self !== window.top) document.documentElement.setAttribute('data-embedded', '');
 })();
 </script>
 <style>
@@ -55,6 +56,7 @@ a{text-decoration:none;color:inherit}
 .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;transition:border-color .15s,color .15s}
 .icon-btn:hover{color:var(--ink);border-color:var(--ink-2)}
 @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+html[data-embedded] .topbar{display:none}
 
 .page{max-width:1200px;margin:0 auto;padding:20px 16px}
 
