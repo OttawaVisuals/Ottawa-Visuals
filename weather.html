@@ -429,6 +429,8 @@ document.addEventListener('DOMContentLoaded', () => {
 if (window.self !== window.top) {
   const tb = document.querySelector('.topbar');
   if (tb) tb.style.display = 'none';
+  const jn = document.querySelector('.jumpnav');
+  if (jn) jn.style.display = 'none';
 }
 
 const DATA_BASE = 'Weather/data/';
