@@ -84,8 +84,8 @@
     font-family: var(--font-body);
     background: var(--bg);
     color: var(--ink);
-    font-size: 16px;
-    line-height: 1.55;
+    font-size: 13.5px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -100,21 +100,21 @@
     margin: 0;
     line-height: 1.05;
   }
-  h1 { font-size: clamp(44px, 6vw, 88px); letter-spacing: -0.025em; }
-  h2 { font-size: clamp(32px, 3.4vw, 48px); letter-spacing: -0.02em; }
-  h3 { font-size: 22px; letter-spacing: -0.01em; }
-  h4 { font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+  h1 { font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.02em; }
+  h2 { font-size: 22px; letter-spacing: -0.02em; }
+  h3 { font-size: 15px; letter-spacing: -0.01em; }
+  h4 { font-size: 12px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
   p  { margin: 0; }
 
   ::selection { background: var(--accent); color: white; }
 
   /* ============== LAYOUT PRIMITIVES =================================== */
-  .wrap { max-width: 1680px; margin: 0 auto; padding: 0 40px; }
-  @media (max-width: 720px) { .wrap { padding: 0 20px; } }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 720px) { .wrap { padding: 0 16px; } }
 
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--ink-3);
   }
   .eyebrow .accent { color: var(--accent); }
@@ -122,9 +122,9 @@
   .pill {
     display: inline-flex; align-items: center; gap: 6px;
     border: 1px solid var(--line); border-radius: 999px;
-    padding: 4px 12px;
+    padding: 3px 10px;
     font-family: var(--font-mono);
-    font-size: 12px; color: var(--ink-2);
+    font-size: 11px; color: var(--ink-2);
     background: var(--bg-2);
   }
   .pill.accent { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
@@ -135,10 +135,10 @@
     border: 1px solid var(--line-2);
     background: var(--bg-2);
     color: var(--ink);
-    padding: 10px 18px;
+    padding: 8px 15px;
     border-radius: 999px;
     font-family: var(--font-body);
-    font-size: 14px; font-weight: 500;
+    font-size: 13px; font-weight: 500;
     transition: border-color .15s, background .15s, transform .15s;
   }
   .btn:hover { border-color: var(--ink-2); }
@@ -150,23 +150,22 @@
   /* ============== TOPBAR ============================================== */
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(10px);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    background: var(--bg-2);
     border-bottom: 1px solid var(--line);
   }
   .topbar-inner {
-    display: flex; align-items: center; gap: 24px;
-    height: 64px;
+    display: flex; align-items: center; gap: 20px;
+    height: 48px;
   }
   .brand {
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; gap: 9px;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 14.5px;
     letter-spacing: -0.01em;
   }
   .brand-logo {
-    width: 34px; height: 34px;
+    width: 26px; height: 26px;
     border-radius: 999px;
     background: #1F2530;
     display: grid; place-items: center;
@@ -181,17 +180,17 @@
   .brand small {
     display: block;
     font-family: var(--font-mono);
-    font-size: 11px; font-weight: 400;
+    font-size: 9.5px; font-weight: 400;
     color: var(--ink-3);
-    letter-spacing: 0.08em; text-transform: uppercase;
+    letter-spacing: 0.07em; text-transform: uppercase;
   }
   .topbar nav {
-    display: flex; gap: 4px; margin-left: 8px;
+    display: flex; gap: 2px; margin-left: 6px;
   }
   .topbar nav a {
-    padding: 8px 12px;
+    padding: 5px 9px;
     color: var(--ink-2);
-    font-size: 14px;
+    font-size: 12.5px;
     border-radius: 6px;
     transition: color .15s, background .15s;
   }
@@ -210,7 +209,7 @@
 
   /* ============== HERO ================================================ */
   .hero {
-    padding: 80px 0 60px;
+    padding: 44px 0 36px;
     border-bottom: 1px solid var(--line);
     position: relative;
     overflow: hidden;
@@ -226,7 +225,7 @@
   .hero-grid {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 80px; align-items: center;
+    gap: 48px; align-items: center;
     position: relative;
   }
   .hero h1 .hl {
@@ -235,20 +234,20 @@
   }
   .hero h1 .accent { color: var(--accent); }
   .hero p.lede {
-    margin-top: 24px;
-    font-size: 19px;
+    margin-top: 14px;
+    font-size: 14px;
     line-height: 1.55;
     color: var(--ink-2);
     max-width: 560px;
   }
-  .hero-ctas { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap;}
+  .hero-ctas { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap;}
   .hero-meta {
-    margin-top: 32px;
-    display: flex; gap: 12px; flex-wrap: wrap;
+    margin-top: 20px;
+    display: flex; gap: 10px; flex-wrap: wrap;
   }
 
   /* hero side: container holds multiple variants, only one shown */
-  .hero-side { display: flex; flex-direction: column; gap: 16px; min-height: 360px; }
+  .hero-side { display: flex; flex-direction: column; gap: 12px; min-height: 300px; }
   .hero-side > .variant { display: none; flex-direction: column; gap: 16px; }
   .hero-side[data-hero="map"]      > .variant.map,
   .hero-side[data-hero="facts"]    > .variant.facts,
@@ -261,11 +260,11 @@
     border: 1px solid var(--line);
     background: var(--bg-2);
     padding: 16px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
   .stat .k {
     font-family: var(--font-display);
-    font-size: 36px; font-weight: 800; color: var(--accent);
+    font-size: 24px; font-weight: 700; color: var(--accent);
     letter-spacing: -0.02em;
   }
   .stat .v {
@@ -275,7 +274,7 @@
   .mosaic {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 18px;
     display: grid; grid-template-rows: auto auto; gap: 12px;
   }
@@ -324,7 +323,7 @@
   .map-frame {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 22px 22px 18px;
     position: relative;
     overflow: hidden;
@@ -372,7 +371,7 @@
   .facts {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 26px 28px;
     position: relative;
     overflow: hidden;
@@ -424,7 +423,7 @@
   .featured-card {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
   }
@@ -450,19 +449,19 @@
     text-align: right;
   }
   .featured-card .preview .corner-stat .k {
-    font-family: var(--font-display); font-weight: 800;
-    font-size: 32px; color: var(--accent); line-height: 1; letter-spacing: -0.02em;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 24px; color: var(--accent); line-height: 1; letter-spacing: -0.02em;
   }
   .featured-card .preview .corner-stat .v {
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--ink-3); margin-top: 4px;
   }
-  .featured-card .body { padding: 18px 22px 22px; }
+  .featured-card .body { padding: 14px 16px 16px; }
   .featured-card .body .eyebrow { margin-bottom: 8px; }
   .featured-card .body h4 {
-    font-family: var(--font-display); font-size: 22px;
+    font-family: var(--font-display); font-size: 16px;
     font-weight: 700; letter-spacing: -0.01em; text-transform: none;
-    color: var(--ink); margin: 0 0 10px; line-height: 1.2;
+    color: var(--ink); margin: 0 0 8px; line-height: 1.25;
   }
   .featured-card .body p {
     font-size: 13px; color: var(--ink-2); line-height: 1.55;
@@ -491,7 +490,7 @@
     width: 280px;
     background: var(--bg-2);
     border: 1px solid var(--line-2);
-    border-radius: 14px;
+    border-radius: 8px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.4);
     padding: 18px;
     display: none;
@@ -549,9 +548,8 @@
 
   /* ============== TAB BAR (report switcher) =========================== */
   .tabbar-wrap {
-    position: sticky; top: 64px; z-index: 40;
-    background: color-mix(in srgb, var(--bg) 85%, transparent);
-    backdrop-filter: blur(10px);
+    position: sticky; top: 48px; z-index: 40;
+    background: var(--bg-2);
     border-bottom: 1px solid var(--line);
   }
   .tabbar {
@@ -562,7 +560,7 @@
   .tabbar::-webkit-scrollbar { display: none; }
   .tab {
     flex-shrink: 0;
-    padding: 16px 22px 14px;
+    padding: 9px 16px 8px;
     border: 0; background: transparent;
     border-bottom: 2px solid transparent;
     color: var(--ink-3);
@@ -570,18 +568,18 @@
     transition: color .15s, border-color .15s, background .15s;
     font-family: var(--font-body);
     display: flex; flex-direction: column; gap: 2px;
-    line-height: 1.15;
-    min-width: 200px;
+    line-height: 1.2;
+    min-width: 170px;
   }
-  .tab:hover { color: var(--ink-2); background: var(--bg-2); }
+  .tab:hover { color: var(--ink-2); background: var(--bg-3); }
   .tab .small {
     font-family: var(--font-mono);
-    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--ink-3);
   }
   .tab .name {
     font-family: var(--font-display);
-    font-size: 17px; font-weight: 600;
+    font-size: 13.5px; font-weight: 600;
     color: var(--ink-2);
     letter-spacing: -0.005em;
   }
@@ -591,7 +589,7 @@
 
   /* ============== REPORT VIEW ========================================= */
   .report {
-    padding: 56px 0 24px;
+    padding: 28px 0 24px;
     border-bottom: 1px solid var(--line);
   }
   .breadcrumb {
@@ -604,11 +602,11 @@
   .breadcrumb .cur { color: var(--accent); }
 
   .report-head {
-    display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: end;
-    margin-bottom: 28px;
+    display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: end;
+    margin-bottom: 20px;
   }
-  .report-head h2 { max-width: 16ch; }
-  .report-lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin-top: 16px; max-width: 60ch;}
+  .report-head h2 { max-width: 20ch; }
+  .report-lede { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin-top: 12px; max-width: 68ch;}
   .report-meta {
     display: flex; gap: 8px; flex-wrap: wrap;
     justify-content: flex-end;
@@ -621,7 +619,7 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     max-height: 900px;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--line);
     background: var(--bg-2);
@@ -671,7 +669,7 @@
   .panel {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 22px;
   }
   .panel.accent {
@@ -705,7 +703,7 @@
   .takeaway {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 22px;
     position: relative; overflow: hidden;
   }
@@ -742,7 +740,7 @@
   .card {
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 20px;
     cursor: pointer;
     transition: border-color .2s, transform .2s, background .2s;
