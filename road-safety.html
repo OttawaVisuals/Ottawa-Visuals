@@ -4,21 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vehicle–pedestrian impact · Ottawa road safety</title>
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <style>
 
   :root {
-    --bg: #12151a;
-    --panel: #1b1f27;
-    --panel-active: #232936;
-    --border: #2c323d;
-    --text: #e7e9ed;
-    --muted: #8b93a3;
-    --accent: #ff5a36;
-    --accent-2: #4fd1d9;
-    --risk: #ff4d6d;
-    --select: #c9d3e6;
-    --mono: ui-monospace, SFMono-Regular, "SF Mono", "Roboto Mono", Consolas, "Liberation Mono", monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    /* light theme (default) */
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    --accent-bg:rgba(201,84,47,0.08); --hl:rgba(201,84,47,0.14);
+    --green:#22885F; --amber:#C98A1F; --red:#D0483A; --blue:#2F6FB4; --purple:#6E62C8;
+    /* legacy aliases used throughout this page's components */
+    --panel:var(--bg-2); --panel-active:var(--bg-3); --border:var(--line);
+    --text:var(--ink); --muted:var(--ink-3); --select:var(--ink-2); --risk:var(--red);
+    --mono:var(--font-mono); --sans:var(--font-body);
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --accent-bg:rgba(224,107,69,0.12); --hl:rgba(224,107,69,0.18);
+    --green:#2FB584; --amber:#E8A030; --red:#E85A44; --blue:#5B9BE0; --purple:#8F84E8;
   }
 
   * { box-sizing: border-box; }
@@ -30,6 +51,24 @@
     font-family: var(--sans);
     -webkit-font-smoothing: antialiased;
   }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:50;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;transition:color .15s,background .15s;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .meth-link{font-family:var(--mono);font-size:10px;color:var(--ink-3);padding:4px 9px;border:1px solid var(--line);border-radius:6px;white-space:nowrap;text-decoration:none;}
+  .meth-link:hover{color:var(--ink);border-color:var(--line-2);}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;transition:border-color .15s,color .15s;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
 
   .page-header {
     max-width: 960px;
@@ -364,6 +403,23 @@
 </style>
 </head>
 <body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="mortgage.html">Mortgage</a>
+    <a href="weather.html">Weather</a>
+    <a href="road-safety.html" class="active">Road safety</a>
+    <a href="index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
 
 <div class="page-header">
   <p class="eyebrow">Road safety physics — stage 1</p>
@@ -831,27 +887,43 @@ const FMI_DATA = [
 ];
 // ────────────────────────────────────────────────────────────────────────────
 
-// ── CHART STYLE CONSTANTS ────────────────────────────────────────────────────
-const TEAL       = '#4fd1d9';
-const CORAL      = '#ff5a36';
-const GRAY       = '#8b93a3';
-const GRID_COLOR = 'rgba(255,255,255,0.05)';
-const TICK_COLOR = '#8b93a3';
-
+// ── CHART STYLE CONSTANTS (read from CSS variables so the theme switch restyles them) ──
+function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+let TEAL, CORAL, GRAY, GRID_COLOR, TICK_COLOR;
 const baseAxis = {
-  grid:   { color: GRID_COLOR, drawBorder: false },
+  grid:   { color: undefined, drawBorder: false },
   border: { display: false },
-  ticks:  { color: TICK_COLOR, font: { size: 11, family: 'ui-monospace, monospace' } },
+  ticks:  { color: undefined, font: { size: 11, family: '"JetBrains Mono", ui-monospace, monospace' } },
 };
+function refreshChartConstants() {
+  TEAL       = cssVar('--blue');
+  CORAL      = cssVar('--accent');
+  GRAY       = cssVar('--ink-3');
+  GRID_COLOR = cssVar('--line');
+  TICK_COLOR = cssVar('--ink-3');
+  baseAxis.grid.color = GRID_COLOR;
+  baseAxis.ticks.color = TICK_COLOR;
+}
+refreshChartConstants();
+
+// Chart registry so a theme switch can rebuild every chart from cached data.
+const roadCharts = {};
+function makeChart(canvasId, cfg) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  if (roadCharts[canvasId]) roadCharts[canvasId].destroy();
+  roadCharts[canvasId] = new Chart(el, cfg);
+  return roadCharts[canvasId];
+}
 
 function tooltipStyle(unit) {
   return {
-    backgroundColor: '#232936',
-    borderColor: '#2c323d',
+    backgroundColor: cssVar('--bg-3'),
+    borderColor: cssVar('--line'),
     borderWidth: 1,
-    titleColor: TICK_COLOR,
-    bodyColor: '#e7e9ed',
-    bodyFont: { family: 'ui-monospace, monospace', size: 12 },
+    titleColor: cssVar('--ink-3'),
+    bodyColor: cssVar('--ink'),
+    bodyFont: { family: '"JetBrains Mono", ui-monospace, monospace', size: 12 },
     callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}${unit}` },
   };
 }
@@ -1030,6 +1102,7 @@ function renderASE(ase) {
 
   // Stat boxes
   const stats = document.getElementById('ase-stats');
+  stats.innerHTML = '';
   stats.appendChild(statBox(preAvgCompliance + '%', 'Pre-installation avg compliance', GRAY));
   const peakCompliance = Math.max(...activeSeries.map(d => d.compliance));
   stats.appendChild(statBox(peakCompliance.toFixed(1) + '%', 'Peak compliance (all sites avg)', TEAL));
@@ -1040,8 +1113,7 @@ function renderASE(ase) {
   showLoading('ase-loading', false);
   showCanvas('chart-active', true);
 
-  const activeCtx = document.getElementById('chart-active');
-  new Chart(activeCtx, {
+  makeChart('chart-active', {
     type: 'line',
     data: {
       labels: activeSeries.map(d => d.label),
@@ -1103,8 +1175,7 @@ function renderASE(ase) {
 
   // Post-removal chart: use file data if available, else fall back to city report
   const postData = postSeries.length > 0 ? postSeries : POST_REMOVAL;
-  const postCtx  = document.getElementById('chart-postremoval');
-  new Chart(postCtx, {
+  makeChart('chart-postremoval', {
     type: 'line',
     data: {
       labels: postData.map(d => d.label),
@@ -1141,6 +1212,7 @@ function renderFleet(fleet) {
   const last  = fleet[fleet.length - 1];
 
   const stats = document.getElementById('fleet-stats');
+  stats.innerHTML = '';
   stats.appendChild(statBox(first.trucks + '%', `Light trucks in ${first.year} (Ottawa)`, GRAY));
   stats.appendChild(statBox(last.trucks  + '%', `Light trucks in ${last.year} (Ottawa)`,  CORAL));
   stats.appendChild(statBox(last.cars    + '%', `Passenger cars in ${last.year}`,          GRAY));
@@ -1148,7 +1220,7 @@ function renderFleet(fleet) {
   showLoading('fleet-loading', false);
   showCanvas('chart-fleet', true);
 
-  new Chart(document.getElementById('chart-fleet'), {
+  makeChart('chart-fleet', {
     type: 'line',
     data: {
       labels: fleet.map(d => d.year),
@@ -1184,11 +1256,12 @@ function renderFMI() {
   const cameraAvg = Math.round(avg(FMI_DATA.filter(d => d.era === 'camera').map(d => d.fmi)));
 
   const stats = document.getElementById('fmi-stats');
+  stats.innerHTML = '';
   stats.appendChild(statBox(baseline,   '2013–17 annual average',   GRAY));
   stats.appendChild(statBox(cameraAvg,  '2020–24 annual average',   TEAL));
   stats.appendChild(statBox(FMI_DATA[FMI_DATA.length - 1].fmi, '2024 count', GRAY));
 
-  new Chart(document.getElementById('chart-fmi'), {
+  makeChart('chart-fmi', {
     type: 'bar',
     data: {
       labels: FMI_DATA.map(d => d.year),
@@ -1235,6 +1308,8 @@ function renderFMI() {
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 
+let _aseData = null, _fleetData = null;
+
 async function init() {
   // FMI is always hardcoded for now
   renderFMI();
@@ -1244,6 +1319,7 @@ async function init() {
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
     .then(raw => {
       const ase = processASE(raw);
+      _aseData = ase;
       renderASE(ase);
       setBadge('ase-badge', 'live — github', 'live');
     })
@@ -1258,6 +1334,7 @@ async function init() {
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
     .then(csv => {
       const fleet = processFleet(csv);
+      _fleetData = fleet;
       renderFleet(fleet);
       setBadge('fleet-badge', 'live — github', 'live');
     })
@@ -1267,6 +1344,29 @@ async function init() {
       setBadge('fleet-badge', 'error', 'fallback');
     });
 }
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ const b=document.getElementById('theme-toggle'); if(b) b.innerHTML = mode==='dark'?MOON:SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+  // Re-read CSS variables and rebuild every chart so canvas colors follow the theme.
+  refreshChartConstants();
+  renderFMI();
+  if (_aseData)   renderASE(_aseData);
+  if (_fleetData) renderFleet(_fleetData);
+}
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('ov-theme'); } catch(e){}
+if (!savedTheme) savedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+root.setAttribute('data-theme', savedTheme);
+setToggleIcon(savedTheme);
+document.getElementById('theme-toggle').addEventListener('click', () =>
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
 init();
 
