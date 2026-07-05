@@ -2,7 +2,7 @@
 
 > Personal roadmap of data-visualization projects.
 > **Sources:** claude.ai chat export (`conversations.json`, 279 chats, Aug 2025–Jun 2026)
-> + Claude Code session history + the site roadmap (`_pages/projects.md`).
+> + Claude Code session history.
 > Progress % is a rough self-estimate, not a hard metric.
 
 Legend: ✅ live · 🔄 in progress · 🧪 prototype/exploration · 💡 idea/planned · ☐ backlog
