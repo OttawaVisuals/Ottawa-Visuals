@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
@@ -21,25 +21,25 @@
 <style>
 /* ── TOKENS ─────────────────────────────────────────────────────── */
 :root {
-  --font-display:"Inter",system-ui,sans-serif;
-  --font-cond:"Inter",system-ui,sans-serif;
-  --font-body:"Inter",system-ui,sans-serif;
-  --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-  /* light theme (default) */
-  --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
-  --line:#DCE1E8; --line-2:#C3CAD4;
-  --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
-  --accent:#C9542F; --accent-2:#E06B45;
-  --accent-bg:rgba(201,84,47,0.08); --hl:rgba(201,84,47,0.14);
-  --green:#22885F; --amber:#C98A1F; --red:#D0483A; --blue:#2F6FB4; --purple:#6E62C8;
+  --font-display:"Nunito",system-ui,sans-serif;
+  --font-cond:"Nunito",system-ui,sans-serif;
+  --font-body:"Nunito",system-ui,sans-serif;
+  --font-mono:"Nunito",system-ui,sans-serif;
+  /* light theme (default) — warm paper */
+  --bg:#F3ECE0; --bg-2:#FBF6EC; --bg-3:#EFE7D8;
+  --line:#E3D8C5; --line-2:#CFC1A9;
+  --ink:#2C2620; --ink-2:#5C5245; --ink-3:#8C8072;
+  --accent:#C4562B; --accent-2:#DC7040;
+  --accent-bg:rgba(196,86,43,0.08); --hl:rgba(196,86,43,0.14);
+  --green:#3B8A5E; --amber:#C68A2A; --red:#CB4B36; --blue:#3B6FA3; --purple:#7A6BC0;
 }
 [data-theme="dark"] {
-  --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
-  --line:#2A2F3D; --line-2:#383E4E;
-  --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
-  --accent:#E06B45; --accent-2:#F08A66;
-  --accent-bg:rgba(224,107,69,0.12); --hl:rgba(224,107,69,0.18);
-  --green:#2FB584; --amber:#E8A030; --red:#E85A44; --blue:#5B9BE0; --purple:#8F84E8;
+  --bg:#161513; --bg-2:#201E1B; --bg-3:#2A2723;
+  --line:#38342E; --line-2:#4B453D;
+  --ink:#F2EADC; --ink-2:#C6B9A6; --ink-3:#8C8072;
+  --accent:#E27B4C; --accent-2:#F0996B;
+  --accent-bg:rgba(226,123,76,0.12); --hl:rgba(226,123,76,0.18);
+  --green:#41B385; --amber:#E5A23A; --red:#E6674B; --blue:#5F9BD8; --purple:#9384E4;
 }
 /* ── RESET ──────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;}
@@ -87,17 +87,20 @@ p{margin:0;}
 .calc-btn{width:100%;padding:9px;background:var(--ink);color:var(--bg);border:none;border-radius:7px;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:-0.005em;transition:background .15s,transform .1s;margin-top:2px;}
 .calc-btn:hover{background:var(--accent);transform:translateY(-1px);}
 /* ── RESULT CARDS ───────────────────────────────────────────────── */
-.rcard{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
-.rcard h3{font-family:var(--font-cond);font-size:14px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
-.rcard h3 .sub{font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);}
+.rcard{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 1px 2px rgba(44,38,32,0.04);}
+.rcard h3{font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
+.rcard h3 .sub{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3);}
+/* Hero summary card stands apart from the rest */
+#pay-summary{background:var(--bg-3);border-color:var(--line-2);padding:16px 18px;box-shadow:0 2px 10px rgba(44,38,32,0.06);}
 /* ── TOP ROW (two panels side by side) ─────────────────────────── */
 .top-row{display:grid;grid-template-columns:2fr 3fr;gap:10px;align-items:stretch;min-width:0;}
 .top-row>*{min-width:0;overflow:hidden;}
 /* ── METRICS ROW ────────────────────────────────────────────────── */
 .mrow{display:flex;gap:8px;flex-wrap:wrap;}
-.met{flex:1;min-width:100px;background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:8px 10px;}
-.met .ml{font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;color:var(--ink-3);margin-bottom:3px;}
-.met .mv{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.met{flex:1;min-width:100px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
+#pay-summary .met{background:var(--bg-2);}
+.met .ml{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.01em;color:var(--ink-3);margin-bottom:4px;}
+.met .mv{font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
 .met .ms{font-size:11px;color:var(--ink-3);margin-top:2px;}
 .met .mv.green{color:var(--green);}
 .met .mv.amber{color:var(--amber);}
@@ -105,7 +108,7 @@ p{margin:0;}
 .met .mv.blue{color:var(--blue);}
 /* ── AFFORDABILITY BAR ──────────────────────────────────────────── */
 .afford-wrap{margin-bottom:12px;}
-.afford-bar{display:flex;width:100%;height:64px;border-radius:8px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line);}
+.afford-bar{display:flex;width:100%;height:68px;border-radius:12px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line);box-shadow:inset 0 1px 3px rgba(44,38,32,0.06);}
 .afford-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;transition:width .35s ease;overflow:hidden;padding:0 4px;}
 .afford-seg span{white-space:nowrap;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.3);overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;}
 .afford-seg .as-name{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.03em;text-transform:uppercase;opacity:0.9;}
