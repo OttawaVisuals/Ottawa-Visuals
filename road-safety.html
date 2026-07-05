@@ -579,14 +579,14 @@
 <div class="page-header" style="padding-top:28px">
   <p class="eyebrow">Ottawa — local context</p>
   <h1>Local data</h1>
-  <p class="sub">Speed camera and vehicle registration data fetched live from GitHub. Collision data is hardcoded pending a data source.</p>
+  <p class="sub">Speed camera and vehicle registration data loaded from local files. Collision data is hardcoded pending a data source.</p>
 </div>
 
 <div class="layout" style="padding-top:16px">
 <div class="page-header">
   <p class="eyebrow">Ottawa — road safety context</p>
   <h1>Local data</h1>
-  <p class="sub">Speed camera and vehicle registration data fetched from GitHub. Collision data is hardcoded pending a data source.</p>
+  <p class="sub">Speed camera and vehicle registration data loaded from local files. Collision data is hardcoded pending a data source.</p>
 </div>
 
 <div class="layout">
@@ -845,17 +845,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-// ── GITHUB CONFIG ────────────────────────────────────────────────────────────
-const GITHUB = {
-  user:   'YOUR_USERNAME',
-  repo:   'YOUR_REPO',
-  branch: 'main',
-  folder: 'Vehicles',
-};
+// ── DATA CONFIG ──────────────────────────────────────────────────────────────
+// Data files are served from the local Vehicles/ folder alongside this page.
+const DATA_FOLDER = 'Vehicles';
 
-function rawUrl(filename) {
-  const { user, repo, branch, folder } = GITHUB;
-  return `https://raw.githubusercontent.com/${user}/${repo}/${branch}/${folder}/${filename}`;
+function dataUrl(filename) {
+  return `${DATA_FOLDER}/${filename}`;
 }
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -1315,32 +1310,32 @@ async function init() {
   renderFMI();
 
   // Fetch ASE JSON
-  fetch(rawUrl('ase-speed-data.json'))
+  fetch(dataUrl('ase-speed-data.json'))
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
     .then(raw => {
       const ase = processASE(raw);
       _aseData = ase;
       renderASE(ase);
-      setBadge('ase-badge', 'live — github', 'live');
+      setBadge('ase-badge', 'local data', 'live');
     })
     .catch(err => {
       showLoading('ase-loading', false);
-      showError('ase-error', `Could not load ASE data: ${err.message}. Check GITHUB config.`);
+      showError('ase-error', `Could not load ASE data: ${err.message}. Check the Vehicles/ folder.`);
       setBadge('ase-badge', 'error', 'fallback');
     });
 
   // Fetch StatCan CSV
-  fetch(rawUrl('statcan_vehicle_registrations.csv'))
+  fetch(dataUrl('statcan_vehicle_registrations.csv'))
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
     .then(csv => {
       const fleet = processFleet(csv);
       _fleetData = fleet;
       renderFleet(fleet);
-      setBadge('fleet-badge', 'live — github', 'live');
+      setBadge('fleet-badge', 'local data', 'live');
     })
     .catch(err => {
       showLoading('fleet-loading', false);
-      showError('fleet-error', `Could not load fleet data: ${err.message}. Check GITHUB config.`);
+      showError('fleet-error', `Could not load fleet data: ${err.message}. Check the Vehicles/ folder.`);
       setBadge('fleet-badge', 'error', 'fallback');
     });
 }
@@ -1373,5 +1368,13 @@ init();
 
 </script>
 
+<script>
+// Embedded on the homepage inside an iframe (see index.html REPORTS "road-safety"
+// entry) — hide this page's own topbar there since the host page already has one.
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+</script>
 </body>
 </html>
