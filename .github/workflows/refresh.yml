@@ -2,7 +2,7 @@ name: Refresh Ottawa Real Estate Data
 
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+    - cron: '0 9 * * 1'  # Every Monday 09:00 UTC (staggered: this, ASE 10:00, StatCan 11:00)
   workflow_dispatch:       # Manual trigger
 
 jobs:
@@ -50,4 +50,5 @@ jobs:
           git config user.email "actions@github.com"
           git add data/
           git diff --cached --quiet || git commit -m "Weekly data refresh $(date +%Y-%m-%d)"
+          git pull --rebase origin main
           git push
