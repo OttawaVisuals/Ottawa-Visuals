@@ -2,7 +2,7 @@ name: Update StatCan Data
 
 on:
   schedule:
-    - cron: '0 10 * * 1'  # Every Monday at 10am UTC (StatCan releases quarterly)
+    - cron: '0 11 * * 1'  # Every Monday 11:00 UTC (staggered: real-estate 09:00, ASE 10:00, this). StatCan releases quarterly.
   workflow_dispatch:        # Allow manual trigger
 
 jobs:
@@ -28,4 +28,5 @@ jobs:
           git config user.email "actions@github.com"
           git add Vehicles/statcan_vehicle_registrations.csv
           git diff --staged --quiet || git commit -m "Update StatCan vehicle registrations data"
+          git pull --rebase origin main
           git push
