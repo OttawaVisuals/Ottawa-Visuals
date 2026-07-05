@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>Ottawa Visuals — open data, charted simply.</title>
-<meta name="description" content="A personal project publishing Power BI reports and data visualizations about Ottawa, Ontario — public spending, traffic, elections." />
+<meta name="description" content="A personal project publishing interactive reports and Power BI dashboards about Ottawa and Ontario — traffic, road safety, elections, housing, climate." />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/png" href="assets/img/avatar.png" />
 
@@ -901,16 +901,16 @@
         <span class="hl">charted</span> <span class="accent">simply.</span>
       </h1>
       <p class="lede">
-        Power BI reports about Ottawa — public spending, traffic, elections —
-        built from open data.
+        Interactive reports and Power BI dashboards about Ottawa and Ontario —
+        traffic, elections, housing, climate — built from open data.
       </p>
       <div class="hero-ctas">
         <a class="btn primary" href="#reports">Browse reports <span class="arrow">↓</span></a>
         <a class="btn" href="#about">About this project</a>
       </div>
       <div class="hero-meta">
-        <span class="pill"><span class="dot"></span>4 reports live</span>
-        <span class="pill">↻ updated monthly</span>
+        <span class="pill"><span class="dot"></span>7 reports live</span>
+        <span class="pill">↻ updated regularly</span>
         <span class="pill">data: Open Ottawa · StatCan</span>
       </div>
     </div>
@@ -1061,7 +1061,7 @@
       <div class="variant featured">
         <a class="featured-card" href="#reports" id="featured-link">
           <div class="preview">
-            <span class="tag" id="featured-tag">#spending</span>
+            <span class="tag" id="featured-tag">#traffic</span>
             <svg class="featured-svg" viewBox="0 0 320 200" preserveAspectRatio="none">
               <!-- gridlines -->
               <line class="grid" x1="0"   y1="50"  x2="320" y2="50"/>
@@ -1101,9 +1101,9 @@
       <!-- ============ Variant D · MOSAIC (original) ============ -->
       <div class="variant mosaic">
         <div class="stat-row">
-          <div class="stat"><div class="k">4</div><div class="v">reports live</div></div>
+          <div class="stat"><div class="k">7</div><div class="v">reports live</div></div>
           <div class="stat"><div class="k">12</div><div class="v">data sources</div></div>
-          <div class="stat"><div class="k">Apr</div><div class="v">last update</div></div>
+          <div class="stat"><div class="k">Jul</div><div class="v">last update</div></div>
         </div>
         <div class="mosaic">
           <div class="row">
@@ -1203,7 +1203,7 @@
   <div class="wrap">
     <div class="browse-head">
       <h3>All reports</h3>
-      <span class="sub">4 published · more coming</span>
+      <span class="sub">7 published · more coming</span>
     </div>
     <div class="cards" id="cards"></div>
   </div>
@@ -1244,20 +1244,20 @@
     <div class="foot-col">
       <h5>Reports</h5>
       <a href="#reports" data-go="0">Traffic</a>
-      <a href="#reports" data-go="1">Elections</a>
-      <a href="#reports" data-go="2">Comming</a>
+      <a href="#reports" data-go="2">Ontario elections</a>
+      <a href="#reports" data-go="3">Road safety</a>
+      <a href="#reports" data-go="4">Mortgage</a>
     </div>
     <div class="foot-col">
       <h5>Project</h5>
       <a href="#about">About</a>
-      <a href="#" target="_blank" rel="noopener">Methodology</a>
-      <a href="#" target="_blank" rel="noopener">Data sources</a>
+      <a href="#reports">All reports</a>
+      <a href="https://open.ottawa.ca/" target="_blank" rel="noopener">Open data · Ottawa ↗</a>
     </div>
     <div class="foot-col">
       <h5>Elsewhere</h5>
-      <a href="#" target="_blank" rel="noopener">GitHub ↗</a>
-      <a href="#" target="_blank" rel="noopener">Email ↗</a>
-      <a href="#" target="_blank" rel="noopener">RSS ↗</a>
+      <a href="https://github.com/OttawaVisuals/Ottawa-Visuals" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="mailto:simon.guettier14@gmail.com">Email ↗</a>
     </div>
   </div>
   <div class="wrap foot-bottom">
@@ -1363,27 +1363,95 @@
     },
     
     {
-      id: "spending",
-      topic: "Public spending",
-      title: "Where Ottawa's tax dollars go",
-      lede: "A breakdown of the City of Ottawa's recent operating budget — by department, by ward, and how spending has shifted over time.",
-      date: "Updated Apr 2026",
-      readTime: "~ 3 min read",
-      tag: "#spending",
-      // ↓ this is the live URL you sent
-      embedUrl: "",
-      why: "Tax dollars are easy to talk about in the abstract and hard to picture in practice. This report puts them on a single page so the trade-offs between, say, transit and long-term care are visible side by side.",
-      method: "Figures come from the City of Ottawa's published budget tables. Categories follow the City's own grouping. Year-over-year comparisons are nominal — not adjusted for inflation unless explicitly noted.",
+      id: "on-elections",
+      topic: "Ontario elections",
+      title: "Ontario turnout and the 2025 result",
+      lede: "Province-wide voter turnout since 1981, and the February 2025 general election broken down district by district — with a what-if model for opposition vote consolidation.",
+      date: "Updated Jun 2026",
+      readTime: "~ 5 min read",
+      tag: "#elections",
+      embedUrl: "Ontario_Elections/ONelections.html",
+      why: "Ontario's last two elections handed comfortable majorities on historically low turnout. This report shows how few voters that actually represents, and lets you test how much the result depends on a split opposition.",
+      method: "Riding-level vote counts and province-wide turnout come from Elections Ontario's public Explorer export for the Feb 27 2025 general election. A 'true majority' counts only ridings where the winner cleared 50%. The consolidation model reallocates Liberal/NDP/Green votes to whichever of them led each riding, holding turnout fixed — a deliberate simplification.",
       sources: [
-        { name: "City of Ottawa — Budget tables", meta: "CSV · annual", url: "https://open.ottawa.ca/" },
-        { name: "Statistics Canada — Consumer Price Index", meta: "monthly", url: "https://www.statcan.gc.ca/" },
+        { name: "Elections Ontario — Explorer (2025 general election)", meta: "official results", url: "https://www.elections.on.ca/" },
       ],
       takeaways: [
-        ["38¢", "of every dollar spent goes to Transit & Public Works"],
-        ["+12%", "growth in Housing & Long-term Care since 2019"],
-        ["3 wards", "drive roughly half of capital spending"],
+        ["45.2%", "of eligible Ontarians voted in the 2025 general election"],
+        ["80 / 124", "seats won by the PCs — a third straight majority"],
+        ["57% → 45%", "how far province-wide turnout has fallen since 2018"],
+      ],
+      thumb: "line",
+    },
+
+    {
+      id: "road-safety",
+      topic: "Road safety",
+      title: "Vehicle–pedestrian impact",
+      lede: "An interactive calculator: pick a vehicle and impact speed to see a pedestrian's injury and fatality risk — alongside Ottawa's speed-camera readings and its shift toward bigger, heavier vehicles.",
+      date: "Updated Jul 2026",
+      readTime: "~ 3 min read",
+      tag: "#safety",
+      embedUrl: "road-safety.html",
+      why: "Two things quietly drive pedestrian risk: how fast vehicles hit, and how tall and heavy they've become. This report makes both legible — the physics of a single crash, and the fleet-wide trend behind it.",
+      method: "Injury and fatality curves come from IIHS crash research (Monfort & Mueller, 2024–25), keyed to a vehicle's front-end height. Speed-camera and vehicle-registration figures are loaded from local data files (City of Ottawa ASE releases; Statistics Canada registrations). Collision counts are hardcoded from City reports pending an open data feed.",
+      sources: [
+        { name: "IIHS — Monfort & Mueller pedestrian crash studies", meta: "2024–25", url: "https://www.iihs.org/" },
+        { name: "City of Ottawa — Automated Speed Enforcement", meta: "periodic", url: "https://open.ottawa.ca/" },
+        { name: "Statistics Canada — Vehicle registrations", meta: "annual", url: "https://www.statcan.gc.ca/" },
+      ],
+      takeaways: [
+        ["height", "taller vehicle front ends make the same crash far more dangerous"],
+        ["speed", "pedestrian injury and fatality risk climb steeply with impact speed"],
+        ["heavier", "Ottawa's registered fleet keeps trending toward bigger vehicles"],
       ],
       thumb: "bars",
+    },
+
+    {
+      id: "mortgage",
+      topic: "Housing",
+      title: "Can we afford it?",
+      lede: "A Canadian mortgage affordability calculator — enter income, down payment and rate to see your CMHC stress-tested maximum, monthly costs, and where it lands against Ottawa's benchmark prices.",
+      date: "Updated Jul 2026",
+      readTime: "~ 4 min read",
+      tag: "#housing",
+      embedUrl: "mortgage.html",
+      why: "Affordability rules are opaque until you run your own numbers. This tool applies the same stress test a lender would, then shows the result against two decades of Ottawa price history.",
+      method: "Qualifying uses OSFI B-20 rules: GDS ≤ 39% and TDS ≤ 44% at the greater of your rate + 2% or 5.25%. Ottawa MLS benchmark prices (CREA HPI) run 2005–present and are inflation-adjusted with Statistics Canada CPI. Weekly Ottawa figures are community-sourced.",
+      sources: [
+        { name: "CMHC — GDS/TDS qualifying rules", meta: "OSFI B-20", url: "https://www.cmhc-schl.gc.ca/" },
+        { name: "CREA — MLS Home Price Index (Ottawa)", meta: "monthly", url: "https://www.crea.ca/housing-market-stats/mls-home-price-index/" },
+        { name: "Statistics Canada — Consumer Price Index", meta: "table 18-10-0005-01", url: "https://www.statcan.gc.ca/" },
+      ],
+      takeaways: [
+        ["39 / 44%", "the GDS and TDS ceilings a lender tests you against"],
+        ["+2%", "stress-test buffer over your rate (minimum 5.25%)"],
+        ["2005→now", "Ottawa benchmark prices, inflation-adjusted for comparison"],
+      ],
+      thumb: "bars",
+    },
+
+    {
+      id: "pwhl",
+      topic: "Hockey",
+      title: "PWHL dashboard",
+      lede: "Standings, player leaders, shot maps and playoff results across three PWHL seasons — refreshed daily from the league's own stats feed. An early draft.",
+      date: "Updated Jul 2026",
+      readTime: "~ 3 min read",
+      tag: "#hockey",
+      embedUrl: "pwhl.html",
+      why: "The PWHL — Ottawa included — is young enough that clean, comparable stats are hard to find in one place. This pulls the league's own feed into a single dashboard you can page through by season.",
+      method: "Data comes from the PWHL's official stats provider (HockeyTech), pulled by a daily-scheduled pipeline into local JSON. Rate-stat leaderboards require a 5-game minimum. This page is explicitly a first draft — sections are candidates, not final.",
+      sources: [
+        { name: "PWHL — official stats feed (HockeyTech)", meta: "daily", url: "https://www.thepwhl.com/en/stats" },
+      ],
+      takeaways: [
+        ["3 seasons", "of standings, leaders, shot maps and playoffs"],
+        ["daily", "auto-refreshed from the league's official feed"],
+        ["draft", "an early build — treat each section as a candidate"],
+      ],
+      thumb: "donut",
     },
 
     {

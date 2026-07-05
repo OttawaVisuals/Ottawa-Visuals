@@ -1050,5 +1050,13 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
   if (btn) btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 })();
 </script>
+<script>
+// Embedded on the homepage inside an iframe (see index.html REPORTS "on-elections"
+// entry) — hide this page's own topbar there since the host page already has one.
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+</script>
 </body>
 </html>
