@@ -17,8 +17,14 @@ DATA_DIR = os.path.join("PWHL", "data")
 OUT_DIR = os.path.join(DATA_DIR, "json")
 
 
-def read_csv(name):
+def read_csv(name, required=True):
     path = os.path.join(DATA_DIR, name)
+    # pwhl_pbp.csv is cached between CI runs rather than committed, so it can be
+    # absent on a cache miss. Only the shot map depends on it -- let the rest of
+    # the dashboard JSON still build instead of crashing the whole job.
+    if not required and not os.path.exists(path):
+        print(f"  note: {path} not found, skipping (shot map will be empty)")
+        return []
     with open(path, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 
@@ -48,7 +54,7 @@ def main():
     season_ids_rows = read_csv("pwhl_season_game_ids.csv")
     standings = read_csv("pwhl_standings.csv")
     season_stats = read_csv("pwhl_player_season_stats.csv")
-    pbp = read_csv("pwhl_pbp.csv")
+    pbp = read_csv("pwhl_pbp.csv", required=False)
     bracket = read_csv("pwhl_playoff_bracket.csv")
     transactions = read_csv("pwhl_transactions.csv")
 

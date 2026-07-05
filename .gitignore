@@ -42,3 +42,8 @@ Weather/lightning_fetch.log
 CityHall_Index/data/
 CityHall_Index/data_*/
 CityHall_Index/*.log
+
+# PWHL play-by-play — 27 MB and rewritten daily; carried between CI runs via
+# actions/cache + uploaded as a workflow artifact, not committed. The small
+# derived PWHL/data/json/*.json the dashboard fetches IS committed.
+PWHL/data/pwhl_pbp.csv

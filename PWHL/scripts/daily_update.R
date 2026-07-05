@@ -714,9 +714,18 @@ all_final_games <- read_csv(file.path(data_dir, "pwhl_season_game_ids.csv"), sho
   mutate(season_id = as.character(season_id), game_id = as.character(game_id)) %>%
   filter(is_final)
 
-existing_pbp_game_ids <- read_csv(file.path(data_dir, "pwhl_pbp.csv"), show_col_types = FALSE) %>%
-  mutate(game_id = as.character(game_id)) %>%
-  distinct(game_id)
+# pwhl_pbp.csv is no longer committed to git (27 MB, rewritten daily). It is
+# carried between runs by an actions/cache step; on a cache miss (first run, or
+# cache eviction) it is simply absent, so treat that as "no existing PBP" and
+# let the section below re-fetch every final game.
+pbp_path <- file.path(data_dir, "pwhl_pbp.csv")
+existing_pbp_game_ids <- if (file.exists(pbp_path)) {
+  read_csv(pbp_path, show_col_types = FALSE) %>%
+    mutate(game_id = as.character(game_id)) %>%
+    distinct(game_id)
+} else {
+  tibble(game_id = character())
+}
 
 games_needing_pbp <- all_final_games %>%
   anti_join(existing_pbp_game_ids, by = "game_id")
@@ -792,14 +801,17 @@ if (nrow(games_needing_pbp) > 0) {
         new_pbp <- new_pbp %>%
           left_join(sched_join, by = "game_id")
 
-        existing_pbp <- read_csv(file.path(data_dir, "pwhl_pbp.csv"),
-                                 show_col_types = FALSE) %>%
-          mutate(game_id = as.character(game_id))
-        updated_pbp <- existing_pbp %>%
-          anti_join(new_pbp, by = "game_id") %>%
-          align_col_types(new_pbp) %>%
-          bind_rows(new_pbp)
-        write_csv(updated_pbp, file.path(data_dir, "pwhl_pbp.csv"))
+        if (file.exists(pbp_path)) {
+          existing_pbp <- read_csv(pbp_path, show_col_types = FALSE) %>%
+            mutate(game_id = as.character(game_id))
+          updated_pbp <- existing_pbp %>%
+            anti_join(new_pbp, by = "game_id") %>%
+            align_col_types(new_pbp) %>%
+            bind_rows(new_pbp)
+        } else {
+          updated_pbp <- new_pbp
+        }
+        write_csv(updated_pbp, pbp_path)
         message("  ✓ Added ", nrow(new_pbp), " play-by-play events")
 
         if (nrow(fail_log) > 0) {
