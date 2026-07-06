@@ -443,6 +443,31 @@ p{margin:0;}
 
 
 
+    <!-- CHILDREN -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Children
+        <span class="tip-btn" style="margin-left:4px;">?<span class="tip-box" style="width:270px;">
+          Estimated cost of raising children, added to your shared expenses. Per-child figures come from Statistics Canada's <em>Estimating Expenditures on Children by Families in Canada, 2014–2017</em> (two-parent family, birth to age 17), scaled to today.<br><br>
+          <strong>Shelter is excluded</strong> — this tool already models your mortgage, property tax and heat, so housing is not double-counted. The estimate covers food, child care, clothing, transportation, recreation and personal care for the child. Edit the <em>Kids</em> column in the spending table to override.
+        </span></span>
+      </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Number of kids</span><span class="funit">count</span></div>
+          <div class="input-wrap"><input type="number" id="numkids" value="0" min="0" max="10" step="1"><span class="iunit">kids</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Cost basis</span><span class="funit">income</span></div>
+          <select id="childcost">
+            <option value="low">Lower income (&lt;$83k)</option>
+            <option value="mid" selected>Middle income ($83–136k)</option>
+            <option value="high">Higher income (&gt;$136k)</option>
+          </select>
+        </div>
+      </div>
+      <div id="kidcost-lbl" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;display:none;"></div>
+    </div>
+
     <!-- FINANCES -->
     <div class="ibox">
       <div class="ibox-head"><div class="dot"></div>Finances
@@ -588,7 +613,7 @@ p{margin:0;}
               <th style="width:72px;background:transparent;border:none;"></th>
               <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Salary</th>
               <th colspan="5" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
-              <th colspan="4" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
+              <th colspan="5" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
               <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
             </tr>
             <tr>
@@ -603,6 +628,7 @@ p{margin:0;}
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Groceries</th>
               <th>Entertain.</th>
               <th>Transport</th>
+              <th>Kids</th>
               <th class="div-r">Other</th>
               <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Shared</th>
               <th style="border-right:1.5px solid rgba(255,255,255,0.18);">Personal</th>
@@ -763,6 +789,7 @@ p{margin:0;}
           <a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger.cfm?Lang=E" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">2021 Census Profile — Statistics Canada</a>
           <a href="https://www.taxtips.ca/marginal-tax-rates-in-canada.htm" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Tax rates — TaxTips.ca</a>
           <a href="https://www.cmhc-schl.gc.ca/professionals/project-funding-and-mortgage-financing/mortgage-loan-insurance/calculating-gds-tds" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">GDS/TDS calculation — CMHC</a>
+          <a href="https://www150.statcan.gc.ca/n1/pub/11f0019m/11f0019m2023007-eng.htm" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Cost of raising a child — Statistics Canada</a>
           <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa weekly data — u/ottawaagent</a>
           <a href="https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/edit?gid=900158794#gid=900158794" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa data spreadsheet</a>
         </div>
@@ -785,8 +812,17 @@ const CATS = [
   { label:'Groceries',   id:'cat-groc',  def:500 },
   { label:'Entertain.',  id:'cat-ent',   def:200 },
   { label:'Transport',   id:'cat-trans', def:450 },
+  { label:'Kids',        id:'cat-kids',  def:0   },
   { label:'Other',       id:'cat-other', def:250 },
 ];
+// Cost of raising a child, per child per year (CAD), by household income bracket.
+// Source: Statistics Canada, "Estimating Expenditures on Children by Families in
+// Canada, 2014 to 2017" (cat. 11F0019M, 2023). Two-parent family, birth to age 17.
+// Shelter is EXCLUDED here (~29% of the StatCan figure) because this tool already
+// models the mortgage, property tax and heat separately — including it would
+// double-count housing. The remainder covers food, child care, clothing,
+// transportation, recreation, personal care and health for the child.
+const CHILD_COST = { low:9400, mid:12200, high:15900 };
 // Build input state object
 const catVals = {};
 CATS.forEach(c => { catVals[c.id] = c.def; });
@@ -2456,6 +2492,26 @@ document.getElementById('displaymode').addEventListener('change', calculate);
   if (el) el.addEventListener('change', calculate);
 });
 document.getElementById('fsa').addEventListener('blur', calculate);
+
+// ── Children: sync # of kids + income bracket → 'cat-kids' spending category ──
+function syncKidsCost(recalc) {
+  const n = Math.max(0, parseInt(document.getElementById('numkids').value, 10) || 0);
+  const bracket = document.getElementById('childcost').value;
+  const perChild = CHILD_COST[bracket] != null ? CHILD_COST[bracket] : CHILD_COST.mid;
+  catVals['cat-kids'] = (n * perChild) / 26; // store bi-weekly, like other CATS
+  const lbl = document.getElementById('kidcost-lbl');
+  if (n > 0) {
+    lbl.style.display = 'block';
+    lbl.textContent = `${CAD(perChild)}/child/yr × ${n} = ${CAD(n * perChild)}/yr (shelter excluded)`;
+  } else {
+    lbl.style.display = 'none';
+  }
+  if (recalc) calculate();
+}
+['numkids','childcost'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => syncKidsCost(true));
+});
+syncKidsCost(false); // initialise before the first calculate()
 
 // ================================================================
 // INIT
