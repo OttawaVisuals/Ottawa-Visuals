@@ -1,11 +1,13 @@
 name: Collect Ottawa Traffic
 
 on:
-  schedule:
-    # Fire every 15 minutes. The script itself decides whether a given tick is
-    # a sample (every run during weekday rush hours, hourly otherwise) so the
-    # cadence survives DST without juggling UTC cron windows.
-    - cron: '*/15 * * * *'
+  # NOTE: collection runs on the Raspberry Pi (see Traffic/PI_SETUP.md), not here.
+  # GitHub Actions throttles this account's scheduled runs by 3-4 hours, so a
+  # 15-min `schedule:` cron never fires reliably. The Pi's real cron does it.
+  # This workflow is kept only for manual test runs via the Actions "Run workflow"
+  # button; re-enable the schedule below only if collection moves back to Actions.
+  #   schedule:
+  #     - cron: '*/15 * * * *'
   workflow_dispatch: # manual test run (script honors the same peak/hourly gate)
 
 # Avoid overlapping runs stepping on each other's commit/push.

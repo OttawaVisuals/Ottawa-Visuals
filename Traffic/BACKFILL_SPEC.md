@@ -1,29 +1,35 @@
 # Historical backfill spec — TomTom MOVE / Traffic Stats 30-day trial
 
 **Goal:** pull historical average commute times for the *same 5 corridors* the live
-poller tracks, for representative windows across the RTO era (2019 → 2025), so we
-can chart "Ottawa commute times before / during WFH / through return-to-office"
-and let the live pipeline extend the line from 2026 on.
+poller tracks, as a baseline that predates live collection, then let the live
+pipeline extend the series so we can chart the return-to-office commute trend.
 
 This is a **one-time export** from a *different* TomTom product than the live APIs:
 [MOVE / Traffic Stats](https://www.tomtom.com/products/traffic-stats/), **Route Analysis** tool.
-Register the 30-day trial at <https://move.tomtom.com/register>.
+Trial registered at <https://move.tomtom.com/register>.
 
 ---
 
-## ⚠️ Read before starting the trial clock
+## ⚠️ Actual trial limits (confirmed on this account)
 
-- The trial is **30 days** and the **credit allotment is not published** — check it on
-  registration; Traffic Stats bills by job size (≈ routes × days × analysis).
-- **Pack everything into ONE job.** The plan below (10 routes × 6 date ranges × 14
-  time sets) fits inside the per-job limits, so it should be a single submission.
-- **Priority order if credits run short:** run **2019 and 2025 first** (the endpoints of
-  the story). 2021–2024 just smooth the trend and can be dropped.
-- Traffic Stats data lags ~72 h (3 days), irrelevant for historical windows.
+- **Expires 2026-08-05** (~30 days).
+- **20 reports** total, **max 3 in progress** at once.
+- **Date window is August 2024 ONLY** (2024-08-01 → 2024-08-31). The full 10-year
+  archive is a paid feature; the trial exposes just this one recent month.
+- Route length ≤ 200 km.
 
-**Per-job limits** (from the Route Analysis API reference): ≤20 routes · ≤24 date
-ranges (each ≤366 days) · ≤24 time sets · ≤200 km/route · ≤732 unique days total.
-Our plan: 10 routes, 6 date ranges, 14 time sets — all within limits.
+**So the multi-year 2019→2025 plan is not possible on the trial.** Instead we pull
+**August 2024** as a single baseline and compare it to **August 2026** live data
+(same month = seasonality controlled; brackets the Sept 2024 3-day RTO mandate).
+
+⚠️ **August is a vacation month** (light traffic, esp. Ottawa's federal workforce).
+Always frame this as *August-to-August*, never "August 2024 = typical 2024."
+
+**How reports map to our plan:** a Route Analysis report should accept multiple
+routes/date-ranges/time-sets (the API allows ≤20 routes, ≤24 date ranges, ≤24 time
+sets per job). Try **one report with all 10 routes**; if the UI restricts to one
+route per report, submit **10 reports** (still within the 20-report budget, 3 at a
+time). Either way this uses ≤10 of 20 reports — plenty of headroom to re-run.
 
 ---
 
@@ -55,22 +61,17 @@ fastest route between start and end (`followRoads: true`), same as the live poll
 
 (Coordinates match `corridors.json`, so live and historical align on the same O/D pairs.)
 
-## 2. Date ranges (6 — same calendar window each year for comparability)
+## 2. Date range (August 2024 — the only window the trial exposes)
 
-Use **early–mid November** every year: no Ontario stat holiday, school in session,
-no March break / summer distortion — a clean "typical commuting month." Weekday
-filtering is handled by the time sets (below), so a plain date span is fine.
-
-| Range name | From | To | RTO context |
+| Range name | From | To | Notes |
 |---|---|---|---|
-| 2019_nov | 2019-11-04 | 2019-11-22 | Pre-pandemic baseline |
-| 2021_nov | 2021-11-01 | 2021-11-19 | Peak WFH (federal public service remote) |
-| 2022_nov | 2022-11-07 | 2022-11-25 | Early/partial return |
-| 2023_nov | 2023-11-06 | 2023-11-24 | TB 2-day/week mandate era |
-| 2024_nov | 2024-11-04 | 2024-11-22 | Ramp toward 3-day mandate (Sept 2024) |
-| 2025_nov | 2025-11-03 | 2025-11-21 | Full 3-day RTO |
+| 2024_aug | 2024-08-06 | 2024-08-30 | Skips the **Aug 5 Civic Holiday** (Ontario stat holiday); 4 clean weekday weeks |
 
-*(Drop 2022/2024 first if credits are tight; keep 2019 + 2021 + 2023 + 2025.)*
+Weekend filtering is handled by the weekday time sets below. Using Aug 6–30 (rather
+than the full month) drops the holiday Monday so it doesn't drag the Monday average.
+
+**Comparison target:** aggregate **August 2026** live data the same way (weekdays,
+same hours, exclude the 2026 Aug Civic Holiday = Aug 3) and compare Aug-to-Aug.
 
 ## 3. Time sets (14 — weekday hourly commute curve + a free-flow reference)
 
@@ -97,7 +98,7 @@ before submitting.
 
 ```json
 {
-  "jobName": "ottawa_rto_backfill_2019_2025",
+  "jobName": "ottawa_aug2024_baseline",
   "distanceUnit": "KILOMETERS",
   "mapVersion": "current",
   "routes": [
@@ -106,8 +107,7 @@ before submitting.
     /* ... the other 9 routes from the table above ... */
   ],
   "dateRanges": [
-    { "name": "2019_nov", "from": "2019-11-04", "to": "2019-11-22" }
-    /* ... 2021_nov ... 2025_nov ... */
+    { "name": "2024_aug", "from": "2024-08-06", "to": "2024-08-30" }
   ],
   "timeSets": [
     { "name": "wk_0700_0800",
@@ -122,20 +122,31 @@ before submitting.
 ## 5. Where the export goes & how it aligns with live data
 
 Save exports under **`Traffic/data/historical/`** (create it), e.g.
-`route_analysis_2019_2025.csv` plus the raw JSON response.
+`route_analysis_2024_aug.csv` plus the raw JSON response.
 
-To compare historical vs live cleanly, aggregate the **live** CSVs the same way
-Traffic Stats reports — average `travel_time_s` per **route × weekday × hour** — and
-join on those keys. Comparing a single live ping to a multi-year average is
-misleading; **average-to-average by hour-of-day is the valid comparison.** A future
-`build_json.py` will emit both series (historical baseline + live) on one time axis.
+To compare baseline vs live cleanly, aggregate the **live** CSVs the same way
+Traffic Stats reports — average `travel_time_s` per **route × weekday × hour**,
+restricted to **August 2026 weekdays** — and join on those keys. Comparing a single
+live ping to a monthly average is misleading; **average-to-average by hour-of-day,
+August-to-August is the valid comparison.** A future `build_json.py` will emit both
+series (2024 baseline + 2026 live) on one hour-of-day axis per corridor.
+
+---
+
+## Deep history (2019–2023) needs paid access
+
+The trial caps at August 2024. To reach the pre-COVID / peak-WFH years, either a
+**paid Traffic Stats plan** (ask movesupport@tomtom.com about research / non-commercial
+pricing) or **coarser free fallbacks** — City of Ottawa open-data traffic counts,
+StatCan — which give *volume*, not travel time (different metric). Not blocking; the
+Aug-2024-vs-Aug-2026 comparison stands on its own.
 
 ---
 
 ## Quick checklist
 
-- [ ] Register trial at move.tomtom.com/register; note the credit allotment shown.
-- [ ] Create one Route Analysis job: 10 routes, 6 date ranges, 14 time sets (above).
-- [ ] (Low credits? Submit 2019 + 2025 first.)
+- [x] Register trial (done). Limits: 20 reports, Aug 2024 only, expires 2026-08-05.
+- [ ] Create Route Analysis report(s): 10 routes, date range 2024-08-06→30, 14 time sets.
 - [ ] Export CSV + JSON → `Traffic/data/historical/`.
-- [ ] Tell me it's exported; I'll wire the aggregator to plot baseline-vs-live.
+- [ ] Keep the live poller running through **August 2026** for the same-month comparison.
+- [ ] Tell me it's exported; I'll wire the aggregator to plot 2024-baseline-vs-2026-live.
