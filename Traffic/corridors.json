@@ -1,0 +1,36 @@
+{
+  "_comment": "Ottawa traffic monitoring targets. 'corridors' = commute origin/destination pairs measured door-to-door via the Routing API (travel_time). 'segments' = points on major roads across all quadrants, measured via the Traffic Flow Segment Data API (speed); their average doubles as a city-wide congestion proxy for the TomTom-live-panel-style card. 'incident_bbox' = the box scanned by the Traffic Incidents API for jams. Downtown reference point is roughly Parliament / City Hall. Edit freely; the poller reads this file at runtime.",
+
+  "downtown": { "lat": 45.4215, "lon": -75.6972, "label": "Downtown (Parliament/City Hall)" },
+
+  "incident_bbox": {
+    "_comment": "Order used by the Incidents API: minLon,minLat,maxLon,maxLat.",
+    "min_lon": -76.05, "min_lat": 45.15, "max_lon": -75.35, "max_lat": 45.55
+  },
+
+  "corridors": [
+    { "id": "kanata",     "label": "Kanata",           "from": [45.3088, -75.8987] },
+    { "id": "orleans",    "label": "Orleans",          "from": [45.4682, -75.5185] },
+    { "id": "barrhaven",  "label": "Barrhaven",        "from": [45.2723, -75.7392] },
+    { "id": "gatineau",   "label": "Gatineau",         "from": [45.4765, -75.7013] },
+    { "id": "riverside",  "label": "Riverside South",  "from": [45.2907, -75.6710] }
+  ],
+
+  "segments": [
+    { "id": "417_kanata",       "label": "Hwy 417 @ Kanata (Terry Fox)",     "point": [45.3167, -75.9110] },
+    { "id": "417_pinecrest",    "label": "Hwy 417 @ Pinecrest",              "point": [45.3540, -75.7900] },
+    { "id": "417_downtown",     "label": "Hwy 417 @ Downtown (Metcalfe)",    "point": [45.4090, -75.6870] },
+    { "id": "417_vanier",       "label": "Hwy 417 @ Vanier Pkwy",            "point": [45.4200, -75.6600] },
+    { "id": "417_orleans",      "label": "Hwy 417 @ Orleans (Jeanne d'Arc)", "point": [45.4650, -75.5320] },
+    { "id": "417_stlaurent",    "label": "Hwy 417 @ St-Laurent Blvd",        "point": [45.4180, -75.6370] },
+    { "id": "416_barrhaven",    "label": "Hwy 416 @ Barrhaven (Fallowfield)","point": [45.2830, -75.7350] },
+    { "id": "queensway_bridge", "label": "Portage Bridge approach",          "point": [45.4230, -75.7130] },
+    { "id": "airport_pkwy",     "label": "Airport Pkwy @ Walkley",           "point": [45.3670, -75.6690] },
+    { "id": "bronson_carling",  "label": "Bronson Ave @ Carling",            "point": [45.3960, -75.7020] },
+    { "id": "bank_billings",    "label": "Bank St @ Billings Bridge",        "point": [45.3855, -75.6790] },
+    { "id": "innes_blair",      "label": "Innes Rd @ Blair (east)",          "point": [45.4300, -75.6120] },
+    { "id": "march_kanata",     "label": "March Rd @ Kanata (west)",         "point": [45.3300, -75.9200] },
+    { "id": "woodroffe_base",   "label": "Woodroffe Ave @ Baseline",         "point": [45.3490, -75.7460] },
+    { "id": "merivale_base",    "label": "Merivale Rd @ Baseline",           "point": [45.3510, -75.7180] }
+  ]
+}
