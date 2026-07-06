@@ -1,0 +1,42 @@
+name: Collect Ottawa Traffic
+
+on:
+  schedule:
+    # Fire every 15 minutes. The script itself decides whether a given tick is
+    # a sample (every run during weekday rush hours, hourly otherwise) so the
+    # cadence survives DST without juggling UTC cron windows.
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # manual test run (script honors the same peak/hourly gate)
+
+# Avoid overlapping runs stepping on each other's commit/push.
+concurrency:
+  group: collect-traffic
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Poll TomTom
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: python Traffic/scripts/poll_traffic.py
+
+      - name: Commit and push new readings
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add Traffic/data/
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "traffic: readings $(date -u +'%Y-%m-%d %H:%M UTC')" && \
+             git pull --rebase origin main && git push)
