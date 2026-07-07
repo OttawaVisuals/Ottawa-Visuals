@@ -20,7 +20,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -62,7 +62,7 @@ def push():
     staged = run(["git", "diff", "--cached", "--quiet"])
     if staged.returncode == 0:
         return  # nothing new
-    stamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     run(["git", "commit", "-q", "-m", f"traffic: readings {stamp}"])
     pull = run(["git", "pull", "--rebase", "origin", "main", "-q"])
     if pull.returncode != 0:
