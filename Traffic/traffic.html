@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ottawa Traffic — Live</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   :root {
     --plane:      #f9f9f7;
@@ -16,7 +20,7 @@
     --series-1:   #2a78d6;
     --series-1-fill: rgba(42,120,214,0.14);
     --good:     #0ca30c;
-    --warning:  #d98b00;   /* darkened from palette warning for label text legibility on light */
+    --warning:  #d98b00;
     --serious:  #c85c30;
     --critical: #d03b3b;
   }
@@ -50,7 +54,6 @@
   .updated { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }
   .updated .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--good); margin-right:5px; vertical-align: middle; }
 
-  /* KPI stat tiles */
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 18px 0 26px; }
   .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
   .tile .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
@@ -60,7 +63,18 @@
 
   section h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin: 0 0 12px; font-weight: 600; }
 
-  /* Corridor rows */
+  /* Map */
+  #map { height: clamp(300px, 46vh, 440px); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface-1); z-index: 0; }
+  @media (prefers-color-scheme: dark) {
+    .leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9); }
+    .leaflet-container { background: #0d0d0d; }
+  }
+  .route-lbl { background: rgba(252,252,251,0.92); color:#0b0b0b; border: none !important; box-shadow: none !important; font-weight: 700; font-size: 11px; padding: 0 4px; border-radius: 4px; }
+  .route-lbl::before { display: none !important; }
+  .leaflet-popup-content { font: 13px/1.4 system-ui, sans-serif; margin: 10px 12px; }
+  .leaflet-popup-content b { font-size: 14px; }
+  .pin-lbl { background: transparent; border: none !important; box-shadow: none !important; color: var(--text-primary); font-weight: 600; font-size: 11px; }
+
   .corridors { display: flex; flex-direction: column; gap: 14px; }
   .corridor { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
   .corridor .name { font-weight: 600; margin-bottom: 10px; font-size: 0.98rem; }
@@ -77,12 +91,11 @@
   .legend span { display:inline-flex; align-items:center; gap:5px; }
   .legend .ic { width:9px; height:9px; border-radius:50%; }
 
-  /* Sparkline */
   .spark-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 26px; }
   .spark-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 8px; }
   .spark-head .now { font-size: 1.4rem; font-weight: 650; }
-  svg { display:block; width:100%; height:auto; overflow: visible; }
-  .tip { position: fixed; pointer-events:none; background: var(--text-primary); color: var(--plane); font-size: 0.76rem; padding: 5px 8px; border-radius: 6px; opacity: 0; transition: opacity .1s; white-space: nowrap; z-index: 10; }
+  svg#spark { display:block; width:100%; height:auto; overflow: visible; }
+  .tip { position: fixed; pointer-events:none; background: var(--text-primary); color: var(--plane); font-size: 0.76rem; padding: 5px 8px; border-radius: 6px; opacity: 0; transition: opacity .1s; white-space: nowrap; z-index: 1000; }
 
   footer { margin-top: 28px; font-size: 0.76rem; color: var(--text-muted); border-top: 1px solid var(--hairline); padding-top: 12px; }
   .err { color: var(--critical); }
@@ -100,6 +113,7 @@
 
   <section>
     <h2>Commute corridors — to / from downtown</h2>
+    <div id="map"></div>
     <div class="corridors" id="corridors"></div>
     <div class="legend" id="legend"></div>
   </section>
@@ -112,23 +126,27 @@
     <svg id="spark" viewBox="0 0 600 120" preserveAspectRatio="none" aria-label="Active jams over today"></svg>
   </div>
 
-  <footer id="footer">Data: TomTom Routing / Traffic Flow / Incidents APIs · collected on a Raspberry Pi · auto-refreshes every 5&nbsp;min.</footer>
+  <footer id="footer">Data: TomTom Routing / Traffic Flow / Incidents APIs · collected on a Raspberry Pi · auto-refreshes every 5&nbsp;min. Map © OpenStreetMap contributors.</footer>
 </div>
 <div class="tip" id="tip"></div>
 
 <script>
 const DATA = "data/";
+const DOWNTOWN = [45.4215, -75.6972];
 const CORRIDOR_LABELS = { kanata:"Kanata", orleans:"Orléans", barrhaven:"Barrhaven", gatineau:"Gatineau", riverside:"Riverside South" };
 const CORRIDOR_ORDER = ["kanata","orleans","barrhaven","gatineau","riverside"];
+const CORRIDOR_COORDS = {
+  kanata:[45.3088,-75.8987], orleans:[45.4682,-75.5185], barrhaven:[45.2723,-75.7392],
+  gatineau:[45.4765,-75.7013], riverside:[45.2907,-75.6710]
+};
 const STATUS = [
-  { key:"free",     label:"Free-flow", color:"var(--good)",     max:1.15 },
-  { key:"moderate", label:"Moderate",  color:"var(--warning)",  max:1.40 },
-  { key:"heavy",    label:"Heavy",     color:"var(--serious)",  max:1.80 },
-  { key:"severe",   label:"Severe",    color:"var(--critical)", max:Infinity },
+  { key:"free",     label:"Free-flow", color:"var(--good)",     map:"#0ca30c", max:1.15 },
+  { key:"moderate", label:"Moderate",  color:"var(--warning)",  map:"#e39400", max:1.40 },
+  { key:"heavy",    label:"Heavy",     color:"var(--serious)",  map:"#d9642e", max:1.80 },
+  { key:"severe",   label:"Severe",    color:"var(--critical)", map:"#d03b3b", max:Infinity },
 ];
 function statusFor(ratio){ return STATUS.find(s => ratio < s.max) || STATUS[STATUS.length-1]; }
 
-// Tolerant CSV parse for our known schema (error is the last column and may hold commas).
 function parseCSV(text){
   const lines = text.trim().split(/\r?\n/);
   const header = lines[0].split(",");
@@ -144,6 +162,45 @@ async function fetchCSV(name){ const r = await fetch(DATA+name+"?t="+Date.now())
 
 const num = v => v===""||v==null ? null : +v;
 const localDate = ts => (ts||"").slice(0,10);
+
+// current travel-time stats for one corridor+direction, or null
+function corridorStat(row, base){
+  if(!row || num(row.travel_time_s)==null) return null;
+  const mins = num(row.travel_time_s)/60;
+  const baseMin = base ? base/60 : mins;
+  const ratio = baseMin>0 ? mins/baseMin : 1;
+  return { mins, baseMin, ratio, st: statusFor(ratio), delayMin: Math.max(0, mins-baseMin) };
+}
+
+let map, corridorLayer;
+function initMap(){
+  if(map) return;
+  map = L.map('map', { scrollWheelZoom:false }).setView([45.375, -75.70], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(map);
+  L.circleMarker(DOWNTOWN, { radius:8, color:'#0b0b0b', weight:2, fillColor:'#ffffff', fillOpacity:1 })
+    .addTo(map).bindTooltip('Downtown', { className:'pin-lbl', direction:'right', offset:[8,0] });
+  corridorLayer = L.layerGroup().addTo(map);
+}
+function updateMap(latestByKey, baseline){
+  if(!map) return;
+  corridorLayer.clearLayers();
+  for(const id of CORRIDOR_ORDER){
+    const o = CORRIDOR_COORDS[id]; if(!o) continue;
+    const inn = corridorStat(latestByKey[id+"|to_downtown"], baseline[id+"|to_downtown"]);
+    const out = corridorStat(latestByKey[id+"|from_downtown"], baseline[id+"|from_downtown"]);
+    const st = inn ? inn.st : (out ? out.st : STATUS[0]);
+    const popup = `<b>${CORRIDOR_LABELS[id]}</b><br>`+
+      `→ downtown: ${inn?inn.mins.toFixed(0)+" min ("+inn.st.label+")":"—"}<br>`+
+      `← from downtown: ${out?out.mins.toFixed(0)+" min ("+out.st.label+")":"—"}<br>`+
+      `<span style="color:#666">free-flow ~${inn?inn.baseMin.toFixed(0):"–"} min</span>`;
+    L.polyline([o, DOWNTOWN], { color: st.map, weight:5, opacity:0.9, lineCap:'round' })
+      .bindTooltip((inn?inn.mins.toFixed(0):"–")+" min", { permanent:true, direction:'center', className:'route-lbl' })
+      .bindPopup(popup).addTo(corridorLayer);
+    L.circleMarker(o, { radius:6, color:'#fff', weight:2, fillColor:st.map, fillOpacity:1 })
+      .bindTooltip(CORRIDOR_LABELS[id], { className:'pin-lbl', direction:'top', offset:[0,-6] })
+      .bindPopup(popup).addTo(corridorLayer);
+  }
+}
 
 async function render(){
   let corridors, segments, incidents;
@@ -161,7 +218,6 @@ async function render(){
   const latestTs = incidents.length ? incidents[incidents.length-1].timestamp_local : null;
   const today = localDate(latestTs);
 
-  // ---- City KPIs from the latest segment sample ----
   const segLatest = segments.filter(r => r.timestamp_local === latestTs && num(r.current_speed_kmh)!=null && num(r.free_flow_speed_kmh)>0);
   const avgSpeed = segLatest.length ? segLatest.reduce((a,r)=>a+num(r.current_speed_kmh),0)/segLatest.length : null;
   const congestion = segLatest.length ? segLatest.reduce((a,r)=>a+Math.max(0,1-num(r.current_speed_kmh)/num(r.free_flow_speed_kmh)),0)/segLatest.length : null;
@@ -179,31 +235,25 @@ async function render(){
     `<div class="tile"><div class="label">${t.label}</div><div class="val">${t.val}<span class="unit">${t.unit}</span></div><div class="ctx">${t.ctx||""}</div></div>`
   ).join("");
 
-  // ---- Corridors ----
-  // free-flow baseline = min observed travel time per corridor+direction (overnight lows)
   const baseline = {};
   for (const r of corridors){ const tt=num(r.travel_time_s); if(tt==null) continue; const k=r.corridor_id+"|"+r.direction; if(baseline[k]==null||tt<baseline[k]) baseline[k]=tt; }
   const latestByKey = {};
   for (const r of corridors){ if(r.timestamp_local!==latestTs) continue; latestByKey[r.corridor_id+"|"+r.direction]=r; }
 
-  // scale bars to the largest current travel time on screen
   let maxMin = 0;
-  for (const id of CORRIDOR_ORDER) for (const d of ["to_downtown","from_downtown"]){ const r=latestByKey[id+"|"+d]; const tt=r&&num(r.travel_time_s); if(tt) maxMin=Math.max(maxMin, tt/60); }
+  for (const id of CORRIDOR_ORDER) for (const d of ["to_downtown","from_downtown"]){ const s=corridorStat(latestByKey[id+"|"+d], baseline[id+"|"+d]); if(s) maxMin=Math.max(maxMin, s.mins); }
   maxMin = maxMin || 1;
 
   const dirRow = (id, dir, arrow) => {
-    const r = latestByKey[id+"|"+dir]; const base = baseline[id+"|"+dir];
-    if(!r || num(r.travel_time_s)==null) return `<div class="dir"><span class="arrow">${arrow}</span><div class="bartrack"></div><span class="stat">—</span></div>`;
-    const mins = num(r.travel_time_s)/60; const baseMin = base? base/60 : mins;
-    const ratio = baseMin>0 ? mins/baseMin : 1; const st = statusFor(ratio);
-    const delayMin = Math.max(0, mins-baseMin);
-    const w = Math.max(4, Math.round(mins/maxMin*100));
-    const tipTxt = `${CORRIDOR_LABELS[id]} ${arrow} · ${mins.toFixed(0)} min (free-flow ${baseMin.toFixed(0)}) · +${delayMin.toFixed(0)} min · ${st.label}`;
+    const s = corridorStat(latestByKey[id+"|"+dir], baseline[id+"|"+dir]);
+    if(!s) return `<div class="dir"><span class="arrow">${arrow}</span><div class="bartrack"></div><span class="stat">—</span></div>`;
+    const w = Math.max(4, Math.round(s.mins/maxMin*100));
+    const tipTxt = `${CORRIDOR_LABELS[id]} ${arrow} · ${s.mins.toFixed(0)} min (free-flow ${s.baseMin.toFixed(0)}) · +${s.delayMin.toFixed(0)} min · ${s.st.label}`;
     return `<div class="dir">
       <span class="arrow">${arrow}</span>
-      <div class="bartrack" data-tip="${tipTxt}"><div class="barfill" style="width:${w}%;background:${st.color}"></div></div>
-      <span class="stat"><span class="min">${mins.toFixed(0)}<span style="font-weight:400;font-size:.8rem"> min</span></span>${delayMin>=1?`<span class="delay">+${delayMin.toFixed(0)}</span>`:""}
-        <span class="pill"><span class="ic" style="background:${st.color}"></span>${st.label}</span></span>
+      <div class="bartrack" data-tip="${tipTxt}"><div class="barfill" style="width:${w}%;background:${s.st.color}"></div></div>
+      <span class="stat"><span class="min">${s.mins.toFixed(0)}<span style="font-weight:400;font-size:.8rem"> min</span></span>${s.delayMin>=1?`<span class="delay">+${s.delayMin.toFixed(0)}</span>`:""}
+        <span class="pill"><span class="ic" style="background:${s.st.color}"></span>${s.st.label}</span></span>
     </div>`;
   };
   document.getElementById("corridors").innerHTML = CORRIDOR_ORDER.map(id =>
@@ -214,7 +264,8 @@ async function render(){
   ).join("");
   document.getElementById("legend").innerHTML = "Congestion vs free-flow: " + STATUS.map(s=>`<span><span class="ic" style="background:${s.color}"></span>${s.label}</span>`).join("");
 
-  // ---- Today's jams sparkline ----
+  updateMap(latestByKey, baseline);
+
   const incToday = incidents.filter(r => localDate(r.timestamp_local)===today && num(r.jam_count)!=null);
   const card = document.getElementById("sparkCard");
   if (incToday.length >= 2){
@@ -241,7 +292,7 @@ function drawSpark(rows){
     `<path d="${area}" fill="var(--series-1-fill)"/>`+
     `<path d="${line}" fill="none" stroke="var(--series-1)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
     `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="var(--series-1)"/>`+
-    `<rect id="sparkHit" x="0" y="0" width="${W}" height="${H}" fill="transparent"/>`;
+    `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>`;
   const tip = document.getElementById("tip");
   svg.onmousemove = ev => {
     const rect = svg.getBoundingClientRect(); const rel=(ev.clientX-rect.left)/rect.width;
@@ -252,15 +303,15 @@ function drawSpark(rows){
   svg.onmouseleave = () => document.getElementById("tip").style.opacity=0;
 }
 
-// bar hover tooltips
 document.addEventListener("mousemove", ev => {
   const el = ev.target.closest("[data-tip]"); const tip=document.getElementById("tip");
   if(el){ tip.textContent=el.getAttribute("data-tip"); tip.style.left=(ev.clientX+12)+"px"; tip.style.top=(ev.clientY-10)+"px"; tip.style.opacity=1; }
   else if(!ev.target.closest("#spark")){ tip.style.opacity=0; }
 });
 
+initMap();
 render();
-setInterval(render, 300000); // refresh every 5 min
+setInterval(render, 300000);
 </script>
 </body>
 </html>
