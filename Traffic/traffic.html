@@ -80,8 +80,11 @@
   .corridor .name { font-weight: 600; margin-bottom: 10px; font-size: 0.98rem; }
   .dir { display: grid; grid-template-columns: 92px 1fr auto; align-items: center; gap: 10px; padding: 3px 0; }
   .dir .arrow { font-size: 0.8rem; color: var(--text-secondary); }
-  .bartrack { position: relative; height: 20px; background: var(--hairline); border-radius: 6px; overflow: hidden; }
+  .bartrack { position: relative; height: 20px; background: var(--hairline); border-radius: 6px; }
   .barfill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; min-width: 4px; transition: width .4s ease; }
+  .bartrack .tick { position: absolute; top: -3px; height: 26px; width: 2px; border-radius: 1px; transform: translateX(-1px); }
+  .bartrack .tick.shortest { background: var(--text-secondary); }
+  .bartrack .tick.longest  { background: var(--text-primary); }
   .dir .stat { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .dir .stat .min { font-weight: 650; }
   .dir .stat .delay { font-size: 0.78rem; color: var(--text-secondary); margin-left: 4px; }
@@ -235,23 +238,34 @@ async function render(){
     `<div class="tile"><div class="label">${t.label}</div><div class="val">${t.val}<span class="unit">${t.unit}</span></div><div class="ctx">${t.ctx||""}</div></div>`
   ).join("");
 
-  const baseline = {};
-  for (const r of corridors){ const tt=num(r.travel_time_s); if(tt==null) continue; const k=r.corridor_id+"|"+r.direction; if(baseline[k]==null||tt<baseline[k]) baseline[k]=tt; }
+  const baseline = {}, maxObs = {};
+  for (const r of corridors){ const tt=num(r.travel_time_s); if(tt==null) continue; const k=r.corridor_id+"|"+r.direction;
+    if(baseline[k]==null||tt<baseline[k]) baseline[k]=tt;
+    if(maxObs[k]==null||tt>maxObs[k]) maxObs[k]=tt; }
   const latestByKey = {};
   for (const r of corridors){ if(r.timestamp_local!==latestTs) continue; latestByKey[r.corridor_id+"|"+r.direction]=r; }
 
-  let maxMin = 0;
-  for (const id of CORRIDOR_ORDER) for (const d of ["to_downtown","from_downtown"]){ const s=corridorStat(latestByKey[id+"|"+d], baseline[id+"|"+d]); if(s) maxMin=Math.max(maxMin, s.mins); }
-  maxMin = maxMin || 1;
+  // scale all bars to the longest travel time ever observed on any corridor,
+  // so each row's "shortest" and "longest" ticks land on a shared axis.
+  let globalMaxMin = 0;
+  for (const k in maxObs) globalMaxMin = Math.max(globalMaxMin, maxObs[k]/60);
+  globalMaxMin = globalMaxMin || 1;
 
   const dirRow = (id, dir, arrow) => {
-    const s = corridorStat(latestByKey[id+"|"+dir], baseline[id+"|"+dir]);
+    const key = id+"|"+dir;
+    const s = corridorStat(latestByKey[key], baseline[key]);
     if(!s) return `<div class="dir"><span class="arrow">${arrow}</span><div class="bartrack"></div><span class="stat">—</span></div>`;
-    const w = Math.max(4, Math.round(s.mins/maxMin*100));
-    const tipTxt = `${CORRIDOR_LABELS[id]} ${arrow} · ${s.mins.toFixed(0)} min (free-flow ${s.baseMin.toFixed(0)}) · +${s.delayMin.toFixed(0)} min · ${s.st.label}`;
+    const scale = v => Math.max(0, Math.min(100, v/globalMaxMin*100));
+    const w = Math.max(4, scale(s.mins));
+    const shortMin = baseline[key]/60, longMin = maxObs[key]/60;
+    const tipTxt = `${CORRIDOR_LABELS[id]} ${arrow} · now ${s.mins.toFixed(0)} min · shortest ${shortMin.toFixed(0)} · longest ${longMin.toFixed(0)}`;
     return `<div class="dir">
       <span class="arrow">${arrow}</span>
-      <div class="bartrack" data-tip="${tipTxt}"><div class="barfill" style="width:${w}%;background:${s.st.color}"></div></div>
+      <div class="bartrack" data-tip="${tipTxt}">
+        <div class="barfill" style="width:${w}%;background:${s.st.color}"></div>
+        <div class="tick shortest" style="left:${scale(shortMin)}%" title="shortest ${shortMin.toFixed(0)} min"></div>
+        <div class="tick longest" style="left:${scale(longMin)}%" title="longest ${longMin.toFixed(0)} min"></div>
+      </div>
       <span class="stat"><span class="min">${s.mins.toFixed(0)}<span style="font-weight:400;font-size:.8rem"> min</span></span>${s.delayMin>=1?`<span class="delay">+${s.delayMin.toFixed(0)}</span>`:""}
         <span class="pill"><span class="ic" style="background:${s.st.color}"></span>${s.st.label}</span></span>
     </div>`;
@@ -262,7 +276,9 @@ async function render(){
       ${dirRow(id,"from_downtown","← from downtown")}
     </div>`
   ).join("");
-  document.getElementById("legend").innerHTML = "Congestion vs free-flow: " + STATUS.map(s=>`<span><span class="ic" style="background:${s.color}"></span>${s.label}</span>`).join("");
+  document.getElementById("legend").innerHTML = "Congestion vs free-flow: " + STATUS.map(s=>`<span><span class="ic" style="background:${s.color}"></span>${s.label}</span>`).join("")
+    + `<span style="margin-left:6px"><span style="display:inline-block;width:2px;height:12px;background:var(--text-secondary);margin-right:4px"></span>shortest</span>`
+    + `<span><span style="display:inline-block;width:2px;height:12px;background:var(--text-primary);margin-right:4px"></span>longest ever</span>`;
 
   updateMap(latestByKey, baseline);
 

@@ -58,6 +58,7 @@ def poll():
 
 def push():
     """Commit + push new readings if any. Non-fatal on failure (retries next cycle)."""
+    run([sys.executable, "Traffic/scripts/build_history.py"])  # refresh rollups
     run(["git", "add", "Traffic/data/"])
     staged = run(["git", "diff", "--cached", "--quiet"])
     if staged.returncode == 0:
