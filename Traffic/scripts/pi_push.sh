@@ -9,6 +9,9 @@ set -euo pipefail
 REPO="${OTTAWA_VISUALS_REPO:-$HOME/Ottawa-Visuals}"
 cd "$REPO"
 
+# Refresh the historical rollups from the raw CSVs before committing.
+python3 Traffic/scripts/build_history.py || echo "build_history failed (non-fatal)"
+
 git add Traffic/data/
 
 # Nothing new? Exit quietly.
