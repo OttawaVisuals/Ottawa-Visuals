@@ -1,4 +1,77 @@
-# OC Transpo Ridership & KPI scraper
+# OC Transpo data collection
+
+Two independent pipelines live here:
+
+1. **eScribe KPI scraper** (below) — one-off/occasional harvest of ridership &
+   KPI PDFs from Transit Committee meetings (deep history, 2019+).
+2. **GTFS-RT collector + KPI snapshotter** (`scripts/`) — continuous logging on
+   the Raspberry Pi, building our own service-reliability dataset for the RTO4
+   page. See [RTO4_PLAN.md](../RTO4_PLAN.md) for how it all fits together.
+
+## GTFS-RT collector (Raspberry Pi)
+
+OC Transpo keeps no public history of on-time performance; `scripts/poll_gtfsrt.py`
+logs it ourselves from the official GTFS-Realtime feeds (TripUpdates +
+VehiclePositions, JSON). Per sample it appends summary rows (cancellations,
+active vehicles, speed stats, delay stats when available — split
+all/bus/otrain/unknown) to `rt_data/*.csv`, which are committed. Cadence is
+self-gated: weekday peaks every 5 min, off-peak every 15 min, 01:00–05:00 hourly.
+
+**Feed reality (verified live 2026-07-11):** the beta feed sets *no* delay
+fields — TripUpdates carry absolute predicted arrival times per stop instead.
+So the live CSV metrics are **cancellations** (~5% of trips the day we checked)
+and fleet activity; true on-time performance gets computed offline from the
+raw archive (predicted arrival times vs the static GTFS schedule). That makes
+the raw archive (`OCTRANSPO_RAW_DIR`) effectively required, not optional:
+~15 MB/day gzipped, ~5.5 GB/year. The JSON is protobuf-net style with
+`Has<Field>` companion flags (`"Delay": 0, "HasDelay": false` = unset) — the
+parser respects them. Also: the feed is **bus-only** (no route 1/2/4 entities
+observed) — O-Train reliability comes from the official KPI spreadsheets
+below, not from GTFS-RT. The otrain group in the CSVs is kept in case trains
+appear later.
+
+`scripts/snapshot_kpis.py` archives the city's four official KPI spreadsheets
+from Open Ottawa (service & ridership KPIs, bus action-plan KPIs, safety
+indicators, schedule adjustments) into `rt_data/kpi_snapshots/`. Those files
+are **rolling ~13-month windows** — snapshot or lose the history. It hashes
+content and only saves dated copies when something changed, so it's safe to
+cron weekly.
+
+### Setup
+1. Register for a free key at https://nextrip-public-api.developer.azure-api.net/
+   (subscribe to the GTFS-RT product; the key goes in the
+   `Ocp-Apim-Subscription-Key` header — the script handles that).
+2. On the Pi, add to `~/.ottawa_visuals.env` (untracked, same file the Traffic
+   collector uses):
+   ```
+   OCTRANSPO_API_KEY=...
+   # raw JSON archive (gzipped), needed for offline OTP — keep OUTSIDE the
+   # repo; ~15 MB/day:
+   OCTRANSPO_RAW_DIR=/home/<user>/gtfsrt_raw
+   ```
+3. First run, verify parsing against the live feed:
+   ```bash
+   python3 OC_Transpo/scripts/poll_gtfsrt.py --force --debug
+   ```
+4. Crontab (alongside the existing Traffic entries):
+   ```cron
+   */5 * * * *  /home/<user>/Ottawa-Visuals/OC_Transpo/scripts/pi_poll_transit.sh >> ~/transit_poll.log 2>&1
+   35 * * * *   /home/<user>/Ottawa-Visuals/OC_Transpo/scripts/pi_push_transit.sh >> ~/transit_push.log 2>&1
+   20 9 * * 1   cd /home/<user>/Ottawa-Visuals && python3 OC_Transpo/scripts/snapshot_kpis.py >> ~/transit_snapshot.log 2>&1
+   25 4 * * 2   mkdir -p ~/gtfsrt_raw/static && curl -sL "https://oct-gtfs-emasagcnfmcgeham.z01.azurefd.net/public-access/GTFSExport.zip" -o ~/gtfsrt_raw/static/GTFSExport_$(date +\%F).zip >> ~/transit_snapshot.log 2>&1
+   ```
+   The last line snapshots the static GTFS schedule weekly — needed to turn the
+   raw predicted arrival times into on-time performance (the
+   [Mobility Database](https://mobilitydatabase.org) also archives it as backup;
+   feed id `...oc-transpo-gtfs-2154`).
+
+On-time definition used wherever delays are computed (mirrors OC Transpo's
+punctuality definition for less-frequent routes): early = >1 min early,
+on-time = 1 min early…5 min late, late = >5 min late.
+
+---
+
+# eScribe Ridership & KPI scraper
 
 Collects ridership / service-KPI reports from Ottawa's **Transit Committee**
 (and the older **Transit Commission**) meetings on the city's eScribe portal,

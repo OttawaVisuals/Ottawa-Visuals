@@ -53,6 +53,12 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ## 🔄 In Progress
 
+### RTO4 Impact Page
+- **Progress:** ~10% · Comprehensive page on the federal 4-day in-office mandate (in force Jul 6, 2026).
+- Commutes (TomTom, collecting since Jul 2026) + transit (own GTFS-RT logging on the Pi +
+  official KPI snapshots + eScribe history) + TBS NCR headcounts, 311, bike counters, IESO load.
+- **Plan / data inventory:** [RTO4_PLAN.md](RTO4_PLAN.md) · collector docs in [OC_Transpo/README.md](OC_Transpo/README.md)
+
 ### Ontario Elections Visual (coalition scenarios)
 - **Progress:** ~70% · Past Ontario elections with "what if Liberals + NDP banded together"
   coalition scenarios, per-riding survivor logic, strategic-candidate analysis, turnout/gauge charts.
