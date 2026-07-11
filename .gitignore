@@ -51,3 +51,7 @@ CityHall_Index/*.log
 # actions/cache + uploaded as a workflow artifact, not committed. The small
 # derived PWHL/data/json/*.json the dashboard fetches IS committed.
 PWHL/data/pwhl_pbp.csv
+
+# OC Transpo GTFS-RT collector — rt_data/ summaries ARE committed, including
+# the small official KPI xlsx snapshots (exception to the global *.xlsx rule)
+!OC_Transpo/rt_data/kpi_snapshots/*.xlsx
