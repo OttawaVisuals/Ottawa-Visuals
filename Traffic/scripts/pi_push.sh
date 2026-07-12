@@ -26,6 +26,9 @@ git -c user.name="ottawa-visuals-pi" -c user.email="pi@ottawavisuals.local" \
 # Other pipelines (PWHL, mortgage, ...) may still push from GitHub Actions, so
 # rebase our commit on top of the remote before pushing. Only Traffic/data is
 # touched here, which nothing else writes, so conflicts aren't expected.
-git pull --rebase origin main -q
+# autoStash because the transit collector's un-pushed readings
+# (OC_Transpo/rt_data) sit unstaged in the working tree and would otherwise
+# abort the rebase.
+git -c rebase.autoStash=true pull --rebase origin main -q
 git push -q origin main
 echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') pushed"

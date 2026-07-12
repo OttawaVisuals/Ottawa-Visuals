@@ -25,7 +25,9 @@ git -c user.name="ottawa-visuals-pi" -c user.email="pi@ottawavisuals.local" \
 
 # The Traffic pusher (and GitHub Actions pipelines) also push to main, so
 # rebase on top of the remote first. Only OC_Transpo/rt_data is touched here,
-# which nothing else writes, so conflicts aren't expected.
-git pull --rebase origin main -q
+# which nothing else writes, so conflicts aren't expected. autoStash because
+# the other collector's un-pushed readings (Traffic/data) sit unstaged in the
+# working tree and would otherwise abort the rebase.
+git -c rebase.autoStash=true pull --rebase origin main -q
 git push -q origin main
 echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') pushed"
