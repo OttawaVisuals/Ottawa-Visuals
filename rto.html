@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ottawa RTO Watch — commutes & transit, live</title>
+<meta name="description" content="Tracking how the federal return-to-office mandate reshapes Ottawa's commutes: road congestion and OC Transpo service, logged continuously.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  :root {
+    --plane:      #f9f9f7;
+    --surface-1:  #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --hairline:   #e1e0d9;
+    --border:     rgba(11,11,11,0.10);
+    --series-1:   #2a78d6;
+    --series-1-fill: rgba(42,120,214,0.14);
+    --series-2:   #b0498c;
+    --series-2-fill: rgba(176,73,140,0.14);
+    --good:     #0ca30c;
+    --warning:  #d98b00;
+    --serious:  #c85c30;
+    --critical: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --plane:      #0d0d0d;
+      --surface-1:  #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --hairline:   #2c2c2a;
+      --border:     rgba(255,255,255,0.10);
+      --series-1:   #3987e5;
+      --series-1-fill: rgba(57,135,229,0.18);
+      --series-2:   #cf6bab;
+      --series-2-fill: rgba(207,107,171,0.18);
+      --good:     #0ca30c;
+      --warning:  #fab219;
+      --serious:  #ec835a;
+      --critical: #e05656;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--plane); color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.4; padding: clamp(16px, 4vw, 40px);
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  header { margin-bottom: 20px; }
+  h1 { font-size: clamp(1.4rem, 3.5vw, 2rem); margin: 0 0 4px; letter-spacing: -0.02em; }
+  .sub { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+  .updated { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; }
+  .updated .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--good); margin-right:5px; vertical-align: middle; }
+  .badge { display:inline-flex; align-items:center; gap:7px; margin: 10px 0 0; font-size: 0.78rem; font-weight: 600;
+           padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary); }
+  .badge .on { color: var(--text-primary); }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 18px 0 26px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .tile .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 6px; }
+  .tile .val { font-size: 1.9rem; font-weight: 650; letter-spacing: -0.02em; }
+  .tile .val .unit { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); margin-left: 3px; }
+  .tile .ctx { font-size: 0.78rem; color: var(--text-secondary); margin-top: 3px; }
+
+  section h2 { font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin: 0 0 12px; font-weight: 600; }
+  .part { margin-top: 34px; }
+  .part-head { display:flex; align-items:baseline; gap:10px; border-top: 1px solid var(--hairline); padding-top: 22px; margin-bottom: 4px; }
+  .part-head h2 { margin: 0; }
+  .part-head .note { font-size: 0.76rem; color: var(--text-muted); }
+
+  /* Map */
+  #map { height: clamp(300px, 46vh, 440px); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface-1); z-index: 0; }
+  @media (prefers-color-scheme: dark) {
+    .leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9); }
+    .leaflet-container { background: #0d0d0d; }
+  }
+  .route-lbl { background: rgba(252,252,251,0.92); color:#0b0b0b; border: none !important; box-shadow: none !important; font-weight: 700; font-size: 11px; padding: 0 4px; border-radius: 4px; }
+  .route-lbl::before { display: none !important; }
+  .leaflet-popup-content { font: 13px/1.4 system-ui, sans-serif; margin: 10px 12px; }
+  .leaflet-popup-content b { font-size: 14px; }
+  .pin-lbl { background: transparent; border: none !important; box-shadow: none !important; color: var(--text-primary); font-weight: 600; font-size: 11px; }
+
+  .corridors { display: flex; flex-direction: column; gap: 14px; }
+  .corridor { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .corridor .name { font-weight: 600; margin-bottom: 10px; font-size: 0.98rem; }
+  .dir { display: grid; grid-template-columns: 92px 1fr auto; align-items: center; gap: 10px; padding: 3px 0; }
+  .dir .arrow { font-size: 0.8rem; color: var(--text-secondary); }
+  .bartrack { position: relative; height: 20px; background: var(--hairline); border-radius: 6px; }
+  .barfill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; min-width: 4px; transition: width .4s ease; }
+  .bartrack .tick { position: absolute; top: -3px; height: 26px; width: 2px; border-radius: 1px; transform: translateX(-1px); }
+  .bartrack .tick.shortest { background: var(--text-secondary); }
+  .bartrack .tick.longest  { background: var(--text-primary); }
+  .dir .stat { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .dir .stat .min { font-weight: 650; }
+  .dir .stat .delay { font-size: 0.78rem; color: var(--text-secondary); margin-left: 4px; }
+  .pill { display:inline-flex; align-items:center; gap:5px; font-size: 0.74rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+  .pill .ic { width:9px; height:9px; border-radius:50%; flex:none; }
+  .legend { display:flex; flex-wrap:wrap; gap:12px; margin: 10px 0 0; font-size:0.76rem; color: var(--text-secondary); }
+  .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .legend .ic { width:9px; height:9px; border-radius:50%; }
+
+  .spark-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 26px; }
+  .spark-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 8px; }
+  .spark-head .now { font-size: 1.4rem; font-weight: 650; }
+  svg.spark { display:block; width:100%; height:auto; overflow: visible; }
+  .tip { position: fixed; pointer-events:none; background: var(--text-primary); color: var(--plane); font-size: 0.76rem; padding: 5px 8px; border-radius: 6px; opacity: 0; transition: opacity .1s; white-space: nowrap; z-index: 1000; }
+
+  footer { margin-top: 28px; font-size: 0.76rem; color: var(--text-muted); border-top: 1px solid var(--hairline); padding-top: 12px; }
+  .err { color: var(--critical); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Ottawa RTO Watch</h1>
+    <p class="sub">How is the federal return-to-office mandate reshaping Ottawa's rush hour?
+      Road congestion and OC Transpo service, logged around the clock on a Raspberry Pi —
+      independent readings, not official figures.</p>
+    <div class="badge"><span>RTO4</span><span class="on">4 days/week in office</span><span>· in effect since Mon Jul 6, 2026 · full compliance by Sep 15</span></div>
+    <p class="updated" id="updated">Loading…</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>Commute corridors — to / from downtown</h2>
+    <div id="map"></div>
+    <div class="corridors" id="corridors"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <div class="spark-card" id="sparkCard" style="display:none">
+    <div class="spark-head">
+      <h2 style="margin:0">Active traffic jams — today</h2>
+      <div class="now" id="sparkNow"></div>
+    </div>
+    <svg id="spark" class="spark" viewBox="0 0 600 120" preserveAspectRatio="none" aria-label="Active jams over today"></svg>
+  </div>
+
+  <section class="part" id="transitPart" style="display:none">
+    <div class="part-head">
+      <h2>Transit — OC Transpo, live</h2>
+      <span class="note">GTFS-Realtime · buses only (the feed excludes the O-Train)</span>
+    </div>
+    <div class="kpis" id="transitKpis"></div>
+    <div class="spark-card" style="margin-top:4px" id="busSparkCard">
+      <div class="spark-head">
+        <h2 style="margin:0">Buses on the road — today</h2>
+        <div class="now" id="busSparkNow"></div>
+      </div>
+      <svg id="busSpark" class="spark" viewBox="0 0 600 120" preserveAspectRatio="none" aria-label="Active buses over today"></svg>
+    </div>
+  </section>
+
+  <footer id="footer">Data: TomTom Routing / Traffic Flow / Incidents APIs + OC Transpo GTFS-Realtime ·
+    collected continuously on a Raspberry Pi (traffic since Jul 2026, transit since Jul 11, 2026) ·
+    auto-refreshes every 5&nbsp;min. Map © OpenStreetMap contributors.</footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const ROAD_DATA = "Traffic/data/";
+const TRANSIT_DATA = "OC_Transpo/rt_data/";
+const DOWNTOWN = [45.4215, -75.6972];
+const CORRIDOR_LABELS = { kanata:"Kanata", orleans:"Orléans", barrhaven:"Barrhaven", gatineau:"Gatineau", riverside:"Riverside South" };
+const CORRIDOR_ORDER = ["kanata","orleans","barrhaven","gatineau","riverside"];
+const CORRIDOR_COORDS = {
+  kanata:[45.3088,-75.8987], orleans:[45.4682,-75.5185], barrhaven:[45.2723,-75.7392],
+  gatineau:[45.4765,-75.7013], riverside:[45.2907,-75.6710]
+};
+const STATUS = [
+  { key:"free",     label:"Free-flow", color:"var(--good)",     map:"#0ca30c", max:1.15 },
+  { key:"moderate", label:"Moderate",  color:"var(--warning)",  map:"#e39400", max:1.40 },
+  { key:"heavy",    label:"Heavy",     color:"var(--serious)",  map:"#d9642e", max:1.80 },
+  { key:"severe",   label:"Severe",    color:"var(--critical)", map:"#d03b3b", max:Infinity },
+];
+function statusFor(ratio){ return STATUS.find(s => ratio < s.max) || STATUS[STATUS.length-1]; }
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const header = lines[0].split(",");
+  const n = header.length;
+  return lines.slice(1).map(line => {
+    const parts = line.split(",");
+    if (parts.length > n) { const head = parts.slice(0, n-1); head.push(parts.slice(n-1).join(",")); return rowObj(header, head); }
+    return rowObj(header, parts);
+  });
+}
+function rowObj(header, parts){ const o={}; header.forEach((h,i)=> o[h]=(parts[i]??"").trim()); return o; }
+async function fetchCSV(path){ const r = await fetch(path+"?t="+Date.now()); if(!r.ok) throw new Error(path.split("/").pop()+" "+r.status); return parseCSV(await r.text()); }
+
+const num = v => v===""||v==null ? null : +v;
+const localDate = ts => (ts||"").slice(0,10);
+
+// current travel-time stats for one corridor+direction, or null
+function corridorStat(row, base){
+  if(!row || num(row.travel_time_s)==null) return null;
+  const mins = num(row.travel_time_s)/60;
+  const baseMin = base ? base/60 : mins;
+  const ratio = baseMin>0 ? mins/baseMin : 1;
+  return { mins, baseMin, ratio, st: statusFor(ratio), delayMin: Math.max(0, mins-baseMin) };
+}
+
+let map, corridorLayer;
+function initMap(){
+  if(map) return;
+  map = L.map('map', { scrollWheelZoom:false }).setView([45.375, -75.70], 10);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(map);
+  L.circleMarker(DOWNTOWN, { radius:8, color:'#0b0b0b', weight:2, fillColor:'#ffffff', fillOpacity:1 })
+    .addTo(map).bindTooltip('Downtown', { className:'pin-lbl', direction:'right', offset:[8,0] });
+  corridorLayer = L.layerGroup().addTo(map);
+}
+function updateMap(latestByKey, baseline){
+  if(!map) return;
+  corridorLayer.clearLayers();
+  for(const id of CORRIDOR_ORDER){
+    const o = CORRIDOR_COORDS[id]; if(!o) continue;
+    const inn = corridorStat(latestByKey[id+"|to_downtown"], baseline[id+"|to_downtown"]);
+    const out = corridorStat(latestByKey[id+"|from_downtown"], baseline[id+"|from_downtown"]);
+    const st = inn ? inn.st : (out ? out.st : STATUS[0]);
+    const popup = `<b>${CORRIDOR_LABELS[id]}</b><br>`+
+      `→ downtown: ${inn?inn.mins.toFixed(0)+" min ("+inn.st.label+")":"—"}<br>`+
+      `← from downtown: ${out?out.mins.toFixed(0)+" min ("+out.st.label+")":"—"}<br>`+
+      `<span style="color:#666">free-flow ~${inn?inn.baseMin.toFixed(0):"–"} min</span>`;
+    L.polyline([o, DOWNTOWN], { color: st.map, weight:5, opacity:0.9, lineCap:'round' })
+      .bindTooltip((inn?inn.mins.toFixed(0):"–")+" min", { permanent:true, direction:'center', className:'route-lbl' })
+      .bindPopup(popup).addTo(corridorLayer);
+    L.circleMarker(o, { radius:6, color:'#fff', weight:2, fillColor:st.map, fillOpacity:1 })
+      .bindTooltip(CORRIDOR_LABELS[id], { className:'pin-lbl', direction:'top', offset:[0,-6] })
+      .bindPopup(popup).addTo(corridorLayer);
+  }
+}
+
+async function renderRoads(){
+  let corridors, segments, incidents;
+  try {
+    [corridors, segments, incidents] = await Promise.all([
+      fetchCSV(ROAD_DATA+"corridor_travel_times.csv"),
+      fetchCSV(ROAD_DATA+"segment_speeds.csv"),
+      fetchCSV(ROAD_DATA+"incidents_summary.csv"),
+    ]);
+  } catch(e){
+    document.getElementById("updated").innerHTML = '<span class="err">Could not load traffic data: '+e.message+'</span>';
+    return;
+  }
+
+  const latestTs = incidents.length ? incidents[incidents.length-1].timestamp_local : null;
+  const today = localDate(latestTs);
+
+  const segLatest = segments.filter(r => r.timestamp_local === latestTs && num(r.current_speed_kmh)!=null && num(r.free_flow_speed_kmh)>0);
+  const avgSpeed = segLatest.length ? segLatest.reduce((a,r)=>a+num(r.current_speed_kmh),0)/segLatest.length : null;
+  const congestion = segLatest.length ? segLatest.reduce((a,r)=>a+Math.max(0,1-num(r.current_speed_kmh)/num(r.free_flow_speed_kmh)),0)/segLatest.length : null;
+  const dist15 = avgSpeed!=null ? avgSpeed/4 : null;
+  const incLatest = incidents[incidents.length-1] || {};
+
+  const tiles = [
+    { label:"Avg city speed", val: avgSpeed==null?"—":avgSpeed.toFixed(0), unit:"km/h", ctx:"across "+segLatest.length+" road points" },
+    { label:"Congestion", val: congestion==null?"—":(congestion*100).toFixed(0), unit:"%", ctx:"slower than free-flow" },
+    { label:"Reach in 15 min", val: dist15==null?"—":dist15.toFixed(1), unit:"km", ctx:"at current avg speed" },
+    { label:"Active jams", val: num(incLatest.jam_count)??"—", unit:"", ctx:(num(incLatest.jam_length_m)? (num(incLatest.jam_length_m)/1000).toFixed(1)+" km jammed":"") },
+    { label:"Incidents", val: num(incLatest.incident_count)??"—", unit:"", ctx:"jams, closures, works" },
+  ];
+  document.getElementById("kpis").innerHTML = tiles.map(t =>
+    `<div class="tile"><div class="label">${t.label}</div><div class="val">${t.val}<span class="unit">${t.unit}</span></div><div class="ctx">${t.ctx||""}</div></div>`
+  ).join("");
+
+  const baseline = {}, maxObs = {};
+  for (const r of corridors){ const tt=num(r.travel_time_s); if(tt==null) continue; const k=r.corridor_id+"|"+r.direction;
+    if(baseline[k]==null||tt<baseline[k]) baseline[k]=tt;
+    if(maxObs[k]==null||tt>maxObs[k]) maxObs[k]=tt; }
+  const latestByKey = {};
+  for (const r of corridors){ if(r.timestamp_local!==latestTs) continue; latestByKey[r.corridor_id+"|"+r.direction]=r; }
+
+  // scale all bars to the longest travel time ever observed on any corridor,
+  // so each row's "shortest" and "longest" ticks land on a shared axis.
+  let globalMaxMin = 0;
+  for (const k in maxObs) globalMaxMin = Math.max(globalMaxMin, maxObs[k]/60);
+  globalMaxMin = globalMaxMin || 1;
+
+  const dirRow = (id, dir, arrow) => {
+    const key = id+"|"+dir;
+    const s = corridorStat(latestByKey[key], baseline[key]);
+    if(!s) return `<div class="dir"><span class="arrow">${arrow}</span><div class="bartrack"></div><span class="stat">—</span></div>`;
+    const scale = v => Math.max(0, Math.min(100, v/globalMaxMin*100));
+    const w = Math.max(4, scale(s.mins));
+    const shortMin = baseline[key]/60, longMin = maxObs[key]/60;
+    const tipTxt = `${CORRIDOR_LABELS[id]} ${arrow} · now ${s.mins.toFixed(0)} min · shortest ${shortMin.toFixed(0)} · longest ${longMin.toFixed(0)}`;
+    return `<div class="dir">
+      <span class="arrow">${arrow}</span>
+      <div class="bartrack" data-tip="${tipTxt}">
+        <div class="barfill" style="width:${w}%;background:${s.st.color}"></div>
+        <div class="tick shortest" style="left:${scale(shortMin)}%" title="shortest ${shortMin.toFixed(0)} min"></div>
+        <div class="tick longest" style="left:${scale(longMin)}%" title="longest ${longMin.toFixed(0)} min"></div>
+      </div>
+      <span class="stat"><span class="min">${s.mins.toFixed(0)}<span style="font-weight:400;font-size:.8rem"> min</span></span>${s.delayMin>=1?`<span class="delay">+${s.delayMin.toFixed(0)}</span>`:""}
+        <span class="pill"><span class="ic" style="background:${s.st.color}"></span>${s.st.label}</span></span>
+    </div>`;
+  };
+  document.getElementById("corridors").innerHTML = CORRIDOR_ORDER.map(id =>
+    `<div class="corridor"><div class="name">${CORRIDOR_LABELS[id]||id}</div>
+      ${dirRow(id,"to_downtown","→ downtown")}
+      ${dirRow(id,"from_downtown","← from downtown")}
+    </div>`
+  ).join("");
+  document.getElementById("legend").innerHTML = "Congestion vs free-flow: " + STATUS.map(s=>`<span><span class="ic" style="background:${s.color}"></span>${s.label}</span>`).join("")
+    + `<span style="margin-left:6px"><span style="display:inline-block;width:2px;height:12px;background:var(--text-secondary);margin-right:4px"></span>shortest</span>`
+    + `<span><span style="display:inline-block;width:2px;height:12px;background:var(--text-primary);margin-right:4px"></span>longest ever</span>`;
+
+  updateMap(latestByKey, baseline);
+
+  const incToday = incidents.filter(r => localDate(r.timestamp_local)===today && num(r.jam_count)!=null);
+  const card = document.getElementById("sparkCard");
+  if (incToday.length >= 2){
+    card.style.display = "block";
+    document.getElementById("sparkNow").textContent = num(incLatest.jam_count) + " jams";
+    drawSpark(document.getElementById("spark"), incToday,
+      r => +r.jam_count, r => `${r.timestamp_local.slice(11,16)} · ${r.jam_count} jams`);
+  } else { card.style.display = "none"; }
+
+  const t = new Date(latestTs);
+  document.getElementById("updated").innerHTML = `<span class="dot"></span>Updated ${isNaN(t)?latestTs:t.toLocaleString([], {weekday:"short", hour:"2-digit", minute:"2-digit"})} · ${today}`;
+}
+
+async function renderTransit(){
+  let trips, vehicles;
+  try {
+    [trips, vehicles] = await Promise.all([
+      fetchCSV(TRANSIT_DATA+"trip_updates_summary.csv"),
+      fetchCSV(TRANSIT_DATA+"vehicle_positions_summary.csv"),
+    ]);
+  } catch(e){ return; } // collection just started — keep the section hidden if unavailable
+
+  const tAll = trips.filter(r => r.group==="all" && !r.error);
+  const vAll = vehicles.filter(r => r.group==="all" && !r.error);
+  if (!tAll.length || !vAll.length) return;
+  const tLast = tAll[tAll.length-1], vLast = vAll[vAll.length-1];
+
+  const tracked = num(tLast.trips_tracked), canceled = num(tLast.trips_canceled);
+  const cancelPct = tracked ? (canceled/tracked*100) : null;
+  const tiles = [
+    { label:"Buses on the road", val: num(vLast.vehicles)??"—", unit:"", ctx: (num(vLast.routes_active)||0)+" routes running" },
+    { label:"Trips tracked", val: tracked??"—", unit:"", ctx:"in the live feed right now" },
+    { label:"Cancelled trips", val: canceled??"—", unit:"", ctx: cancelPct==null?"":"of trips tracked · "+cancelPct.toFixed(1)+"%" },
+    { label:"Fleet avg speed", val: num(vLast.mean_speed_kmh)==null?"—":num(vLast.mean_speed_kmh).toFixed(0), unit:"km/h", ctx: num(vLast.pct_moving)==null?"":num(vLast.pct_moving).toFixed(0)+"% of buses moving" },
+  ];
+  document.getElementById("transitKpis").innerHTML = tiles.map(t =>
+    `<div class="tile"><div class="label">${t.label}</div><div class="val">${t.val}<span class="unit">${t.unit}</span></div><div class="ctx">${t.ctx||""}</div></div>`
+  ).join("");
+
+  const today = localDate(vLast.timestamp_local);
+  const vToday = vAll.filter(r => localDate(r.timestamp_local)===today && num(r.vehicles)!=null);
+  const busCard = document.getElementById("busSparkCard");
+  if (vToday.length >= 2){
+    busCard.style.display = "block";
+    document.getElementById("busSparkNow").textContent = num(vLast.vehicles)+" buses";
+    // index cancelled counts by timestamp so the bus spark tooltip can show both
+    const cxByTs = {};
+    for (const r of tAll) cxByTs[r.timestamp_utc] = num(r.trips_canceled);
+    drawSpark(document.getElementById("busSpark"), vToday,
+      r => +r.vehicles,
+      r => `${r.timestamp_local.slice(11,16)} · ${r.vehicles} buses`+(cxByTs[r.timestamp_utc]!=null?` · ${cxByTs[r.timestamp_utc]} cancelled`:""));
+  } else { busCard.style.display = "none"; }
+
+  document.getElementById("transitPart").style.display = "block";
+}
+
+function drawSpark(svg, rows, getVal, tipFor){
+  const W=600,H=120,padY=10;
+  const vals = rows.map(getVal);
+  const max = Math.max(...vals, 1);
+  const X = i => rows.length===1?0:i/(rows.length-1)*W;
+  const Y = v => H-padY - v/max*(H-2*padY);
+  const line = rows.map((r,i)=>`${i?"L":"M"}${X(i).toFixed(1)},${Y(vals[i]).toFixed(1)}`).join("");
+  const area = `M0,${H} L0,${Y(vals[0]).toFixed(1)} ${line.slice(1)} L${W},${H} Z`;
+  const cx = X(rows.length-1), cy = Y(vals[vals.length-1]);
+  svg.innerHTML =
+    `<path d="${area}" fill="var(--series-1-fill)"/>`+
+    `<path d="${line}" fill="none" stroke="var(--series-1)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
+    `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="var(--series-1)"/>`+
+    `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>`;
+  const tip = document.getElementById("tip");
+  svg.onmousemove = ev => {
+    const rect = svg.getBoundingClientRect(); const rel=(ev.clientX-rect.left)/rect.width;
+    const i = Math.max(0, Math.min(rows.length-1, Math.round(rel*(rows.length-1))));
+    tip.textContent = tipFor(rows[i]);
+    tip.style.left=(ev.clientX+12)+"px"; tip.style.top=(ev.clientY-10)+"px"; tip.style.opacity=1;
+  };
+  svg.onmouseleave = () => tip.style.opacity=0;
+}
+
+document.addEventListener("mousemove", ev => {
+  const el = ev.target.closest("[data-tip]"); const tip=document.getElementById("tip");
+  if(el){ tip.textContent=el.getAttribute("data-tip"); tip.style.left=(ev.clientX+12)+"px"; tip.style.top=(ev.clientY-10)+"px"; tip.style.opacity=1; }
+  else if(!ev.target.closest("svg.spark")){ tip.style.opacity=0; }
+});
+
+function renderAll(){ renderRoads(); renderTransit(); }
+initMap();
+renderAll();
+setInterval(renderAll, 300000);
+</script>
+</body>
+</html>

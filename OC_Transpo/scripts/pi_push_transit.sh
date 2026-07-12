@@ -12,6 +12,9 @@ set -euo pipefail
 REPO="${OTTAWA_VISUALS_REPO:-$HOME/Ottawa-Visuals}"
 cd "$REPO"
 
+# Refresh the daily rollup from the raw CSVs before committing.
+python3 OC_Transpo/scripts/build_history_transit.py || echo "build_history_transit failed (non-fatal)"
+
 git add OC_Transpo/rt_data/
 
 # Nothing new? Exit quietly.
