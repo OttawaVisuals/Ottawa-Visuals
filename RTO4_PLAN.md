@@ -82,6 +82,13 @@ niche is genuinely open. Closest finds:
 
 ## Page structure sketch
 
+> **Status:** `/rto.html` ("Ottawa RTO Watch") is live — the former
+> `Traffic/traffic.html` dashboard rebranded around RTO4 (old URL redirects),
+> with a live OC Transpo section (buses active, trips tracked, cancellations,
+> fleet speed + today sparkline). Sections 2–3 below are its live core;
+> the historical before/after charts get added as `Traffic/data/history/` and
+> `OC_Transpo/rt_data/history/` accumulate.
+
 1. **The mandate** — timeline strip (RTO3 → RTO4 announcement → Jul 6 → Sep 15
    full compliance → GCcoworking closure), TBS NCR headcount as the "how many
    people" scale-setter.
