@@ -1,0 +1,2730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Can we afford it? — Ottawa Visuals</title>
+<meta name="description" content="Canadian mortgage affordability calculator — stress tests, income context, spending breakdown and Ottawa housing market data."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────────────── */
+:root {
+  --font-display:"Nunito",system-ui,sans-serif;
+  --font-cond:"Nunito",system-ui,sans-serif;
+  --font-body:"Nunito",system-ui,sans-serif;
+  --font-mono:"Nunito",system-ui,sans-serif;
+  /* light theme (default) — warm paper */
+  --bg:#F3ECE0; --bg-2:#FBF6EC; --bg-3:#EFE7D8;
+  --line:#E3D8C5; --line-2:#CFC1A9;
+  --ink:#2C2620; --ink-2:#5C5245; --ink-3:#8C8072;
+  --accent:#C4562B; --accent-2:#DC7040;
+  --accent-bg:rgba(196,86,43,0.08); --hl:rgba(196,86,43,0.14);
+  --green:#3B8A5E; --amber:#C68A2A; --red:#CB4B36; --blue:#3B6FA3; --purple:#7A6BC0;
+}
+[data-theme="dark"] {
+  --bg:#161513; --bg-2:#201E1B; --bg-3:#2A2723;
+  --line:#38342E; --line-2:#4B453D;
+  --ink:#F2EADC; --ink-2:#C6B9A6; --ink-3:#8C8072;
+  --accent:#E27B4C; --accent-2:#F0996B;
+  --accent-bg:rgba(226,123,76,0.12); --hl:rgba(226,123,76,0.18);
+  --green:#41B385; --amber:#E5A23A; --red:#E6674B; --blue:#5F9BD8; --purple:#9384E4;
+}
+/* ── RESET ──────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;cursor:pointer;}
+p{margin:0;}
+::selection{background:var(--accent);color:white;}
+/* ── TOPBAR ─────────────────────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--bg-2) 85%,transparent);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:16px;letter-spacing:-0.01em;}
+.brand-logo{width:28px;height:28px;border-radius:999px;background:var(--ink);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+.brand-logo img{width:110%;height:110%;object-fit:cover;}
+.brand-logo img{filter:invert(1);}
+[data-theme="dark"] .brand-logo img{filter:none;}
+.brand small{font-family:var(--font-mono);font-size:10px;font-weight:400;color:var(--ink-3);letter-spacing:0.08em;text-transform:uppercase;}
+.topbar nav{display:flex;gap:2px;}
+.topbar nav a{padding:6px 10px;color:var(--ink-2);font-size:13px;border-radius:6px;transition:color .15s,background .15s;}
+.topbar nav a:hover{color:var(--ink);background:var(--bg-2);}
+.topbar nav a.active{color:var(--accent);}
+.spacer{flex:1;}
+.icon-btn{width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);transition:border-color .15s,color .15s;}
+.icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+/* ── MAIN LAYOUT ────────────────────────────────────────────────── */
+.page{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 48px);overflow:hidden;}
+.input-col{border-right:1px solid var(--line);overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg-2);}
+.results-col{overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
+/* ── INPUT BOXES ────────────────────────────────────────────────── */
+.ibox{background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
+.ibox-head{font-family:var(--font-cond);font-size:13px;font-weight:600;letter-spacing:0.02em;color:var(--ink-2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ibox-head .dot{width:5px;height:5px;border-radius:999px;background:var(--accent);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.field{display:flex;flex-direction:column;gap:3px;}
+.field label{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
+.field input,.field select{background:var(--bg-2);border:1px solid var(--line-2);border-radius:6px;padding:5px 8px;font-family:var(--font-body);font-size:13px;color:var(--ink);outline:none;width:100%;transition:border-color .15s;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 8px center;padding-right:22px;}
+.persons-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.person-col{padding:0 4px 0 0;}
+.person-col:last-child{padding:0 0 0 4px;border-left:1px solid var(--line);}
+.person-label{font-family:var(--font-cond);font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
+.calc-btn{width:100%;padding:9px;background:var(--ink);color:var(--bg);border:none;border-radius:7px;font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:-0.005em;transition:background .15s,transform .1s;margin-top:2px;}
+.calc-btn:hover{background:var(--accent);transform:translateY(-1px);}
+/* ── RESULT CARDS ───────────────────────────────────────────────── */
+.rcard{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 1px 2px rgba(44,38,32,0.04);}
+.rcard h3{font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);margin:0 0 10px;display:flex;align-items:center;gap:6px;}
+.rcard h3 .sub{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3);}
+/* Hero summary card stands apart from the rest */
+#pay-summary{background:var(--bg-3);border-color:var(--line-2);padding:16px 18px;box-shadow:0 2px 10px rgba(44,38,32,0.06);}
+/* ── TOP ROW (two panels side by side) ─────────────────────────── */
+.top-row{display:grid;grid-template-columns:2fr 3fr;gap:10px;align-items:stretch;min-width:0;}
+.top-row>*{min-width:0;overflow:hidden;}
+/* ── METRICS ROW ────────────────────────────────────────────────── */
+.mrow{display:flex;gap:8px;flex-wrap:wrap;}
+.met{flex:1;min-width:100px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
+#pay-summary .met{background:var(--bg-2);}
+.met .ml{font-family:var(--font-body);font-size:10px;font-weight:500;letter-spacing:0.01em;color:var(--ink-3);margin-bottom:4px;}
+.met .mv{font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.met .ms{font-size:11px;color:var(--ink-3);margin-top:2px;}
+.met .mv.green{color:var(--green);}
+.met .mv.amber{color:var(--amber);}
+.met .mv.red{color:var(--red);}
+.met .mv.blue{color:var(--blue);}
+/* ── AFFORDABILITY BAR ──────────────────────────────────────────── */
+.afford-wrap{margin-bottom:12px;}
+.afford-bar{display:flex;width:100%;height:68px;border-radius:12px;overflow:hidden;background:var(--bg-3);border:1px solid var(--line);box-shadow:inset 0 1px 3px rgba(44,38,32,0.06);}
+.afford-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;transition:width .35s ease;overflow:hidden;padding:0 4px;}
+.afford-seg span{white-space:nowrap;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.3);overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;}
+.afford-seg .as-name{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.03em;text-transform:uppercase;opacity:0.9;}
+.afford-seg .as-val{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:-0.01em;line-height:1.1;}
+.afford-seg .as-pct{font-family:var(--font-mono);font-size:10px;opacity:0.85;}
+.afford-seg.narrow .as-name,.afford-seg.narrow .as-val{display:none;}
+.afford-seg.tiny span{display:none;}
+.afl-total{font-size:11px;color:var(--ink-3);margin-top:7px;text-align:right;}
+.afl-total b{font-family:var(--font-mono);color:var(--ink-2);}
+/* ── BADGES ─────────────────────────────────────────────────────── */
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:1px 7px;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;}
+.badge.ok{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 30%,transparent);}
+.badge.warn{background:color-mix(in srgb,var(--amber) 15%,transparent);color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 30%,transparent);}
+.badge.bad{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 30%,transparent);}
+/* ── STRESS BANDS ───────────────────────────────────────────────── */
+.band{margin-bottom:10px;}
+.band:last-child{margin-bottom:0;}
+.band-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.band-lbl{font-size:12px;color:var(--ink-2);}
+.band-vals{display:flex;gap:4px;align-items:center;}
+.band-bar{height:12px;border-radius:6px;position:relative;overflow:visible;margin-bottom:2px;}
+.bm{position:absolute;top:-1px;width:2px;height:14px;border-radius:1px;z-index:2;}
+.bm.w{background:var(--ink);}
+.bm.a{background:var(--amber);}
+.bm.r{background:var(--red);}
+.band-ticks{display:flex;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:0 1px;position:relative;height:12px;}
+.band-tick{position:absolute;transform:translateX(-50%);}
+/* ── INCOME CHART ───────────────────────────────────────────────── */
+.chart-wrap{position:relative;width:100%;min-width:0;overflow:hidden;}
+.chart-note{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;line-height:1.5;letter-spacing:0.02em;}
+/* ── SPENDING TABLE ─────────────────────────────────────────────── */
+.spend-table{width:100%;border-collapse:collapse;font-size:12px;}
+.spend-table{border-collapse:collapse;}
+.spend-table th{font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;text-align:center;border-bottom:1px solid var(--line);font-weight:400;}
+.spend-table th:first-child{text-align:left;}
+.spend-table td{padding:4px 6px;text-align:center;border-bottom:1px dashed var(--line);color:var(--ink-2);}
+.spend-table td:first-child{text-align:left;color:var(--ink);font-weight:500;}
+.spend-table tr:last-child td{border-bottom:none;font-weight:600;color:var(--ink);}
+.spend-table .neg{color:var(--red);}
+.spend-table .pos{color:var(--green);}
+.spend-table .savings{font-weight:600;}
+.spend-table .savings.ok{color:var(--green);}
+.spend-table .savings.bad{color:var(--red);}
+.spend-table input{width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;}
+.spend-table input:focus{border-color:var(--accent);}
+/* Vertical group dividers */
+.spend-table .div-r{border-right:1.5px solid var(--line-2);}
+.section-row td{background:var(--bg-3);color:var(--ink-3);font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 6px;font-weight:400;}
+/* ── LEGEND ─────────────────────────────────────────────────────── */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink-3);}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+/* ── DIVIDER ────────────────────────────────────────────────────── */
+.div{height:1px;background:var(--line);margin:8px 0;}
+/* ── LOADING ────────────────────────────────────────────────────── */
+#loading{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:opacity .3s;}
+#loading.hide{opacity:0;pointer-events:none;}
+.spinner{width:28px;height:28px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#loading p{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.08em;}
+/* ── TOOLTIP ────────────────────────────────────────────────────── */
+.tip-btn{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:999px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink-3);font-size:9px;font-family:var(--font-mono);cursor:default;flex-shrink:0;position:relative;}
+.tip-btn:hover{border-color:var(--accent);color:var(--accent);}
+.tip-box{display:none;position:fixed;background:var(--bg);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px;width:220px;font-family:var(--font-body);font-size:11px;color:var(--ink-2);line-height:1.5;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
+.tip-btn:hover .tip-box{display:block;}
+/* ── CENSUS BARS ────────────────────────────────────────────────── */
+/* ── GAUGE / DONUT CHARTS ───────────────────────────────────────── */
+.gauge-title{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:4px;text-align:center;}
+.gauge-legend{margin-top:4px;display:flex;flex-direction:column;gap:2px;}
+.gauge-legend .gli{display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:8.5px;color:var(--ink-3);}
+.gauge-legend .glc{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+/* Spend table group header colours */
+#spend-group-row th{font-size:10px;font-weight:700;letter-spacing:0.04em;padding:3px 4px;}
+.cbar-row{display:flex;align-items:center;gap:6px;font-size:10px;}
+.cbar-label{width:110px;color:var(--ink-3);font-family:var(--font-mono);font-size:9px;flex-shrink:0;text-align:right;}
+.cbar-track{flex:1;height:7px;border-radius:4px;background:var(--bg-3);overflow:hidden;}
+.cbar-fill{height:100%;border-radius:4px;transition:width .3s;}
+.cbar-val{width:34px;font-family:var(--font-mono);font-size:9px;color:var(--ink-2);text-align:right;flex-shrink:0;}
+/* ── COMPARISON BAR CHARTS ──────────────────────────────────────── */
+.cmp-section{margin-bottom:16px;}
+.cmp-section-title{font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--line);}
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 16px;}
+.cmp-row{display:grid;grid-template-columns:130px 1fr 38px;align-items:center;gap:5px;margin-bottom:3px;}
+.cmp-lbl{font-family:var(--font-mono);font-size:8.5px;color:var(--ink-3);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cmp-bars{display:flex;flex-direction:column;gap:2px;}
+.cmp-bar-row{display:flex;align-items:center;gap:3px;}
+.cmp-track{flex:1;height:6px;border-radius:3px;background:var(--bg-3);overflow:hidden;position:relative;}
+.cmp-fill{height:100%;border-radius:3px;transition:width .35s ease;}
+.cmp-val{font-family:var(--font-mono);font-size:8px;color:var(--ink-3);width:34px;text-align:right;flex-shrink:0;}
+/* ── COMPARISON BAR CHARTS ─────────────────────────────────────── */
+.cmp-section{margin-bottom:16px;}
+.cmp-section-title{font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--line);}
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 16px;}
+.cmp-row{display:grid;grid-template-columns:130px 1fr;align-items:center;gap:5px;margin-bottom:3px;}
+.cmp-lbl{font-family:var(--font-mono);font-size:8.5px;color:var(--ink-3);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cmp-bars{display:flex;flex-direction:column;gap:2px;}
+.cmp-bar-row{display:flex;align-items:center;gap:4px;}
+.cmp-track{flex:1;height:6px;border-radius:3px;background:var(--bg-3);overflow:hidden;}
+.cmp-fill{height:100%;border-radius:3px;transition:width .35s ease;}
+.cmp-val{font-family:var(--font-mono);font-size:8px;color:var(--ink-3);width:38px;text-align:right;flex-shrink:0;}
+/* ── COMPARISON BAR CHARTS ─────────────────────────────────────────── */
+.cmp-section{margin-bottom:14px;}
+/* ── INPUT WITH INLINE UNIT ─────────────────────────────────────── */
+.input-wrap{position:relative;display:flex;align-items:center;}
+.input-wrap input{padding-right:36px;width:100%;}
+.input-wrap .iunit{position:absolute;right:7px;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);pointer-events:none;white-space:nowrap;}
+/* Remove the field-label-row unit suffix now that it's inside box */
+.funit{display:none;}
+/* ── FIELD LABEL WITH UNIT ──────────────────────────────────────── */
+.field-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px;}
+.field-label-row .flbl{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.04em;}
+.field-label-row .funit{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);opacity:0.6;}
+[hidden]{display:none!important;}
+
+/* ── MOBILE ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Topbar: hide nav links, keep brand + controls */
+  .topbar nav { display: none; }
+  .topbar { padding: 0 12px; gap: 10px; }
+
+  /* Page: stack vertically, allow full scroll */
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Input column: full width, no fixed height */
+  .input-col {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    overflow: visible;
+    padding: 10px;
+  }
+
+  /* Collapsible input panel */
+  .input-col-inner {
+    display: none;
+    margin-top: 8px;
+  }
+  .input-col-inner.open {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .input-toggle-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-3);
+    border: 1px solid var(--line-2);
+    border-radius: 7px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .input-toggle-btn .toggle-arrow {
+    font-size: 10px;
+    color: var(--ink-3);
+    transition: transform .2s;
+  }
+  .input-toggle-btn.open .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Results column: full width, no overflow clipping */
+  .results-col {
+    padding: 10px;
+    overflow: visible;
+  }
+
+  /* Top row: stack the two panels */
+  .top-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Metric cards: allow 2-up on mobile, smaller min-width */
+  .met {
+    min-width: 130px;
+    flex: 1 1 calc(50% - 4px);
+  }
+  .met .mv { font-size: 16px; }
+
+  /* Persons grid: stack Person 1 / Person 2 */
+  .persons-grid {
+    grid-template-columns: 1fr;
+  }
+  .person-col {
+    padding: 0;
+    border: none;
+    margin-bottom: 8px;
+  }
+  .person-col:last-child {
+    padding: 0;
+    border-left: none;
+    margin-bottom: 0;
+  }
+
+  /* Input grids: 2-col stays fine, 3-col collapses to 2 */
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+
+  /* rcard padding tighter on mobile */
+  .rcard { padding: 10px; }
+
+  /* Tooltip: tap-to-show on mobile */
+  .tip-btn:focus .tip-box,
+  .tip-btn:active .tip-box { display: block; }
+
+  /* ── SPENDING TABLE: pivoted card layout on mobile ── */
+  .spend-table-wrap { overflow: visible; }
+  #spend-table { display: none; }
+  #spend-cards-mobile { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ── OTTAWA MARKET CONTEXT: stack charts vertically ── */
+  .ottawa-charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ottawa KPIs: 2x2 */
+  #ottawa-kpis {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ── NEIGHBOURHOOD ANALYSIS: KPIs below chart ── */
+  .census-income-row {
+    grid-template-columns: 1fr !important;
+  }
+  #census-metrics {
+    grid-template-columns: repeat(2, 1fr) !important;
+    margin-top: 10px;
+  }
+
+  /* ── CENSUS BAR CHARTS: always single column ── */
+  .cmp-section-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* 100% stacked bars: touch tooltip overlay */
+  .stacked-seg-tip {
+    display: none;
+    position: fixed;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    z-index: 2000;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    pointer-events: none;
+    max-width: 200px;
+  }
+  .stacked-seg-tip.visible { display: block; }
+}
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><p>Loading data…</p></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="mortgage.html" class="active">Mortgage</a>
+    <a href="weather.html">Weather</a>
+    <a href="index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a href="mortgage.html#methodology" style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 8px;border:1px solid var(--line);border-radius:6px;">Methodology</a>
+  </div>
+</header>
+
+<!-- MAIN PAGE -->
+<div class="page">
+
+  <!-- ── INPUT COLUMN ── -->
+  <aside class="input-col">
+    <button class="input-toggle-btn" id="input-toggle" aria-expanded="false">
+      <span>Edit inputs</span>
+      <span class="toggle-arrow">&#9660;</span>
+    </button>
+    <div class="input-col-inner" id="input-col-inner">
+
+    <!-- INCOME -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Income</div>
+      <div class="persons-grid">
+        <div class="person-col">
+          <div class="person-label">Person 1</div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p1salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+          </div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
+            <div class="input-wrap"><input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
+          </div>
+        </div>
+        <div class="person-col">
+          <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p2salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+          </div>
+          <div class="field">
+            <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
+            <div class="input-wrap"><input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- CHILDREN -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Children
+        <span class="tip-btn" style="margin-left:4px;">?<span class="tip-box" style="width:270px;">
+          Estimated cost of raising children, added to your shared expenses. Per-child figures come from Statistics Canada's <em>Estimating Expenditures on Children by Families in Canada, 2014–2017</em> (two-parent family, birth to age 17), scaled to today.<br><br>
+          <strong>Shelter is excluded</strong> — this tool already models your mortgage, property tax and heat, so housing is not double-counted. The estimate covers food, child care, clothing, transportation, recreation and personal care for the child. Edit the <em>Kids</em> column in the spending table to override.
+        </span></span>
+      </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Number of kids</span><span class="funit">count</span></div>
+          <div class="input-wrap"><input type="number" id="numkids" value="0" min="0" max="10" step="1"><span class="iunit">kids</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Cost basis</span><span class="funit">income</span></div>
+          <select id="childcost">
+            <option value="low">Lower income (&lt;$83k)</option>
+            <option value="mid" selected>Middle income ($83–136k)</option>
+            <option value="high">Higher income (&gt;$136k)</option>
+          </select>
+        </div>
+      </div>
+      <div id="kidcost-lbl" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);margin-top:6px;display:none;"></div>
+    </div>
+
+    <!-- FINANCES -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Finances
+        <span class="tip-btn" style="margin-left:4px;">?<span class="tip-box" style="width:260px;">
+          <strong>Lump sum:</strong> Extra annual payment on principal. Reduces total interest and shortens amortization. Most mortgages allow 10–20% of original principal/yr.<br><br>
+          <strong>Shared expenses %:</strong> Share of each person's net paycheque into the joint account. The remainder stays personal spending money.<br><br>
+          <strong>Other debt:</strong> Monthly payments on car loans, student loans, credit lines, other mortgages. Used in the TDS stress test alongside your housing costs.
+        </span></span>
+      </div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="downpay" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
+          <div class="input-wrap"><input type="number" id="rate" value="4.5" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Amortization</span><span class="funit">yrs</span></div>
+          <div class="input-wrap"><input type="number" id="amort" value="25" min="5" max="30"><span class="iunit">yrs</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Lump sum</span><span class="funit">CAD/yr</span></div>
+          <div class="input-wrap"><input type="text" id="lumpsum" value="0" data-raw="0"><span class="iunit">CAD</span></div>
+          <div id="lump-warn" style="font-family:var(--font-mono);font-size:9px;margin-top:3px;display:none;"></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Inflation</span><span class="funit">%/yr</span></div>
+          <div class="input-wrap"><input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"><span class="iunit">%/yr</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Shared expenses</span><span class="funit">%</span></div>
+          <div class="input-wrap"><input type="number" id="jointpct" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Other debt</span><span class="funit">$/mo</span></div>
+          <div class="input-wrap"><input type="text" id="otherdebt" value="0" data-raw="0"><span class="iunit">$/mo</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
+          <div id="cmhc-notice" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);line-height:1.4;display:none;">
+            <span style="color:var(--amber);">⚠ CMHC</span> <span id="cmhc-rate-lbl"></span> premium<br>
+            +<span id="cmhc-premium-lbl"></span> added to principal
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTY -->
+    <div class="ibox">
+      <div class="ibox-head"><div class="dot"></div>Property</div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="hprice" value="500,000" data-raw="500000"><span class="iunit">CAD</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
+          <input type="text" id="fsa" value="K1S" maxlength="3" style="text-transform:uppercase;" placeholder="e.g. K1S">
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:6px;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Heat <span class="tip-btn">?<span class="tip-box">Used by CMHC in GDS stress test. Standard estimate $150–$200/month. Does not affect your mortgage payment.</span></span></span><span class="funit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="heat" value="150" data-raw="150"><span class="iunit">CAD/mo</span></div>
+        </div>
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Property tax</span><span class="funit">CAD/yr</span></div>
+          <div class="input-wrap"><input type="text" id="proptax" value="6,000" data-raw="6000"><span class="iunit">CAD/yr</span></div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom:0;">
+        <div class="field">
+          <div class="field-label-row"><span class="flbl">Condo fee <span class="tip-btn">?<span class="tip-box">Monthly condo/strata fee. Included in GDS/TDS stress tests per CMHC rules (50% of condo fee counts toward GDS). Leave at 0 for freehold.</span></span></span><span class="funit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="condofee" value="0" data-raw="0"><span class="iunit">CAD/mo</span></div>
+        </div>
+        <div></div>
+        </div>
+    </div>
+
+    <button class="calc-btn" id="calcbtn">Calculate</button>
+
+    </div><!-- /input-col-inner -->
+  </aside>
+
+  <!-- ── RESULTS COLUMN ── -->
+  <main class="results-col">
+
+    <!-- PAYMENT SUMMARY (top of results) -->
+    <div class="rcard" id="pay-summary">
+      <h3 style="display:flex;align-items:center;gap:8px;">Summary
+        <select id="displaymode" style="background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:3px 22px 3px 8px;font-family:var(--font-mono);font-size:10px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 7px center;cursor:pointer;">
+          <option value="biweekly">Bi-weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="annual">Annual</option>
+        </select>
+      </h3>
+      <!-- AFFORDABILITY BAR: Tax / Housing / Shared / Leftover of gross income -->
+      <div class="afford-wrap" id="afford-wrap">
+        <div class="afford-bar" id="afford-bar">
+          <div class="afford-seg" id="ab-tax" style="background:var(--ink-3);">
+            <span class="as-name">Tax + deductions</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-housing" style="background:var(--red);">
+            <span class="as-name">Housing</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-shared" style="background:var(--purple);">
+            <span class="as-name">Shared costs</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+          <div class="afford-seg" id="ab-left" style="background:var(--green);">
+            <span class="as-name">Leftover</span><span class="as-val"></span><span class="as-pct"></span>
+          </div>
+        </div>
+        <div class="afl-total">of <b id="afl-total">—</b> gross income</div>
+      </div>
+      <div class="mrow">
+        <div class="met"><div class="ml">Total net income <span class="tip-btn">?<span class="tip-box" style="width:220px;">Combined estimated after-tax income for both persons. Includes federal + provincial tax, CPP and EI. Province inferred from postal code. Approximation — not a tax calculator.</span></span></div><div class="mv green" id="m-net-income">—</div><div class="ms" id="m-net-income-s"></div></div>
+        <div class="met"><div class="ml">Mortgage payment <span class="tip-btn">?<span class="tip-box" style="width:240px;">Mortgage payment using standard Canadian semi-annual compounding formula. Does not include property tax or heat.</span></span></div><div class="mv" id="m-pay">—</div><div class="ms" id="m-pay-s"></div></div>
+        <div class="met"><div class="ml">Total housing cost</div><div class="mv" id="m-housing">—</div><div class="ms" id="m-housing-s">incl. tax + heat</div></div>
+        <div class="met"><div class="ml">Leftover</div><div class="mv green" id="m-leftover">—</div><div class="ms" id="m-leftover-s"></div></div>
+        <div class="met"><div class="ml">Shared expenses</div><div class="mv amber" id="m-expenses">—</div><div class="ms" id="m-expenses-s"></div></div>
+        <div class="met"><div class="ml">Total interest</div><div class="mv amber" id="m-interest">—</div><div class="ms" id="m-int-s"></div></div>
+        <div class="met"><div class="ml">Lump sum savings <span class="tip-btn">?<span class="tip-box" style="width:250px;">Time saved off your amortization by making an extra annual payment on the principal. Most lenders allow 10–20% of original principal per year prepayment-free.</span></span></div><div class="mv green" id="m-years-saved">—</div><div class="ms" id="m-saved-s"></div></div>
+        <div class="met"><div class="ml">Max house price <span class="tip-btn">?<span class="tip-box" style="width:260px;">Maximum purchase price where GDS ≤ 39% and TDS ≤ 44% at the stress rate (max of rate+2% and 5.25%, per OSFI B-20). This reflects the regulatory qualifying limit — your personal comfort level may be lower.</span></span></div><div class="mv blue" id="m-bank-max">—</div><div class="ms" id="m-bank-s"></div></div>
+      </div>
+    </div>
+
+    <!-- ROW 1: Spending breakdown table -->
+    <div class="rcard">
+      <h3>Spending breakdown <span class="sub" id="spend-lbl">bi-weekly</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">shared expenses: <span id="jpct-lbl">70</span>% of net</span>
+      </h3>
+      <div class="spend-table-wrap">
+        <table class="spend-table" id="spend-table">
+          <thead>
+            <tr id="spend-group-row">
+              <th style="width:72px;background:transparent;border:none;"></th>
+              <th colspan="2" style="background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Salary</th>
+              <th colspan="5" style="background:rgba(232,90,68,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Housing</th>
+              <th colspan="5" style="background:rgba(127,119,221,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);">Shared Expenses</th>
+              <th colspan="2" style="background:rgba(29,158,117,0.55);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);">Leftovers</th>
+            </tr>
+            <tr>
+              <th style="width:72px;"></th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Gross</th>
+              <th class="div-r">Est. Net</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Mortgage</th>
+              <th>Tax/fees</th>
+              <th>Heat</th>
+              <th>Condo</th>
+              <th class="div-r">Lump sum</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Groceries</th>
+              <th>Entertain.</th>
+              <th>Transport</th>
+              <th>Kids</th>
+              <th class="div-r">Other</th>
+              <th style="border-left:1.5px solid rgba(255,255,255,0.18);">Shared</th>
+              <th style="border-right:1.5px solid rgba(255,255,255,0.18);">Personal</th>
+            </tr>
+          </thead>
+          <tbody id="spend-tbody"></tbody>
+        </table>
+      </div>
+      <div id="spend-cards-mobile" style="display:none;"></div>
+      <div id="spend-warn" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin-top:5px;">⚠ Joint spending exceeds joint account — reduce expenses or increase joint %</div>
+      <div style="margin-top:6px;display:flex;align-items:center;gap:5px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Avg spending</span>
+        <span class="tip-btn" id="statscan-tip-btn">?<span class="tip-box" style="width:260px;">Average household spending by province, Statistics Canada Survey of Household Spending 2023 (table 11-10-0222-01). Values shown per category below each input reflect the provincial average for that spending group, scaled to the selected display period. Housing average includes shelter and household operations. Excludes CMHC-insured amounts.</span></span>
+      </div>
+    </div>
+
+    <!-- ROW 2: Stress tests + Amortization side by side -->
+    <div class="top-row">
+
+      <!-- Stress tests -->
+      <div class="rcard">
+        <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span> <span class="tip-btn">?<span class="tip-box" style="width:260px;">OSFI B-20 qualifying rules. Lenders must test that you can afford payments at the higher of your rate + 2% or 5.25%. Blue line = your rate; purple = stress rate.</span></span></h3>
+        <div id="stress-bands"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+          <div class="li"><div class="ld" style="background:#378ADD;"></div>Actual rate</div>
+          <div class="li"><div class="ld" style="background:#7f77dd;"></div>+2% stress</div>
+        </div>
+      </div>
+
+      <!-- Amortization -->
+      <div class="rcard" style="display:flex;flex-direction:column;">
+        <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span> <span class="tip-btn">?<span class="tip-box" style="width:270px;">Annual cost breakdown over the full amortization. Stacked from bottom: principal repaid, interest paid, shared living expenses (inflation-adjusted), and remaining leeway.</span></span></h3>
+        <div class="chart-wrap" style="flex:1;min-height:160px;">
+          <canvas id="amort-chart"></canvas>
+        </div>
+        <div class="legend">
+          <div class="li"><div class="ld" style="background:rgba(232,160,48,0.8);"></div>Principal</div>
+          <div class="li"><div class="ld" style="background:rgba(232,90,68,0.8);"></div>Interest</div>
+          <div class="li"><div class="ld" style="background:rgba(127,119,221,0.8);"></div>Shared expenses</div>
+          <div class="li"><div class="ld" style="background:rgba(29,158,117,0.8);"></div>Leeway</div>
+        </div>
+        <div class="chart-note">Shared = tax + heat + discretionary. Leeway = what's left over after all costs.</div>
+      </div>
+
+    </div>
+
+    <!-- Housing market context -->
+    <div class="rcard" id="market-card">
+      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
+      <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
+        <div class="ottawa-charts-grid" style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">Freehold sales by price bracket — trailing 12 months</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="bracket-chart"></canvas></div>
+            <div class="chart-note" id="bracket-note"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:6px;">MLS benchmark price history — <span id="afford-board-lbl">Ottawa</span> (2005–present)</div>
+            <div class="chart-wrap" style="height:110px;"><canvas id="afford-chart"></canvas></div>
+            <div class="legend" style="margin-top:4px;">
+              <div class="li"><div class="ld" style="background:#e85a44;"></div>Actual benchmark</div>
+              <div class="li"><div class="ld" style="background:#378ADD;border-style:dashed;"></div>2005 price × CPI inflation</div>
+              <div class="li"><div class="ld" style="background:rgba(29,158,117,0.6);"></div>Max you could afford</div>
+            </div>
+            <div class="chart-note" id="afford-note"></div>
+          </div>
+        </div>
+        <!-- Ottawa freehold market KPIs — trailing 12 weeks average -->
+        <div id="ottawa-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line);">
+          <div class="met"><div class="ml">Avg sold</div><div class="mv" id="ott-avg-sold">—</div></div>
+          <div class="met"><div class="ml">Median sold</div><div class="mv" id="ott-med-sold">—</div></div>
+          <div class="met"><div class="ml">List / sold</div><div class="mv" id="ott-list-sold">—</div></div>
+          <div class="met"><div class="ml">Avg days on market</div><div class="mv" id="ott-dom">—</div></div>
+        </div>
+      </div>
+      <div id="crea-ctx" hidden>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div class="met"><div class="ml">Composite</div><div class="mv" id="cr-comp">—</div><div class="ms" id="cr-upd"></div></div>
+          <div class="met"><div class="ml">Single-family</div><div class="mv" id="cr-sfh">—</div></div>
+          <div class="met"><div class="ml">Townhouse</div><div class="mv" id="cr-town">—</div></div>
+          <div class="met"><div class="ml">YoY change</div><div class="mv" id="cr-yoy">—</div></div>
+        </div>
+        <div class="chart-note" style="margin-top:8px;" id="cr-note"></div>
+      </div>
+    </div>
+
+    <!-- Neighbourhood analysis -->
+    <div class="rcard" id="census-card">
+      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
+      <div id="census-ctx">
+        <!-- ROW 1: Income chart + KPIs -->
+        <div class="census-income-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
+          <!-- LEFT: employment income chart -->
+          <div style="display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Employment income distribution <span class="tip-btn">?<span class="tip-box" style="width:260px;">Distribution of total household income for private households in this FSA. Source: 2021 Census. Shows the share of individuals (aged 15+) with employment income in each bracket. Bars represent % of workers — they sum to 100% of those with employment income.</span></span></span>
+              <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">Census 2021 · <span id="fsa-lbl">—</span></span>
+              <div class="legend" style="margin:0 0 0 auto;">
+                <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+                <div class="li"><div class="ld" style="background:#6ab0e8;"></div>Province</div>
+                <div class="li"><div class="ld" style="background:#e85a44;"></div>Canada</div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:220px;">
+              <canvas id="income-chart"></canvas>
+            </div>
+            <div class="chart-note" id="income-note" style="margin-top:4px;">Enter salaries and postal code then calculate.</div>
+          </div>
+          <!-- RIGHT: expanded KPI grid -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;" id="census-metrics"></div>
+        </div>
+
+        <!-- ROW 2: Comparison bar charts -->
+        <div style="margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-family:var(--font-cond);font-size:12px;font-weight:600;color:var(--ink-2);">Neighbourhood profile — FSA vs Province vs Canada</span>
+            <div class="legend" style="margin-left:auto;">
+              <div class="li"><div class="ld" style="background:#1a4a7a;"></div>FSA</div>
+              <div class="li"><div class="ld" style="background:#6ab0e8;"></div>Province</div>
+              <div class="li"><div class="ld" style="background:#e85a44;"></div>Canada</div>
+            </div>
+          </div>
+          <div id="census-bar-charts"></div>
+        </div>
+
+      </div>
+      <div id="census-empty" hidden style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:8px 0;">Census data not available for this postal code.</div>
+    </div>
+
+    <!-- METHODOLOGY ANCHOR -->
+    <div class="rcard" id="methodology">
+      <h3>Methodology & assumptions</h3>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.7;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Mortgage payment</p>
+          <p>Standard Canadian mortgage formula with semi-annual compounding (as required by the Interest Act). Bi-weekly rate: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">r_bw = (1 + rate/200)^(2/26) − 1</code>. Payment: <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-3);padding:1px 4px;border-radius:3px;">P × r_bw / (1 − (1+r_bw)^−n)</code> where n = years × 26.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CMHC stress test &amp; bank maximum</p>
+          <p>GDS ratio calculated at both contract rate and stress rate (max of rate+2% and 5.25%, per OSFI B-20). GDS = (mortgage + property tax + heat) / gross monthly income. TDS adds all other monthly debt payments. Bank qualifying limits: GDS ≤ 39% and TDS ≤ 44% at stress rate.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Net income estimate</p>
+          <p>Combined federal + provincial income tax, CPP and EI premiums. Rates from TaxTips.ca 2026 combined marginal brackets (Other Income column), province-inferred from postal code. Not a substitute for a tax calculator.</p>
+        </div>
+        <div>
+          <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Neighbourhood profile</p>
+          <p>Source: Statistics Canada 2021 Census Profile by forward sortation area (FSA).</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">CPI adjustment</p>
+          <p>Source: Statistics Canada table 18-10-0005-01 (annual average, all-items, Canada, base 2002=100). Used to inflation-adjust the 2005 Ottawa benchmark price to today's dollars for comparison.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Housing data</p>
+          <p>Ottawa data provided by <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="color:var(--accent);">u/ottawaagent</a> (Reddit). CREA MLS HPI benchmark prices.</p>
+          <p style="margin-top:8px;font-weight:600;color:var(--ink);">Average Spending</p>
+          <p>Source: Statistics Canada Household spending, Canada, regions and provinces.</p>
+        </div>
+        <p>Tool built using Claude AI</p>
+      </div>
+      <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line);">
+        <p style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em;color:var(--ink-3);margin-bottom:6px;">Sources</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 16px;">
+          <a href="https://ised-isde.canada.ca/site/office-superintendent-bankruptcy/en/statistics-and-research/forward-sortation-area-fsa-and-north-american-industry-classification-naics-reports/forward-sortation-area-definition" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">FSA definition — ISED</a>
+          <a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger.cfm?Lang=E" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">2021 Census Profile — Statistics Canada</a>
+          <a href="https://www.taxtips.ca/marginal-tax-rates-in-canada.htm" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Tax rates — TaxTips.ca</a>
+          <a href="https://www.cmhc-schl.gc.ca/professionals/project-funding-and-mortgage-financing/mortgage-loan-insurance/calculating-gds-tds" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">GDS/TDS calculation — CMHC</a>
+          <a href="https://www150.statcan.gc.ca/n1/pub/11f0019m/11f0019m2023007-eng.htm" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Cost of raising a child — Statistics Canada</a>
+          <a href="https://www.reddit.com/user/ottawaagent/" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa weekly data — u/ottawaagent</a>
+          <a href="https://docs.google.com/spreadsheets/d/11e_xLB3ekOhBol1iefpJXgNRUJ48r0RsqJUytoiMhjo/edit?gid=900158794#gid=900158794" target="_blank" style="font-family:var(--font-mono);font-size:9px;color:var(--accent);text-decoration:none;">Ottawa data spreadsheet</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ================================================================
+// CONFIG & STATE
+// ================================================================
+const DATA_BASE = 'JSON/';
+let DATA = {};
+let charts = {};
+
+// Spending category definitions (label, id, default bi-weekly value)
+const CATS = [
+  { label:'Groceries',   id:'cat-groc',  def:500 },
+  { label:'Entertain.',  id:'cat-ent',   def:200 },
+  { label:'Transport',   id:'cat-trans', def:450 },
+  { label:'Kids',        id:'cat-kids',  def:0   },
+  { label:'Other',       id:'cat-other', def:250 },
+];
+// Cost of raising a child, per child per year (CAD), by household income bracket.
+// Source: Statistics Canada, "Estimating Expenditures on Children by Families in
+// Canada, 2014 to 2017" (cat. 11F0019M, 2023). Two-parent family, birth to age 17.
+// Shelter is EXCLUDED here (~29% of the StatCan figure) because this tool already
+// models the mortgage, property tax and heat separately — including it would
+// double-count housing. The remainder covers food, child care, clothing,
+// transportation, recreation, personal care and health for the child.
+const CHILD_COST = { low:9400, mid:12200, high:15900 };
+// Build input state object
+const catVals = {};
+CATS.forEach(c => { catVals[c.id] = c.def; });
+
+// StatsCan 2023 household spending keys per display category
+// Source: Statistics Canada table 11-10-0222-01
+const STATSCAN_GROUPS = {
+  // Spending breakdown columns
+  'cat-groc':  ['food'],
+  'cat-ent':   ['recreation'],
+  'cat-trans': ['transportation'],
+  'cat-other': ['furnishings','tobacco_alcohol','misc'],
+  // Housing column (shelter + household operations) — shown separately
+  'housing':   ['shelter','hh_ops'],
+  // Personal catch-all — everything not in the above
+  'personal':  ['health','personal_care','clothing','education','reading','gambling'],
+};
+
+// Returns the StatsCan annual average for a group key given a province code.
+// Returns null if data not loaded yet.
+function statscanAvg(province, groupKey) {
+  const hs = DATA.household_spending && DATA.household_spending[province];
+  if (!hs) return null;
+  const keys = STATSCAN_GROUPS[groupKey];
+  if (!keys) return null;
+  return keys.reduce((sum, k) => sum + (hs[k] || 0), 0);
+}
+
+// ================================================================
+// THEME
+// ================================================================
+const root = document.documentElement;
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  document.getElementById('theme-toggle').innerHTML = mode === 'dark'
+    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+}
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('ov-theme'); } catch(e){}
+if (!savedTheme) savedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+setTheme(savedTheme);
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  try { if (typeof calculate === 'function') calculate(); } catch(e){}
+});
+
+// ================================================================
+// NUMBER FORMATTING HELPERS
+// ================================================================
+const CAD = (n, dec=0) => n == null || isNaN(n) ? '—' :
+  new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD',maximumFractionDigits:dec}).format(n);
+const NUM = (n, dec=1) => n == null || isNaN(n) ? '—' : n.toFixed(dec);
+
+// Thousand-separated input handling
+function rawVal(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+  const raw = el.dataset.raw !== undefined ? parseFloat(el.dataset.raw) : parseFloat(el.value.replace(/,/g,''));
+  return isNaN(raw) ? 0 : raw;
+}
+function setupFormattedInput(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  function format() {
+    const n = parseFloat(el.value.replace(/,/g,''));
+    if (!isNaN(n)) {
+      el.dataset.raw = n;
+      el.value = n.toLocaleString('en-CA');
+    }
+  }
+  el.addEventListener('focus', () => { el.value = el.value.replace(/,/g,''); });
+  el.addEventListener('blur', format);
+  format();
+}
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt','condofee'].forEach(setupFormattedInput);
+document.getElementById('fsa').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase(); });
+
+// ================================================================
+// MORTGAGE MATH (correct Canadian semi-annual compounding)
+// ================================================================
+function bwRate(annualRate) {
+  // (1 + r_semi)^(2/26) - 1 where r_semi = annual/200
+  return Math.pow(1 + annualRate / 200, 2 / 26) - 1;
+}
+function mortgagePayment(principal, annualRate, years) {
+  if (annualRate === 0) return principal / (years * 26);
+  const r = bwRate(annualRate);
+  const n = years * 26;
+  return principal * r / (1 - Math.pow(1 + r, -n));
+}
+// ── GROSS → NET (TaxTips.ca 2026 combined Fed+Prov marginal brackets) ─────────
+// Source: Mortgage/JSON/tax_rates_2026.json  (loaded into DATA.tax_rates)
+// Method: bracket walk on combined marginal rates (Other Income column),
+//         + CPP/QPP and EI on gross. Rates already account for BPA and surtaxes.
+// Fallback to Ontario rates if province or JSON unknown.
+// Note: slightly overestimates deductions at lower salaries (~$60–90k) because
+//       CWB refundable credit is not modelled. Conservative for affordability use.
+const FSA_PROV = {A:'NL',B:'NS',C:'PE',E:'NB',G:'QC',H:'QC',J:'QC',
+  K:'ON',L:'ON',M:'ON',N:'ON',P:'ON',R:'MB',S:'SK',T:'AB',V:'BC',X:'NT',Y:'YT'};
+
+// CPP 2026 (non-QC)
+const CPP = {ex:3500,ympe:71300,yampe:81200,r1:0.0595,max1:4034.10,r2:0.04,max2:396};
+// QPP 2026 (QC)
+const QPP = {ex:3500,ympe:71300,yampe:81200,r1:0.064, max1:4339.20,r2:0.04,max2:396};
+// EI 2026
+const EI  = {mie:65700,rNon:0.0164,maxNon:1077.48,rQC:0.0131,maxQC:860.67};
+
+function estimateNet(gross, province) {
+  if (gross <= 0) return 0;
+  const prov = province || 'ON';
+  const td = DATA.tax_rates;
+
+  // ── Fallback: 2021 interpolation if JSON not loaded yet ──
+  if (!td || !td.provinces) {
+    const OLD_BP=[10000,20000,30000,40000,50000,60000,80000,100000,175000,600000];
+    const OLD={AB:[-9.9,1.4,14.6,19.5,21.8,24.1,25.8,26.8,31.8,42.7],
+      BC:[-9.6,1.9,14.0,18.3,20.3,22.5,24.0,25.4,32.4,46.8],
+      MB:[-9.8,6.5,18.3,22.7,24.9,27.1,29.1,31.0,36.7,46.2],
+      NB:[-8.9,2.7,16.2,21.3,23.8,26.5,28.8,30.4,36.5,48.1],
+      NL:[-8.9,1.9,17.2,21.3,24.1,26.8,29.0,30.6,36.1,46.6],
+      NS:[-8.9,4.9,16.8,22.5,25.3,27.9,30.4,31.9,37.8,49.0],
+      NT:[-12.4,0.9,12.5,16.6,18.7,21.2,23.2,24.8,31.3,42.2],
+      NU:[-2.5,0.4,8.8,13.3,16.3,19.2,21.0,22.5,28.6,39.6],
+      ON:[-8.9,1.9,12.8,19.5,21.5,23.7,25.5,27.2,34.8,47.7],
+      PE:[-8.9,4.4,17.5,22.4,24.8,27.3,29.7,31.3,37.3,47.0],
+      QC:[-31.5,0.9,20.2,23.9,26.8,29.6,31.7,33.2,39.6,49.1],
+      SK:[-8.9,3.2,15.9,20.6,22.9,25.4,27.4,27.3,33.0,43.0],
+      YT:[-8.9,3.1,14.6,18.6,20.4,22.8,24.6,25.7,31.2,41.7]};
+    const rates=OLD[prov]||OLD.ON; let rate=rates[0];
+    for(let i=0;i<OLD_BP.length-1;i++){
+      if(gross>=OLD_BP[i]&&gross<OLD_BP[i+1]){
+        rate=rates[i]+(rates[i+1]-rates[i])*(gross-OLD_BP[i])/(OLD_BP[i+1]-OLD_BP[i]);break;}
+    }
+    if(gross>=OLD_BP[OLD_BP.length-1]) rate=rates[rates.length-1];
+    return gross*(1-rate/100);
+  }
+
+  // ── Bracket walk ──
+  const brackets = td.provinces[prov] || td.provinces['ON'];
+  let tax = 0;
+  for (const b of brackets) {
+    if (gross <= b.from) break;
+    tax += (Math.min(gross, b.to) - b.from) * b.rate / 100;
+  }
+
+  // ── CPP / QPP ──
+  const c = prov==='QC' ? QPP : CPP;
+  const cpp1 = Math.min(Math.max(0,Math.min(gross,c.ympe)-c.ex)*c.r1, c.max1);
+  const cpp2 = Math.min(Math.max(0,Math.min(gross,c.yampe)-c.ympe)*c.r2, c.max2);
+
+  // ── EI ──
+  const ei = prov==='QC'
+    ? Math.min(Math.min(gross,EI.mie)*EI.rQC, EI.maxQC)
+    : Math.min(Math.min(gross,EI.mie)*EI.rNon, EI.maxNon);
+
+  return gross - tax - cpp1 - cpp2 - ei;
+}
+
+// ── CMHC premium rate helper ────────────────────────────────────────────────
+function cmhcRate(dp, price) {
+  if (price > 1500000 || dp / price >= 0.20) return 0;
+  if (dp / price >= 0.15) return 0.028;
+  if (dp / price >= 0.10) return 0.031;
+  return 0.040;
+}
+
+// ── BANK MAX MORTGAGE (GDS ≤ 39% AND TDS ≤ 44% at stress rate, OSFI B-20) ──
+// Returns maximum purchase price given income, down payment, and other debts.
+// Accounts for CMHC premium added to principal when down < 20%.
+// Binding constraint is whichever ratio (GDS or TDS) hits its limit first.
+function bankMaxMortgageTDS(grossIncome, downpayment, rate, amort, proptax, heat, otherDebtMo, condoFeeMonthly) {
+  const stressRate   = Math.max(rate + 2, 5.25);
+  const monthlyGross = grossIncome / 12;
+  const monthlyTax   = proptax / 12;
+  const monthlyHeat  = heat;
+  const monthlyDebt  = otherDebtMo || 0;
+  const condoGDS     = (condoFeeMonthly || 0) * 0.5; // CMHC: 50% of condo fee in GDS
+  let lo = 50000, hi = 5000000;
+  for (let i = 0; i < 60; i++) {
+    const mid      = (lo + hi) / 2;
+    const baseLoan = Math.max(mid - downpayment, 0);
+    if (baseLoan <= 0) { hi = mid; continue; }
+    const prem     = baseLoan * cmhcRate(downpayment, mid);
+    const loan     = baseLoan + prem;
+    const bwP      = mortgagePayment(loan, stressRate, amort);
+    const monthlyM = bwP * 26 / 12;
+    const gds = (monthlyM + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+    const tds = (monthlyM + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
+    if (gds <= 39 && tds <= 44) lo = mid; else hi = mid;
+  }
+  return Math.round(lo);
+}
+
+// ================================================================
+// PERIOD SCALING
+// ================================================================
+function pf(mode) { return mode==='biweekly'?1:mode==='monthly'?26/12:26; }
+function pl(mode) { return mode==='biweekly'?'bi-weekly':mode==='monthly'?'monthly':'annual'; }
+
+// ================================================================
+// CHART HELPERS
+// ================================================================
+function mkChart(id, cfg) {
+  if (charts[id]) charts[id].destroy();
+  const el = document.getElementById(id);
+  if (!el) return;
+  charts[id] = new Chart(el.getContext('2d'), cfg);
+}
+function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function tc() { return cssVar('--ink-2'); }
+function gc() { return cssVar('--line'); }
+const baseChart = {
+  responsive:true, maintainAspectRatio:false, animation:{duration:250},
+  plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
+};
+
+// ================================================================
+// LOAD DATA
+// ================================================================
+async function loadData() {
+  const files = ['fsa_index','census_fsa','census_province','census_canada','crea_benchmarks','ottawa_sales','cpi','tax_rates_2026','household_spending'];
+  const results = await Promise.all(
+    files.map(f => fetch(DATA_BASE + f + '.json').then(r => r.ok ? r.json() : null).catch(() => null))
+  );
+  files.forEach((f,i) => { DATA[f] = results[i]; });
+  // Alias for estimateNet
+  DATA.tax_rates = DATA.tax_rates_2026 || null;
+}
+
+// ================================================================
+// INCOME CHART — Census 2021 employment income brackets
+// ================================================================
+// 12 brackets: <10K … 90-100K | 100-125K | 125K+
+// Source: census_fsa.json emp_inc_pct = % of workers in each bracket
+// Province and Canada lines built by weighting FSA data by worker count.
+
+const INC_LABELS = ['<$10K','$10–20K','$20–30K','$30–40K','$40–50K','$50–60K',
+                    '$60–70K','$70–80K','$80–90K','$90–100K','$100–125K','$125K+'];
+const INC_LO     = [0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,125000];
+const INC_HI     = [10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,125000,200000];
+const N_BRACKETS = 12;
+
+function salaryToXPos(salary) {
+  for (let i = 0; i < N_BRACKETS; i++) {
+    if (salary >= INC_LO[i] && salary < INC_HI[i]) {
+      const frac = (salary - INC_LO[i]) / (INC_HI[i] - INC_LO[i]);
+      return i + Math.min(Math.max(frac, 0.05), 0.95);
+    }
+  }
+  return N_BRACKETS - 0.1;
+}
+
+function salaryToBracketLabel(salary) {
+  for (let i = 0; i < N_BRACKETS; i++) {
+    if (salary >= INC_LO[i] && salary < INC_HI[i]) return INC_LABELS[i];
+  }
+  return INC_LABELS[N_BRACKETS - 1];
+}
+
+
+function renderIncomeChart(fsa, p1sal, p2sal) {
+  const isDark   = root.getAttribute('data-theme') !== 'light';
+  const fsaEntry = DATA.census_fsa && DATA.census_fsa[fsa];
+  const province = (fsaEntry && fsaEntry.province) || FSA_PROV[fsa[0]] || 'ON';
+
+  // Get employment income distribution from census data (13 brackets → merge first two → 12)
+  // emp_income dist: <5K|5-10K|10-20K|…|100-125K|125K+ (13 items)
+  // Chart needs 12: <10K|10-20K|…|100-125K|125K+
+  function empDistTo12(censusEntry) {
+    if (!censusEntry) return null;
+    const d = censusEntry.distributions && censusEntry.distributions.emp_income;
+    if (!d || !d.pcts) return null;
+    const p = d.pcts.map(v => v || 0);
+    if (p.length === 13) {
+      // Merge <5K + 5-10K → <10K, keep rest as-is
+      return [p[0]+p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12]];
+    }
+    if (p.length === 12) return p;
+    return p.slice(0, 12); // fallback
+  }
+
+  const FSA_TO_FULL = {
+    A:'Newfoundland and Labrador', B:'Nova Scotia', C:'Prince Edward Island',
+    E:'New Brunswick', G:'Eastern Quebec', H:'Metropolitan Montreal',
+    J:'Western Quebec', K:'Eastern Ontario', L:'Central Ontario',
+    M:'Metropolitan Toronto', N:'Southwestern Ontario', P:'Northern Ontario',
+    R:'Manitoba', S:'Saskatchewan', T:'Alberta', V:'British Columbia',
+    X:'Northwest Territories and Nunavut', Y:'Yukon',
+  };
+  const fullProvName = (fsaEntry && fsaEntry.province) || FSA_TO_FULL[fsa[0]] || null;
+  const provEntry    = fullProvName && DATA.census_province ? DATA.census_province[fullProvName] : null;
+
+  const fsaPct   = empDistTo12(fsaEntry);
+  const provPct  = empDistTo12(provEntry);
+  const canPct   = empDistTo12(DATA.census_canada);
+
+  const colors = { fsa:'#1a4a7a', prov:'#6ab0e8', can:'#e85a44' };
+  const toData = arr => arr ? arr.map(v => v == null ? 0 : +v.toFixed(2)) : new Array(N_BRACKETS).fill(0);
+
+  const datasets = [];
+  if (fsaPct)  datasets.push({ label:fsa,                     data:toData(fsaPct),  backgroundColor:colors.fsa,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (provPct) datasets.push({ label:fullProvName||'Province', data:toData(provPct), backgroundColor:colors.prov, barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+  if (canPct)  datasets.push({ label:'Canada',                 data:toData(canPct),  backgroundColor:colors.can,  barPercentage:0.8, categoryPercentage:0.85, borderRadius:2 });
+
+  mkChart('income-chart', {
+    type: 'bar',
+    data: { labels: INC_LABELS, datasets },
+    options: {
+      ...baseChart,
+      layout: { padding: { bottom: 36 } },
+      scales: {
+        x: {
+          ticks:{ font:{size:8, family:'"JetBrains Mono"'}, color:tc(), maxRotation:45, minRotation:30 },
+          grid:{ display:true, color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', drawTicks:false },
+          border:{ display:false },
+        },
+        y: {
+          display:true,
+          ticks:{ font:{size:8}, color:tc(), callback: v => v.toFixed(0)+'%' },
+          grid:{ color:gc() }, border:{ display:false },
+        },
+      },
+      plugins: {
+        ...baseChart.plugins,
+        tooltip:{ callbacks:{
+          label: ctx => `${ctx.dataset.label}: ${ctx.raw != null ? ctx.raw.toFixed(1) : '—'}% of workers`,
+        }},
+      },
+    },
+  });
+
+  document.getElementById('fsa-lbl').textContent = fsa;
+  const workers = fsaEntry ? (fsaEntry.emp_inc_workers || 0).toLocaleString('en-CA') : '—';
+  const fsaNote = fsaEntry
+    ? `${fsa} · ${workers} workers with employment income · 2021 Census`
+    : `${fsa} not found in Census data`;
+  const p1lbl = p1sal > 0 ? `P1 ${CAD(p1sal)} → ${salaryToBracketLabel(p1sal)}` : '';
+  const p2lbl = p2sal > 0 ? ` · P2 ${CAD(p2sal)} → ${salaryToBracketLabel(p2sal)}` : '';
+  document.getElementById('income-note').textContent =
+    (p1lbl ? p1lbl + p2lbl + ' · ' : '') + fsaNote;
+
+  requestAnimationFrame(() => {
+    if (charts['income-chart']) {
+      charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
+      charts['income-chart'].draw();
+    }
+  });
+}
+
+// Salary bracket marker plugin
+// Meeples drawn BELOW the chart (under x-axis labels) pointing UP into the bracket.
+// Same-bracket: offset horizontally at 1/3 and 2/3.
+Chart.register({
+  id: 'salaryMarkers',
+  afterDraw(chart) {
+    if (chart.canvas.id !== 'income-chart') return;
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
+    const salaries = chart._salaryMarkers;
+    if (!salaries || !salaries.length) return;
+    const colors = ['#e85a44', '#7f77dd'];
+    const barW = (chartArea.right - chartArea.left) / N_BRACKETS;
+    const baseY = chartArea.bottom + 38; // below x-axis tick labels
+
+    const byBracket = {};
+    salaries.forEach((sal, si) => {
+      const bi = INC_LO.findIndex((lo, i) => sal >= lo && sal < INC_HI[i]);
+      if (bi < 0) return;
+      if (!byBracket[bi]) byBracket[bi] = [];
+      byBracket[bi].push({ si, sal });
+    });
+
+    Object.entries(byBracket).forEach(([bi, group]) => {
+      const x0 = chartArea.left + parseInt(bi) * barW;
+      const n  = group.length;
+      group.forEach(({ si }, gi) => {
+        const frac = n === 1 ? 0.5 : (gi + 1) / (n + 1);
+        const mx   = x0 + barW * frac;
+        const col  = colors[si];
+        ctx.save();
+        ctx.fillStyle = col;
+
+        // Upward arrow from baseY pointing toward the chart
+        ctx.beginPath();
+        ctx.moveTo(mx - 5, baseY);
+        ctx.lineTo(mx + 5, baseY);
+        ctx.lineTo(mx, baseY - 8);
+        ctx.closePath();
+        ctx.fill();
+
+        // Thin line from arrow tip up to chart bottom
+        ctx.fillRect(mx - 1, chartArea.bottom, 2, baseY - chartArea.bottom - 8);
+
+        // Meeple below the arrow
+        const my = baseY + 14;
+        ctx.beginPath(); ctx.arc(mx, my, 4.5, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(mx-7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(mx+7, my+6, 3, 2.2, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(mx-3.5, my+3.5); ctx.lineTo(mx-4.5, my+16);
+        ctx.lineTo(mx+4.5, my+16); ctx.lineTo(mx+3.5, my+3.5);
+        ctx.closePath(); ctx.fill();
+
+        ctx.restore();
+      });
+    });
+  }
+});
+
+// ================================================================
+// STRESS TESTS
+// ================================================================
+function renderStress(grossIncome, principal, rate, amort, proptax, heat, otherDebtMo, condoFeeMonthly) {
+  const monthlyGross   = grossIncome / 12;
+  const bwPay          = mortgagePayment(principal, rate, amort);
+  const bwPayStress    = mortgagePayment(principal, rate + 2, amort);
+  const monthlyMort    = bwPay * 26 / 12;
+  const monthlyMortS   = bwPayStress * 26 / 12;
+  const monthlyTax     = proptax / 12;
+  const monthlyHeat    = heat;
+  const condoGDS       = (condoFeeMonthly || 0) * 0.5; // CMHC: 50% of condo fee
+  const spendableNet   = (estimateNet(grossIncome * 0.53, 'ON') + estimateNet(grossIncome * 0.47, 'ON')) / 12;
+
+  const monthlyDebt = otherDebtMo || 0;
+  const gds   = (monthlyMort  + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+  const gdsS  = (monthlyMortS + monthlyTax + monthlyHeat + condoGDS) / monthlyGross * 100;
+  const tds   = (monthlyMort  + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
+  const tdsS  = (monthlyMortS + monthlyTax + monthlyHeat + condoGDS + monthlyDebt) / monthlyGross * 100;
+  const pNet    = monthlyMort  / (monthlyGross * (1 - 0.272)) * 100;
+  const pNetS   = monthlyMortS / (monthlyGross * (1 - 0.272)) * 100;
+
+  // ── Band definitions ────────────────────────────────────────────────────────
+  // GDS: green 0–32% | orange 32–39% | chart ends at 39% (grey overflow strip)
+  // TDS: green 0–40% | orange 40–44% | chart ends at 44%
+  // Net: green 0–35% | orange 35–50% | chart ends at 50%
+  //
+  // Badge logic:
+  //   'Test failed' (red)   — GDS or TDS actual/stress exceeds max (39/44)
+  //   'Caution' (amber)     — any band in orange zone, no failures
+  //   'All pass' (green)    — all bands green
+  const bands = [
+    {
+      label: 'GDS ratio',
+      a: gds, s: gdsS, max: 39,        // chart ends at 39% cap
+      overflowGrey: true,               // add grey strip if value > max
+      stops: [
+        [0,          '#1D9E75'],
+        [32/39*100,  '#1D9E75'],        // green 0→32%
+        [32/39*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 32→39%
+      ],
+      ticks: [{v:0,l:'0%'},{v:32,l:'32%'},{v:39,l:'39%'}],
+      tickNotes: {32:'Former CMHC limit', 39:'OSFI B-20 cap'},
+      warnAt: 32, failAt: 39,          // failAt = exceeds chart max
+      isRegulatory: true,
+      desc: 'Gross Debt Service — (mortgage + tax + heat) ÷ gross income. 32% is the former CMHC limit, 39% is the maximum.',
+    },
+    {
+      label: 'TDS ratio',
+      a: tds, s: tdsS, max: 44,
+      overflowGrey: true,
+      stops: [
+        [0,          '#1D9E75'],
+        [40/44*100,  '#1D9E75'],        // green 0→40%
+        [40/44*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 40→44%
+      ],
+      ticks: [{v:0,l:'0%'},{v:40,l:'40%'},{v:44,l:'44%'}],
+      tickNotes: {40:'Former CMHC limit', 44:'OSFI B-20 cap'},
+      warnAt: 40, failAt: 44,
+      isRegulatory: true,
+      desc: 'Total Debt Service — GDS + all other monthly debt payments. 40% is the former CMHC limit, 44% is the maximum.',
+    },
+    {
+      label: 'Housing cost vs net income',
+      a: pNet, s: pNetS, max: 50,
+      overflowGrey: false,
+      stops: [
+        [0,          '#1D9E75'],
+        [35/50*100,  '#1D9E75'],        // green 0→35%
+        [35/50*100,  '#e8a030'],
+        [100,        '#e8a030'],        // orange 35→50%
+      ],
+      ticks: [{v:0,l:'0%'},{v:35,l:'35%'},{v:50,l:'50%'}],
+      tickNotes: {},
+      warnAt: 35, failAt: Infinity,    // no hard fail for planning metric
+      isRegulatory: false,
+      desc: 'Monthly mortgage as % of estimated after-tax income. Planning guideline only — not a bank requirement. Under 35% is comfortable.',
+    },
+  ];
+
+  let anyWarn = false, anyRegFail = false;
+  const html = bands.map(b => {
+    const clamp  = v => Math.min(v / b.max * 100, 100);
+    const aPct   = clamp(b.a);
+    const sPct   = clamp(b.s);
+    const aOver  = b.a > b.max;
+    const sOver  = b.s > b.max;
+
+    const gradStops = b.stops.map(([pct, col]) => `${col} ${pct.toFixed(2)}%`).join(',');
+    const grad = `linear-gradient(90deg,${gradStops})`;
+
+    const aStatus = b.a >= b.failAt ? 'fail' : b.a >= b.warnAt ? 'warn' : 'ok';
+    const sStatus = b.s >= b.failAt ? 'fail' : b.s >= b.warnAt ? 'warn' : 'ok';
+
+    if ((aStatus==='warn'||sStatus==='warn') && aStatus!=='fail' && sStatus!=='fail') anyWarn = true;
+    if (b.isRegulatory && (aStatus==='fail'||sStatus==='fail')) anyRegFail = true;
+
+    const ticksHtml = b.ticks.map(t => {
+      const note  = b.tickNotes[t.v];
+      const title = note ? ` title="${note}"` : '';
+      const isLimit = note !== undefined;
+      return `<span class="band-tick" style="left:${t.v/b.max*100}%;${isLimit?'font-weight:600;color:var(--ink-2);cursor:help;':''}"${title}>${t.l}</span>`;
+    }).join('');
+
+    // Position labels: if value exceeds chart, pin to right edge with ">" prefix
+    const aLblVal  = aOver  ? `>${NUM(b.max)}%` : `${NUM(b.a)}%`;
+    const sLblVal  = sOver  ? `>${NUM(b.max)}%` : `${NUM(b.s)}%`;
+    const aLblLeft = aOver  ? 'right:2px' : `right:calc(${100-aPct}% + 4px)`;
+    const sLblLeft = sOver  ? 'left:calc(100% - 52px)' : `left:calc(${sPct}% + 4px)`;
+    const aLabel   = `<span style="position:absolute;${aLblLeft};top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#378ADD;white-space:nowrap;">${aLblVal}</span>`;
+    const sLabel   = `<span style="position:absolute;${sLblLeft};top:-20px;font-family:var(--font-mono);font-size:12px;font-weight:600;color:#7f77dd;white-space:nowrap;">${sLblVal}</span>`;
+
+    // Grey overflow strip appended to bar if value > max
+    const overflowA = (aOver && b.overflowGrey) ? `<div style="position:absolute;left:calc(${aPct}% - 1px);top:0;width:calc(100% - ${aPct}% + 1px);height:100%;background:rgba(85,90,106,0.55);border-radius:0 3px 3px 0;pointer-events:none;"></div>` : '';
+
+    return `<div class="band" style="margin-bottom:20px;">
+      <div class="band-head" style="flex-direction:column;align-items:flex-start;gap:2px;">
+        <span class="band-lbl">${b.label}</span>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);font-weight:400;line-height:1.4;">${b.desc}</span>
+      </div>
+      <div class="band-bar" style="background:${grad};overflow:visible;margin-top:22px;position:relative;">
+        ${overflowA}${aLabel}${sLabel}
+        <div class="bm" style="left:calc(${aPct}% - 1.5px);height:20px;top:-4px;background:#378ADD;border-radius:1px;position:absolute;"></div>
+        <div class="bm" style="left:calc(${sPct}% - 1.5px);height:20px;top:-4px;background:#7f77dd;border-radius:1px;position:absolute;"></div>
+      </div>
+      <div class="band-ticks">${ticksHtml}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('stress-bands').innerHTML = html;
+  const sb = document.getElementById('stress-badge');
+  if (anyRegFail) {
+    sb.textContent = 'test failed';
+    sb.className   = 'badge bad';
+  } else if (anyWarn) {
+    sb.textContent = 'caution';
+    sb.className   = 'badge warn';
+  } else {
+    sb.textContent = 'all pass';
+    sb.className   = 'badge ok';
+  }
+}
+
+// ================================================================
+// SPENDING TABLE
+// ================================================================
+function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, province, lumpsum, condofee, rate, amort, principal) {
+  const p1net = estimateNet(p1sal, province);
+  const p2net = estimateNet(p2sal, province);
+
+  const p1n = p1net, p2n = p2net;
+  const p1joint = p1n * jointPct, p2joint = p2n * jointPct;
+  const p1per   = p1n * (1 - jointPct), p2per = p2n * (1 - jointPct);
+  const jointTotal = p1joint + p2joint;
+  const condofeeAnn = (condofee || 0) * 12;
+  const mortAnn = bwMort * 26, taxAnn = proptax, heatAnn = heat * 12;
+  const housingAnn = mortAnn + taxAnn + heatAnn + condofeeAnn;
+  const remainAnn  = jointTotal - housingAnn;
+
+  // +2% stress payment for leeway column
+  const stressRate = Math.max((rate||4.5) + 2, 5.25);
+  const bwMortStress = mortgagePayment(principal || 0, stressRate, amort || 25);
+  const mortStressAnn = bwMortStress * 26;
+  const housingStressAnn = mortStressAnn + taxAnn + heatAnn + condofeeAnn;
+  const remainStressAnn  = jointTotal - housingStressAnn;
+
+  const lumpAnn = lumpsum || 0;
+
+  let catTotalAnn = 0;
+  const catAnnVals = {};
+  CATS.forEach(c => {
+    catAnnVals[c.id] = (catVals[c.id] || 0) * 26;
+    catTotalAnn += catAnnVals[c.id];
+  });
+  // Shared savings = what's left after housing + lump sum + discretionary
+  const sharedSavingsAnn = remainAnn - lumpAnn - catTotalAnn;
+  // Personal = each person's kept portion (not in joint)
+  const personalAnn = p1per + p2per;
+
+  const totalSal = p1sal + p2sal || 1;
+  const p1ratio  = p1sal / totalSal, p2ratio = p2sal / totalSal;
+  const d = v => CAD(v / 26 * pf(mode));
+  const tbody = document.getElementById('spend-tbody');
+
+  const rows = [
+    { label:'Person 1', g:p1sal, n:p1n, mort:mortAnn*p1ratio, tax:taxAnn*p1ratio, ht:heatAnn*p1ratio, condo:condofeeAnn*p1ratio, lump:lumpAnn*p1ratio, ratio:p1ratio, per:p1per },
+    { label:'Person 2', g:p2sal, n:p2n, mort:mortAnn*p2ratio, tax:taxAnn*p2ratio, ht:heatAnn*p2ratio, condo:condofeeAnn*p2ratio, lump:lumpAnn*p2ratio, ratio:p2ratio, per:p2per },
+    { label:'Combined', g:p1sal+p2sal, n:p1n+p2n, mort:mortAnn, tax:taxAnn, ht:heatAnn, condo:condofeeAnn, lump:lumpAnn, ratio:1, per:personalAnn },
+  ];
+
+  const divLStyle = 'border-left:1.5px solid rgba(255,255,255,0.18);';
+  const dataRows = rows.map((r, ri) => {
+    const isCombined = ri === 2;
+    const catCells = CATS.map((c, ci) => {
+      const isFirst = ci === 0;
+      const isLast  = ci === CATS.length - 1;
+      if (isCombined) {
+        const bwVal   = catVals[c.id] || 0;
+        const dispVal = Math.round(bwVal * pf(mode));
+        const factor  = pf(mode);
+        return `<td class="${isLast ? 'div-r' : ''}" style="${isFirst ? divLStyle : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
+          style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
+          onchange="catVals['${c.id}']=(parseFloat(this.value)||0)/${factor};calculate()"></td>`;
+      }
+      const cellStyle = `${isFirst ? divLStyle : ''}color:var(--ink-3);font-size:11px;`;
+      return `<td${isLast ? ' class="div-r"' : ''} style="${cellStyle}">${d(catAnnVals[c.id] * r.ratio)}</td>`;
+    }).join('');
+
+    // For person rows show their proportional share of shared savings (or — if combined only)
+    const personSharedSav = sharedSavingsAnn * r.ratio;
+    const sharedCell = isCombined
+      ? `<td class="savings ${sharedSavingsAnn>=0?'ok':'bad'}" style="font-weight:600;${divLStyle}">${d(sharedSavingsAnn)}</td>`
+      : `<td class="${sharedSavingsAnn>=0?'ok':'bad'}" style="${divLStyle}font-size:11px;color:var(--ink-3);">${d(personSharedSav)}</td>`;
+    const boldStyle = isCombined ? 'font-weight:600;border-top:1px solid var(--line);' : '';
+    const condoCell = r.condo > 0
+      ? `<td class="neg">${d(r.condo)}</td>`
+      : `<td style="color:var(--ink-3);">—</td>`;
+    const lumpCell = r.lump > 0
+      ? `<td class="neg div-r">${d(r.lump)}</td>`
+      : `<td class="div-r" style="color:var(--ink-3);">—</td>`;
+    return `<tr style="${boldStyle}">
+      <td>${r.label}</td>
+      <td class="pos" style="${divLStyle}">${d(r.g)}</td>
+      <td class="div-r">${d(r.n)}</td>
+      <td class="neg" style="${divLStyle}">${d(r.mort)}</td>
+      <td class="neg">${d(r.tax)}</td>
+      <td class="neg">${d(r.ht)}</td>
+      ${condoCell}
+      ${lumpCell}
+      ${catCells}
+      ${sharedCell}
+      <td style="color:var(--ink-2);border-right:1.5px solid rgba(255,255,255,0.18);">${d(r.per)}</td>
+    </tr>`;
+  }).join('');
+
+  // ── StatsCan avg row ─────────────────────────────────────────────
+  const scaledAvg = (groupKey) => {
+    const ann = statscanAvg(province, groupKey);
+    return ann != null ? `<span style="color:var(--ink-3);">${d(ann)}</span>` : '—';
+  };
+  const avgCatCells = CATS.map((c, ci) => {
+    const isFirst = ci === 0;
+    const isLast  = ci === CATS.length - 1;
+    return `<td${isLast ? ' class="div-r"' : ''} style="${isFirst ? divLStyle : ''}font-size:10px;color:var(--ink-3);">${scaledAvg(c.id)}</td>`;
+  }).join('');
+
+  const avgRow = statscanAvg(province, 'cat-groc') != null ? `
+    <tr style="border-top:1px dashed var(--line-2);">
+      <td style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);letter-spacing:0.04em;">Avg spending</td>
+      <td colspan="2" style="border-left:1.5px solid rgba(255,255,255,0.18);"></td>
+      <td colspan="5" style="border-left:1.5px solid rgba(255,255,255,0.18);font-size:10px;color:var(--ink-3);text-align:center;" title="StatsCan 2023: shelter + household operations">${scaledAvg('housing')}</td>
+      ${avgCatCells}
+      <td colspan="2" style="border-left:1.5px solid rgba(255,255,255,0.18);border-right:1.5px solid rgba(255,255,255,0.18);"></td>
+    </tr>` : '';
+
+  tbody.innerHTML = dataRows + avgRow;
+
+  // Mobile card view
+  const modeCardRows = rows.map((r, ri) => {
+    const isCombined = ri === 2;
+    return {
+      label: r.label,
+      gross: d(r.g),
+      net: d(r.n),
+      mort: d(r.mort),
+      tax: d(r.tax),
+      heat: d(r.ht),
+      lump: r.lump > 0 ? d(r.lump) : null,
+      cats: CATS.map(c => ({ id: c.id, label: c.label, val: d(catAnnVals[c.id] * r.ratio) })),
+      shared: isCombined ? d(sharedSavingsAnn) : d(sharedSavingsAnn * r.ratio),
+      sharedOk: sharedSavingsAnn >= 0,
+      personal: d(r.per),
+    };
+  });
+  renderMobileSpendCards(modeCardRows, d, mode, province);
+
+  document.getElementById('spend-warn').hidden = sharedSavingsAnn >= 0;
+  document.getElementById('jpct-lbl').textContent = Math.round(jointPct*100);
+  document.getElementById('spend-lbl').textContent = pl(mode);
+
+  return { catTotalBw: catTotalAnn / 26, sharedSavingsAnn, personalAnn };
+}
+
+// ================================================================
+// AMORTIZATION STACKED AREA
+// ================================================================
+function renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catBwBase, province) {
+  const r = bwRate(rate);
+  const bwPay = mortgagePayment(principal, rate, amort);
+
+  const labels = [], prinData=[], intData=[], sharedData=[], p1RemData=[];
+  let bal = principal;
+
+  for (let y = 1; y <= amort; y++) {
+    let yPrin=0, yInt=0;
+    const balAtStartOfYear = bal;
+    for (let bw=0; bw<26; bw++) {
+      if (bal <= 0) break;
+      const i = bal * r;
+      const p = Math.min(bwPay - i, bal);
+      bal = Math.max(bal - p, 0);
+      yPrin += p; yInt += i;
+    }
+    let lumpThisY = 0;
+    if (bal > 0 && lumpsum > 0) {
+      lumpThisY = Math.min(lumpsum, bal);
+      bal = Math.max(bal - lumpThisY, 0);
+    }
+    const p1salY = p1sal * Math.pow(1+p1wage, y);
+    const p2salY = p2sal * Math.pow(1+p2wage, y);
+    const totalNetY  = estimateNet(p1salY, province) + estimateNet(p2salY, province);
+    const sharedExpY = proptax * Math.pow(1+inflation,y) + heat*12*Math.pow(1+inflation,y) + catBwBase*26*Math.pow(1+inflation,y);
+    const mortgageAnnY = balAtStartOfYear > 0 ? yPrin + yInt : 0;
+    const leewayY = totalNetY - mortgageAnnY - sharedExpY - lumpThisY;
+    labels.push('Yr '+y);
+    prinData.push(Math.round(yPrin));
+    intData.push(Math.round(yInt));
+    sharedData.push(Math.round(sharedExpY));
+    p1RemData.push(Math.round(Math.max(leewayY, 0)));
+  }
+
+  document.getElementById('amort-years-lbl').textContent = amort;
+
+  mkChart('amort-chart', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'Principal',         data:prinData,        borderColor:'rgba(232,160,48,0.9)',  backgroundColor:'rgba(232,160,48,0.45)', fill:'stack',  tension:0.3, borderWidth:2,   pointRadius:0 },
+        { label:'Interest',          data:intData,         borderColor:'rgba(232,90,68,0.9)',   backgroundColor:'rgba(232,90,68,0.40)',  fill:'stack',  tension:0.3, borderWidth:2,   pointRadius:0 },
+        { label:'Shared exp.',       data:sharedData,      borderColor:'rgba(127,119,221,0.9)', backgroundColor:'rgba(127,119,221,0.35)', fill:'stack', tension:0.3, borderWidth:1.5, pointRadius:0 },
+        { label:'Leeway',            data:p1RemData,       borderColor:'#1D9E75',               backgroundColor:'rgba(29,158,117,0.50)', fill:'stack',  tension:0.3, borderWidth:2.5, pointRadius:0 },
+      ],
+    },
+    options: {
+      ...baseChart,
+      scales: {
+        x: { ticks:{font:{size:9},color:tc(),maxTicksLimit:13}, grid:{color:gc()}, border:{display:false} },
+        y: { ticks:{font:{size:9},color:tc(),callback:v=>'$'+Math.round(v/1000)+'K'}, grid:{color:gc()}, border:{display:false}, stacked:true },
+      },
+      plugins: {
+        ...baseChart.plugins,
+        tooltip:{
+          mode:'index', intersect:false,
+          callbacks:{
+            title: items => 'Year ' + items[0].label.replace('Yr ',''),
+            label: ctx => {
+              const v = ctx.parsed.y;
+              return `${ctx.dataset.label}: ${CAD(v/26)}/bw · ${CAD(v)}/yr`;
+            },
+            footer: items => {
+              const total = items.reduce((s,i) => s + i.parsed.y, 0);
+              return `Total: ${CAD(total/26)}/bw · ${CAD(total)}/yr`;
+            }
+          }
+        }
+      },
+    },
+  });
+}
+
+// ================================================================
+// OTTAWA BRACKET CHART
+// ================================================================
+function renderBracketChart(budget) {
+  if (!DATA.ottawa_sales) return;
+  const brackets = DATA.ottawa_sales.price_brackets || [];
+  const cutoff = new Date(); cutoff.setFullYear(cutoff.getFullYear()-1);
+  const tot = {a:0,b:0,c:0,d:0,e:0,f:0};
+  brackets.forEach(b => {
+    if (new Date(b.date) >= cutoff) {
+      tot.a += b.fh_0_249||0; tot.b += b.fh_250_499||0;
+      tot.c += b.fh_500_749||0; tot.d += b.fh_750_999||0;
+      tot.e += b.fh_1m_2m||0; tot.f += b.fh_2m_plus||0;
+    }
+  });
+  const vals = [tot.a,tot.b,tot.c,tot.d,tot.e,tot.f];
+  const labels = ['<$250K','$250–500K','$500–750K','$750K–1M','$1M–2M','$2M+'];
+  const uppers = [250000,500000,750000,1000000,2000000,Infinity];
+  const lowers = [0,250000,500000,750000,1000000,2000000];
+  const bi = uppers.findIndex((_,i) => budget >= lowers[i] && budget < uppers[i]);
+  const isDark = root.getAttribute('data-theme') !== 'light';
+  const colors = vals.map((_,i) => i===bi ? cssVar('--accent') : isDark ? 'rgba(42,58,82,0.9)' : 'rgba(155,190,225,0.9)');
+
+  mkChart('bracket-chart', {
+    type:'bar',
+    data:{ labels, datasets:[{ data:vals, backgroundColor:colors, borderRadius:3, barPercentage:0.75 }] },
+    options:{
+      ...baseChart,
+      scales:{
+        x:{ticks:{font:{size:9},color:tc()},grid:{display:false},border:{display:false}},
+        y:{ticks:{font:{size:9},color:tc(),callback:v=>v>=1000?Math.round(v/100)/10+'K':v},grid:{color:gc()},border:{display:false}},
+      },
+      plugins:{...baseChart.plugins,tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toLocaleString('en-CA')+' homes'}}},
+    },
+  });
+
+  const total = vals.reduce((a,b)=>a+b,0);
+  const under = vals.slice(0,bi+1).reduce((a,b)=>a+b,0);
+  const pct = total>0 ? Math.round(under/total*100) : 0;
+  // Build trailing 12-month freehold stats from the weekly data
+  let t12AvgSold = null, t12MedSold = null, t12AvgDOM = null, t12ListSoldPct = null, t12Weeks = 0;
+  if (DATA.ottawa_sales && DATA.ottawa_sales.freehold && DATA.ottawa_sales.freehold.length) {
+    const wks = DATA.ottawa_sales.freehold.slice(-52);
+    const valid = wks.filter(w => w.avg_sold);
+    if (valid.length) {
+      t12AvgSold     = Math.round(valid.reduce((s,w) => s + w.avg_sold, 0) / valid.length);
+      const medWks   = valid.filter(w=>w.median_sold);
+      t12MedSold     = medWks.length ? Math.round(medWks.reduce((s,w)=>s+w.median_sold,0)/medWks.length) : null;
+      const domWks   = valid.filter(w=>w.avg_dom);
+      t12AvgDOM      = domWks.length ? Math.round(domWks.reduce((s,w)=>s+w.avg_dom,0)/domWks.length) : null;
+      const lspValid = valid.filter(w=>w.list_sold_pct);
+      t12ListSoldPct = lspValid.length ? (lspValid.reduce((s,w)=>s+w.list_sold_pct,0)/lspValid.length).toFixed(1) : null;
+      t12Weeks       = valid.length;
+    }
+  }
+  // Update KPI boxes
+  const setKpi = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || '—'; };
+  setKpi('ott-avg-sold',   t12AvgSold   ? CAD(t12AvgSold)            : null);
+  setKpi('ott-med-sold',   t12MedSold   ? CAD(t12MedSold)            : null);
+  setKpi('ott-list-sold',  t12ListSoldPct ? t12ListSoldPct + '%'     : null);
+  setKpi('ott-dom',        t12AvgDOM    ? t12AvgDOM + ' days'        : null);
+  document.getElementById('bracket-note').textContent = 'Highlighted bar = your price range.'
+    + (t12Weeks ? ` Trailing ${t12Weeks}-week averages above.` : '');
+}
+
+// ================================================================
+// AFFORDABILITY TIMELINE — 3-line chart
+// ================================================================
+// Line 1: Actual Ottawa MLS benchmark (red, solid)
+// Line 2: 2005 benchmark price grown only by CPI (blue, dashed)
+//         = what the price would be if housing merely tracked inflation
+// Line 3: Max you could afford each year (green, dashed)
+//         = max price where GDS ≤ 39% at stress rate with current income
+//         This shows whether buying was ever "easier" relative to income
+function renderAffordChart(grossIncome, downpayment, rate, amort, proptax, heat, board) {
+  const cpi      = DATA.cpi ? (DATA.cpi.data || DATA.cpi) : null;
+  const boardKey = board || 'OTTAWA';
+  const boardData = DATA.crea_benchmarks && DATA.crea_benchmarks[boardKey];
+  if (!cpi || !boardData || !boardData.history || !boardData.history.length) {
+    document.getElementById('afford-note').textContent =
+      'No benchmark history available for this board — data may not include this region.';
+    return;
+  }
+  // Update board label in chart header
+  const boardLblEl = document.getElementById('afford-board-lbl');
+  if (boardLblEl) boardLblEl.textContent = boardKey.replace(/_/g,' ').replace(/([A-Z])/g, m => m).toLowerCase().replace(/^./, s => s.toUpperCase());
+
+  // Year → composite price
+  const byYear = {};
+  boardData.history.forEach(h => {
+    if (h.composite) byYear[h.date.substring(0,4)] = h.composite;
+  });
+
+  const allYears  = Object.keys(byYear).sort();
+  const showYears = allYears.filter(y => parseInt(y) >= 2005);
+  if (showYears.length < 3) {
+    document.getElementById('afford-note').textContent =
+      `Only ${showYears.length} year(s) of history available — push full CREA history CSV.`;
+    return;
+  }
+
+  const baseYear  = '2005';
+  const baseCpi   = parseFloat(cpi[baseYear]) || 107.0;
+  const nowCpi    = parseFloat(cpi[showYears[showYears.length-1]]) || baseCpi;
+  const basePrice = parseFloat(byYear[baseYear]) || parseFloat(byYear[showYears[0]]) || 0;
+
+  // Line 1: actual benchmark
+  const actualPrices = showYears.map(y => byYear[y] ? byYear[y] / 1000 : null);
+
+  // Line 2: 2005 price × CPI ratio (pure inflation path)
+  const cpiLine = showYears.map(y => {
+    const c = parseFloat(cpi[y]);
+    return c && basePrice ? Math.round(basePrice * c / baseCpi) / 1000 : null;
+  });
+
+  // Line 3: max affordable each year with TODAY'S income at stress rate
+  // Uses current gross income (nominal), current down payment, current
+  // property tax + heat — so the green line shows what GDS ≤ 32% allows
+  // at each year's CPI-deflated purchasing power. Expressed in nominal $
+  // so it compares directly with the red and blue benchmark lines.
+  const stressRate = Math.max(rate + 2, 5.25);
+  function bankMaxAfford(income, dp, ptax, ht) {
+    let lo = 50000, hi = 5000000;
+    for (let i = 0; i < 60; i++) {
+      const mid      = (lo + hi) / 2;
+      const baseLoan = Math.max(mid - dp, 0);
+      if (baseLoan <= 0) { hi = mid; continue; }
+      const prem     = baseLoan * cmhcRate(dp, mid);
+      const loan     = baseLoan + prem;
+      const bwP      = mortgagePayment(loan, stressRate, amort);
+      const gds      = (bwP * 26/12 + ptax/12 + ht) / (income/12) * 100;
+      if (gds <= 39) lo = mid; else hi = mid;
+    }
+    return Math.round(lo) / 1000;
+  }
+
+  // Compute once — same income/costs regardless of year
+  const affordMax = bankMaxAfford(grossIncome, downpayment, proptax, heat);
+  // Flat line: shows the same max for every year so you can see where
+  // in history your affordability would have let you buy
+  const affordLine = showYears.map(() => affordMax);
+
+  mkChart('afford-chart', {
+    type: 'line',
+    data: {
+      labels: showYears,
+      datasets: [
+        {
+          label: 'Actual benchmark',
+          data: actualPrices,
+          borderColor: '#e85a44', borderWidth: 2,
+          pointRadius: 0, fill: false, tension: 0.3, spanGaps: true,
+        },
+        {
+          label: '2005 price × CPI',
+          data: cpiLine,
+          borderColor: '#378ADD', borderWidth: 1.5, borderDash: [5, 4],
+          pointRadius: 0, fill: false, tension: 0.3, spanGaps: true,
+        },
+        {
+          label: 'Max affordable',
+          data: affordLine,
+          borderColor: 'rgba(29,158,117,0.85)', borderWidth: 1.5, borderDash: [3, 3],
+          pointRadius: 0,
+          fill: { target: 'origin', above: 'rgba(29,158,117,0.07)' },
+          tension: 0.2, spanGaps: true,
+        },
+      ],
+    },
+    options: {
+      ...baseChart,
+      scales: {
+        x: {
+          ticks: { font:{size:9,family:'"JetBrains Mono"'}, color:tc(), maxTicksLimit:7 },
+          grid: { display:false }, border: { display:false },
+        },
+        y: {
+          ticks: { font:{size:9}, color:tc(), callback: v => '$'+v+'K' },
+          grid: { color:gc() }, border: { display:false },
+        },
+      },
+      plugins: {
+        ...baseChart.plugins,
+        tooltip: { callbacks: {
+          label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y?.toFixed(0)||'?'}K`,
+        }},
+      },
+    },
+  });
+
+  const latestY  = showYears[showYears.length - 1];
+  const latestA  = byYear[latestY];
+  const latestC  = cpiLine[cpiLine.length - 1] * 1000;
+  const premium  = latestA && latestC ? Math.round((latestA / latestC - 1) * 100) : null;
+  const stressDisp = Math.max(rate + 2, 5.25).toFixed(2);
+  document.getElementById('afford-note').textContent = premium != null
+    ? `${boardKey.replace(/_/g,' ')} prices are ${premium}% above the 2005 CPI-adjusted baseline. ` +
+      `Green = max affordable (GDS ≤ 39% at ${stressDisp}% stress rate) with today's income.`
+    : 'Source: CREA MLS HPI · StatCan CPI.';
+}
+
+// ================================================================
+// DONUT LABEL PLUGIN + GAUGE HELPER (module scope)
+// ================================================================
+const donutLabelPlugin = {
+  id: 'donutLabels',
+  afterDraw(chart) {
+    const cid = chart.canvas.id;
+    if (!cid.startsWith('gauge-') && cid !== 'market-dwell-chart') return;
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
+    const ds   = chart.data.datasets[0];
+    const meta = chart.getDatasetMeta(0);
+    const cx   = (chartArea.left + chartArea.right)  / 2;
+    const cy   = (chartArea.top  + chartArea.bottom) / 2;
+    const textCol = cssVar('--ink-2');
+
+    meta.data.forEach((arc, i) => {
+      const label = chart.data.labels[i];
+      const val   = ds.data[i];
+      if (!label || val < 3) return;   // skip tiny slices
+      const angle = (arc.startAngle + arc.endAngle) / 2;
+      const r     = arc.outerRadius;
+      const lx1 = cx + Math.cos(angle) * (r + 4);
+      const ly1 = cy + Math.sin(angle) * (r + 4);
+      const lx2 = cx + Math.cos(angle) * (r + 14);
+      const ly2 = cy + Math.sin(angle) * (r + 14);
+      const right = lx2 >= cx;
+      const textX = lx2 + (right ? 7 : -7);
+
+      // Measure text to clamp within canvas
+      ctx.font = '8px JetBrains Mono, monospace';
+      const text    = `${label} ${val.toFixed(0)}%`;
+      const textW   = ctx.measureText(text).width;
+      const margin  = 2;
+      let finalX = textX;
+      if (right) {
+        // Don't overflow right edge
+        const maxX = chartArea.right - margin;
+        if (finalX + textW > maxX) finalX = maxX - textW;
+      } else {
+        // Don't overflow left edge
+        const minX = chartArea.left + margin;
+        if (finalX - textW < minX) finalX = minX + textW;
+      }
+      // Clamp Y within canvas
+      const finalY = Math.max(chartArea.top + 6, Math.min(ly2, chartArea.bottom - 6));
+
+      ctx.save();
+      ctx.strokeStyle = ds.backgroundColor[i];
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(lx1, ly1); ctx.lineTo(lx2, finalY); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(lx2, finalY); ctx.lineTo(lx2 + (right?5:-5), finalY); ctx.stroke();
+      ctx.fillStyle = textCol;
+      ctx.textAlign = right ? 'left' : 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, lx2 + (right ? 7 : -7), finalY);
+      ctx.restore();
+    });
+  }
+};
+Chart.register(donutLabelPlugin);
+
+function makeGauge(canvasId, slices) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const vals   = slices.map(s => Math.max(s.val != null ? +s.val : 0, 0));
+  const rem    = Math.max(100 - vals.reduce((a,b)=>a+b,0), 0);
+  const data   = [...vals, rem];
+  const colors = [...slices.map(s=>s.color), 'rgba(100,100,120,0.10)'];
+  const labels = [...slices.map(s=>s.label), ''];
+  mkChart(canvasId, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor:colors, borderWidth:1, borderColor:'var(--bg-2)', hoverOffset:3 }] },
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:200},
+      cutout:'55%',
+      layout:{ padding:{ left:52, right:52, top:16, bottom:16 } },
+      plugins: {
+        legend:{ display:false },
+        donutLabels:{},
+        tooltip:{ callbacks:{ label: ctx => ctx.label ? `${ctx.label}: ${ctx.raw?.toFixed(1)||0}%` : null }},
+      },
+    },
+  });
+}
+
+// ================================================================
+// CENSUS FSA ANALYSIS PANEL
+// ================================================================
+
+// Helper: get distribution array for a given key from census data object
+function getDist(d, key) {
+  return d && d.distributions && d.distributions[key] ? d.distributions[key] : null;
+}
+
+// ── Comparison bar chart renderer ────────────────────────────────────────────
+// Renders all demographic comparison sections into #census-bar-charts.
+// Each metric has up to 3 horizontal bars: FSA (dark blue), Province (light blue), Canada (red).
+// Max value across all three sets the 100% scale for that row.
+function renderCensusBarCharts(fsaData, provData, canData) {
+  const container = document.getElementById('census-bar-charts');
+  if (!container) return;
+
+  // ── High-contrast categorical palette ───────────────────────────────────
+  // Colours chosen so adjacent segments are clearly distinct even at small sizes.
+  const PALETTE = [
+    '#3a6ea5',  // slate blue
+    '#c0654a',  // terracotta
+    '#4a9470',  // sage green
+    '#b8862a',  // warm ochre
+    '#7068b8',  // dusty purple
+    '#5590b0',  // steel blue
+    '#9e6fa0',  // mauve
+    '#3d8a78',  // muted teal
+    '#b07050',  // clay
+    '#7a8090',  // cool grey
+  ];
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function getDist(d, key) {
+    return d && d.distributions && d.distributions[key] ? d.distributions[key] : null;
+  }
+  const pctStr = v => v == null ? '—' : (+v).toFixed(1) + '%';
+
+  function normalise(vals) {
+    const sum = vals.reduce((a, b) => a + (b || 0), 0);
+    if (!sum) return vals.map(() => 0);
+    return vals.map(v => (v || 0) / sum * 100);
+  }
+
+  function mergeDist(dist, groupDefs) {
+    if (!dist || !dist.pcts) return null;
+    return groupDefs.map(g => {
+      const sum = g.indices.reduce((a, i) => a + (dist.pcts[i] || 0), 0);
+      return +sum.toFixed(2);
+    });
+  }
+
+  // ── Single 100%-stacked bar (3 rows: FSA / Province / Canada) ────────────
+  // labels and colours are passed per-call. In-bar text shown if segment ≥ 8%.
+  function stackedBar(groups, fd, pd, cd) {
+    // groups = [{label, color}], fd/pd/cd = arrays of raw pcts (same length)
+    if (!fd) return '';
+    const pd2 = pd || fd.map(() => null);
+    const cd2 = cd || fd.map(() => null);
+    const allNull_p = pd2.every(v => v == null);
+    const allNull_c = cd2.every(v => v == null);
+
+    function oneBar(vals, rowLbl) {
+      const norm = normalise(vals.map(v => v || 0));
+      const segs = groups.map((g, i) => {
+        const w = norm[i].toFixed(2);
+        const rawV = vals[i];
+        const tip = rawV != null ? rawV.toFixed(1) + '%' : '—';
+        // label+% if ≥14%, % only if ≥7%, nothing if smaller
+        const showFull = norm[i] >= 14;
+        const showPct  = norm[i] >= 7;
+        const innerTxt = showFull
+          ? `${g.label} ${tip}`
+          : showPct ? tip : '';
+        return `<div title="${g.label}: ${tip}" data-tip="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .35s;">` +
+          (innerTxt ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.92);pointer-events:none;white-space:nowrap;overflow:hidden;padding:0 3px;text-overflow:clip;">${innerTxt}</span>` : '') +
+          `</div>`;
+      }).join('');
+      return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;">${rowLbl}</span>
+        <div style="height:16px;border-radius:3px;overflow:hidden;display:flex;background:var(--bg-3);">${segs}</div>
+      </div>`;
+    }
+
+    return oneBar(fd, 'FSA') +
+      (allNull_p ? '' : oneBar(pd2, 'Province')) +
+      (allNull_c ? '' : oneBar(cd2, 'Canada'));
+  }
+
+  // ── Full stacked section (title + legend + 3 bars) ────────────────────────
+  function stackedSection(title, groups, fd, pd, cd) {
+    if (!fd || fd.every(v => !v)) return '';
+    const legend = groups.map((g, i) =>
+      `<span style="display:inline-flex;align-items:center;gap:3px;margin-right:8px;">
+        <span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${g.color};flex-shrink:0;"></span>
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">${g.label}</span>
+      </span>`
+    ).join('');
+    return `<div style="flex:1;min-width:0;">
+      <div style="font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid var(--line);">${title}</div>
+      <div style="margin-bottom:6px;line-height:2;">${legend}</div>
+      ${stackedBar(groups, fd, pd, cd)}
+    </div>`;
+  }
+
+  // ── Build groups from dist + optional groupDefs ───────────────────────────
+  function buildGroups(distObj, groupDefs) {
+    // groupDefs = [{label, indices}] or null (use all labels as-is)
+    if (!distObj) return null;
+    const labels = distObj.labels || [];
+    if (!groupDefs) {
+      return labels.map((lbl, i) => ({ label: lbl, color: PALETTE[i % PALETTE.length] }));
+    }
+    return groupDefs.map((g, i) => ({ label: g.label, color: PALETTE[i % PALETTE.length] }));
+  }
+
+  function buildVals(distObj, groupDefs) {
+    if (!distObj) return null;
+    if (!groupDefs) return distObj.pcts ? distObj.pcts.map(v => v || 0) : null;
+    return mergeDist(distObj, groupDefs);
+  }
+
+  // ── Convenience: full section from distKey (no grouping) ─────────────────
+  function fullSection(title, distKey) {
+    const fd = getDist(fsaData, distKey);
+    const pd = getDist(provData, distKey);
+    const cd = getDist(canData,  distKey);
+    if (!fd) return '';
+    const groups = buildGroups(fd, null);
+    return stackedSection(title, groups,
+      buildVals(fd, null), buildVals(pd, null), buildVals(cd, null));
+  }
+
+  // ── Convenience: grouped section ─────────────────────────────────────────
+  function groupedSection(title, distKey, groupDefs) {
+    const fd = getDist(fsaData, distKey);
+    const pd = getDist(provData, distKey);
+    const cd = getDist(canData,  distKey);
+    if (!fd) return '';
+    return stackedSection(title, groupDefs.map((g, i) => ({ label: g.label, color: PALETTE[i % PALETTE.length] })),
+      mergeDist(fd, groupDefs), mergeDist(pd, groupDefs), mergeDist(cd, groupDefs));
+  }
+
+  // ── Scalar bars (single values, relative scale) ───────────────────────────
+  function scalarBar(label, fv, pv, cv) {
+    const vals = [fv, pv, cv].map(v => Math.abs(+(v || 0)));
+    const maxV = Math.max(...vals, 0.001);
+    const row = (v, col, lbl) => {
+      const w = Math.min((Math.abs(+(v||0)) / maxV) * 100, 100).toFixed(1);
+      return `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+        <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:52px;text-align:right;flex-shrink:0;">${lbl}</span>
+        <div style="flex:1;height:14px;border-radius:3px;background:var(--bg-3);overflow:hidden;position:relative;">
+          <div style="width:${w}%;height:100%;background:${col};border-radius:3px;transition:width .35s;display:flex;align-items:center;">
+            ${+w >= 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.9);padding-left:5px;">${pctStr(v)}</span>` : ''}
+          </div>
+        </div>
+        ${+w < 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:36px;text-align:left;">${pctStr(v)}</span>` : '<span style="width:36px;"></span>'}
+      </div>`;
+    };
+    return `<div style="margin-bottom:8px;">
+      <div style="font-family:var(--font-mono);font-size:9px;color:var(--ink-2);margin-bottom:3px;">${label}</div>
+      ${row(fv, '#1a4a7a', 'FSA')}
+      ${row(pv, '#6ab0e8', 'Province')}
+      ${row(cv, '#e85a44', 'Canada')}
+    </div>`;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // RENDER SECTIONS
+  // ═══════════════════════════════════════════════════════════════════════════
+  let html = '';
+
+  // ── Age ───────────────────────────────────────────────────────────────────
+  const ageGroups = [
+    { label:'0–9',   indices:[0,1] }, { label:'10–19', indices:[2,3] },
+    { label:'20–29', indices:[4,5] }, { label:'30–39', indices:[6,7] },
+    { label:'40–49', indices:[8,9] }, { label:'50–59', indices:[10,11] },
+    { label:'60–69', indices:[12,13]},{ label:'70–79', indices:[14,15]},
+    { label:'80+',   indices:[16,17]},
+  ];
+  html += `<div class="cmp-section">${groupedSection('Age distribution', 'age', ageGroups)}</div>`;
+
+  // ── Dwelling type + Tenure side by side ───────────────────────────────────
+  const dwellGroups = [
+    { label:'Detached',     indices:[0] },
+    { label:'Semi-detached',indices:[1] },
+    { label:'Row',          indices:[2] },
+    { label:'Duplex',       indices:[3] },
+    { label:'Apartments',   indices:[4,5] },
+    { label:'Others',       indices:[6,7] },
+  ];
+  const dwellFd = getDist(fsaData, 'dwelling_type'), dwellPd = getDist(provData, 'dwelling_type'), dwellCd = getDist(canData, 'dwelling_type');
+  const tenureFd = getDist(fsaData, 'tenure'),       tenurePd = getDist(provData, 'tenure'),       tenureCd = getDist(canData, 'tenure');
+
+  const dwellSec = dwellFd ? groupedSection('Dwelling type', 'dwelling_type', dwellGroups) : '';
+  const tenureGroups = tenureFd ? buildGroups(tenureFd, null) : [];
+  const tenureSec = tenureFd ? stackedSection('Tenure — owner vs. renter', tenureGroups,
+    buildVals(tenureFd, null), buildVals(tenurePd, null), buildVals(tenureCd, null)) : '';
+
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${dwellSec}${tenureSec}</div>`;
+
+  // ── Period of construction (full width) ───────────────────────────────────
+  html += `<div class="cmp-section">${fullSection('Period of construction', 'construction')}</div>`;
+
+  // ── Language + Education side by side ────────────────────────────────────
+  const langSec = fullSection('Official language knowledge', 'language');
+  const eduSec  = fullSection('Education — highest credential (25–64)', 'education');
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${langSec}${eduSec}</div>`;
+
+  // ── Commute mode + Commute duration side by side ──────────────────────────
+  const commModeSec = fullSection('Commute mode', 'commute_mode');
+  const commDurSec  = fullSection('Commute duration', 'commute_dur');
+  html += `<div class="cmp-section cmp-section-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${commModeSec}${commDurSec}</div>`;
+
+  // ── All single-value metrics in one box ───────────────────────────────────
+  html += `<div class="cmp-section">
+    <div style="font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;padding-bottom:3px;border-bottom:1px solid var(--line);">Key indicators</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 24px;">
+      ${scalarBar('Shelter cost 30%+',    fsaData?.pct_shelter_30plus,  provData?.pct_shelter_30plus,  canData?.pct_shelter_30plus)}
+      ${scalarBar('Major repairs',        fsaData?.pct_major_repairs,   provData?.pct_major_repairs,   canData?.pct_major_repairs)}
+      ${scalarBar('Employment rate',      fsaData?.employment_rate   ?? fsaData?.pct_employed,   provData?.employment_rate   ?? provData?.pct_employed,   canData?.employment_rate   ?? canData?.pct_employed)}
+      ${scalarBar('Unemployment rate',    fsaData?.unemployment_rate ?? fsaData?.pct_unemployed, provData?.unemployment_rate ?? provData?.pct_unemployed, canData?.unemployment_rate ?? canData?.pct_unemployed)}
+      ${scalarBar('Low income (LIM-AT)',  fsaData?.pct_low_income,      provData?.pct_low_income,      canData?.pct_low_income)}
+    </div>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
+function renderCensusPanel(fsa) {
+  const d     = DATA.census_fsa && DATA.census_fsa[fsa];
+  const empty = document.getElementById('census-empty');
+  const ctx   = document.getElementById('census-ctx');
+  const lbl   = document.getElementById('census-lbl');
+
+  if (!d) {
+    empty.hidden = false; ctx.hidden = true;
+    lbl.textContent = fsa; return;
+  }
+  empty.hidden = true; ctx.hidden = false;
+  lbl.textContent = `${fsa} · pop. ${(d.population||0).toLocaleString('en-CA')}`;
+
+  // Resolve province and Canada reference data
+  // Province: use FSA first-letter mapping to find which province object
+  const FSA_TO_PROV_NAME = {
+    A:'Newfoundland and Labrador', B:'Nova Scotia', C:'Prince Edward Island',
+    E:'New Brunswick', G:'Eastern Quebec', H:'Metropolitan Montreal',
+    J:'Western Quebec', K:'Eastern Ontario', L:'Central Ontario',
+    M:'Metropolitan Toronto', N:'Southwestern Ontario', P:'Northern Ontario',
+    R:'Manitoba', S:'Saskatchewan', T:'Alberta', V:'British Columbia',
+    X:'Northwest Territories and Nunavut', Y:'Yukon',
+  };
+  const provName = FSA_TO_PROV_NAME[fsa[0]] || null;
+  const provData = provName && DATA.census_province ? DATA.census_province[provName] : null;
+  const canData  = DATA.census_canada || null;
+
+  // ── KPI grid (3 columns, as many rows as needed) ──────────────────
+  const fmtD = v => v != null ? CAD(v) : '—';
+  const fmt  = (v, s='') => v != null ? v + s : '—';
+  const kpis = [
+    { l:'Population',            v: (d.population||0).toLocaleString('en-CA') },
+    { l:'Median age',            v: fmt(d.median_age, ' yrs') },
+    { l:'Avg household size',    v: fmt(d.avg_hh_size) },
+    { l:'Median HH income',      v: fmtD(d.median_hh_income) },
+    { l:'Avg HH income',         v: fmtD(d.avg_hh_income) },
+    { l:'Median after-tax HH',   v: fmtD(d.median_hh_aftertax) },
+    { l:'Median dwelling value', v: fmtD(d.median_dwelling_value) },
+    { l:'Avg dwelling value',    v: fmtD(d.avg_dwelling_value) },
+    { l:'Median owner shelter',  v: d.median_owner_shelter != null ? CAD(d.median_owner_shelter) + '/mo' : '—' },
+    { l:'Median renter shelter', v: d.median_renter_shelter != null ? CAD(d.median_renter_shelter) + '/mo' : '—' },
+    { l:'Shelter cost 30%+',     v: fmt(d.pct_shelter_30plus, '%') },
+    { l:'Low income (LIM-AT)',   v: fmt(d.pct_low_income, '%') },
+    { l:'Employment rate',       v: fmt(d.employment_rate ?? d.pct_employed, '%') },
+    { l:'Unemployment rate',     v: fmt(d.unemployment_rate ?? d.pct_unemployed, '%') },
+    { l:'Work from home',        v: fmt(d.pct_work_from_home, '%') },
+  ].filter(k => k.v !== '—');
+
+  document.getElementById('census-metrics').innerHTML = kpis.map(k =>
+    `<div class="met"><div class="ml">${k.l}</div><div class="mv" style="font-size:12px;">${k.v}</div></div>`
+  ).join('');
+
+  // Note
+  const parts = [
+    d.pct_immigrant != null ? `${d.pct_immigrant}% immigrants` : null,
+    d.pct_low_income != null ? `${d.pct_low_income}% low income` : null,
+  ].filter(Boolean);
+  // census-note removed
+
+  // ── Comparison bar charts ─────────────────────────────────────────
+  renderCensusBarCharts(d, provData, canData);
+}
+
+
+// ================================================================
+// CREA CONTEXT (non-Ottawa)
+// ================================================================
+function renderCreaCtx(board, budget) {
+  const b = DATA.crea_benchmarks && DATA.crea_benchmarks[board];
+  if (!b) { ['cr-comp','cr-sfh','cr-town','cr-yoy'].forEach(id=>document.getElementById(id).textContent='N/A'); return; }
+  document.getElementById('cr-comp').textContent = b.composite ? CAD(b.composite) : '—';
+  document.getElementById('cr-sfh').textContent  = b.sfh ? CAD(b.sfh) : '—';
+  document.getElementById('cr-town').textContent = b.townhouse ? CAD(b.townhouse) : '—';
+  document.getElementById('cr-upd').textContent  = b.updated || '';
+  const yoy = b.yoy_pct;
+  const yoyEl = document.getElementById('cr-yoy');
+  yoyEl.textContent = yoy!=null ? (yoy>0?'+':'')+NUM(yoy)+'%' : '—';
+  yoyEl.className   = 'mv ' + (yoy>0?'amber':yoy<0?'green':'');
+  if (b.composite) {
+    const diff = budget-b.composite, pct=Math.round(Math.abs(diff)/b.composite*100);
+    document.getElementById('cr-note').textContent =
+      `Your budget ${CAD(budget)} is ${pct}% ${diff>=0?'above':'below'} the ${b.updated} composite benchmark of ${CAD(b.composite)}.`;
+  }
+}
+
+// ================================================================
+// MAIN CALCULATE
+// ================================================================
+function calculate() {
+  const p1sal   = rawVal('p1salary');
+  const p2sal   = rawVal('p2salary');
+  const p1wage  = (+document.getElementById('p1wage').value || 2.5) / 100;
+  const p2wage  = (+document.getElementById('p2wage').value || 2.5) / 100;
+  const hprice  = rawVal('hprice');
+  const downpay = rawVal('downpay');
+  const rate    = +document.getElementById('rate').value    || 4.2;
+  const amort   = +document.getElementById('amort').value   || 25;
+  const fsa     = document.getElementById('fsa').value.trim().toUpperCase().substring(0,3);
+  const proptax = rawVal('proptax');
+  const heat    = rawVal('heat');
+  const inflation = (+document.getElementById('inflation').value || 2.5) / 100;
+  const lumpsum   = rawVal('lumpsum');
+  const otherdebt = rawVal('otherdebt'); // monthly debt payments for TDS
+  const condofee  = rawVal('condofee');  // monthly condo fee (50% counts toward GDS per CMHC)
+  const jointPct  = (+document.getElementById('jointpct').value || 70) / 100;
+  const mode      = document.getElementById('displaymode').value;
+
+  const province    = FSA_PROV[fsa[0]] || 'ON';
+  const grossIncome = p1sal + p2sal;
+  const downPct     = hprice > 0 ? downpay / hprice : 0;
+
+  // ── CMHC mortgage insurance ──────────────────────────────────────
+  // Required when: down payment < 20% AND purchase price ≤ $1,500,000
+  // Premium is added to the loan and amortized.
+  function cmhcPremiumRate(dp, price) {
+    if (dp / price >= 0.20 || price > 1500000) return 0;
+    if (dp / price >= 0.15) return 0.028;
+    if (dp / price >= 0.10) return 0.031;
+    return 0.040; // 5–9.99%
+  }
+  const baseLoan      = Math.max(hprice - downpay, 0);
+  const cmhcRatePct   = cmhcRate(downpay, hprice);
+  const cmhcPremium   = Math.round(baseLoan * cmhcRatePct);
+  const principal     = baseLoan + cmhcPremium; // insured principal
+
+  // Show/hide CMHC notice
+  const cmhcNotice = document.getElementById('cmhc-notice');
+  if (cmhcNotice) {
+    if (cmhcRatePct > 0) {
+      cmhcNotice.style.display = 'block';
+      document.getElementById('cmhc-rate-lbl').textContent = (cmhcRatePct * 100).toFixed(1) + '%';
+      document.getElementById('cmhc-premium-lbl').textContent = CAD(cmhcPremium);
+    } else {
+      cmhcNotice.style.display = 'none';
+    }
+  }
+
+  const bwPay = mortgagePayment(principal, rate, amort);
+
+  // ── PAYMENT SUMMARY ──────────────────────────────────────────────
+  const f = pf(mode);
+  const mPay     = bwPay * f;
+  const taxPer   = proptax / (mode==='annual'?1:mode==='monthly'?12:26);
+  const heatPer  = heat * (mode==='annual'?12:mode==='monthly'?1:12/26);
+  const condoPer = condofee * (mode==='annual'?12:mode==='monthly'?1:12/26);
+  const mHousing = mPay + taxPer + heatPer + condoPer;
+
+  // ── LUMP SUM WARNING ─────────────────────────────────────────────
+  const lumpWarnEl = document.getElementById('lump-warn');
+  if (lumpWarnEl && principal > 0 && lumpsum > 0) {
+    const pct10 = principal * 0.10;
+    const pct20 = principal * 0.20;
+    if (lumpsum > pct20) {
+      lumpWarnEl.style.display = 'block';
+      lumpWarnEl.style.color = 'var(--red)';
+      lumpWarnEl.textContent = `⚠ ${((lumpsum/principal)*100).toFixed(1)}% of principal — exceeds typical 20% prepayment limit`;
+    } else if (lumpsum > pct10) {
+      lumpWarnEl.style.display = 'block';
+      lumpWarnEl.style.color = 'var(--amber)';
+      lumpWarnEl.textContent = `⚠ ${((lumpsum/principal)*100).toFixed(1)}% of principal — check your prepayment limit (often 10–20%)`;
+    } else {
+      lumpWarnEl.style.display = 'none';
+    }
+  } else if (lumpWarnEl) {
+    lumpWarnEl.style.display = 'none';
+  }
+
+  // Total interest + lump sum savings — bi-weekly resolution for sub-year accuracy
+  const r = bwRate(rate);
+  const totalBw = amort * 26;
+  let bal = principal, totalInt = 0, payoffBw = totalBw;
+  let balNL = principal, totalIntNoLump = 0;
+  for (let bw = 0; bw < totalBw; bw++) {
+    // With lump sum: apply once per year (after bw 25 of each year)
+    if (lumpsum > 0 && bw > 0 && bw % 26 === 0 && bal > 0)
+      bal = Math.max(bal - lumpsum, 0);
+    if (bal > 0) {
+      const i = bal * r, p = Math.min(bwPay - i, bal);
+      bal = Math.max(bal - p, 0); totalInt += i;
+      if (bal <= 0 && payoffBw === totalBw) payoffBw = bw + 1;
+    }
+    if (balNL > 0) {
+      const i = balNL * r, p = Math.min(bwPay - i, balNL);
+      balNL = Math.max(balNL - p, 0); totalIntNoLump += i;
+    }
+  }
+  const saved = totalIntNoLump - totalInt;
+  // Express time saved in months (rounded to 1 decimal) for sub-year display
+  const bwSaved = totalBw - payoffBw;
+  const monthsSaved = bwSaved / 26 * 12;
+  const yearsSaved = bwSaved / 26; // kept for compatibility
+
+  // Bank max mortgage
+  // Bank max: binary search on purchase price including CMHC premium
+  // We pass otherdebt=0 for bank max (it already factors TDS limit internally)
+  const bankMax    = bankMaxMortgageTDS(grossIncome, downpay, rate, amort, proptax, heat, otherdebt, condofee);
+  const stressRate = Math.max(rate + 2, 5.25);
+
+  // Net income scaled to display period
+  const p1net = estimateNet(p1sal, province);
+  const p2net = estimateNet(p2sal, province);
+  const netTotal = p1net + p2net;
+  const modeLbl = mode==='biweekly' ? 'bi-weekly' : mode==='monthly' ? 'monthly' : 'annual';
+  document.getElementById('m-net-income').textContent = CAD(netTotal / 26 * f);
+  document.getElementById('m-net-income-s').textContent = modeLbl;
+  document.getElementById('m-pay').textContent      = CAD(mPay);
+  document.getElementById('m-pay-s').textContent    = CAD(bwPay)+' bi-weekly';
+  document.getElementById('m-housing').textContent  = CAD(mHousing);
+  const housingNote = condofee > 0 ? 'incl. tax + heat + condo' : 'incl. tax + heat';
+  const housingNoteEl = document.getElementById('m-housing-s');
+  if (housingNoteEl) housingNoteEl.textContent = housingNote;
+  document.getElementById('m-interest').textContent = CAD(totalInt);
+  document.getElementById('m-int-s').textContent    = CAD(totalIntNoLump)+' w/o lump';
+  const timeSavedStr = monthsSaved <= 0 ? '—'
+    : monthsSaved < 12 ? Math.round(monthsSaved) + ' mo'
+    : (yearsSaved).toFixed(1) + ' yrs';
+  document.getElementById('m-years-saved').textContent = timeSavedStr;
+  document.getElementById('m-saved-s').textContent  = saved>100 ? CAD(saved)+' interest saved' : '';
+  // Max house price = bank max (already includes down payment in binary search)
+  document.getElementById('m-bank-max').textContent = CAD(bankMax);
+  const tdsNote = otherdebt > 0 ? ' · TDS ≤ 44%' : '';
+  document.getElementById('m-bank-s').textContent = `Mortgage ${CAD(Math.max(bankMax-downpay,0))} + ${CAD(downpay)} down · GDS ≤ 39%${tdsNote} @ ${stressRate.toFixed(2)}%`;
+
+  // ── UPDATE MEEPLE BRACKET COLOUR ──────────────────────────────────
+  // Bracket colours: dark→light blue (same as chart bars)
+  // We tint the meeple to the shade of the bar their salary sits in.
+  // 12 brackets, chart uses three blues — we pick based on density position.
+  function meepleColor(salary) {
+    // Map salary to one of the 12 brackets, return a colour from dark→light
+    const palette = [
+      '#0d2744','#12336a','#1a4a7a','#1f5a94','#2568aa','#2d78be',
+      '#3588cc','#3a7ab8','#4a91cc','#5aa8dc','#6aaee8','#7ab8f0'
+    ];
+    for (let i = 0; i < INC_LO.length; i++) {
+      if (salary >= INC_LO[i] && salary < INC_HI[i]) return palette[i];
+    }
+    return palette[palette.length - 1];
+  }
+
+  // Set meeple SVG fill colours based on bracket
+  const m1 = document.querySelector('#p1salary').closest('.field').querySelector('svg');
+  const m2 = document.querySelector('#p2salary').closest('.field').querySelector('svg');
+  if (m1 && p1sal > 0) m1.setAttribute('fill', meepleColor(p1sal));
+  if (m2 && p2sal > 0) m2.setAttribute('fill', meepleColor(p2sal));
+
+
+  // ── INCOME CHART ──────────────────────────────────────────────────
+  renderIncomeChart(fsa, p1sal, p2sal);
+  if (charts['income-chart']) {
+    charts['income-chart']._salaryMarkers = [p1sal, p2sal].filter(s => s > 0);
+    charts['income-chart'].draw();
+  }
+
+  // ── STRESS TESTS ─────────────────────────────────────────────────
+  renderStress(grossIncome, principal, rate, amort, proptax, heat, otherdebt, condofee);
+
+  // ── SPENDING TABLE ───────────────────────────────────────────────
+  const { catTotalBw, sharedSavingsAnn, personalAnn } = renderSpendTable(p1sal, p2sal, bwPay, proptax, heat, jointPct, mode, province, lumpsum, condofee, rate, amort, principal);
+  const leftoverAnn = (sharedSavingsAnn||0) + (personalAnn||0);
+  document.getElementById('m-leftover').textContent = CAD(leftoverAnn / 26 * f);
+  document.getElementById('m-leftover-s').textContent = modeLbl + ' · shared + personal';
+  // Shared expenses outside housing (discretionary cats only, no tax/heat/lump)
+  const sharedExpBw = catTotalBw; // already bi-weekly
+  document.getElementById('m-expenses').textContent = CAD(sharedExpBw * f);
+  document.getElementById('m-expenses-s').textContent = modeLbl + ' · groceries, transport…';
+
+  // ── AFFORDABILITY BAR ────────────────────────────────────────────
+  // Tax (grey) / Housing (red) / Shared costs (amber) / Leftover (green),
+  // share of GROSS income.
+  {
+    const abTax     = Math.max((grossIncome - netTotal) / 26 * f, 0);
+    const abHousing = mHousing;
+    const abShared  = sharedExpBw * f;
+    const abLeft    = Math.max(leftoverAnn / 26 * f, 0);
+    const abTotal   = abTax + abHousing + abShared + abLeft;
+    const pct = v => abTotal > 0 ? (v / abTotal * 100) : 0;
+    const setSeg = (id, v) => {
+      const el = document.getElementById(id);
+      const p = pct(v);
+      el.style.width = p + '%';
+      // Progressively hide labels as the segment gets narrower.
+      el.classList.toggle('narrow', p < 12);
+      el.classList.toggle('tiny', p < 5);
+      el.querySelector('.as-val').textContent = CAD(v);
+      el.querySelector('.as-pct').textContent = Math.round(p) + '%';
+    };
+    setSeg('ab-tax',     abTax);
+    setSeg('ab-housing', abHousing);
+    setSeg('ab-shared',  abShared);
+    setSeg('ab-left',    abLeft);
+    document.getElementById('afl-total').textContent = CAD(abTotal);
+  }
+
+  // ── AMORTIZATION CHART ───────────────────────────────────────────
+  renderAmortChart(principal, rate, amort, proptax, heat, lumpsum, p1sal, p2sal, p1wage, p2wage, inflation, jointPct, catTotalBw, province);
+
+  // ── MARKET CONTEXT ───────────────────────────────────────────────
+  // Look up board from FSA index, then infer from FSA letter
+  const fsaInfo  = DATA.fsa_index && DATA.fsa_index[fsa];
+  let board = (fsaInfo && fsaInfo.crea_board) || null;
+  // If still null, try to infer from FSA first letter
+  if (!board) {
+    const fsaLetter = fsa[0];
+    const letterBoard = {
+      'M':'GREATER_TORONTO', 'L':'GREATER_TORONTO', 'K':'OTTAWA',
+      'H':'MONTREAL_CMA', 'J':'MONTREAL_CMA', 'G':'QUEBEC_CMA',
+      'T':'CALGARY', 'V':'GREATER_VANCOUVER', 'R':'WINNIPEG',
+      'S':'SASKATOON', 'E':'GREATER_MONCTON', 'B':'HALIFAX_DARTMOUTH',
+    };
+    board = letterBoard[fsaLetter] || null;
+  }
+  if (board) board = board.split(' | ')[0];
+
+  const isOttawa = board === 'OTTAWA' || fsa.match(/^K[124]/);
+  const boardDisp = board ? board.replace(/_/g,' ') : `${fsa} — board unknown`;
+
+  document.getElementById('market-lbl').textContent = isOttawa
+    ? 'Ottawa · OREB + CREA'
+    : boardDisp;
+
+  // Always show afford chart if CREA history is available for this board
+  const hasCrea = board && DATA.crea_benchmarks && DATA.crea_benchmarks[board];
+
+  if (isOttawa) {
+    document.getElementById('ottawa-ctx').hidden = false;
+    document.getElementById('crea-ctx').hidden   = true;
+    const ottKpis = document.getElementById('ottawa-kpis');
+    if (ottKpis) ottKpis.style.display = 'grid';
+    renderBracketChart(hprice);
+    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat, 'OTTAWA');
+  } else if (hasCrea) {
+    // Non-Ottawa: hide bracket chart row, show afford chart + CREA KPIs side by side
+    document.getElementById('ottawa-ctx').hidden = false;
+    document.getElementById('crea-ctx').hidden   = true;
+    // Hide bracket chart column, hide Ottawa KPIs
+    const ottKpis = document.getElementById('ottawa-kpis');
+    if (ottKpis) ottKpis.style.display = 'none';
+    // Hide bracket chart, leave afford chart visible
+    const bracketCol = document.getElementById('bracket-chart');
+    if (bracketCol) {
+      const col = bracketCol.closest('div');
+      if (col) col.style.display = 'none';
+    }
+    // Make afford chart full width
+    const grid = document.querySelector('#ottawa-ctx > div');
+    if (grid) grid.style.gridTemplateColumns = '1fr';
+    renderAffordChart(grossIncome, downpay, rate, amort, proptax, heat, board);
+    renderCreaCtx(board, hprice);
+    document.getElementById('crea-ctx').hidden = false;
+  } else {
+    document.getElementById('ottawa-ctx').hidden = true;
+    document.getElementById('crea-ctx').hidden   = false;
+    renderCreaCtx(board, hprice);
+  }
+
+  // Reset grid layout when Ottawa is shown again
+  if (isOttawa) {
+    const bracketCol = document.getElementById('bracket-chart');
+    if (bracketCol) { const col = bracketCol.closest('div'); if (col) col.style.display = ''; }
+    const grid = document.querySelector('#ottawa-ctx > div');
+    if (grid) grid.style.gridTemplateColumns = '1fr 1.6fr';
+  }
+
+  renderCensusPanel(fsa);
+}
+
+// ================================================================
+// WIRE EVENTS
+// ================================================================
+document.getElementById('calcbtn').addEventListener('click', calculate);
+document.getElementById('displaymode').addEventListener('change', calculate);
+['p1salary','p2salary','hprice','downpay','proptax','heat','lumpsum','otherdebt','condofee'].forEach(id => {
+  document.getElementById(id).addEventListener('blur', calculate);
+});
+['p1wage','p2wage','rate','amort','proptax','heat','inflation','jointpct'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', calculate);
+});
+document.getElementById('fsa').addEventListener('blur', calculate);
+
+// ── Children: sync # of kids + income bracket → 'cat-kids' spending category ──
+function syncKidsCost(recalc) {
+  const n = Math.max(0, parseInt(document.getElementById('numkids').value, 10) || 0);
+  const bracket = document.getElementById('childcost').value;
+  const perChild = CHILD_COST[bracket] != null ? CHILD_COST[bracket] : CHILD_COST.mid;
+  catVals['cat-kids'] = (n * perChild) / 26; // store bi-weekly, like other CATS
+  const lbl = document.getElementById('kidcost-lbl');
+  if (n > 0) {
+    lbl.style.display = 'block';
+    lbl.textContent = `${CAD(perChild)}/child/yr × ${n} = ${CAD(n * perChild)}/yr (shelter excluded)`;
+  } else {
+    lbl.style.display = 'none';
+  }
+  if (recalc) calculate();
+}
+['numkids','childcost'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => syncKidsCost(true));
+});
+syncKidsCost(false); // initialise before the first calculate()
+
+// ================================================================
+// INIT
+// ================================================================
+// ── Smart tooltip positioning ────────────────────────────────────────────────
+document.addEventListener('mouseover', e => {
+  const btn = e.target.closest('.tip-btn');
+  if (!btn) return;
+  const box = btn.querySelector('.tip-box');
+  if (!box) return;
+  // Position above the button by default
+  const br = btn.getBoundingClientRect();
+  const bw = 220;
+  let left = br.left + br.width / 2 - bw / 2;
+  let top  = br.top - 8; // will be adjusted to above box
+  // Clamp horizontally within viewport with 8px margin
+  left = Math.max(8, Math.min(left, window.innerWidth - bw - 8));
+  box.style.left   = left + 'px';
+  box.style.width  = bw + 'px';
+  // Show temporarily to measure height
+  box.style.display = 'block';
+  const bh = box.offsetHeight;
+  box.style.display = '';
+  // Place above button; if not enough room, place below
+  if (br.top - bh - 10 < 0) {
+    box.style.top = (br.bottom + 6) + 'px';
+  } else {
+    box.style.top = (br.top - bh - 6) + 'px';
+  }
+});
+
+// ── MOBILE INPUT TOGGLE ──────────────────────────────────────────
+(function() {
+  const btn = document.getElementById('input-toggle');
+  const inner = document.getElementById('input-col-inner');
+  if (!btn || !inner) return;
+
+  function isMobile() { return window.innerWidth <= 768; }
+
+  function applyState() {
+    if (!isMobile()) {
+      inner.classList.add('open');
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = 'flex';
+    }
+  }
+
+  btn.addEventListener('click', function() {
+    const isOpen = inner.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen);
+    if (isOpen) btn.querySelector('span:first-child').textContent = 'Hide inputs';
+    else btn.querySelector('span:first-child').textContent = 'Edit inputs';
+  });
+
+  window.addEventListener('resize', applyState);
+  applyState();
+})();
+
+window.addEventListener('resize', function() {
+  // Re-toggle spend table vs cards on resize/orientation change
+  const table = document.getElementById('spend-table');
+  const cards = document.getElementById('spend-cards-mobile');
+  if (!table || !cards) return;
+  const isMob = window.innerWidth <= 768;
+  table.style.display = isMob ? 'none' : '';
+  cards.style.display = isMob ? 'flex' : 'none';
+});
+
+// ── MOBILE SPEND CARDS ───────────────────────────────────────────
+// Builds a card-per-person layout as an alternative to the wide table.
+// Called from renderSpendTable whenever the data changes.
+function renderMobileSpendCards(rows, d, mode, province) {
+  const isMob = window.innerWidth <= 768;
+  const table = document.getElementById('spend-table');
+  const cards = document.getElementById('spend-cards-mobile');
+  if (!table || !cards) return;
+
+  table.style.display = isMob ? 'none' : '';
+  cards.style.display = isMob ? 'block' : 'none';
+  if (!isMob) return;
+
+  // rows[0]=P1, rows[1]=P2, rows[2]=Combined
+  const [p1, p2, cb] = rows;
+  const factor = pf(mode);
+
+  // Section header row
+  function secRow(label, bg) {
+    return `<tr><td colspan="4" style="background:${bg};color:#fff;font-family:var(--font-cond);font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 6px;">${label}</td></tr>`;
+  }
+
+  // Data row: label | P1 val | P2 val | Combined val
+  function dataRow(label, v1, v2, vc, colorStyle) {
+    const cs = colorStyle ? `color:${colorStyle};` : '';
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 6px;border-bottom:1px dashed var(--line);">${label}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);${cs}">${v1}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);${cs}">${v2}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);font-weight:600;${cs}">${vc}</td>
+    </tr>`;
+  }
+
+  // Input row for combined shared expense categories
+  function inputRow(label, catId, v1, v2) {
+    const bwVal  = catVals[catId] || 0;
+    const dispVal = Math.round(bwVal * factor);
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 6px;border-bottom:1px dashed var(--line);">${label}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v1}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v2}</td>
+      <td style="padding:4px 6px;border-bottom:1px dashed var(--line);text-align:right;">
+        <input id="${catId}-mob" type="number" value="${dispVal}" min="0" step="10"
+          style="width:64px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
+          onchange="catVals['${catId}']=(parseFloat(this.value)||0)/${factor};document.getElementById('${catId}').value=this.value;calculate()">
+      </td>
+    </tr>`;
+  }
+
+  const lumpRow = (p1.lump || p2.lump || cb.lump)
+    ? dataRow('Lump sum', p1.lump||'—', p2.lump||'—', cb.lump||'—', 'var(--red)') : '';
+
+  const sharedOkColor = p1.sharedOk ? 'var(--green)' : 'var(--red)';
+
+  cards.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr>
+          <th style="width:36%;text-align:left;font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;"></th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">P1</th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">P2</th>
+          <th style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;">Combined</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${secRow('Salary', 'rgba(55,138,221,0.55)')}
+        ${dataRow('Gross',   p1.gross,   p2.gross,   cb.gross,   'var(--green)')}
+        ${dataRow('Est. net',p1.net,     p2.net,     cb.net)}
+        ${secRow('Housing', 'rgba(232,90,68,0.55)')}
+        ${dataRow('Mortgage',  p1.mort, p2.mort, cb.mort, 'var(--red)')}
+        ${dataRow('Prop. tax', p1.tax,  p2.tax,  cb.tax,  'var(--red)')}
+        ${dataRow('Heat',      p1.heat, p2.heat, cb.heat, 'var(--red)')}
+        ${lumpRow}
+        ${secRow('Shared Expenses', 'rgba(127,119,221,0.55)')}
+        ${CATS.map(c => {
+          const p1v = p1.cats.find(x => x.id === c.id);
+          const p2v = p2.cats.find(x => x.id === c.id);
+          const avgAnn = statscanAvg(province, c.id);
+          const avgDisp = avgAnn != null ? d(avgAnn) : null;
+          const avgSubRow = avgDisp ? `<tr>
+            <td style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);padding:1px 6px 4px 14px;border-bottom:1px dashed var(--line);">↳ avg spend</td>
+            <td colspan="3" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;padding:1px 6px 4px;border-bottom:1px dashed var(--line);">${avgDisp}</td>
+          </tr>` : '';
+          return inputRow(c.label, c.id, p1v ? p1v.val : '—', p2v ? p2v.val : '—') + avgSubRow;
+        }).join('')}
+        ${secRow('Leftovers', 'rgba(29,158,117,0.55)')}
+        ${dataRow('Shared', p1.shared, p2.shared, cb.shared, sharedOkColor)}
+        ${dataRow('Personal', p1.personal, p2.personal, cb.personal)}
+      </tbody>
+    </table>`;
+}
+
+// ── STACKED BAR TOUCH TOOLTIPS ───────────────────────────────────
+(function() {
+  // Create a single floating tooltip element
+  const tip = document.createElement('div');
+  tip.className = 'stacked-seg-tip';
+  document.body.appendChild(tip);
+
+  function showTip(x, y, text) {
+    tip.textContent = text;
+    tip.classList.add('visible');
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let left = x + 12, top = y - 40;
+    if (left + 210 > vw) left = x - 210;
+    if (top < 4) top = y + 16;
+    if (top + 80 > vh) top = vh - 84;
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
+
+  document.addEventListener('touchstart', function(e) {
+    const seg = e.target.closest('[data-tip]');
+    if (!seg) { tip.classList.remove('visible'); return; }
+    e.preventDefault();
+    const t = e.touches[0];
+    showTip(t.clientX, t.clientY, seg.dataset.tip);
+  }, { passive: false });
+
+  document.addEventListener('touchend', function(e) {
+    setTimeout(() => tip.classList.remove('visible'), 1800);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('[data-tip]')) tip.classList.remove('visible');
+  });
+})();
+
+loadData().then(() => {
+  document.getElementById('loading').classList.add('hide');
+  calculate();
+}).catch(() => {
+  document.getElementById('loading').classList.add('hide');
+  calculate();
+});
+</script>
+<script>
+// Embedded on the homepage inside an iframe (see index.html REPORTS "mortgage"
+// entry) — hide this page's own topbar there since the host page already has one.
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+</script>
+</body>
+</html>

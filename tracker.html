@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ottawa Visuals — Project Atlas</title>
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+    if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<style>
+:root{
+  --navy:#1F2530; --amber:#C9542F; --cream:#F1F3F6; --card:#FFFFFF;
+  --ink:#1F2530; --muted:#4E586A; --line:#E1E5EC;
+  --data-navy:#245A96;
+  --done:#1A7A55;  --done-bg:#E7F2EC;
+  --build:#9A6A00; --build-bg:#FBF0DA;
+  --plan:#6E675E;  --plan-bg:#EEEBE5;
+  --warn:#B33A2E;  --warn-bg:#FAEAE8;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+[data-theme="dark"]{
+  --navy:#0E1117; --amber:#E06B45; --cream:#0E1117; --card:#161A23;
+  --ink:#EEF1F7; --muted:#B6BDCC; --line:#262C3A;
+  --data-navy:#5B9BE0;
+  --done:#3FC087;  --done-bg:rgba(63,192,135,0.14);
+  --build:#E0B23F; --build-bg:rgba(224,178,63,0.14);
+  --plan:#9098AC;  --plan-bg:rgba(122,128,148,0.16);
+  --warn:#E85A44;  --warn-bg:rgba(232,90,68,0.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.55}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+h1{font-size:2rem} h2{font-size:1.45rem} h3{font-size:1.08rem} h4{font-size:.98rem;margin-top:1em}
+a{color:var(--data-navy)} a:hover{color:var(--amber)}
+code{background:rgba(128,128,128,0.14);border-radius:4px;padding:.08em .35em;font-size:.86em;font-family:var(--mono)}
+p{margin:.35em 0 .8em}
+
+/* ── header ── */
+header{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+[data-theme="dark"] header{background:#070809}
+.hwrap{max-width:1060px;margin:0 auto;padding:.7rem 1.2rem .55rem}
+.htitle{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+.htitle .logo{font-family:var(--serif);font-weight:700;font-size:1.25rem}
+.htitle .logo em{color:var(--amber);font-style:normal}
+.htitle .sub{font-size:.8rem;opacity:.75}
+nav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+nav a{color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;padding:.22rem .6rem;border-radius:99px;background:rgba(255,255,255,.12);white-space:nowrap}
+nav a:hover{background:var(--amber);color:#fff}
+
+main{max-width:1060px;margin:0 auto;padding:1.4rem 1.2rem 4rem}
+
+/* ── cards & layout ── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.4rem;margin:1.2rem 0;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.muted{color:var(--muted)} .small{font-size:.83rem}
+
+/* ── status chips ── */
+.chip{display:inline-flex;align-items:center;gap:.35em;font-size:.78rem;font-weight:700;padding:.2em .65em;border-radius:99px;white-space:nowrap;vertical-align:middle}
+.chip.done{background:var(--done-bg);color:var(--done)}
+.chip.build{background:var(--build-bg);color:var(--build)}
+.chip.plan{background:var(--plan-bg);color:var(--plan)}
+
+/* ── tag pills for assumption categories ── */
+.tag{display:inline-block;font-size:.7rem;font-weight:700;padding:.12em .55em;border-radius:99px;margin-right:.4em;vertical-align:middle;white-space:nowrap}
+.tag.choice{background:var(--build-bg);color:var(--build)}
+.tag.data{background:var(--plan-bg);color:var(--plan)}
+.tag.calib{background:var(--done-bg);color:var(--done)}
+.tag.std{background:rgba(36,90,150,0.12);color:var(--data-navy)}
+
+/* ── progress bars ── */
+.pb{display:flex;align-items:center;gap:.6rem;margin:.3rem 0}
+.pb .track{flex:1;height:10px;background:var(--plan-bg);border-radius:99px;overflow:hidden}
+.pb .fill{height:100%;border-radius:99px;background:var(--data-navy)}
+.pb .fill.f-done{background:var(--done)}
+.pb .fill.f-build{background:var(--build)}
+.pb .pct{font-size:.8rem;font-weight:700;min-width:3.2em;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ── TLDR band ── */
+.tldr{background:var(--navy);color:#fff;border-radius:12px;padding:.85rem 1.1rem;font-size:1rem;margin:.4rem 0 1rem}
+[data-theme="dark"] .tldr{background:#070809}
+.tldr b{color:var(--amber)}
+
+/* ── overview tiles ── */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin:.8rem 0}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;text-align:center}
+.tile .n{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--navy)}
+[data-theme="dark"] .tile .n{color:var(--ink)}
+.tile .l{font-size:.78rem;color:var(--muted);font-weight:600}
+
+/* ── project header row ── */
+.proj-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.2rem}
+.proj-head h2{margin:0}
+.proj-head .live-link{font-size:.8rem;font-weight:600;margin-left:auto}
+
+/* ── pipeline diagram ── */
+.pipe{display:flex;flex-wrap:wrap;align-items:stretch;gap:.45rem;margin:.6rem 0 .9rem}
+.pipe .step{background:var(--plan-bg);border:1px solid var(--line);border-radius:9px;padding:.45rem .7rem;font-size:.8rem;max-width:220px;position:relative}
+.pipe .step b{display:block;font-size:.8rem;color:var(--navy)}
+[data-theme="dark"] .pipe .step b{color:var(--ink)}
+.pipe .step span{color:var(--muted);font-size:.74rem;line-height:1.35;display:block}
+.pipe .arr{align-self:center;color:var(--amber);font-weight:700;font-size:1.05rem}
+
+/* ── source badges ── */
+.srcs{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+.src{background:rgba(36,90,150,0.08);border:1px solid rgba(36,90,150,0.25);color:var(--data-navy);border-radius:8px;padding:.3rem .6rem;font-size:.78rem;font-weight:600}
+.src small{display:block;font-weight:400;color:var(--muted);font-size:.72rem}
+
+/* ── assumption list with verify checkboxes ── */
+.assump-box{background:var(--build-bg);border:1px solid rgba(154,106,0,0.25);border-radius:12px;padding:.9rem 1rem;margin:.8rem 0}
+.assump-box>h3{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+ul.assump{list-style:none;margin:0;padding:0}
+ul.assump li{display:flex;gap:.6rem;padding:.55rem 0;border-top:1px dashed rgba(154,106,0,0.3);align-items:flex-start}
+ul.assump li:first-child{border-top:0}
+ul.assump input[type=checkbox]{width:19px;height:19px;margin-top:.15rem;accent-color:var(--done);flex:none;cursor:pointer}
+ul.assump .a-body{flex:1;min-width:0}
+ul.assump .a-body b{font-size:.92rem}
+ul.assump .a-body p{margin:.15rem 0 0;font-size:.85rem;color:var(--muted)}
+ul.assump .where{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+ul.assump .where::before{content:"📄 Documented in: ";font-weight:600}
+li.checked .a-body{opacity:.55}
+li.checked .a-body b::after{content:" ✓ verified";color:var(--done);font-size:.78rem}
+
+.alt{font-size:.83rem;color:var(--muted);margin-top:.35rem;padding-left:.6rem;border-left:3px solid var(--amber)}
+.alt b{color:var(--build)}
+.verify{background:var(--done-bg);border-left:3px solid var(--done);border-radius:0 8px 8px 0;padding:.5rem .7rem;margin-top:.45rem;font-size:.83rem}
+.verify>b{color:var(--done)}
+.verify ol,.verify ul{margin:.25rem 0 0 1.1rem;padding:0}
+ul.assump .verify li{margin:.2rem 0;display:list-item;padding:0;border:0;gap:0}
+
+/* ── validation / todo blocks ── */
+.check-box{background:var(--done-bg);border:1px solid rgba(26,122,85,0.25);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0}
+.check-box h3{color:var(--done)}
+.check-box ul{margin:.3rem 0 .2rem 1.2rem;padding:0;font-size:.87rem}
+.check-box li{margin:.25rem 0}
+.todo-box{background:rgba(36,90,150,0.08);border:1px solid rgba(36,90,150,0.25);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0}
+.todo-box h3{color:var(--data-navy)}
+.todo-box ul{margin:.3rem 0 .2rem 1.2rem;padding:0;font-size:.87rem}
+.todo-box li{margin:.25rem 0}
+
+/* ── details / progressive disclosure ── */
+details{margin:.6rem 0}
+details summary{cursor:pointer;font-weight:600;font-size:.88rem;color:var(--data-navy);padding:.35rem 0;user-select:none}
+details summary:hover{color:var(--amber)}
+details[open] summary{margin-bottom:.3rem}
+details .d-inner{border-left:3px solid var(--line);padding:.2rem 0 .2rem 1rem;font-size:.88rem}
+details .d-inner table{border-collapse:collapse;font-size:.82rem;margin:.4rem 0;max-width:100%}
+details .d-inner td,details .d-inner th{border:1px solid var(--line);padding:.3rem .55rem;text-align:left}
+details .d-inner th{background:var(--plan-bg)}
+details.method>summary{font-size:.95rem;background:var(--plan-bg);border-radius:8px;padding:.5rem .8rem}
+details.method>summary::before{content:"📖 "}
+.tblwrap{overflow-x:auto}
+
+/* ── timeline ── */
+.tl-wrap{overflow-x:auto}
+.tl-svg{min-width:680px;width:100%;height:auto;display:block}
+
+/* ── remaining-work table ── */
+table.remain{width:100%;border-collapse:collapse;font-size:.88rem}
+table.remain th{background:var(--navy);color:#fff;text-align:left;padding:.5rem .7rem;font-size:.8rem}
+table.remain td{border-bottom:1px solid var(--line);padding:.55rem .7rem;vertical-align:top}
+table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:nowrap}
+[data-theme="dark"] table.remain tr td:first-child{color:var(--ink)}
+
+.footer-note{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1rem}
+.reset-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:.3rem .7rem;font-size:.78rem;color:var(--muted);cursor:pointer;font-family:var(--sans)}
+.reset-btn:hover{border-color:var(--warn);color:var(--warn)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="htitle">
+      <span class="logo">ottawa<em>·</em>atlas</span>
+      <span class="chip build" style="font-size:.7rem">v1 · every project, how it was built</span>
+      <span class="sub">updated 2026-07-19</span>
+    </div>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#rto">🚦 RTO Watch</a>
+      <a href="#ottawa-elections">🗳️ Ward Elections</a>
+      <a href="#ontario-elections">🏛️ Ontario Elections</a>
+      <a href="#mortgage">🏡 Mortgage</a>
+      <a href="#weather">🌡️ Weather</a>
+      <a href="#road-safety">🚗 Road Safety</a>
+      <a href="#pwhl">🏒 PWHL</a>
+      <a href="#cityhall">🏛️ City Hall Index</a>
+      <a href="#todo">🗺️ What's left</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════ OVERVIEW ══════════════════ -->
+<section id="overview">
+  <div class="tldr">
+    <b>TL;DR:</b> Five tools are live on the homepage, plus five more live but not (yet) featured
+    there. Four projects are actively being built. Two collector pipelines (TomTom commutes,
+    OC Transpo GTFS-RT) run unattended on a Raspberry Pi, logging data no public source keeps
+    history for. Every assumption or judgment call behind these tools is listed below with a
+    checkbox, the alternatives that existed, and a concrete way to verify it yourself. Your ticks
+    are saved on this computer only.
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><div class="n">10</div><div class="l">✅ tools live</div></div>
+    <div class="tile"><div class="n">4</div><div class="l">🔨 in progress</div></div>
+    <div class="tile"><div class="n">7</div><div class="l">🆕 planned / scoped</div></div>
+    <div class="tile"><div class="n" id="assump-count">—</div><div class="l">⚠️ assumptions to verify</div></div>
+    <div class="tile"><div class="n" id="assump-done">0</div><div class="l">✓ verified by you</div></div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🗳️ Ward Elections</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏡 Mortgage Calculator</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌡️ Weather / Climate</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚗 Road Safety Calculator</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">draft</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-build" style="width:70%"></div></div><span class="pct">70%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:40%"></div></div><span class="pct">data only</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal Feasibility</span><div class="track"><div class="fill" style="width:15%"></div></div><span class="pct">15%</span></div>
+    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-19. RTO Watch (<code>rto.html</code>) folds
+    together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
+    on a Pi, and the page's before/after story fills in as more days of data accumulate. See
+    <a href="PROJECTS.md">PROJECTS.md</a> for the full write-up with dated history.</p>
+  </div>
+
+  <div class="card">
+    <h2>How to read the tags on each assumption</h2>
+    <p class="small" style="margin-bottom:.3rem">
+      <span class="tag choice">judgment call</span> a modelling choice made deliberately — these list the <b>alternatives</b> that existed and a <b>hands-on way to verify</b>.<br>
+      <span class="tag data">source limit</span> a limitation baked into the source data — nobody chose it, but you should know it.<br>
+      <span class="tag calib">calibrated</span> a number that was cross-checked against an independent published figure.<br>
+      <span class="tag std">standard factor</span> a published rule or constant (OSFI stress-test formula, unit conversion) taken from the source itself.
+    </p>
+    <p class="small muted">Verification effort is marked ⏱️ <b>2 min</b> (click something / open a page),
+    ⏱️ <b>15 min</b> (compare against a published source), or ⏱️ <b>deeper</b> (re-run a script with a changed setting).</p>
+  </div>
+</section>
+
+<!-- ══════════════════ TIMELINE ══════════════════ -->
+<section id="timeline" class="card">
+  <h2>Build timeline <span class="small muted">(from git history — dates are approximate for uncommitted work)</span></h2>
+  <div class="tl-wrap">
+  <svg class="tl-svg" viewBox="0 0 900 450" role="img" aria-label="Timeline of project builds from August 2025 to July 2026">
+    <line x1="60" y1="410" x2="880" y2="410" stroke="#9098AC" stroke-width="1" opacity="0.4"/>
+    <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#8890A0">
+      <text x="60"  y="428" text-anchor="middle">Aug '25</text>
+      <text x="146" y="428" text-anchor="middle">Sep '25</text>
+      <text x="377" y="428" text-anchor="middle">Dec '25</text>
+      <text x="603" y="428" text-anchor="middle">Mar '26</text>
+      <text x="832" y="428" text-anchor="middle">Jun '26</text>
+      <text x="880" y="428" text-anchor="middle">today</text>
+    </g>
+    <g stroke="#9098AC" stroke-width="1" opacity="0.18">
+      <line x1="146" y1="15" x2="146" y2="410"/><line x1="377" y1="15" x2="377" y2="410"/>
+      <line x1="603" y1="15" x2="603" y2="410"/><line x1="832" y1="15" x2="832" y2="410"/>
+      <line x1="880" y1="15" x2="880" y2="410"/>
+    </g>
+    <g font-family="Inter,system-ui,sans-serif" font-size="11.5" font-weight="600" fill="#8890A0">
+      <!-- Homepage launch -->
+      <circle cx="60" cy="44" r="5" fill="#2F6FB4"/>
+      <text x="70" y="48" text-anchor="start">index.html — homepage goes live</text>
+
+      <!-- PWHL -->
+      <text x="290" y="73" text-anchor="end">🏒 PWHL Dashboard</text>
+      <rect x="296" y="75" width="566" height="14" rx="7" fill="#2F6FB4"/>
+      <circle cx="862" cy="82" r="5" fill="#2FB584"/>
+
+      <!-- Ottawa Ward Elections -->
+      <text x="469" y="111" text-anchor="end">🗳️ Ward Elections</text>
+      <rect x="475" y="113" width="304" height="14" rx="7" fill="#2F6FB4"/>
+      <circle cx="779" cy="120" r="5" fill="#2FB584"/>
+
+      <!-- Mortgage -->
+      <text x="763" y="149" text-anchor="end">🏡 Mortgage Calculator</text>
+      <rect x="769" y="151" width="76" height="14" rx="7" fill="#2F6FB4"/>
+      <circle cx="845" cy="158" r="5" fill="#2FB584"/>
+
+      <!-- Vehicles / road safety -->
+      <text x="789" y="187" text-anchor="end">🚗 Road Safety Calculator</text>
+      <circle cx="797" cy="196" r="5" fill="#2FB584"/>
+
+      <!-- Ontario Elections -->
+      <text x="806" y="225" text-anchor="end">🏛️ Ontario Elections</text>
+      <rect x="812" y="227" width="33" height="14" rx="7" fill="#E0A030"/>
+      <circle cx="845" cy="234" r="5" fill="#E0A030"/>
+
+      <!-- Weather -->
+      <text x="829" y="263" text-anchor="end">🌡️ Weather / Climate</text>
+      <rect x="835" y="265" width="25" height="14" rx="7" fill="#2F6FB4"/>
+      <circle cx="860" cy="272" r="5" fill="#2FB584"/>
+
+      <!-- City Hall Index -->
+      <text x="831" y="301" text-anchor="end">🏛️ City Hall Index (data only)</text>
+      <circle cx="837" cy="310" r="5" fill="#9098AC"/>
+
+      <!-- OC Transpo transit collector (RTO Watch feed) -->
+      <text x="824" y="339" text-anchor="end">🚌 Transit collector (OC Transpo)</text>
+      <rect x="830" y="341" width="50" height="14" rx="7" fill="#E0A030"/>
+      <circle cx="880" cy="348" r="5" fill="#E0A030">
+        <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- Traffic / TomTom collector (RTO Watch feed) -->
+      <text x="842" y="377" text-anchor="end">🚦 Road collector (TomTom)</text>
+      <rect x="848" y="379" width="32" height="14" rx="7" fill="#E0A030"/>
+      <circle cx="880" cy="386" r="5" fill="#E0A030">
+        <animate attributeName="opacity" values="1;0.35;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </svg>
+  </div>
+  <p class="small muted">Everything shown here was built between <b>August 2025 and July 2026</b>.
+  Green dot = live and stable; amber = still being built or actively collecting. The two Pi
+  collectors (traffic + transit) have no fixed "done" date — they log a new sample every 5–15
+  minutes, and their bars keep extending toward "today".</p>
+</section>
+
+<!-- ══════════════════ RTO WATCH (TRAFFIC + TRANSIT) ══════════════════ -->
+<section id="rto" class="card">
+  <div class="proj-head">
+    <h2>🚦 Ottawa RTO Watch</h2>
+    <span class="chip build">🔨 Building · ~35%</span>
+    <a class="live-link" href="rto.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> a before/after look at how return-to-office mandates have changed
+  Ottawa commutes and transit reliability — fed by two independent collectors that log data no
+  public source keeps history for.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">TomTom Routing / Traffic Flow / Incidents APIs<small>polled every 5–60 min from a Raspberry Pi</small></div>
+    <div class="src">OC Transpo GTFS-Realtime feed<small>TripUpdates + VehiclePositions, polled the same way</small></div>
+    <div class="src">OC Transpo KPI spreadsheets (Open Ottawa)<small>official service &amp; ridership KPIs, snapshotted weekly — rolling ~13-month windows</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Poll</b><span>Pi cron hits TomTom + GTFS-RT on a peak/off-peak gated schedule (Traffic/scripts/poll_traffic.py, OC_Transpo/scripts/poll_gtfsrt.py)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Append</b><span>Each sample appends a row to committed CSVs (Traffic/data/, OC_Transpo/rt_data/)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Snapshot</b><span>Weekly job archives OC Transpo's official rolling-window KPI spreadsheets before they age out</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>4 · rto.html</b><span>Reads the accumulating CSVs — a real time series builds up week over week</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>Why this exists — TomTom and OC Transpo don't keep history</h4>
+    <p>TomTom's live traffic-index page for Ottawa shows current speeds and jams but no history.
+    OC Transpo's public GTFS-RT feed reports live vehicle positions but archives nothing. Both
+    collectors exist purely to build a historical series the public sources don't offer.</p>
+    <h4>Traffic — sampled proxy, not the whole network</h4>
+    <p>Rather than the whole road network, the collector samples <b>5 commute corridors, 15 road
+    segments, and 1 incident bounding box</b> (defined in <code>Traffic/corridors.json</code>), then
+    derives the same headline numbers TomTom's live panel shows (average speed, congestion %,
+    jam count, jam length, rush-hour extra time) from those samples. Cadence is gated in the poller
+    itself (weekday rush hours 06:30–09:30 / 15:30–18:30 every ~15 min, otherwise hourly) so it
+    follows Ottawa DST correctly regardless of when GitHub's cron actually fires.</p>
+    <h4>Transit — the feed is bus-only, with no delay fields</h4>
+    <p>Verified live on 2026-07-11: OC Transpo's beta GTFS-RT feed sets <b>no delay fields</b> at
+    all — TripUpdates instead carry absolute predicted arrival times per stop, and no route 1/2/4
+    (O-Train) entities were ever observed. So the live CSV only directly gives cancellations and
+    fleet activity; true on-time performance has to be computed <em>offline</em> by comparing the
+    raw predicted-arrival archive against the static GTFS schedule — which is why the raw archive
+    (kept outside the repo, ~15 MB/day gzipped) is effectively required, not optional. O-Train
+    reliability comes from the official KPI spreadsheets instead, since GTFS-RT never sees trains.</p>
+    <h4>The rolling-window trap</h4>
+    <p>OC Transpo's own KPI spreadsheets on Open Ottawa are <b>rolling ~13-month windows</b> — older
+    months silently disappear as new ones are published. The weekly snapshotter hashes each file's
+    content and only saves a new dated copy when something actually changed, so a cron job can run
+    weekly forever without duplicating unchanged files, while still preserving months that would
+    otherwise be lost when the window rolls forward.</p>
+  </div></details>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="rto-sample"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Traffic numbers come from 5 corridors + 15 segments, not the whole city network.</b>
+        <p>Chosen to stay well inside TomTom's free-tier request limits (20,000/API/month) while still tracking commute-relevant routes.</p>
+        <p class="alt"><b>Other options:</b> TomTom's Area Analytics product covers the whole network but only as a paid 30-day trial with no ongoing free tier — usable for a one-time historical backfill (see <a href="PROJECTS.md">PROJECTS.md</a>), not a permanent forward-looking feed.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Open <code>Traffic/corridors.json</code> and see exactly which points are sampled — it's a small, readable list, not a black box.</li>
+        </ol></div>
+        <div class="where">Traffic/README.md §"What it collects".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="rto-nodelay"><div class="a-body">
+        <span class="tag data">source limit</span><b>The transit feed has no delay fields — true on-time performance isn't in the live CSV.</b>
+        <p>Confirmed by inspecting the live feed directly, not assumed. The live CSV tracks cancellations and fleet activity only; on-time % has to be derived later from the raw archive.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Pull the live feed yourself (a free key from the Azure API portal, see OC_Transpo/README.md §Setup) and check that every <code>TripUpdate</code>'s <code>HasDelay</code> flag is false.</li>
+        </ol></div>
+        <div class="where">OC_Transpo/README.md §"GTFS-RT collector (Raspberry Pi)".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="rto-window"><div class="a-body">
+        <span class="tag data">source limit</span><b>OC Transpo's own KPI spreadsheets are rolling ~13-month windows.</b>
+        <p>Without the weekly snapshotter, months older than ~13 would silently vanish from the official source as new ones are published.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Open the current KPI spreadsheet on Open Ottawa and check its earliest month — then check <code>OC_Transpo/rt_data/kpi_snapshots/</code> for a dated copy from before that.</li>
+        </ol></div>
+        <div class="where">OC_Transpo/README.md §"snapshot_kpis.py".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="rto-ontime"><div class="a-body">
+        <span class="tag std">standard factor</span><b>On-time definition: early = &gt;1 min early, on-time = 1 min early…5 min late, late = &gt;5 min late.</b>
+        <p>Mirrors OC Transpo's own published punctuality definition for less-frequent routes.</p>
+        <div class="where">OC_Transpo/README.md, "On-time definition used wherever delays are computed".</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ OTTAWA WARD ELECTIONS ══════════════════ -->
+<section id="ottawa-elections" class="card">
+  <div class="proj-head">
+    <h2>🗳️ Ottawa Ward Elections</h2>
+    <span class="chip done">✅ Live · ~90%</span>
+    <a class="live-link" href="Ottawa_Elections/ottawa_ward_elections.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> ward-by-ward turnout and vote shares for mayor and council, 2010–2022,
+  mapped onto the current 24-ward boundaries even though those boundaries changed in 2022.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">Elections Ottawa — ward results<small>official per-ward results, each municipal election cycle</small></div>
+    <div class="src">City of Ottawa — 2022 ward boundaries<small>GeoJSON used directly by the page</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Collect</b><span>Per-ward, per-year results into ward_results.csv</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Reconcile boundaries</b><span>Map every pre-2022 ward onto its 2022 successor (BuildWardData.py)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · One web page</b><span>Fetches the boundary GeoJSON straight from GitHub's raw URL — no local build step to view it</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>The core problem: Ottawa redrew its wards in 2022</h4>
+    <p>One ward was added (24 total, up from 23), which means some 2022 wards don't correspond
+    to any single historical ward. <code>BuildWardData.py</code> classifies every 2022 ward into one
+    of five change types — <code>direct</code>, <code>renamed</code>, <code>minor</code> (small boundary
+    tweak), <code>split</code> (territory moved to another ward), or <code>new</code> (assembled from
+    pieces of others) — and attaches a caveat to any ward whose historical numbers don't cleanly
+    represent its current area.</p>
+    <h4>The one estimated ward: Barrhaven East (Ward 24)</h4>
+    <p>Ward 24 didn't exist before 2022 — it was carved roughly 60% from the old Barrhaven ward
+    (Ward 3) and 40% from old Gloucester-South Nepean (Ward 22). Its 2010–2018 history is
+    <b>not real election data</b>: it's a weighted average of those two source wards' participation
+    rates, using registered-voter counts as weights. The page/data explicitly labels this as an
+    estimate, not an actual result for that territory.</p>
+    <h4>Wards 3 and 22 also carry caveats</h4>
+    <p>Because part of old Ward 3 (Barrhaven) became Ward 24 and part of old Ward 22 lost territory
+    to both Ward 3 and Ward 24, their pre-2022 historical figures reflect a <em>larger</em> area than
+    the current ward — a straightforward "boundary shrank" caveat, no estimation involved.</p>
+  </div></details>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & judgment calls — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="oe-w24"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Ward 24's 2010–2018 history is an estimate: a 60/40 weighted average of two old wards, not real results.</b>
+        <p>The 60/40 split is an approximation of the 2022 population/territory split, weighted by each source ward's registered-voter count per year.</p>
+        <p class="alt"><b>Other options:</b> show no history at all for Ward 24 (loses a trend line entirely), or a straight unweighted 50/50 average (ignores that the two source wards have different sizes).</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Open Ward 24 on the map and check the caveat text — it states plainly that pre-2022 figures are an estimate, not an actual result for that specific territory.</li>
+        </ol></div>
+        <div class="where">Ottawa_Elections/BuildWardData.py, <code>NEW_CAVEAT</code> dict; surfaced as <code>caveat</code> in ward_data.json.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="oe-split"><div class="a-body">
+        <span class="tag data">source limit</span><b>Wards 3 and 22's historical figures reflect a larger area than their current 2022 boundary.</b>
+        <p>No estimation is involved here — the raw historical numbers are simply for the old, bigger ward.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Open Ward 3 (Barrhaven) or Ward 22 (Riverside South–Findlay Creek) and read the split caveat — it names exactly which neighbourhoods moved out.</li>
+        </ol></div>
+        <div class="where">Ottawa_Elections/BuildWardData.py, <code>SPLIT_CAVEAT</code> dict.</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ ONTARIO ELECTIONS ══════════════════ -->
+<section id="ontario-elections" class="card">
+  <div class="proj-head">
+    <h2>🏛️ Ontario Elections (coalition scenarios)</h2>
+    <span class="chip build">🔨 Building · ~70%</span>
+    <a class="live-link" href="Ontario_Elections/ONelections.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> province-wide turnout since 1981, the 2025 general election riding by
+  riding, and a "what if the opposition had consolidated" model that reallocates opposition votes
+  to whoever led each riding.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">Elections Ontario — Explorer export<small>2025-02-27 general election, candidate + riding + province level</small></div>
+    <div class="src">ELECTORAL_DISTRICT shapefile<small>riding boundaries, hand-cut into 3 zoom-level GeoJSONs</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Aggregate votes</b><span>Explorer CSV → data.js (build_data.py)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Wrap boundaries</b><span>Ontario/Ottawa/Southern-Ontario GeoJSONs → geo.js, untouched</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Turnout history</b><span>1981–2025 province turnout + winner, plus per-riding turnout for the last 3 elections → turnout.js</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>4 · One web page</b><span>ONelections.html — map + consolidation model</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>Why the map looks like clean rectangles</h4>
+    <p>The three boundary GeoJSONs were hand-cut in <em>mapshaper</em> directly in the source
+    shapefile's own projected coordinate system (Ontario Lambert Conformal Conic, in metres) — not
+    reprojected to latitude/longitude. That projection is exactly what gives many ridings their
+    clean rectangular look; reprojecting would add a few degrees of grid-convergence rotation and
+    skew that shape. The build script deliberately renders the planar coordinates as-is, as a flat
+    Cartesian plane, rather than "fixing" them into a geographic projection.</p>
+    <h4>Matching province-wide winners back to 1981</h4>
+    <p>Candidate-level riding data only exists for the years in the Explorer export, but Elections
+    Ontario's separate party-level seat-count export goes back to 1981. A small keyword matcher
+    (<code>match_party_code</code>) maps each year's top-seat party name to a party code, so the
+    turnout chart can show every election's governing party back to 1981 even without riding-level
+    detail for the older years.</p>
+    <h4>The consolidation model's built-in simplification</h4>
+    <p>The "what if" model reallocates Liberal/NDP/Green votes in each riding to whichever of those
+    parties already led there, holding total turnout fixed. It does not model actual voter behaviour
+    (some opposition voters might not have voted for the merged option, or might have voted PC
+    instead) — it answers a narrower, mechanical question: how many ridings would have flipped on the
+    <em>existing vote totals alone</em> if the opposition vote had been cast as one bloc.</p>
+  </div></details>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & judgment calls — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="on-consolidation"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>The consolidation model reallocates opposition votes mechanically, holding turnout fixed.</b>
+        <p>It's a "same votes, one ballot line" counterfactual, not a behavioural prediction of how people would have actually voted under a merged party.</p>
+        <p class="alt"><b>Other options:</b> a swing model that assumes some fraction of consolidated voters would defect to the PCs (adds a second, harder-to-justify assumption); or no what-if model at all (simpler, but loses the "how close was it really" framing).</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Pick a riding the model flips and check the page's own explanation of the mechanic — it should describe exactly this "reallocate to the leader" rule, not a polling-based swing.</li>
+        </ol></div>
+        <div class="where">Ontario_Elections/ONelections.html "what if" panel; Ontario_Elections/build_data.py header comment.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="on-projection"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>The map uses the source shapefile's own projected coordinates, unreprojected.</b>
+        <p>Gives the map its distinctive clean rectangular riding shapes; the alternative (true lat/lon) would look more "normal" geographically but less crisp.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Compare a riding's shape on the tool against the same riding on a standard lat/lon map (e.g. Google Maps) — the rotation difference is the tell.</li>
+        </ol></div>
+        <div class="where">Ontario_Elections/build_data.py, comment above <code>geo_sources</code>.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="on-partymatch"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Pre-2025 province-wide winners are matched from party name text, not a maintained ID table.</b>
+        <p>A small keyword matcher (substring checks like "progressive conservative", "liberal") turns each year's top-seat party name into a code — good enough since party names have been stable, but it would silently miss a genuinely new party name.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Check the turnout chart's winner colour/label against Wikipedia's list of Ontario general elections for a couple of older years (e.g. 1990, 1995) — they should match.</li>
+        </ol></div>
+        <div class="where">Ontario_Elections/build_data.py, <code>match_party_code</code>.</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ MORTGAGE ══════════════════ -->
+<section id="mortgage" class="card">
+  <div class="proj-head">
+    <h2>🏡 Mortgage / Housing Affordability Calculator</h2>
+    <span class="chip done">✅ Live · ~90%</span>
+    <a class="live-link" href="Mortgage/mortgage.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> enter income, down payment and rate to see your CMHC/OSFI stress-tested
+  maximum mortgage, monthly costs, and where that lands against two decades of Ottawa benchmark
+  prices.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">CMHC / OSFI B-20<small>GDS/TDS qualifying rules and stress-test formula</small></div>
+    <div class="src">CREA — MLS Home Price Index<small>Ottawa benchmark prices, monthly, 2005–present</small></div>
+    <div class="src">Statistics Canada<small>CPI (inflation adjustment), census income &amp; household spending by FSA/province/Canada</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Static inputs</b><span>StatCan census extracts + CREA history + tax tables saved as CSV/JSON (Static/)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Build JSON</b><span>Pipeline/build_json.py compacts everything into the JSON/ files the page reads</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · One web page</b><span>mortgage.html — no server, no live API calls</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>The qualifying rule, applied exactly as a lender would</h4>
+    <p>Qualifying uses OSFI's B-20 guideline: Gross Debt Service (GDS) ≤ 39% and Total Debt Service
+    (TDS) ≤ 44%, tested at the <em>greater of</em> your contract rate + 2%, or the Bank of Canada's
+    5.25% qualifying floor — the same stress test a federally-regulated lender applies, not a
+    simplified approximation.</p>
+    <h4>Why CREA benchmark, not raw MLS average price</h4>
+    <p>CREA's Home Price Index is a quality-adjusted "typical home" measure, deliberately chosen over
+    a simple average/median sale price because it isn't skewed month-to-month by an unusual mix of
+    what happened to sell (e.g. a run of high-end sales).</p>
+    <h4>Filling the gaps between FSA, province and national data</h4>
+    <p>Income and spending data exist at different granularities — census income is available by
+    FSA, but Statistics Canada's household spending survey is only published at the
+    province/national level. Where a per-FSA figure doesn't exist, the calculator falls back to the
+    province-level figure, and from there to the national figure — so every FSA always resolves to
+    <em>some</em> number, at a clearly coarser level of detail than the postal-code-specific ones.</p>
+  </div></details>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & judgment calls — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="mg-stress"><div class="a-body">
+        <span class="tag std">standard factor</span><b>Stress test: GDS ≤ 39%, TDS ≤ 44%, at rate + 2% or 5.25%, whichever is higher.</b>
+        <p>This is OSFI's own published B-20 rule, not a house assumption.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Compare the calculator's qualifying math against OSFI's B-20 guideline text (or CMHC's public explainer) for the GDS/TDS ceilings and the qualifying-rate rule.</li>
+        </ol></div>
+        <div class="where">index.html REPORTS[] "mortgage" §method; Mortgage/Pipeline/build_json.py.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="mg-hpi"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Ottawa home prices use CREA's benchmark (HPI), not a raw average/median sale price.</b>
+        <p class="alt"><b>Other options:</b> average sale price (simpler, but swings with the mix of homes that happened to sell that month) or median sale price (more robust than average, but still mix-sensitive). HPI is CREA's own quality-adjusted alternative.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Compare a recent month's benchmark price in the tool against CREA's own published MLS HPI figure for Ottawa — they should match.</li>
+        </ol></div>
+        <div class="where">Mortgage/README.md §"Method"; Mortgage/Static/crea_benchmarks_latest.csv.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="mg-fallback"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Income/spending data falls back FSA → province → national when a finer figure doesn't exist.</b>
+        <p>Keeps the calculator working for every postal code, at the cost of some FSAs showing a coarser (provincial or national) figure without it being obvious at a glance.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Enter a smaller/rural Ottawa-area FSA and a downtown one — compare whether the household-spending figure shown actually differs between them (it won't, if both fell back to the same provincial number).</li>
+        </ol></div>
+        <div class="where">Mortgage/Pipeline/build_json.py; Mortgage/JSON/household_spending.json (one record, not per-FSA).</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ WEATHER ══════════════════ -->
+<section id="weather" class="card">
+  <div class="proj-head">
+    <h2>🌡️ Ottawa Weather / Climate Evolution</h2>
+    <span class="chip done">✅ Live · ~90%</span>
+    <a class="live-link" href="Weather/weather.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> 135 years of daily + 73 years of hourly Environment Canada records,
+  showing not just "warmer" but <em>which kind</em> of extreme has actually changed.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">ECCC daily archive<small>station 4333 (1889–present, active) spliced with 49568 (gap-filler)</small></div>
+    <div class="src">ECCC hourly archive<small>station 4337 (1953–2011) spliced with 49568 (2012–present)</small></div>
+    <div class="src">LightningMaps.org / Blitzortung.org<small>crowdsourced strike detections, 2021–present — supplementary, not ECCC</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Fetch daily</b><span>ottawa_weather_fetch.py — splice + per-year indices</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Fetch hourly</b><span>ottawa_weather_fetch_hourly.py — splice + per-year extreme counts (~1,750 paginated requests)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Fetch lightning</b><span>ottawa_lightning_fetch.py — per-strike detail, bounding-box filtered</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>4 · Records pass</b><span>ottawa_weather_records.py — all-time records, streaks, 30-yr climate-shift block (no fetching, reads caches only)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>5 · One web page</b><span>weather.html reads 5 committed JSON files</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>Why 30-year normals, not first-vs-last-decade deltas</h4>
+    <p>Daytime-max heat (days ≥ 30 °C) is noisy and roughly flat across 30-year windows — the 1910s
+    already ran about as hot as today — so comparing single decades would show a "hot days" trend
+    that's really a window artifact. The climate-shift block instead compares two 30-year normals
+    (1891–1920 vs 1996–2025). The robust signals that actually hold up are overnight warmth (warm
+    nights roughly tripled), winter mean (+3 °C), a collapsing extreme-cold tail (down about
+    two-thirds), longer seasons, and a snow→rain shift — which is why the dashboard's hero KPI is
+    "warm nights", deliberately not "hot days".</p>
+    <h4>Two record ranges that don't overlap, labelled honestly</h4>
+    <p>All-time temperature/precipitation records use the <b>daily</b> series (1889+), so "hottest
+    day ever" reflects the full history — Ottawa's record highs predate 1953. Humidex, wind chill,
+    wind speed and any hour-resolution leaderboard can only come from the <b>hourly</b> series
+    (1953+); the dashboard labels those "1953+" so the two ranges don't read as contradictory.</p>
+    <h4>Lightning is treated as a weaker, supplementary source</h4>
+    <p>The volunteer detector network backing the lightning data has grown over time — day-to-day
+    availability was patchy in early 2021 — so a rising strike count over the dataset's life may
+    partly reflect more detectors coming online, not more actual lightning. Unlike the calibrated
+    ECCC series, it's explicitly presented as colour, not a trend claim.</p>
+    <h4>A quietly-checked gap</h4>
+    <p>Hourly precipitation amount is essentially never populated for this station — checked across
+    every decade, both stations, before deciding not to compute an hourly rainfall-intensity index
+    from it. Precipitation totals instead come entirely from the daily pipeline.</p>
+  </div></details>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & judgment calls — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="wx-normals"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>The climate-shift KPIs compare two 30-year normals, not first-vs-last decade.</b>
+        <p class="alt"><b>Other options:</b> a simple first-decade-vs-last-decade delta (what many casual comparisons use) — rejected because it's noisy for daytime heat and can show a trend that's really a decade-endpoint artifact.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>In the dashboard's year-picker, compare hot-day counts across a few individual decades — notice how much they bounce around versus the smoother 30-year normals used for the headline KPIs.</li>
+        </ol></div>
+        <div class="where">Weather/README.md §"Records & extremes"; Weather/ottawa_weather_records.py.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="wx-splice"><div class="a-body">
+        <span class="tag data">source limit</span><b>Both series are spliced from two ECCC stations, filling gaps day-by-day rather than a hard cutover.</b>
+        <p>Ottawa's official record isn't one continuous station — it moved over the decades. The splice is a standard practice for long Canadian climate series, not unique to this project.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Look up ECCC station 4333 vs 49568 (or 4337 vs 49568 for hourly) on climate.weather.gc.ca and confirm their active date ranges match the splice points described in Weather/README.md.</li>
+        </ol></div>
+        <div class="where">Weather/README.md §"Daily" and §"Hourly".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="wx-lightning"><div class="a-body">
+        <span class="tag data">source limit</span><b>Lightning counts may rise partly because the volunteer sensor network grew, not just because of more real lightning.</b>
+        <p>Explicitly flagged as the weakest source in the dashboard — supplementary colour, not a calibrated trend.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Compare early-2021 daily coverage gaps (visible as missing days in <code>data/raw/lightning_strikes/</code>) against later, denser years — the network-growth effect is visible directly in file coverage.</li>
+        </ol></div>
+        <div class="where">Weather/README.md §"Lightning strikes" — "Why this is a weaker source than everything else in this repo".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="wx-precip"><div class="a-body">
+        <span class="tag data">source limit</span><b>No hourly rainfall-intensity index — the hourly station essentially never records precipitation amount.</b>
+        <p>Checked across every decade and both hourly stations before concluding this, rather than assumed.</p>
+        <div class="where">Weather/README.md §"Hourly" note.</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ ROAD SAFETY / VEHICLES ══════════════════ -->
+<section id="road-safety" class="card">
+  <div class="proj-head">
+    <h2>🚗 Vehicle–Pedestrian Impact / Road Safety</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="Vehicles/road-safety.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> pick a vehicle and an impact speed to see a pedestrian's injury and
+  fatality risk, alongside Ottawa's speed-camera readings and the fleet's shift toward bigger,
+  heavier vehicles.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">IIHS — Monfort &amp; Mueller pedestrian crash studies (2024–25)<small>injury/fatality curves by front-end height &amp; impact speed</small></div>
+    <div class="src">City of Ottawa — Automated Speed Enforcement<small>camera readings, periodic releases</small></div>
+    <div class="src">Statistics Canada — vehicle registrations<small>annual, by vehicle type</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Digitize curves</b><span>IIHS published risk curves → Pedestrian_Curves.csv</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Load open data</b><span>ASE camera CSV/JSON/GeoJSON + StatCan registrations, committed as-is</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · One web page</b><span>road-safety.html fetches everything from the same folder</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="rs-height"><div class="a-body">
+        <span class="tag std">standard factor</span><b>Injury/fatality risk is keyed to a vehicle's front-end height, per IIHS's own published curves.</b>
+        <p>Not a house-modelled risk curve — taken directly from Monfort &amp; Mueller's published research.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Compare the tool's risk-at-a-given-speed-and-height output against the IIHS study's own published figures for a couple of reference points.</li>
+        </ol></div>
+        <div class="where">index.html REPORTS[] "road-safety" §method.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="rs-collisions"><div class="a-body">
+        <span class="tag data">source limit</span><b>Collision counts shown on the page are hardcoded from City reports, pending an open collision-data feed.</b>
+        <p>Ottawa's collision open-data portal has gone stale; the page's collision figures are a manual snapshot, not a live series.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Check the page's collision figures for a stated as-of date, and compare against the City's own most recent published collision report.</li>
+        </ol></div>
+        <div class="where">index.html REPORTS[] "road-safety" §method.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="rs-ase"><div class="a-body">
+        <span class="tag data">source limit</span><b>Speed data reflects camera locations only, not fleet-wide driving speeds.</b>
+        <p>ASE cameras are sited at specific locations chosen by the City (school zones, community safety zones) — a real but non-random sample of Ottawa driving.</p>
+        <div class="where">Vehicles/README.md §"Method".</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ PWHL ══════════════════ -->
+<section id="pwhl" class="card">
+  <div class="proj-head">
+    <h2>🏒 PWHL Dashboard</h2>
+    <span class="chip build">🔨 Live · draft</span>
+    <a class="live-link" href="PWHL/pwhl.html" target="_blank">open the tool ↗</a>
+  </div>
+  <p><b>In one sentence:</b> standings, player leaders, shot maps and playoff results across three
+  PWHL seasons, refreshed daily from the league's own stats feed. An explicit first draft.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">PWHL official stats feed (HockeyTech)<small>pulled daily</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Daily pull</b><span>scripts/daily_update.R fetches games, standings, players, play-by-play into CSV</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Aggregate</b><span>scripts/build_dashboard_json.py turns the raw CSVs into compact data/json/ files</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · One web page</b><span>pwhl.html reads data/json/</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="pw-minimum"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Rate-stat leaderboards require a 5-game minimum.</b>
+        <p>Keeps small-sample outliers (one great game) off the leaderboards; a player with 4 games and a hot streak won't appear no matter how good the rate looks.</p>
+        <p class="alt"><b>Other options:</b> no minimum (surfaces small-sample flukes) or a higher bar like 10 games (excludes more players, especially mid-season call-ups).</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Check a player with under 5 games in the raw CSVs — confirm they're absent from rate-stat leaderboards but present in raw box scores.</li>
+        </ol></div>
+        <div class="where">index.html REPORTS[] "pwhl" §method.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="pw-draft"><div class="a-body">
+        <span class="tag data">source limit</span><b>This dashboard is explicitly a first draft — sections are candidates, not final.</b>
+        <p>Stated directly rather than presented as a finished product; expect sections to be reshaped as real usage clarifies what's useful.</p>
+        <div class="where">PWHL/README.md; index.html REPORTS[] "pwhl" §method.</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ CITY HALL INDEX ══════════════════ -->
+<section id="cityhall" class="card">
+  <div class="proj-head">
+    <h2>🏛️ City Hall eScribe Indexer</h2>
+    <span class="chip build">🔨 Pipeline built · data only, no page yet</span>
+  </div>
+  <p><b>In one sentence:</b> a structured, queryable CSV index of what every City of Ottawa
+  committee/council/commission discussed and decided — meetings, agenda items, motions, votes and
+  attachments — straight from the public eScribe portal.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">City of Ottawa eScribe portal<small>calendar API back to ~2019, agenda/minutes pages per meeting</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Enumerate meetings</b><span>eScribe's calendar API, filterable by committee &amp; year range</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Parse the richest page</b><span>PostMinutes → Minutes → Agenda fallback chain, per meeting</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Five joinable CSVs</b><span>meetings / agenda_items / motions / votes / attachments, joined on meeting_id</span></div>
+  </div>
+
+  <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
+    <h4>Nested agenda items are handled deliberately</h4>
+    <p>Agenda items can nest (e.g. 6 → 6.1); the parser is built so a parent item doesn't
+    double-count its children's motions, votes or attachments when rolled up.</p>
+    <h4>Politeness and resumability</h4>
+    <p>This hits a public-records site with a real browser User-Agent (the portal blocks default
+    bot user-agents) and the OS-native trust store for TLS. Every meeting is checkpointed, so a run
+    interrupted overnight resumes exactly where it left off rather than restarting.</p>
+  </details>
+
+  <div class="assump-box">
+    <h3>⚠️ Known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="ch-depth"><div class="a-body">
+        <span class="tag data">source limit</span><b>The calendar API only reaches back to ~2019 — older meetings likely live in a separate archive.</b>
+        <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="ch-voters"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Recorded votes are captured as one name-string per tally, not exploded to one row per councillor.</b>
+        <p>Good enough for "how did the vote go", but a clean "how did my councillor vote" dataset needs a further parsing pass on that string.</p>
+        <p class="alt"><b>Other options:</b> explode to per-councillor rows immediately — held off until the name-string format is validated across more committees, to avoid silently mis-splitting names.</p>
+        <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ REMAINING ══════════════════ -->
+<section id="todo" class="card">
+  <h2>🗺️ What's left, in roughly the recommended order</h2>
+  <p class="small muted">From <a href="PROJECTS.md">PROJECTS.md</a>'s planned/scoped and backlog lists.</p>
+  <table class="remain">
+    <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
+    <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b></td><td>The scraper in <code>OC_Transpo/</code> already harvests the PDFs; the visual itself hasn't been designed yet.</td><td>1–2 sessions</td></tr>
+    <tr><td>2</td><td><b>Ottawa City Finances / Budget Dashboard</b></td><td>Municipal spending; ties into the property-tax / quality-of-life narrative. eScribe index (<code>CityHall_Index/</code>) is a candidate input.</td><td>2–3 sessions</td></tr>
+    <tr><td>3</td><td><b>Ontario Court Cases visual</b></td><td>Extraction/structuring is ~30% done; the visual on top hasn't started.</td><td>2 sessions</td></tr>
+    <tr><td>4</td><td><b>Ottawa Real Estate Dashboard</b></td><td>Weekly-refreshed real-estate trends — prototyped in chat, not yet built.</td><td>2 sessions</td></tr>
+    <tr><td>5</td><td><b>Province Spending by Category</b></td><td>Ontario spending across healthcare, education, etc.</td><td>2 sessions</td></tr>
+    <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>
+    <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>GSC bedrock geology + NRCan well data → national map (companion to the Energy repo's Ottawa map).</td><td>3+ sessions</td></tr>
+  </table>
+</section>
+
+<!-- ══════════════════ ABOUT ══════════════════ -->
+<section id="about" class="card">
+  <h2>About this page</h2>
+  <p class="small">Generated by Claude on <b>2026-07-19</b> by reading every project's README, build
+  script and <code>PROJECTS.md</code> entry in this repo, plus the git commit history for build
+  dates. Regenerate it by asking Claude to re-read those documents after major changes.
+  Your ✓ checkmarks are stored in this browser only (localStorage).</p>
+  <button class="reset-btn" id="reset-checks">Reset all my verification checkmarks</button>
+</section>
+
+<div class="footer-note">
+  Ottawa Visuals · project atlas · see <a href="index.html">index.html</a> for the public homepage
+  and <a href="README.md">README.md</a> for the repo layout.
+</div>
+
+</main>
+
+<script>
+const KEY='ov-atlas-verified-v1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+const boxes=[...document.querySelectorAll('ul.assump input[type=checkbox]')];
+function refreshCounts(){
+  const done=boxes.filter(b=>b.checked).length;
+  document.getElementById('assump-count').textContent=boxes.length;
+  document.getElementById('assump-done').textContent=done;
+}
+boxes.forEach(b=>{
+  const k=b.dataset.key;
+  if(state[k]){b.checked=true;b.closest('li').classList.add('checked');}
+  b.addEventListener('change',()=>{
+    state[k]=b.checked;
+    b.closest('li').classList.toggle('checked',b.checked);
+    localStorage.setItem(KEY,JSON.stringify(state));
+    refreshCounts();
+  });
+});
+refreshCounts();
+document.getElementById('reset-checks').addEventListener('click',()=>{
+  if(!confirm('Clear all your verification checkmarks?'))return;
+  state={};localStorage.setItem(KEY,'{}');
+  boxes.forEach(b=>{b.checked=false;b.closest('li').classList.remove('checked');});
+  refreshCounts();
+});
+</script>
+</body></html>
