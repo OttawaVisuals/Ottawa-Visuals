@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dataset Prospector — Ottawa Visuals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EDEB;
+  --card:#F6F8F5;
+  --ink:#1A2E2A;
+  --ink-soft:#4A5E58;
+  --line:#C4CEC8;
+  --amber:#B87514;
+  --amber-soft:#F0E2C8;
+  --teal:#0F6E63;
+  --teal-soft:#D5E7E3;
+  --tier3:#8A9A93;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'Archivo',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+
+/* ---------- header ---------- */
+header{position:relative;border-bottom:2px solid var(--ink);overflow:hidden;padding:44px 24px 30px}
+header svg.contours{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+.hwrap{position:relative;max-width:1180px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+h1{font-family:var(--sans);font-variation-settings:'wdth' 72;font-weight:850;font-size:clamp(34px,6vw,62px);line-height:.95;text-transform:uppercase;letter-spacing:-.01em}
+h1 em{font-style:normal;color:var(--amber)}
+.subtitle{max-width:640px;margin-top:14px;color:var(--ink-soft);font-size:15px}
+.hstats{display:flex;gap:28px;margin-top:22px;font-family:var(--mono);font-size:12px}
+.hstats b{display:block;font-size:22px;font-weight:600;color:var(--ink)}
+.hstats span{color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;font-size:10px}
+
+/* ---------- filter bar ---------- */
+.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 24px}
+.barwrap{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:6px 12px;cursor:pointer;border-radius:2px;transition:background .12s,color .12s}
+.chip:hover{background:var(--ink);color:var(--card)}
+.chip.on{background:var(--ink);color:var(--card)}
+.chip.on.amber{background:var(--amber);border-color:var(--amber)}
+.chip.on.teal{background:var(--teal);border-color:var(--teal)}
+.divider{width:1px;height:22px;background:var(--line);margin:0 4px}
+.search{margin-left:auto;font-family:var(--mono);font-size:12px;border:1px solid var(--line);background:var(--card);padding:7px 10px;min-width:200px;color:var(--ink);border-radius:2px}
+.search:focus{outline:2px solid var(--teal);outline-offset:1px}
+.count{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap}
+
+/* ---------- grid ---------- */
+main{max-width:1180px;margin:0 auto;padding:28px 24px 60px}
+.tierlabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:26px 0 12px;display:flex;align-items:center;gap:12px}
+.tierlabel::after{content:'';flex:1;height:1px;background:var(--line)}
+.tierlabel b{color:var(--amber);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+
+/* ---------- card ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:3px;display:flex;overflow:hidden;transition:border-color .12s, box-shadow .12s}
+.card:hover{border-color:var(--ink);box-shadow:3px 3px 0 var(--line)}
+/* the core-sample strip: signature element */
+.core{width:16px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.core i{flex:1;display:block}
+.core .f1{background:var(--amber)}
+.core .f2{background:var(--teal)}
+.core .empty{background:repeating-linear-gradient(45deg,transparent,transparent 3px,var(--line) 3px,var(--line) 4px)}
+.body{flex:1;padding:14px 16px 12px;min-width:0}
+.cardtop{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.dnum{font-family:var(--mono);font-size:10px;color:var(--ink-soft)}
+.badges{display:flex;gap:4px}
+.badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 6px;border-radius:2px;text-transform:uppercase}
+.badge.display{background:var(--teal-soft);color:var(--teal)}
+.badge.analyze{background:var(--amber-soft);color:var(--amber)}
+.badge.gem{background:var(--ink);color:#F2D28A}
+.card h3{font-size:16.5px;font-weight:750;font-variation-settings:'wdth' 82;line-height:1.15;margin:6px 0 4px}
+.src{font-family:var(--mono);font-size:11px;color:var(--teal);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--teal)}
+.src a:hover{border-bottom-style:solid}
+.meta{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:8px;flex-wrap:wrap}
+.meta b{color:var(--ink);font-weight:600}
+.desc{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+.fit{margin-top:8px;font-size:13px;border-left:3px solid var(--amber);padding-left:9px;color:var(--ink)}
+.fit b{font-weight:700}
+details{margin-top:9px}
+summary{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);cursor:pointer;list-style:none;user-select:none}
+summary::before{content:'+ '}
+details[open] summary::before{content:'– '}
+summary:hover{text-decoration:underline}
+.vars{margin-top:7px;display:flex;flex-wrap:wrap;gap:4px}
+.var{font-family:var(--mono);font-size:10.5px;background:var(--paper);border:1px solid var(--line);padding:2px 6px;border-radius:2px;color:var(--ink-soft)}
+.note{margin-top:7px;font-size:12.5px;color:var(--ink-soft);font-style:italic}
+
+/* ---------- combos ---------- */
+.combos{margin-top:52px;border-top:2px solid var(--ink);padding-top:20px}
+.combos h2{font-variation-settings:'wdth' 72;font-weight:850;text-transform:uppercase;font-size:26px;margin-bottom:4px}
+.combos p.lead{color:var(--ink-soft);font-size:14px;margin-bottom:18px;max-width:620px}
+.combo{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.combo .cn{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber)}
+.combo h4{font-size:15px;font-weight:750;margin-bottom:3px}
+.combo .recipe{font-family:var(--mono);font-size:11.5px;color:var(--teal);margin-bottom:4px}
+.combo p{font-size:13.5px;color:var(--ink-soft)}
+footer{max-width:1180px;margin:0 auto;padding:26px 24px 46px;font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.hidden{display:none!important}
+@media(max-width:640px){.search{min-width:0;width:100%;margin-left:0}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="contours" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#C4CEC8" stroke-width="1">
+      <path d="M-20,200 C150,140 300,230 480,180 S820,90 1000,150 S1180,120 1240,160"/>
+      <path d="M-20,170 C160,110 320,200 500,150 S840,60 1020,120 S1190,95 1240,130"/>
+      <path d="M-20,140 C170,85 340,170 520,122 S860,35 1040,92 S1200,70 1240,100"/>
+      <path d="M-20,230 C140,175 280,255 460,212 S800,125 980,182 S1170,150 1240,192"/>
+    </g>
+    <g fill="none" stroke="#B87514" stroke-width="1" stroke-dasharray="2 5" opacity=".6">
+      <path d="M-20,110 C180,60 360,140 540,96 S880,12 1060,66 S1210,48 1240,72"/>
+    </g>
+  </svg>
+  <div class="hwrap">
+    <div class="eyebrow">Ottawa Visuals · Field Survey · July 2026</div>
+    <h1>Dataset<br><em>Prospector</em></h1>
+    <p class="subtitle">Forty-three open datasets and APIs with the same profile as the EnerGuide audits and well records: rich, machine-readable, and barely visualized. Round 2 adds national + other-province hidden gems — health, education, and spending-waste data — marked with a ⭐.</p>
+    <div class="hstats">
+      <div><b id="stat-total">43</b><span>datasets</span></div>
+      <div><b id="stat-t1">16</b><span>tier-1 claims</span></div>
+      <div><b id="stat-api">10</b><span>live APIs</span></div>
+      <div><b>5</b><span>combo plays</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="barwrap">
+    <button class="chip on" data-f="theme" data-v="all">All</button>
+    <button class="chip" data-f="theme" data-v="energy">Energy & Geo</button>
+    <button class="chip" data-f="theme" data-v="civic">Civic / QoL</button>
+    <button class="chip" data-f="theme" data-v="accountability">Accountability</button>
+    <button class="chip" data-f="theme" data-v="environment">Environment</button>
+    <button class="chip" data-f="theme" data-v="health">Health</button>
+    <button class="chip" data-f="theme" data-v="education">Education</button>
+    <div class="divider"></div>
+    <button class="chip amber" data-f="usage" data-v="analyze">🔬 Analyze</button>
+    <button class="chip teal" data-f="usage" data-v="display">🖥️ Display</button>
+    <input class="search" id="q" type="search" placeholder="search variables, sources…" aria-label="Search datasets">
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main>
+  <div id="tiers"></div>
+
+  <section class="combos" id="combos">
+    <h2>Combo plays</h2>
+    <p class="lead">Where the value is — combinations nobody has published, in the spirit of the well-records work.</p>
+    <div class="combo"><div class="cn">C1</div><div><h4>Waste-heat atlas</h4><div class="recipe">GHGRP × NPRI × ODB footprints × OEB CCIM feeders</div><p>Rank large combustion facilities by recoverable heat near electrically constrained feeders. The missing third leg of the geothermal/solar/waste-heat map.</p></div></div>
+    <div class="combo"><div class="cn">C2</div><div><h4>Retrofit market map</h4><div class="recipe">EnerGuide (have) × ODB year-built + floors × Ottawa building permits</div><p>Which FSAs hold old, large, un-retrofitted stock — a direct extension of the Retrofit Explorer.</p></div></div>
+    <div class="combo"><div class="cn">C3</div><div><h4>Transit truth machine</h4><div class="recipe">GTFS-RT logging (Pi) × eScribe KPI scrape</div><p>Log vehicle positions every 30 s for a few months and compute independent on-time performance to compare against OC Transpo's own KPIs.</p></div></div>
+    <div class="combo"><div class="cn">C4</div><div><h4>RTO impact panel</h4><div class="recipe">TBS NCR headcounts × 311 volumes × IESO Ottawa-zone load × parking/office data</div><p>The quantified backbone for the quality-of-life / mayoral-election piece.</p></div></div>
+    <div class="combo"><div class="cn">C5</div><div><h4>Deep vs. shallow geothermal</h4><div class="recipe">Water wells (have) × petroleum formation tops × LiDAR DTM</div><p>Overburden thickness and bedrock context for the Ottawa pilot — petroleum wells are the deeper sibling of the records already mined.</p></div></div>
+  </section>
+</main>
+
+<footer>Compiled from open.canada.ca · data.ontario.ca · open.ottawa.ca · data.ottawapolice.ca · ieso.ca · api.weather.gc.ca · canlii.org · octranspo.com — links verified July 2026. OPS CSV links expire; script the downloads.</footer>
+
+<script>
+const DATA=[
+// tier:1|2|3, usage:['analyze','display'], theme, records, coverage, vars[], desc, fit, note?, url, src
+{t:1,theme:'energy',usage:['analyze','display'],name:'GHGRP — Facility GHG Emissions',src:'ECCC · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/a8ba14b7-7f23-462a-bdbb-83b0ef629823',records:'~1,879 facilities/yr',coverage:'2004–2024 · Canada',vars:['facility name','lat/lon','NAICS sector','CO₂/CH₄/N₂O/HFC/PFC/SF₆','emissions by source','biomass CO₂ (new)'],desc:'Every facility emitting ≥10 kt CO₂e reports annually. Bulk CSV/XLSX plus an interactive map and query tool.',fit:'Large combustion facilities are <b>waste-heat source candidates</b> for the geothermal/solar/waste-heat map. Links to NPRI facility IDs.'},
+{t:1,theme:'energy',usage:['analyze'],name:'Ontario Petroleum Wells + OGSRL',src:'Ontario GeoHub · ogsrlibrary.com',url:'https://geohub.lio.gov.on.ca/datasets/petroleum-well',records:'26,000+ wells',coverage:'~150 yrs · Ontario',vars:['location','well type/status','depth','formation tops (OGSRL)','casings','drill-stem tests','gas/water discoveries'],desc:'Free location layer on GeoHub; OGSR Library adds subsurface geology tables (public dataset + paid tiers) and runs an explicit geothermal-driller data program under O.Reg. 98/12.',fit:'The <b>deeper sibling of the water-well records</b> — formation-top picks for bedrock geothermal feasibility.'},
+{t:1,theme:'energy',usage:['analyze'],name:'Open Database of Buildings v3',src:'Statistics Canada',url:'https://www150.statcan.gc.ca/n1/en/catalogue/34260001',records:'530 datasets merged',coverage:'v3 Apr 2025 · Canada',vars:['footprint polygon','area/perimeter','lat/lon','CSD','year built (v3)','floor count (~382K bldgs)'],desc:'Harmonized building footprints from 107 government sources under one open licence.',fit:'Building-stock join key for <b>heat-demand density</b>, feeder-level geothermal screening, and retrofit-market sizing per FSA.'},
+{t:1,theme:'civic',usage:['analyze','display'],name:'Ottawa 311 Service Requests',src:'Open Ottawa + Open311 API',url:'https://ottawa.ca/en/open311-api-key-registration-form',records:'~460K / 15 months',coverage:'Rolling 2 yrs (daily) + 2012+ summaries',vars:['request type','department','channel','ward','open/close dates','status'],desc:'Two rolling CSVs on Azure blob updated daily (current + last year), plus a GeoReport-v2 API with free key. Bilingual headers.',fit:'Explicitly on the <b>Quality-of-Life project list</b> — service complaints per ward over time, live-updatable.'},
+{t:1,theme:'civic',usage:['analyze','display'],name:'OPS Crime & Calls for Service',src:'data.ottawapolice.ca',url:'https://data.ottawapolice.ca',records:'~166K offences',coverage:'2018–2025 · Ottawa',vars:['offence category','GO number','reported/occurred datetime','ward','neighbourhood','geo-masked x/y','call priority (new)'],desc:'Criminal offences, shootings, bike thefts (12K), overdose calls, hate crime, auto theft; new calls-for-service-by-priority dashboard since the Nov 2025 portal refresh.',fit:'Extends the <b>traffic-stops dashboard</b>; "police arrests" was on the wish list.',note:'Download URLs expire within hours — script the fetch, never hotlink.'},
+{t:1,theme:'civic',usage:['analyze'],name:'CanLII REST API',src:'api.canlii.org (free key)',url:'https://github.com/canlii/API_documentation/blob/master/EN.md',records:'~2M decisions',coverage:'All Canadian courts',vars:['citation','title','docket','decision date','keywords','cited/citing cases','legislation cited'],desc:'Read-only JSON API; caseBrowse returns up to 10,000 results per query with date filters (e.g. databaseId oncj).',fit:'The only legitimate programmatic route for the <b>Ontario Court Cases project</b> (30%) — metadata + keywords; Ontario has no bulk full-text.'},
+{t:1,theme:'civic',usage:['display','analyze'],name:'OC Transpo GTFS-Realtime',src:'octranspo.com developers',url:'https://www.octranspo.com/en/plan-your-trip/travel-tools/developers/',records:'Fleet GPS every ~30 s',coverage:'Live · free key',vars:['vehicle positions (lat/lon)','trip updates','delays','cancellations','JSON / protobuf'],desc:'Free registration, commercial use allowed. VehiclePositions + TripUpdates endpoints on Azure API Management.',fit:'Log it on the <b>Raspberry Pi</b> to build your own on-time-performance dataset — the KPI gap the eScribe scraper exists for.'},
+{t:1,theme:'accountability',usage:['analyze'],name:'Federal Public Service Population',src:'TBS · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/f0d12b41-54dc-4784-ad2b-83dffed2ab84',records:'Annual snapshots',coverage:'2010–2025 (NCR to 2001)',vars:['department','tenure','province','National Capital Region','age band','executive level'],desc:'March-31 headcounts for the core public administration and separate agencies, CSV/XML.',fit:'The <b>denominator of the RTO narrative</b> — federal workers in the NCR by year, joinable to traffic/parking/office layers.'},
+{t:1,theme:'energy',usage:['analyze','display'],name:'IESO Public Reports',src:'reports-public.ieso.ca (no key)',url:'https://www.ieso.ca/power-data/data-directory',records:'Hourly since 1994',coverage:'Ontario + zones',vars:['hourly Ontario demand','zonal demand (Ottawa) 2003+','generator output ≥20 MW','5-min realtime totals','LMPs (2025+)'],desc:'Plain CSV directory listings — trivially scriptable, no registration.',fit:'Ottawa-zone load = demand side of the <b>OEB CCIM feeder analysis</b>; generation mix = defensible hourly emissions factor for the GHG calculator.'},
+{t:1,theme:'environment',usage:['display'],name:'MSC GeoMet OGC API',src:'api.weather.gc.ca (no key)',url:'https://api.weather.gc.ca',records:'2,100+ live gauges',coverage:'Realtime + HYDAT archive',vars:['water level/flow','hydrometric stations','weather radar WMS','AQHI','model forecasts','GeoJSON'],desc:'Modern OGC API for ECCC weather, climate and water — Leaflet-friendly, CQL2 filtering, WMS layers.',fit:'You already scrape climate.weather.gc.ca; this is the same agency\'s API. <b>Ottawa River levels</b> (2017/2019 floods → now) is an unclaimed display piece.'},
+// ---- ROUND 2: hidden gems (national / other provinces / health / education / spending) ----
+{t:1,gem:1,theme:'accountability',usage:['analyze'],name:'Losses of Public Money or Property',src:'Public Accounts Vol. III · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/024ec008-653b-4632-ade8-3d6c0c27729a',records:'Every reported loss, by dept/yr',coverage:'Federal · combined CSV',vars:['incident description','incident type','department','number of incidents','amount of loss','recovered this year','expected recovery'],desc:'Fraud, theft, "accidental loss, destruction or damage," and revenue lost to willful misrepresentation — every departmental loss the federal government must report under TB directive, in one bilingual CSV.',fit:'The <b>frivolous-spending dataset almost nobody knows exists</b>. Stolen laptops, vanished cash, damaged vehicles — quantified.'},
+{t:1,gem:1,theme:'accountability',usage:['analyze'],name:'Ontario Municipal FIR',src:'MMAH · data.ontario.ca / efis.fma.csc.gov.on.ca',url:'https://data.ontario.ca/dataset/financial-information-return-fir-for-municipalities',records:'444 municipalities × ~50 yrs',coverage:'1977–present (CSV 2000+)',vars:['revenue & taxation','expenses by function (roads/police/rec)','capital','reserves','development charges','salaries','debt'],desc:'Standardized audited financials for every Ontario municipality, filed under the Municipal Act, downloadable by schedule and year.',fit:'Benchmark <b>Ottawa vs. Toronto/Hamilton per capita</b> — the "no tax increase → what got cut" narrative with hard numbers.'},
+{t:1,gem:1,theme:'accountability',usage:['analyze'],name:'Elections Canada Contributions',src:'elections.ca open data',url:'https://open.canada.ca/data/en/dataset/ef1e3528-b570-4a42-92ef-18a9749af8f2',records:'Millions of rows',coverage:'Jan 2004–present · weekly',vars:['donor name','postal area','amount','recipient entity','party/riding','leadership contests'],desc:'Every federal political contribution as reviewed by Elections Canada, weekly ZIP/CSV refresh.',fit:'<b>Map donations by FSA</b> — you already have the FSA choropleth machinery from the retrofit work.'},
+{t:1,gem:1,theme:'health',usage:['analyze'],name:'Canada Vigilance Adverse Reactions',src:'Health Canada · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/9cbaef00-b52c-4a70-9fed-d9aa8263ab74',records:'60 yrs of reports',coverage:'1965–present · bulk ZIP + JSON API',vars:['product & ingredients','reaction terms (MedDRA)','seriousness','outcome','patient age/sex','report source'],desc:'Every suspected adverse drug/vaccine reaction reported to Health Canada, as 11 relational flat files plus a JSON API.',fit:'Genuinely deep, weird, and <b>almost never visualized publicly</b> — the health-data analogue of the well records.'},
+{t:1,gem:1,theme:'civic',usage:['analyze'],name:'CADORS Aviation Occurrences',src:'Transport Canada · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/a348c1d1-2392-4595-b5e2-c6a244a7e87f',records:'300,000+ since 1985',coverage:'~16,750 reports/yr · bulk CSV',vars:['occurrence category','event type','aerodrome','aircraft make/model','date/time','narrative'],desc:'Laser strikes, drone sightings, bird strikes, runway incursions — every civil aviation occurrence, as linked CSV tables.',fit:'Filter to <b>CYOW</b> for an Ottawa angle; "drone incidents near the airport over time" is an unclaimed visual.'},
+{t:1,gem:1,theme:'health',usage:['analyze','display'],name:'CIHI Priority-Procedure Wait Times',src:'cihi.ca (XLSX download)',url:'https://www.cihi.ca/en/explore-wait-times-for-priority-procedures-across-canada',records:'2008–present',coverage:'National / provincial / health region',vars:['median & 90th pctile wait','procedure volumes','% within benchmark','hip/knee, cataract, radiation, MRI/CT, cancer surgeries'],desc:'The pan-Canadian comparable wait-time series, with a downloadable historical file including pandemic-period extensions.',fit:'Clean <b>provincial-comparison time series</b> — Ontario vs. the rest, pre/post-COVID.'},
+{t:2,theme:'accountability',usage:['analyze'],name:'Registry of Lobbyists',src:'lobbycanada.gc.ca',url:'https://lobbycanada.gc.ca',records:'Full registry + monthly comms',coverage:'Federal · ongoing',vars:['client/firm','subject matter','DPOH contacted','communication date','institution'],desc:'Bulk registry exports incl. monthly communication reports: who lobbied which minister or DM, on what.',fit:'Joins to <b>contracts + grants</b> for the transparency projects.'},
+{t:2,theme:'accountability',usage:['analyze'],name:"MPs' Expenditure Reports",src:'ourcommons.ca proactive disclosure',url:'https://www.ourcommons.ca/proactivedisclosure/en/members',records:'338 MPs × quarterly',coverage:'Quarterly CSV',vars:['travel','hospitality','office costs','staff','per-MP totals'],desc:'Per-member quarterly spending, downloadable.',fit:'The <b>"Poilievre taxpayer expenses"</b> idea, done properly across all MPs over time.'},
+{t:2,theme:'health',usage:['display','analyze'],name:'Ontario Hospital-Level Wait Times',src:'Ontario Health',url:'https://www.ontariohealth.ca/system/reporting/wait-times/wait-times-results',records:'132 sites, monthly',coverage:'Wait 1 + Wait 2 by priority',vars:['referral→consult days','decision→surgery days','procedure','priority level','hospital site','90th pctile'],desc:'From the Wait Time Information System: near-real-time surgical and diagnostic-imaging waits per hospital.',fit:'<b>The Ottawa Hospital vs. Queensway Carleton vs. province</b> — local, personal, unclaimed.'},
+{t:2,theme:'health',usage:['analyze'],name:'PHAC Opioid & Stimulant Harms',src:'health-infobase.canada.ca',url:'https://health-infobase.canada.ca/substance-related-harms/opioids-stimulants/',records:'Quarterly since 2016',coverage:'By province · CSV',vars:['toxicity deaths','hospitalizations','EMS responses','substance type'],desc:'The national substance-harms surveillance series with downloadable data.',fit:'Pairs with the <b>OPS overdose-calls</b> data for an Ottawa-vs-Canada panel.'},
+{t:2,theme:'health',usage:['analyze'],name:'CIHI Health Spending (NHEX)',src:'cihi.ca data tables',url:'https://www.cihi.ca/en/national-health-expenditure-trends',records:'50-yr series',coverage:'1975–present · by province',vars:['spending by use (hospitals/drugs/physicians)','source of funds','per-capita','% of GDP'],desc:'The canonical Canadian health-expenditure series, XLSX.',fit:'The health half of <b>"province spending by category."</b>'},
+{t:2,gem:1,theme:'education',usage:['analyze'],name:'Alberta Class Size & Enrolment',src:'open.alberta.ca',url:'https://open.alberta.ca/opendata/alberta-class-size',records:'Per-classroom / per-school',coverage:'New ACIP data + 2004–2019 initiative files',vars:['class size per classroom','classroom complexity & composition','enrolment by school & grade','authority'],desc:'The dataset you half-remembered: classroom-level size data (suppressed <10 students) plus per-school enrolment by grade, annually.',fit:'<b>Student-per-classroom trends</b> by board — politically loaded, rarely charted well.'},
+{t:2,theme:'education',usage:['analyze'],name:'Ontario School Info & Demographics',src:'data.ontario.ca',url:'https://data.ontario.ca/dataset?q=school+information+student+demographics',records:'~4,800 schools',coverage:'Per-school · annual',vars:['enrolment','EQAO results','% low-income households','class size by board','board financials'],desc:'School-level enrolment, achievement and socioeconomic context, plus separate class-size and board financial datasets.',fit:'School-level <b>Ottawa maps write themselves</b> — achievement vs. income by neighbourhood.'},
+{t:2,theme:'civic',usage:['analyze'],name:'National Collision Database',src:'Transport Canada · open.canada.ca',url:'https://open.canada.ca/data/en/dataset?q=national+collision+database',records:'Every fatal/injury collision',coverage:'1999–present · Canada · CSV',vars:['collision configuration','weather','road class','vehicle year','person age/sex','severity'],desc:'The national police-reported collision file.',fit:'National context layer for the <b>Ottawa collision map</b>.'},
+{t:2,theme:'civic',usage:['analyze'],name:'TTC Delay Logs (Toronto)',src:'open.toronto.ca',url:'https://open.toronto.ca',records:'Per-incident, monthly files',coverage:'Subway / bus / streetcar',vars:['delay minutes','cause code','route/station','datetime'],desc:'Toronto publishes per-incident transit delay logs; OC Transpo publishes nothing comparable.',fit:'The foil for the <b>GTFS-RT truth machine</b> — compute the same metric for both cities.'},
+{t:3,theme:'accountability',usage:['analyze'],name:'CRA Charities (T3010)',src:'canada.ca / CRA',url:'https://www.canada.ca/en/revenue-agency/services/charities-giving.html',records:'~85K charities',coverage:'Annual returns',vars:['revenue','fundraising costs','compensation bands','program spending'],desc:'Financials of every registered charity.',fit:'Nationally <b>underexploited</b>; sector-level Ottawa slices possible.'},
+{t:3,theme:'civic',usage:['analyze'],name:'IRCC Permanent Resident Admissions',src:'open.canada.ca',url:'https://open.canada.ca/data/en/dataset?q=permanent+residents+monthly',records:'Monthly flows',coverage:'By CMA, country, category',vars:['admissions','CMA','citizenship','immigration category'],desc:'Monthly immigration admissions with city-level detail.',fit:'Ottawa <b>growth-pressure context</b> for the housing/QoL work.'},
+{t:3,theme:'environment',usage:['display'],name:'Canadian Disaster Database',src:'publicsafety.gc.ca',url:'https://www.publicsafety.gc.ca/cnt/rsrcs/cndn-dsstr-dtbs/index-en.aspx',records:'1,000+ events',coverage:'1900–present',vars:['event type','location','deaths','evacuated','estimated cost'],desc:'Every significant Canadian disaster with impact estimates.',fit:'Floods and ice storms tie into the <b>climate page</b>.'},
+{t:3,theme:'civic',usage:['display'],name:'Ontario Baby Names',src:'data.ontario.ca',url:'https://data.ontario.ca/dataset?q=baby+names',records:'A century of names',coverage:'1917–present',vars:['name','sex','year','frequency'],desc:'Annual name frequencies from ServiceOntario.',fit:'Pure fun, <b>zero effort</b> — a weekend visual.'},
+// tier 2
+{t:2,theme:'energy',usage:['analyze'],name:'NPRI — Pollutant Release Inventory',src:'ECCC',url:'https://www.canada.ca/en/environment-climate-change/services/national-pollutant-release-inventory.html',records:'~7,000+ facilities/yr',coverage:'1993–present · Canada',vars:['substance releases','facility coords','stack parameters','NAICS'],desc:'Facility-level releases to air/water/land; cross-links to GHGRP IDs.',fit:'Stack data enriches the <b>waste-heat / industrial layer</b>.'},
+{t:2,theme:'civic',usage:['analyze'],name:'Ottawa Transportation Collisions',src:'Open Ottawa',url:'https://open.ottawa.ca',records:'~14K/yr',coverage:'Annual files · Ottawa',vars:['location','severity','road/environment condition','pedestrian/cyclist involvement'],desc:'Geocoded collision records in the Transportation category hub.',fit:'The <b>bike-collision map</b> backlog item; joins to the ASE speed data already in the repo.'},
+{t:2,theme:'energy',usage:['analyze'],name:'Ottawa Building Permits',src:'Open Ottawa + StatCan 34-10',url:'https://open.ottawa.ca',records:'Monthly exports',coverage:'Ottawa · ongoing',vars:['permit type','construction value','address','issue date'],desc:'City permit exports; StatCan monthly permits by CMA for context.',fit:'Heat-pump/retrofit <b>uptake proxy</b> joined with EnerGuide FSAs; also feeds the office-conversion story.'},
+{t:2,theme:'energy',usage:['analyze','display'],name:'Canadian Wind Turbine Database',src:'NRCan · open.canada.ca',url:'https://open.canada.ca/data/en/dataset/79fdad93-9025-49ad-ba16-c26d718cc070',records:'~6,700 turbines',coverage:'Updated (Sept 2025 adds)',vars:['lat/lon','model/manufacturer','hub height','rotor diameter','capacity','commissioning date'],desc:'Every commercial turbine in Canada, XLSX/GDB/REST.',fit:'The wind analogue of the <b>AHRI certificate scrape</b>; pair with the Canadian Wind Atlas for potential-vs-installed.'},
+{t:2,theme:'energy',usage:['analyze'],name:'NRCan Photovoltaic Potential Maps',src:'NRCan · open.canada.ca',url:'https://open.canada.ca/data/en/dataset?q=photovoltaic+potential',records:'~3,500 municipalities',coverage:'Canada · monthly values',vars:['mean daily insolation kWh/m²','by month','by orientation/tilt'],desc:'Municipal PV potential and solar resource grids.',fit:'The <b>solar leg</b> of the triad; combine with ODB footprints + LiDAR DSM for rooftop estimates.'},
+{t:2,theme:'energy',usage:['analyze'],name:'Ontario LiDAR DTM / DSM',src:'Ontario GeoHub',url:'https://geohub.lio.gov.on.ca/maps/mnrf::ontario-digital-terrain-model-lidar-derived/about',records:'1-km tiles',coverage:'Ottawa fully covered',vars:['bare-earth DTM','surface DSM','ImageServer web service','1 m class rasters'],desc:'Provincial lidar compilation; NRCan HRDEM is the national fallback.',fit:'DSM − DTM = <b>building heights / roof planes</b> for solar; slope + overburden context for borehole fields.'},
+{t:2,theme:'accountability',usage:['analyze'],name:'Proactive Disclosure — Contracts & Grants',src:'open.canada.ca',url:'https://search.open.canada.ca/contracts/',records:'Millions of rows',coverage:'Federal · ongoing',vars:['vendor','value','department','contract type','travel/hospitality','grants & contributions'],desc:'Every federal contract >$10K plus expense disclosures, bulk CSV.',fit:'Real joinable data behind the <b>political spending / MP expenses</b> ideas.'},
+{t:2,theme:'accountability',usage:['analyze'],name:'Ontario Sunshine List',src:'data.ontario.ca',url:'https://www.ontario.ca/page/public-sector-salary-disclosure',records:'~300K/yr',coverage:'1996–present',vars:['employer','name','position','salary','benefits'],desc:'Public-sector salaries ≥$100K, annual CSV.',fit:'Province-spending narrative; <b>City of Ottawa + OC Transpo subsets</b> are locally interesting.'},
+{t:2,theme:'environment',usage:['display'],name:'Ottawa Tree Inventory',src:'Open Ottawa',url:'https://open.ottawa.ca/datasets/tree-inventory',records:'300,000+ trees',coverage:'City-managed trees',vars:['species','diameter','civic address','lot location','treatment'],desc:'Full municipal tree inventory with coordinates.',fit:'Canopy vs. <b>urban heat vs. energy demand</b>; also simply a beautiful map dataset.'},
+{t:2,theme:'environment',usage:['analyze'],name:'NAPS Air Quality',src:'ECCC data portal',url:'https://data-donnees.az.ec.gc.ca/data/air/monitor/national-air-pollution-surveillance-naps-program/',records:'Hourly, decades deep',coverage:'Ottawa downtown station',vars:['O₃','NO₂','PM2.5','SO₂','CO','station metadata'],desc:'Continuous monitoring archive, plain CSV directory.',fit:'Sibling panel for the <b>weather/climate page</b> — the 2023/2025 smoke summers show up dramatically.'},
+// tier 3
+{t:3,theme:'energy',usage:['analyze'],name:'Ontario Geotechnical Boreholes',src:'OGS / geologyontario',url:'https://www.geologyontario.mndm.gov.on.ca',records:'Strata logs',coverage:'Ontario',vars:['borehole location','stratum','depth intervals','geocolumns'],desc:'Continuous strata logs per borehole.',fit:'Infill between water wells and petroleum wells for <b>overburden-depth mapping</b>.'},
+{t:3,theme:'civic',usage:['analyze'],name:'CMHC Housing Market Info Portal',src:'cmhc-schl.gc.ca',url:'https://www03.cmhc-schl.gc.ca/hmip-pimh/',records:'By survey zone',coverage:'Ottawa CMA · time series',vars:['starts/completions','rental universe','vacancy rate','average rents'],desc:'Zone-level housing market series behind an export UI.',fit:'Extends the <b>mortgage/affordability tool</b> with time series it doesn\'t currently show.'},
+{t:3,theme:'energy',usage:['analyze'],name:'Ontario Facility GHG Reporting (MECP)',src:'data.ontario.ca',url:'https://data.ontario.ca/dataset/greenhouse-gas-emissions-reporting-by-facility',records:'2010–2023',coverage:'Ontario facilities',vars:['facility','emissions','verification status'],desc:'Provincial companion to GHGRP under O.Reg. 390/18.',fit:'Lower thresholds in some sectors; <b>verification flags</b> GHGRP lacks.'},
+{t:3,theme:'environment',usage:['display'],name:'Rideau Canal Skateway Seasons',src:'NCC (scrape/compile)',url:'https://ncc-ccn.gc.ca/places/rideau-canal-skateway',records:'~55 seasons',coverage:'1971–present',vars:['open date','close date','skating days'],desc:'No clean open dataset — compile from NCC releases + Wayback.',fit:'Tiny dataset, huge narrative payoff for the <b>climate page</b> (2023: first season that never opened).'},
+{t:3,theme:'civic',usage:['analyze'],name:'Ottawa 3D Buildings & Permits Layers',src:'Open Ottawa GIS hub',url:'https://open.ottawa.ca',records:'Downtown 3D + citywide layers',coverage:'2004–2014 vintages',vars:['3D building models','development applications','catch basins','zoning'],desc:'The GIS hub\'s planning stack (3D buildings, permits, development applications).',fit:'Local detail layer under the <b>ODB/retrofit joins</b>; office-conversion visuals.'}
+];
+
+const state={theme:'all',usage:new Set(),q:''};
+const tiersEl=document.getElementById('tiers');
+const TIERNAMES={1:['Tier 1','direct fit with active projects'],2:['Tier 2','strong candidates, one step removed'],3:['Tier 3','niche or higher-effort']};
+
+function coreStrip(d){
+  // 3 bands: tier1 => amber+teal+amber, tier2 => two filled, tier3 => one
+  const filled = d.t===1?3:d.t===2?2:1;
+  let h='';
+  for(let i=0;i<3;i++){
+    if(i<filled) h+=`<i class="${i%2?'f2':'f1'}"></i>`;
+    else h+='<i class="empty"></i>';
+  }
+  return h;
+}
+function card(d,idx){
+  const badges=(d.gem?'<span class="badge gem">⭐ gem</span>':'')+d.usage.map(u=>`<span class="badge ${u==='display'?'display':'analyze'}">${u==='display'?'🖥️ display':'🔬 analyze'}</span>`).join('');
+  return `<article class="card" data-t="${d.t}" data-theme="${d.theme}" data-usage="${d.usage.join(' ')}">
+    <div class="core" title="Tier ${d.t}">${coreStrip(d)}</div>
+    <div class="body">
+      <div class="cardtop"><span class="dnum">№ ${String(idx+1).padStart(2,'0')} · ${d.theme.toUpperCase()}</span><span class="badges">${badges}</span></div>
+      <h3>${d.name}</h3>
+      <div class="src"><a href="${d.url}" target="_blank" rel="noopener">${d.src}</a></div>
+      <div class="meta"><span>records <b>${d.records}</b></span><span>coverage <b>${d.coverage}</b></span></div>
+      <p class="desc">${d.desc}</p>
+      <p class="fit">${d.fit}</p>
+      ${d.note?`<p class="note">⚠ ${d.note}</p>`:''}
+      <details><summary>${d.vars.length} variables</summary><div class="vars">${d.vars.map(v=>`<span class="var">${v}</span>`).join('')}</div></details>
+    </div>
+  </article>`;
+}
+function render(){
+  tiersEl.innerHTML='';
+  [1,2,3].forEach(t=>{
+    const items=DATA.map((d,i)=>({d,i})).filter(({d})=>d.t===t&&match(d));
+    if(!items.length)return;
+    tiersEl.insertAdjacentHTML('beforeend',
+      `<div class="tierlabel"><b>${TIERNAMES[t][0]}</b> ${TIERNAMES[t][1]}</div>
+       <div class="grid">${items.map(({d,i})=>card(d,i)).join('')}</div>`);
+  });
+  const n=DATA.filter(match).length;
+  document.getElementById('count').textContent=`${n} / ${DATA.length} shown`;
+}
+function match(d){
+  if(state.theme!=='all'&&d.theme!==state.theme)return false;
+  if(state.usage.size&&![...state.usage].some(u=>d.usage.includes(u)))return false;
+  if(state.q){
+    const hay=(d.name+' '+d.src+' '+d.desc+' '+d.fit+' '+d.vars.join(' ')).toLowerCase();
+    if(!hay.includes(state.q))return false;
+  }
+  return true;
+}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  const f=c.dataset.f,v=c.dataset.v;
+  if(f==='theme'){
+    document.querySelectorAll('.chip[data-f="theme"]').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');state.theme=v;
+  }else{
+    c.classList.toggle('on');
+    c.classList.contains('on')?state.usage.add(v):state.usage.delete(v);
+  }
+  render();
+}));
+document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value.trim().toLowerCase();render();});
+render();
+</script>
+</body>
+</html>
