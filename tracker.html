@@ -183,7 +183,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="htitle">
       <span class="logo">ottawa<em>·</em>atlas</span>
       <span class="chip build" style="font-size:.7rem">v1 · every project, how it was built</span>
-      <span class="sub">updated 2026-07-19</span>
+      <span class="sub">updated 2026-07-24</span>
     </div>
     <nav>
       <a href="#overview">Overview</a>
@@ -208,10 +208,25 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
   <div class="tldr">
     <b>TL;DR:</b> Five tools are live on the homepage, plus five more live but not (yet) featured
     there. Four projects are actively being built. Two collector pipelines (TomTom commutes,
-    OC Transpo GTFS-RT) run unattended on a Raspberry Pi, logging data no public source keeps
-    history for. Every assumption or judgment call behind these tools is listed below with a
+    OC Transpo GTFS-RT) are meant to run unattended on a Raspberry Pi, logging data no public
+    source keeps history for — both are currently down (see below). Every assumption or judgment call behind these tools is listed below with a
     checkbox, the alternatives that existed, and a concrete way to verify it yourself. Your ticks
     are saved on this computer only.
+  </div>
+
+  <div class="tldr" style="border-left:4px solid #c0392b">
+    <b>⚠️ Collector status — action needed (checked 2026-07-24):</b>
+    <ul style="margin:.5rem 0 0 1.1rem;padding:0">
+      <li><b>TomTom traffic</b> — last reading <code>2026-07-19 13:05 UTC</code>. <b>~5 days missing.</b></li>
+      <li><b>OC Transpo GTFS-RT</b> — last reading <code>2026-07-19 13:35 UTC</code>. <b>~5 days missing.</b></li>
+      <li><b>OC Transpo KPI snapshots</b> — only one snapshot exists (<code>2026-07-11</code>, taken by hand
+        at repo setup). The documented weekly cron (<code>20 9 * * 1</code>) has not produced the
+        Jul 13 or Jul 20 snapshots. These are <b>rolling ~13-month windows</b>, so every missed week is
+        permanently lost data.</li>
+    </ul>
+    <p class="small" style="margin:.5rem 0 0">Both feeds died at the same time on the same host, which points at
+    the Pi (power, network, or the push credential) rather than at either script. Nothing before
+    Jul 19 is lost — the gap is only in what was never collected.</p>
   </div>
 
   <div class="tiles">
@@ -235,9 +250,10 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:40%"></div></div><span class="pct">data only</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal Feasibility</span><div class="track"><div class="fill" style="width:15%"></div></div><span class="pct">15%</span></div>
-    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-19. RTO Watch (<code>rto.html</code>) folds
-    together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
-    on a Pi, and the page's before/after story fills in as more days of data accumulate. See
+    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-24. RTO Watch (<code>rto.html</code>) folds
+    together the TomTom commute collector and the OC Transpo GTFS-RT collector, both hosted on a Pi.
+    <b>Both stopped writing after 2026-07-19 13:35 UTC</b> — see the collector-status note above; the
+    page's before/after story only fills in while they are actually running. See
     <a href="PROJECTS.md">PROJECTS.md</a> for the full write-up with dated history.</p>
   </div>
 

@@ -13,6 +13,29 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
+## ⚠️ Pipeline status — checked 2026-07-24
+
+| Collector | Cadence | Last reading | State |
+|---|---|---|---|
+| TomTom traffic (`Traffic/`) | 30 min | 2026-07-19 13:05 UTC | 🔴 **stopped, ~5 days missing** |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | 30 min | 2026-07-19 13:35 UTC | 🔴 **stopped, ~5 days missing** |
+| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 (manual) | 🔴 **never ran on cron** — Jul 13 + Jul 20 missed |
+
+Both live feeds stopped within 30 minutes of each other on the same host, so the
+likely cause is the Pi itself (power / network / expired push credential), not the
+scripts. Data collected before Jul 19 is intact; the gap is data never captured.
+
+The KPI snapshots matter most: Open Ottawa publishes them as **rolling ~13-month
+windows**, so a missed week is unrecoverable. Everything else can only be fixed
+going forward.
+
+**Coverage so far:** traffic 14 days (2026-07-06 →), transit 9 days (2026-07-11 →).
+RTO4 took effect Jul 6, so there is *no* pre-RTO4 baseline in our own collection —
+the before/after comparison depends entirely on the TomTom MOVE backfill
+(`Traffic/BACKFILL_SPEC.md`) and the eScribe/KPI history.
+
+---
+
 ## ✅ Live
 
 ### Ottawa Traffic Stops, Red Lights & Speed Violations
@@ -57,6 +80,8 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 - **Progress:** ~35% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
   former `Traffic/traffic.html`, which now redirects). Historical before/after charts come
   as the daily rollups accumulate.
+- **Blocked (2026-07-24):** both collectors have been down since Jul 19 — see the pipeline
+  status table above. The page's "live" sections are showing 5-day-old numbers.
 - Commutes (TomTom, collecting since Jul 2026) + transit (own GTFS-RT logging on the Pi +
   official KPI snapshots + eScribe history) + TBS NCR headcounts, 311, bike counters, IESO load.
 - **Plan / data inventory:** [RTO4_PLAN.md](RTO4_PLAN.md) · collector docs in [OC_Transpo/README.md](OC_Transpo/README.md)

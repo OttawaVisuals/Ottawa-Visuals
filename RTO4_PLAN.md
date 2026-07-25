@@ -105,11 +105,39 @@ niche is genuinely open. Closest finds:
 
 ## Immediate next steps
 
-1. Register the Nextrip API key, drop it in `~/.ottawa_visuals.env` on the Pi.
-2. `python3 OC_Transpo/scripts/poll_gtfsrt.py --force --debug` once to verify
-   the JSON field casing against the live feed, then install the cron lines
-   (see `OC_Transpo/README.md`).
-3. Run `snapshot_kpis.py` immediately (done at repo setup) — the current window
-   still contains Apr 2025+, i.e. pre-RTO4 baseline months.
-4. Pull TBS headcounts + bike counters + IESO zonal CSVs when page build starts.
-5. Optional: run the eScribe scraper for 2026 meetings to refresh the deep history.
+*Reviewed 2026-07-24. Steps 1–2 of the original list are done — the Nextrip key is
+registered and both pollers ran on the Pi from Jul 6 (traffic) / Jul 11 (transit).
+Then they stopped.*
+
+**P0 — restore collection (both feeds dead since Jul 19 ~13:30 UTC)**
+
+1. Get onto the Pi and find out why. Both collectors stopping within 30 minutes of
+   each other points at the host, not the scripts: check power/uptime, network, the
+   cron daemon, disk space, and whether the git push credential expired. Check
+   `~/traffic_poll.log` and `~/transit_poll.log` first — if the scripts kept running
+   but the pushes failed, the missing readings are still on the Pi's disk and can
+   simply be committed.
+2. Add a dead-man's switch so the next outage surfaces in hours, not days. Cheapest
+   version: `rto.html` compares the newest reading's timestamp to now and shows a
+   stale-data banner past ~2 hours. That also stops the page presenting 5-day-old
+   numbers as "live", which it is doing right now.
+
+**P1 — stop the ongoing data loss**
+
+3. `snapshot_kpis.py` has never run on cron — the only snapshot is the manual
+   `2026-07-11` one, and Jul 13 + Jul 20 were missed. Run it by hand today, then
+   verify the weekly cron line (`20 9 * * 1`) is actually installed. These are
+   **rolling ~13-month windows**; a missed week is gone for good, which makes this
+   more urgent than the live feeds even though it looks smaller.
+
+**P2 — the baseline problem**
+
+4. Our own collection starts Jul 6, 2026 — *the day RTO4 took effect*. There is no
+   pre-RTO4 baseline in anything we log ourselves, so the headline before/after
+   chart cannot be built from Pi data alone. The TomTom MOVE backfill
+   (`BACKFILL_SPEC.md`, Aug 2024 vs Aug 2026) and the eScribe KPI history are not
+   nice-to-haves — they are the only source of "before". Treat the MOVE trial as
+   schedule-critical and book it against the Aug 2026 window.
+5. Pull TBS headcounts + bike counters + IESO zonal CSVs when page build starts.
+6. Run the eScribe scraper for 2026 meetings to refresh the deep history (feeds
+   step 4's "before" side).
