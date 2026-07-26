@@ -80,64 +80,98 @@ niche is genuinely open. Closest finds:
   [gtfs-realtime-capsule](https://github.com/tsdataclinic/gtfs-realtime-capsule),
   [gtfsrdb](https://github.com/CUTR-at-USF/gtfsrdb).
 
-## Page structure sketch
+## Page structure
 
-> **Status:** `/rto.html` ("Ottawa RTO Watch") is live — the former
-> `Traffic/traffic.html` dashboard rebranded around RTO4 (old URL redirects),
-> with a live OC Transpo section (buses active, trips tracked, cancellations,
-> fleet speed + today sparkline). Sections 2–3 below are its live core;
-> the historical before/after charts get added as `Traffic/data/history/` and
-> `OC_Transpo/rt_data/history/` accumulate.
+> **Status (2026-07-25): built.** `/rto.html` is now the full eight-section page,
+> and `RTO4/` holds the external-data fetchers plus the committed aggregates it
+> loads. See [`RTO4/README.md`](RTO4/README.md) for the per-dataset capability
+> matrix. Sections 1–8 below are live; the outstanding gaps are listed under
+> "Immediate next steps".
 
-1. **The mandate** — timeline strip (RTO3 → RTO4 announcement → Jul 6 → Sep 15
-   full compliance → GCcoworking closure), TBS NCR headcount as the "how many
-   people" scale-setter.
-2. **Commutes** (live) — corridor travel times, peak vs baseline; Aug 2024 vs
-   Aug 2026 MOVE comparison when it lands.
-3. **Transit** (live) — our GTFS-RT on-time %, cancellations, active fleet;
-   official monthly ridership/OTP from KPI snapshots + eScribe history for context.
-   Key question: did service keep up with forced demand?
-4. **The city responds** — 311 volumes, bike counters, IESO downtown load curve,
-   collisions.
-5. **Who wins** — parking prices/supply, office vacancy, GCcoworking closures.
-6. **Methodology** — every dataset linked, collection cadence documented (the
-   credibility section; this repo *is* the methodology).
+1. **The mandate** — policy timeline (RTO3 → RTO4 announcement → Jul 6 → Sep 15 →
+   GCcoworking closure). *Still missing the TBS NCR headcount as the "how many
+   people" scale-setter — see step 5.*
+2. **Commutes** (live) — corridor travel times, map, congestion status, plus daily
+   AM-peak and city-congestion trend charts from `Traffic/data/history/`.
+3. **Transit** (live) — buses, cancellations, fleet speed, plus daily peak-fleet
+   and cancellation-rate trends from `OC_Transpo/rt_data/history/`.
+4. **Downtown parking** (live, new) — municipal garage occupancy via
+   `Traffic/scripts/poll_parking.py`. The most direct office-occupancy proxy we
+   have; only 4 downtown lots publish live counts.
+5. **The city responds** — 311 weekly volumes (with a real 2025 control), IESO
+   weekday÷weekend load ratio, bicycle counters (baseline only — see below).
+6. **The City's own counts** — annual intersection/midblock volumes, the 2020
+   COVID "% of normal" series as the step-change yardstick, collisions by year.
+7. **Emissions** — GHG inventory 2012–2024 by sector, plus a commute-emissions
+   estimate expressed **per 10,000 drivers** so it carries no invented headcount.
+8. **Methodology & limits** — every source, cadence and caveat, including the
+   datasets checked and rejected.
+
+### What the build established about the data
+
+- **311 is the best external series** — daily source, and the previous-year file
+  gives a genuine same-calendar-week 2025 control. Nothing else here does.
+- **Bicycle counters cannot show RTO4.** Coverage ends Mar 31, 2026 and only the
+  Adàwe counters still report in 2026, so the cross-year total is not comparable.
+  Charted as a pre-RTO4 baseline with the limit stated on the page.
+- **Volume counts and GHG cannot show RTO4 either** — annual, latest edition 2024.
+  Kept as context, explicitly labelled.
+- **Park & Ride occupancy does not exist** in the feed (capacity only), which
+  removes what would have been an excellent commuter indicator.
+- **The COVID monitoring series is % of normal, not counts** — which makes it the
+  natural yardstick: a real collapse took the AM peak to ~a third of normal.
+- **Collisions are missing 2023**, and the 2024 injury total looks
+  under-coded, so injuries are not charted.
+- **A stale-data banner is now live** (P0 item 2 below): the page compares the
+  newest reading to now and warns past 2 hours, so old numbers are never
+  presented under a green "live" dot.
 
 ## Immediate next steps
 
-*Reviewed 2026-07-24. Steps 1–2 of the original list are done — the Nextrip key is
-registered and both pollers ran on the Pi from Jul 6 (traffic) / Jul 11 (transit).
-Then they stopped.*
+*Reviewed 2026-07-25, after the page build.*
 
-**P0 — restore collection (both feeds dead since Jul 19 ~13:30 UTC)**
+**Done**
 
-1. Get onto the Pi and find out why. Both collectors stopping within 30 minutes of
-   each other points at the host, not the scripts: check power/uptime, network, the
-   cron daemon, disk space, and whether the git push credential expired. Check
-   `~/traffic_poll.log` and `~/transit_poll.log` first — if the scripts kept running
-   but the pushes failed, the missing readings are still on the Pi's disk and can
-   simply be committed.
-2. Add a dead-man's switch so the next outage surfaces in hours, not days. Cheapest
-   version: `rto.html` compares the newest reading's timestamp to now and shows a
-   stale-data banner past ~2 hours. That also stops the page presenting 5-day-old
-   numbers as "live", which it is doing right now.
+- Both pollers are collecting again — readings run through Jul 25 for traffic and
+  transit. (The Jul 19 → Jul 24 outage is a real gap in the series; it shows as a
+  gap in the charts rather than being interpolated.)
+- The stale-data banner is live in `rto.html` (old P0 item 2).
+- Bike counters and IESO zonal CSVs are pulled (old P1 item 5, partially) — see
+  `RTO4/scripts/`.
+- Parking-garage occupancy collection added and wired into `pi_poll.sh`.
+
+**P0 — deploy the new collector and verify it survives**
+
+1. Pull on the Pi so `poll_parking.py` and the updated `pi_poll.sh` land there, then
+   confirm after one cycle that `Traffic/data/parking_summary.csv` is growing and
+   that a parking-feed failure does not stop traffic collection (the call is
+   deliberately non-fatal — verify that, don't assume it).
+2. The Jul 19–24 outage still has no diagnosis. Check `~/traffic_poll.log` and
+   `~/transit_poll.log` for what happened, so the next one is preventable rather
+   than merely visible.
 
 **P1 — stop the ongoing data loss**
 
-3. `snapshot_kpis.py` has never run on cron — the only snapshot is the manual
-   `2026-07-11` one, and Jul 13 + Jul 20 were missed. Run it by hand today, then
-   verify the weekly cron line (`20 9 * * 1`) is actually installed. These are
-   **rolling ~13-month windows**; a missed week is gone for good, which makes this
-   more urgent than the live feeds even though it looks smaller.
+3. `snapshot_kpis.py` still has only the manual `2026-07-11` snapshot; Jul 13, 20
+   were missed and now Jul 27 is due. Run it by hand, then verify the weekly cron
+   line (`20 9 * * 1`) is actually installed. These are **rolling ~13-month
+   windows** — a missed week is gone for good, which makes this more urgent than
+   the live feeds even though it looks smaller.
 
-**P2 — the baseline problem**
+**P2 — the baseline problem (unchanged, and now the main constraint)**
 
-4. Our own collection starts Jul 6, 2026 — *the day RTO4 took effect*. There is no
-   pre-RTO4 baseline in anything we log ourselves, so the headline before/after
-   chart cannot be built from Pi data alone. The TomTom MOVE backfill
-   (`BACKFILL_SPEC.md`, Aug 2024 vs Aug 2026) and the eScribe KPI history are not
-   nice-to-haves — they are the only source of "before". Treat the MOVE trial as
+4. Our own collection starts Jul 6, 2026 — *the day RTO4 took effect*. The build
+   confirmed there is no self-collected "before", and that only 311 and IESO carry
+   a usable external control. The TomTom MOVE backfill (`BACKFILL_SPEC.md`,
+   Aug 2024 vs Aug 2026) and the eScribe KPI history remain the only source of a
+   real "before" for commutes and transit. Treat the MOVE trial as
    schedule-critical and book it against the Aug 2026 window.
-5. Pull TBS headcounts + bike counters + IESO zonal CSVs when page build starts.
+5. Pull **TBS federal headcount for the NCR** — still the biggest hole. Section 1
+   has no scale-setter and section 7's emissions figure is deliberately a rate
+   (per 10,000 drivers) because the headcount is missing. Also worth pulling:
+   StatCan work-from-home rates by CMA (the compliance curve) and downtown office
+   vacancy from brokerage reports (manual).
 6. Run the eScribe scraper for 2026 meetings to refresh the deep history (feeds
    step 4's "before" side).
+7. Re-run `refresh_all.py context` once a 2025 or 2026 volume edition appears —
+   that is the moment the City's own counts can finally speak to RTO4.

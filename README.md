@@ -21,12 +21,19 @@ any bookmarked or shared links.
 | [`Ontario_Trials/`](Ontario_Trials/README.md) | Ontario Court traffic cases (exploration) |
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |
 | [`Energy/`](Energy/README.md) | Geothermal feasibility (companion to the separate Energy repo) |
-| [`Traffic/`](Traffic/README.md) | TomTom commute-time collector, feeds RTO Watch |
+| [`Traffic/`](Traffic/README.md) | TomTom commute-time + parking-occupancy collectors, feed RTO Watch |
 | [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector, feeds RTO Watch |
+| [`RTO4/`](RTO4/README.md) | External datasets behind RTO Watch (311, IESO, volumes, GHG) |
 | [`CityHall_Index/`](CityHall_Index/README.md) | eScribe committee/council meeting indexer |
 
-`rto.html`, `ghg_calculator.html`, `Comparator.html` and `dataset_prospector.html`
-are standalone root-level tools not (yet) tied to a specific data folder.
+[`rto.html`](rto.html) — **Ottawa RTO Watch**, the return-to-office page — sits at
+the root because it draws on three folders at once: `Traffic/` and `OC_Transpo/`
+for our own live collection, and `RTO4/` for everything published by others. See
+[`RTO4_PLAN.md`](RTO4_PLAN.md) for the policy timeline and
+[`RTO4/README.md`](RTO4/README.md) for what each dataset can and cannot prove.
+
+`ghg_calculator.html`, `Comparator.html` and `dataset_prospector.html` are
+standalone root-level tools not (yet) tied to a specific data folder.
 
 ## Edit points
 - Home page + report list: `/index.html` (edit the `REPORTS` array near the bottom)

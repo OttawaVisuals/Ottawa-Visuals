@@ -1,0 +1,312 @@
+{
+ "generated_utc": "2026-07-25T12:27:54Z",
+ "note": "All series here are annual (or monthly for the 2020 COVID set). No 2025 or 2026 edition of the volume counts is published yet, so these establish the pre-RTO4 level and cannot show RTO4 itself.",
+ "intersection_volumes": {
+  "2018": {
+   "vehicles": {
+    "sites": 553,
+    "total": 9259322,
+    "mean": 16744,
+    "median": 14105
+   },
+   "peds": {
+    "sites": 485,
+    "total": 86550,
+    "mean": 178,
+    "median": 102
+   },
+   "bikes": {
+    "sites": 482,
+    "total": 20724,
+    "mean": 43,
+    "median": 16
+   }
+  },
+  "2022": {
+   "vehicles": {
+    "sites": 474,
+    "total": 6660872,
+    "mean": 14052,
+    "median": 11978
+   },
+   "peds": {
+    "sites": 447,
+    "total": 233838,
+    "mean": 523,
+    "median": 150
+   },
+   "bikes": {
+    "sites": 429,
+    "total": 32467,
+    "mean": 76,
+    "median": 16
+   }
+  },
+  "2023": {
+   "vehicles": {
+    "sites": 483,
+    "total": 6526189,
+    "mean": 13512,
+    "median": 10296
+   },
+   "peds": {
+    "sites": 448,
+    "total": 260657,
+    "mean": 582,
+    "median": 136
+   },
+   "bikes": {
+    "sites": 434,
+    "total": 35316,
+    "mean": 81,
+    "median": 24
+   }
+  },
+  "2024": {
+   "vehicles": {
+    "sites": 703,
+    "total": 11097857,
+    "mean": 15786,
+    "median": 12900
+   },
+   "peds": {
+    "sites": 646,
+    "total": 379085,
+    "mean": 587,
+    "median": 158
+   },
+   "bikes": {
+    "sites": 649,
+    "total": 39821,
+    "mean": 61,
+    "median": 29
+   }
+  }
+ },
+ "midblock_volumes": {
+  "2022": {
+   "sites": 618,
+   "total": 1627852,
+   "mean": 2634,
+   "median": 968
+  },
+  "2023": {
+   "sites": 418,
+   "total": 1473580,
+   "mean": 3525,
+   "median": 1679
+  },
+  "2024": {
+   "sites": 895,
+   "total": 2223949,
+   "mean": 2485,
+   "median": 1025
+  }
+ },
+ "collisions": {
+  "2017": {
+   "collisions": 14424,
+   "injuries": 3667
+  },
+  "2018": {
+   "collisions": 14556,
+   "injuries": 3535
+  },
+  "2019": {
+   "collisions": 16465,
+   "injuries": 3626
+  },
+  "2020": {
+   "collisions": 10067,
+   "injuries": 2293
+  },
+  "2021": {
+   "collisions": 9748,
+   "injuries": 2422
+  },
+  "2022": {
+   "collisions": 12490,
+   "injuries": 2562
+  },
+  "2024": {
+   "collisions": 16656,
+   "injuries": 1585
+  }
+ },
+ "covid_intersection_monitoring": {
+  "2020-03": {
+   "sites": 7,
+   "am_pct_of_normal": 38.0,
+   "pm_pct_of_normal": 48.6,
+   "all_day_pct_of_normal": 47.6
+  },
+  "2020-04": {
+   "sites": 7,
+   "am_pct_of_normal": 37.3,
+   "pm_pct_of_normal": 50.4,
+   "all_day_pct_of_normal": 47.7
+  },
+  "2020-05": {
+   "sites": 7,
+   "am_pct_of_normal": 47.7,
+   "pm_pct_of_normal": 65.1,
+   "all_day_pct_of_normal": 63.0
+  },
+  "2020-06": {
+   "sites": 7,
+   "am_pct_of_normal": 56.0,
+   "pm_pct_of_normal": 80.3,
+   "all_day_pct_of_normal": 76.6
+  },
+  "2020-07": {
+   "sites": 7,
+   "am_pct_of_normal": 63.9,
+   "pm_pct_of_normal": 81.9,
+   "all_day_pct_of_normal": 79.1
+  },
+  "2020-08": {
+   "sites": 7,
+   "am_pct_of_normal": 66.6,
+   "pm_pct_of_normal": 88.3,
+   "all_day_pct_of_normal": 84.0
+  },
+  "2020-09": {
+   "sites": 7,
+   "am_pct_of_normal": 76.9,
+   "pm_pct_of_normal": 90.4,
+   "all_day_pct_of_normal": 88.1
+  },
+  "2020-10": {
+   "sites": 7,
+   "am_pct_of_normal": 73.7,
+   "pm_pct_of_normal": 86.0,
+   "all_day_pct_of_normal": 83.7
+  },
+  "2020-11": {
+   "sites": 7,
+   "am_pct_of_normal": 75.3,
+   "pm_pct_of_normal": 87.4,
+   "all_day_pct_of_normal": 86.6
+  },
+  "2020-12": {
+   "sites": 7,
+   "am_pct_of_normal": 75.4,
+   "pm_pct_of_normal": 87.3,
+   "all_day_pct_of_normal": 85.4
+  },
+  "2021-01": {
+   "sites": 7,
+   "am_pct_of_normal": 51.7,
+   "pm_pct_of_normal": 65.6,
+   "all_day_pct_of_normal": 61.6
+  },
+  "2021-02": {
+   "sites": 7,
+   "am_pct_of_normal": 67.0,
+   "pm_pct_of_normal": 77.1,
+   "all_day_pct_of_normal": 75.1
+  },
+  "2021-03": {
+   "sites": 7,
+   "am_pct_of_normal": 72.1,
+   "pm_pct_of_normal": 82.1,
+   "all_day_pct_of_normal": 80.9
+  },
+  "2021-04": {
+   "sites": 7,
+   "am_pct_of_normal": 60.9,
+   "pm_pct_of_normal": 73.1,
+   "all_day_pct_of_normal": 70.3
+  },
+  "2021-05": {
+   "sites": 7,
+   "am_pct_of_normal": 65.1,
+   "pm_pct_of_normal": 81.9,
+   "all_day_pct_of_normal": 77.4
+  },
+  "2021-06": {
+   "sites": 7,
+   "am_pct_of_normal": 69.7,
+   "pm_pct_of_normal": 86.9,
+   "all_day_pct_of_normal": 82.1
+  },
+  "2021-07": {
+   "sites": 7,
+   "am_pct_of_normal": 63.9,
+   "pm_pct_of_normal": 82.0,
+   "all_day_pct_of_normal": 79.3
+  },
+  "2021-08": {
+   "sites": 7,
+   "am_pct_of_normal": 73.6,
+   "pm_pct_of_normal": 93.3,
+   "all_day_pct_of_normal": 89.0
+  },
+  "2021-09": {
+   "sites": 7,
+   "am_pct_of_normal": 94.7,
+   "pm_pct_of_normal": 83.7,
+   "all_day_pct_of_normal": 98.7
+  },
+  "2021-10": {
+   "sites": 7,
+   "am_pct_of_normal": 86.7,
+   "pm_pct_of_normal": 101.9,
+   "all_day_pct_of_normal": 96.9
+  },
+  "2021-11": {
+   "sites": 7,
+   "am_pct_of_normal": 86.4,
+   "pm_pct_of_normal": 95.7,
+   "all_day_pct_of_normal": 93.7
+  },
+  "2021-12": {
+   "sites": 6,
+   "am_pct_of_normal": 85.3,
+   "pm_pct_of_normal": 99.0,
+   "all_day_pct_of_normal": 95.3
+  },
+  "2022-01": {
+   "sites": 7,
+   "am_pct_of_normal": 56.9,
+   "pm_pct_of_normal": 78.4,
+   "all_day_pct_of_normal": 72.1
+  },
+  "2022-02": {
+   "sites": 6,
+   "am_pct_of_normal": 80.0,
+   "pm_pct_of_normal": 89.3,
+   "all_day_pct_of_normal": 86.7
+  },
+  "2022-03": {
+   "sites": 7,
+   "am_pct_of_normal": 81.6,
+   "pm_pct_of_normal": 92.0,
+   "all_day_pct_of_normal": 88.3
+  },
+  "2022-04": {
+   "sites": 7,
+   "am_pct_of_normal": 81.6,
+   "pm_pct_of_normal": 89.6,
+   "all_day_pct_of_normal": 87.0
+  },
+  "2022-06": {
+   "sites": 6,
+   "am_pct_of_normal": 90.2,
+   "pm_pct_of_normal": 99.5,
+   "all_day_pct_of_normal": 96.8
+  },
+  "2022-09": {
+   "sites": 7,
+   "am_pct_of_normal": 94.6,
+   "pm_pct_of_normal": 99.3,
+   "all_day_pct_of_normal": 98.7
+  }
+ },
+ "sources": {
+  "intersection_volumes": "https://open.ottawa.ca/search?q=intersection%20volume",
+  "midblock_volumes": "https://open.ottawa.ca/search?q=midblock%20volume",
+  "collisions": "https://services.arcgis.com/G6F8XLCl5KtAlZ2G/arcgis/rest/services/Collisions/FeatureServer/0",
+  "covid_intersection_monitoring": "https://services.arcgis.com/G6F8XLCl5KtAlZ2G/arcgis/rest/services/COVID_19_Traffic_Volume_Monitoring_at_Intersections/FeatureServer/0"
+ }
+}

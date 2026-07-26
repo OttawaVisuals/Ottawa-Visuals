@@ -1,0 +1,789 @@
+{
+ "generated_utc": "2026-07-25T12:16:10Z",
+ "source": {
+  "current": "https://311opendatastorage.blob.core.windows.net/311data/311opendata_currentyear.csv",
+  "previous": "https://311opendatastorage.blob.core.windows.net/311data/311opendata_lastyear.csv"
+ },
+ "categories": {
+  "roads": "Roads and Transportation",
+  "parking": "Parking Control Enforcement",
+  "bylaw": "Bylaw Services",
+  "garbage": "Garbage and Recycling"
+ },
+ "downtown_wards": [
+  "12",
+  "14",
+  "15",
+  "17"
+ ],
+ "rto4_week": "2026-07-06",
+ "summary": {
+  "roads": {
+   "before_weekly_avg": 1268.2,
+   "after_weekly_avg": 1105.0,
+   "weeks_before": 6,
+   "weeks_after": 2
+  },
+  "parking": {
+   "before_weekly_avg": 1038.5,
+   "after_weekly_avg": 1020.0,
+   "weeks_before": 6,
+   "weeks_after": 2
+  },
+  "bylaw": {
+   "before_weekly_avg": 1693.2,
+   "after_weekly_avg": 1645.5,
+   "weeks_before": 6,
+   "weeks_after": 2
+  },
+  "garbage": {
+   "before_weekly_avg": 2048.3,
+   "after_weekly_avg": 2568.5,
+   "weeks_before": 6,
+   "weeks_after": 2
+  },
+  "total": {
+   "before_weekly_avg": 8849.2,
+   "after_weekly_avg": 9543.5,
+   "weeks_before": 6,
+   "weeks_after": 2
+  },
+  "downtown_total": {
+   "before_weekly_avg": 1615.0,
+   "after_weekly_avg": 1580.5,
+   "weeks_before": 6,
+   "weeks_after": 2
+  }
+ },
+ "weeks": [
+  {
+   "week": "2024-12-30",
+   "total": 3321,
+   "downtown_total": 597,
+   "roads": 463,
+   "parking": 414,
+   "bylaw": 407,
+   "garbage": 1792
+  },
+  {
+   "week": "2025-01-06",
+   "total": 6109,
+   "downtown_total": 1163,
+   "roads": 724,
+   "parking": 731,
+   "bylaw": 780,
+   "garbage": 3179
+  },
+  {
+   "week": "2025-01-13",
+   "total": 5120,
+   "downtown_total": 1070,
+   "roads": 689,
+   "parking": 908,
+   "bylaw": 658,
+   "garbage": 2203
+  },
+  {
+   "week": "2025-01-20",
+   "total": 5087,
+   "downtown_total": 1142,
+   "roads": 740,
+   "parking": 805,
+   "bylaw": 679,
+   "garbage": 2317
+  },
+  {
+   "week": "2025-01-27",
+   "total": 5220,
+   "downtown_total": 1054,
+   "roads": 862,
+   "parking": 966,
+   "bylaw": 642,
+   "garbage": 2101
+  },
+  {
+   "week": "2025-02-03",
+   "total": 5613,
+   "downtown_total": 1225,
+   "roads": 985,
+   "parking": 1249,
+   "bylaw": 668,
+   "garbage": 2083
+  },
+  {
+   "week": "2025-02-10",
+   "total": 7924,
+   "downtown_total": 1450,
+   "roads": 1787,
+   "parking": 2532,
+   "bylaw": 780,
+   "garbage": 2172
+  },
+  {
+   "week": "2025-02-17",
+   "total": 8000,
+   "downtown_total": 1961,
+   "roads": 2432,
+   "parking": 1929,
+   "bylaw": 701,
+   "garbage": 2094
+  },
+  {
+   "week": "2025-02-24",
+   "total": 8238,
+   "downtown_total": 1910,
+   "roads": 2814,
+   "parking": 1570,
+   "bylaw": 773,
+   "garbage": 2288
+  },
+  {
+   "week": "2025-03-03",
+   "total": 7630,
+   "downtown_total": 1663,
+   "roads": 2869,
+   "parking": 1105,
+   "bylaw": 713,
+   "garbage": 2178
+  },
+  {
+   "week": "2025-03-10",
+   "total": 6663,
+   "downtown_total": 1206,
+   "roads": 2021,
+   "parking": 837,
+   "bylaw": 875,
+   "garbage": 2111
+  },
+  {
+   "week": "2025-03-17",
+   "total": 7579,
+   "downtown_total": 1475,
+   "roads": 2041,
+   "parking": 769,
+   "bylaw": 925,
+   "garbage": 2647
+  },
+  {
+   "week": "2025-03-24",
+   "total": 6721,
+   "downtown_total": 1246,
+   "roads": 1322,
+   "parking": 819,
+   "bylaw": 1043,
+   "garbage": 2233
+  },
+  {
+   "week": "2025-03-31",
+   "total": 6744,
+   "downtown_total": 1355,
+   "roads": 1224,
+   "parking": 819,
+   "bylaw": 866,
+   "garbage": 2345
+  },
+  {
+   "week": "2025-04-07",
+   "total": 7043,
+   "downtown_total": 1199,
+   "roads": 1228,
+   "parking": 857,
+   "bylaw": 989,
+   "garbage": 2271
+  },
+  {
+   "week": "2025-04-14",
+   "total": 7280,
+   "downtown_total": 1310,
+   "roads": 1219,
+   "parking": 738,
+   "bylaw": 1441,
+   "garbage": 2204
+  },
+  {
+   "week": "2025-04-21",
+   "total": 8514,
+   "downtown_total": 1384,
+   "roads": 1402,
+   "parking": 898,
+   "bylaw": 1622,
+   "garbage": 2755
+  },
+  {
+   "week": "2025-04-28",
+   "total": 9204,
+   "downtown_total": 1778,
+   "roads": 1489,
+   "parking": 843,
+   "bylaw": 1771,
+   "garbage": 3108
+  },
+  {
+   "week": "2025-05-05",
+   "total": 8699,
+   "downtown_total": 1513,
+   "roads": 1492,
+   "parking": 903,
+   "bylaw": 1404,
+   "garbage": 2827
+  },
+  {
+   "week": "2025-05-12",
+   "total": 8809,
+   "downtown_total": 1733,
+   "roads": 1407,
+   "parking": 961,
+   "bylaw": 1400,
+   "garbage": 3057
+  },
+  {
+   "week": "2025-05-19",
+   "total": 7364,
+   "downtown_total": 1342,
+   "roads": 989,
+   "parking": 896,
+   "bylaw": 1295,
+   "garbage": 2524
+  },
+  {
+   "week": "2025-05-26",
+   "total": 8457,
+   "downtown_total": 1627,
+   "roads": 1119,
+   "parking": 974,
+   "bylaw": 1511,
+   "garbage": 2770
+  },
+  {
+   "week": "2025-06-02",
+   "total": 9024,
+   "downtown_total": 1673,
+   "roads": 1266,
+   "parking": 917,
+   "bylaw": 1975,
+   "garbage": 2758
+  },
+  {
+   "week": "2025-06-09",
+   "total": 8550,
+   "downtown_total": 1607,
+   "roads": 1149,
+   "parking": 844,
+   "bylaw": 1816,
+   "garbage": 2831
+  },
+  {
+   "week": "2025-06-16",
+   "total": 8665,
+   "downtown_total": 1576,
+   "roads": 1030,
+   "parking": 911,
+   "bylaw": 1802,
+   "garbage": 2776
+  },
+  {
+   "week": "2025-06-23",
+   "total": 8136,
+   "downtown_total": 1606,
+   "roads": 958,
+   "parking": 875,
+   "bylaw": 1467,
+   "garbage": 2801
+  },
+  {
+   "week": "2025-06-30",
+   "total": 7769,
+   "downtown_total": 1425,
+   "roads": 906,
+   "parking": 850,
+   "bylaw": 1464,
+   "garbage": 2774
+  },
+  {
+   "week": "2025-07-07",
+   "total": 8475,
+   "downtown_total": 1690,
+   "roads": 1024,
+   "parking": 907,
+   "bylaw": 1715,
+   "garbage": 2839
+  },
+  {
+   "week": "2025-07-14",
+   "total": 8243,
+   "downtown_total": 1511,
+   "roads": 1027,
+   "parking": 926,
+   "bylaw": 1585,
+   "garbage": 2703
+  },
+  {
+   "week": "2025-07-21",
+   "total": 7830,
+   "downtown_total": 1669,
+   "roads": 1074,
+   "parking": 849,
+   "bylaw": 1407,
+   "garbage": 2542
+  },
+  {
+   "week": "2025-07-28",
+   "total": 7721,
+   "downtown_total": 1424,
+   "roads": 871,
+   "parking": 892,
+   "bylaw": 1460,
+   "garbage": 2623
+  },
+  {
+   "week": "2025-08-04",
+   "total": 7226,
+   "downtown_total": 1507,
+   "roads": 796,
+   "parking": 779,
+   "bylaw": 1380,
+   "garbage": 2726
+  },
+  {
+   "week": "2025-08-11",
+   "total": 7801,
+   "downtown_total": 1568,
+   "roads": 899,
+   "parking": 909,
+   "bylaw": 1496,
+   "garbage": 2627
+  },
+  {
+   "week": "2025-08-18",
+   "total": 7223,
+   "downtown_total": 1520,
+   "roads": 833,
+   "parking": 883,
+   "bylaw": 1404,
+   "garbage": 2483
+  },
+  {
+   "week": "2025-08-25",
+   "total": 7283,
+   "downtown_total": 1467,
+   "roads": 833,
+   "parking": 901,
+   "bylaw": 1363,
+   "garbage": 2528
+  },
+  {
+   "week": "2025-09-01",
+   "total": 7261,
+   "downtown_total": 1579,
+   "roads": 788,
+   "parking": 943,
+   "bylaw": 1273,
+   "garbage": 2809
+  },
+  {
+   "week": "2025-09-08",
+   "total": 7596,
+   "downtown_total": 1594,
+   "roads": 976,
+   "parking": 1033,
+   "bylaw": 1291,
+   "garbage": 2624
+  },
+  {
+   "week": "2025-09-15",
+   "total": 7281,
+   "downtown_total": 1465,
+   "roads": 908,
+   "parking": 973,
+   "bylaw": 1255,
+   "garbage": 2536
+  },
+  {
+   "week": "2025-09-22",
+   "total": 6956,
+   "downtown_total": 1397,
+   "roads": 888,
+   "parking": 1038,
+   "bylaw": 1148,
+   "garbage": 2380
+  },
+  {
+   "week": "2025-09-29",
+   "total": 6755,
+   "downtown_total": 1466,
+   "roads": 825,
+   "parking": 983,
+   "bylaw": 1089,
+   "garbage": 2356
+  },
+  {
+   "week": "2025-10-06",
+   "total": 6389,
+   "downtown_total": 1314,
+   "roads": 893,
+   "parking": 895,
+   "bylaw": 1064,
+   "garbage": 2152
+  },
+  {
+   "week": "2025-10-13",
+   "total": 5705,
+   "downtown_total": 1181,
+   "roads": 731,
+   "parking": 869,
+   "bylaw": 918,
+   "garbage": 2123
+  },
+  {
+   "week": "2025-10-20",
+   "total": 6367,
+   "downtown_total": 1239,
+   "roads": 842,
+   "parking": 970,
+   "bylaw": 1083,
+   "garbage": 2235
+  },
+  {
+   "week": "2025-10-27",
+   "total": 5820,
+   "downtown_total": 1328,
+   "roads": 779,
+   "parking": 884,
+   "bylaw": 884,
+   "garbage": 2040
+  },
+  {
+   "week": "2025-11-03",
+   "total": 6855,
+   "downtown_total": 1337,
+   "roads": 892,
+   "parking": 925,
+   "bylaw": 891,
+   "garbage": 3046
+  },
+  {
+   "week": "2025-11-10",
+   "total": 6506,
+   "downtown_total": 1380,
+   "roads": 1055,
+   "parking": 1020,
+   "bylaw": 732,
+   "garbage": 2741
+  },
+  {
+   "week": "2025-11-17",
+   "total": 5816,
+   "downtown_total": 1285,
+   "roads": 839,
+   "parking": 991,
+   "bylaw": 855,
+   "garbage": 2226
+  },
+  {
+   "week": "2025-11-24",
+   "total": 5662,
+   "downtown_total": 1258,
+   "roads": 773,
+   "parking": 971,
+   "bylaw": 807,
+   "garbage": 2311
+  },
+  {
+   "week": "2025-12-01",
+   "total": 6573,
+   "downtown_total": 1226,
+   "roads": 859,
+   "parking": 1060,
+   "bylaw": 769,
+   "garbage": 3157
+  },
+  {
+   "week": "2025-12-08",
+   "total": 6959,
+   "downtown_total": 1453,
+   "roads": 1122,
+   "parking": 1513,
+   "bylaw": 736,
+   "garbage": 2918
+  },
+  {
+   "week": "2025-12-15",
+   "total": 6475,
+   "downtown_total": 1337,
+   "roads": 1003,
+   "parking": 1068,
+   "bylaw": 710,
+   "garbage": 3022
+  },
+  {
+   "week": "2025-12-22",
+   "total": 4373,
+   "downtown_total": 796,
+   "roads": 562,
+   "parking": 703,
+   "bylaw": 517,
+   "garbage": 2210
+  },
+  {
+   "week": "2025-12-29",
+   "total": 6496,
+   "downtown_total": 1051,
+   "roads": 765,
+   "parking": 859,
+   "bylaw": 604,
+   "garbage": 3853
+  },
+  {
+   "week": "2026-01-05",
+   "total": 7416,
+   "downtown_total": 1441,
+   "roads": 1667,
+   "parking": 1476,
+   "bylaw": 692,
+   "garbage": 2928
+  },
+  {
+   "week": "2026-01-12",
+   "total": 6625,
+   "downtown_total": 1305,
+   "roads": 1515,
+   "parking": 1635,
+   "bylaw": 761,
+   "garbage": 2013
+  },
+  {
+   "week": "2026-01-19",
+   "total": 5984,
+   "downtown_total": 1487,
+   "roads": 1571,
+   "parking": 1208,
+   "bylaw": 632,
+   "garbage": 1899
+  },
+  {
+   "week": "2026-01-26",
+   "total": 6055,
+   "downtown_total": 1326,
+   "roads": 1458,
+   "parking": 1370,
+   "bylaw": 728,
+   "garbage": 1763
+  },
+  {
+   "week": "2026-02-02",
+   "total": 5329,
+   "downtown_total": 1149,
+   "roads": 1247,
+   "parking": 1111,
+   "bylaw": 633,
+   "garbage": 1729
+  },
+  {
+   "week": "2026-02-09",
+   "total": 5380,
+   "downtown_total": 1202,
+   "roads": 1526,
+   "parking": 1236,
+   "bylaw": 617,
+   "garbage": 1450
+  },
+  {
+   "week": "2026-02-16",
+   "total": 5177,
+   "downtown_total": 1148,
+   "roads": 1298,
+   "parking": 1215,
+   "bylaw": 650,
+   "garbage": 1447
+  },
+  {
+   "week": "2026-02-23",
+   "total": 5944,
+   "downtown_total": 1221,
+   "roads": 1590,
+   "parking": 1429,
+   "bylaw": 649,
+   "garbage": 1622
+  },
+  {
+   "week": "2026-03-02",
+   "total": 5970,
+   "downtown_total": 1338,
+   "roads": 1734,
+   "parking": 1103,
+   "bylaw": 695,
+   "garbage": 1648
+  },
+  {
+   "week": "2026-03-09",
+   "total": 6093,
+   "downtown_total": 1193,
+   "roads": 1548,
+   "parking": 921,
+   "bylaw": 826,
+   "garbage": 1624
+  },
+  {
+   "week": "2026-03-16",
+   "total": 5365,
+   "downtown_total": 1145,
+   "roads": 1170,
+   "parking": 917,
+   "bylaw": 707,
+   "garbage": 1737
+  },
+  {
+   "week": "2026-03-23",
+   "total": 6339,
+   "downtown_total": 1278,
+   "roads": 1475,
+   "parking": 972,
+   "bylaw": 781,
+   "garbage": 2026
+  },
+  {
+   "week": "2026-03-30",
+   "total": 7184,
+   "downtown_total": 1342,
+   "roads": 1216,
+   "parking": 870,
+   "bylaw": 943,
+   "garbage": 2919
+  },
+  {
+   "week": "2026-04-06",
+   "total": 6930,
+   "downtown_total": 1395,
+   "roads": 1226,
+   "parking": 996,
+   "bylaw": 1064,
+   "garbage": 2092
+  },
+  {
+   "week": "2026-04-13",
+   "total": 8088,
+   "downtown_total": 1512,
+   "roads": 2002,
+   "parking": 979,
+   "bylaw": 1421,
+   "garbage": 1932
+  },
+  {
+   "week": "2026-04-20",
+   "total": 7835,
+   "downtown_total": 1439,
+   "roads": 1869,
+   "parking": 1062,
+   "bylaw": 1344,
+   "garbage": 1878
+  },
+  {
+   "week": "2026-04-27",
+   "total": 8136,
+   "downtown_total": 1624,
+   "roads": 1698,
+   "parking": 1132,
+   "bylaw": 1350,
+   "garbage": 2155
+  },
+  {
+   "week": "2026-05-04",
+   "total": 7839,
+   "downtown_total": 1341,
+   "roads": 1469,
+   "parking": 1066,
+   "bylaw": 1390,
+   "garbage": 2000
+  },
+  {
+   "week": "2026-05-11",
+   "total": 7893,
+   "downtown_total": 1586,
+   "roads": 1375,
+   "parking": 1007,
+   "bylaw": 1882,
+   "garbage": 1952
+  },
+  {
+   "week": "2026-05-18",
+   "total": 7588,
+   "downtown_total": 1521,
+   "roads": 1286,
+   "parking": 965,
+   "bylaw": 1688,
+   "garbage": 2046
+  },
+  {
+   "week": "2026-05-25",
+   "total": 8140,
+   "downtown_total": 1762,
+   "roads": 1301,
+   "parking": 1143,
+   "bylaw": 1584,
+   "garbage": 1922
+  },
+  {
+   "week": "2026-06-01",
+   "total": 8550,
+   "downtown_total": 1670,
+   "roads": 1294,
+   "parking": 1030,
+   "bylaw": 1865,
+   "garbage": 2404
+  },
+  {
+   "week": "2026-06-08",
+   "total": 7961,
+   "downtown_total": 1560,
+   "roads": 1142,
+   "parking": 1064,
+   "bylaw": 1677,
+   "garbage": 2012
+  },
+  {
+   "week": "2026-06-15",
+   "total": 7876,
+   "downtown_total": 1550,
+   "roads": 1175,
+   "parking": 1033,
+   "bylaw": 1641,
+   "garbage": 1934
+  },
+  {
+   "week": "2026-06-22",
+   "total": 7930,
+   "downtown_total": 1575,
+   "roads": 1189,
+   "parking": 1107,
+   "bylaw": 1839,
+   "garbage": 1925
+  },
+  {
+   "week": "2026-06-29",
+   "total": 12638,
+   "downtown_total": 1573,
+   "roads": 1508,
+   "parking": 854,
+   "bylaw": 1553,
+   "garbage": 2093
+  },
+  {
+   "week": "2026-07-06",
+   "total": 10067,
+   "downtown_total": 1617,
+   "roads": 1155,
+   "parking": 971,
+   "bylaw": 1654,
+   "garbage": 2593
+  },
+  {
+   "week": "2026-07-13",
+   "total": 9020,
+   "downtown_total": 1544,
+   "roads": 1055,
+   "parking": 1069,
+   "bylaw": 1637,
+   "garbage": 2544
+  }
+ ]
+}
