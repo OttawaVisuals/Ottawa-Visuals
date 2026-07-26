@@ -60,6 +60,15 @@ cron weekly.
    20 9 * * 1   cd /home/<user>/Ottawa-Visuals && python3 OC_Transpo/scripts/snapshot_kpis.py >> ~/transit_snapshot.log 2>&1
    25 4 * * 2   mkdir -p ~/gtfsrt_raw/static && curl -sL "https://oct-gtfs-emasagcnfmcgeham.z01.azurefd.net/public-access/GTFSExport.zip" -o ~/gtfsrt_raw/static/GTFSExport_$(date +\%F).zip >> ~/transit_snapshot.log 2>&1
    ```
+
+   > **Reading the KPI snapshot log.** `snapshot_kpis.py` writes a dated `.xlsx`
+   > *only when the downloaded content differs* from the last snapshot. A run that
+   > logs `saved [-] unchanged [...]` and produces no new file is working
+   > correctly — the city republishes these roughly monthly, so most weekly runs
+   > legitimately save nothing. **Do not diagnose this job by looking for new files
+   > in `kpi_snapshots/`; read `~/transit_snapshot.log` instead.** Verified
+   > 2026-07-26: the cron fired on Jul 13 and Jul 20 and correctly saved nothing
+   > both times.
    The last line snapshots the static GTFS schedule weekly — needed to turn the
    raw predicted arrival times into on-time performance (the
    [Mobility Database](https://mobilitydatabase.org) also archives it as backup;

@@ -128,13 +128,22 @@ niche is genuinely open. Closest finds:
 
 ## Immediate next steps
 
-*Reviewed 2026-07-25, after the page build.*
+*Reviewed 2026-07-26.*
 
 **Done**
 
-- Both pollers are collecting again — readings run through Jul 25 for traffic and
-  transit. (The Jul 19 → Jul 24 outage is a real gap in the series; it shows as a
-  gap in the charts rather than being interpolated.)
+- Both pollers are current — traffic through `2026-07-26 14:00 UTC`, transit through
+  `14:30 UTC`.
+- **The Jul 19–24 "outage" never happened at any layer.** Verified 2026-07-26 three
+  independent ways: 334 collector commits exist on the remote across that window at
+  normal hourly cadence; the Pi's `~/traffic_push.log` shows successful pushes
+  throughout (`2026-07-24T15:05:06Z pushed`) with 143/144 log lines in the window;
+  and per-day reading counts are steady at 440 weekday / 240 weekend for traffic,
+  560 / 336 for transit. Pi uptime was 24 days. **The apparent gap was a local clone
+  that had not been pulled for five days** — `git log` on a stale working copy shows
+  the last synced commit, not the last collected reading. The Jul 25 note claiming a
+  real gap in the series was wrong, as was the later "push/sync failure" reading.
+  **Triage rule: `git pull` before drawing any conclusion from commit timestamps.**
 - The stale-data banner is live in `rto.html` (old P0 item 2).
 - Bike counters and IESO zonal CSVs are pulled (old P1 item 5, partially) — see
   `RTO4/scripts/`.
@@ -146,17 +155,42 @@ niche is genuinely open. Closest finds:
    confirm after one cycle that `Traffic/data/parking_summary.csv` is growing and
    that a parking-feed failure does not stop traffic collection (the call is
    deliberately non-fatal — verify that, don't assume it).
-2. The Jul 19–24 outage still has no diagnosis. Check `~/traffic_poll.log` and
-   `~/transit_poll.log` for what happened, so the next one is preventable rather
-   than merely visible.
+2. ~~Diagnose the Jul 19–24 push failure.~~ **Closed — nothing failed** (see Done).
+   The only genuine finding was a single transient
+   `git@github.com: Permission denied (publickey)` in `~/traffic_push.log` just after
+   `2026-07-24T15:05Z`, which self-resolved; pushes have run normally since. Worth
+   adding retry-with-backoff to `pi_push.sh` so a momentary auth or network blip
+   doesn't skip an hour's commit, but it is cosmetic — the readings are written to
+   disk before the push and go out with the next one regardless.
+
+**Confirmed healthy on the Pi (2026-07-26, direct check)**
+
+- Uptime 24 days — the Pi has not rebooted since ~Jul 2.
+- All six crontab lines installed and firing.
+- **Raw GTFS-RT archive: 327 MB, current, `OCTRANSPO_RAW_DIR` set.** This is the
+  one that mattered — the feed sets no delay fields, so offline OTP (predicted
+  arrival times vs static GTFS) is the *only* route to on-time performance, and
+  it is fully intact. Weekly static GTFS snapshots (Jul 14, Jul 21) complete.
+
+**P1 — the Pi's SD card**
+
+3b. `/` is **73% full, 3.7 GB free**. The raw archive alone adds ~450 MB/month,
+   so ~8 months of headroom, and a full card stops collection *silently*. Past
+   the Sep 15 deadline, but this archive is meant to be a multi-year asset. Plan
+   an offload (rsync the older `gtfsrt_raw/YYYY-MM-DD/` dirs to a NAS or external
+   disk) or a retention policy before it bites.
 
 **P1 — stop the ongoing data loss**
 
-3. `snapshot_kpis.py` still has only the manual `2026-07-11` snapshot; Jul 13, 20
-   were missed and now Jul 27 is due. Run it by hand, then verify the weekly cron
-   line (`20 9 * * 1`) is actually installed. These are **rolling ~13-month
-   windows** — a missed week is gone for good, which makes this more urgent than
-   the live feeds even though it looks smaller.
+3. ~~`snapshot_kpis.py` has only the manual `2026-07-11` snapshot.~~ **Not a
+   problem — closed 2026-07-26.** The cron was firing all along:
+   `~/transit_snapshot.log` on the Pi shows clean runs on Jul 13 and Jul 20 that
+   correctly saved nothing, because the script only writes a dated copy when the
+   downloaded content changes and the city had not republished. A manual run
+   confirmed all four files byte-identical to Jul 11. The rolling-window risk
+   paces with the city's publication cadence (~monthly), not with our polling.
+   **Diagnose this job from `~/transit_snapshot.log`, never from the presence of
+   files in `kpi_snapshots/`.**
 
 **P2 — the baseline problem (unchanged, and now the main constraint)**
 
