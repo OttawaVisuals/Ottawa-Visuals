@@ -15,3 +15,7 @@ fi
 
 cd "$REPO"
 python3 Traffic/scripts/poll_traffic.py
+
+# Municipal parking-garage occupancy (no API key). Self-gates its own cadence
+# too. Kept non-fatal: a parking-feed outage must not stop traffic collection.
+python3 Traffic/scripts/poll_parking.py || echo "poll_parking.py failed (non-fatal)"
