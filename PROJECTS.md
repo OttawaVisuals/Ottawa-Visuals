@@ -13,23 +13,51 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## ⚠️ Pipeline status — checked 2026-07-24
+## Pipeline status — checked 2026-07-26
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | 30 min | 2026-07-19 13:05 UTC | 🔴 **stopped, ~5 days missing** |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | 30 min | 2026-07-19 13:35 UTC | 🔴 **stopped, ~5 days missing** |
-| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 (manual) | 🔴 **never ran on cron** — Jul 13 + Jul 20 missed |
+| TomTom traffic (`Traffic/`) | 30 min | 2026-07-26 14:00 UTC | ✅ current, no gaps |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | 30 min | 2026-07-26 14:30 UTC | ✅ current, no gaps |
+| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 | ✅ cron firing; Jul 13 + Jul 20 ran, content unchanged |
+| GTFS-RT raw archive (Pi, outside repo) | every sample | 2026-07-26 | ✅ 327 MB, on track (~15 MB/day) |
+| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | 2026-07-21 | ✅ complete since collection began |
 
-Both live feeds stopped within 30 minutes of each other on the same host, so the
-likely cause is the Pi itself (power / network / expired push credential), not the
-scripts. Data collected before Jul 19 is intact; the gap is data never captured.
+**There was no Jul 19–24 outage.** It was an artifact of a local clone that had not
+been pulled for five days — `git log` on a stale working copy shows the last *synced*
+commit, not the last *collected* reading. Verified 2026-07-26: 334 collector commits
+exist on the remote across that window at normal hourly cadence, the Pi's push logs
+show successful pushes throughout (`2026-07-24T15:05:06Z pushed`), per-day reading
+counts hold steady at 440 weekday / 240 weekend for traffic and 560 / 336 for
+transit, and Pi uptime was 24 days. Nothing failed at any layer.
 
-The KPI snapshots matter most: Open Ottawa publishes them as **rolling ~13-month
-windows**, so a missed week is unrecoverable. Everything else can only be fixed
-going forward.
+**Triage rule learned the hard way: `git pull` before concluding anything from
+commit timestamps.** This one false premise produced three successive wrong
+diagnoses in a single session.
 
-**Coverage so far:** traffic 14 days (2026-07-06 →), transit 9 days (2026-07-11 →).
+One real but minor event: a single transient `git@github.com: Permission denied
+(publickey)` in `~/traffic_push.log` shortly after 2026-07-24T15:05Z. It self-resolved
+and pushes have run normally since. Worth a retry-with-backoff in the pusher, not
+worth chasing.
+
+**The KPI snapshot cron was never broken.** It looked broken because
+`kpi_snapshots/` still held only the `2026-07-11` files, but `snapshot_kpis.py`
+writes a dated copy *only when content changes*, and `~/transit_snapshot.log` on the
+Pi shows clean runs on both Jul 13 and Jul 20 that correctly saved nothing — the city
+had not republished. A manual run on 2026-07-26 independently confirmed all four
+files are byte-identical to Jul 11. The rolling-window risk is real but paces with
+the city's publication cadence (roughly monthly), not with our weekly polling.
+
+Lesson for future triage: **this job cannot be diagnosed from the contents of
+`kpi_snapshots/`.** Absence of new files is the expected output. Read the log.
+
+**Verified on the Pi 2026-07-26** — uptime 24 days (so the Jul 19–24 stall was never
+a reboot), all six crontab lines installed and firing, raw GTFS-RT archive at 327 MB
+and current, static GTFS snapshots complete. The one live concern is disk: the SD
+card is **73% full with 3.7 GB free**, and the raw archive alone grows ~450 MB/month,
+giving roughly 8 months before it fills. A full card would stop collection silently.
+
+**Coverage so far:** traffic 21 days (2026-07-06 →), transit 16 days (2026-07-11 →).
 RTO4 took effect Jul 6, so there is *no* pre-RTO4 baseline in our own collection —
 the before/after comparison depends entirely on the TomTom MOVE backfill
 (`Traffic/BACKFILL_SPEC.md`) and the eScribe/KPI history.
@@ -80,8 +108,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Progress:** ~35% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
   former `Traffic/traffic.html`, which now redirects). Historical before/after charts come
   as the daily rollups accumulate.
-- **Blocked (2026-07-24):** both collectors have been down since Jul 19 — see the pipeline
-  status table above. The page's "live" sections are showing 5-day-old numbers.
+- **Collectors healthy (2026-07-26)** — see the pipeline status table above.
 - Commutes (TomTom, collecting since Jul 2026) + transit (own GTFS-RT logging on the Pi +
   official KPI snapshots + eScribe history) + TBS NCR headcounts, 311, bike counters, IESO load.
 - **Plan / data inventory:** [RTO4_PLAN.md](RTO4_PLAN.md) · collector docs in [OC_Transpo/README.md](OC_Transpo/README.md)
