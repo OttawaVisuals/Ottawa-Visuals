@@ -190,6 +190,84 @@ def main():
         }
     write_json("pwhl_leaders.json", leaders_by_season)
 
+    # ---- Awards: full skater table per season ---------------------------
+    # The dashboard's "Superlatives" section derives ~15 tongue-in-cheek
+    # awards from these rows, and can re-rank any of them per 60 minutes of
+    # ice time, so ship the raw per-player line rather than pre-picking
+    # winners -- it's only a few hundred rows per season.
+    positions = {pid: (p.get("position") or "") for pid, p in players_info.items()}
+    awards_by_season = {}
+    for sid in all_season_ids:
+        # Each season id carries only one kind of stat line; preseason is filed
+        # under "exhibition" rather than a name matching its season label.
+        name = season_names.get(sid, "")
+        stat_type = "playoff" if "Playoff" in name else "exhibition" if "Preseason" in name else "regular"
+        # The feed carries one row per player *per team*, so a mid-season trade
+        # splits a player across two rows that must be summed. It also emits the
+        # occasional exact-duplicate line (same totals, blank/NA team code), so
+        # dedupe on the stat line itself before summing or the traded-player fix
+        # would double-count them.
+        by_player = defaultdict(list)
+        for r in season_stats:
+            if r["season_id"] != sid or r.get("stat_type") != stat_type:
+                continue
+            if not to_num(r.get("games_played"), int) or not to_num(r.get("ice_time"), int):
+                continue
+            by_player[r["player_id"]].append(r)
+
+        rows = []
+        for pid, prows in by_player.items():
+            seen, parts = set(), []
+            for r in prows:
+                sig = (r.get("games_played"), r.get("ice_time"), r.get("points"),
+                       r.get("penalty_minutes"), r.get("shots"))
+                if sig in seen:
+                    continue
+                seen.add(sig)
+                parts.append(r)
+
+            def total(field):
+                return sum(to_num(p.get(field), int) or 0 for p in parts)
+
+            gp, toi = total("games_played"), total("ice_time")
+            # Team shown is whichever jersey they logged the most ice time in.
+            best = max(parts, key=lambda p: to_num(p.get("ice_time"), int) or 0)
+            team_code = best.get("team_code")
+            if not team_code or team_code == "NA":
+                team_code = next(
+                    (p.get("team_code") for p in parts
+                     if p.get("team_code") and p.get("team_code") != "NA"),
+                    (players_info.get(pid) or {}).get("most_recent_team_code", ""),
+                )
+            rows.append({
+                "player_id": pid,
+                "name": player_display_name(pid),
+                "team_code": team_code,
+                "traded": len(parts) > 1,
+                "pos": positions.get(pid, ""),
+                "gp": gp,
+                "toi": toi,
+                "goals": total("goals"),
+                "assists": total("assists"),
+                "points": total("points"),
+                "pim": total("penalty_minutes"),
+                "plus_minus": total("plus_minus"),
+                "shots": total("shots"),
+                "hits": total("hits"),
+                "blocks": total("shots_blocked_by_player"),
+                "fo_wins": total("faceoff_wins"),
+                "fo_attempts": total("faceoff_attempts"),
+                "gwg": total("game_winning_goals"),
+                "first_goals": total("first_goals"),
+                "unassisted_goals": total("unassisted_goals"),
+                "ppg": total("power_play_goals"),
+                "shg": total("short_handed_goals"),
+            })
+        rows.sort(key=lambda r: -r["toi"])
+        if rows:
+            awards_by_season[sid] = rows
+    write_json("pwhl_awards.json", awards_by_season)
+
     # ---- Games (schedule/results + attendance) ------------------------
     games_by_season = defaultdict(list)
     for g in game_summaries:

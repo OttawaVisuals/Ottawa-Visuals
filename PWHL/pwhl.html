@@ -117,6 +117,25 @@ table{border-collapse:collapse;width:100%;}
 .team-cell img{width:20px;height:20px;object-fit:contain;border-radius:3px;}
 .rank-badge{display:inline-block;width:20px;text-align:center;font-family:var(--font-mono);color:var(--ink-3);}
 .pts-cell{font-weight:700;color:var(--ink);}
+/* ── AWARDS ────────────────────────────────────────────────────── */
+.awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media (max-width:1000px){ .awards-grid{grid-template-columns:1fr 1fr;} }
+@media (max-width:640px){ .awards-grid{grid-template-columns:1fr;} }
+.aw-card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;}
+.aw-head{display:flex;align-items:baseline;gap:7px;}
+.aw-emoji{font-size:15px;line-height:1;}
+.aw-title{font-weight:700;font-size:13px;letter-spacing:-0.01em;}
+.aw-blurb{font-size:11.5px;color:var(--ink-3);line-height:1.45;}
+.aw-list{display:flex;flex-direction:column;gap:1px;}
+.aw-row{display:grid;grid-template-columns:16px 1fr auto;align-items:center;gap:8px;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--line);}
+.aw-row:last-child{border-bottom:none;}
+.aw-row .rk{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
+.aw-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.aw-row .tm{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-left:5px;}
+.aw-row .vl{font-variant-numeric:tabular-nums;font-weight:600;}
+.aw-row:first-child .nm{font-weight:700;}
+.aw-row:first-child .vl{color:var(--accent);}
+.aw-sub{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);}
 /* ── SHOT MAP ──────────────────────────────────────────────────── */
 .rink-wrap{display:flex;justify-content:center;}
 .rink-wrap canvas{max-width:100%;height:auto;}
@@ -266,6 +285,25 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
 
+    <!-- AWARDS / SUPERLATIVES -->
+    <div class="section" id="awards">
+      <div class="section-head">
+        <div>
+          <h2>Superlatives</h2>
+          <p>The categories the league doesn't hand out trophies for, for whichever season is
+             picked above. Switch to <strong>per 60 minutes</strong> to see who does
+             this stuff at a high rate rather than just who plays the most — it's where the
+             third-liners show up.</p>
+        </div>
+        <div class="tabs" id="awards-mode-tabs">
+          <button class="tab-btn active" data-mode="total">Totals</button>
+          <button class="tab-btn" data-mode="rate">Per 60 min</button>
+        </div>
+      </div>
+      <div class="awards-grid" id="awards-grid"></div>
+      <p class="note" id="awards-note"></p>
+    </div>
+
     <!-- SHOT MAP -->
     <div class="section">
       <div class="section-head">
@@ -347,6 +385,18 @@ document.addEventListener('DOMContentLoaded', () => {
           <li>Covers three seasons: 2024 (inaugural), 2024-25, and 2025-26, plus each season's
             playoffs.</li>
           <li>"Player leaders" uses regular-season totals only; playoff stats aren't blended in.</li>
+          <li>"Superlatives" uses skater totals for the selected season (regular, preseason, or
+            playoff, matching the season picked). Players traded mid-season appear once, with
+            their split rows summed (marked <code>*</code>); the feed also emits occasional
+            exact-duplicate stat lines, which are dropped.</li>
+          <li>Per-60 rankings divide the stat by ice time (<code>stat × 3600 / seconds on ice</code>).
+            Eligibility minimums scale with the season's length — roughly 8 games and 120 minutes
+            over a full regular season, proportionally lower for a short playoff run — so a
+            three-game call-up with one lucky shift doesn't win everything.</li>
+          <li>Goalies are absent from the roster feed's position data and from these skater stat
+            lines, so every superlative is a skater award.</li>
+          <li>No "hit the post/crossbar" award: the play-by-play feed records shots on goal,
+            blocked shots, and goals, but never missed shots, so iron is invisible in this data.</li>
           <li>The shot map, goals-by-period, and event-mix charts are drawn from the full
             play-by-play record across all seasons combined, not filtered to the season selector
             above — a per-season breakdown is a natural next step.</li>
@@ -377,10 +427,11 @@ if (window.self !== window.top) {
 
 const DATA_BASE = 'data/json/';
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
-    EVENTS = null, BRACKET = null, TXN = null;
+    EVENTS = null, BRACKET = null, TXN = null, AWARDS = null;
 const CHARTS = [];
 let currentSeasonId = null;
 let currentLeaderStat = 'points';
+let currentAwardsMode = 'total';
 let currentBracketSeasonId = null;
 
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
@@ -422,9 +473,10 @@ Promise.all([
   fetch(DATA_BASE + 'pwhl_events.json').then(r => r.json()),
   fetch(DATA_BASE + 'pwhl_bracket.json').then(r => r.json()),
   fetch(DATA_BASE + 'pwhl_transactions.json').then(r => r.json()),
-]).then(([meta, standings, leaders, games, shotmap, events, bracket, txn]) => {
+  fetch(DATA_BASE + 'pwhl_awards.json').then(r => r.json()),
+]).then(([meta, standings, leaders, games, shotmap, events, bracket, txn, awards]) => {
   META = meta; STANDINGS = standings; LEADERS = leaders; GAMES = games;
-  SHOTMAP = shotmap; EVENTS = events; BRACKET = bracket; TXN = txn;
+  SHOTMAP = shotmap; EVENTS = events; BRACKET = bracket; TXN = txn; AWARDS = awards;
   currentSeasonId = meta.current_season_id;
   currentBracketSeasonId = meta.current_playoff_season_id || Object.keys(bracket)[0];
   document.getElementById('app').style.display = 'flex';
@@ -476,6 +528,7 @@ function destroyChart(id) {
 function init() {
   buildSeasonSelect();
   buildLeaderTabs();
+  buildAwardsTabs();
   buildBracketTabs();
   renderOverview();
   renderSeason(currentSeasonId);
@@ -519,6 +572,7 @@ function renderSeason(seasonId) {
   renderGoalsChart(seasonId);
   renderSpecialTeamsChart(seasonId);
   renderLeaders(seasonId, currentLeaderStat);
+  renderAwards(seasonId, currentAwardsMode);
   renderAttendance(seasonId);
 }
 
@@ -619,6 +673,170 @@ function renderLeaders(seasonId, statKey) {
   table.innerHTML = `
     <thead><tr><th>#</th><th>Player</th><th>Team</th><th>GP</th><th>${esc(spec.label)}</th></tr></thead>
     <tbody>${rows.map((r,i) => `<tr><td class="rank-badge">${i+1}</td><td>${esc(r.name)}</td><td>${esc(r.team_code||'')}</td><td>${fmt(r.gp)}</td><td class="pts-cell">${isPct ? (r[statKey]!=null? r[statKey].toFixed(1)+'%':'—') : fmt(r[statKey])}</td></tr>`).join('')}</tbody>`;
+}
+
+// ================================================================
+// SUPERLATIVES / AWARDS
+// ================================================================
+// Each award ranks the season's skaters two ways: raw totals, and the same
+// stat per 60 minutes of ice time. The rate view is the point of the section
+// -- totals mostly re-rank the minutes leaders, rates surface depth players.
+// Rate-mode minimums keep a 4-game call-up off the top of every list. They
+// scale to the season's length so a 10-game playoff run isn't held to the same
+// bar as an 30-game regular season.
+const AW_TOP_N = 5;
+function awardsThresholds(rows) {
+  const maxGp = rows.reduce((m, r) => Math.max(m, r.gp), 0);
+  const minGp = Math.max(3, Math.min(8, Math.round(maxGp * 0.3)));
+  // Volume minimums (shots taken, faceoffs taken) scale off a 30-game season.
+  const scale = Math.max(0.25, Math.min(1, maxGp / 30));
+  return {
+    minGp, minMin: minGp * 15,
+    minShots: Math.max(8, Math.round(25 * scale)),
+    minFaceoffs: Math.max(25, Math.round(100 * scale)),
+  };
+}
+
+const per60 = (v, r) => r.toi > 0 ? v * 3600 / r.toi : 0;
+const int0 = v => fmt(Math.round(v));
+const dec1 = v => v.toFixed(1);
+const dec2 = v => v.toFixed(2);
+const signed = v => (v > 0 ? '+' : '') + (Number.isInteger(v) ? v : v.toFixed(2));
+const mmss = secs => Math.floor(secs/60) + ':' + String(Math.round(secs%60)).padStart(2,'0');
+
+const AWARDS_DEFS = [
+  { key:'goon', emoji:'🥊', title:'The Goon',
+    blurb:'Most penalty minutes. The box is a second home.',
+    val: r => r.pim, fmt: int0, unit:'PIM', rateUnit:'PIM/60' },
+  { key:'fairplay', emoji:'😇', title:'The Fair-Play Award',
+    blurb:'Most ice time without taking a single penalty all season.',
+    filter: r => r.pim === 0, val: r => r.toi / 60, fmt: v => int0(v) + ' min',
+    noRate:true, sub:'Zero PIM, ranked by minutes played' },
+  { key:'impact_high', emoji:'📈', title:'Most Impactful',
+    blurb:'Best plus/minus — on the ice for a lot more goals for than against.',
+    val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
+  { key:'impact_low', emoji:'📉', title:'Rough Nights',
+    blurb:'Worst plus/minus. Often a good player on a bad night shift.',
+    asc:true, val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
+  { key:'ironwoman', emoji:'🧱', title:'The Iron Woman',
+    blurb:'Most games played — never missed a night.',
+    val: r => r.gp, fmt: int0, unit:'GP', noRate:true, tie: r => r.toi },
+  { key:'workhorse', emoji:'🐴', title:'The Workhorse',
+    blurb:'Most total ice time; in rate mode, most minutes per game.',
+    val: r => r.toi / 60, fmt: v => int0(v) + ' min',
+    rate: r => r.toi / Math.max(r.gp, 1), rateFmt: mmss, rateUnit:'per game' },
+  { key:'hammer', emoji:'💥', title:'The Hammer',
+    blurb:'Most hits thrown. Finishes every check.',
+    val: r => r.hits, fmt: int0, unit:'hits', rateUnit:'hits/60' },
+  { key:'shield', emoji:'🛡️', title:'The Human Shield',
+    blurb:'Most shots blocked — the willingly-bruised.',
+    val: r => r.blocks, fmt: int0, unit:'blocks', rateUnit:'blocks/60' },
+  { key:'trigger', emoji:'🔫', title:'Trigger Finger',
+    blurb:'Most shots on goal. Shoot first, ask later.',
+    val: r => r.shots, fmt: int0, unit:'shots', rateUnit:'shots/60' },
+  { key:'sniper', emoji:'🎯', title:'The Sniper',
+    blurb:'Best shooting percentage among the season\'s volume shooters. Ruthless efficiency.',
+    filter: (r, th) => r.shots >= th.minShots, val: r => 100 * r.goals / r.shots,
+    fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
+  { key:'hardluck', emoji:'🪫', title:'Hard Luck',
+    blurb:'Lowest shooting percentage among those same volume shooters. The pucks simply will not go in.',
+    filter: (r, th) => r.shots >= th.minShots, asc:true, val: r => 100 * r.goals / r.shots,
+    fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
+  { key:'value', emoji:'💸', title:'Bang For The Buck',
+    blurb:'Points per 60 minutes — the depth forwards producing on limited minutes.',
+    val: r => r.points, fmt: int0, unit:'PTS', rateFmt: dec2, rateUnit:'PTS/60' },
+  { key:'playmaker', emoji:'🎩', title:'The Playmaker',
+    blurb:'Most assists. Would rather set it up than shoot it.',
+    val: r => r.assists, fmt: int0, unit:'A', rateFmt: dec2, rateUnit:'A/60' },
+  { key:'closer', emoji:'🔒', title:'The Closer',
+    blurb:'Most game-winning goals — shows up when it decides the night.',
+    val: r => r.gwg, fmt: int0, unit:'GWG', rateFmt: dec2, rateUnit:'GWG/60' },
+  { key:'icebreaker', emoji:'🧊', title:'The Ice Breaker',
+    blurb:'Most goals that opened the scoring. Sets the tone.',
+    val: r => r.first_goals, fmt: int0, unit:'1st goals', rateFmt: dec2, rateUnit:'/60' },
+  { key:'lonewolf', emoji:'🐺', title:'The Lone Wolf',
+    blurb:'Most unassisted goals — did the whole thing herself.',
+    val: r => r.unassisted_goals, fmt: int0, unit:'UA goals', rateFmt: dec2, rateUnit:'/60' },
+  { key:'faceoff', emoji:'⚪', title:'The Draw Master',
+    blurb:'Best faceoff percentage among the regular centres.',
+    filter: (r, th) => r.fo_attempts >= th.minFaceoffs, val: r => 100 * r.fo_wins / r.fo_attempts,
+    fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minFaceoffs} faceoffs` },
+  { key:'pk', emoji:'⚡', title:'Shorthanded Menace',
+    blurb:'Most goals scored while down a skater.',
+    val: r => r.shg, fmt: int0, unit:'SHG', rateFmt: dec2, rateUnit:'SHG/60' },
+];
+
+function awardRanking(def, rows, mode, th) {
+  const useRate = mode === 'rate' && !def.noRate;
+  let pool = rows;
+  if (def.filter) pool = pool.filter(r => def.filter(r, th));
+  if (useRate) pool = pool.filter(r => r.gp >= th.minGp && r.toi >= th.minMin * 60);
+  const value = useRate
+    ? (def.rate ? def.rate : r => per60(def.val(r), r))
+    : def.val;
+  const sign = def.asc ? 1 : -1;
+  const tie = def.tie || (r => r.toi);
+  const scored = pool.map(r => ({ r, v: value(r) }))
+    .filter(x => isFinite(x.v))
+    .sort((a, b) => sign * (a.v - b.v) || sign * (tie(a.r) - tie(b.r)));
+  // Everyone at zero is tied and uninteresting -- don't pad a list with them.
+  const trimmed = def.asc ? scored : scored.filter(x => x.v !== 0);
+  const list = (trimmed.length ? trimmed : scored).slice(0, AW_TOP_N);
+  const formatter = useRate ? (def.rateFmt || dec1) : def.fmt;
+  const unit = useRate ? (def.rateUnit || '') : (def.unit || '');
+  return { list, formatter, unit, useRate, qualified: pool.length };
+}
+
+function renderAwards(seasonId, mode) {
+  const grid = document.getElementById('awards-grid');
+  const note = document.getElementById('awards-note');
+  const rows = (AWARDS && AWARDS[seasonId]) || [];
+  if (!rows.length) {
+    grid.innerHTML = '';
+    note.textContent = 'No superlatives for this season — the feed carries no ice-time data for it '
+      + '(the 2024 preseason is logged with zero minutes for every player).';
+    return;
+  }
+  const th = awardsThresholds(rows);
+  grid.innerHTML = AWARDS_DEFS.map(def => {
+    const { list, formatter, unit, useRate } = awardRanking(def, rows, mode, th);
+    // Awards with a custom rate (e.g. minutes per game) label themselves via
+    // rateUnit -- don't tack "per 60 min" onto those.
+    const ownSub = typeof def.sub === 'function' ? def.sub(th) : (def.sub || '');
+    const sub = useRate
+      ? `${def.rate ? '' : 'Per 60 min · '}min. ${th.minGp} GP, ${th.minMin} min`
+      : ownSub;
+    const body = list.length
+      ? list.map((x, i) => `
+          <div class="aw-row">
+            <span class="rk">${i+1}</span>
+            <span class="nm">${esc(x.r.name)}<span class="tm">${esc(x.r.team_code || '')}${x.r.traded ? '*' : ''}</span></span>
+            <span class="vl">${esc(formatter(x.v))}</span>
+          </div>`).join('')
+      : '<div class="aw-sub">Not enough qualifying players.</div>';
+    return `
+      <div class="aw-card">
+        <div class="aw-head"><span class="aw-emoji">${def.emoji}</span><span class="aw-title">${esc(def.title)}</span></div>
+        <div class="aw-blurb">${esc(def.blurb)}</div>
+        <div class="aw-list">${body}</div>
+        <div class="aw-sub">${esc(unit ? unit + (sub ? ' · ' + sub : '') : sub)}</div>
+      </div>`;
+  }).join('');
+  note.textContent = `${rows.length} skaters with at least one game played. `
+    + (mode === 'rate'
+       ? `Rate stats are per 60 minutes of ice time, restricted to players with ${th.minGp}+ games and ${th.minMin}+ minutes.`
+       : 'Ties broken by ice time. Awards that are already rates or eligibility-based (fair play, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
+    + ' * = played for more than one team this season; stats are combined.';
+}
+
+function buildAwardsTabs() {
+  const wrap = document.getElementById('awards-mode-tabs');
+  wrap.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    wrap.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentAwardsMode = btn.dataset.mode;
+    renderAwards(currentSeasonId, currentAwardsMode);
+  }));
 }
 
 // ================================================================
