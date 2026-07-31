@@ -157,12 +157,21 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 💡 Planned / Scoped Ideas
 
-### OC Transpo Transit Ridership + Service KPIs  🔄 ~25%
+### OC Transpo Transit Ridership + Service KPIs  🔄 ~35%
 - Ridership + service-quality KPIs over time. Data gap on OC Transpo site (KPIs only 2019–2022 downloadable).
 - **Built:** Pi/Windows-ready scraper in [`OC_Transpo/`](OC_Transpo/oc_transpo_kpi_scraper.py) — auto-discovers Transit
   Committee/Commission meetings via eScribe's calendar API, downloads the KPI/ridership
   PDF attachments, and optionally extracts text/tables. Rate-limited, resumable, OS-trust-store TLS.
-- **Next:** run it to harvest the PDFs, then design the visual.
+- **Harvest complete (2026-07-31):** 109 PDFs across 31 Transit Committee/Commission meetings, 2019–2026,
+  all text-extracted (67 with structured tables) into `OC_Transpo/data/` (gitignored, local only —
+  `manifest.csv` is the index). Fixed a real bug along the way: eScribe's `filestream.ashx` links carry
+  the `DocumentId` query param in inconsistent casing (`DocumentId` vs `documentid`), and the scraper's
+  lookup was case-sensitive, silently dropping every attachment on any page using the lowercase form —
+  it turned out **every 2019–2021 meeting** hit this, contributing 0 of the original 82 downloaded files.
+  Fixed to a case-insensitive lookup; a scoped re-run recovered 27 more files and now covers 2019 onward.
+- **Next:** design the visual. `manifest.csv` + the extracted `.txt`/`.tables.csv` per PDF are the raw
+  material; will need a pass to pull the actual KPI numbers out of the extracted tables (format varies a
+  lot report-to-report) before there's a clean time series to chart.
 
 ### Ottawa City Finances / Budget Dashboard
 - Municipal spending; ties into the property-tax / quality-of-life narrative.
