@@ -13,27 +13,36 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-07-26
+## Pipeline status — checked 2026-07-31
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | 30 min | 2026-07-26 14:00 UTC | ✅ current, no gaps |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | 30 min | 2026-07-26 14:30 UTC | ✅ current, no gaps |
-| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 | ✅ cron firing; Jul 13 + Jul 20 ran, content unchanged |
-| GTFS-RT raw archive (Pi, outside repo) | every sample | 2026-07-26 | ✅ 327 MB, on track (~15 MB/day) |
-| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | 2026-07-21 | ✅ complete since collection began |
+| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-07-31 22:00 UTC | ✅ current, no gaps |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-07-31 22:35 UTC | ✅ current, no gaps |
+| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 | ✅ cron firing; content still unchanged since Jul 11 |
+| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ✅ assumed on track (~15 MB/day) — see disk note below |
+| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ✅ assumed complete |
 
-**There was no Jul 19–24 outage.** It was an artifact of a local clone that had not
-been pulled for five days — `git log` on a stale working copy shows the last *synced*
-commit, not the last *collected* reading. Verified 2026-07-26: 334 collector commits
-exist on the remote across that window at normal hourly cadence, the Pi's push logs
-show successful pushes throughout (`2026-07-24T15:05:06Z pushed`), per-day reading
-counts hold steady at 440 weekday / 240 weekend for traffic and 560 / 336 for
-transit, and Pi uptime was 24 days. Nothing failed at any layer.
+**There was no Jul 19–24 outage**, and this local clone hit the *exact same trap
+again* on 2026-07-31 — found 211 commits behind after not being pulled for four
+days. Pulling first (as the lesson below says) confirmed collection ran
+continuously the whole time, at roughly 23–24 commits/day per collector. Note the
+cadence isn't a flat "30 min" as earlier entries here claimed — actual reading
+timestamps show it adapts, landing every 15–30 min in some windows and hourly in
+others (e.g. 2026-07-31: 13:00, 13:15, 13:30, 14:00, 15:00, then 15-min spacing
+again from 19:00 onward). Worth confirming against the collector script whether
+this is intentional peak-hour densification or worth documenting explicitly.
 
-**Triage rule learned the hard way: `git pull` before concluding anything from
-commit timestamps.** This one false premise produced three successive wrong
-diagnoses in a single session.
+**Triage rule learned the hard way (twice now): `git pull` before concluding
+anything from commit timestamps.** The first time, this false premise produced
+three successive wrong diagnoses in a single session. Consider making this the
+first line of any future pipeline-check workflow, not just a lesson in the
+narrative below.
+
+**Not re-verified this pass:** Pi disk usage (73% full / 3.7 GB free as of
+2026-07-26 — check again, it's had 5 more days of the raw archive growing at
+~450 MB/month) and the raw/static archive sizes on the Pi itself, since this
+check was done from the GitHub remote rather than SSH'd into the Pi.
 
 One real but minor event: a single transient `git@github.com: Permission denied
 (publickey)` in `~/traffic_push.log` shortly after 2026-07-24T15:05Z. It self-resolved
