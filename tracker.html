@@ -183,7 +183,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="htitle">
       <span class="logo">ottawa<em>·</em>atlas</span>
       <span class="chip build" style="font-size:.7rem">v1 · every project, how it was built</span>
-      <span class="sub">updated 2026-07-26</span>
+      <span class="sub">updated 2026-07-31</span>
     </div>
     <nav>
       <a href="#overview">Overview</a>
@@ -215,28 +215,27 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
   </div>
 
   <div class="tldr" style="border-left:4px solid #2e7d32">
-    <b>Collector status (checked 2026-07-26 — all pipelines healthy):</b>
+    <b>Collector status (checked 2026-07-31 — all pipelines healthy):</b>
     <ul style="margin:.5rem 0 0 1.1rem;padding:0">
-      <li>✅ <b>TomTom traffic</b> — current, last reading <code>2026-07-26 14:00 UTC</code>. Unbroken daily
+      <li>✅ <b>TomTom traffic</b> — current, last reading <code>2026-07-31 22:00 UTC</code>. Unbroken daily
         coverage since 2026-07-06.</li>
-      <li>✅ <b>OC Transpo GTFS-RT</b> — current, last reading <code>2026-07-26 14:30 UTC</code>. Unbroken
+      <li>✅ <b>OC Transpo GTFS-RT</b> — current, last reading <code>2026-07-31 22:35 UTC</code>. Unbroken
         daily coverage since 2026-07-11.</li>
-      <li>✅ <b>OC Transpo KPI snapshots</b> — cron firing normally. It <i>looked</i> stalled because no
-        new files had appeared since <code>2026-07-11</code>, but the script only writes when content
-        changes: the Pi's log shows clean runs on Jul 13 and Jul 20 that correctly saved nothing, and a
-        manual run on 2026-07-26 confirmed all four files are byte-identical. The city had not
-        republished.</li>
-      <li>✅ <b>Raw GTFS-RT archive</b> (on the Pi, outside the repo) — 327 MB and current, tracking the
+      <li>✅ <b>OC Transpo KPI snapshots</b> — cron firing normally. Still only the <code>2026-07-11</code>
+        files, because the script only writes when content changes and the city has not republished since.
+        This is expected behaviour, not a stall — see the note below.</li>
+      <li>✅ <b>Raw GTFS-RT archive</b> (on the Pi, outside the repo) — current, tracking the
         ~15 MB/day estimate. This is what makes offline on-time-performance computation possible, since
-        the feed publishes no delay fields. Weekly static GTFS snapshots complete since Jul 14.</li>
-      <li>⚠️ <b>Pi disk</b> — SD card 73% full, 3.7 GB free. The raw archive grows ~450 MB/month, so
-        roughly 8 months of headroom. A full card would stop collection silently.</li>
+        the feed publishes no delay fields. Weekly static GTFS snapshots complete.</li>
+      <li>⚠️ <b>Pi disk</b> — SD card was 73% full with 3.7 GB free as of 2026-07-26. The raw archive grows
+        ~450 MB/month, so headroom was already limited; worth a fresh check rather than assuming it hasn't
+        moved. A full card would stop collection silently.</li>
     </ul>
-    <p class="small" style="margin:.5rem 0 0"><b>There was no Jul 19–24 outage.</b> It was an artifact of a
-    local clone that had not been pulled for five days. Verified on the Pi and against the remote on
-    2026-07-26: 334 collector commits exist across that window at normal cadence, pushes succeeded
-    throughout, per-day reading counts are steady (440 weekday / 240 weekend for traffic, 560 / 336 for
-    transit) and Pi uptime was 24 days. Nothing failed at any layer.</p>
+    <p class="small" style="margin:.5rem 0 0"><b>Reminder for whoever checks this next: `git pull` before
+    trusting local commit timestamps.</b> On 2026-07-26 a stale local clone (five days unpulled) produced
+    three wrong outage diagnoses in one session before anyone thought to pull. On 2026-07-31 the same clone
+    was found 211 commits behind — pulling first confirmed collection had in fact run continuously, at
+    roughly 23–24 readings/day per collector (cadence adapts, denser around peak hours), with no gap.</p>
   </div>
 
   <div class="tiles">
@@ -260,7 +259,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:40%"></div></div><span class="pct">data only</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal Feasibility</span><div class="track"><div class="fill" style="width:15%"></div></div><span class="pct">15%</span></div>
-    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-26. RTO Watch (<code>rto.html</code>) folds
+    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-31. RTO Watch (<code>rto.html</code>) folds
     together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
     on a Pi, and the page's before/after story fills in as more days of data accumulate. See
     <a href="PROJECTS.md">PROJECTS.md</a> for the full write-up with dated history.</p>
