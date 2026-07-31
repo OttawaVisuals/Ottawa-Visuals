@@ -322,7 +322,11 @@ def parse_attachments(html: str, meeting: Meeting) -> list[Attachment]:
                 current_title = txt
         href = el.get("href", "") if el.name == "a" else ""
         if "filestream.ashx" in href.lower():
-            did = parse_qs(urlparse(href).query).get("DocumentId", [""])[0]
+            # eScribe's query-param casing for DocumentId isn't stable across
+            # pages/time (seen both "DocumentId" and "documentid" live) —
+            # look it up case-insensitively rather than trust one casing.
+            qs = {k.lower(): v for k, v in parse_qs(urlparse(href).query).items()}
+            did = qs.get("documentid", [""])[0]
             if not did:
                 continue
             fname = (el.get("data-original-title")
