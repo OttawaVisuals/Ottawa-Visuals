@@ -165,11 +165,25 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Plan / data inventory:** [RTO4_PLAN.md](RTO4_PLAN.md) · collector docs in [OC_Transpo/README.md](OC_Transpo/README.md)
 
 ### Ontario Elections Visual (coalition scenarios)
-- **Progress:** ~70% · Past Ontario elections with "what if Liberals + NDP banded together"
-  coalition scenarios, per-riding survivor logic, strategic-candidate analysis, turnout/gauge charts.
+- **Progress:** ~95% (bumped from a stale ~70% on 2026-09-03) · Past Ontario elections with a
+  "what if the opposition consolidated" scenario model, per-riding survivor logic,
+  strategic-candidate flip-threshold analysis, turnout/gauge charts.
 - Combined multi-zoom GeoJSON filled map (main + 2 zoom insets, custom placement).
-- **Location:** `C:\Ottawa_Visuals\Ontario_Elections` (+ `Ontario_Trials`)
-- **Related angle:** "crazy spending by the Ford government" visual.
+- **Live:** [`Ontario_Elections/ONelections.html`](Ontario_Elections/ONelections.html), embedded on the homepage.
+- **What changed 2026-09-03:** confirmed the page was already substantially further along than
+  ~70% (build_data.py runs clean with 100% name-join coverage, zero console errors, real data
+  loads correctly — the file:// preview tool's "sample data" banner was a preview-tool artifact,
+  not a real bug). Added the missing piece: a "flip threshold" per PCP-held riding (minimum
+  vote-transfer share needed for the opposition survivor to overtake PCP's actual vote count,
+  solved directly rather than read off the slider), surfaced as a "Most winnable PCP-held seats"
+  ranked list and a per-riding "Strategic voting" callout. Filled in the previously-empty
+  `Ontario_Election_Methodology.txt`.
+- **Location:** `C:\Ottawa_Visuals\Ontario_Elections`. (`Ontario_Trials` is a different, unrelated
+  project — Ontario Court Cases — despite the similar name; the old "+ Ontario_Trials" location
+  note here was wrong and has been removed.)
+- **What's left for 100%:** none of it code — just occasional review as Elections Ontario data
+  ages, and the separately-tracked "crazy spending by the Ford government" companion visual is
+  still just an idea, not scoped.
 
 ### Ontario Court Cases
 - **Progress:** ~30% · Extraction/structuring of Ontario Court traffic cases → CSV/JSON, then a visual.

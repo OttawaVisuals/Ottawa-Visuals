@@ -1,0 +1,128 @@
+Ontario Elections Visual — Methodology
+=======================================
+(Mirrors the "Methodology" section on ONelections.html. This plain-text copy
+exists so the method is readable without opening the page, and so it survives
+independently of any future redesign of that section.)
+
+SOURCES
+-------
+Riding-level vote counts and province-wide turnout/seat history come from
+Elections Ontario's public Voting Results Explorer exports:
+  - Explorer_All_*.csv            candidate-level votes by riding, 2025 general election
+  - Explorer_Election_*.csv       province-wide registered/turnout counts, 1981-2025
+  - Explorer_Party_*.csv          province-wide seats won by party, per election year
+  - Explorer_Electoral_District_*.csv   riding-level registered/turnout counts, 2018/2022/2025
+
+Electoral district boundaries come from Elections Ontario's ELECTORAL_DISTRICT
+shapefile, cut in mapshaper into three GeoJSON files:
+  - Ontario.json          all 124 ridings, province-wide map
+  - Ottawa.json            higher-resolution cut of the Ottawa-area ridings
+  - SouthernOntario.json   higher-resolution cut of the Southern Ontario ridings
+Ottawa.json and SouthernOntario.json are not separate datasets — they are the
+same ridings as Ontario.json, re-cut at higher resolution purely so the two
+zoom insets on the map look crisp at their larger on-screen size.
+
+MAP PROJECTION
+--------------
+District shapes are plotted directly in the shapefile's own projected
+coordinate system (Ontario Lambert Conformal Conic, in metres — see
+ELECTORAL_DISTRICT.shp.xml / the .prj), not reprojected to latitude/longitude.
+This keeps the hand-cut rectangular district shapes exactly as drawn;
+converting to lat/lon would add a few degrees of grid-convergence rotation and
+skew them. Practically: build_data.py wraps the three GeoJSON files into
+geo.js untouched (no merging, no coordinate transform), and ONelections.html
+renders their coordinates as a literal Cartesian plane.
+
+RESULTS JOINING
+----------------
+Each riding's results are joined to its boundary by name, normalized for
+case, accents, and dash style (see the `norm()` function in ONelections.html).
+As of the 2026-06-22 build, this join is 100% clean: every riding in the vote
+data matches a boundary in Ontario.json and vice versa, and every riding has
+turnout history for 2018/2022/2025 — re-run build_data.py after any data
+refresh and check its printed diagnostics before trusting a rebuild.
+
+"Winner" is whichever party received the most votes in a riding (plurality),
+not necessarily a majority.
+
+MAJORITY RESULTS
+-----------------
+A seat counts as a "true majority" only if the winning party took more than
+50% of the votes cast in that riding. Seats won with a plurality under 50%
+are shown grey on the map and in the gauge ("no majority").
+
+MODELLED RESULTS (vote-coordination scenario)
+------------------------------------------------
+This is a simple hypothetical reallocation, not a forecast.
+
+In every riding, whichever of Liberal / NDP / Green actually received the
+most votes becomes a single "survivor" candidate; the other two are treated
+as having stood aside. The votes of those two dropped candidates are
+multiplied by the slider's retention percentage (0-100%, default 65%) and
+added to the survivor's own vote total — this is the "coordinated votes"
+figure. Every other party's votes (PCP, and everything outside the four core
+parties, bucketed as "Others") are left unchanged.
+
+The riding's hypothetical winner is then whichever of PCP / the survivor /
+Others ends up with the most votes under that reallocation.
+
+Assumptions this deliberately does NOT try to model, because a real merger or
+coordinated campaign would change these in ways a static reallocation cannot
+capture:
+  - Turnout is held fixed. In reality, a unity candidate could draw out
+    voters who stayed home, or discourage others.
+  - No candidate-quality or campaign effects. The model assumes 100% of
+    "transferred" votes land on the survivor regardless of who that
+    candidate actually is.
+  - PCP's own vote total is held fixed. A different opposition landscape
+    could change PCP's turnout or vote share too.
+
+On the 65% default: studies of strategic/anti-splitting voting in similar
+first-past-the-post systems generally find 50-75% of a dropped candidate's
+voters will switch to block a disliked front-runner, with the rest staying
+home or voting sincerely anyway. A full merger of party machines (not just a
+single-riding stand-down) can push retention toward 80-90%, but that is a
+different, bigger ask than a single-riding stand-down.
+
+STRATEGIC-CANDIDATE ANALYSIS (flip threshold)
+------------------------------------------------
+For every PCP-held riding, the "flip threshold" is the minimum share of the
+dropped candidates' votes the survivor would need to overtake PCP's ACTUAL
+vote count — solved directly, independent of where the slider happens to be
+set:
+
+    pctNeeded = (pcpVotes - survivorVotes) / droppedVotes
+
+Three special cases:
+  - "already ahead" — the survivor already out-polls PCP with zero vote
+    transfer under this model (PCP still won the seat on the real, split
+    vote — this is about the model's counterfactual, not the actual result).
+  - "not reachable" — there are no dropped opposition votes to transfer in
+    that riding (droppedVotes = 0), so no amount of coordination changes the
+    outcome under this model.
+  - Otherwise, a percentage. Values over 100% are shown as "100%+" — not
+    achievable even at full retention.
+
+The "Most winnable PCP-held seats" list on the page ranks every reachable
+riding (0-100% threshold) by this number, lowest first: the ridings where
+opposition coordination would go furthest for the least vote-transfer
+assumption. The same number appears in a "Strategic voting" callout when a
+PCP-held riding is selected on the map.
+
+Limit worth knowing: this only asks whether the survivor's coordinated total
+would exceed PCP's — it does not check whether "Others" might still end up
+ahead of both instead. That is a rare edge case in this dataset but not
+impossible in principle (e.g. a strong independent or minor-party riding).
+
+REGENERATING THE DATA
+------------------------
+All of data.js, geo.js, and turnout.js are generated from the raw Elections
+Ontario exports by build_data.py:
+
+    python Ontario_Elections/build_data.py
+
+Re-run it after dropping in new export files, then reload the page. The
+script prints join-coverage diagnostics (ridings in the vote data missing
+from the boundary file and vice versa, districts missing turnout history) —
+read those before trusting a rebuild; a name-matching regression would show
+up there before it shows up as a silently blank district on the map.
