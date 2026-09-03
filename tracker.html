@@ -447,6 +447,11 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
         <p>Mirrors OC Transpo's own published punctuality definition for less-frequent routes.</p>
         <div class="where">OC_Transpo/README.md, "On-time definition used wherever delays are computed".</div>
       </div></li>
+      <li><input type="checkbox" data-key="rto-unavailable"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>When a KPI can't be computed, the visual must show "unavailable," never 0%.</b>
+        <p>A missing collector run, a gap in the raw-archive window, or a route with no matched delay observations is not the same as zero cancellations or perfect on-time performance — silently rendering it as 0% would make real outages and coverage gaps invisible. Decided ahead of building the RTO visual so it's built in from the start rather than patched in later.</p>
+        <div class="where">Design note for the not-yet-built OC Transpo ridership + service KPIs visual (see PROJECTS.md).</div>
+      </div></li>
     </ul>
   </div>
 </section>
