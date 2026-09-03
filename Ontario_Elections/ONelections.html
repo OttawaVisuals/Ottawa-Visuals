@@ -196,8 +196,8 @@
     letter-spacing:.05em; color:var(--muted); position:sticky; top:0; background:var(--panel); z-index:1}
   table.results thead th:first-child{z-index:2}
   table.results td.num{font-family:var(--font-mono)}
-  table.results tbody tr:nth-child(even) td{background:#FAFAFC}
-  table.results tbody tr:nth-child(even) td:first-child{background:#FAFAFC}
+  table.results tbody tr:nth-child(even) td{background:var(--bg-3)}
+  table.results tbody tr:nth-child(even) td:first-child{background:var(--bg-3)}
   table.results td.win{font-weight:700}
   .flip-tag{font-family:var(--font-mono); font-size:10px; padding:1px 6px; border-radius:5px;
     background:#FFE8E0; color:#A1391F; margin-left:6px}
@@ -370,6 +370,11 @@
           <div id="results"></div>
         </div>
 
+        <div class="panel-block" id="strategicPanel" hidden>
+          <h4>Strategic voting in this district</h4>
+          <div id="strategicPanelBody"></div>
+        </div>
+
         <div class="panel-block">
           <button class="clearsel" id="clearSel" disabled>&larr; back to province-wide</button>
         </div>
@@ -383,6 +388,19 @@
       <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="Ontario province-wide voter turnout from 1981 to 2025"></svg>
       <div class="turn-stat" id="turnoutHistoryStat"></div>
       <div class="turn-stat" id="turnoutHistoryLegend" style="margin-top:4px"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Most winnable PCP-held seats
+      <details class="info"><summary class="infobtn">?</summary>
+        <div class="info-pop">Every PCP-held riding where the opposition survivor could realistically overtake PCP
+          with less than full vote transfer, ranked by how little coordination it would take — the lowest thresholds
+          first. This is the "flip threshold" column from the full table below, independent of the slider above.</div>
+      </details>
+    </p>
+    <div class="card" id="strategicCard">
+      <div id="strategicList"></div>
     </div>
   </section>
 
@@ -402,6 +420,7 @@
               <th>Survivor</th>
               <th>Coordinated<br>votes</th>
               <th>Hypothetical winner</th>
+              <th>Flip threshold</th>
             </tr>
           </thead>
           <tbody id="coordTableBody"></tbody>
@@ -439,6 +458,17 @@
         all other parties combined ends up with the most votes under that reallocation. It assumes turnout and every
         other vote stays fixed — a real merger or coordinated campaign would change turnout and candidate behaviour
         in ways this model doesn't capture.</p>
+      <h4>Strategic-candidate analysis (flip threshold)</h4>
+      <p>For every PCP-held riding, the "flip threshold" is the minimum share of the dropped candidates' votes the
+        survivor would need to overtake PCP's <em>actual</em> vote count — solved directly rather than read off the
+        slider: <span class="mono">pctNeeded = (pcpVotes − survivorVotes) ÷ droppedVotes</span>. A riding shows
+        <b>"already ahead"</b> if the survivor already out-polls PCP with zero vote transfer, and
+        <b>"not reachable"</b> if there's nothing to consolidate (no dropped votes to transfer) or 100% retention
+        still isn't enough. The "Most winnable PCP-held seats" list ranks every reachable riding by this threshold,
+        lowest first — the ridings where opposition coordination would go furthest. Like the modelled result above,
+        this holds "Others" and turnout fixed and only asks whether the survivor's coordinated total would exceed
+        PCP's, not whether "Others" might still win instead — a limit worth knowing before reading too much into a
+        single riding's number.</p>
       <h4>Regenerating the data</h4>
       <p>All of <span class="mono">data.js</span>, <span class="mono">geo.js</span>, and <span class="mono">turnout.js</span>
         are generated from the raw Elections Ontario exports by <span class="mono">build_data.py</span>; re-run it
@@ -564,7 +594,17 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
     const actualBucket = actual===CODE_PC ? "PCP" : (MERGE_CODES.includes(actual) ? "SURVIVOR" : "OTHERS");
     const flipped = actualBucket!==hypoBucket || (actualBucket==="SURVIVOR" && actual!==survivor);
 
-    return {r, pcp, lib, ndp, grn, others, survivor, survivorVotes, coordinated, hypoBucket, hypoCode, hypoColor, hypoLabel, flipped};
+    // ---- strategic threshold: the minimum retention % (0-1) at which the survivor's
+    // coordinated total would overtake PCP's actual vote count, holding OTHERS aside.
+    // survivorVotes + pctNeeded*droppedSum = pcp  =>  pctNeeded = (pcp - survivorVotes) / droppedSum.
+    // null = not applicable (PCP isn't actually ahead of the survivor, or there's nothing
+    // to consolidate); Infinity = not achievable even at 100% retention.
+    let pctNeeded = null;
+    if(CODE_PC && pcp > survivorVotes){
+      pctNeeded = droppedSum>0 ? (pcp-survivorVotes)/droppedSum : Infinity;
+    }
+
+    return {r, pcp, lib, ndp, grn, others, survivor, survivorVotes, droppedSum, coordinated, hypoBucket, hypoCode, hypoColor, hypoLabel, flipped, pctNeeded};
   }
 
   // ---- map building ----
@@ -890,6 +930,37 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
         <span><span class="wn">${P[w.party].name}</span><br><span class="wv">${w.votes.toLocaleString()} votes · ${(w.votes/w.total*100).toFixed(1)}%</span></span>
       </div>`;
 
+      // strategic block: only meaningful for a PCP-held seat, where there's an
+      // opposition survivor to potentially consolidate behind.
+      const stratPanel = document.getElementById("strategicPanel");
+      if(w.party===CODE_PC){
+        const pct = +document.getElementById("coordSlider").value/100;
+        const c = computeCoordRow(r, pct);
+        stratPanel.hidden = false;
+        let body;
+        if(c.pctNeeded===null){
+          body = `<p class="caveat" style="margin:0">The opposition survivor here already out-polls PCP with zero
+            vote transfer under this model, though PCP still won on the actual split vote.</p>`;
+        } else if(c.pctNeeded===Infinity){
+          body = `<p class="caveat" style="margin:0">Not reachable through vote coordination alone — there are no
+            dropped opposition votes to transfer in this riding.</p>`;
+        } else {
+          const reachable = c.pctNeeded<=1;
+          body = `<div class="winner-badge" style="background:var(--accent-soft)">
+              <span class="dot" style="background:${P[c.survivor].color}"></span>
+              <span><span class="wn">Consolidate behind ${P[c.survivor].name}</span><br>
+              <span class="wv">needs &ge;${(c.pctNeeded*100).toFixed(0)}% of the other opposition candidates' votes to overtake PCP</span></span>
+            </div>
+            <p class="caveat">${reachable
+              ? `Reachable — at the current ${document.getElementById("coordSlider").value}% slider setting, this riding is `
+                + `${pct>=c.pctNeeded ? '<b>modelled to flip</b>' : 'still short, but within reach with more coordination'}.`
+              : `Not reachable within this model — even 100% retention (a full merger, not just a stand-down) falls short.`}</p>`;
+        }
+        document.getElementById("strategicPanelBody").innerHTML = body;
+      } else {
+        stratPanel.hidden = true;
+      }
+
       document.getElementById("clearSel").disabled = false;
     }
     paintMap();
@@ -995,6 +1066,30 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
 
     if(mapModeSelect.value==="model") paintMap();
 
+    // ---- strategic list: PCP-held ridings ranked by lowest flip threshold ----
+    const winnable = computed
+      .filter(c=> c.pctNeeded!==null && c.pctNeeded!==Infinity)
+      .sort((a,b)=> a.pctNeeded-b.pctNeeded)
+      .slice(0,10);
+    const strategicList = document.getElementById("strategicList");
+    if(!winnable.length){
+      strategicList.innerHTML = `<p class="caveat" style="margin:0">No PCP-held riding is reachable through this
+        model even at 100% vote-coordination retention.</p>`;
+    } else {
+      strategicList.innerHTML = `<table class="seats"><thead><tr>
+          <th>District</th><th>Consolidate behind</th><th>Flip threshold</th>
+        </tr></thead><tbody>`
+        + winnable.map(c=>`<tr>
+            <td>${c.r.name}</td>
+            <td><span class="nm"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${P[c.survivor].color}"></span> ${P[c.survivor].name}</span></td>
+            <td class="num">${(c.pctNeeded*100).toFixed(0)}%</td>
+          </tr>`).join("")
+        + `</tbody></table>
+        <p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the opposition
+          survivor to overtake PCP's actual vote count — see the Methodology section below for exactly how this is
+          calculated, and its limits.</p>`;
+    }
+
     // gauge: tally seats by resulting code (PCP / whichever of LIB-NDP-GPO survived & won / Others)
     const tally = {}; PARTY_CODES.forEach(c=>tally[c]=0); let othersCount=0;
     computed.forEach(c=>{
@@ -1008,10 +1103,21 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
     document.getElementById("gaugeCoordFigure").innerHTML = `${topSeg.value} <small>${topSeg.label} seats of ${N}</small>`;
 
     // table
-    let flips=0;
+    let flips=0, reachableCount=0, pcpLedCount=0;
     const rows = computed.map(c=>{
       if(c.flipped) flips++;
       const cell=(val,bucket)=> `<td class="num${bucket===c.hypoBucket?" win":""}">${Math.round(val).toLocaleString()}</td>`;
+      let thresholdCell;
+      if(c.pctNeeded===null){
+        thresholdCell = `<td class="num">already ahead</td>`;
+      } else if(c.pctNeeded===Infinity){
+        pcpLedCount++;
+        thresholdCell = `<td class="num">not reachable</td>`;
+      } else {
+        pcpLedCount++;
+        if(c.pctNeeded<=1) reachableCount++;
+        thresholdCell = `<td class="num">${(Math.min(c.pctNeeded,1)*100).toFixed(0)}%${c.pctNeeded>1?"+":""}</td>`;
+      }
       return `<tr>
         <td>${c.r.name}</td>
         ${cell(c.pcp,"PCP")}
@@ -1022,15 +1128,19 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
         <td>${c.survivor||"—"}</td>
         ${cell(c.coordinated,"SURVIVOR")}
         <td><span style="color:${c.hypoColor}; font-weight:600">${c.hypoLabel}</span>${c.flipped?'<span class="flip-tag">flip</span>':''}</td>
+        ${thresholdCell}
       </tr>`;
     });
     document.getElementById("coordTableBody").innerHTML = rows.join("");
     document.getElementById("coordCaveat").innerHTML =
-      `At <b>${coordSlider.value}%</b> retention, <b>${flips}</b> of ${N} ridings would flip to a different bucket than the actual result. `
+      `At <b>${coordSlider.value}%</b> retention, <b>${flips}</b> of ${N} ridings would flip to a different bucket than the actual result, `
+      + `and <b>${reachableCount}</b> of the ${pcpLedCount} PCP-led ridings have a flip threshold at or under 100% at all. `
       + `"Survivor" is whichever of LIB/NDP/GPO actually got the most votes in that riding — it varies riding to riding. `
-      + `"Others" bundles every party outside PCP/LIB/NDP/GPO. This is a simple reallocation, not a forecast — it assumes turnout and every other vote stays fixed.`;
+      + `"Others" bundles every party outside PCP/LIB/NDP/GPO. "Flip threshold" is the minimum vote-transfer share needed for the `
+      + `survivor to overtake PCP's actual vote count in that riding, independent of the slider above — see Methodology. `
+      + `This is a simple reallocation, not a forecast — it assumes turnout and every other vote stays fixed.`;
   }
-  coordSlider.addEventListener("input", renderCoordination);
+  coordSlider.addEventListener("input", ()=>{ renderCoordination(); renderPanel(); });
   renderCoordination();
 })();
 

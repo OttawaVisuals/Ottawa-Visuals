@@ -4,7 +4,10 @@
 
 Province-wide Ontario voter turnout since 1981, plus the February 2025 general
 election broken down riding by riding, with a "what if the opposition had
-consolidated" coalition scenario model.
+consolidated" coalition scenario model and a strategic-candidate "flip
+threshold" analysis — for every PCP-held riding, the minimum opposition
+vote-transfer share needed to overtake PCP's actual vote count, ranked in a
+"Most winnable PCP-held seats" list and surfaced per-riding on the map.
 
 ## Layout
 
