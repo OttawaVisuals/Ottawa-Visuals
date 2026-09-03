@@ -267,11 +267,16 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:40%"></div></div><span class="pct">data only</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal Feasibility</span><div class="track"><div class="fill" style="width:15%"></div></div><span class="pct">15%</span></div>
-    <p class="small muted" style="margin-top:.6rem">Status as of 2026-07-31. RTO Watch (<code>rto.html</code>) folds
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal (Ottawa, Energy repo)</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">live ↗</span></div>
+    <p class="small muted" style="margin-top:.6rem">Status as of 2026-09-03. RTO Watch (<code>rto.html</code>) folds
     together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
-    on a Pi, and the page's before/after story fills in as more days of data accumulate. See
-    <a href="PROJECTS.md">PROJECTS.md</a> for the full write-up with dated history.</p>
+    on a Pi, and the page's before/after story fills in as more days of data accumulate. The Geothermal
+    row was corrected this pass — it previously showed 15% and described a "national" map; the real
+    project (<code>C:\Energy\Geothermal</code>) is an already-live, Ottawa-scoped GSHP suitability map at
+    <a href="https://ottawavisuals.github.io/Energy/Geothermal/output/" target="_blank">ottawavisuals.github.io/Energy/Geothermal</a> —
+    a true national version doesn't exist and would be a separate, largely unstarted effort (WWIS well
+    data is Ontario-only). See <a href="PROJECTS.md">PROJECTS.md</a> for the full write-up with dated
+    history.</p>
   </div>
 
   <div class="card">
@@ -946,7 +951,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <tr><td>4</td><td><b>Ottawa Real Estate Dashboard</b></td><td>Weekly-refreshed real-estate trends — prototyped in chat, not yet built.</td><td>2 sessions</td></tr>
     <tr><td>5</td><td><b>Province Spending by Category</b></td><td>Ontario spending across healthcare, education, etc.</td><td>2 sessions</td></tr>
     <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>
-    <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>GSC bedrock geology + NRCan well data → national map (companion to the Energy repo's Ottawa map).</td><td>3+ sessions</td></tr>
+    <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>The Ottawa version of this is already live (see Progress at a glance, above) — this row is specifically the <em>national</em> expansion, which is essentially unstarted: WWIS well data is Ontario-only, so a national version needs a different well-data source per province, not just a bigger bounding box on the existing pipeline.</td><td>3+ sessions</td></tr>
   </table>
 </section>
 
