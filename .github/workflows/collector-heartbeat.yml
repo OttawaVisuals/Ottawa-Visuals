@@ -1,0 +1,105 @@
+name: Collector Heartbeat
+
+on:
+  # Daily/weekly Actions schedules on this account fire reliably (just a few
+  # hours late) — see the Collect Ottawa Traffic workflow's note. That's
+  # plenty for a "has the Pi gone silent" check, so this doesn't need
+  # sub-hourly precision the way the collectors themselves do.
+  schedule:
+    - cron: '0 13 * * *'
+  workflow_dispatch: # manual test run
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check collector freshness
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          now=$(date -u +%s)
+          stale_hours=24
+          stale_secs=$((stale_hours * 3600))
+
+          check_collector () {
+            label="$1"; grep_pat="$2"
+            last_ts=$(git log -1 --grep="$grep_pat" --format=%ct || true)
+            if [ -z "$last_ts" ]; then
+              echo "${label}: no matching commit found in history at all" >> "$GITHUB_STEP_SUMMARY"
+              echo "${label}_stale=true" >> "$GITHUB_OUTPUT"
+              echo "${label}_last=never" >> "$GITHUB_OUTPUT"
+              return
+            fi
+            age=$(( now - last_ts ))
+            last_human=$(date -u -d "@$last_ts" +"%Y-%m-%d %H:%M UTC")
+            if [ "$age" -gt "$stale_secs" ]; then
+              age_h=$(( age / 3600 ))
+              echo "${label}: STALE — last reading ${last_human} (${age_h}h ago)" >> "$GITHUB_STEP_SUMMARY"
+              echo "${label}_stale=true" >> "$GITHUB_OUTPUT"
+              echo "${label}_last=${last_human} (${age_h}h ago)" >> "$GITHUB_OUTPUT"
+            else
+              echo "${label}: OK — last reading ${last_human}" >> "$GITHUB_STEP_SUMMARY"
+              echo "${label}_stale=false" >> "$GITHUB_OUTPUT"
+            fi
+          }
+
+          check_collector traffic "^traffic: readings"
+          check_collector transit "^transit: readings"
+
+      - name: Open or update issue if stale
+        if: steps.check.outputs.traffic_stale == 'true' || steps.check.outputs.transit_stale == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: "🔴 Collector heartbeat: stale Pi data"
+        run: |
+          set -euo pipefail
+          {
+            echo "One or more Raspberry Pi collectors haven't committed readings in over 24h."
+            echo
+            if [ "${{ steps.check.outputs.traffic_stale }}" = "true" ]; then
+              echo "- **TomTom traffic** — last reading: ${{ steps.check.outputs.traffic_last }}"
+            fi
+            if [ "${{ steps.check.outputs.transit_stale }}" = "true" ]; then
+              echo "- **OC Transpo GTFS-RT** — last reading: ${{ steps.check.outputs.transit_last }}"
+            fi
+            echo
+            echo "Check the Pi: power/LEDs, \`ssh ottawa-pi\`, \`crontab -l\`, \`df -h\`,"
+            echo "\`tail ~/traffic_push.log ~/transit_push.log\`."
+            echo
+            echo "This issue closes itself automatically once fresh readings resume."
+            echo
+            echo "_Opened automatically by \`.github/workflows/collector-heartbeat.yml\`._"
+          } > /tmp/heartbeat-body.md
+
+          existing=$(gh issue list --state open --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file /tmp/heartbeat-body.md
+          else
+            gh issue create --title "$TITLE" --body-file /tmp/heartbeat-body.md
+          fi
+
+      - name: Close issue once collectors are fresh again
+        if: steps.check.outputs.traffic_stale == 'false' && steps.check.outputs.transit_stale == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: "🔴 Collector heartbeat: stale Pi data"
+        run: |
+          set -euo pipefail
+          existing=$(gh issue list --state open --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "✅ Fresh readings have resumed from both collectors. Closing."
+            gh issue close "$existing"
+          fi

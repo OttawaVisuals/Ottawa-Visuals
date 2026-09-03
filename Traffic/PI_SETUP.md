@@ -83,6 +83,34 @@ full path (`which python3`) in `pi_poll.sh` or set `PATH=` at the top of the cro
 
 ---
 
+## 7. Monitoring so a silent outage gets noticed (recommended)
+
+An unnoticed power/SD-card/cron failure on the Pi can stop collection for weeks
+without anyone finding out — this happened for real: the Pi went down
+2026-08-03 (a bad power cable) and collection was silently dead for a month
+until someone happened to check GitHub. Two independent layers now catch this:
+
+1. **[`.github/workflows/collector-heartbeat.yml`](../.github/workflows/collector-heartbeat.yml)**
+   — runs daily on GitHub Actions (independent of the Pi, so it still fires
+   even if the Pi is completely dead) and opens a GitHub Issue if no
+   `traffic:`/`transit:` readings commit has landed in 24h. Needs no setup —
+   it's already active once this file is on `main`.
+2. **Optional dead-man's-switch ping** — faster than the daily issue check,
+   but only works while the Pi itself is up and can reach the internet:
+   1. Create a free account at <https://healthchecks.io> (or self-host) and
+      add two checks (one for traffic, one for transit), each with a
+      **24-hour period / a few hours grace**.
+   2. Add both ping URLs to `~/.ottawa_visuals.env` on the Pi:
+      ```
+      HEALTHCHECK_URL_TRAFFIC=https://hc-ping.com/your-traffic-uuid
+      HEALTHCHECK_URL_TRANSIT=https://hc-ping.com/your-transit-uuid
+      ```
+   3. That's it — `pi_push.sh` (and OC_Transpo's `pi_push_transit.sh`) ping it
+      automatically on every successful run (even "nothing new"), and on
+      failure (via a `trap`). healthchecks.io emails you the moment an
+      expected ping doesn't arrive — usually within an hour of a real outage,
+      instead of a month.
+
 ## Notes
 
 - **Timezone:** the poller computes Ottawa local time via `zoneinfo` regardless of
