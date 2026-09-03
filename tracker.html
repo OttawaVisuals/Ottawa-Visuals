@@ -214,28 +214,37 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     are saved on this computer only.
   </div>
 
-  <div class="tldr" style="border-left:4px solid #c62828">
-    <b>Collector status (checked 2026-09-02 — real outage, Pi likely down):</b>
+  <div class="tldr" style="border-left:4px solid #e6a700">
+    <b>Collector status (checked 2026-09-03 — pipeline recovered; one thing unexplained):</b>
     <ul style="margin:.5rem 0 0 1.1rem;padding:0">
-      <li>🔴 <b>TomTom traffic</b> — stalled. Last <code>traffic: readings</code> commit
-        <code>2026-08-03 15:05 UTC</code>, none since — about a month of silence.</li>
-      <li>🔴 <b>OC Transpo GTFS-RT</b> — stalled. Last <code>transit: readings</code> commit
-        <code>2026-08-03 15:35 UTC</code>, none since — same gap.</li>
-      <li>❓ <b>OC Transpo KPI snapshots / raw GTFS-RT archive / static GTFS snapshots</b> — can't be
-        checked; all live on the Pi, and the Pi is unreachable.</li>
-      <li>⚠️ <b>Leading hypothesis: the SD card filled up.</b> It was 73% full with 3.7 GB free as of
-        2026-07-26 (~450 MB/month growth), and this repo's own notes already flagged "a full card would
-        stop collection silently" — the Aug 3 stall date lines up. Not confirmed: could equally be power,
-        network, or a crashed cron. <code>ssh ottawa-pi</code> timed out on 2026-09-02, so only physical
-        access to the Pi (power, <code>df -h</code>, crontab, logs) can settle it.</li>
+      <li>✅ <b>TomTom traffic</b> — current, last reading <code>2026-09-03 01:05 UTC</code>. A month-long
+        gap (Aug 3 → Sep 2) is now fully backfilled with no missing hours.</li>
+      <li>✅ <b>OC Transpo GTFS-RT</b> — current, last reading <code>2026-09-03 01:35 UTC</code>. Same
+        backfill, same gap-free result.</li>
+      <li>✅ <b>Pi disk</b> — 76% used / 3.3 GB free (checked 2026-09-03), essentially unchanged from
+        73%/3.7 GB on 2026-07-26. This <em>rules out</em> the disk-full theory — the card had ~13 days of
+        headroom left and never filled.</li>
+      <li>🔴→✅ <b>Root cause: a bad power cable.</b> The Pi was fully unreachable (SSH timeout, LEDs
+        blinking red/green with no fixed diagnostic pattern — consistent with under-voltage, not SD
+        corruption). Swapping the power cable brought it back.</li>
+      <li>⚠️ <b>Unexplained: the recovered backlog is a perfectly continuous, gap-free hourly series for
+        the entire month the Pi was unreachable.</b> The push scripts timestamp each commit at commit
+        time, so that pattern implies local polling never actually stopped — hard to square with the box
+        being unreachable and power-faulting. Not yet resolved; see <a href="PROJECTS.md">PROJECTS.md</a>
+        for the full incident timeline and what to check next (do the Pi's own poll/push logs show a gap
+        that the git history doesn't?).</li>
     </ul>
-    <p class="small" style="margin:.5rem 0 0"><b>How this was found:</b> pulled first (per the rule below —
-    this local clone was stale again), then diffed GitHub history rather than local timestamps. The
-    <code>traffic:</code>/<code>transit:</code> commits (Pi cron only) stop dead at Aug 3, while
-    GitHub-Actions collectors in the same repo (PWHL, ASE speed data, weekly refresh) kept committing
-    normally the whole time — ruling out a GitHub-wide issue or another stale-clone illusion. <b>Reminder:
-    `git pull` before trusting local commit timestamps</b> — it's produced false outage calls before, but
-    this time, after pulling, the outage is real.</p>
+    <p class="small" style="margin:.5rem 0 0"><b>How the outage was found and confirmed real:</b> pulled
+    first (per the rule below — this local clone was stale again), then diffed GitHub history rather than
+    local timestamps. The <code>traffic:</code>/<code>transit:</code> commits (Pi cron only) stopped dead
+    at Aug 3 while GitHub-Actions collectors in the same repo (PWHL, ASE speed data, weekly refresh) kept
+    committing normally — ruling out a GitHub-wide issue or another stale-clone illusion. <b>Reminder:
+    `git pull` before trusting local commit timestamps</b> — it's produced false outage calls before; this
+    time, after pulling, the outage was real, and recovery was verified the same way.</p>
+    <p class="small" style="margin:.5rem 0 0"><b>Monitoring added as a result:</b> a daily GitHub Actions
+    heartbeat now opens a GitHub Issue if either collector goes quiet for 24h — independent of the Pi's own
+    health — plus an optional healthchecks.io ping for faster detection. See
+    <a href="Traffic/PI_SETUP.md">Traffic/PI_SETUP.md §7</a>.</p>
   </div>
 
   <div class="tiles">

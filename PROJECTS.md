@@ -13,34 +13,57 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-09-02
+## Pipeline status — checked 2026-09-03 (resolved; one thing left unexplained)
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-08-03 15:05 UTC | 🔴 **stalled ~1 month** — no `traffic: readings` commit since |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-08-03 15:35 UTC | 🔴 **stalled ~1 month** — no `transit: readings` commit since |
-| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 (last known-good) | ❓ not re-verified — Pi unreachable, can't read `~/transit_snapshot.log` |
-| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ❓ Pi unreachable — can't confirm |
-| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ❓ Pi unreachable — can't confirm |
+| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-09-03 01:05 UTC | ✅ current, backlog fully recovered |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-09-03 01:35 UTC | ✅ current, backlog fully recovered |
+| OC Transpo KPI snapshots | weekly (Mon) | not re-verified this pass | ❓ Pi reachable by its owner now, but not re-checked from here |
+| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ❓ not re-checked this pass |
+| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ❓ not re-checked this pass |
+| Disk (`/dev/mmcblk0p2`) | — | **76% used, 3.3 GB free** (checked 2026-09-03, `df -h` on the Pi) | ✅ essentially unchanged from 73%/3.7 GB free on 2026-07-26 |
 
-**🔴 New outage, this one real: the Pi appears to be down, not just the local clone stale.**
-Checked 2026-09-02 by pulling first (per the rule below), then diffing GitHub commit
-history: `traffic: readings` / `transit: readings` commits — which only the Pi's cron
-produces — stop dead at **2026-08-03 15:05/15:35 UTC** and never resume, while
-GitHub-Actions-based collectors in the same repo (PWHL auto-update, ASE speed data,
-weekly data refresh) kept committing normally right through today. That rules out a
-GitHub-wide problem or (again) a stale local clone — this time the silence is on
-GitHub's own history, confirmed after pulling. Also: `ssh ottawa-pi` timed out
-(`10.0.0.142:22`, connection timed out) when tried from a dev machine on 2026-09-02.
+**Incident timeline (2026-08-03 → 2026-09-03, ~1 month):**
+1. `traffic:`/`transit:` commits (Pi cron only) stopped dead at **2026-08-03
+   15:05/15:35 UTC**, confirmed from GitHub commit history (pulled first, then diffed —
+   see the outage-detection method below). GitHub-Actions collectors in the same repo
+   (PWHL, ASE, weekly refresh) kept committing normally the whole time, ruling out a
+   GitHub-wide issue.
+2. `ssh ottawa-pi` timed out (`10.0.0.142:22`) on 2026-09-02 — the box itself was
+   unreachable, not just slow to push.
+3. Physically checked: **the LEDs were blinking red/green with no fixed pattern** —
+   not a coded boot-diagnostic flash, more consistent with an under-voltage condition
+   (power supply/cable) than SD-card corruption.
+4. **Swapped the power cable.** The Pi came back up (`uptime` showed 2 min at first
+   check) and `df -h` showed 76% used / 3.3 GB free — almost identical to the
+   2026-07-26 reading (73%/3.7 GB), which **rules out the disk-full hypothesis**: the
+   card had ~13 days' worth of headroom left and never filled. This was a power
+   incident, not a storage one.
+5. Within minutes of power being restored, GitHub received a **full, gap-free backlog**
+   of hourly `traffic:`/`transit:` commits covering the *entire* outage window
+   (2026-08-03 15:xx → 2026-09-03 01:xx UTC), each with an accurate embedded hourly
+   timestamp and no missing hours.
 
-**Leading hypothesis, not yet confirmed:** the SD card filling up. The 2026-07-26 check
-below found it 73% full with 3.7 GB free and ~450 MB/month growth from the raw GTFS-RT
-archive, and explicitly flagged "a full card would stop collection silently" — the
-stall date (Aug 3) is consistent with that timeline, but this is a hypothesis, not a
-confirmed cause; the Pi being off, a network change, or a crashed cron are equally
-possible and only physical/local-network access to the Pi can distinguish between them.
-**Next step: physically check the Pi (power, disk, `df -h`, crontab, logs) — this can't
-be diagnosed further from GitHub or a remote SSH attempt alone.**
+**⚠️ Step 5 is not fully explained and is worth understanding before trusting it blindly.**
+The push scripts (`pi_push.sh` / `pi_push_transit.sh`) timestamp each commit with
+`date -u` *at commit time*, so a genuinely continuous, evenly-spaced month of hourly
+commits implies the Pi kept polling and committing **locally** the whole time and only
+lost the ability to *reach GitHub* — but that's hard to square with the box being fully
+unreachable over SSH and showing a power-fault LED pattern. Possibilities, none
+confirmed: (a) the Pi had power/network intermittently and this session simply never
+caught it up; (b) local polling continued on battery/partial power while only the
+network/push path was down; (c) something else backfilled the gap. **Worth checking
+directly on the Pi** (`~/traffic_poll.log`, `~/traffic_push.log`, `~/transit_poll.log`,
+`~/transit_push.log` — do the local log timestamps actually span the outage window, or
+does the log itself show a gap that the git history doesn't?) before assuming every
+one of those "hourly readings" reflects a real live sample rather than a replay.
+
+**Monitoring added as a result of this incident** (2026-09-03): see
+[`Traffic/PI_SETUP.md` §7](Traffic/PI_SETUP.md) — a daily GitHub Actions heartbeat
+(`.github/workflows/collector-heartbeat.yml`) that opens a GitHub Issue if either
+collector goes quiet for 24h, independent of the Pi's own health, plus an optional
+healthchecks.io dead-man's-switch ping from the push scripts for faster (~1h) detection.
 
 **There was no Jul 19–24 outage**, and this local clone hit the *exact same trap
 again* on 2026-07-31 — found 211 commits behind after not being pulled for four
