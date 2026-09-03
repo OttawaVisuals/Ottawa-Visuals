@@ -174,9 +174,34 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ### Ontario Court Cases
 - **Progress:** ~30% · Extraction/structuring of Ontario Court traffic cases → CSV/JSON, then a visual.
 
-### Canada Geothermal Feasibility Map
-- **Progress:** ~15% · GSC bedrock geology + NRCan open-file data → national feasibility map.
-- **Location:** `C:\Energy` (Geothermal).
+### Ottawa Geothermal Suitability Map — live (this entry was stale; corrected 2026-09-03)
+- **Progress:** ✅ **live**, not the ~15% this entry previously said. **Ottawa-scoped, not national** —
+  a prior version of this entry mislabeled it as a national feasibility map; the well data (WWIS) is
+  Ontario-only and the built map is Ottawa-only ("Quebec side of the river is empty by construction").
+- **Live:** <https://ottawavisuals.github.io/Energy/Geothermal/output/>
+- **What it actually is:** a ground-source-heat-pump suitability map combining WWIS well records, GSC
+  bedrock geology, City of Ottawa zoning/sewer/open-loop-potential layers, and Hydro Ottawa feeder
+  capacity, with a literature-sourced (VDI 4640) conductivity table editable live in the map, a
+  drilling-difficulty layer, and three per-segment suitability scores (residential / large buildings /
+  district energy). A second, separately-tracked sub-project on top of it models building-level heat
+  demand and electrification load (414k buildings, census-reconciled stock, three electrification
+  scenarios, grid-capacity integration) — still being actively built as of 2026-08-03.
+- **Location:** `C:\Energy\Geothermal` — full build log in `GEOTHERMAL_STATUS.md`, method docs in
+  `README.md`.
+- **What's genuinely still missing:** an "Ottawa Case Study" narrative page (Phase 6 of
+  `HEATDEMAND_PLAN.md`) — a plain-language front door explaining the six-step argument (grid
+  constraints → ground resource → building heat loads → electrified share → electrification peak vs
+  grid → candidate areas). The map itself is not what's unfinished.
+- **True national expansion is a distinct, essentially unstarted idea** (~0%, not ~15%) — WWIS is an
+  Ontario-only well database, so scaling past Ottawa needs a different well-data source per province,
+  not just re-running the existing pipeline on a bigger bounding box. Worth scoping separately rather
+  than assuming it inherits the Ottawa build's progress.
+- **⚠️ Worth a follow-up check, unrelated to scope:** the 2026-08-03 entry in `GEOTHERMAL_STATUS.md`
+  describes a near-miss where 1,429 of 4,903 published files were found missing from that local working
+  copy — running `deploy.sh` from that machine at the time would have wiped several other live Energy
+  pages (New Homes Explorer, CEUD, Construction Tracker, grid dashboard, all FSA maps) plus this map's
+  own output. Recorded there as recovered, but worth confirming directly rather than assuming it stayed
+  fixed.
 
 ---
 
