@@ -214,28 +214,28 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     are saved on this computer only.
   </div>
 
-  <div class="tldr" style="border-left:4px solid #2e7d32">
-    <b>Collector status (checked 2026-07-31 — all pipelines healthy):</b>
+  <div class="tldr" style="border-left:4px solid #c62828">
+    <b>Collector status (checked 2026-09-02 — real outage, Pi likely down):</b>
     <ul style="margin:.5rem 0 0 1.1rem;padding:0">
-      <li>✅ <b>TomTom traffic</b> — current, last reading <code>2026-07-31 22:00 UTC</code>. Unbroken daily
-        coverage since 2026-07-06.</li>
-      <li>✅ <b>OC Transpo GTFS-RT</b> — current, last reading <code>2026-07-31 22:35 UTC</code>. Unbroken
-        daily coverage since 2026-07-11.</li>
-      <li>✅ <b>OC Transpo KPI snapshots</b> — cron firing normally. Still only the <code>2026-07-11</code>
-        files, because the script only writes when content changes and the city has not republished since.
-        This is expected behaviour, not a stall — see the note below.</li>
-      <li>✅ <b>Raw GTFS-RT archive</b> (on the Pi, outside the repo) — current, tracking the
-        ~15 MB/day estimate. This is what makes offline on-time-performance computation possible, since
-        the feed publishes no delay fields. Weekly static GTFS snapshots complete.</li>
-      <li>⚠️ <b>Pi disk</b> — SD card was 73% full with 3.7 GB free as of 2026-07-26. The raw archive grows
-        ~450 MB/month, so headroom was already limited; worth a fresh check rather than assuming it hasn't
-        moved. A full card would stop collection silently.</li>
+      <li>🔴 <b>TomTom traffic</b> — stalled. Last <code>traffic: readings</code> commit
+        <code>2026-08-03 15:05 UTC</code>, none since — about a month of silence.</li>
+      <li>🔴 <b>OC Transpo GTFS-RT</b> — stalled. Last <code>transit: readings</code> commit
+        <code>2026-08-03 15:35 UTC</code>, none since — same gap.</li>
+      <li>❓ <b>OC Transpo KPI snapshots / raw GTFS-RT archive / static GTFS snapshots</b> — can't be
+        checked; all live on the Pi, and the Pi is unreachable.</li>
+      <li>⚠️ <b>Leading hypothesis: the SD card filled up.</b> It was 73% full with 3.7 GB free as of
+        2026-07-26 (~450 MB/month growth), and this repo's own notes already flagged "a full card would
+        stop collection silently" — the Aug 3 stall date lines up. Not confirmed: could equally be power,
+        network, or a crashed cron. <code>ssh ottawa-pi</code> timed out on 2026-09-02, so only physical
+        access to the Pi (power, <code>df -h</code>, crontab, logs) can settle it.</li>
     </ul>
-    <p class="small" style="margin:.5rem 0 0"><b>Reminder for whoever checks this next: `git pull` before
-    trusting local commit timestamps.</b> On 2026-07-26 a stale local clone (five days unpulled) produced
-    three wrong outage diagnoses in one session before anyone thought to pull. On 2026-07-31 the same clone
-    was found 211 commits behind — pulling first confirmed collection had in fact run continuously, at
-    roughly 23–24 readings/day per collector (cadence adapts, denser around peak hours), with no gap.</p>
+    <p class="small" style="margin:.5rem 0 0"><b>How this was found:</b> pulled first (per the rule below —
+    this local clone was stale again), then diffed GitHub history rather than local timestamps. The
+    <code>traffic:</code>/<code>transit:</code> commits (Pi cron only) stop dead at Aug 3, while
+    GitHub-Actions collectors in the same repo (PWHL, ASE speed data, weekly refresh) kept committing
+    normally the whole time — ruling out a GitHub-wide issue or another stale-clone illusion. <b>Reminder:
+    `git pull` before trusting local commit timestamps</b> — it's produced false outage calls before, but
+    this time, after pulling, the outage is real.</p>
   </div>
 
   <div class="tiles">

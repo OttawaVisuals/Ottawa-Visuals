@@ -13,15 +13,34 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-07-31
+## Pipeline status — checked 2026-09-02
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-07-31 22:00 UTC | ✅ current, no gaps |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-07-31 22:35 UTC | ✅ current, no gaps |
-| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 | ✅ cron firing; content still unchanged since Jul 11 |
-| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ✅ assumed on track (~15 MB/day) — see disk note below |
-| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ✅ assumed complete |
+| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-08-03 15:05 UTC | 🔴 **stalled ~1 month** — no `traffic: readings` commit since |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-08-03 15:35 UTC | 🔴 **stalled ~1 month** — no `transit: readings` commit since |
+| OC Transpo KPI snapshots | weekly (Mon) | 2026-07-11 (last known-good) | ❓ not re-verified — Pi unreachable, can't read `~/transit_snapshot.log` |
+| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ❓ Pi unreachable — can't confirm |
+| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ❓ Pi unreachable — can't confirm |
+
+**🔴 New outage, this one real: the Pi appears to be down, not just the local clone stale.**
+Checked 2026-09-02 by pulling first (per the rule below), then diffing GitHub commit
+history: `traffic: readings` / `transit: readings` commits — which only the Pi's cron
+produces — stop dead at **2026-08-03 15:05/15:35 UTC** and never resume, while
+GitHub-Actions-based collectors in the same repo (PWHL auto-update, ASE speed data,
+weekly data refresh) kept committing normally right through today. That rules out a
+GitHub-wide problem or (again) a stale local clone — this time the silence is on
+GitHub's own history, confirmed after pulling. Also: `ssh ottawa-pi` timed out
+(`10.0.0.142:22`, connection timed out) when tried from a dev machine on 2026-09-02.
+
+**Leading hypothesis, not yet confirmed:** the SD card filling up. The 2026-07-26 check
+below found it 73% full with 3.7 GB free and ~450 MB/month growth from the raw GTFS-RT
+archive, and explicitly flagged "a full card would stop collection silently" — the
+stall date (Aug 3) is consistent with that timeline, but this is a hypothesis, not a
+confirmed cause; the Pi being off, a network change, or a crashed cron are equally
+possible and only physical/local-network access to the Pi can distinguish between them.
+**Next step: physically check the Pi (power, disk, `df -h`, crontab, logs) — this can't
+be diagnosed further from GitHub or a remote SSH attempt alone.**
 
 **There was no Jul 19–24 outage**, and this local clone hit the *exact same trap
 again* on 2026-07-31 — found 211 commits behind after not being pulled for four
@@ -187,6 +206,80 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ### Visualizing Voter Apathy Across Canadian Elections
 - Historical participation rates, province-wide + per district.
+
+### Federal Consulting Spend / In-House Duplication  🔄 ~20%
+- Government of Canada Proactive Disclosure of Contracts dataset, mined for consulting/IT
+  spend that plausibly duplicates in-house public-service capacity, plus an RTO-keyword pass —
+  a federal-level companion to the RTO4 narrative (NCR federal headcount is a big share of
+  Ottawa's downtown workforce). **Location:** [`GovContracts/`](GovContracts/README.md).
+- **Data quirk worth knowing:** the dataset's `description_en` field isn't a narrative
+  description at all — it just names the `economic_object_code` accounting category. Real
+  categorization comes from the structured `commodity_code` (GSIN) field instead, joined
+  against PSPC's own GSIN code table — not from parsing free text.
+- **First pass (2026-08-01), 3 iterations:** 1.31M contract line items, 2007–2026. (1) A
+  prefix-based `commodity_code` match (e.g. `R199*`) pulled in BGIS's ~$5.7B real-property
+  contract and VF Worldwide's ~$24.6M overseas logistics support as "consulting" — rejected.
+  (2) Switched to an exact-code whitelist built from the GSIN table's own descriptions, plus a
+  new "office footprint" category (furniture/fit-up/leasing/moves, via the verified-clean
+  `N7110*` code family — a single word like "office" is too noisy for text search but precise
+  as a commodity code). (3) Had to drop `V502A` "Relocation Services" after finding it's
+  dominated by the government's *Integrated Relocation Program* (employee household moves
+  between postings, not office moves) — a single Jan 2023 cluster of mover contracts totalled
+  >$700M and would have swamped the category the same way as (1).
+- **Current totals:** Management & business consulting $4.73B/9,116 contracts; IT/informatics
+  consulting $541M/906; Office furniture & fit-up $386M/9,299; Office space leasing & moves
+  $129M/999. Top vendors now sane (PwC/Accenture JV, IBM, ADGA, EY, S.I. Systems, Randstad);
+  annual consulting-code spend ~$500–800M/yr 2020 onward.
+- **RTO angle is thin so far:** 106 contracts (broadened phrase list) out of 1.3M rows matched
+  RTO keywords (`comments_en` is mostly boilerplate, not narrative) — real signal exists (movers,
+  office fit-up firms, an "Architectural & Engineering Services - Office..." contract) but this
+  alone can't prove an RTO-driven spending link. Most promising untested lead: whether the
+  furniture/leasing categories spike near the Jul 2026 RTO4 mandate date.
+- **Switched primary axis to `description_en`** (v4, 2026-08-01): it's blank on only 0.08% of
+  rows vs. 35% for `commodity_code` (which was $137.9B of unresolvable spend). After normalizing
+  (strip leading economic_object_code numbers, unify case/dashes) and prefix-matching a curated
+  whitelist, the seven RTO-relevant categories total far more than the commodity_code axis:
+  Engineering consultants–construction $32.3B/14,964 contracts, Office buildings $23.6B/14,329,
+  Architectural services $19.3B/5,498, Repair & maintenance–Office buildings $10.0B/1,571,
+  Contracted building cleaning $2.7B/8,407, Office furniture & furnishings $1.3B/22,740, Other
+  office equipment $0.4B/3,029.
+- **RTO-mandate-spike check is blocked on data, not analysis:** built a month-level series
+  (`office_footprint_by_month.json`) plus an automatic data-coverage check
+  (`data_coverage.json`) specifically to catch this — but found the dataset's proactive-disclosure
+  reporting lag means it only reliably covers contracts through **June 2026**; row counts collapse
+  from ~5,300/month to 17 in July, 1 in September. The Jul 6, 2026 RTO4 mandate date isn't in the
+  data yet at all. Concrete next step: re-run once a refreshed `contracts.csv` actually covers Jul
+  2026 onward (check `last_reliable_month` first), then compare pre/post-mandate months.
+- **Contracts under $10K are a dead end for category detail** (checked 2026-08-01): the
+  companion "aggregated" resource only breaks spend into Goods/Services/Construction totals per
+  department per year, plus a separate acquisition-card (P-card) total (~$700–850M/yr,
+  1.6–2M transactions government-wide) — no vendor, no description, no code. Small purchases
+  (e.g. a single office chair) are aggregated away at publication, not just messy. Documented in
+  [`GovContracts/README.md`](GovContracts/README.md) so it isn't re-discovered later.
+- **Competitive vs. non-competitive split added** (2026-08-01): joined `solicitation_procedure`
+  (TC/OB/ST = competitive, TN = non-competitive, AC = ACAN/notice-based, kept separate since it's
+  functionally closer to sole-source) onto the 7 office-footprint categories, by year, in
+  `office_footprint_by_year_procurement.json`. Field is unreliable before 2017 (90–100% blank
+  2005–2015) and only fully clean from 2019 on — scope any competitive-share chart accordingly.
+  Quick sanity check across all 7 categories: competitive spend dominates every year (e.g. 2023:
+  $6.97B competitive vs. $110M non-competitive vs. $6.9M ACAN) — worth checking whether that
+  holds *per category* (Architectural/Engineering likely skew more sole-sourced than Furniture)
+  before this becomes a chart.
+- **Not yet built:** the page. Presentation idea floated but not built: stacked bar per year
+  (segments = procurement type) with a category filter, ideally paired with a 100%-stacked
+  version to isolate the competitive-share trend from raw dollar growth, plus small multiples
+  per category. See "Next steps" below.
+
+**Next steps to pick this back up:**
+1. Watch for the dataset's next quarterly refresh; re-download `contracts.csv`, check
+   `data_coverage.json`'s `last_reliable_month` reaches past Jul 2026, then compare
+   `office_footprint_by_month.json` pre- vs. post-RTO4-mandate.
+2. Build the actual chart(s) — stacked bar by year × procurement type, category filter, informed
+   by the `dataviz` skill for styling. Data is ready in `GovContracts/data/`.
+3. Split the broad "Office buildings" category (capital construction mixed with plain leasing) if
+   isolating "we pay rent" from "we built a building" turns out to matter for the narrative.
+4. Second human read of `rto_candidates.json` / `office_footprint_top_vendors.json` /
+   `top_vendors.json` before any of this becomes a public-facing page.
 
 ### Political Spending / Transparency
 - Pierre Poilievre taxpayer expenses; Canadian MP spending transparency; Alberta oil-company profits & capital flows.
