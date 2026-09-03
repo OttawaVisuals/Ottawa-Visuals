@@ -48,6 +48,8 @@ cron weekly.
    # raw JSON archive (gzipped), needed for offline OTP — keep OUTSIDE the
    # repo; ~15 MB/day:
    OCTRANSPO_RAW_DIR=/home/<user>/gtfsrt_raw
+   # optional dead-man's-switch (see ../Traffic/PI_SETUP.md §7 — Monitoring):
+   HEALTHCHECK_URL_TRANSIT=https://hc-ping.com/your-transit-uuid
    ```
 3. First run, verify parsing against the live feed:
    ```bash
