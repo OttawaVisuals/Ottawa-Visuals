@@ -2750,5 +2750,91 @@
     "n": 44
    }
   }
+ },
+ {
+  "date": "2026-09-05",
+  "weekday": 5,
+  "corridors": {
+   "barrhaven|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1532,
+    "min_s": 1532,
+    "max_s": 1532,
+    "n": 1
+   },
+   "barrhaven|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1487,
+    "min_s": 1487,
+    "max_s": 1487,
+    "n": 1
+   },
+   "gatineau|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 785,
+    "min_s": 785,
+    "max_s": 785,
+    "n": 1
+   },
+   "gatineau|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 827,
+    "min_s": 827,
+    "max_s": 827,
+    "n": 1
+   },
+   "kanata|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1017,
+    "min_s": 1017,
+    "max_s": 1017,
+    "n": 1
+   },
+   "kanata|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1110,
+    "min_s": 1110,
+    "max_s": 1110,
+    "n": 1
+   },
+   "orleans|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1104,
+    "min_s": 1104,
+    "max_s": 1104,
+    "n": 1
+   },
+   "orleans|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1083,
+    "min_s": 1083,
+    "max_s": 1083,
+    "n": 1
+   },
+   "riverside|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1398,
+    "min_s": 1398,
+    "max_s": 1398,
+    "n": 1
+   },
+   "riverside|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1329,
+    "min_s": 1329,
+    "max_s": 1329,
+    "n": 1
+   }
+  }
  }
 ]
