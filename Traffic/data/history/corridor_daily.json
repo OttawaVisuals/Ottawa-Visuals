@@ -3100,84 +3100,84 @@
   "weekday": 2,
   "corridors": {
    "barrhaven|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1606,
     "pm_peak_s": null,
     "overnight_s": 1444,
     "min_s": 1421,
-    "max_s": 1488,
-    "n": 7
+    "max_s": 1606,
+    "n": 10
    },
    "barrhaven|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1977,
     "pm_peak_s": null,
     "overnight_s": 1401,
     "min_s": 1378,
-    "max_s": 1451,
-    "n": 7
+    "max_s": 1977,
+    "n": 10
    },
    "gatineau|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 821,
     "pm_peak_s": null,
     "overnight_s": 738,
     "min_s": 724,
-    "max_s": 761,
-    "n": 7
+    "max_s": 821,
+    "n": 10
    },
    "gatineau|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1002,
     "pm_peak_s": null,
     "overnight_s": 819,
     "min_s": 802,
-    "max_s": 873,
-    "n": 7
+    "max_s": 1002,
+    "n": 10
    },
    "kanata|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1026,
     "pm_peak_s": null,
     "overnight_s": 993,
     "min_s": 989,
-    "max_s": 1004,
-    "n": 7
+    "max_s": 1026,
+    "n": 10
    },
    "kanata|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1546,
     "pm_peak_s": null,
     "overnight_s": 1082,
     "min_s": 1074,
-    "max_s": 1098,
-    "n": 7
+    "max_s": 1646,
+    "n": 10
    },
    "orleans|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1101,
     "pm_peak_s": null,
     "overnight_s": 1061,
     "min_s": 1046,
-    "max_s": 1083,
-    "n": 7
+    "max_s": 1101,
+    "n": 10
    },
    "orleans|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1224,
     "pm_peak_s": null,
     "overnight_s": 1051,
     "min_s": 1031,
-    "max_s": 1084,
-    "n": 7
+    "max_s": 1224,
+    "n": 10
    },
    "riverside|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1470,
     "pm_peak_s": null,
     "overnight_s": 1297,
     "min_s": 1270,
-    "max_s": 1358,
-    "n": 7
+    "max_s": 1470,
+    "n": 10
    },
    "riverside|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1510,
     "pm_peak_s": null,
     "overnight_s": 1223,
     "min_s": 1197,
-    "max_s": 1282,
-    "n": 7
+    "max_s": 1510,
+    "n": 10
    }
   }
  }
