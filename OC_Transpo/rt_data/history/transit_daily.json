@@ -496,14 +496,27 @@
  {
   "date": "2026-09-16",
   "weekday": 2,
-  "n": 139,
+  "n": 140,
   "buses_am_peak": 576.0,
   "buses_pm_peak": 582.0,
-  "buses_mean": 501.0,
+  "buses_mean": 500.0,
   "buses_max": 600,
   "speed_mean_kmh": 15.0,
-  "cancelled_mean": 70.0,
+  "cancelled_mean": 70.4,
   "cancelled_max": 142,
-  "cancelled_pct_mean": 13.14
+  "cancelled_pct_mean": 13.33
+ },
+ {
+  "date": "2026-09-17",
+  "weekday": 3,
+  "n": 3,
+  "buses_am_peak": null,
+  "buses_pm_peak": null,
+  "buses_mean": 279.0,
+  "buses_max": 307,
+  "speed_mean_kmh": 9.5,
+  "cancelled_mean": 116.0,
+  "cancelled_max": 116,
+  "cancelled_pct_mean": 48.02
  }
 ]
