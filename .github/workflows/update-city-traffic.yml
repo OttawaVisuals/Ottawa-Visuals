@@ -25,6 +25,10 @@ jobs:
         if: always()  # one renamed layer fails the fetch, but the rest still joins
         run: python Traffic/scripts/build_geo_index.py
 
+      - name: Rebuild page story numbers
+        if: always()
+        run: python Traffic/scripts/build_stories.py
+
       - name: Commit if changed
         if: always()  # keep whatever did refresh
         run: |

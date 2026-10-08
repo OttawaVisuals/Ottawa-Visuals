@@ -19,5 +19,8 @@ readings and the shift toward bigger, heavier vehicles.
 ## Method
 
 Injury and fatality curves come from IIHS crash research (Monfort & Mueller,
-2024–25), keyed to a vehicle's front-end height. Collision counts on the page
-are currently hardcoded from City reports pending an open data feed.
+2024–25), keyed to a vehicle's front-end height. The pedestrian fatal/major-injury
+series is still the City's Road Safety Action Plan figures (they reach back to 2013 and include
+2023), but the page now checks them against the open collision data on load. The photo-radar
+ticket and red-light camera cards read `../Traffic/data/derived/stories.json`, built weekly by
+`Traffic/scripts/build_stories.py`.

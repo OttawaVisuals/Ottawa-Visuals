@@ -1,0 +1,607 @@
+{
+ "generated_utc": "2026-10-08T22:14:35Z",
+ "collision_years": [
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2024
+ ],
+ "ase_tickets_monthly": [
+  {
+   "month": "2020-07",
+   "tickets": 10640,
+   "cameras": 4,
+   "per_camera": 2660.0
+  },
+  {
+   "month": "2020-08",
+   "tickets": 17069,
+   "cameras": 4,
+   "per_camera": 4267.2
+  },
+  {
+   "month": "2020-09",
+   "tickets": 9315,
+   "cameras": 4,
+   "per_camera": 2328.8
+  },
+  {
+   "month": "2020-10",
+   "tickets": 6395,
+   "cameras": 4,
+   "per_camera": 1598.8
+  },
+  {
+   "month": "2020-11",
+   "tickets": 3191,
+   "cameras": 4,
+   "per_camera": 797.8
+  },
+  {
+   "month": "2020-12",
+   "tickets": 3533,
+   "cameras": 6,
+   "per_camera": 588.8
+  },
+  {
+   "month": "2021-01",
+   "tickets": 3339,
+   "cameras": 5,
+   "per_camera": 667.8
+  },
+  {
+   "month": "2021-02",
+   "tickets": 6834,
+   "cameras": 8,
+   "per_camera": 854.2
+  },
+  {
+   "month": "2021-03",
+   "tickets": 11684,
+   "cameras": 8,
+   "per_camera": 1460.5
+  },
+  {
+   "month": "2021-04",
+   "tickets": 9792,
+   "cameras": 8,
+   "per_camera": 1224.0
+  },
+  {
+   "month": "2021-05",
+   "tickets": 8673,
+   "cameras": 8,
+   "per_camera": 1084.1
+  },
+  {
+   "month": "2021-06",
+   "tickets": 8291,
+   "cameras": 8,
+   "per_camera": 1036.4
+  },
+  {
+   "month": "2021-07",
+   "tickets": 3022,
+   "cameras": 8,
+   "per_camera": 377.8
+  },
+  {
+   "month": "2021-08",
+   "tickets": 7447,
+   "cameras": 8,
+   "per_camera": 930.9
+  },
+  {
+   "month": "2021-09",
+   "tickets": 5184,
+   "cameras": 8,
+   "per_camera": 648.0
+  },
+  {
+   "month": "2021-10",
+   "tickets": 5938,
+   "cameras": 8,
+   "per_camera": 742.2
+  },
+  {
+   "month": "2021-11",
+   "tickets": 5683,
+   "cameras": 8,
+   "per_camera": 710.4
+  },
+  {
+   "month": "2021-12",
+   "tickets": 5057,
+   "cameras": 8,
+   "per_camera": 632.1
+  },
+  {
+   "month": "2022-01",
+   "tickets": 3124,
+   "cameras": 8,
+   "per_camera": 390.5
+  },
+  {
+   "month": "2022-02",
+   "tickets": 3526,
+   "cameras": 9,
+   "per_camera": 391.8
+  },
+  {
+   "month": "2022-03",
+   "tickets": 7127,
+   "cameras": 11,
+   "per_camera": 647.9
+  },
+  {
+   "month": "2022-04",
+   "tickets": 8145,
+   "cameras": 13,
+   "per_camera": 626.5
+  },
+  {
+   "month": "2022-05",
+   "tickets": 9444,
+   "cameras": 13,
+   "per_camera": 726.5
+  },
+  {
+   "month": "2022-06",
+   "tickets": 6094,
+   "cameras": 13,
+   "per_camera": 468.8
+  },
+  {
+   "month": "2022-07",
+   "tickets": 28142,
+   "cameras": 14,
+   "per_camera": 2010.1
+  },
+  {
+   "month": "2022-08",
+   "tickets": 13570,
+   "cameras": 14,
+   "per_camera": 969.3
+  },
+  {
+   "month": "2022-09",
+   "tickets": 13733,
+   "cameras": 14,
+   "per_camera": 980.9
+  },
+  {
+   "month": "2022-10",
+   "tickets": 13422,
+   "cameras": 16,
+   "per_camera": 838.9
+  },
+  {
+   "month": "2022-11",
+   "tickets": 12186,
+   "cameras": 17,
+   "per_camera": 716.8
+  },
+  {
+   "month": "2022-12",
+   "tickets": 9426,
+   "cameras": 17,
+   "per_camera": 554.5
+  },
+  {
+   "month": "2023-01",
+   "tickets": 7818,
+   "cameras": 28,
+   "per_camera": 279.2
+  },
+  {
+   "month": "2023-02",
+   "tickets": 8069,
+   "cameras": 17,
+   "per_camera": 474.6
+  },
+  {
+   "month": "2023-03",
+   "tickets": 11494,
+   "cameras": 17,
+   "per_camera": 676.1
+  },
+  {
+   "month": "2023-04",
+   "tickets": 12988,
+   "cameras": 18,
+   "per_camera": 721.6
+  },
+  {
+   "month": "2023-05",
+   "tickets": 12372,
+   "cameras": 18,
+   "per_camera": 687.3
+  },
+  {
+   "month": "2023-06",
+   "tickets": 10699,
+   "cameras": 20,
+   "per_camera": 535.0
+  },
+  {
+   "month": "2023-07",
+   "tickets": 27655,
+   "cameras": 22,
+   "per_camera": 1257.0
+  },
+  {
+   "month": "2023-08",
+   "tickets": 29857,
+   "cameras": 23,
+   "per_camera": 1298.1
+  },
+  {
+   "month": "2023-09",
+   "tickets": 24618,
+   "cameras": 23,
+   "per_camera": 1070.3
+  },
+  {
+   "month": "2023-10",
+   "tickets": 19445,
+   "cameras": 27,
+   "per_camera": 720.2
+  },
+  {
+   "month": "2023-11",
+   "tickets": 31462,
+   "cameras": 28,
+   "per_camera": 1123.6
+  },
+  {
+   "month": "2023-12",
+   "tickets": 24312,
+   "cameras": 28,
+   "per_camera": 868.3
+  },
+  {
+   "month": "2024-01",
+   "tickets": 19634,
+   "cameras": 29,
+   "per_camera": 677.0
+  },
+  {
+   "month": "2024-02",
+   "tickets": 22861,
+   "cameras": 40,
+   "per_camera": 571.5
+  },
+  {
+   "month": "2024-03",
+   "tickets": 43416,
+   "cameras": 40,
+   "per_camera": 1085.4
+  },
+  {
+   "month": "2024-04",
+   "tickets": 37285,
+   "cameras": 40,
+   "per_camera": 932.1
+  },
+  {
+   "month": "2024-05",
+   "tickets": 32689,
+   "cameras": 40,
+   "per_camera": 817.2
+  },
+  {
+   "month": "2024-06",
+   "tickets": 39361,
+   "cameras": 40,
+   "per_camera": 984.0
+  },
+  {
+   "month": "2024-07",
+   "tickets": 33859,
+   "cameras": 40,
+   "per_camera": 846.5
+  },
+  {
+   "month": "2024-08",
+   "tickets": 32461,
+   "cameras": 40,
+   "per_camera": 811.5
+  },
+  {
+   "month": "2024-09",
+   "tickets": 30033,
+   "cameras": 40,
+   "per_camera": 750.8
+  },
+  {
+   "month": "2024-10",
+   "tickets": 32000,
+   "cameras": 40,
+   "per_camera": 800.0
+  },
+  {
+   "month": "2024-11",
+   "tickets": 25035,
+   "cameras": 49,
+   "per_camera": 510.9
+  },
+  {
+   "month": "2024-12",
+   "tickets": 35196,
+   "cameras": 57,
+   "per_camera": 617.5
+  },
+  {
+   "month": "2025-01",
+   "tickets": 31144,
+   "cameras": 60,
+   "per_camera": 519.1
+  },
+  {
+   "month": "2025-02",
+   "tickets": 19582,
+   "cameras": 60,
+   "per_camera": 326.4
+  },
+  {
+   "month": "2025-03",
+   "tickets": 30364,
+   "cameras": 60,
+   "per_camera": 506.1
+  },
+  {
+   "month": "2025-04",
+   "tickets": 30191,
+   "cameras": 60,
+   "per_camera": 503.2
+  },
+  {
+   "month": "2025-05",
+   "tickets": 27022,
+   "cameras": 60,
+   "per_camera": 450.4
+  },
+  {
+   "month": "2025-06",
+   "tickets": 25299,
+   "cameras": 60,
+   "per_camera": 421.6
+  },
+  {
+   "month": "2025-07",
+   "tickets": 26837,
+   "cameras": 60,
+   "per_camera": 447.3
+  },
+  {
+   "month": "2025-08",
+   "tickets": 27781,
+   "cameras": 60,
+   "per_camera": 463.0
+  },
+  {
+   "month": "2025-09",
+   "tickets": 26264,
+   "cameras": 60,
+   "per_camera": 437.7
+  },
+  {
+   "month": "2025-10",
+   "tickets": 27666,
+   "cameras": 60,
+   "per_camera": 461.1
+  },
+  {
+   "month": "2025-11",
+   "tickets": 7445,
+   "cameras": 60,
+   "per_camera": 124.1
+  }
+ ],
+ "ase_collisions": {
+  "sites": 58,
+  "before": 192,
+  "before_site_years": 318,
+  "after": 18,
+  "after_site_years": 44,
+  "before_rate": 0.6,
+  "after_rate": 0.41
+ },
+ "rlc_by_years_since": [
+  {
+   "years_since_install": 0,
+   "avg_monthly": 52.3,
+   "camera_months": 440
+  },
+  {
+   "years_since_install": 1,
+   "avg_monthly": 77.7,
+   "camera_months": 601
+  },
+  {
+   "years_since_install": 2,
+   "avg_monthly": 62.8,
+   "camera_months": 573
+  },
+  {
+   "years_since_install": 3,
+   "avg_monthly": 56.6,
+   "camera_months": 581
+  },
+  {
+   "years_since_install": 4,
+   "avg_monthly": 57.5,
+   "camera_months": 568
+  },
+  {
+   "years_since_install": 5,
+   "avg_monthly": 53.1,
+   "camera_months": 516
+  },
+  {
+   "years_since_install": 6,
+   "avg_monthly": 52.1,
+   "camera_months": 448
+  },
+  {
+   "years_since_install": 7,
+   "avg_monthly": 59.9,
+   "camera_months": 500
+  },
+  {
+   "years_since_install": 8,
+   "avg_monthly": 59.9,
+   "camera_months": 465
+  },
+  {
+   "years_since_install": 9,
+   "avg_monthly": 60.6,
+   "camera_months": 376
+  },
+  {
+   "years_since_install": 10,
+   "avg_monthly": 68.0,
+   "camera_months": 295
+  },
+  {
+   "years_since_install": 11,
+   "avg_monthly": 60.2,
+   "camera_months": 300
+  },
+  {
+   "years_since_install": 12,
+   "avg_monthly": 50.3,
+   "camera_months": 314
+  },
+  {
+   "years_since_install": 13,
+   "avg_monthly": 50.0,
+   "camera_months": 323
+  },
+  {
+   "years_since_install": 14,
+   "avg_monthly": 38.5,
+   "camera_months": 380
+  },
+  {
+   "years_since_install": 15,
+   "avg_monthly": 39.2,
+   "camera_months": 341
+  },
+  {
+   "years_since_install": 16,
+   "avg_monthly": 49.3,
+   "camera_months": 258
+  },
+  {
+   "years_since_install": 17,
+   "avg_monthly": 58.1,
+   "camera_months": 186
+  },
+  {
+   "years_since_install": 18,
+   "avg_monthly": 54.7,
+   "camera_months": 143
+  },
+  {
+   "years_since_install": 19,
+   "avg_monthly": 46.4,
+   "camera_months": 84
+  },
+  {
+   "years_since_install": 20,
+   "avg_monthly": 59.9,
+   "camera_months": 84
+  },
+  {
+   "years_since_install": 21,
+   "avg_monthly": 43.1,
+   "camera_months": 84
+  },
+  {
+   "years_since_install": 22,
+   "avg_monthly": 48.3,
+   "camera_months": 84
+  },
+  {
+   "years_since_install": 23,
+   "avg_monthly": 38.5,
+   "camera_months": 84
+  },
+  {
+   "years_since_install": 24,
+   "avg_monthly": 43.8,
+   "camera_months": 78
+  },
+  {
+   "years_since_install": 25,
+   "avg_monthly": 42.9,
+   "camera_months": 48
+  }
+ ],
+ "rlc_before_after": {
+  "intersections": 31,
+  "install_years": "2018-2022",
+  "before_site_years": 113,
+  "after_site_years": 73,
+  "by_type": [
+   {
+    "type": "Angle + turning",
+    "before": 323,
+    "after": 152,
+    "before_rate": 2.86,
+    "after_rate": 2.08,
+    "change_pct": -27
+   },
+   {
+    "type": "Rear end",
+    "before": 171,
+    "after": 126,
+    "before_rate": 1.51,
+    "after_rate": 1.73,
+    "change_pct": 14
+   },
+   {
+    "type": "All collisions",
+    "before": 613,
+    "after": 386,
+    "before_rate": 5.42,
+    "after_rate": 5.29,
+    "change_pct": -3
+   }
+  ]
+ },
+ "ped_fmi_by_year": [
+  {
+   "year": 2017,
+   "collisions": 36
+  },
+  {
+   "year": 2018,
+   "collisions": 42
+  },
+  {
+   "year": 2019,
+   "collisions": 35
+  },
+  {
+   "year": 2020,
+   "collisions": 21
+  },
+  {
+   "year": 2021,
+   "collisions": 34
+  },
+  {
+   "year": 2022,
+   "collisions": 34
+  },
+  {
+   "year": 2024,
+   "collisions": 33
+  }
+ ]
+}

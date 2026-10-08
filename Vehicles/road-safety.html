@@ -428,13 +428,6 @@
 </div>
 
 <div class="layout">
-<div class="page-header">
-  <p class="eyebrow">Road safety physics — stage 1</p>
-  <h1>Vehicle–pedestrian impact calculator</h1>
-  <p class="sub">Injury risk estimates from IIHS crash data, plus the simplified physics of momentum transfer.</p>
-</div>
-
-<div class="layout">
 
   <!-- INPUTS -->
   <div class="inputs-card">
@@ -572,56 +565,79 @@
   </div>
 
 </div>
-</div>
 
 <div class="section-break"></div>
 
 <div class="page-header" style="padding-top:28px">
   <p class="eyebrow">Ottawa — local context</p>
   <h1>Local data</h1>
-  <p class="sub">Speed camera and vehicle registration data loaded from local files. Collision data is hardcoded pending a data source.</p>
+  <p class="sub">What Ottawa's own cameras and collision records show. Loaded from City of Ottawa open data, refreshed weekly.</p>
 </div>
 
 <div class="layout" style="padding-top:16px">
-<div class="page-header">
-  <p class="eyebrow">Ottawa — road safety context</p>
-  <h1>Local data</h1>
-  <p class="sub">Speed camera and vehicle registration data loaded from local files. Collision data is hardcoded pending a data source.</p>
-</div>
 
-<div class="layout">
-
-  <!-- SPEED CAMERAS -->
+  <!-- SPEED CAMERAS: ON, THEN OFF -->
   <div class="card">
     <p class="section-title">
-      Speed camera compliance — Ottawa pilot sites (8 schools)
+      Photo radar: on, then off — 8 original sites
       <span id="ase-badge" class="data-badge">loading…</span>
     </p>
     <p class="section-note">
-      Monthly average compliance and high-end speeding (&gt;15 km/h over) across 8 school-zone sites. Cameras installed 2020, removed Nov 14, 2025 under Ontario Bill 56.
+      Monthly share of drivers at or under the limit, and share more than 15 km/h over, averaged across the 8 school-zone sites that got cameras in 2020. Ontario's Bill 56 switched every camera off on Nov 14, 2025; the city kept measuring speeds afterwards.
     </p>
     <div id="ase-error" class="error-msg" style="display:none"></div>
     <div id="ase-stats" class="stat-row"></div>
-    <div class="dual-grid">
-      <div>
-        <p class="chart-sub">During camera operation (2020 → Nov 2025)</p>
-        <div class="chart-wrap" style="height:200px">
-          <div id="ase-loading" class="loading-msg">fetching data…</div>
-          <canvas id="chart-active" role="img" aria-label="Monthly average compliance and high-end speeding at 8 ASE pilot sites during camera operation." style="display:none"></canvas>
-        </div>
-      </div>
-      <div>
-        <p class="chart-sub">After removal (Nov 2025 → Feb 2026)</p>
-        <div class="chart-wrap" style="height:200px">
-          <canvas id="chart-postremoval" role="img" aria-label="Compliance falling from 87% to 41% within 12 weeks of camera removal while high-end speeding rose to 4.5%.">At removal: 87% compliance, 0.3% high-end. 12 weeks later: 41% compliance, 4.5% high-end speeding.</canvas>
-        </div>
-        <p class="hardcoded-note">From City of Ottawa report (April 2026). Post-removal records will replace this once added to the GitHub dataset.</p>
-      </div>
+    <p class="chart-sub">Compliance with the speed limit</p>
+    <div class="chart-wrap" style="height:200px">
+      <div id="ase-loading" class="loading-msg">fetching data…</div>
+      <canvas id="chart-ase-compliance" role="img" aria-label="Monthly speed-limit compliance at the 8 original photo-radar sites, before, during and after camera operation." style="display:none"></canvas>
+    </div>
+    <p class="chart-sub" style="margin-top:14px">High-end speeding (&gt;15 km/h over)</p>
+    <div class="chart-wrap" style="height:160px">
+      <canvas id="chart-ase-highend" role="img" aria-label="Monthly share of drivers more than 15 km/h over the limit at the same 8 sites." style="display:none"></canvas>
+    </div>
+    <p class="hardcoded-note">Dashed line: before the cameras (one reading per site, 2019). Shaded: after removal.</p>
+  </div>
+
+  <!-- TICKETS PER CAMERA -->
+  <div class="card">
+    <p class="section-title">
+      Photo-radar tickets per camera per month — all sites
+      <span id="tickets-badge" class="data-badge">loading…</span>
+    </p>
+    <p class="section-note">
+      Tickets issued divided by the cameras operating that month (4 in mid-2020, 60 by 2025). Drivers learn where the cameras are: a new camera tickets heavily, then settles. November 2025 is a partial month (cameras off on the 14th).
+    </p>
+    <div id="tickets-error" class="error-msg" style="display:none"></div>
+    <div id="tickets-stats" class="stat-row"></div>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="chart-tickets" role="img" aria-label="Photo-radar tickets per camera per month, July 2020 to November 2025."></canvas>
+    </div>
+    <p id="ase-collisions-note" class="hardcoded-note"></p>
+  </div>
+
+  <!-- RED-LIGHT CAMERAS -->
+  <div class="card">
+    <p class="section-title">
+      Red-light cameras: the trade-off
+      <span id="rlc-badge" class="data-badge">loading…</span>
+    </p>
+    <p id="rlc-note" class="section-note">
+      Collisions per intersection per year at the intersections that got their first red-light camera in 2018–2022, comparing the years before installation with the years after.
+    </p>
+    <div id="rlc-error" class="error-msg" style="display:none"></div>
+    <div class="chart-wrap" style="height:220px">
+      <canvas id="chart-rlc" role="img" aria-label="Collisions per intersection-year before and after red-light cameras, by collision type."></canvas>
     </div>
     <div class="legend">
-      <span><span class="swatch" style="background:#4fd1d9"></span>Compliance with speed limit</span>
-      <span><span class="swatch" style="background:#ff5a36"></span>High-end speeding (&gt;15 km/h over)</span>
+      <span><span class="swatch" id="rlc-swatch-before"></span>Before camera</span>
+      <span><span class="swatch" id="rlc-swatch-after"></span>After camera</span>
     </div>
+    <p class="chart-sub" style="margin-top:18px">Violations per camera per month, by camera age</p>
+    <div class="chart-wrap" style="height:180px">
+      <canvas id="chart-rlc-age" role="img" aria-label="Average monthly red-light violations per camera by years since the camera was installed."></canvas>
+    </div>
+    <p class="hardcoded-note">Unlike photo radar, red-light violations barely fade as cameras age: after a first-full-year peak near 78 a month, they stay between roughly 40 and 70 for more than 15 years. Ages with fewer than 250 camera-months of data are left out.</p>
   </div>
 
   <!-- VEHICLE FLEET -->
@@ -640,8 +656,8 @@
       <canvas id="chart-fleet" role="img" aria-label="Ottawa vehicle registrations showing the shift from passenger cars to light trucks over time." style="display:none"></canvas>
     </div>
     <div class="legend">
-      <span><span class="swatch" style="background:#ff5a36"></span>Light trucks / SUV / pickup</span>
-      <span><span class="swatch" style="background:#4fd1d9"></span>Passenger cars</span>
+      <span><span class="swatch" id="fleet-swatch-trucks"></span>Light trucks / SUV / pickup</span>
+      <span><span class="swatch" id="fleet-swatch-cars"></span>Passenger cars</span>
     </div>
   </div>
 
@@ -649,22 +665,21 @@
   <div class="card">
     <p class="section-title">
       Ottawa — pedestrian fatal &amp; major injury collisions
-      <span class="data-badge fallback">hardcoded</span>
+      <span id="fmi-badge" class="data-badge fallback">report figures</span>
     </p>
     <p class="section-note">
-      Annual count of collisions involving a pedestrian resulting in a fatality or major injury. Source: City of Ottawa Road Safety Action Plan annual reports (April 2026). Swap to a GitHub fetch once you have a data file for this.
+      Annual count of collisions involving a pedestrian resulting in a fatality or major injury. Source: City of Ottawa Road Safety Action Plan annual reports (April 2026), which reach back to 2013. <span id="fmi-check"></span>
     </p>
     <div id="fmi-stats" class="stat-row"></div>
     <div class="chart-wrap" style="height:240px">
       <canvas id="chart-fmi" role="img" aria-label="Ottawa pedestrian fatal and major injury collisions 2013 to 2024.">2013: 49, 2014: 29, 2015: 39, 2016: 38, 2017: 36, 2018: 42, 2019: 35, 2020: 21, 2021: 34, 2022: 34, 2023: 34, 2024: 33.</canvas>
     </div>
     <div class="legend">
-      <span><span class="swatch" style="background:#8b93a3"></span>Pre-camera era (2013–2019)</span>
-      <span><span class="swatch" style="background:#4fd1d9"></span>Camera era (2020–2024)</span>
+      <span><span class="swatch" id="fmi-swatch-pre"></span>Pre-camera era (2013–2019)</span>
+      <span><span class="swatch" id="fmi-swatch-cam"></span>Camera era (2020–2024)</span>
     </div>
   </div>
 
-</div>
 </div>
 
 <script>
@@ -846,8 +861,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 // ── DATA CONFIG ──────────────────────────────────────────────────────────────
-// Data files are served from the local Vehicles/ folder alongside this page.
+// ASE pilot + StatCan files live beside this page in Vehicles/; the city-wide
+// camera and collision rollups come from Traffic/ (built weekly by
+// Traffic/scripts/build_stories.py).
 const DATA_FOLDER = '.';
+const STORIES_URL = '../Traffic/data/derived/stories.json';
 
 function dataUrl(filename) {
   return `${DATA_FOLDER}/${filename}`;
@@ -855,17 +873,9 @@ function dataUrl(filename) {
 // ────────────────────────────────────────────────────────────────────────────
 
 // ── HARDCODED FALLBACK DATA ──────────────────────────────────────────────────
-// ASE post-removal: from City of Ottawa report (April 2026).
-// These are city-wide averages across all pilot sites, not per-site.
-const POST_REMOVAL = [
-  { label: 'Removal',  compliance: 87,  highEnd: 0.3 },
-  { label: '1 wk',    compliance: 62,  highEnd: 2.2 },
-  { label: '3 wk',    compliance: 51,  highEnd: 3.3 },
-  { label: '8 wk',    compliance: 44,  highEnd: 3.9 },
-  { label: '12 wk',   compliance: 41,  highEnd: 4.5 },
-];
-
-// Pedestrian FMI: from City of Ottawa RSAP annual report (April 2026).
+// Pedestrian FMI: from City of Ottawa RSAP annual report (April 2026). Kept
+// because the report reaches back to 2013 and covers 2023, which the open
+// collision data lacks; checked against that data on load (see renderFMICheck).
 const FMI_DATA = [
   { year: '2013', fmi: 49, era: 'pre'    },
   { year: '2014', fmi: 29, era: 'pre'    },
@@ -884,7 +894,7 @@ const FMI_DATA = [
 
 // ── CHART STYLE CONSTANTS (read from CSS variables so the theme switch restyles them) ──
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-let TEAL, CORAL, GRAY, GRID_COLOR, TICK_COLOR;
+let TEAL, CORAL, GRAY, GRID_COLOR, TICK_COLOR, SURFACE;
 const baseAxis = {
   grid:   { color: undefined, drawBorder: false },
   border: { display: false },
@@ -896,8 +906,17 @@ function refreshChartConstants() {
   GRAY       = cssVar('--ink-3');
   GRID_COLOR = cssVar('--line');
   TICK_COLOR = cssVar('--ink-3');
+  SURFACE    = cssVar('--bg-2');
   baseAxis.grid.color = GRID_COLOR;
   baseAxis.ticks.color = TICK_COLOR;
+  // Legend swatches follow the same tokens as the marks they describe.
+  const sw = { 'rlc-swatch-before': GRAY, 'rlc-swatch-after': TEAL,
+               'fleet-swatch-trucks': CORAL, 'fleet-swatch-cars': TEAL,
+               'fmi-swatch-pre': GRAY, 'fmi-swatch-cam': TEAL };
+  for (const [id, c] of Object.entries(sw)) {
+    const el = document.getElementById(id);
+    if (el) el.style.background = c;
+  }
 }
 refreshChartConstants();
 
@@ -923,35 +942,24 @@ function tooltipStyle(unit) {
   };
 }
 
-function lineDataset(label, data, color, dashed, filled) {
-  return {
-    label,
-    data,
-    borderColor: color,
-    borderWidth: 2,
-    borderDash: dashed ? [5, 3] : [],
-    backgroundColor: filled ? color.replace(')', ', 0.08)').replace('rgb', 'rgba') : 'transparent',
-    fill: filled,
-    tension: 0.3,
-    pointBackgroundColor: color,
-    pointRadius: 3,
-  };
+// Translucent version of a hex token, for area fills.
+function alpha(hex, a) {
+  const h = hex.replace('#', '');
+  const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
 }
 // ────────────────────────────────────────────────────────────────────────────
 
 // ── DATA PROCESSING ──────────────────────────────────────────────────────────
 
-const MONTH_IDX = {
-  January:0, February:1, March:2, April:3, May:4, June:5,
-  July:6, August:7, September:8, October:9, November:10, December:11,
-};
+const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function parseCollectionDate(str) {
-  // "July-2020" → Date
+  // The city publishes "Nov-25" (month abbreviation + 2-digit year).
   if (!str || str === 'N/A') return null;
-  const [mon, yr] = str.split('-');
-  const m = MONTH_IDX[mon];
-  return (m !== undefined && yr) ? new Date(parseInt(yr), m, 1) : null;
+  const [mon, yr] = str.trim().split('-');
+  const m = MONS.indexOf(mon.slice(0, 3));
+  return (m >= 0 && yr) ? new Date(2000 + parseInt(yr, 10) % 100, m, 1) : null;
 }
 
 function avg(arr) {
@@ -959,68 +967,47 @@ function avg(arr) {
 }
 
 function fmtMonthYear(date) {
-  const mons = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return `${mons[date.getMonth()]} '${String(date.getFullYear()).slice(2)}`;
+  return `${MONS[date.getMonth()]} '${String(date.getFullYear()).slice(2)}`;
 }
 
 function processASE(raw) {
-  const preRows  = [];
-  const activeRows = [];
-  const postRows = [];
-
+  // Phases: one pre-install reading per site (2019), monthly while active,
+  // monthly after removal. November 2025 has both an active and a removed reading.
+  const pre = [], phases = { on: {}, off: {} };
   raw.forEach(r => {
     const c = parseFloat(r.PctCompliance);
     const h = parseFloat(r.PctHighEndSpeeders);
     const d = parseCollectionDate(r.Date_of_Data_Collection);
-    if (!d || !c || isNaN(c) || isNaN(h)) return; // skip invalid / zero records
-
-    const rec = { date: d, compliance: c, highEnd: h };
-    const type = (r.Data_Type || '').trim();
-
-    if (type === 'Pre ASE Installation')       preRows.push(rec);
-    else if (type === 'ASE Active')            activeRows.push(rec);
-    else if (type.toLowerCase().includes('post') || type.toLowerCase().includes('remov'))
-                                               postRows.push(rec);
+    if (!d || isNaN(c) || isNaN(h)) return;
+    const type = (r.Data_Type || '').trim().toLowerCase();
+    if (type.startsWith('pre')) { pre.push({ c, h }); return; }
+    const bucket = type.includes('remov') ? phases.off : phases.on;
+    const key = d.getTime();
+    bucket[key] = bucket[key] || { date: d, c: [], h: [] };
+    bucket[key].c.push(c); bucket[key].h.push(h);
   });
 
-  // Monthly averages for active period
-  const monthMap = {};
-  activeRows.forEach(r => {
-    const key = r.date.getTime();
-    if (!monthMap[key]) monthMap[key] = { date: r.date, compliance: [], highEnd: [] };
-    monthMap[key].compliance.push(r.compliance);
-    monthMap[key].highEnd.push(r.highEnd);
-  });
-
-  const activeSeries = Object.values(monthMap)
-    .sort((a, b) => a.date - b.date)
-    .map(g => ({
-      label:      fmtMonthYear(g.date),
-      compliance: parseFloat(avg(g.compliance).toFixed(1)),
-      highEnd:    parseFloat(avg(g.highEnd).toFixed(1)),
-    }));
-
-  const preAvgCompliance = parseFloat(avg(preRows.map(r => r.compliance)).toFixed(1));
-  const preAvgHighEnd    = parseFloat(avg(preRows.map(r => r.highEnd)).toFixed(1));
-
-  // Post-removal from file (empty until workflow adds them)
-  const postMap = {};
-  postRows.forEach(r => {
-    const key = r.date.getTime();
-    if (!postMap[key]) postMap[key] = { date: r.date, compliance: [], highEnd: [] };
-    postMap[key].compliance.push(r.compliance);
-    postMap[key].highEnd.push(r.highEnd);
-  });
-
-  const postSeries = Object.values(postMap)
-    .sort((a, b) => a.date - b.date)
-    .map(g => ({
-      label:      fmtMonthYear(g.date),
-      compliance: parseFloat(avg(g.compliance).toFixed(1)),
-      highEnd:    parseFloat(avg(g.highEnd).toFixed(1)),
-    }));
-
-  return { activeSeries, preAvgCompliance, preAvgHighEnd, postSeries };
+  const months = Object.values(phases.on).concat(Object.values(phases.off)).map(g => g.date.getTime());
+  if (!months.length) return null;
+  const first = new Date(Math.min(...months)), last = new Date(Math.max(...months));
+  const labels = [], keys = [];
+  for (let d = new Date(first); d <= last; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
+    labels.push(fmtMonthYear(d)); keys.push(d.getTime());
+  }
+  const series = (bucket, f) => keys.map(k => bucket[k] ? +avg(bucket[k][f]).toFixed(1) : null);
+  const onKeys = Object.keys(phases.on).map(Number).sort((a, b) => a - b);
+  const offKeys = Object.keys(phases.off).map(Number).sort((a, b) => a - b);
+  const lastOn = phases.on[onKeys[onKeys.length - 1]];
+  const lastOff = phases.off[offKeys[offKeys.length - 1]];
+  const summary = g => g && { label: fmtMonthYear(g.date), c: +avg(g.c).toFixed(1), h: +avg(g.h).toFixed(1) };
+  return {
+    labels,
+    onC: series(phases.on, 'c'), onH: series(phases.on, 'h'),
+    offC: series(phases.off, 'c'), offH: series(phases.off, 'h'),
+    removalIdx: offKeys.length ? keys.indexOf(offKeys[0]) : -1,
+    preC: +avg(pre.map(p => p.c)).toFixed(1), preH: +avg(pre.map(p => p.h)).toFixed(1),
+    lastOn: summary(lastOn), lastOff: summary(lastOff),
+  };
 }
 
 function processFleet(csvText) {
@@ -1088,118 +1075,227 @@ function showError(id, msg) {
   const el = document.getElementById(id);
   if (el) { el.textContent = `⚠ ${msg}`; el.style.display = 'block'; }
 }
+
+const fmtInt = n => n.toLocaleString('en-CA');
 // ────────────────────────────────────────────────────────────────────────────
 
 // ── CHART RENDERERS ──────────────────────────────────────────────────────────
 
-function renderASE(ase) {
-  const { activeSeries, preAvgCompliance, preAvgHighEnd, postSeries } = ase;
+// Dashed pre-install reference line + shaded post-removal band.
+function aseOverlay(preValue, removalIdx, label) {
+  return {
+    id: 'ase-overlay',
+    beforeDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right, top, bottom }, scales: { x, y } } = chart;
+      ctx.save();
+      ctx.font = '10px ui-monospace, monospace';
+      if (removalIdx >= 0) {
+        const step = x.getPixelForValue(1) - x.getPixelForValue(0);
+        const x0 = x.getPixelForValue(removalIdx) - step / 2;
+        ctx.fillStyle = alpha(CORAL, 0.07);
+        ctx.fillRect(x0, top, right - x0, bottom - top);
+        ctx.fillStyle = GRAY;
+        ctx.textAlign = 'right';
+        ctx.fillText('cameras off', right - 4, top + 11);
+      }
+      const yPos = y.getPixelForValue(preValue);
+      ctx.setLineDash([4, 6]);
+      ctx.strokeStyle = GRAY;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = GRAY;
+      ctx.textAlign = 'left';
+      ctx.fillText(label, left + 4, yPos - 4);
+      ctx.restore();
+    },
+  };
+}
 
-  // Stat boxes
-  const stats = document.getElementById('ase-stats');
-  stats.innerHTML = '';
-  stats.appendChild(statBox(preAvgCompliance + '%', 'Pre-installation avg compliance', GRAY));
-  const peakCompliance = Math.max(...activeSeries.map(d => d.compliance));
-  stats.appendChild(statBox(peakCompliance.toFixed(1) + '%', 'Peak compliance (all sites avg)', TEAL));
-  const lastActive = activeSeries[activeSeries.length - 1];
-  if (lastActive) stats.appendChild(statBox(lastActive.compliance + '%', `Compliance ${lastActive.label}`, TEAL));
-
-  // Active period chart
-  showLoading('ase-loading', false);
-  showCanvas('chart-active', true);
-
-  makeChart('chart-active', {
+function aseChart(canvasId, ase, onData, offData, preValue, yMax, preLabel) {
+  makeChart(canvasId, {
     type: 'line',
     data: {
-      labels: activeSeries.map(d => d.label),
+      labels: ase.labels,
       datasets: [
-        {
-          label: 'Compliance',
-          data: activeSeries.map(d => d.compliance),
-          borderColor: TEAL, borderWidth: 2, tension: 0.3,
-          pointRadius: 1, pointHoverRadius: 4,
-          backgroundColor: 'rgba(79,209,217,0.07)', fill: true,
-        },
-        {
-          label: 'High-end speeding',
-          data: activeSeries.map(d => d.highEnd),
-          borderColor: CORAL, borderWidth: 2, tension: 0.3,
-          borderDash: [5, 3],
-          pointRadius: 1, pointHoverRadius: 4,
-          backgroundColor: 'transparent', fill: false,
-        },
+        { label: 'Cameras on',  data: onData,  borderColor: TEAL,  borderWidth: 2, tension: 0.25,
+          pointRadius: 0, pointHoverRadius: 4, spanGaps: false },
+        { label: 'Cameras off', data: offData, borderColor: CORAL, borderWidth: 2, tension: 0.25,
+          pointRadius: 0, pointHoverRadius: 4, spanGaps: false },
       ],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: { legend: { display: false }, tooltip: tooltipStyle('%') },
       scales: {
-        x: {
-          ...baseAxis,
-          grid: { display: false },
-          ticks: { ...baseAxis.ticks, maxTicksLimit: 10, maxRotation: 0 },
-        },
-        y: { ...baseAxis, min: 0, max: 100, ticks: { ...baseAxis.ticks, callback: v => v + '%' } },
+        x: { ...baseAxis, grid: { display: false }, ticks: { ...baseAxis.ticks, maxTicksLimit: 8, maxRotation: 0 } },
+        y: { ...baseAxis, min: 0, max: yMax, ticks: { ...baseAxis.ticks, callback: v => v + '%' } },
       },
+    },
+    plugins: [aseOverlay(preValue, ase.removalIdx, preLabel)],
+  });
+}
+
+function renderASE(ase) {
+  const stats = document.getElementById('ase-stats');
+  stats.innerHTML = '';
+  stats.appendChild(statBox(ase.preC + '%', 'Compliance before cameras (2019)', GRAY));
+  if (ase.lastOn)  stats.appendChild(statBox(ase.lastOn.c + '%',  `With cameras (${ase.lastOn.label})`, TEAL));
+  if (ase.lastOff) stats.appendChild(statBox(ase.lastOff.c + '%', `Cameras off (${ase.lastOff.label})`, CORAL));
+
+  showLoading('ase-loading', false);
+  showCanvas('chart-ase-compliance', true);
+  showCanvas('chart-ase-highend', true);
+  aseChart('chart-ase-compliance', ase, ase.onC, ase.offC, ase.preC, 100, `before cameras: ${ase.preC}%`);
+  const peak = Math.max(ase.preH, ...ase.onH.concat(ase.offH).filter(v => v !== null));
+  aseChart('chart-ase-highend', ase, ase.onH, ase.offH, ase.preH, Math.ceil(peak / 5) * 5, `before cameras: ${ase.preH}%`);
+}
+
+function renderTickets(stories) {
+  const m = stories.ase_tickets_monthly;
+  const full = m.filter(d => d.month !== '2025-11');
+  const first6 = full.slice(0, 6), last12 = full.slice(-12);
+  const stats = document.getElementById('tickets-stats');
+  stats.innerHTML = '';
+  stats.appendChild(statBox(fmtInt(Math.round(avg(first6.map(d => d.per_camera)))), 'Per camera per month, first 6 months', GRAY));
+  stats.appendChild(statBox(fmtInt(Math.round(avg(last12.map(d => d.per_camera)))), 'Per camera per month, final 12 months', TEAL));
+  stats.appendChild(statBox(fmtInt(m.reduce((s, d) => s + d.tickets, 0)), 'Tickets issued, Jul 2020 – Nov 2025', GRAY));
+
+  const labels = m.map(d => { const [y, mo] = d.month.split('-'); return `${MONS[+mo - 1]} '${y.slice(2)}`; });
+  makeChart('chart-tickets', {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Tickets per camera', data: m.map(d => d.per_camera),
+        borderColor: TEAL, borderWidth: 2, tension: 0.25, pointRadius: 0, pointHoverRadius: 4,
+        backgroundColor: alpha(TEAL, 0.08), fill: true,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
-        tooltip: tooltipStyle('%'),
-        annotation: {},
+        tooltip: { ...tooltipStyle(''), callbacks: {
+          label: ctx => {
+            const d = m[ctx.dataIndex];
+            const lines = [`${fmtInt(Math.round(d.per_camera))} per camera`,
+                           `${fmtInt(d.tickets)} tickets · ${d.cameras} cameras`];
+            if (d.month === '2025-11') lines.push('partial month (off Nov 14)');
+            return lines;
+          },
+        } },
+      },
+      scales: {
+        x: { ...baseAxis, grid: { display: false }, ticks: { ...baseAxis.ticks, maxTicksLimit: 8, maxRotation: 0 } },
+        y: { ...baseAxis, min: 0, ticks: { ...baseAxis.ticks, callback: v => fmtInt(v) } },
+      },
+    },
+  });
+
+  const c = stories.ase_collisions;
+  document.getElementById('ase-collisions-note').textContent =
+    `Collisions at the camera sites: ${c.before_rate} per site per year before installation, ` +
+    `${c.after_rate} after (${c.sites} sites). Too early to call: only ${c.after_site_years} site-years ` +
+    `of post-installation collision data exist, because most cameras went in during 2023–24 and the ` +
+    `city's 2023 collision file is missing.`;
+  setBadge('tickets-badge', 'open data', 'live');
+}
+
+function renderRLC(stories) {
+  const ba = stories.rlc_before_after;
+  const types = ba.by_type;
+  const angle = types.find(t => t.type.startsWith('Angle'));
+  const rear = types.find(t => t.type === 'Rear end');
+  document.getElementById('rlc-note').textContent =
+    `Collisions per intersection per year at the ${ba.intersections} intersections that got their first ` +
+    `red-light camera in ${ba.install_years.replace('-', '–')}: ${ba.before_site_years} intersection-years before ` +
+    `installation vs ${ba.after_site_years} after. Angle and turning crashes, the kind red-light running causes, ` +
+    `changed ${angle.change_pct}%; rear-end crashes changed ${rear.change_pct > 0 ? '+' : ''}${rear.change_pct}% ` +
+    `as drivers brake harder for yellows.`;
+
+  const bar = (label, data, color) => ({
+    label, data, backgroundColor: color, borderRadius: 4, borderSkipped: 'bottom',
+    borderColor: SURFACE, borderWidth: 1, maxBarThickness: 44,
+  });
+  makeChart('chart-rlc', {
+    type: 'bar',
+    data: {
+      labels: types.map(t => t.type),
+      datasets: [
+        bar('Before camera', types.map(t => t.before_rate), GRAY),
+        bar('After camera',  types.map(t => t.after_rate),  TEAL),
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { top: 16 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipStyle(''), callbacks: {
+          label: ctx => {
+            const t = types[ctx.dataIndex];
+            const n = ctx.datasetIndex === 0 ? t.before : t.after;
+            return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} per year (${fmtInt(n)} collisions)`;
+          },
+          afterBody: items => {
+            const t = types[items[0].dataIndex];
+            return `change: ${t.change_pct > 0 ? '+' : ''}${t.change_pct}%`;
+          },
+        } },
+      },
+      scales: {
+        x: { ...baseAxis, grid: { display: false } },
+        y: { ...baseAxis, min: 0, title: { display: true, text: 'per intersection-year', color: TICK_COLOR,
+             font: { size: 10, family: '"JetBrains Mono", ui-monospace, monospace' } } },
       },
     },
     plugins: [{
-      id: 'prebaseline',
-      afterDraw(chart) {
-        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
-        const yPos = y.getPixelForValue(preAvgCompliance);
+      // Direct labels: the change % above each "after" bar.
+      id: 'rlc-change',
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
         ctx.save();
-        ctx.setLineDash([4, 6]);
-        ctx.strokeStyle = GRAY;
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.6;
-        ctx.beginPath(); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
-        ctx.globalAlpha = 1;
-        ctx.setLineDash([]);
-        ctx.font = '10px ui-monospace, monospace';
-        ctx.fillStyle = GRAY;
-        ctx.fillText(`pre-install avg: ${preAvgCompliance}%`, left + 4, yPos - 4);
+        ctx.font = '11px "JetBrains Mono", ui-monospace, monospace';
+        ctx.fillStyle = cssVar('--ink-2');
+        ctx.textAlign = 'center';
+        chart.getDatasetMeta(1).data.forEach((el, i) => {
+          const p = types[i].change_pct;
+          ctx.fillText(`${p > 0 ? '+' : ''}${p}%`, el.x, el.y - 6);
+        });
         ctx.restore();
       },
     }],
   });
 
-  // Post-removal chart: use file data if available, else fall back to city report
-  const postData = postSeries.length > 0 ? postSeries : POST_REMOVAL;
-  makeChart('chart-postremoval', {
+  const ages = stories.rlc_by_years_since.filter(a => a.camera_months >= 250);
+  makeChart('chart-rlc-age', {
     type: 'line',
     data: {
-      labels: postData.map(d => d.label),
-      datasets: [
-        {
-          label: 'Compliance',
-          data: postData.map(d => d.compliance),
-          borderColor: TEAL, borderWidth: 2, tension: 0.3,
-          borderDash: [5, 3],
-          pointRadius: 4, backgroundColor: 'transparent', fill: false,
-        },
-        {
-          label: 'High-end speeding',
-          data: postData.map(d => d.highEnd),
-          borderColor: CORAL, borderWidth: 2, tension: 0.3,
-          pointRadius: 4,
-          backgroundColor: 'rgba(255,90,54,0.07)', fill: true,
-        },
-      ],
+      labels: ages.map(a => a.years_since_install === 0 ? 'install yr' : `yr ${a.years_since_install}`),
+      datasets: [{
+        label: 'Violations per camera per month', data: ages.map(a => a.avg_monthly),
+        borderColor: TEAL, borderWidth: 2, tension: 0.25, pointRadius: 4, pointHoverRadius: 6,
+        pointBackgroundColor: TEAL, pointBorderColor: SURFACE, pointBorderWidth: 2,
+      }],
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: tooltipStyle('%') },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipStyle(''), callbacks: {
+          label: ctx => `${ctx.parsed.y.toFixed(1)} violations / camera / month (${fmtInt(ages[ctx.dataIndex].camera_months)} camera-months)`,
+        } },
+      },
       scales: {
-        x: { ...baseAxis, grid: { display: false } },
-        y: { ...baseAxis, min: 0, max: 100, ticks: { ...baseAxis.ticks, callback: v => v + '%' } },
+        x: { ...baseAxis, grid: { display: false }, ticks: { ...baseAxis.ticks, maxRotation: 0, autoSkip: true } },
+        y: { ...baseAxis, min: 0 },
       },
     },
   });
+  setBadge('rlc-badge', 'open data', 'live');
 }
 
 function renderFleet(fleet) {
@@ -1224,13 +1320,13 @@ function renderFleet(fleet) {
           label: 'Light trucks / SUV / pickup',
           data: fleet.map(d => d.trucks),
           borderColor: CORAL, borderWidth: 2, tension: 0.4,
-          pointRadius: 2, backgroundColor: 'rgba(255,90,54,0.08)', fill: true,
+          pointRadius: 2, backgroundColor: alpha(CORAL, 0.08), fill: true,
         },
         {
           label: 'Passenger cars',
           data: fleet.map(d => d.cars),
           borderColor: TEAL, borderWidth: 2, tension: 0.4,
-          pointRadius: 2, backgroundColor: 'rgba(79,209,217,0.08)', fill: true,
+          pointRadius: 2, backgroundColor: alpha(TEAL, 0.08), fill: true,
         },
       ],
     },
@@ -1299,24 +1395,47 @@ function renderFMI() {
     }],
   });
 }
+
+// The report figures are hardcoded; confirm them against the open collision
+// data for every year both cover, and say so (or flag the mismatch) on the card.
+function renderFMICheck(stories) {
+  const fromData = Object.fromEntries(stories.ped_fmi_by_year.map(d => [String(d.year), d.collisions]));
+  const overlap = FMI_DATA.filter(d => d.year in fromData);
+  if (!overlap.length) return;
+  const bad = overlap.filter(d => fromData[d.year] !== d.fmi);
+  const el = document.getElementById('fmi-check');
+  if (bad.length) {
+    el.textContent = `Open data differs in ${bad.map(d => `${d.year} (${fromData[d.year]} vs ${d.fmi})`).join(', ')}.`;
+    setBadge('fmi-badge', 'check mismatch', 'fallback');
+  } else {
+    el.textContent = `Matches the city's open collision data exactly for all ${overlap.length} years both cover ` +
+                     `(${overlap[0].year}–${overlap[overlap.length - 1].year}; the open data has no 2023).`;
+    setBadge('fmi-badge', 'verified vs open data', 'live');
+  }
+}
 // ────────────────────────────────────────────────────────────────────────────
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 
-let _aseData = null, _fleetData = null;
+let _aseData = null, _fleetData = null, _stories = null;
+
+function renderStories(s) {
+  renderTickets(s);
+  renderRLC(s);
+  renderFMICheck(s);
+}
 
 async function init() {
-  // FMI is always hardcoded for now
   renderFMI();
 
-  // Fetch ASE JSON
   fetch(dataUrl('ase-speed-data.json'))
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
     .then(raw => {
       const ase = processASE(raw);
+      if (!ase) throw new Error('no usable readings in file');
       _aseData = ase;
       renderASE(ase);
-      setBadge('ase-badge', 'local data', 'live');
+      setBadge('ase-badge', 'open data', 'live');
     })
     .catch(err => {
       showLoading('ase-loading', false);
@@ -1324,7 +1443,16 @@ async function init() {
       setBadge('ase-badge', 'error', 'fallback');
     });
 
-  // Fetch StatCan CSV
+  fetch(STORIES_URL)
+    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .then(s => { _stories = s; renderStories(s); })
+    .catch(err => {
+      for (const id of ['tickets', 'rlc']) {
+        showError(`${id}-error`, `Could not load Traffic/data/derived/stories.json: ${err.message}.`);
+        setBadge(`${id}-badge`, 'error', 'fallback');
+      }
+    });
+
   fetch(dataUrl('statcan_vehicle_registrations.csv'))
     .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
     .then(csv => {
@@ -1354,6 +1482,7 @@ function setTheme(mode) {
   renderFMI();
   if (_aseData)   renderASE(_aseData);
   if (_fleetData) renderFleet(_fleetData);
+  if (_stories)   renderStories(_stories);
 }
 let savedTheme = null;
 try { savedTheme = localStorage.getItem('ov-theme'); } catch(e){}
