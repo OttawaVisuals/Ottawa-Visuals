@@ -19,3 +19,7 @@ python3 Traffic/scripts/poll_traffic.py
 # Municipal parking-garage occupancy (no API key). Self-gates its own cadence
 # too. Kept non-fatal: a parking-feed outage must not stop traffic collection.
 python3 Traffic/scripts/poll_parking.py || echo "poll_parking.py failed (non-fatal)"
+
+# Road events (city construction/incidents + Ontario 511 if ONTARIO_511_KEY is
+# set) and the daily camera inventory. Same non-fatal rule as parking.
+python3 Traffic/scripts/poll_events.py || echo "poll_events.py failed (non-fatal)"

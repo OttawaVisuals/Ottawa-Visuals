@@ -61,6 +61,24 @@ export TOMTOM_API_KEY=your_key_here
 python Traffic/scripts/poll_traffic.py --force   # --force bypasses the peak/hourly gate
 ```
 
+## Road events + cameras (Pi, every 15 min)
+
+[`scripts/poll_events.py`](scripts/poll_events.py) runs from `pi_poll.sh` beside the
+TomTom and parking pollers. It explains TomTom spikes: what was closed, and where, at the time.
+
+| File | Meaning |
+|---|---|
+| `data/events_log.csv` | Append-only change log: a `new` / `updated` / `cleared` row each time an event appears, changes, or leaves the feed. Duration = `cleared` − `new`. |
+| `data/events_summary.csv` | One row per source per run: active events by type, full closures, high-priority count |
+| `data/events_active.json` | Current active set; the poller diffs against it. Don't edit it. |
+| `data/cameras.csv` | Traffic camera inventory (about 400 city + 29 MTO), refreshed daily at 04:00. Metadata only, no images. |
+
+Sources: the City's traffic-map feed (`traffic.ottawa.ca/service/events`, no key), plus
+Ontario 511 within the Ottawa area if `ONTARIO_511_KEY` is set (see `PI_SETUP.md`).
+If a feed suddenly drops below 20% of its previous event count, the run is logged as an
+error and the state is kept. Otherwise one glitch would "clear" every event and then
+re-add them all.
+
 ## City + police context datasets
 
 [`scripts/fetch_city_traffic.py`](scripts/fetch_city_traffic.py) pulls the static

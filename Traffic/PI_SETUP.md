@@ -57,6 +57,16 @@ chmod 600 ~/.ottawa_visuals.env
 
 The wrappers source this file, so the key stays off disk-in-repo and out of git.
 
+**Optional: Ontario 511 highway events.** `poll_events.py` logs the City's road
+events with no key. To also log 417/416/174 events from Ontario 511, register
+at <https://511on.ca/developers>, request a developer key, and add it:
+
+```bash
+printf 'ONTARIO_511_KEY=%s\n' 'YOUR_511_KEY' >> ~/.ottawa_visuals.env
+```
+
+Without the key the 511 half is skipped and the poll log says so.
+
 ## 5. Make the wrappers executable & smoke-test
 
 ```bash
