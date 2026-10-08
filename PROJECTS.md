@@ -122,6 +122,16 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - OPS traffic stops by result type (charged / warning / no action).
 - **Data:** Ottawa Police data portal. · **Page:** `/#report-traffic`
 
+### Ottawa Roads — risk vs enforcement
+- **Progress:** ~85% (live Oct 2026) · `Traffic/roads.html`, also a home-page report (`#report-roads`).
+- Neighbourhood map of police-stop share vs injury-collision share, riskiest busy intersections
+  (collisions per million vehicles), and an intersection-volume index vs 2015–19 (downtown core 89%
+  in 2025, rest of the city 105%).
+- **Data:** weekly City + Police pull → Geo_ID join → `stories.json` (see `Traffic/README.md`).
+  The same pull also feeds the rebuilt road-safety cards (photo-radar on/off, red-light trade-off).
+- **Still to do:** the "why was the commute bad?" section, once ~4 weeks of `events_log.csv`
+  (Pi, since 2026-10-08) overlap the TomTom readings.
+
 ### Ottawa Ward Elections
 - **Progress:** ~90% (live, iterating) · Interactive ward-level election map/visual.
 - Ongoing work on ward redistribution impact + Deneb custom visual with ward labels/leader lines.

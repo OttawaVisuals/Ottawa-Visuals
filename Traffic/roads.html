@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ottawa Roads · Risk vs enforcement</title>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    --blue:#2F6FB4;
+    /* Diverging scale: warm = fewer stops than its share of injury crashes,
+       cool = more. Neutral gray midpoint; 3 steps per arm. */
+    --div-w3:#B4441F; --div-w2:#DC7E5C; --div-w1:#EFB9A3;
+    --div-0:#E4E6EA;
+    --div-c1:#A9C4E3; --div-c2:#5F92CC; --div-c3:#2A5E9E;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --blue:#5B9BE0;
+    --div-w3:#F08A63; --div-w2:#B8603F; --div-w1:#7A4433;
+    --div-0:#3A3F4C;
+    --div-c1:#33507A; --div-c2:#4776B3; --div-c3:#7FB2EC;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:960px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:22px; margin:0 0 5px; font-weight:700; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-3); max-width:640px; line-height:1.5; margin:0; font-size:13px; }
+  .layout { display:flex; flex-direction:column; gap:12px; max-width:960px; margin:0 auto; padding:14px 16px 60px; }
+
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px; min-width:0; }
+  .section-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-2); margin:0 0 6px; }
+  .section-note { font-size:13px; color:var(--ink-3); line-height:1.55; margin:0 0 12px; max-width:720px; }
+  .chart-sub { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); margin:14px 0 8px; }
+  .chart-wrap { position:relative; width:100%; }
+  .note { font-size:12px; color:var(--ink-3); font-style:italic; margin-top:10px; padding:8px 12px; border-left:2px solid var(--line); line-height:1.5; }
+  .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); margin-bottom:12px; display:none; }
+
+  .stat-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:14px; }
+  @media (max-width:640px){ .stat-row { grid-template-columns:1fr; } }
+  .stat-box { background:var(--bg-3); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .stat-val { font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--ink); }
+  .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
+
+  /* Map */
+  #map { height:480px; border-radius:8px; border:1px solid var(--line); background:var(--bg-3); }
+  @media (max-width:640px){ #map { height:380px; } }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 10px; }
+  .chip { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-2); border:1px solid var(--line); background:var(--bg-3); border-radius:999px; padding:5px 10px; cursor:pointer; user-select:none; }
+  .chip input { margin:0; accent-color:var(--accent-2); }
+  .chip:has(input:checked) { border-color:var(--line-2); color:var(--ink); }
+  .dot { width:10px; height:10px; border-radius:999px; flex-shrink:0; border:2px solid var(--bg-2); box-shadow:0 0 0 1px var(--line-2); }
+  .scale { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px; font-size:11.5px; color:var(--ink-3); }
+  .scale-bar { display:flex; gap:2px; }
+  .scale-bar span { width:28px; height:10px; border-radius:2px; }
+  .scale-ends { display:flex; justify-content:space-between; width:206px; font-family:var(--font-mono); font-size:10px; }
+  .leaflet-container { font-family:var(--font-body); }
+  [data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.85) saturate(0.6); }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip { background:var(--bg-2); color:var(--ink); border:1px solid var(--line); box-shadow:0 4px 18px rgba(0,0,0,.18); }
+  .leaflet-popup-content { margin:10px 12px; font-size:12.5px; line-height:1.5; }
+  .pop-title { font-weight:600; margin-bottom:4px; }
+  .pop-row { display:flex; justify-content:space-between; gap:14px; font-family:var(--font-mono); font-size:11.5px; color:var(--ink-2); }
+  .pop-row b { color:var(--ink); font-weight:500; }
+  .leaflet-control-attribution { background:var(--bg-2) !important; color:var(--ink-3) !important; }
+  .leaflet-control-attribution a { color:var(--ink-2) !important; }
+
+  /* Table */
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3); padding:6px 8px; border-bottom:1px solid var(--line-2); white-space:nowrap; }
+  td { padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num, th.num { text-align:right; font-family:var(--font-mono); white-space:nowrap; }
+  tr:hover td { background:var(--bg-3); }
+  td .muted { color:var(--ink-3); font-size:11.5px; display:block; }
+  .legend { display:flex; flex-wrap:wrap; gap:16px; margin-top:10px; font-size:12px; color:var(--ink-3); }
+  .legend span { display:flex; align-items:center; gap:6px; }
+  .swatch { width:14px; height:3px; border-radius:2px; flex-shrink:0; }
+  .swatch.dash { background:repeating-linear-gradient(90deg, var(--ink-3) 0 4px, transparent 4px 7px) !important; }
+  .soon { border-style:dashed; }
+  footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
+  footer a { color:var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../rto.html">RTO watch</a>
+    <a href="roads.html" class="active">Roads</a>
+    <a href="../Vehicles/road-safety.html">Road safety</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Ottawa — roads</p>
+  <h1>Where people get hurt, and where police stop drivers</h1>
+  <p class="sub">City collision records, police traffic stops, camera locations and traffic counts, joined on the city's own road network. Refreshed weekly from City of Ottawa and Ottawa Police open data.</p>
+</div>
+
+<div class="layout">
+
+  <!-- 1. ENFORCEMENT VS HARM MAP -->
+  <div class="card">
+    <p class="section-title">Enforcement vs harm, by neighbourhood</p>
+    <p class="section-note" id="evh-note">Each neighbourhood's share of the city's police traffic stops divided by its share of injury collisions, over the same years.</p>
+    <div id="evh-error" class="error-msg"></div>
+    <div id="evh-stats" class="stat-row"></div>
+    <div class="chips" role="group" aria-label="Map layers">
+      <label class="chip"><input type="checkbox" id="lyr-danger" checked><span class="dot" id="dot-danger"></span>Riskiest busy intersections</label>
+      <label class="chip"><input type="checkbox" id="lyr-rlc"><span class="dot" id="dot-rlc"></span>Red-light cameras</label>
+      <label class="chip"><input type="checkbox" id="lyr-ase"><span class="dot" id="dot-ase"></span>Photo-radar sites (off since Nov 2025)</label>
+    </div>
+    <div id="map" role="region" aria-label="Map of Ottawa neighbourhoods shaded by police stops relative to injury collisions"></div>
+    <div class="scale" aria-hidden="true">
+      <div>
+        <div class="scale-bar" id="scale-bar"></div>
+        <div class="scale-ends"><span>¼×</span><span>1×</span><span>4×</span></div>
+      </div>
+      <span>← fewer stops than its share of injury crashes · more →</span>
+      <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:10px;border:1px dashed var(--ink-3);border-radius:2px"></span>under 20 injury crashes, no index</span>
+    </div>
+  </div>
+
+  <!-- 2. EXTREMES -->
+  <div class="card">
+    <p class="section-title">The biggest gaps</p>
+    <p class="section-note">The 10 neighbourhoods with the most stops relative to injury crashes, and the 10 with the fewest. Bars run from 1× (stops exactly match harm), on a doubling scale.</p>
+    <div class="chart-wrap" style="height:520px">
+      <canvas id="chart-extremes" role="img" aria-label="Neighbourhoods with the highest and lowest ratio of police-stop share to injury-collision share."></canvas>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" id="sw-over" style="height:10px;width:10px"></span>More stops than its share of injury crashes</span>
+      <span><span class="swatch" id="sw-under" style="height:10px;width:10px"></span>Fewer stops than its share</span>
+    </div>
+    <p class="note">Police stops include every reason an officer pulls a driver over, not only moving violations; collisions are those reported to police. Neighbourhood population plays no part: a low-population area on a highway corridor can carry many crashes.</p>
+  </div>
+
+  <!-- 3. RISKIEST INTERSECTIONS -->
+  <div class="card">
+    <p class="section-title">Riskiest busy intersections</p>
+    <p class="section-note" id="danger-note">Collisions per million vehicles entering the intersection, so a busy intersection isn't ranked high just for being busy.</p>
+    <div class="table-wrap">
+      <table id="danger-table">
+        <thead><tr>
+          <th class="num">#</th><th>Intersection</th>
+          <th class="num">Collisions</th><th class="num">Vehicles / day</th>
+          <th class="num">Per million vehicles</th><th class="num">Police stops</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note">Collisions are 2017–2024 (the city has published no 2023 file). Vehicles per day is the most recent city count at that intersection; the year is shown beside it.</p>
+  </div>
+
+  <!-- 4. TRAFFIC BACK? -->
+  <div class="card">
+    <p class="section-title">Is traffic back to pre-pandemic levels?</p>
+    <p class="section-note" id="vol-note">Each intersection the city counted is compared with its own 2015–2019 average, because the city counts different intersections each year. The line is the median; the band holds the middle half.</p>
+    <div id="vol-stats" class="stat-row"></div>
+    <div class="chart-wrap" style="height:240px">
+      <canvas id="chart-volume" role="img" aria-label="Median intersection traffic volume as a percentage of each intersection's 2015 to 2019 average, downtown core versus the rest of the city."></canvas>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" id="sw-core"></span>Downtown core (within 4 km of Parliament)</span>
+      <span><span class="swatch" id="sw-outer"></span>Rest of the city</span>
+      <span><span class="swatch dash"></span>Pre-pandemic level (100%)</span>
+    </div>
+    <p class="chart-sub">2020–22: the city's monthly pandemic monitoring, % of normal volume</p>
+    <div class="chart-wrap" style="height:200px">
+      <canvas id="chart-covid" role="img" aria-label="Monthly traffic as a percentage of normal, March 2020 to September 2022, monitored intersections and the Macdonald-Cartier Bridge."></canvas>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" id="sw-inter"></span>Average of 7 monitored intersections</span>
+      <span><span class="swatch" id="sw-bridge"></span>Macdonald-Cartier Bridge</span>
+    </div>
+    <p class="note">Annual counts are short (often 8-hour) studies scaled to a 24-hour figure, and 2025 uses a slightly different city method. Read the trend, not the decimal. 2020 has no annual counts; the monthly chart covers it.</p>
+  </div>
+
+  <!-- 5. COMING -->
+  <div class="card soon">
+    <p class="section-title">Coming: why was the commute bad today?</p>
+    <p class="section-note" style="margin:0">Since October 8, 2026, a collector logs every City road event (construction, collisions, closures) every 15 minutes beside the TomTom congestion readings. After about four weeks of overlap, this section will line congestion spikes up with what was closed at the time.</p>
+  </div>
+
+</div>
+
+<footer>
+  Sources: City of Ottawa Open Data (traffic collisions, intersection and midblock volumes, red-light and automated speed enforcement cameras, COVID-19 traffic monitoring); Ottawa Police Service Community Safety Data Portal (traffic stops 2014–2024, OPS neighbourhoods). Method and code: <a href="README.md">Traffic/README.md</a>. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+// Built weekly by Traffic/scripts/build_geo_index.py + build_stories.py.
+const STORIES_URL = 'data/derived/stories.json';
+const AREAS_URL = 'data/derived/neighbourhoods.geojson';
+const TABLE_ROWS = 15;
+
+// ── THEME TOKENS ─────────────────────────────────────────────────────────────
+function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+let T = {};
+const MONO = '"JetBrains Mono", ui-monospace, monospace';
+function refreshTokens() {
+  T = {
+    ink: cssVar('--ink'), ink2: cssVar('--ink-2'), ink3: cssVar('--ink-3'),
+    line: cssVar('--line'), surface: cssVar('--bg-2'), bg3: cssVar('--bg-3'),
+    blue: cssVar('--blue'), accent: cssVar('--accent'),
+    div: ['--div-w3','--div-w2','--div-w1','--div-0','--div-c1','--div-c2','--div-c3'].map(cssVar),
+  };
+  const set = (id, c) => { const el = document.getElementById(id); if (el) el.style.background = c; };
+  // Point layers stay neutral so they never read as part of the warm/cool shading.
+  set('dot-danger', T.ink);
+  for (const [id, c] of [['dot-rlc', T.ink], ['dot-ase', T.ink3]]) {
+    const el = document.getElementById(id);
+    if (el) { el.style.background = T.surface; el.style.boxShadow = `0 0 0 2px ${c}`; el.style.border = 'none'; }
+  }
+  set('sw-over', T.div[6]); set('sw-under', T.div[0]);
+  set('sw-core', T.accent); set('sw-outer', T.blue);
+  set('sw-inter', T.blue); set('sw-bridge', T.accent);
+  document.getElementById('scale-bar').innerHTML = T.div.map(c => `<span style="background:${c}"></span>`).join('');
+}
+refreshTokens();
+
+const fmtInt = n => Math.round(n).toLocaleString('en-CA');
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c]);
+// City names arrive in capitals ("HUNT CLUB RD @ RIVERSIDE DR"); title-case them.
+const title = s => String(s || '').toLowerCase().replace(/(^|[\s/(@-])([a-z])/g, (m, p, c) => p + c.toUpperCase());
+function statBox(val, label, color) {
+  return `<div class="stat-box"><div class="stat-val" style="color:${color || T.ink}">${val}</div><div class="stat-lbl">${label}</div></div>`;
+}
+function tooltipStyle() {
+  return {
+    backgroundColor: T.bg3, borderColor: T.line, borderWidth: 1,
+    titleColor: T.ink3, bodyColor: T.ink, bodyFont: { family: MONO, size: 12 },
+  };
+}
+const axis = () => ({
+  grid: { color: T.line }, border: { display: false },
+  ticks: { color: T.ink3, font: { size: 11, family: MONO } },
+});
+
+// log2 index -> one of 7 diverging classes (¼×, ½×, ~1×, 2×, 4×).
+function divColor(index) {
+  const l = Math.log2(index);
+  const cuts = [-1.5, -0.75, -0.2, 0.2, 0.75, 1.5];
+  let i = 0; while (i < cuts.length && l > cuts[i]) i++;
+  return T.div[i];
+}
+
+// ── MAP ──────────────────────────────────────────────────────────────────────
+let map, tiles, areaLayer, layers = {};
+
+function areaPopup(a) {
+  if (!a) return '<div class="pop-title">No data</div>';
+  const idx = a.index ? `${a.index.toFixed(2)}×` : 'no index (under 20 injury crashes)';
+  return `<div class="pop-title">${esc(a.neighbourhood)}</div>
+    <div class="pop-row"><span>Stops vs harm</span><b>${idx}</b></div>
+    <div class="pop-row"><span>Share of injury crashes</span><b>${a.share_injury_pct.toFixed(2)}%</b></div>
+    <div class="pop-row"><span>Share of police stops</span><b>${a.share_stops_pct.toFixed(2)}%</b></div>
+    <div class="pop-row"><span>Injury crashes</span><b>${fmtInt(a.injury_collisions)}</b></div>
+    <div class="pop-row"><span>Police stops</span><b>${fmtInt(a.police_stops)}</b></div>
+    ${a.charged_pct != null ? `<div class="pop-row"><span>Stops ending in a charge</span><b>${a.charged_pct}%</b></div>` : ''}`;
+}
+
+function buildMap(stories, areas) {
+  const byName = Object.fromEntries(stories.enforcement_vs_harm.areas.map(a => [a.neighbourhood, a]));
+  if (!map) {
+    map = L.map('map', { scrollWheelZoom: false, zoomSnap: 0.5 }).setView([45.33, -75.72], 10);
+    // Same OSM tiles as rto.html; dark mode darkens them with a CSS filter.
+    tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+  } else {
+    Object.values(layers).forEach(l => map.removeLayer(l));
+    if (areaLayer) map.removeLayer(areaLayer);
+  }
+
+  areaLayer = L.geoJSON(areas, {
+    style: f => {
+      const a = byName[f.properties.name];
+      return a && a.index
+        ? { color: T.surface, weight: 1, fillColor: divColor(a.index), fillOpacity: 0.72 }
+        : { color: T.ink3, weight: 1, dashArray: '3 3', fillColor: T.bg3, fillOpacity: 0.25 };
+    },
+    onEachFeature: (f, layer) => {
+      layer.bindPopup(areaPopup(byName[f.properties.name]));
+      layer.on('mouseover', () => layer.setStyle({ weight: 2.5, color: T.ink }));
+      layer.on('mouseout', () => areaLayer.resetStyle(layer));
+    },
+  }).addTo(map);
+  if (!buildMap.fitted) buildMap.fitted = fitAreas();
+
+  // Solid dots = riskiest intersections; hollow rings = cameras.
+  const pt = (lat, lon, color, r, html) => L.circleMarker([lat, lon], {
+    radius: r, color: T.surface, weight: 2, fillColor: color, fillOpacity: 0.95,
+  }).bindPopup(html);
+  const ring = (lat, lon, color, html) => L.circleMarker([lat, lon], {
+    radius: 5, color, weight: 2.5, fillColor: T.surface, fillOpacity: 0.9,
+  }).bindPopup(html);
+
+  const d = stories.danger_intersections;
+  layers.danger = L.layerGroup(d.rows.slice(0, 30).map((r, i) => pt(r.lat, r.lon, T.ink, 5 + Math.min(5, r.per_mev * 1.3),
+    `<div class="pop-title">#${i + 1} ${esc(title(r.name))}</div>
+     <div class="pop-row"><span>Collisions 2017–24</span><b>${fmtInt(r.collisions)}</b></div>
+     <div class="pop-row"><span>Vehicles / day (${r.aadt_year})</span><b>${fmtInt(r.aadt)}</b></div>
+     <div class="pop-row"><span>Per million vehicles</span><b>${r.per_mev.toFixed(2)}</b></div>
+     <div class="pop-row"><span>Police stops here</span><b>${fmtInt(r.police_stops)}</b></div>`)));
+  layers.rlc = L.layerGroup(stories.camera_sites.red_light.map(c => ring(c.lat, c.lon, T.ink,
+    `<div class="pop-title">Red-light camera</div>${esc(title(c.name))}
+     <div class="pop-row"><span>Installed</span><b>${c.installed || '?'}</b></div>
+     <div class="pop-row"><span>Violations since 2015</span><b>${fmtInt(c.violations)}</b></div>`)));
+  layers.ase = L.layerGroup(stories.camera_sites.photo_radar.map(c => ring(c.lat, c.lon, T.ink3,
+    `<div class="pop-title">Photo radar ${esc(c.site_id)}</div>${esc(c.name)}
+     <div class="pop-row"><span>Installed</span><b>${c.installed || '?'}</b></div>
+     <div class="pop-row"><span>Tickets until Nov 2025</span><b>${fmtInt(c.tickets)}</b></div>`)));
+  syncLayers();
+}
+
+// Fit the city once the map has a real size. Loaded inside a hidden iframe
+// (the home page's report tabs) or a hidden pane, the container measures 0 px
+// wide and Leaflet would zoom to its maximum.
+function fitAreas() {
+  const size = map.getSize();
+  if (!size.x || !size.y) return false;
+  const b = areaLayer.getBounds();
+  // Jump rather than fitBounds' animated zoom, which can settle on max zoom.
+  map.setView(b.getCenter(), Math.min(12, map.getBoundsZoom(b, false, L.point(16, 16))), { animate: false });
+  return true;
+}
+new ResizeObserver(() => {
+  if (!map) return;
+  map.invalidateSize();
+  if (!buildMap.fitted && areaLayer) buildMap.fitted = fitAreas();
+}).observe(document.getElementById('map'));
+
+function syncLayers() {
+  for (const [key, id] of [['danger', 'lyr-danger'], ['rlc', 'lyr-rlc'], ['ase', 'lyr-ase']]) {
+    const on = document.getElementById(id).checked;
+    if (!layers[key]) continue;
+    if (on && !map.hasLayer(layers[key])) layers[key].addTo(map);
+    if (!on && map.hasLayer(layers[key])) map.removeLayer(layers[key]);
+  }
+}
+['lyr-danger', 'lyr-rlc', 'lyr-ase'].forEach(id => document.getElementById(id).addEventListener('change', syncLayers));
+
+// ── STATS + NOTES ────────────────────────────────────────────────────────────
+function renderEvhStats(stories) {
+  const e = stories.enforcement_vs_harm;
+  const idx = e.areas.filter(a => a.index).sort((a, b) => b.index - a.index);
+  const sum = (rows, k) => rows.reduce((s, a) => s + a[k], 0);
+  const top10 = idx.slice(0, 10), bottom10 = idx.slice(-10);
+  const yrs = `${e.years[0]}–${e.years[e.years.length - 1]}`;
+  document.getElementById('evh-note').textContent =
+    `Each neighbourhood's share of the city's ${fmtInt(e.total_police_stops)} police traffic stops, divided by its share of ` +
+    `the city's ${fmtInt(e.total_injury_collisions)} injury collisions (${yrs}, without 2023). 1× means stops match harm. ` +
+    `Click a neighbourhood for its numbers.`;
+  document.getElementById('evh-stats').innerHTML =
+    statBox(`${sum(top10, 'share_stops_pct').toFixed(0)}% / ${sum(top10, 'share_injury_pct').toFixed(0)}%`,
+            'Stops vs injury crashes in the 10 most-stopped-relative-to-harm neighbourhoods', T.div[6]) +
+    statBox(`${sum(bottom10, 'share_stops_pct').toFixed(1)}% / ${sum(bottom10, 'share_injury_pct').toFixed(1)}%`,
+            'Stops vs injury crashes in the 10 least-stopped-relative-to-harm neighbourhoods', T.div[0]) +
+    statBox(`${idx[0].index.toFixed(1)}× vs ${idx[idx.length - 1].index.toFixed(2)}×`,
+            `${esc(idx[0].neighbourhood)} vs ${esc(idx[idx.length - 1].neighbourhood)}`, T.ink);
+}
+
+// ── CHARTS ───────────────────────────────────────────────────────────────────
+const charts = {};
+function makeChart(id, cfg) {
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id), cfg);
+}
+
+function renderExtremes(stories) {
+  const idx = stories.enforcement_vs_harm.areas.filter(a => a.index).sort((a, b) => b.index - a.index);
+  const rows = idx.slice(0, 10).concat(idx.slice(-10));
+  makeChart('chart-extremes', {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => r.neighbourhood),
+      datasets: [{
+        label: 'Stops vs harm', data: rows.map(r => Math.log2(r.index)),
+        backgroundColor: rows.map(r => r.index >= 1 ? T.div[6] : T.div[0]),
+        borderRadius: 4, borderSkipped: false, barThickness: 14,
+      }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipStyle(), callbacks: {
+          title: items => rows[items[0].dataIndex].neighbourhood,
+          label: ctx => {
+            const r = rows[ctx.dataIndex];
+            return [`${r.index.toFixed(2)}× its share`,
+                    `${r.share_stops_pct.toFixed(2)}% of stops · ${r.share_injury_pct.toFixed(2)}% of injury crashes`,
+                    `${fmtInt(r.police_stops)} stops · ${fmtInt(r.injury_collisions)} injury crashes`];
+          },
+        } },
+      },
+      scales: {
+        x: { ...axis(), min: -2, max: 2, ticks: { ...axis().ticks, stepSize: 1,
+             callback: v => ({ '-2': '¼×', '-1': '½×', '0': '1×', '1': '2×', '2': '4×' })[v] ?? '' } },
+        y: { ...axis(), grid: { display: false }, ticks: { ...axis().ticks, color: T.ink2, font: { size: 11.5 },
+             // Long names squeeze the bars on phones; the tooltip keeps the full name.
+             callback(v) {
+               const name = this.getLabelForValue(v), max = window.innerWidth < 640 ? 16 : 40;
+               return name.length > max ? name.slice(0, max - 1).trimEnd() + '…' : name;
+             } } },
+      },
+    },
+  });
+}
+
+function renderDangerTable(stories) {
+  const d = stories.danger_intersections;
+  document.getElementById('danger-note').textContent =
+    `Collisions per million vehicles entering the intersection, so a busy intersection isn't ranked high just for being busy. ` +
+    `Only intersections with at least ${fmtInt(d.min_aadt)} vehicles a day and ${d.min_collisions}+ collisions ` +
+    `(${fmtInt(d.candidates)} qualify); top ${TABLE_ROWS} shown, top 30 on the map.`;
+  document.querySelector('#danger-table tbody').innerHTML = d.rows.slice(0, TABLE_ROWS).map((r, i) => `
+    <tr>
+      <td class="num">${i + 1}</td>
+      <td>${esc(title(r.name))}<span class="muted">${esc(r.neighbourhood || '')}</span></td>
+      <td class="num">${fmtInt(r.collisions)}<span class="muted">${r.injury_collisions} injury</span></td>
+      <td class="num">${fmtInt(r.aadt)}<span class="muted">${r.aadt_year}</span></td>
+      <td class="num"><b>${r.per_mev.toFixed(2)}</b></td>
+      <td class="num">${fmtInt(r.police_stops)}</td>
+    </tr>`).join('');
+}
+
+function bandPlugin(id, bands) {
+  // Shaded p25–p75 band per series, drawn behind the median lines.
+  return {
+    id,
+    beforeDatasetsDraw(chart) {
+      const { ctx, scales: { x, y } } = chart;
+      ctx.save();
+      for (const b of bands) {
+        const pts = b.rows.map((r, i) => r && { x: x.getPixelForValue(i), lo: y.getPixelForValue(r.p25), hi: y.getPixelForValue(r.p75) }).filter(Boolean);
+        if (pts.length < 2) continue;
+        ctx.beginPath();
+        pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.hi) : ctx.moveTo(p.x, p.hi));
+        pts.slice().reverse().forEach(p => ctx.lineTo(p.x, p.lo));
+        ctx.closePath();
+        ctx.fillStyle = b.color;
+        ctx.globalAlpha = 0.12;
+        ctx.fill();
+      }
+      ctx.restore();
+    },
+  };
+}
+
+function refLine(id, value) {
+  return {
+    id,
+    beforeDatasetsDraw(chart) {
+      const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+      const yy = y.getPixelForValue(value);
+      ctx.save();
+      ctx.setLineDash([4, 4]); ctx.strokeStyle = T.ink3; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(left, yy); ctx.lineTo(right, yy); ctx.stroke();
+      ctx.restore();
+    },
+  };
+}
+
+function renderVolume(stories) {
+  const v = stories.volume_index;
+  const rows = v.by_year;
+  const last = rows[rows.length - 1];
+  document.getElementById('vol-stats').innerHTML =
+    statBox(`${last.city.median}%`, `City-wide, ${last.year} (${last.city.n} intersections)`, T.ink) +
+    statBox(`${last.core ? last.core.median + '%' : '—'}`, `Downtown core, ${last.year} (${last.core ? last.core.n : 0} intersections)`, T.accent) +
+    statBox(`${last.outside_core.median}%`, `Rest of the city, ${last.year}`, T.blue);
+
+  const series = (key, color, label) => ({
+    label, data: rows.map(r => r[key] ? r[key].median : null),
+    borderColor: color, backgroundColor: color, borderWidth: 2, tension: 0.25,
+    pointRadius: 4, pointHoverRadius: 6, pointBorderColor: T.surface, pointBorderWidth: 2, spanGaps: true,
+  });
+  makeChart('chart-volume', {
+    type: 'line',
+    data: { labels: rows.map(r => String(r.year)),
+            datasets: [series('core', T.accent, 'Downtown core'), series('outside_core', T.blue, 'Rest of the city')] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipStyle(), callbacks: {
+          label: ctx => {
+            const r = rows[ctx.dataIndex][ctx.datasetIndex === 0 ? 'core' : 'outside_core'];
+            return r ? `${ctx.dataset.label}: ${r.median}% (middle half ${r.p25}–${r.p75}%, n=${r.n})` : `${ctx.dataset.label}: too few counts`;
+          },
+        } },
+      },
+      scales: {
+        x: { ...axis(), grid: { display: false } },
+        y: { ...axis(), suggestedMin: 50, suggestedMax: 120, ticks: { ...axis().ticks, callback: v => v + '%' } },
+      },
+    },
+    plugins: [refLine('vol-ref', 100), bandPlugin('vol-band', [
+      { rows: rows.map(r => r.core), color: T.accent },
+      { rows: rows.map(r => r.outside_core), color: T.blue },
+    ])],
+  });
+
+  const c = stories.covid_monthly;
+  const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  makeChart('chart-covid', {
+    type: 'line',
+    data: {
+      labels: c.map(m => { const [y, mo] = m.month.split('-'); return `${MONS[+mo - 1]} '${y.slice(2)}`; }),
+      datasets: [
+        { label: 'Monitored intersections', data: c.map(m => m.intersections), borderColor: T.blue,
+          borderWidth: 2, tension: 0.25, pointRadius: 0, pointHoverRadius: 4, spanGaps: true },
+        { label: 'Macdonald-Cartier Bridge', data: c.map(m => m.bridge), borderColor: T.accent,
+          borderWidth: 2, tension: 0.25, pointRadius: 0, pointHoverRadius: 4, spanGaps: true },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...tooltipStyle(), callbacks: {
+          label: ctx => ctx.parsed.y == null ? `${ctx.dataset.label}: no reading` : `${ctx.dataset.label}: ${ctx.parsed.y}% of normal`,
+        } },
+      },
+      scales: {
+        x: { ...axis(), grid: { display: false }, ticks: { ...axis().ticks, maxTicksLimit: 8, maxRotation: 0 } },
+        y: { ...axis(), min: 0, max: 110, ticks: { ...axis().ticks, callback: v => v + '%' } },
+      },
+    },
+    plugins: [refLine('covid-ref', 100)],
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+let _stories = null, _areas = null;
+function renderAll() {
+  refreshTokens();
+  buildMap(_stories, _areas);
+  renderEvhStats(_stories);
+  renderExtremes(_stories);
+  renderDangerTable(_stories);
+  renderVolume(_stories);
+}
+
+Promise.all([
+  fetch(STORIES_URL).then(r => { if (!r.ok) throw new Error(`stories.json: HTTP ${r.status}`); return r.json(); }),
+  fetch(AREAS_URL).then(r => { if (!r.ok) throw new Error(`neighbourhoods.geojson: HTTP ${r.status}`); return r.json(); }),
+]).then(([s, a]) => { _stories = s; _areas = a; renderAll(); })
+  .catch(err => {
+    const el = document.getElementById('evh-error');
+    el.textContent = `⚠ Could not load data: ${err.message}`;
+    el.style.display = 'block';
+  });
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ document.getElementById('theme-toggle').innerHTML = mode === 'dark' ? MOON : SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+  if (_stories) renderAll(); else refreshTokens();
+}
+setToggleIcon(root.getAttribute('data-theme'));
+document.getElementById('theme-toggle').addEventListener('click', () =>
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>
