@@ -194,6 +194,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
       <a href="#mortgage">🏡 Mortgage</a>
       <a href="#weather">🌡️ Weather</a>
       <a href="#road-safety">🚗 Road Safety</a>
+      <a href="#roads">🛣️ Roads</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
       <a href="#todo">🗺️ What's left</a>
@@ -261,6 +262,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏡 Mortgage Calculator</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌡️ Weather / Climate</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚗 Road Safety Calculator</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">draft</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -788,6 +790,57 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
   </div>
 </section>
 
+<!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
+<section id="roads" class="card">
+  <div class="proj-head">
+    <h2>🛣️ Roads: risk vs enforcement</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="Traffic/roads.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> each neighbourhood's share of police traffic stops against its share
+  of injury collisions on a map, the riskiest busy intersections per vehicle, and whether traffic is
+  back to pre-pandemic levels.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">City of Ottawa — collisions, intersection/midblock volumes, red-light + ASE cameras, COVID monitoring<small>weekly pull, Traffic/scripts/fetch_city_traffic.py</small></div>
+    <div class="src">Ottawa Police — traffic stops 2014–2024, OPS neighbourhoods<small>aggregated server-side, raw records not committed</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Fetch</b><span>fetch_city_traffic.py → Traffic/data/city/, data/police/</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Join</b><span>build_geo_index.py snaps everything to the City's Geo_ID + ward + neighbourhood</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Distil</b><span>build_stories.py → stories.json (~90 KB), which roads.html reads</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions & known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="roads-index"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>"Stops vs harm" = a neighbourhood's share of police stops ÷ its share of injury collisions, over 2017–2024 without 2023.</b>
+        <p>Stops include every reason an officer pulls someone over, not only moving violations. Neighbourhoods with fewer than 20 injury collisions get no index. Alternatives were stops per resident (penalises highway corridors with few residents) or per collision of any severity.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 10 min<ol>
+          <li>Pick one neighbourhood in <code>Traffic/data/derived/stories.json</code> → <code>enforcement_vs_harm</code> and recompute share_stops ÷ share_injury by hand.</li>
+        </ol></div>
+        <div class="where">Traffic/scripts/build_stories.py enforcement_vs_harm().</div>
+      </div></li>
+      <li><input type="checkbox" data-key="roads-snap"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Police stop locations are matched to City intersections within 60 m, or 150 m when both street names agree.</b>
+        <p>This matches 84% of stops at intersections; the rest are street addresses or highway ramps with no City node. Neighbourhood totals don't depend on this: they use the police's own neighbourhood field.</p>
+        <div class="where">Traffic/scripts/build_geo_index.py SNAP_M, NAME_CONFIRMED_M.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="roads-volume"><div class="a-body">
+        <span class="tag data">source limit</span><b>"Is traffic back?" compares each counted intersection with its own 2015–19 average.</b>
+        <p>The City counts different intersections each year (often 8-hour studies scaled to 24 h), and 2025 uses a slightly different method. The median across 50–400 intersections a year is the headline; the band shows the middle half.</p>
+        <div class="where">Traffic/scripts/build_stories.py volume_index().</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
 <!-- ══════════════════ ROAD SAFETY / VEHICLES ══════════════════ -->
 <section id="road-safety" class="card">
   <div class="proj-head">
@@ -827,12 +880,12 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
         <div class="where">index.html REPORTS[] "road-safety" §method.</div>
       </div></li>
       <li><input type="checkbox" data-key="rs-collisions"><div class="a-body">
-        <span class="tag data">source limit</span><b>Collision counts shown on the page are hardcoded from City reports, pending an open collision-data feed.</b>
-        <p>Ottawa's collision open-data portal has gone stale; the page's collision figures are a manual snapshot, not a live series.</p>
+        <span class="tag data">source limit</span><b>The pedestrian fatal/major-injury chart still uses the City's Road Safety Action Plan figures, not the open collision data.</b>
+        <p>The report reaches back to 2013 and includes 2023; the open collision data covers 2017–2024 and has no 2023 file. Since Oct 2026 the page checks the report figures against the open data on every load and shows "verified vs open data" (all 7 overlapping years match) or flags the mismatch.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
-          <li>Check the page's collision figures for a stated as-of date, and compare against the City's own most recent published collision report.</li>
+          <li>Open the road-safety page and read the badge on the pedestrian card: "verified vs open data" or "check mismatch".</li>
         </ol></div>
-        <div class="where">index.html REPORTS[] "road-safety" §method.</div>
+        <div class="where">Vehicles/road-safety.html renderFMICheck(); Traffic/scripts/build_stories.py ped_fmi().</div>
       </div></li>
       <li><input type="checkbox" data-key="rs-ase"><div class="a-body">
         <span class="tag data">source limit</span><b>Speed data reflects camera locations only, not fleet-wide driving speeds.</b>

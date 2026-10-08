@@ -15,6 +15,7 @@ Outputs (Traffic/data/derived/):
                                 per million vehicles, police stops, cameras
   * snaps.csv                -- every coordinate-only record -> its Geo_ID + distance
   * neighbourhood_summary.csv -- per OPS neighbourhood: collisions vs stops vs population
+  * neighbourhoods.geojson   -- simplified OPS neighbourhood outlines for the roads map
 
 Run after fetch_city_traffic.py (the weekly workflow does both). Stdlib only.
 """
@@ -124,15 +125,21 @@ class Regions:
         return None
 
 
-def fetch_polygons(base, service):
-    """query_all drops geometry rings, so fetch polygons directly."""
+def fetch_polygons(base, service, simplify_deg=None):
+    """query_all drops geometry rings, so fetch polygons directly.
+
+    simplify_deg generalises the outlines server-side (for map display only;
+    point-in-polygon lookups use the full-detail version).
+    """
     from fetch_city_traffic import get_json, layer_url
     url = layer_url(base, service)
     out, offset = [], 0
+    extra = {"maxAllowableOffset": simplify_deg} if simplify_deg else {}
     while True:
         d = get_json(f"{url}/query", {
             "where": "1=1", "outFields": "*", "outSR": 4326, "returnGeometry": "true",
             "geometryPrecision": 5, "resultOffset": offset, "resultRecordCount": 200,
+            **extra,
         })
         for f in d["features"]:
             a = dict(f["attributes"])
@@ -141,6 +148,23 @@ def fetch_polygons(base, service):
         if len(d["features"]) < 200:
             return out
         offset += 200
+
+
+def write_neighbourhood_geojson(features):
+    """Simplified OPS neighbourhood outlines for the roads map (~10 m precision).
+
+    ArcGIS 'rings' mix outer rings and holes; they go out as one Polygon each,
+    which renders correctly with Leaflet's default even-odd fill rule.
+    """
+    fc = {"type": "FeatureCollection", "features": [
+        {"type": "Feature",
+         "properties": {"name": a["namese2016"], "population_2016": a.get("popest2016")},
+         "geometry": {"type": "Polygon", "coordinates": a["_rings"]}}
+        for a in features if a.get("_rings")]}
+    path = OUT / "neighbourhoods.geojson"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(fc, separators=(",", ":")), encoding="utf-8")
+    print(f"  wrote {path.relative_to(ROOT)}  ({len(fc['features'])} areas, {path.stat().st_size:,} bytes)")
 
 
 # --------------------------------------------------------------------------
@@ -179,6 +203,7 @@ def build():
     ons_raw = fetch_polygons(OPS, "ONS_2017")
     hoods = Regions(ons_raw, lambda a: a["namese2016"])
     population = {a["namese2016"]: a.get("popest2016") for a in ons_raw}
+    write_neighbourhood_geojson(fetch_polygons(OPS, "ONS_2017", simplify_deg=0.0003))
 
     geo = {}
     for gid, pts in coords.items():

@@ -21,7 +21,7 @@ any bookmarked or shared links.
 | [`Ontario_Trials/`](Ontario_Trials/README.md) | Ontario Court traffic cases (exploration) |
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |
 | [`Energy/`](Energy/README.md) | Geothermal feasibility (companion to the separate Energy repo) |
-| [`Traffic/`](Traffic/README.md) | TomTom commute-time + parking-occupancy collectors, feed RTO Watch |
+| [`Traffic/`](Traffic/README.md) | TomTom commute-time, parking and road-event collectors (feed RTO Watch), plus weekly City/Police road datasets behind [`roads.html`](Traffic/roads.html) and the road-safety page |
 | [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector, feeds RTO Watch |
 | [`RTO4/`](RTO4/README.md) | External datasets behind RTO Watch (311, IESO, volumes, GHG) |
 | [`CityHall_Index/`](CityHall_Index/README.md) | eScribe committee/council meeting indexer |

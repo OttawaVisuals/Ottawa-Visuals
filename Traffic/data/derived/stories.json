@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-08T22:14:35Z",
+ "generated_utc": "2026-10-08T22:24:01Z",
  "collision_years": [
   2017,
   2018,
@@ -602,6 +602,3350 @@
   {
    "year": 2024,
    "collisions": 33
+  }
+ ],
+ "enforcement_vs_harm": {
+  "years": [
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2024
+  ],
+  "min_injury_collisions": 20,
+  "total_injury_collisions": 15086,
+  "total_police_stops": 281940,
+  "areas": [
+   {
+    "neighbourhood": "Bayshore - Belltown",
+    "injury_collisions": 78,
+    "police_stops": 1205,
+    "charged_pct": 24,
+    "share_injury_pct": 0.52,
+    "share_stops_pct": 0.43,
+    "index": 0.83
+   },
+   {
+    "neighbourhood": "Beacon Hill South - Cardinal Heights",
+    "injury_collisions": 131,
+    "police_stops": 1311,
+    "charged_pct": 26,
+    "share_injury_pct": 0.87,
+    "share_stops_pct": 0.46,
+    "index": 0.54
+   },
+   {
+    "neighbourhood": "Beaverbrook",
+    "injury_collisions": 66,
+    "police_stops": 440,
+    "charged_pct": 38,
+    "share_injury_pct": 0.44,
+    "share_stops_pct": 0.16,
+    "index": 0.36
+   },
+   {
+    "neighbourhood": "Beechwood Cemetery",
+    "injury_collisions": 11,
+    "police_stops": 178,
+    "charged_pct": 19,
+    "share_injury_pct": 0.07,
+    "share_stops_pct": 0.06,
+    "index": null
+   },
+   {
+    "neighbourhood": "Bells Corners East",
+    "injury_collisions": 59,
+    "police_stops": 891,
+    "charged_pct": 47,
+    "share_injury_pct": 0.39,
+    "share_stops_pct": 0.32,
+    "index": 0.81
+   },
+   {
+    "neighbourhood": "Bells Corners West",
+    "injury_collisions": 53,
+    "police_stops": 685,
+    "charged_pct": 39,
+    "share_injury_pct": 0.35,
+    "share_stops_pct": 0.24,
+    "index": 0.69
+   },
+   {
+    "neighbourhood": "Billings Bridge - Alta Vista",
+    "injury_collisions": 358,
+    "police_stops": 3817,
+    "charged_pct": 40,
+    "share_injury_pct": 2.37,
+    "share_stops_pct": 1.35,
+    "index": 0.57
+   },
+   {
+    "neighbourhood": "Blackburn Hamlet",
+    "injury_collisions": 49,
+    "police_stops": 2280,
+    "charged_pct": 68,
+    "share_injury_pct": 0.32,
+    "share_stops_pct": 0.81,
+    "index": 2.49
+   },
+   {
+    "neighbourhood": "Borden Farm - Fisher Glen",
+    "injury_collisions": 53,
+    "police_stops": 1116,
+    "charged_pct": 48,
+    "share_injury_pct": 0.35,
+    "share_stops_pct": 0.4,
+    "index": 1.13
+   },
+   {
+    "neighbourhood": "Braemar Park - Bel Air Heights - Copeland Park",
+    "injury_collisions": 80,
+    "police_stops": 1372,
+    "charged_pct": 46,
+    "share_injury_pct": 0.53,
+    "share_stops_pct": 0.49,
+    "index": 0.92
+   },
+   {
+    "neighbourhood": "Briar Green - Leslie Park",
+    "injury_collisions": 74,
+    "police_stops": 1233,
+    "charged_pct": 29,
+    "share_injury_pct": 0.49,
+    "share_stops_pct": 0.44,
+    "index": 0.89
+   },
+   {
+    "neighbourhood": "Bridlewood - Emerald Meadows",
+    "injury_collisions": 69,
+    "police_stops": 956,
+    "charged_pct": 50,
+    "share_injury_pct": 0.46,
+    "share_stops_pct": 0.34,
+    "index": 0.74
+   },
+   {
+    "neighbourhood": "Britannia",
+    "injury_collisions": 34,
+    "police_stops": 902,
+    "charged_pct": 18,
+    "share_injury_pct": 0.23,
+    "share_stops_pct": 0.32,
+    "index": 1.42
+   },
+   {
+    "neighbourhood": "Brookside - Briarbrook - Morgan's Grant",
+    "injury_collisions": 124,
+    "police_stops": 1125,
+    "charged_pct": 43,
+    "share_injury_pct": 0.82,
+    "share_stops_pct": 0.4,
+    "index": 0.49
+   },
+   {
+    "neighbourhood": "Byward Market",
+    "injury_collisions": 276,
+    "police_stops": 8685,
+    "charged_pct": 39,
+    "share_injury_pct": 1.83,
+    "share_stops_pct": 3.08,
+    "index": 1.68
+   },
+   {
+    "neighbourhood": "Cardinal Creek",
+    "injury_collisions": 78,
+    "police_stops": 1769,
+    "charged_pct": 46,
+    "share_injury_pct": 0.52,
+    "share_stops_pct": 0.63,
+    "index": 1.21
+   },
+   {
+    "neighbourhood": "Carleton Heights - Rideauview",
+    "injury_collisions": 106,
+    "police_stops": 774,
+    "charged_pct": 49,
+    "share_injury_pct": 0.7,
+    "share_stops_pct": 0.27,
+    "index": 0.39
+   },
+   {
+    "neighbourhood": "Carleton University",
+    "injury_collisions": 49,
+    "police_stops": 1301,
+    "charged_pct": 66,
+    "share_injury_pct": 0.32,
+    "share_stops_pct": 0.46,
+    "index": 1.42
+   },
+   {
+    "neighbourhood": "Carlington",
+    "injury_collisions": 215,
+    "police_stops": 4966,
+    "charged_pct": 24,
+    "share_injury_pct": 1.43,
+    "share_stops_pct": 1.76,
+    "index": 1.24
+   },
+   {
+    "neighbourhood": "Carlingwood West - Glabar Park - McKellar Heights",
+    "injury_collisions": 161,
+    "police_stops": 2148,
+    "charged_pct": 35,
+    "share_injury_pct": 1.07,
+    "share_stops_pct": 0.76,
+    "index": 0.71
+   },
+   {
+    "neighbourhood": "Carp",
+    "injury_collisions": 171,
+    "police_stops": 2516,
+    "charged_pct": 46,
+    "share_injury_pct": 1.13,
+    "share_stops_pct": 0.89,
+    "index": 0.79
+   },
+   {
+    "neighbourhood": "Carson Grove - Carson Meadows",
+    "injury_collisions": 189,
+    "police_stops": 2954,
+    "charged_pct": 39,
+    "share_injury_pct": 1.25,
+    "share_stops_pct": 1.05,
+    "index": 0.84
+   },
+   {
+    "neighbourhood": "Centrepointe",
+    "injury_collisions": 139,
+    "police_stops": 2163,
+    "charged_pct": 43,
+    "share_injury_pct": 0.92,
+    "share_stops_pct": 0.77,
+    "index": 0.83
+   },
+   {
+    "neighbourhood": "Centretown",
+    "injury_collisions": 624,
+    "police_stops": 15562,
+    "charged_pct": 39,
+    "share_injury_pct": 4.14,
+    "share_stops_pct": 5.52,
+    "index": 1.33
+   },
+   {
+    "neighbourhood": "Chapel Hill North",
+    "injury_collisions": 90,
+    "police_stops": 1172,
+    "charged_pct": 51,
+    "share_injury_pct": 0.6,
+    "share_stops_pct": 0.42,
+    "index": 0.7
+   },
+   {
+    "neighbourhood": "Chapel Hill South",
+    "injury_collisions": 122,
+    "police_stops": 2273,
+    "charged_pct": 55,
+    "share_injury_pct": 0.81,
+    "share_stops_pct": 0.81,
+    "index": 1.0
+   },
+   {
+    "neighbourhood": "Chapman Mills",
+    "injury_collisions": 196,
+    "police_stops": 2422,
+    "charged_pct": 45,
+    "share_injury_pct": 1.3,
+    "share_stops_pct": 0.86,
+    "index": 0.66
+   },
+   {
+    "neighbourhood": "Chatelaine Village",
+    "injury_collisions": 41,
+    "police_stops": 1415,
+    "charged_pct": 63,
+    "share_injury_pct": 0.27,
+    "share_stops_pct": 0.5,
+    "index": 1.85
+   },
+   {
+    "neighbourhood": "Cityview - Crestview - Meadowlands",
+    "injury_collisions": 208,
+    "police_stops": 4378,
+    "charged_pct": 49,
+    "share_injury_pct": 1.38,
+    "share_stops_pct": 1.55,
+    "index": 1.13
+   },
+   {
+    "neighbourhood": "Civic Hospital-Central Park",
+    "injury_collisions": 286,
+    "police_stops": 4614,
+    "charged_pct": 46,
+    "share_injury_pct": 1.9,
+    "share_stops_pct": 1.64,
+    "index": 0.86
+   },
+   {
+    "neighbourhood": "Constance Bay",
+    "injury_collisions": 4,
+    "police_stops": 95,
+    "charged_pct": 49,
+    "share_injury_pct": 0.03,
+    "share_stops_pct": 0.03,
+    "index": null
+   },
+   {
+    "neighbourhood": "Convent Glen - Orl\u00e9ans Woods",
+    "injury_collisions": 83,
+    "police_stops": 2522,
+    "charged_pct": 60,
+    "share_injury_pct": 0.55,
+    "share_stops_pct": 0.89,
+    "index": 1.63
+   },
+   {
+    "neighbourhood": "Corkery",
+    "injury_collisions": 65,
+    "police_stops": 1611,
+    "charged_pct": 60,
+    "share_injury_pct": 0.43,
+    "share_stops_pct": 0.57,
+    "index": 1.33
+   },
+   {
+    "neighbourhood": "Crystal Bay - Lakeview Park",
+    "injury_collisions": 31,
+    "police_stops": 1415,
+    "charged_pct": 61,
+    "share_injury_pct": 0.21,
+    "share_stops_pct": 0.5,
+    "index": 2.44
+   },
+   {
+    "neighbourhood": "Cumberland",
+    "injury_collisions": 88,
+    "police_stops": 1729,
+    "charged_pct": 51,
+    "share_injury_pct": 0.58,
+    "share_stops_pct": 0.61,
+    "index": 1.05
+   },
+   {
+    "neighbourhood": "Dunrobin",
+    "injury_collisions": 79,
+    "police_stops": 1647,
+    "charged_pct": 54,
+    "share_injury_pct": 0.52,
+    "share_stops_pct": 0.58,
+    "index": 1.12
+   },
+   {
+    "neighbourhood": "East Industrial",
+    "injury_collisions": 712,
+    "police_stops": 6181,
+    "charged_pct": 37,
+    "share_injury_pct": 4.72,
+    "share_stops_pct": 2.19,
+    "index": 0.46
+   },
+   {
+    "neighbourhood": "Edwards - Carlsbad Springs",
+    "injury_collisions": 193,
+    "police_stops": 4648,
+    "charged_pct": 74,
+    "share_injury_pct": 1.28,
+    "share_stops_pct": 1.65,
+    "index": 1.29
+   },
+   {
+    "neighbourhood": "Elmvale - Canterbury",
+    "injury_collisions": 87,
+    "police_stops": 1971,
+    "charged_pct": 37,
+    "share_injury_pct": 0.58,
+    "share_stops_pct": 0.7,
+    "index": 1.21
+   },
+   {
+    "neighbourhood": "Emerald Woods - Sawmill Creek",
+    "injury_collisions": 16,
+    "police_stops": 922,
+    "charged_pct": 40,
+    "share_injury_pct": 0.11,
+    "share_stops_pct": 0.33,
+    "index": null
+   },
+   {
+    "neighbourhood": "Fallingbrook",
+    "injury_collisions": 111,
+    "police_stops": 2456,
+    "charged_pct": 42,
+    "share_injury_pct": 0.74,
+    "share_stops_pct": 0.87,
+    "index": 1.18
+   },
+   {
+    "neighbourhood": "Findlay Creek",
+    "injury_collisions": 123,
+    "police_stops": 2500,
+    "charged_pct": 55,
+    "share_injury_pct": 0.82,
+    "share_stops_pct": 0.89,
+    "index": 1.09
+   },
+   {
+    "neighbourhood": "Fitzroy",
+    "injury_collisions": 48,
+    "police_stops": 600,
+    "charged_pct": 48,
+    "share_injury_pct": 0.32,
+    "share_stops_pct": 0.21,
+    "index": 0.67
+   },
+   {
+    "neighbourhood": "Glebe - Dows Lake",
+    "injury_collisions": 286,
+    "police_stops": 7432,
+    "charged_pct": 51,
+    "share_injury_pct": 1.9,
+    "share_stops_pct": 2.64,
+    "index": 1.39
+   },
+   {
+    "neighbourhood": "Glen Cairn - Kanata South Business Park",
+    "injury_collisions": 211,
+    "police_stops": 2428,
+    "charged_pct": 50,
+    "share_injury_pct": 1.4,
+    "share_stops_pct": 0.86,
+    "index": 0.62
+   },
+   {
+    "neighbourhood": "Greely",
+    "injury_collisions": 189,
+    "police_stops": 2744,
+    "charged_pct": 48,
+    "share_injury_pct": 1.25,
+    "share_stops_pct": 0.97,
+    "index": 0.78
+   },
+   {
+    "neighbourhood": "Greenbelt",
+    "injury_collisions": 900,
+    "police_stops": 15125,
+    "charged_pct": 55,
+    "share_injury_pct": 5.97,
+    "share_stops_pct": 5.36,
+    "index": 0.9
+   },
+   {
+    "neighbourhood": "Greenboro East",
+    "injury_collisions": 93,
+    "police_stops": 3775,
+    "charged_pct": 62,
+    "share_injury_pct": 0.62,
+    "share_stops_pct": 1.34,
+    "index": 2.17
+   },
+   {
+    "neighbourhood": "Hawthorne Meadows - Sheffield Glen",
+    "injury_collisions": 41,
+    "police_stops": 901,
+    "charged_pct": 45,
+    "share_injury_pct": 0.27,
+    "share_stops_pct": 0.32,
+    "index": 1.18
+   },
+   {
+    "neighbourhood": "Hintonburg - Mechanicsville",
+    "injury_collisions": 140,
+    "police_stops": 2262,
+    "charged_pct": 23,
+    "share_injury_pct": 0.93,
+    "share_stops_pct": 0.8,
+    "index": 0.86
+   },
+   {
+    "neighbourhood": "Hunt Club - Ottawa Airport",
+    "injury_collisions": 156,
+    "police_stops": 1842,
+    "charged_pct": 56,
+    "share_injury_pct": 1.03,
+    "share_stops_pct": 0.65,
+    "index": 0.63
+   },
+   {
+    "neighbourhood": "Hunt Club East - Western Community",
+    "injury_collisions": 102,
+    "police_stops": 655,
+    "charged_pct": 35,
+    "share_injury_pct": 0.68,
+    "share_stops_pct": 0.23,
+    "index": 0.34
+   },
+   {
+    "neighbourhood": "Hunt Club Park",
+    "injury_collisions": 46,
+    "police_stops": 1659,
+    "charged_pct": 34,
+    "share_injury_pct": 0.3,
+    "share_stops_pct": 0.59,
+    "index": 1.93
+   },
+   {
+    "neighbourhood": "Hunt Club South Industrial",
+    "injury_collisions": 215,
+    "police_stops": 2345,
+    "charged_pct": 60,
+    "share_injury_pct": 1.43,
+    "share_stops_pct": 0.83,
+    "index": 0.58
+   },
+   {
+    "neighbourhood": "Hunt Club Upper -Blossom Park - Timbermill",
+    "injury_collisions": 91,
+    "police_stops": 2484,
+    "charged_pct": 60,
+    "share_injury_pct": 0.6,
+    "share_stops_pct": 0.88,
+    "index": 1.46
+   },
+   {
+    "neighbourhood": "Hunt Club Woods - Quintarra - Revelstoke",
+    "injury_collisions": 122,
+    "police_stops": 4135,
+    "charged_pct": 65,
+    "share_injury_pct": 0.81,
+    "share_stops_pct": 1.47,
+    "index": 1.81
+   },
+   {
+    "neighbourhood": "Iris - Queensway Terrance South",
+    "injury_collisions": 73,
+    "police_stops": 1698,
+    "charged_pct": 33,
+    "share_injury_pct": 0.48,
+    "share_stops_pct": 0.6,
+    "index": 1.24
+   },
+   {
+    "neighbourhood": "Island Park - Wellington Village",
+    "injury_collisions": 107,
+    "police_stops": 1213,
+    "charged_pct": 38,
+    "share_injury_pct": 0.71,
+    "share_stops_pct": 0.43,
+    "index": 0.61
+   },
+   {
+    "neighbourhood": "Kanata Lakes - Arcardia",
+    "injury_collisions": 148,
+    "police_stops": 1246,
+    "charged_pct": 27,
+    "share_injury_pct": 0.98,
+    "share_stops_pct": 0.44,
+    "index": 0.45
+   },
+   {
+    "neighbourhood": "Katimavik - Hazeldean",
+    "injury_collisions": 150,
+    "police_stops": 2622,
+    "charged_pct": 38,
+    "share_injury_pct": 0.99,
+    "share_stops_pct": 0.93,
+    "index": 0.94
+   },
+   {
+    "neighbourhood": "Kinburn",
+    "injury_collisions": 31,
+    "police_stops": 644,
+    "charged_pct": 40,
+    "share_injury_pct": 0.21,
+    "share_stops_pct": 0.23,
+    "index": 1.11
+   },
+   {
+    "neighbourhood": "Laurentian",
+    "injury_collisions": 97,
+    "police_stops": 862,
+    "charged_pct": 36,
+    "share_injury_pct": 0.64,
+    "share_stops_pct": 0.31,
+    "index": 0.48
+   },
+   {
+    "neighbourhood": "Lebreton Development",
+    "injury_collisions": 35,
+    "police_stops": 544,
+    "charged_pct": 34,
+    "share_injury_pct": 0.23,
+    "share_stops_pct": 0.19,
+    "index": 0.83
+   },
+   {
+    "neighbourhood": "Ledbury - Heron Gate - Ridgemont",
+    "injury_collisions": 181,
+    "police_stops": 4465,
+    "charged_pct": 31,
+    "share_injury_pct": 1.2,
+    "share_stops_pct": 1.58,
+    "index": 1.32
+   },
+   {
+    "neighbourhood": "Lindenlea - New Edinburgh",
+    "injury_collisions": 29,
+    "police_stops": 573,
+    "charged_pct": 42,
+    "share_injury_pct": 0.19,
+    "share_stops_pct": 0.2,
+    "index": 1.06
+   },
+   {
+    "neighbourhood": "Lowertown",
+    "injury_collisions": 81,
+    "police_stops": 3204,
+    "charged_pct": 30,
+    "share_injury_pct": 0.54,
+    "share_stops_pct": 1.14,
+    "index": 2.12
+   },
+   {
+    "neighbourhood": "Manor Park",
+    "injury_collisions": 26,
+    "police_stops": 421,
+    "charged_pct": 19,
+    "share_injury_pct": 0.17,
+    "share_stops_pct": 0.15,
+    "index": 0.87
+   },
+   {
+    "neighbourhood": "Manotick",
+    "injury_collisions": 173,
+    "police_stops": 3359,
+    "charged_pct": 58,
+    "share_injury_pct": 1.15,
+    "share_stops_pct": 1.19,
+    "index": 1.04
+   },
+   {
+    "neighbourhood": "Marlborough",
+    "injury_collisions": 49,
+    "police_stops": 792,
+    "charged_pct": 40,
+    "share_injury_pct": 0.32,
+    "share_stops_pct": 0.28,
+    "index": 0.86
+   },
+   {
+    "neighbourhood": "Merivale Gardens - Grenfell Glen - Pineglen - Country Place",
+    "injury_collisions": 72,
+    "police_stops": 2376,
+    "charged_pct": 63,
+    "share_injury_pct": 0.48,
+    "share_stops_pct": 0.84,
+    "index": 1.77
+   },
+   {
+    "neighbourhood": "Metcalfe",
+    "injury_collisions": 110,
+    "police_stops": 1175,
+    "charged_pct": 58,
+    "share_injury_pct": 0.73,
+    "share_stops_pct": 0.42,
+    "index": 0.57
+   },
+   {
+    "neighbourhood": "Munster - Ashton",
+    "injury_collisions": 64,
+    "police_stops": 1138,
+    "charged_pct": 44,
+    "share_injury_pct": 0.42,
+    "share_stops_pct": 0.4,
+    "index": 0.95
+   },
+   {
+    "neighbourhood": "Navan - Sarsfield",
+    "injury_collisions": 81,
+    "police_stops": 3173,
+    "charged_pct": 62,
+    "share_injury_pct": 0.54,
+    "share_stops_pct": 1.13,
+    "index": 2.1
+   },
+   {
+    "neighbourhood": "North Gower - Kars",
+    "injury_collisions": 120,
+    "police_stops": 2103,
+    "charged_pct": 57,
+    "share_injury_pct": 0.8,
+    "share_stops_pct": 0.75,
+    "index": 0.94
+   },
+   {
+    "neighbourhood": "Notre-Dame Cemetery",
+    "injury_collisions": 0,
+    "police_stops": 31,
+    "charged_pct": 29,
+    "share_injury_pct": 0.0,
+    "share_stops_pct": 0.01,
+    "index": null
+   },
+   {
+    "neighbourhood": "Old Barrhaven East",
+    "injury_collisions": 236,
+    "police_stops": 3535,
+    "charged_pct": 44,
+    "share_injury_pct": 1.56,
+    "share_stops_pct": 1.25,
+    "index": 0.8
+   },
+   {
+    "neighbourhood": "Old Barrhaven West",
+    "injury_collisions": 110,
+    "police_stops": 1559,
+    "charged_pct": 39,
+    "share_injury_pct": 0.73,
+    "share_stops_pct": 0.55,
+    "index": 0.76
+   },
+   {
+    "neighbourhood": "Old Ottawa East",
+    "injury_collisions": 131,
+    "police_stops": 1552,
+    "charged_pct": 33,
+    "share_injury_pct": 0.87,
+    "share_stops_pct": 0.55,
+    "index": 0.63
+   },
+   {
+    "neighbourhood": "Old Ottawa South",
+    "injury_collisions": 62,
+    "police_stops": 2511,
+    "charged_pct": 57,
+    "share_injury_pct": 0.41,
+    "share_stops_pct": 0.89,
+    "index": 2.17
+   },
+   {
+    "neighbourhood": "Orl\u00e9ans Industrial",
+    "injury_collisions": 25,
+    "police_stops": 1008,
+    "charged_pct": 49,
+    "share_injury_pct": 0.17,
+    "share_stops_pct": 0.36,
+    "index": 2.16
+   },
+   {
+    "neighbourhood": "Orl\u00e9ans Village - Chateauneuf",
+    "injury_collisions": 100,
+    "police_stops": 1032,
+    "charged_pct": 30,
+    "share_injury_pct": 0.66,
+    "share_stops_pct": 0.37,
+    "index": 0.55
+   },
+   {
+    "neighbourhood": "Osgoode - Vernon",
+    "injury_collisions": 104,
+    "police_stops": 1054,
+    "charged_pct": 52,
+    "share_injury_pct": 0.69,
+    "share_stops_pct": 0.37,
+    "index": 0.54
+   },
+   {
+    "neighbourhood": "Overbrook - McArthur",
+    "injury_collisions": 585,
+    "police_stops": 12949,
+    "charged_pct": 28,
+    "share_injury_pct": 3.88,
+    "share_stops_pct": 4.59,
+    "index": 1.18
+   },
+   {
+    "neighbourhood": "Parkwood Hills - Stewart Farm",
+    "injury_collisions": 50,
+    "police_stops": 451,
+    "charged_pct": 33,
+    "share_injury_pct": 0.33,
+    "share_stops_pct": 0.16,
+    "index": 0.48
+   },
+   {
+    "neighbourhood": "Pineview",
+    "injury_collisions": 82,
+    "police_stops": 1840,
+    "charged_pct": 52,
+    "share_injury_pct": 0.54,
+    "share_stops_pct": 0.65,
+    "index": 1.2
+   },
+   {
+    "neighbourhood": "Playfair Park - Lynda Park - Guildwood Estates",
+    "injury_collisions": 9,
+    "police_stops": 815,
+    "charged_pct": 26,
+    "share_injury_pct": 0.06,
+    "share_stops_pct": 0.29,
+    "index": null
+   },
+   {
+    "neighbourhood": "Portobello South",
+    "injury_collisions": 183,
+    "police_stops": 2466,
+    "charged_pct": 39,
+    "share_injury_pct": 1.21,
+    "share_stops_pct": 0.87,
+    "index": 0.72
+   },
+   {
+    "neighbourhood": "Qualicum - Redwood Park",
+    "injury_collisions": 76,
+    "police_stops": 918,
+    "charged_pct": 25,
+    "share_injury_pct": 0.5,
+    "share_stops_pct": 0.33,
+    "index": 0.65
+   },
+   {
+    "neighbourhood": "Queenswood Heights",
+    "injury_collisions": 118,
+    "police_stops": 2078,
+    "charged_pct": 34,
+    "share_injury_pct": 0.78,
+    "share_stops_pct": 0.74,
+    "index": 0.94
+   },
+   {
+    "neighbourhood": "Richmond",
+    "injury_collisions": 305,
+    "police_stops": 4572,
+    "charged_pct": 52,
+    "share_injury_pct": 2.02,
+    "share_stops_pct": 1.62,
+    "index": 0.8
+   },
+   {
+    "neighbourhood": "Rideau Crest - Davidson Heights",
+    "injury_collisions": 71,
+    "police_stops": 657,
+    "charged_pct": 52,
+    "share_injury_pct": 0.47,
+    "share_stops_pct": 0.23,
+    "index": 0.5
+   },
+   {
+    "neighbourhood": "Riverside Park",
+    "injury_collisions": 123,
+    "police_stops": 4610,
+    "charged_pct": 82,
+    "share_injury_pct": 0.82,
+    "share_stops_pct": 1.64,
+    "index": 2.01
+   },
+   {
+    "neighbourhood": "Riverside South - Leitrim",
+    "injury_collisions": 123,
+    "police_stops": 5714,
+    "charged_pct": 73,
+    "share_injury_pct": 0.82,
+    "share_stops_pct": 2.03,
+    "index": 2.49
+   },
+   {
+    "neighbourhood": "Riverview",
+    "injury_collisions": 75,
+    "police_stops": 406,
+    "charged_pct": 38,
+    "share_injury_pct": 0.5,
+    "share_stops_pct": 0.14,
+    "index": 0.29
+   },
+   {
+    "neighbourhood": "Rockcliffe Park",
+    "injury_collisions": 9,
+    "police_stops": 129,
+    "charged_pct": 16,
+    "share_injury_pct": 0.06,
+    "share_stops_pct": 0.05,
+    "index": null
+   },
+   {
+    "neighbourhood": "Rothwell Heights - Beacon Hill North",
+    "injury_collisions": 20,
+    "police_stops": 844,
+    "charged_pct": 28,
+    "share_injury_pct": 0.13,
+    "share_stops_pct": 0.3,
+    "index": 2.26
+   },
+   {
+    "neighbourhood": "Sandy Hill",
+    "injury_collisions": 320,
+    "police_stops": 6726,
+    "charged_pct": 33,
+    "share_injury_pct": 2.12,
+    "share_stops_pct": 2.39,
+    "index": 1.12
+   },
+   {
+    "neighbourhood": "Skyline - Fisher Heights",
+    "injury_collisions": 156,
+    "police_stops": 2093,
+    "charged_pct": 38,
+    "share_injury_pct": 1.03,
+    "share_stops_pct": 0.74,
+    "index": 0.72
+   },
+   {
+    "neighbourhood": "South Keys - Greenboro West",
+    "injury_collisions": 210,
+    "police_stops": 3839,
+    "charged_pct": 35,
+    "share_injury_pct": 1.39,
+    "share_stops_pct": 1.36,
+    "index": 0.98
+   },
+   {
+    "neighbourhood": "Stittsville",
+    "injury_collisions": 304,
+    "police_stops": 4799,
+    "charged_pct": 42,
+    "share_injury_pct": 2.02,
+    "share_stops_pct": 1.7,
+    "index": 0.84
+   },
+   {
+    "neighbourhood": "Stonebridge - Half Moon Bay - Heart's Desire",
+    "injury_collisions": 126,
+    "police_stops": 2742,
+    "charged_pct": 52,
+    "share_injury_pct": 0.84,
+    "share_stops_pct": 0.97,
+    "index": 1.16
+   },
+   {
+    "neighbourhood": "Tanglewood",
+    "injury_collisions": 70,
+    "police_stops": 1768,
+    "charged_pct": 44,
+    "share_injury_pct": 0.46,
+    "share_stops_pct": 0.63,
+    "index": 1.35
+   },
+   {
+    "neighbourhood": "Trend-Arlington",
+    "injury_collisions": 36,
+    "police_stops": 786,
+    "charged_pct": 33,
+    "share_injury_pct": 0.24,
+    "share_stops_pct": 0.28,
+    "index": 1.17
+   },
+   {
+    "neighbourhood": "Vanier North",
+    "injury_collisions": 87,
+    "police_stops": 5374,
+    "charged_pct": 26,
+    "share_injury_pct": 0.58,
+    "share_stops_pct": 1.91,
+    "index": 3.31
+   },
+   {
+    "neighbourhood": "Vanier South",
+    "injury_collisions": 165,
+    "police_stops": 5535,
+    "charged_pct": 25,
+    "share_injury_pct": 1.09,
+    "share_stops_pct": 1.96,
+    "index": 1.79
+   },
+   {
+    "neighbourhood": "Vars",
+    "injury_collisions": 51,
+    "police_stops": 745,
+    "charged_pct": 54,
+    "share_injury_pct": 0.34,
+    "share_stops_pct": 0.26,
+    "index": 0.78
+   },
+   {
+    "neighbourhood": "Wateridge Village",
+    "injury_collisions": 31,
+    "police_stops": 281,
+    "charged_pct": 20,
+    "share_injury_pct": 0.21,
+    "share_stops_pct": 0.1,
+    "index": 0.49
+   },
+   {
+    "neighbourhood": "West Centretown",
+    "injury_collisions": 331,
+    "police_stops": 4458,
+    "charged_pct": 24,
+    "share_injury_pct": 2.19,
+    "share_stops_pct": 1.58,
+    "index": 0.72
+   },
+   {
+    "neighbourhood": "Westboro",
+    "injury_collisions": 249,
+    "police_stops": 1944,
+    "charged_pct": 27,
+    "share_injury_pct": 1.65,
+    "share_stops_pct": 0.69,
+    "index": 0.42
+   },
+   {
+    "neighbourhood": "Whitehaven - Queensway Terrace North",
+    "injury_collisions": 233,
+    "police_stops": 3566,
+    "charged_pct": 24,
+    "share_injury_pct": 1.54,
+    "share_stops_pct": 1.26,
+    "index": 0.82
+   },
+   {
+    "neighbourhood": "Woodvale - Craig Henry - Manordale - Estates of Arlington Woods",
+    "injury_collisions": 71,
+    "police_stops": 2238,
+    "charged_pct": 46,
+    "share_injury_pct": 0.47,
+    "share_stops_pct": 0.79,
+    "index": 1.69
+   }
+  ]
+ },
+ "danger_intersections": {
+  "min_aadt": 10000,
+  "min_collisions": 20,
+  "candidates": 597,
+  "rows": [
+   {
+    "geo_id": "0012421",
+    "name": "ST. JOSEPH BLVD @ JEANNE D'ARC BLVD",
+    "neighbourhood": "Chapel Hill North",
+    "lat": 45.46415,
+    "lon": -75.54013,
+    "collisions": 329,
+    "injury_collisions": 12,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 32891,
+    "aadt_year": 2022,
+    "per_mev": 3.915,
+    "police_stops": 126,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004118",
+    "name": "ST. JOSEPH BLVD/OLD MONTREAL RD @ TRIM RD",
+    "neighbourhood": "Fallingbrook",
+    "lat": 45.48892,
+    "lon": -75.47803,
+    "collisions": 206,
+    "injury_collisions": 21,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 2,
+    "aadt": 29314,
+    "aadt_year": 2019,
+    "per_mev": 2.75,
+    "police_stops": 143,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0005563",
+    "name": "GREENBANK RD @ STRANDHERD DR",
+    "neighbourhood": "Chapman Mills",
+    "lat": 45.27053,
+    "lon": -75.74639,
+    "collisions": 206,
+    "injury_collisions": 27,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 4,
+    "aadt": 35378,
+    "aadt_year": 2016,
+    "per_mev": 2.279,
+    "police_stops": 287,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004630",
+    "name": "MONTREAL RD @ VANIER PKWY",
+    "neighbourhood": "Vanier South",
+    "lat": 45.43446,
+    "lon": -75.66577,
+    "collisions": 137,
+    "injury_collisions": 21,
+    "pedestrian_collisions": 6,
+    "cyclist_collisions": 3,
+    "aadt": 24112,
+    "aadt_year": 2021,
+    "per_mev": 2.224,
+    "police_stops": 831,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002707",
+    "name": "CATHERINE ST @ KENT ST",
+    "neighbourhood": "Centretown",
+    "lat": 45.40879,
+    "lon": -75.69378,
+    "collisions": 113,
+    "injury_collisions": 9,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 21134,
+    "aadt_year": 2017,
+    "per_mev": 2.093,
+    "police_stops": 272,
+    "red_light_cameras": 2
+   },
+   {
+    "geo_id": "0007198",
+    "name": "BRONSON AVE @ CATHERINE ST/RAYMOND ST",
+    "neighbourhood": "West Centretown",
+    "lat": 45.40532,
+    "lon": -75.7022,
+    "collisions": 158,
+    "injury_collisions": 27,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 1,
+    "aadt": 33071,
+    "aadt_year": 2024,
+    "per_mev": 1.87,
+    "police_stops": 191,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002358",
+    "name": "CARLING AVE @ KIRKWOOD AVE N",
+    "neighbourhood": "Westboro",
+    "lat": 45.38486,
+    "lon": -75.7405,
+    "collisions": 165,
+    "injury_collisions": 22,
+    "pedestrian_collisions": 3,
+    "cyclist_collisions": 0,
+    "aadt": 35928,
+    "aadt_year": 2023,
+    "per_mev": 1.797,
+    "police_stops": 17,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0011451",
+    "name": "DALY AVE @ NICHOLAS ST",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42548,
+    "lon": -75.68946,
+    "collisions": 58,
+    "injury_collisions": 7,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 2,
+    "aadt": 13035,
+    "aadt_year": 2023,
+    "per_mev": 1.742,
+    "police_stops": 240,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002236",
+    "name": "RIVERSIDE DR @ HERON RD",
+    "neighbourhood": "Riverside Park",
+    "lat": 45.37691,
+    "lon": -75.69151,
+    "collisions": 179,
+    "injury_collisions": 16,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 41052,
+    "aadt_year": 2021,
+    "per_mev": 1.707,
+    "police_stops": 2870,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0002237",
+    "name": "HUNT CLUB RD @ RIVERSIDE DR",
+    "neighbourhood": "Hunt Club Woods - Quintarra - Revelstoke",
+    "lat": 45.33461,
+    "lon": -75.69319,
+    "collisions": 334,
+    "injury_collisions": 33,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 1,
+    "aadt": 76899,
+    "aadt_year": 2025,
+    "per_mev": 1.7,
+    "police_stops": 550,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0007653",
+    "name": "ST. LAURENT BLVD @ WALKLEY RD",
+    "neighbourhood": "East Industrial",
+    "lat": 45.38895,
+    "lon": -75.6175,
+    "collisions": 137,
+    "injury_collisions": 25,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 0,
+    "aadt": 32630,
+    "aadt_year": 2022,
+    "per_mev": 1.643,
+    "police_stops": 259,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0011452",
+    "name": "BESSERER ST @ DALHOUSIE ST",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42647,
+    "lon": -75.68912,
+    "collisions": 52,
+    "injury_collisions": 1,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 12513,
+    "aadt_year": 2018,
+    "per_mev": 1.626,
+    "police_stops": 268,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0008859",
+    "name": "BESSERER ST @ WALLER ST",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42678,
+    "lon": -75.68831,
+    "collisions": 98,
+    "injury_collisions": 5,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 1,
+    "aadt": 23721,
+    "aadt_year": 2023,
+    "per_mev": 1.617,
+    "police_stops": 211,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002121",
+    "name": "KING EDWARD AVE @ RIDEAU ST",
+    "neighbourhood": "Byward Market",
+    "lat": 45.42875,
+    "lon": -75.68578,
+    "collisions": 128,
+    "injury_collisions": 24,
+    "pedestrian_collisions": 13,
+    "cyclist_collisions": 4,
+    "aadt": 31050,
+    "aadt_year": 2023,
+    "per_mev": 1.613,
+    "police_stops": 444,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0003792",
+    "name": "JEANNE D'ARC BLVD @ ORLEANS BLVD N",
+    "neighbourhood": "Convent Glen - Orl\u00e9ans Woods",
+    "lat": 45.47882,
+    "lon": -75.53774,
+    "collisions": 64,
+    "injury_collisions": 6,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 15701,
+    "aadt_year": 2019,
+    "per_mev": 1.595,
+    "police_stops": 80,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004633",
+    "name": "INNES RD @ TENTH LINE RD",
+    "neighbourhood": "Portobello South",
+    "lat": 45.46085,
+    "lon": -75.48781,
+    "collisions": 219,
+    "injury_collisions": 33,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 54664,
+    "aadt_year": 2017,
+    "per_mev": 1.568,
+    "police_stops": 306,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0000576",
+    "name": "WEST HUNT CLUB RD @ WOODROFFE AVE",
+    "neighbourhood": "Greenbelt",
+    "lat": 45.3287,
+    "lon": -75.74897,
+    "collisions": 226,
+    "injury_collisions": 26,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 1,
+    "aadt": 56465,
+    "aadt_year": 2025,
+    "per_mev": 1.567,
+    "police_stops": 952,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004120",
+    "name": "BLAIR RD @ OGILVIE RD",
+    "neighbourhood": "Carson Grove - Carson Meadows",
+    "lat": 45.43524,
+    "lon": -75.60905,
+    "collisions": 170,
+    "injury_collisions": 13,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 42584,
+    "aadt_year": 2019,
+    "per_mev": 1.562,
+    "police_stops": 174,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002209",
+    "name": "CARLING AVE @ KIRKWOOD AVE S",
+    "neighbourhood": "Carlington",
+    "lat": 45.38345,
+    "lon": -75.73955,
+    "collisions": 136,
+    "injury_collisions": 13,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 34332,
+    "aadt_year": 2021,
+    "per_mev": 1.55,
+    "police_stops": 504,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002155",
+    "name": "BANK ST @ HERON RD",
+    "neighbourhood": "Billings Bridge - Alta Vista",
+    "lat": 45.37857,
+    "lon": -75.66755,
+    "collisions": 181,
+    "injury_collisions": 34,
+    "pedestrian_collisions": 5,
+    "cyclist_collisions": 1,
+    "aadt": 45885,
+    "aadt_year": 2022,
+    "per_mev": 1.544,
+    "police_stops": 363,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0010711",
+    "name": "LAURIER AVE @ NICHOLAS ST",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42323,
+    "lon": -75.68762,
+    "collisions": 172,
+    "injury_collisions": 21,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 4,
+    "aadt": 43910,
+    "aadt_year": 2023,
+    "per_mev": 1.533,
+    "police_stops": 316,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0000118",
+    "name": "EAGLESON RD @ FALLOWFIELD RD",
+    "neighbourhood": "Richmond",
+    "lat": 45.25145,
+    "lon": -75.8482,
+    "collisions": 64,
+    "injury_collisions": 16,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 16442,
+    "aadt_year": 2022,
+    "per_mev": 1.523,
+    "police_stops": 171,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004212",
+    "name": "ALBION RD @ MITCH OWENS RD",
+    "neighbourhood": "Greely",
+    "lat": 45.2696,
+    "lon": -75.59382,
+    "collisions": 82,
+    "injury_collisions": 29,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 21309,
+    "aadt_year": 2024,
+    "per_mev": 1.506,
+    "police_stops": 69,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0003682",
+    "name": "HAZELDEAN RD @ TERRY FOX DR",
+    "neighbourhood": "Glen Cairn - Kanata South Business Park",
+    "lat": 45.29354,
+    "lon": -75.89558,
+    "collisions": 197,
+    "injury_collisions": 28,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 3,
+    "aadt": 51727,
+    "aadt_year": 2025,
+    "per_mev": 1.491,
+    "police_stops": 629,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0011423",
+    "name": "BANK ST @ WALKLEY RD",
+    "neighbourhood": "Ledbury - Heron Gate - Ridgemont",
+    "lat": 45.37041,
+    "lon": -75.6633,
+    "collisions": 192,
+    "injury_collisions": 28,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 4,
+    "aadt": 50690,
+    "aadt_year": 2025,
+    "per_mev": 1.482,
+    "police_stops": 693,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0009411",
+    "name": "EARL ARMSTRONG RD @ BOWESVILLE RD",
+    "neighbourhood": "Greely",
+    "lat": 45.29365,
+    "lon": -75.63609,
+    "collisions": 50,
+    "injury_collisions": 13,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 1,
+    "aadt": 13281,
+    "aadt_year": 2025,
+    "per_mev": 1.473,
+    "police_stops": 227,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002231",
+    "name": "METCALFE ST @ LAURIER AVE",
+    "neighbourhood": "Centretown",
+    "lat": 45.42016,
+    "lon": -75.69509,
+    "collisions": 43,
+    "injury_collisions": 2,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 3,
+    "aadt": 11497,
+    "aadt_year": 2024,
+    "per_mev": 1.464,
+    "police_stops": 159,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0007658",
+    "name": "BELFAST RD @ ST. LAURENT BLVD",
+    "neighbourhood": "East Industrial",
+    "lat": 45.41183,
+    "lon": -75.63046,
+    "collisions": 134,
+    "injury_collisions": 27,
+    "pedestrian_collisions": 3,
+    "cyclist_collisions": 1,
+    "aadt": 36294,
+    "aadt_year": 2024,
+    "per_mev": 1.445,
+    "police_stops": 179,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0009702",
+    "name": "CAMBRIAN RD/GOLFLINKS DR N @ LONGFIELDS DR",
+    "neighbourhood": "Stonebridge - Half Moon Bay - Heart's Desire",
+    "lat": 45.25636,
+    "lon": -75.72811,
+    "collisions": 76,
+    "injury_collisions": 7,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 2,
+    "aadt": 20635,
+    "aadt_year": 2022,
+    "per_mev": 1.442,
+    "police_stops": 43,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0012475",
+    "name": "INNES RD @ JEANNE D'ARC BLVD/MER BLEUE RD",
+    "neighbourhood": "Chapel Hill South",
+    "lat": 45.4557,
+    "lon": -75.50478,
+    "collisions": 191,
+    "injury_collisions": 28,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 51945,
+    "aadt_year": 2025,
+    "per_mev": 1.439,
+    "police_stops": 376,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0001112",
+    "name": "MERIVALE RD/LOTTA AVE @ CLYDE AVE/MERIVALE RD",
+    "neighbourhood": "Skyline - Fisher Heights",
+    "lat": 45.35797,
+    "lon": -75.73772,
+    "collisions": 147,
+    "injury_collisions": 17,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 1,
+    "aadt": 40169,
+    "aadt_year": 2023,
+    "per_mev": 1.432,
+    "police_stops": 138,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0000598",
+    "name": "OLD RICHMOND RD @ WEST HUNT CLUB RD",
+    "neighbourhood": "Greenbelt",
+    "lat": 45.30137,
+    "lon": -75.83253,
+    "collisions": 101,
+    "injury_collisions": 10,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 27844,
+    "aadt_year": 2022,
+    "per_mev": 1.42,
+    "police_stops": 347,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002257",
+    "name": "CONROY RD @ HUNT CLUB RD",
+    "neighbourhood": "Greenboro East",
+    "lat": 45.36519,
+    "lon": -75.61965,
+    "collisions": 137,
+    "injury_collisions": 27,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 1,
+    "aadt": 38585,
+    "aadt_year": 2024,
+    "per_mev": 1.39,
+    "police_stops": 809,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002170",
+    "name": "KING EDWARD AVE @ LAURIER AVE",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42532,
+    "lon": -75.68292,
+    "collisions": 79,
+    "injury_collisions": 7,
+    "pedestrian_collisions": 5,
+    "cyclist_collisions": 0,
+    "aadt": 22326,
+    "aadt_year": 2016,
+    "per_mev": 1.385,
+    "police_stops": 180,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002232",
+    "name": "ELGIN ST @ LAURIER AVE",
+    "neighbourhood": "Centretown",
+    "lat": 45.42103,
+    "lon": -75.69308,
+    "collisions": 87,
+    "injury_collisions": 16,
+    "pedestrian_collisions": 5,
+    "cyclist_collisions": 8,
+    "aadt": 24769,
+    "aadt_year": 2019,
+    "per_mev": 1.375,
+    "police_stops": 263,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0011380",
+    "name": "ISABELLA ST/HWY417 IC119AR75 @ METCALFE ST",
+    "neighbourhood": "Glebe - Dows Lake",
+    "lat": 45.41064,
+    "lon": -75.68684,
+    "collisions": 91,
+    "injury_collisions": 13,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 25932,
+    "aadt_year": 2024,
+    "per_mev": 1.373,
+    "police_stops": 249,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0007646",
+    "name": "DALHOUSIE ST @ RIDEAU ST",
+    "neighbourhood": "Byward Market",
+    "lat": 45.4271,
+    "lon": -75.68969,
+    "collisions": 51,
+    "injury_collisions": 12,
+    "pedestrian_collisions": 8,
+    "cyclist_collisions": 3,
+    "aadt": 14589,
+    "aadt_year": 2022,
+    "per_mev": 1.368,
+    "police_stops": 694,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0004165",
+    "name": "BLAIR RD @ INNES RD",
+    "neighbourhood": "Greenbelt",
+    "lat": 45.41931,
+    "lon": -75.59562,
+    "collisions": 165,
+    "injury_collisions": 19,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 1,
+    "aadt": 47392,
+    "aadt_year": 2022,
+    "per_mev": 1.363,
+    "police_stops": 563,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0001604",
+    "name": "VANIER PKWY/CRICHTON ST @ BEECHWOOD AVE/ST. PATRICK ST",
+    "neighbourhood": "Vanier North",
+    "lat": 45.43836,
+    "lon": -75.67777,
+    "collisions": 127,
+    "injury_collisions": 16,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 0,
+    "aadt": 36670,
+    "aadt_year": 2023,
+    "per_mev": 1.356,
+    "police_stops": 385,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002225",
+    "name": "BASELINE RD @ WOODROFFE AVE",
+    "neighbourhood": "Centrepointe",
+    "lat": 45.3515,
+    "lon": -75.76298,
+    "collisions": 215,
+    "injury_collisions": 29,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 62404,
+    "aadt_year": 2023,
+    "per_mev": 1.348,
+    "police_stops": 878,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002119",
+    "name": "BANK ST @ HUNT CLUB RD",
+    "neighbourhood": "South Keys - Greenboro West",
+    "lat": 45.35363,
+    "lon": -75.64733,
+    "collisions": 170,
+    "injury_collisions": 21,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 1,
+    "aadt": 49410,
+    "aadt_year": 2024,
+    "per_mev": 1.347,
+    "police_stops": 570,
+    "red_light_cameras": 2
+   },
+   {
+    "geo_id": "0002151",
+    "name": "ST. LAURENT BLVD @ COVENTRY RD/OGILVIE RD",
+    "neighbourhood": "Overbrook - McArthur",
+    "lat": 45.42424,
+    "lon": -75.63736,
+    "collisions": 159,
+    "injury_collisions": 19,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 3,
+    "aadt": 46247,
+    "aadt_year": 2025,
+    "per_mev": 1.346,
+    "police_stops": 384,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0007651",
+    "name": "HAWTHORNE RD @ HUNT CLUB RD",
+    "neighbourhood": "East Industrial",
+    "lat": 45.37404,
+    "lon": -75.59725,
+    "collisions": 167,
+    "injury_collisions": 28,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 48706,
+    "aadt_year": 2025,
+    "per_mev": 1.342,
+    "police_stops": 454,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0009163",
+    "name": "ST. JOSEPH BLVD @ TENTH LINE RD",
+    "neighbourhood": "Queenswood Heights",
+    "lat": 45.48355,
+    "lon": -75.50105,
+    "collisions": 102,
+    "injury_collisions": 14,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 29856,
+    "aadt_year": 2018,
+    "per_mev": 1.337,
+    "police_stops": 133,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0002342",
+    "name": "BASELINE RD @ MERIVALE RD",
+    "neighbourhood": "Skyline - Fisher Heights",
+    "lat": 45.36528,
+    "lon": -75.73082,
+    "collisions": 161,
+    "injury_collisions": 24,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 47151,
+    "aadt_year": 2022,
+    "per_mev": 1.336,
+    "police_stops": 532,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0008630",
+    "name": "DONALD ST @ ST. LAURENT BLVD",
+    "neighbourhood": "Overbrook - McArthur",
+    "lat": 45.42895,
+    "lon": -75.64,
+    "collisions": 156,
+    "injury_collisions": 27,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 4,
+    "aadt": 45719,
+    "aadt_year": 2016,
+    "per_mev": 1.335,
+    "police_stops": 565,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0001068",
+    "name": "RICHMOND RD @ HOLLY ACRES RD/NANAIMO DR",
+    "neighbourhood": "Qualicum - Redwood Park",
+    "lat": 45.34258,
+    "lon": -75.80764,
+    "collisions": 103,
+    "injury_collisions": 19,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 1,
+    "aadt": 30515,
+    "aadt_year": 2025,
+    "per_mev": 1.321,
+    "police_stops": 148,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002203",
+    "name": "INDUSTRIAL AVE/INNES RD @ ST. LAURENT BLVD",
+    "neighbourhood": "East Industrial",
+    "lat": 45.40665,
+    "lon": -75.62749,
+    "collisions": 188,
+    "injury_collisions": 29,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 1,
+    "aadt": 56431,
+    "aadt_year": 2024,
+    "per_mev": 1.304,
+    "police_stops": 260,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0000625",
+    "name": "MEADOWLANDS DR @ MERIVALE RD",
+    "neighbourhood": "Cityview - Crestview - Meadowlands",
+    "lat": 45.3509,
+    "lon": -75.73352,
+    "collisions": 167,
+    "injury_collisions": 36,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 2,
+    "aadt": 50277,
+    "aadt_year": 2023,
+    "per_mev": 1.3,
+    "police_stops": 386,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0001528",
+    "name": "VIEWMOUNT DR @ MERIVALE RD",
+    "neighbourhood": "Tanglewood",
+    "lat": 45.34388,
+    "lon": -75.72934,
+    "collisions": 130,
+    "injury_collisions": 19,
+    "pedestrian_collisions": 3,
+    "cyclist_collisions": 2,
+    "aadt": 39225,
+    "aadt_year": 2019,
+    "per_mev": 1.297,
+    "police_stops": 222,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002622",
+    "name": "CHARLOTTE ST @ RIDEAU ST",
+    "neighbourhood": "Lowertown",
+    "lat": 45.43271,
+    "lon": -75.67627,
+    "collisions": 36,
+    "injury_collisions": 8,
+    "pedestrian_collisions": 4,
+    "cyclist_collisions": 2,
+    "aadt": 10868,
+    "aadt_year": 2019,
+    "per_mev": 1.296,
+    "police_stops": 168,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0007647",
+    "name": "COLONEL BY DR/SUSSEX DR @ RIDEAU ST",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.42549,
+    "lon": -75.69337,
+    "collisions": 68,
+    "injury_collisions": 5,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 1,
+    "aadt": 20608,
+    "aadt_year": 2023,
+    "per_mev": 1.291,
+    "police_stops": 429,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0011470",
+    "name": "CARLING AVE @ WOODROFFE AVE W",
+    "neighbourhood": "Whitehaven - Queensway Terrace North",
+    "lat": 45.36916,
+    "lon": -75.77273,
+    "collisions": 115,
+    "injury_collisions": 15,
+    "pedestrian_collisions": 7,
+    "cyclist_collisions": 0,
+    "aadt": 34948,
+    "aadt_year": 2024,
+    "per_mev": 1.288,
+    "police_stops": 206,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002253",
+    "name": "BANK ST @ GLADSTONE AVE",
+    "neighbourhood": "Centretown",
+    "lat": 45.41215,
+    "lon": -75.69362,
+    "collisions": 51,
+    "injury_collisions": 12,
+    "pedestrian_collisions": 7,
+    "cyclist_collisions": 1,
+    "aadt": 15602,
+    "aadt_year": 2022,
+    "per_mev": 1.279,
+    "police_stops": 239,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002704",
+    "name": "BANK ST @ RIVERSIDE DR S",
+    "neighbourhood": "Billings Bridge - Alta Vista",
+    "lat": 45.38802,
+    "lon": -75.67624,
+    "collisions": 124,
+    "injury_collisions": 20,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 2,
+    "aadt": 38363,
+    "aadt_year": 2023,
+    "per_mev": 1.265,
+    "police_stops": 459,
+    "red_light_cameras": 1
+   },
+   {
+    "geo_id": "0011413",
+    "name": "LEES AVE @ KING EDWARD AVE/MANN AVE",
+    "neighbourhood": "Sandy Hill",
+    "lat": 45.41899,
+    "lon": -75.6774,
+    "collisions": 76,
+    "injury_collisions": 14,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 0,
+    "aadt": 23705,
+    "aadt_year": 2024,
+    "per_mev": 1.255,
+    "police_stops": 276,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0006383",
+    "name": "PARKDALE AVE @ SHERWOOD DR",
+    "neighbourhood": "Civic Hospital-Central Park",
+    "lat": 45.39601,
+    "lon": -75.72623,
+    "collisions": 36,
+    "injury_collisions": 4,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 11487,
+    "aadt_year": 2024,
+    "per_mev": 1.227,
+    "police_stops": 52,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0002343",
+    "name": "BASELINE RD @ CLYDE AVE",
+    "neighbourhood": "Cityview - Crestview - Meadowlands",
+    "lat": 45.36143,
+    "lon": -75.73976,
+    "collisions": 178,
+    "injury_collisions": 28,
+    "pedestrian_collisions": 2,
+    "cyclist_collisions": 2,
+    "aadt": 56866,
+    "aadt_year": 2019,
+    "per_mev": 1.225,
+    "police_stops": 563,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0000519",
+    "name": "WOODROFFE AVE @ KNOXDALE RD/MEDHURST DR",
+    "neighbourhood": "Woodvale - Craig Henry - Manordale - Estates of Arlington Woods",
+    "lat": 45.33394,
+    "lon": -75.75211,
+    "collisions": 111,
+    "injury_collisions": 25,
+    "pedestrian_collisions": 0,
+    "cyclist_collisions": 0,
+    "aadt": 35500,
+    "aadt_year": 2024,
+    "per_mev": 1.224,
+    "police_stops": 485,
+    "red_light_cameras": 0
+   },
+   {
+    "geo_id": "0008799",
+    "name": "AVIATION PKWY @ MONTREAL RD",
+    "neighbourhood": "Carson Grove - Carson Meadows",
+    "lat": 45.44366,
+    "lon": -75.6391,
+    "collisions": 111,
+    "injury_collisions": 25,
+    "pedestrian_collisions": 1,
+    "cyclist_collisions": 0,
+    "aadt": 35891,
+    "aadt_year": 2022,
+    "per_mev": 1.21,
+    "police_stops": 213,
+    "red_light_cameras": 1
+   }
+  ]
+ },
+ "camera_sites": {
+  "red_light": [
+   {
+    "name": "WALKEY @ HAWTHORNE  / RUSSELL",
+    "lat": 45.392949,
+    "lon": -75.607581,
+    "installed": 2008,
+    "violations": 8041
+   },
+   {
+    "name": "ST LAURENT @ BELFAST",
+    "lat": 45.411833,
+    "lon": -75.63046,
+    "installed": 2008,
+    "violations": 3663
+   },
+   {
+    "name": "CAMPEAU @ HWY 417 WB",
+    "lat": 45.322594,
+    "lon": -75.887187,
+    "installed": 2008,
+    "violations": 6201
+   },
+   {
+    "name": "CATHERINE @ KENT",
+    "lat": 45.408789,
+    "lon": -75.693783,
+    "installed": 2008,
+    "violations": 12841
+   },
+   {
+    "name": "BASELINE @ MERIVALE",
+    "lat": 45.365283,
+    "lon": -75.730821,
+    "installed": 2008,
+    "violations": 4346
+   },
+   {
+    "name": "BANK @ HUNT CLUB",
+    "lat": 45.353631,
+    "lon": -75.647331,
+    "installed": 2008,
+    "violations": 6613
+   },
+   {
+    "name": "CATHERINE & O'CONNOR @ HWY 417 WB",
+    "lat": 45.410594,
+    "lon": -75.689464,
+    "installed": 2008,
+    "violations": 14172
+   },
+   {
+    "name": "TENTH LINE  / CHARLEMAGNE @ TOMPKINS",
+    "lat": 45.477326,
+    "lon": -75.497411,
+    "installed": 2008,
+    "violations": 4541
+   },
+   {
+    "name": "BANK @ RIVERSIDE N. (RR19)",
+    "lat": 45.388828,
+    "lon": -75.677235,
+    "installed": 2008,
+    "violations": 5034
+   },
+   {
+    "name": "CARLING @ ISLAND PARK",
+    "lat": 45.389192,
+    "lon": -75.726627,
+    "installed": 2008,
+    "violations": 8156
+   },
+   {
+    "name": "KING EDWARD @ ST. PATRICK",
+    "lat": 45.432467,
+    "lon": -75.689087,
+    "installed": 2011,
+    "violations": 36056
+   },
+   {
+    "name": "BRONSON @ COMMISSIONER / SLATER",
+    "lat": 45.415729,
+    "lon": -75.708237,
+    "installed": 2010,
+    "violations": 2320
+   },
+   {
+    "name": "ALBERT @ BOOTH",
+    "lat": 45.412918,
+    "lon": -75.712652,
+    "installed": 2010,
+    "violations": 1089
+   },
+   {
+    "name": "BANK @ HERON",
+    "lat": 45.378572,
+    "lon": -75.667552,
+    "installed": 2010,
+    "violations": 5813
+   },
+   {
+    "name": "CYRVILLE @ INNES",
+    "lat": 45.416485,
+    "lon": -75.602445,
+    "installed": 2010,
+    "violations": 4713
+   },
+   {
+    "name": "DUFORD / PLACE D'ORLEANS @ ST JOSEPH",
+    "lat": 45.477627,
+    "lon": -75.512591,
+    "installed": 2010,
+    "violations": 7780
+   },
+   {
+    "name": "BERRIGAN @ WESSEX / GREENBANK",
+    "lat": 45.274975,
+    "lon": -75.749006,
+    "installed": 2010,
+    "violations": 8512
+   },
+   {
+    "name": "HOLLAND & ISLAND PARK @ NCC DRIVEWAY",
+    "lat": 45.388574,
+    "lon": -75.725767,
+    "installed": 2010,
+    "violations": 4521
+   },
+   {
+    "name": "CONROY @ LORRY GREENBERG",
+    "lat": 45.369472,
+    "lon": -75.622077,
+    "installed": 2010,
+    "violations": 5584
+   },
+   {
+    "name": "AVIATION PARKWAY @ OGILVIE",
+    "lat": 45.427987,
+    "lon": -75.627017,
+    "installed": 2010,
+    "violations": 2511
+   },
+   {
+    "name": "ELGIN / PRETORIA BRIDGE @ QUEEN ELIZABETH",
+    "lat": 45.411311,
+    "lon": -75.684063,
+    "installed": 2010,
+    "violations": 7741
+   },
+   {
+    "name": "FISHER @ MEADOWLANDS",
+    "lat": 45.362631,
+    "lon": -75.71145,
+    "installed": 2010,
+    "violations": 7064
+   },
+   {
+    "name": "SAUNDERSON @ SMYTH",
+    "lat": 45.400548,
+    "lon": -75.631489,
+    "installed": 2011,
+    "violations": 4270
+   },
+   {
+    "name": "JOCKVALE @ STRANDHERD",
+    "lat": 45.268703,
+    "lon": -75.751169,
+    "installed": 2011,
+    "violations": 5204
+   },
+   {
+    "name": "BLAIR @ REGIONAL RD 174 W.",
+    "lat": 45.43337,
+    "lon": -75.607456,
+    "installed": 2011,
+    "violations": 5071
+   },
+   {
+    "name": "ALBERT @ KENT",
+    "lat": 45.419027,
+    "lon": -75.702402,
+    "installed": 2001,
+    "violations": 5606
+   },
+   {
+    "name": "KING EDWARD @ ST. ANDREW",
+    "lat": 45.433795,
+    "lon": -75.689912,
+    "installed": 2012,
+    "violations": 24997
+   },
+   {
+    "name": "MERIVALE @ MEADOWLANDS",
+    "lat": 45.350903,
+    "lon": -75.733517,
+    "installed": 2001,
+    "violations": 5845
+   },
+   {
+    "name": "HERON @ RIVERSIDE",
+    "lat": 45.376772,
+    "lon": -75.69149,
+    "installed": 2001,
+    "violations": 8224
+   },
+   {
+    "name": "CARLING @ RICHMOND",
+    "lat": 45.360785,
+    "lon": -75.792266,
+    "installed": 2001,
+    "violations": 9435
+   },
+   {
+    "name": "BRONSON @ CARLING / GLEBE",
+    "lat": 45.401001,
+    "lon": -75.699654,
+    "installed": 2001,
+    "violations": 7443
+   },
+   {
+    "name": "COVENTRY / OGILVIE @ ST. LAURENT",
+    "lat": 45.424241,
+    "lon": -75.637362,
+    "installed": 2001,
+    "violations": 5412
+   },
+   {
+    "name": "HAZELDEAN / ROBERTSON @ EAGLESON",
+    "lat": 45.304072,
+    "lon": -75.876777,
+    "installed": 2001,
+    "violations": 4060
+   },
+   {
+    "name": "ST. JOSEPH @ OLD TENTH LINE",
+    "lat": 45.4846,
+    "lon": -75.498103,
+    "installed": 2018,
+    "violations": 4340
+   },
+   {
+    "name": "BANK @ RIVERSIDE S.",
+    "lat": 45.38802,
+    "lon": -75.676237,
+    "installed": 2017,
+    "violations": 8467
+   },
+   {
+    "name": "KIRKWOOD @ COLDREY",
+    "lat": 45.381631,
+    "lon": -75.738465,
+    "installed": 2017,
+    "violations": 6668
+   },
+   {
+    "name": "GLADSTONE @ ROCHESTER",
+    "lat": 45.405292,
+    "lon": -75.709737,
+    "installed": 2017,
+    "violations": 3925
+   },
+   {
+    "name": "BRONSON @ POWELL",
+    "lat": 45.402435,
+    "lon": -75.700513,
+    "installed": 2017,
+    "violations": 5871
+   },
+   {
+    "name": "AVIATION PARKWAY @ MONTREAL",
+    "lat": 45.443664,
+    "lon": -75.639098,
+    "installed": 2017,
+    "violations": 4399
+   },
+   {
+    "name": "PRINCE OF WALES @ HOGS BACK / MEADOWLANDS",
+    "lat": 45.368391,
+    "lon": -75.701197,
+    "installed": 2017,
+    "violations": 4913
+   },
+   {
+    "name": "FALLOWFIELD @ CEDARVIEW",
+    "lat": 45.278666,
+    "lon": -75.779918,
+    "installed": 2017,
+    "violations": 2190
+   },
+   {
+    "name": "INNES @ ORLEANS",
+    "lat": 45.444503,
+    "lon": -75.532804,
+    "installed": 2017,
+    "violations": 1580
+   },
+   {
+    "name": "WALKLEY @ GLENHAVEN / ANAND",
+    "lat": 45.369734,
+    "lon": -75.664947,
+    "installed": 2017,
+    "violations": 7912
+   },
+   {
+    "name": "HERON @ 155m W OF BANK",
+    "lat": 45.378404,
+    "lon": -75.669459,
+    "installed": 2017,
+    "violations": 12825
+   },
+   {
+    "name": "TENTH LINE @ VANGUARD",
+    "lat": 45.458339,
+    "lon": -75.48638,
+    "installed": 2017,
+    "violations": 5727
+   },
+   {
+    "name": "HAWTHORNE @ LEITRIM",
+    "lat": 45.340613,
+    "lon": -75.578239,
+    "installed": 2017,
+    "violations": 839
+   },
+   {
+    "name": "BOOTH @ WELLINGTON (RR40)",
+    "lat": 45.416296,
+    "lon": -75.714674,
+    "installed": 2009,
+    "violations": 2139
+   },
+   {
+    "name": "BAY @ SLATER",
+    "lat": 45.416879,
+    "lon": -75.705474,
+    "installed": 2018,
+    "violations": 2182
+   },
+   {
+    "name": "ELGIN @ SLATER",
+    "lat": 45.421909,
+    "lon": -75.693813,
+    "installed": 2018,
+    "violations": 3404
+   },
+   {
+    "name": "KENT @ ARLINGTON",
+    "lat": 45.409413,
+    "lon": -75.694272,
+    "installed": 2018,
+    "violations": 14810
+   },
+   {
+    "name": "MURRAY @ SUSSEX",
+    "lat": 45.428655,
+    "lon": -75.696058,
+    "installed": 2018,
+    "violations": 4175
+   },
+   {
+    "name": "ST. JOSEPH @ TENTH LINE",
+    "lat": 45.483554,
+    "lon": -75.501051,
+    "installed": 2018,
+    "violations": 2950
+   },
+   {
+    "name": "LYON @ SLATER",
+    "lat": 45.417535,
+    "lon": -75.703944,
+    "installed": 2018,
+    "violations": 4004
+   },
+   {
+    "name": "WALKLEY @ RYDER / DON RIED",
+    "lat": 45.38222,
+    "lon": -75.634221,
+    "installed": 2020,
+    "violations": 9712
+   },
+   {
+    "name": "O'CONNOR ST @ HWY 417 WB ON RAMP / CATHERINE",
+    "lat": 45.410594,
+    "lon": -75.689464,
+    "installed": 2020,
+    "violations": 1222
+   },
+   {
+    "name": "CARLING @ IROQUOIS",
+    "lat": 45.37182,
+    "lon": -75.767003,
+    "installed": 2020,
+    "violations": 4662
+   },
+   {
+    "name": "KING EDWARD @ BESSERER",
+    "lat": 45.428093,
+    "lon": -75.685291,
+    "installed": 2020,
+    "violations": 8951
+   },
+   {
+    "name": "RUSSELL @ ST-LAURENT",
+    "lat": 45.399905,
+    "lon": -75.621586,
+    "installed": 2020,
+    "violations": 11558
+   },
+   {
+    "name": "MONTREAL @ BRITTANY",
+    "lat": 45.442661,
+    "lon": -75.642105,
+    "installed": 2021,
+    "violations": 4195
+   },
+   {
+    "name": "HUNT CLUB @ DOWNPARTICK /MCCARTY",
+    "lat": 45.347473,
+    "lon": -75.661474,
+    "installed": 2021,
+    "violations": 9875
+   },
+   {
+    "name": "HERON @ JEFFERSON",
+    "lat": 45.380209,
+    "lon": -75.644378,
+    "installed": 2021,
+    "violations": 4192
+   },
+   {
+    "name": "MARCH @ CARP",
+    "lat": 45.334546,
+    "lon": -76.023282,
+    "installed": 2021,
+    "violations": 919
+   },
+   {
+    "name": "JEANNE D'ARC @ CHAMPLAIN",
+    "lat": 45.484236,
+    "lon": -75.520369,
+    "installed": 2021,
+    "violations": 1658
+   },
+   {
+    "name": "EAGLESON @ COPE",
+    "lat": 45.282437,
+    "lon": -75.864943,
+    "installed": 2021,
+    "violations": 2508
+   },
+   {
+    "name": "ALBION @ RIDEAU",
+    "lat": 45.28651,
+    "lon": -75.603923,
+    "installed": 2022,
+    "violations": 1348
+   },
+   {
+    "name": "BANK @ RIVERSIDE N",
+    "lat": 45.388828,
+    "lon": -75.677235,
+    "installed": 2022,
+    "violations": 287
+   },
+   {
+    "name": "HUNT CLUB @ CAHILL",
+    "lat": 45.357567,
+    "lon": -75.637073,
+    "installed": 2022,
+    "violations": 2625
+   },
+   {
+    "name": "CARLING @ MERIVALE",
+    "lat": 45.386667,
+    "lon": -75.732574,
+    "installed": 2022,
+    "violations": 1557
+   },
+   {
+    "name": "CARLING @ 195M W OF IROQUOIS",
+    "lat": 45.370874,
+    "lon": -75.768812,
+    "installed": 2022,
+    "violations": 1418
+   },
+   {
+    "name": "CARLING @ FAIRLAWN",
+    "lat": 45.370089,
+    "lon": -75.770588,
+    "installed": 2022,
+    "violations": 1370
+   },
+   {
+    "name": "CARP @ RICHARDSON SIDE",
+    "lat": 45.293178,
+    "lon": -75.972058,
+    "installed": 2022,
+    "violations": 808
+   },
+   {
+    "name": "CONROY @ JOHNSTON",
+    "lat": 45.373361,
+    "lon": -75.624205,
+    "installed": 2022,
+    "violations": 1749
+   },
+   {
+    "name": "SMYTH @ HAIG",
+    "lat": 45.400345,
+    "lon": -75.634417,
+    "installed": 2022,
+    "violations": 895
+   },
+   {
+    "name": "CARLING @ HOLLY ACRES",
+    "lat": 45.349388,
+    "lon": -75.818073,
+    "installed": 2022,
+    "violations": 4767
+   },
+   {
+    "name": "JEANNE D'ARC @ VINEYARDS /FORTUNE",
+    "lat": 45.472339,
+    "lon": -75.547958,
+    "installed": 2022,
+    "violations": 484
+   },
+   {
+    "name": "TERRY FOX @ 135M S OF HAZELDEAN",
+    "lat": 45.292605,
+    "lon": -75.894515,
+    "installed": 2022,
+    "violations": 3022
+   },
+   {
+    "name": "VANIER PARKWAY @ PRESLAND",
+    "lat": 45.42262,
+    "lon": -75.661315,
+    "installed": 2022,
+    "violations": 6277
+   },
+   {
+    "name": "ELGIN ST @ SLATER ST",
+    "lat": 45.421909,
+    "lon": -75.693813,
+    "installed": 2022,
+    "violations": 1928
+   },
+   {
+    "name": "WELLINGTON ST @ BAY ST",
+    "lat": 45.419351,
+    "lon": -75.707598,
+    "installed": 2022,
+    "violations": 8432
+   },
+   {
+    "name": "NAVAN @ RENAUD",
+    "lat": 45.430321,
+    "lon": -75.515717,
+    "installed": 2022,
+    "violations": 240
+   },
+   {
+    "name": "HAWTHORNE AVE/ISABELLA ST @ QUEEN ELIZABETH DRWY",
+    "lat": 45.411311,
+    "lon": -75.684063,
+    "installed": 2010,
+    "violations": 2448
+   },
+   {
+    "name": "MAITLAND @ ERINDALE/GLENMOUNT",
+    "lat": 45.364265,
+    "lon": -75.747795,
+    "installed": 2025,
+    "violations": 2215
+   }
+  ],
+  "photo_radar": [
+   {
+    "site_id": "E001",
+    "name": "Longfields Dr. between Highbury Park Dr. and Via Verona Ave.",
+    "lat": 45.281464,
+    "lon": -75.743955,
+    "installed": 2020,
+    "tickets": 25275
+   },
+   {
+    "site_id": "E002",
+    "name": "Innes Rd. between Provence Ave. and Trim Rd.",
+    "lat": 45.469101,
+    "lon": -75.459256,
+    "installed": 2020,
+    "tickets": 25184
+   },
+   {
+    "site_id": "E003",
+    "name": "Bayshore Dr. between Woodridge N Cres. And Woodridge S Cres.",
+    "lat": 45.350637,
+    "lon": -75.806284,
+    "installed": 2020,
+    "tickets": 69094
+   },
+   {
+    "site_id": "E004",
+    "name": "Katimavik Rd. between Castlefrank Rd. and McGibbon Dr./Sewall Way",
+    "lat": 45.308009,
+    "lon": -75.899906,
+    "installed": 2020,
+    "tickets": 68952
+   },
+   {
+    "site_id": "E005",
+    "name": "Watters Dr. between Charlemagne Blvd. and Roberval Ave.",
+    "lat": 45.478969,
+    "lon": -75.478271,
+    "installed": 2020,
+    "tickets": 21091
+   },
+   {
+    "site_id": "E006",
+    "name": "Ogilvie Rd. between Appleford St. and Elmlea Gate",
+    "lat": 45.439154,
+    "lon": -75.599919,
+    "installed": 2020,
+    "tickets": 68613
+   },
+   {
+    "site_id": "E007",
+    "name": "Smyth Rd. between Haig Dr. and Edgecomb St.",
+    "lat": 45.400312,
+    "lon": -75.635849,
+    "installed": 2020,
+    "tickets": 50580
+   },
+   {
+    "site_id": "E008",
+    "name": "Meadowlands Dr. W. between Winthrow Ave. and Thatcher St.",
+    "lat": 45.344655,
+    "lon": -75.750072,
+    "installed": 2020,
+    "tickets": 36206
+   },
+   {
+    "site_id": "E009",
+    "name": "Bearbrook Rd. between Centrepark Dr.  and Innes Rd.",
+    "lat": 45.433227,
+    "lon": -75.565469,
+    "installed": 2022,
+    "tickets": 17454
+   },
+   {
+    "site_id": "E010",
+    "name": "Alta Vista Dr. between Ayers Ave. and Ridgemont Ave.",
+    "lat": 45.376272,
+    "lon": -75.660906,
+    "installed": 2022,
+    "tickets": 29228
+   },
+   {
+    "site_id": "E011",
+    "name": "Greenbank Rd. between Harrison St. and Banner Rd.",
+    "lat": 45.334087,
+    "lon": -75.783835,
+    "installed": 2022,
+    "tickets": 25757
+   },
+   {
+    "site_id": "E012",
+    "name": "Abbott St. E between Moss Hill Trail and Shea Rd.",
+    "lat": 45.265202,
+    "lon": -75.909998,
+    "installed": 2022,
+    "tickets": 13827
+   },
+   {
+    "site_id": "E013",
+    "name": "St-Laurent Blvd. between Noranda Ave. and CLarke Ave.",
+    "lat": 45.438431,
+    "lon": -75.645334,
+    "installed": 2022,
+    "tickets": 79966
+   },
+   {
+    "site_id": "E014",
+    "name": "Tenth Line Rd. between Amiens St. and Des Epinettes Ave./Charlemagne Blvd.",
+    "lat": 45.471785,
+    "lon": -75.494427,
+    "installed": 2022,
+    "tickets": 7648
+   },
+   {
+    "site_id": "E015",
+    "name": "Fisher Ave. between Kintyre Priv. and Deer Park Rd./Dynes Rd.",
+    "lat": 45.364651,
+    "lon": -75.712415,
+    "installed": 2022,
+    "tickets": 48588
+   },
+   {
+    "site_id": "E016",
+    "name": "Kanata Ave. between Goulbourn Forced Rd. and Walden Dr.",
+    "lat": 45.323,
+    "lon": -75.924709,
+    "installed": 2022,
+    "tickets": 24180
+   },
+   {
+    "site_id": "E017",
+    "name": "Abbeyhill Dr. between Aldburn Pl.and Sherwood St.",
+    "lat": 45.29491,
+    "lon": -75.881334,
+    "installed": 2022,
+    "tickets": 6540
+   },
+   {
+    "site_id": "E018",
+    "name": "Woodroffe Ave. between Georgina Dr. and HWY417 IC127 RAMP36",
+    "lat": 45.365,
+    "lon": -75.77,
+    "installed": 2023,
+    "tickets": 24772
+   },
+   {
+    "site_id": "E019",
+    "name": "Bridgestone Dr. between Sunnybrook Dr. and Granite Crt./Grassy Plains Dr.",
+    "lat": 45.278531,
+    "lon": -75.857318,
+    "installed": 2023,
+    "tickets": 4995
+   },
+   {
+    "site_id": "E020",
+    "name": "Greenbank Rd. between Jockvale Rd. and Half Moon Bay Rd.",
+    "lat": 45.262298,
+    "lon": -75.741578,
+    "installed": 2023,
+    "tickets": 11972
+   },
+   {
+    "site_id": "E021",
+    "name": "Stittsville Main St. between Bandelier Way and Hazeldean Rd.",
+    "lat": 45.273846,
+    "lon": -75.931182,
+    "installed": 2023,
+    "tickets": 2817
+   },
+   {
+    "site_id": "E022",
+    "name": "Chapman Mills Dr. between Beatrice Dr. and Meadgate Gate",
+    "lat": 45.272031,
+    "lon": -75.723721,
+    "installed": 2023,
+    "tickets": 7900
+   },
+   {
+    "site_id": "E023",
+    "name": "Crestway Dr. between Oldfield St. and Hathaway Dr.",
+    "lat": 45.285117,
+    "lon": -75.709577,
+    "installed": 2023,
+    "tickets": 7483
+   },
+   {
+    "site_id": "E024",
+    "name": "Woodroffe Ave. between Anthony Ave. and Saville Row",
+    "lat": 45.374163,
+    "lon": -75.772869,
+    "installed": 2023,
+    "tickets": 25725
+   },
+   {
+    "site_id": "E025 -Portobello Blvd. from Capreol St./Martello Dr. to Aquaview Dr.",
+    "name": "",
+    "lat": 45.458264,
+    "lon": -75.465943,
+    "installed": 2023,
+    "tickets": 2387
+   },
+   {
+    "site_id": "E026",
+    "name": "Cambrian Rd. between Greenbank Rd. to Kilbirnie Dr.",
+    "lat": 45.254172,
+    "lon": -75.733357,
+    "installed": 2023,
+    "tickets": 15447
+   },
+   {
+    "site_id": "E027",
+    "name": "Cedarview Rd. between Fallowfield Rd. and Jockvale Rd./H?l?ne-Campbell Rd.",
+    "lat": 45.277294,
+    "lon": -75.778904,
+    "installed": 2023,
+    "tickets": 43862
+   },
+   {
+    "site_id": "E028",
+    "name": "First Ave. between Chrysler St. to Percy St.",
+    "lat": 45.401668,
+    "lon": -75.696073,
+    "installed": 2023,
+    "tickets": 24936
+   },
+   {
+    "site_id": "E025",
+    "name": "Portobello Blvd. between Capreol St./Martello Dr. and Aquaview Dr./Nantes St.",
+    "lat": 45.458264,
+    "lon": -75.465943,
+    "installed": 2023,
+    "tickets": 6672
+   },
+   {
+    "site_id": "E029",
+    "name": "Jeanne d'Arc blvd. between Orleans blvd.  and Paddler Way/Vorlage Dr.",
+    "lat": 45.477969,
+    "lon": -75.541853,
+    "installed": 2024,
+    "tickets": 19942
+   },
+   {
+    "site_id": "E030",
+    "name": "Spratt Rd. between Earl Armstrong Rd. and Canyon Walk Dr.",
+    "lat": 45.281515,
+    "lon": -75.686453,
+    "installed": 2024,
+    "tickets": 3444
+   },
+   {
+    "site_id": "E031",
+    "name": "Stonehaven Dr. between Stonemeadow Dr. and Summitview Dr./Sawyer Way",
+    "lat": 45.283822,
+    "lon": -75.845611,
+    "installed": 2024,
+    "tickets": 5401
+   },
+   {
+    "site_id": "E032",
+    "name": "Heron Rd. between Alta Vista Dr. and Baycrest Dr.",
+    "lat": 45.379416,
+    "lon": -75.654245,
+    "installed": 2024,
+    "tickets": 13152
+   },
+   {
+    "site_id": "E033",
+    "name": "Kelly Farm Dr. between Bradwell Way and Alasken Dr.",
+    "lat": 45.317555,
+    "lon": -75.602618,
+    "installed": 2024,
+    "tickets": 1409
+   },
+   {
+    "site_id": "E034",
+    "name": "Berrigan Dr. between Longfields Dr. and Wanstead Dr./Palmadeo Dr.",
+    "lat": 45.279709,
+    "lon": -75.738178,
+    "installed": 2024,
+    "tickets": 1998
+   },
+   {
+    "site_id": "E035",
+    "name": "Hunt Club Rd. between Pike St. and Lorry Greenberg Dr./Sable Ridge Dr.",
+    "lat": 45.36113,
+    "lon": -75.629025,
+    "installed": 2024,
+    "tickets": 19725
+   },
+   {
+    "site_id": "E036",
+    "name": "Walkley Rd. between Halifax Dr. and Harding Rd.",
+    "lat": 45.386148,
+    "lon": -75.624844,
+    "installed": 2024,
+    "tickets": 55611
+   },
+   {
+    "site_id": "E037",
+    "name": "Montreal Rd. between Bethamy Ln. and Ogilvie Rd.",
+    "lat": 45.446175,
+    "lon": -75.596862,
+    "installed": 2024,
+    "tickets": 6498
+   },
+   {
+    "site_id": "E038",
+    "name": "King Edward Ave. between Bolton St. and St. Patrick St.",
+    "lat": 45.434476,
+    "lon": -75.690856,
+    "installed": 2024,
+    "tickets": 92800
+   },
+   {
+    "site_id": "E039",
+    "name": "Riverside Dr. between Mooney's Bay Pl. and Hog's Back Rd./Brookfield Rd.",
+    "lat": 45.366209,
+    "lon": -75.689318,
+    "installed": 2024,
+    "tickets": 20865
+   },
+   {
+    "site_id": "E040",
+    "name": "Bronson Ave. between Raven Rd. and Sunnyside Ave./University Dr.",
+    "lat": 45.388377,
+    "lon": -75.692337,
+    "installed": 2024,
+    "tickets": 18787
+   },
+   {
+    "site_id": "E042",
+    "name": "Cassidy Rd. between Bruin Ln. (north) and Bruin Ln. (south)/Bruin Rd.",
+    "lat": 45.326748,
+    "lon": -75.808178,
+    "installed": 2024,
+    "tickets": 1959
+   },
+   {
+    "site_id": "E043",
+    "name": "Castlefrank Rd. between Kakulu Rd. and Hungerford Gt.",
+    "lat": 45.304333,
+    "lon": -75.895837,
+    "installed": 2024,
+    "tickets": 6299
+   },
+   {
+    "site_id": "E045",
+    "name": "Crichton St. between Vaughan St. and St. Patrick St.",
+    "lat": 45.43878,
+    "lon": -75.678616,
+    "installed": 2024,
+    "tickets": 1095
+   },
+   {
+    "site_id": "E046",
+    "name": "Gardenway Dr. between Saturn Cr./Paradise Cr. and Northlands Dr.",
+    "lat": 45.468857,
+    "lon": -75.473743,
+    "installed": 2024,
+    "tickets": 565
+   },
+   {
+    "site_id": "E047",
+    "name": "Kitchener Ave. between Cochrane St. and Jasper Ave.",
+    "lat": 45.368397,
+    "lon": -75.655611,
+    "installed": 2024,
+    "tickets": 553
+   },
+   {
+    "site_id": "E048",
+    "name": "Knoxdale Rd. between Skipton Rd. and Cremona Cr.",
+    "lat": 45.327866,
+    "lon": -75.767698,
+    "installed": 2024,
+    "tickets": 2781
+   },
+   {
+    "site_id": "E049",
+    "name": "Longfields Dr. between Strandherd Dr. and Marketplace Ave.",
+    "lat": 45.272721,
+    "lon": -75.737577,
+    "installed": 2024,
+    "tickets": 3887
+   },
+   {
+    "site_id": "E050",
+    "name": "Main St. between Evelyn Ave. and Springhurst Drive",
+    "lat": 45.410748,
+    "lon": -75.679124,
+    "installed": 2024,
+    "tickets": 8436
+   },
+   {
+    "site_id": "E051",
+    "name": "Merivale Rd. between MacFarlane Rd. and Brookdale Ave.",
+    "lat": 45.322771,
+    "lon": -75.717443,
+    "installed": 2024,
+    "tickets": 13800
+   },
+   {
+    "site_id": "E052",
+    "name": "Ogilvie Rd between La V?rendrye Dr. and Kender Ave.",
+    "lat": 45.454336,
+    "lon": -75.598027,
+    "installed": 2024,
+    "tickets": 1406
+   },
+   {
+    "site_id": "E054",
+    "name": "Ottawa St. between McBean St. and Cockburn Street",
+    "lat": 45.185597,
+    "lon": -75.826413,
+    "installed": 2024,
+    "tickets": 2510
+   },
+   {
+    "site_id": "E055",
+    "name": "Prince of Wales Dr. between Falaise Rd./Kochar Dr. and Normandy Cr./Kochar Dr.",
+    "lat": 45.360033,
+    "lon": -75.699859,
+    "installed": 2024,
+    "tickets": 4202
+   },
+   {
+    "site_id": "E056",
+    "name": "Queen Mary St. between Edith Ave. and Quill St.",
+    "lat": 45.425025,
+    "lon": -75.65551,
+    "installed": 2024,
+    "tickets": 322
+   },
+   {
+    "site_id": "E057",
+    "name": "Stittsville Main St. between Hobin St. and Beverly St.",
+    "lat": 45.264167,
+    "lon": -75.927624,
+    "installed": 2024,
+    "tickets": 7251
+   },
+   {
+    "site_id": "E058",
+    "name": "Stoneway Dr. between Forest Gate Way and Mountain Ash Dr.",
+    "lat": 45.288855,
+    "lon": -75.717662,
+    "installed": 2024,
+    "tickets": 426
+   },
+   {
+    "site_id": "E059",
+    "name": "Terry Fox Dr. between Old Second Line Rd. and Richardson Side Rd.",
+    "lat": 45.339542,
+    "lon": -75.94004,
+    "installed": 2024,
+    "tickets": 1836
+   },
+   {
+    "site_id": "E060",
+    "name": "Walkley Rd. between Colliston Cr. (north)/Albion Rd. and Colliston Cr. (south)",
+    "lat": 45.373652,
+    "lon": -75.655556,
+    "installed": 2024,
+    "tickets": 11044
+   },
+   {
+    "site_id": "E041",
+    "name": "Bridge St. between West River Dr. and Arthur Cr.",
+    "lat": 45.229453,
+    "lon": -75.682366,
+    "installed": 2025,
+    "tickets": 3111
+   },
+   {
+    "site_id": "E044",
+    "name": "Colonial Rd. between Delson Dr. and Frank Kenny Rd.",
+    "lat": 45.422178,
+    "lon": -75.417074,
+    "installed": 2025,
+    "tickets": 11189
+   },
+   {
+    "site_id": "E053",
+    "name": "Old Richmond Rd. between Kimberly Rd. and Tanglewood Dr.",
+    "lat": 45.320562,
+    "lon": -75.826479,
+    "installed": 2025,
+    "tickets": 3785
+   }
+  ]
+ },
+ "volume_index": {
+  "baseline_years": "2015-2019",
+  "core_km": 4.0,
+  "baseline_intersections": 1938,
+  "by_year": [
+   {
+    "year": 2021,
+    "city": {
+     "n": 62,
+     "median": 87.9,
+     "p25": 72.3,
+     "p75": 108.0
+    },
+    "core": {
+     "n": 12,
+     "median": 68.7,
+     "p25": 58.0,
+     "p75": 81.0
+    },
+    "outside_core": {
+     "n": 50,
+     "median": 92.6,
+     "p25": 82.4,
+     "p75": 111.9
+    }
+   },
+   {
+    "year": 2022,
+    "city": {
+     "n": 303,
+     "median": 82.9,
+     "p25": 71.9,
+     "p75": 93.5
+    },
+    "core": {
+     "n": 82,
+     "median": 79.4,
+     "p25": 64.9,
+     "p75": 88.5
+    },
+    "outside_core": {
+     "n": 221,
+     "median": 83.6,
+     "p25": 72.8,
+     "p75": 94.5
+    }
+   },
+   {
+    "year": 2023,
+    "city": {
+     "n": 248,
+     "median": 99.0,
+     "p25": 88.6,
+     "p75": 110.3
+    },
+    "core": {
+     "n": 68,
+     "median": 91.5,
+     "p25": 76.8,
+     "p75": 102.3
+    },
+    "outside_core": {
+     "n": 180,
+     "median": 100.8,
+     "p25": 91.3,
+     "p75": 113.4
+    }
+   },
+   {
+    "year": 2024,
+    "city": {
+     "n": 418,
+     "median": 94.0,
+     "p25": 84.9,
+     "p75": 104.2
+    },
+    "core": {
+     "n": 98,
+     "median": 86.5,
+     "p25": 71.1,
+     "p75": 98.8
+    },
+    "outside_core": {
+     "n": 320,
+     "median": 95.1,
+     "p25": 87.6,
+     "p75": 105.5
+    }
+   },
+   {
+    "year": 2025,
+    "city": {
+     "n": 241,
+     "median": 103.3,
+     "p25": 90.6,
+     "p75": 116.7
+    },
+    "core": {
+     "n": 48,
+     "median": 89.2,
+     "p25": 76.0,
+     "p75": 107.8
+    },
+    "outside_core": {
+     "n": 193,
+     "median": 105.2,
+     "p25": 93.9,
+     "p75": 117.9
+    }
+   }
+  ]
+ },
+ "covid_monthly": [
+  {
+   "month": "2020-03",
+   "intersections": 47.6,
+   "intersections_n": 7,
+   "bridge": 40.0
+  },
+  {
+   "month": "2020-04",
+   "intersections": 47.7,
+   "intersections_n": 7,
+   "bridge": 34.0
+  },
+  {
+   "month": "2020-05",
+   "intersections": 63.0,
+   "intersections_n": 7,
+   "bridge": 51.0
+  },
+  {
+   "month": "2020-06",
+   "intersections": 76.6,
+   "intersections_n": 7,
+   "bridge": 67.0
+  },
+  {
+   "month": "2020-07",
+   "intersections": 79.1,
+   "intersections_n": 7,
+   "bridge": 77.0
+  },
+  {
+   "month": "2020-08",
+   "intersections": 84.0,
+   "intersections_n": 7,
+   "bridge": 82.0
+  },
+  {
+   "month": "2020-09",
+   "intersections": 88.1,
+   "intersections_n": 7,
+   "bridge": 77.0
+  },
+  {
+   "month": "2020-10",
+   "intersections": 83.7,
+   "intersections_n": 7,
+   "bridge": 72.0
+  },
+  {
+   "month": "2020-11",
+   "intersections": 86.6,
+   "intersections_n": 7,
+   "bridge": 73.0
+  },
+  {
+   "month": "2020-12",
+   "intersections": 85.4,
+   "intersections_n": 7,
+   "bridge": 74.0
+  },
+  {
+   "month": "2021-01",
+   "intersections": 61.6,
+   "intersections_n": 7,
+   "bridge": 67.0
+  },
+  {
+   "month": "2021-02",
+   "intersections": 75.1,
+   "intersections_n": 7,
+   "bridge": 71.0
+  },
+  {
+   "month": "2021-03",
+   "intersections": 80.9,
+   "intersections_n": 7,
+   "bridge": 80.0
+  },
+  {
+   "month": "2021-04",
+   "intersections": 70.3,
+   "intersections_n": 7,
+   "bridge": 52.0
+  },
+  {
+   "month": "2021-05",
+   "intersections": 77.4,
+   "intersections_n": 7,
+   "bridge": 64.0
+  },
+  {
+   "month": "2021-06",
+   "intersections": 80.8,
+   "intersections_n": 5,
+   "bridge": null
+  },
+  {
+   "month": "2021-07",
+   "intersections": 79.3,
+   "intersections_n": 7,
+   "bridge": 86.0
+  },
+  {
+   "month": "2021-08",
+   "intersections": 89.0,
+   "intersections_n": 7,
+   "bridge": null
+  },
+  {
+   "month": "2021-09",
+   "intersections": 98.7,
+   "intersections_n": 7,
+   "bridge": 80.0
+  },
+  {
+   "month": "2021-10",
+   "intersections": 96.9,
+   "intersections_n": 7,
+   "bridge": 86.0
+  },
+  {
+   "month": "2021-11",
+   "intersections": 93.7,
+   "intersections_n": 7,
+   "bridge": 85.0
+  },
+  {
+   "month": "2021-12",
+   "intersections": 95.3,
+   "intersections_n": 6,
+   "bridge": 77.0
+  },
+  {
+   "month": "2022-01",
+   "intersections": 72.1,
+   "intersections_n": 7,
+   "bridge": null
+  },
+  {
+   "month": "2022-02",
+   "intersections": 86.7,
+   "intersections_n": 6,
+   "bridge": null
+  },
+  {
+   "month": "2022-03",
+   "intersections": 88.3,
+   "intersections_n": 7,
+   "bridge": 79.0
+  },
+  {
+   "month": "2022-04",
+   "intersections": 87.0,
+   "intersections_n": 7,
+   "bridge": 80.0
+  },
+  {
+   "month": "2022-05",
+   "intersections": null,
+   "intersections_n": 0,
+   "bridge": 86.0
+  },
+  {
+   "month": "2022-06",
+   "intersections": 96.8,
+   "intersections_n": 6,
+   "bridge": 89.0
+  },
+  {
+   "month": "2022-07",
+   "intersections": null,
+   "intersections_n": 0,
+   "bridge": 90.0
+  },
+  {
+   "month": "2022-09",
+   "intersections": 98.7,
+   "intersections_n": 7,
+   "bridge": null
   }
  ]
 }
