@@ -21,12 +21,16 @@ jobs:
       - name: Fetch city + police traffic datasets
         run: python Traffic/scripts/fetch_city_traffic.py
 
+      - name: Rebuild Geo_ID join layer
+        if: always()  # one renamed layer fails the fetch, but the rest still joins
+        run: python Traffic/scripts/build_geo_index.py
+
       - name: Commit if changed
-        if: always()  # one renamed layer fails the run, but keep whatever did refresh
+        if: always()  # keep whatever did refresh
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Traffic/data/city Traffic/data/police
+          git add Traffic/data/city Traffic/data/police Traffic/data/derived
           git diff --staged --quiet || git commit -m "chore: update city traffic datasets $(date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push

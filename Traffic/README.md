@@ -112,6 +112,34 @@ Quirks worth knowing:
   lists in the script. The service directory is
   <https://services.arcgis.com/G6F8XLCl5KtAlZ2G/ArcGIS/rest/services>.
 
+## Join layer (`data/derived/`)
+
+[`scripts/build_geo_index.py`](scripts/build_geo_index.py) runs right after the weekly fetch.
+It puts every dataset on one key, the City's **Geo_ID** (a numeric ID is an intersection,
+`__XXXX` is a road segment).
+
+| File | Meaning |
+|---|---|
+| `geo_index.csv` | One row per Geo_ID: name, lat/lon, ward, OPS neighbourhood, collisions (total / injury / fatal / pedestrian / cyclist), latest AADT, **collisions per million vehicles**, police stops + charges, red-light cameras, ASE site |
+| `snaps.csv` | Every coordinate-only record (police stop locations, red-light and ASE cameras, TomTom segments, traffic cameras, pre-2024 intersection counts) with its matched Geo_ID and distance |
+| `neighbourhood_summary.csv` | Per OPS neighbourhood: collisions vs police stops vs 2016 population |
+
+How matching works:
+
+- Intersections snap within 60 m, and segments or TomTom points within 120 m.
+- Police "STREET / STREET" locations also match out to 150 m, but only if both street names agree.
+- That covers 84% of stops at intersections and 67% of all stops. The rest are street addresses or highway ramps with no city node.
+- Ward and neighbourhood come from point-in-polygon on the city's 2022–2026 wards and the OPS
+  `ONS_2017` neighbourhoods. Those neighbourhood names match the police data exactly.
+
+Read with care:
+
+- `collisions_per_mev` uses the latest AADT over 7 collision years (2017–22 and 2024).
+  It's unstable at low volumes, so filter to roughly AADT ≥ 5,000 before ranking.
+- The 417/416 have collisions but no city AADT.
+- `collisions_per_1k_residents_yr` is inflated for low-population, high-traffic areas such as
+  Greenbelt and East Industrial. Compare it with stops or collisions, not on its own.
+
 ## Notes
 
 - GitHub cron can lag several minutes under load, so 15-min samples aren't perfectly spaced. Fine for trends.
