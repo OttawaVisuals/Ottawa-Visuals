@@ -1,0 +1,32 @@
+name: Update City Traffic Datasets
+
+on:
+  schedule:
+    - cron: '0 12 * * 1'  # Every Monday 12:00 UTC (staggered after real-estate 09:00, ASE 10:00, StatCan 11:00)
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install openpyxl (bike counter workbook)
+        run: pip install openpyxl
+
+      - name: Fetch city + police traffic datasets
+        run: python Traffic/scripts/fetch_city_traffic.py
+
+      - name: Commit if changed
+        if: always()  # one renamed layer fails the run, but keep whatever did refresh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Traffic/data/city Traffic/data/police
+          git diff --staged --quiet || git commit -m "chore: update city traffic datasets $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push

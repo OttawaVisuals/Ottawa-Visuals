@@ -61,6 +61,39 @@ export TOMTOM_API_KEY=your_key_here
 python Traffic/scripts/poll_traffic.py --force   # --force bypasses the peak/hourly gate
 ```
 
+## City + police context datasets
+
+[`scripts/fetch_city_traffic.py`](scripts/fetch_city_traffic.py) pulls the static
+open-data layers that explain *where* and *why* around the TomTom feed. It runs weekly
+via [`.github/workflows/update-city-traffic.yml`](../.github/workflows/update-city-traffic.yml)
+(Mondays 12:00 UTC). Don't hand-edit these files; fix the script instead.
+
+| File | Source | Coverage |
+|---|---|---|
+| `data/city/collisions/<year>.csv` | City of Ottawa | Every reported collision, 2017–2024 (**2023 missing from the city's release**) |
+| `data/city/intersection_volumes.csv` | City | AADT, % trucks, peds, cyclists at counted intersections, 2015–2025 (no 2020) |
+| `data/city/midblock_volumes.csv` | City | AADT on road segments, 2022–2025 |
+| `data/city/red_light_violations.csv` | City | Monthly violations per camera + direction, 2015–2026 |
+| `data/city/ase_violations.csv` | City | Monthly photo-radar tickets per site, 2020–2025 |
+| `data/city/ase_monthly_speeds.csv` | City | Monthly avg / 85th-pct speed + compliance at every ASE site |
+| `data/city/covid_volumes.csv` | City | 2020–21 volume as % of baseline (intersections + Macdonald-Cartier Bridge) |
+| `data/city/bike_counters.csv` | City | Daily counts per permanent bike counter, 2010– |
+| `data/police/traffic_stops_by_*.csv` | Ottawa Police | 455K stops 2014–2024, aggregated by area / time / driver / location |
+| `data/police/calls_by_*.csv` | Ottawa Police | 1.1M dispatched calls 2021–, aggregated by area / time (no call type, so not traffic-only) |
+
+Quirks worth knowing:
+
+- **Police data is aggregated server-side.** The raw stop and call records are too big to commit.
+  `traffic_stops_by_location.csv` rolls locations with fewer than 3 stops into one `(other)` row.
+  Its coordinates come from MTM zone 9, converted in-script.
+- **Join key:** `geo_id` links collisions, midblock volumes and the 2024–25 intersection volumes.
+  Older intersection years have no `geo_id`, so match those by coordinates.
+- **AADT in 2025** is the city's 24h-adjusted study count. Earlier years publish a factored AADT,
+  so treat 2025 as comparable but not identical.
+- **New year = new layer name.** When the city publishes a new year, add it to the layer
+  lists in the script. The service directory is
+  <https://services.arcgis.com/G6F8XLCl5KtAlZ2G/ArcGIS/rest/services>.
+
 ## Notes
 
 - GitHub cron can lag several minutes under load, so 15-min samples aren't perfectly spaced. Fine for trends.
