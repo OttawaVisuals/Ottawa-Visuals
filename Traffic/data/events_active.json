@@ -2921,29 +2921,6 @@
 },
 "fp": "ad77831ee921"
 },
-"29371": {
-"event": {
-"cause": "maintenance",
-"created": "2026-10-09 09:05:00",
-"cross_street_1": "ST-LAURENT, BOUL",
-"cross_street_2": "BRITTANY",
-"direction": null,
-"event_id": "29371",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "MONTREAL RD traffic disruptions between ST-LAURENT and BRITTANY due to traffic signals maintenance.",
-"lanes": "traffic disruptions",
-"lat": 45.441071,
-"lon": -75.646744,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "MONTREAL, CH DE",
-"source": "city",
-"updated": "2026-10-09 09:05:00"
-},
-"fp": "f5c1f99fb936"
-},
 "29373": {
 "event": {
 "cause": "construction",
@@ -3059,29 +3036,6 @@
 },
 "fp": "9efd97e402b9"
 },
-"29378": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-09 10:47:00",
-"cross_street_1": "Longfields",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29378",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Woodroffe closed at Longfields due to a collision. Police are directing traffic.",
-"lanes": "closed",
-"lat": 45.291464,
-"lon": -75.727199,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Woodroffe",
-"source": "city",
-"updated": "2026-10-09 10:47:00"
-},
-"fp": "8e43e4f7c134"
-},
 "29379": {
 "event": {
 "cause": "construction",
@@ -3104,6 +3058,52 @@
 "updated": "2026-10-09 11:00:00"
 },
 "fp": "1fdf4487f031"
+},
+"29380": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 11:02:00",
+"cross_street_1": "TORONTO",
+"cross_street_2": "CENTENNIAL",
+"direction": null,
+"event_id": "29380",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "MAIN off-peak lane reductions between TORONTO and CENTENNIAL due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.401037,
+"lon": -75.673339,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T07:00",
+"priority": "LOW",
+"road": "MAIN",
+"source": "city",
+"updated": "2026-10-09 11:04:00"
+},
+"fp": "13cf57645dea"
+},
+"29381": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 11:11:00",
+"cross_street_1": "CUMBERLAND",
+"cross_street_2": "COPERNICUS",
+"direction": null,
+"event_id": "29381",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "LAURIER off-peak lane reduction between CUMBERLAND and COPERNICUS due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.424549,
+"lon": -75.684747,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "MEDIUM",
+"road": "LAURIER",
+"source": "city",
+"updated": "2026-10-09 11:12:00"
+},
+"fp": "08cf49d138a0"
 }
 }
 }
