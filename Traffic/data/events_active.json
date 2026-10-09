@@ -1574,18 +1574,18 @@
 "event_id": "29054",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Riverside westbound reduced to 1 lane at Bank due to construction, from September 28th to October 16th.",
+"headline": "Riverside westbound reduced to 1 lane at Bank due to construction, from September 28th to October 30th.\n",
 "lanes": "reduced to 1 lane",
 "lat": 45.388834,
 "lon": -75.677223,
-"planned_end": "2026-10-16T17:00",
+"planned_end": "2026-10-30T17:00",
 "planned_start": "2026-09-25T07:00",
 "priority": "HIGH",
 "road": "Riverside",
 "source": "city",
-"updated": "2026-09-25 06:56:00"
+"updated": "2026-10-09 18:15:00"
 },
-"fp": "ddcf6a310a0e"
+"fp": "827a5962ba92"
 },
 "29069": {
 "event": {
@@ -2921,52 +2921,6 @@
 },
 "fp": "58af89124d02"
 },
-"29394": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-09 16:22:00",
-"cross_street_1": "McCarthy",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29394",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Hunt Club westbound reduced to 1 lane at McCarthy due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.34761,
-"lon": -75.661488,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Hunt Club",
-"source": "city",
-"updated": "2026-10-09 16:22:00"
-},
-"fp": "a5a9ff71b89e"
-},
-"29396": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-09 16:26:00",
-"cross_street_1": "Old Richmond",
-"cross_street_2": "Moodie",
-"direction": null,
-"event_id": "29396",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Robertson westbound reduced to 1 lane between Old Richmond and Moodie due to a collision. Firefighters are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.323223,
-"lon": -75.830535,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Robertson",
-"source": "city",
-"updated": "2026-10-09 16:26:00"
-},
-"fp": "d92245f7aa25"
-},
 "29397": {
 "event": {
 "cause": "",
@@ -3081,6 +3035,29 @@
 "updated": "2026-10-09 18:00:00"
 },
 "fp": "73484a08a25b"
+},
+"29406": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-09 18:03:00",
+"cross_street_1": "Coburg",
+"cross_street_2": "St. Andrew",
+"direction": null,
+"event_id": "29406",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "St. Patrick westbound reduced to 1 lane between Coburg and St. Andrew due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.435735,
+"lon": -75.685292,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "St. Patrick",
+"source": "city",
+"updated": "2026-10-09 18:03:00"
+},
+"fp": "80ef165c0e78"
 }
 }
 }
