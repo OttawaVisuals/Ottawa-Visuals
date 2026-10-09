@@ -3114,69 +3114,23 @@
 "direction": null,
 "event_id": "29382",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Riverside closed between Tremblay and Industrial due to a broken watermain. Duration is unknown. Avoid area and use other routes.",
-"lanes": "closed",
-"lat": 45.415616,
-"lon": -75.656735,
+"full_closure": false,
+"headline": "Riverside southbound reduced to 1 lane between Tremblay and Industrial due to a broken watermain. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.415963,
+"lon": -75.656699,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
 "road": "Riverside",
 "source": "city",
-"updated": "2026-10-09 13:57:00"
+"updated": "2026-10-09 14:53:00"
 },
-"fp": "d7b84bc2b5ad"
-},
-"29383": {
-"event": {
-"cause": "a broken watermain",
-"created": "2026-10-09 12:39:00",
-"cross_street_1": "Tremblay",
-"cross_street_2": "Industrial",
-"direction": null,
-"event_id": "29383",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Riverside southbound closed between Tremblay and Industrial due to a broken watermain. Police are directing traffic. Avoid area.",
-"lanes": "closed",
-"lat": 45.423507,
-"lon": -75.662012,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-09 12:39:00"
-},
-"fp": "9391749ddcf4"
-},
-"29384": {
-"event": {
-"cause": "a broken watermain",
-"created": "2026-10-09 13:21:00",
-"cross_street_1": "Industrial",
-"cross_street_2": "Tremblay",
-"direction": null,
-"event_id": "29384",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Riverside northbound closed between Industrial and Tremblay due to a broken watermain. Avoid area.",
-"lanes": "closed",
-"lat": 45.411467,
-"lon": -75.644031,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-09 13:21:00"
-},
-"fp": "2f03008ecf2c"
+"fp": "157ccff6206b"
 },
 "29385": {
 "event": {
-"cause": "",
+"cause": "a broken watermain",
 "created": "2026-10-09 13:54:00",
 "cross_street_1": "Industrial",
 "cross_street_2": "Tremblay",
@@ -3184,7 +3138,7 @@
 "event_id": "29385",
 "event_type": "INCIDENT",
 "full_closure": true,
-"headline": "Riverside closed between Industrial and Tremblay. Duration is unknown.",
+"headline": "Riverside northbound closed between Industrial and Tremblay due to a broken watermain. Duration is unknown.",
 "lanes": "closed",
 "lat": 45.412227,
 "lon": -75.658252,
@@ -3193,9 +3147,9 @@
 "priority": "HIGH",
 "road": "Riverside",
 "source": "city",
-"updated": "2026-10-09 13:54:00"
+"updated": "2026-10-09 14:52:00"
 },
-"fp": "7ad63192c0b3"
+"fp": "30ff9b68c11e"
 }
 }
 }
