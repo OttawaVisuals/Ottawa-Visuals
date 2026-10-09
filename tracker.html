@@ -288,7 +288,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:40%"></div></div><span class="pct">data only</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">search + PDFs</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal (Ottawa, Energy repo)</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">live ↗</span></div>
     <p class="small muted" style="margin-top:.6rem">Status as of 2026-09-03. RTO Watch (<code>rto.html</code>) folds
@@ -369,7 +369,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <circle cx="860" cy="272" r="5" fill="#2FB584"/>
 
       <!-- City Hall Index -->
-      <text x="831" y="301" text-anchor="end">🏛️ City Hall Index (data only)</text>
+      <text x="831" y="301" text-anchor="end">🏛️ City Hall Index (search + PDFs)</text>
       <circle cx="837" cy="310" r="5" fill="#9098AC"/>
 
       <!-- OC Transpo transit collector (RTO Watch feed) -->
@@ -1065,11 +1065,12 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <section id="cityhall" class="card">
   <div class="proj-head">
     <h2>🏛️ City Hall eScribe Indexer</h2>
-    <span class="chip build">🔨 Pipeline built · data only, no page yet</span>
+    <span class="chip build">🔨 Search + PDF tools built · no public page yet</span>
   </div>
   <p><b>In one sentence:</b> a structured, queryable CSV index of what every City of Ottawa
-  committee/council/commission discussed and decided — meetings, agenda items, motions, votes and
-  attachments — straight from the public eScribe portal.</p>
+  committee/council/commission discussed and decided — meetings, agenda items, motions, votes,
+  attachments and each item's full page text — straight from the public eScribe portal, with a
+  full-text search on top and a route for making downloaded PDFs searchable too.</p>
 
   <h3>Where the data comes from</h3>
   <div class="srcs">
@@ -1082,7 +1083,13 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="arr">→</div>
     <div class="step"><b>2 · Parse the richest page</b><span>PostMinutes → Minutes → Agenda fallback chain, per meeting</span></div>
     <div class="arr">→</div>
-    <div class="step"><b>3 · Five joinable CSVs</b><span>meetings / agenda_items / motions / votes / attachments, joined on meeting_id</span></div>
+    <div class="step"><b>3 · Six joinable CSVs</b><span>meetings / agenda_items / motions / votes / attachments / item_text, joined on meeting_id</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>4 · Search</b><span>search.py → SQLite full-text index (data/search.db), snippets + meeting/PDF links</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>5 · PDFs</b><span>--pdf-list → download in a browser → ingest_pdfs.py → searchable per page</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>6 · Weekly</b><span>weekly_update.py: new meetings + minutes posted since</span></div>
   </div>
 
   <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
@@ -1107,6 +1114,22 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         <p>Good enough for "how did the vote go", but a clean "how did my councillor vote" dataset needs a further parsing pass on that string.</p>
         <p class="alt"><b>Other options:</b> explode to per-councillor rows immediately — held off until the name-string format is validated across more committees, to avoid silently mis-splitting names.</p>
         <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="ch-pre2022"><div class="a-body">
+        <span class="tag data">source limit</span><b>Before about mid-2022, meetings have no item breakdown: each is searchable as one whole-page text.</b>
+        <p>Those pages are Word-exported minutes with no agenda-item structure, so there are no per-item decisions, motions or votes for 2020–21.</p>
+        <div class="where">CityHall_Index/escribe_indexer.py _page_text().</div>
+      </div></li>
+      <li><input type="checkbox" data-key="ch-pdfs"><div class="a-body">
+        <span class="tag data">source limit</span><b>PDF contents only exist for PDFs someone downloaded in a browser.</b>
+        <p>eScribe answers scripts with a "Verifying your browser" check on PDF links. Bypassing it is off the table; bulk access would have to come from the City Clerk.</p>
+        <div class="where">CityHall_Index/README.md §"PDFs".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="ch-pdfmatch"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Downloaded PDFs are matched to items by filename first; about a third of attachment names are shared ("Document 1 (EN)").</b>
+        <p>Shared names are narrowed by the requested-PDF list and by report numbers found in the PDF; anything still ambiguous stays searchable without meeting details.</p>
+        <p class="alt"><b>Other options:</b> match on content alone (report numbers): fails for appendices that don't repeat the number.</p>
+        <div class="where">CityHall_Index/ingest_pdfs.py.</div>
       </div></li>
     </ul>
   </div>

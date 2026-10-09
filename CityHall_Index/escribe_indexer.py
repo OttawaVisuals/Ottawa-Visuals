@@ -31,8 +31,13 @@ Usage
   python escribe_indexer.py --years 2020-2026                 # all committees
   python escribe_indexer.py --years 2023-2026 --committee transit
   python escribe_indexer.py --years 2025 --limit 5 --verbose   # quick test
+  python escribe_indexer.py --years recent --refresh-days 120   # weekly update
 
 Etiquette: public-records site; keep --delay >= 3s, don't run parallel copies.
+--refresh-days N re-indexes meetings dated in the last N days (or upcoming) that
+were indexed before their minutes were posted (Agenda-only page, or no items):
+their rows are removed from every CSV and written again from the current page.
+
 The resume state avoids re-fetching finished meetings. item_text has its own
 state file, so re-running over meetings indexed before it existed backfills
 their text without duplicating rows in the other CSVs.
@@ -45,11 +50,13 @@ import copy
 import csv
 import json
 import logging
+import os
 import random
 import re
 import sys
 import time
 from dataclasses import dataclass
+from datetime import date, timedelta
 from pathlib import Path
 from urllib.parse import urljoin, urlparse, parse_qs
 
@@ -62,6 +69,8 @@ BASE_URL = "https://pub-ottawa.escribemeetings.com/"
 USER_AGENT = ("Mozilla/5.0 (X11; Linux aarch64; rv:124.0) "
               "Gecko/20100101 Firefox/124.0")
 DEFAULT_DELAY = 3.0
+LOCKED = 3                 # exit code when another run holds the lock
+LOCK_STALE_S = 24 * 3600   # older lock = left over from a crash
 DEFAULT_TIMEOUT = 60
 # Pages to try per meeting, richest (has decisions+votes) first.
 PAGE_VARIANTS = ["PostMinutes", "Minutes", "Agenda"]
@@ -119,6 +128,10 @@ class State:
                 log.warning("Bad state file %s; starting fresh", path)
 
     def is_done(self, mid): return mid in self.done
+
+    def unmark(self, mids):
+        self.done -= set(mids)
+        self.path.write_text(json.dumps(sorted(self.done)), "utf-8")
 
     def mark(self, mid):
         self.done.add(mid)
@@ -408,11 +421,48 @@ def _norm_date(s: str) -> str:
 
 
 def parse_years(spec: str) -> range:
+    if spec == "recent":   # last year through next year
+        y = date.today().year
+        return range(y - 1, y + 2)
     if "-" in spec:
         a, b = spec.split("-", 1)
         return range(int(a), int(b) + 1)
     y = int(spec)
     return range(y, y + 1)
+
+
+def stale_meetings(out_dir: Path, days: int) -> dict[str, dict]:
+    """Meetings dated within `days` (or in the future) that were indexed from a
+    page without minutes: Agenda/Minutes rather than PostMinutes, or no items.
+    Returns meeting_id -> its meetings.csv row."""
+    path = out_dir / "meetings.csv"
+    if not path.exists():
+        return {}
+    cutoff = (date.today() - timedelta(days=days)).isoformat()
+    with open(path, encoding="utf-8-sig", newline="") as fh:
+        return {r["meeting_id"]: r for r in csv.DictReader(fh)
+                if r["date"] >= cutoff
+                and (r["source_page"] != "PostMinutes" or r["n_items"] in ("", "0"))}
+
+
+def purge_meetings(out_dir: Path, mids: set[str]) -> int:
+    """Remove every row of these meetings from all CSVs (rewritten in place)."""
+    removed = 0
+    for name, cols in CsvSet.SPECS.items():
+        path = out_dir / f"{name}.csv"
+        if not path.exists():
+            continue
+        with open(path, encoding="utf-8-sig", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+        keep = [r for r in rows if r["meeting_id"] not in mids]
+        removed += len(rows) - len(keep)
+        tmp = path.with_suffix(".csv.tmp")
+        with open(tmp, "w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
+            w.writeheader()
+            w.writerows(keep)
+        tmp.replace(path)
+    return removed
 
 
 # --------------------------------------------------------------------------- #
@@ -421,13 +471,16 @@ def parse_years(spec: str) -> range:
 def main(argv=None):
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--years", required=True, help="e.g. 2020-2026 or 2025")
+    ap.add_argument("--years", required=True,
+                    help="e.g. 2020-2026, 2025, or 'recent' (last year to next year)")
     ap.add_argument("--committee", default="",
                     help="only meetings whose name contains this (default: all)")
     ap.add_argument("--out", default="data", help="output dir (default: data)")
     ap.add_argument("--delay", type=float, default=DEFAULT_DELAY)
     ap.add_argument("--limit", type=int, default=0, help="max meetings (0=all)")
     ap.add_argument("--no-resume", action="store_true")
+    ap.add_argument("--refresh-days", type=int, default=0,
+                    help="re-index meetings from the last N days still lacking minutes")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
@@ -445,6 +498,20 @@ def main(argv=None):
     except ImportError:
         log.debug("truststore not installed; using default TLS trust store")
 
+    # One indexer per output folder: two would append to the same CSVs.
+    lock = out_dir / "indexer.lock"
+    if lock.exists() and time.time() - lock.stat().st_mtime < LOCK_STALE_S:
+        log.error("Another indexer is running on %s (%s); remove it if that run "
+                  "crashed.", out_dir, lock.name)
+        return LOCKED
+    lock.write_text(f"pid {os.getpid()} since {time.strftime('%Y-%m-%d %H:%M:%S')}", "utf-8")
+    try:
+        return _run(args, out_dir)
+    finally:
+        lock.unlink(missing_ok=True)
+
+
+def _run(args, out_dir: Path) -> int:
     session = make_session()
     throttle = Throttle(args.delay)
     state = State(out_dir / "state.json")
@@ -454,8 +521,30 @@ def main(argv=None):
         text_state.done.clear()
 
     meetings = discover(session, throttle, parse_years(args.years), args.committee)
+    on_calendar = {m.meeting_id for m in meetings}
+    # Years the calendar actually answered for (a failed request must not look
+    # like every meeting of that year vanished).
+    answered = {m.date[:4] for m in meetings}
     if args.limit:
         meetings = meetings[:args.limit]
+
+    if args.refresh_days:
+        stale = stale_meetings(out_dir, args.refresh_days)
+        # Still on the calendar: purge, then re-index below.
+        redo = set(stale) & on_calendar
+        # Gone from the calendar (eScribe replaces placeholder meetings with new
+        # IDs, and drops cancelled ones): purge only, within the years/committee
+        # this run covers.
+        gone = {mid for mid, r in stale.items() if mid not in on_calendar
+                and r["date"][:4] in answered
+                and args.committee.lower() in r["committee"].lower()}
+        if redo or gone:
+            n = purge_meetings(out_dir, redo | gone)
+            state.unmark(redo | gone)
+            text_state.unmark(redo | gone)
+            log.info("Refresh: re-indexing %d meeting(s) indexed before their minutes, "
+                     "dropping %d no longer on the calendar; removed %d row(s)",
+                     len(redo), len(gone), n)
     log.info("Indexing %d meeting(s) -> %s", len(meetings), out_dir)
 
     sink = CsvSet(out_dir)
