@@ -231,11 +231,27 @@ _BLOCK_TAGS = ["p", "div", "li", "tr", "td", "h1", "h2", "h3", "h4", "h5",
 
 def _own_text(cont) -> str:
     """All text shown for this item, one line per block, children excluded."""
-    c = copy.copy(cont)
-    for sub in c.find_all(class_=_NOT_OWN_TEXT):
+    return _block_text(cont, _NOT_OWN_TEXT)
+
+
+def _page_text(soup) -> str:
+    """Whole-meeting text for pages with no AgendaItemContainer structure
+    (pre-2022 meetings are Word-exported HTML: full text, no item breakdown)."""
+    body = (soup.find("section", class_="Agenda") or soup.find("article", class_="Meeting")
+            or soup.find("main"))
+    return _block_text(body, ["dropdown-item", "sr-only"]) if body else ""
+
+
+def _block_text(el, drop_classes) -> str:
+    c = copy.copy(el)
+    for sub in c.find_all(class_=drop_classes):
         sub.decompose()
-    # Newlines only at block boundaries, so inline links/emphasis don't split
-    # sentences across lines.
+    for sub in c.find_all(["script", "style"]):
+        sub.decompose()
+    # Newlines only at block boundaries, so inline links/emphasis (and the hard
+    # wraps in Word-exported HTML) don't split sentences across lines.
+    for s in c.find_all(string=True):
+        s.replace_with(re.sub(r"\s+", " ", s))
     for br in c.find_all("br"):
         br.replace_with("\n")
     for blk in c.find_all(_BLOCK_TAGS):
@@ -329,6 +345,13 @@ def parse_meeting(soup, meeting: Meeting, page: str = ""):
             "n_motions": n_motions, "n_attachments": n_att,
             "has_vote": int(has_vote),
         })
+    if not items:
+        # No item structure: keep the whole page as one item_text row with an
+        # empty item_number, so the meeting is still searchable.
+        text = _page_text(soup)
+        if text:
+            texts.append({"meeting_id": meeting.meeting_id, "item_number": "",
+                          "source_page": page, "n_chars": len(text), "text": text})
     return items, motions, votes, attachments, texts
 
 
