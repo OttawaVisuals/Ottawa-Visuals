@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Ottawa Really Moves · Traffic stops</title>
+<meta name="description" content="Ottawa collision counts, intersection hot-spots, traffic stops and camera violations, as an interactive Power BI report.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome; colours come from assets/site-theme.css) ── */
+  .topbar{position:sticky;top:0;z-index:1000;height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;overflow:hidden;border:1px solid;}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar .spacer{flex:1;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:1120px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; margin:0 0 6px; }
+  h1 { font-size:30px; margin:0 0 6px; }
+  .sub { color:var(--ink-2); max-width:680px; line-height:1.55; margin:0; font-size:14px; }
+  .layout { display:flex; flex-direction:column; gap:14px; max-width:1120px; margin:0 auto; padding:16px 16px 60px; }
+
+  /* Power BI publish-to-web is designed at 16:9 */
+  .embed { position:relative; width:100%; aspect-ratio:16/9; background:var(--bg-2); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  @media (max-width:640px){ .embed { aspect-ratio:3/4; } }
+  .embed-bar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-family:var(--font-mono); font-size:11.5px; color:var(--ink-3); }
+  .embed-bar a { color:var(--ink-2); }
+
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-width:0; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .grid3 { grid-template-columns:1fr; } }
+  .k { font-size:28px; color:var(--ink); }
+  .lbl { font-size:13px; color:var(--ink-2); margin-top:4px; line-height:1.45; }
+  h2 { font-size:17px; margin:0 0 8px; }
+  p { font-size:14px; color:var(--ink-2); line-height:1.6; margin:0; }
+  ul.src { list-style:none; margin:0; padding:0; }
+  ul.src li { display:flex; gap:10px; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px; }
+  ul.src li:last-child { border-bottom:0; }
+  ul.src .meta { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); white-space:nowrap; }
+  ul.src a { color:var(--ink); }
+  footer { max-width:1120px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; line-height:1.6; }
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../rto.html">RTO watch</a>
+    <a href="stops.html" class="active">Traffic stops</a>
+    <a href="roads.html">Roads</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Traffic &amp; roads · Power BI report</p>
+  <h1>How Ottawa really moves</h1>
+  <p class="sub">Collision counts, intersection hot-spots, police traffic stops and camera violations. Traffic stops have dropped sharply in recent years, while driving in Ottawa only seems to get worse.</p>
+</div>
+
+<main class="layout">
+  <div class="embed">
+    <iframe title="How Ottawa really moves — Power BI report" allowfullscreen
+      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+      src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9"></iframe>
+  </div>
+  <div class="embed-bar">
+    <span>Embedded Power BI report · use the tabs at the bottom of the report to switch pages</span>
+    <a href="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" target="_blank" rel="noopener">⛶ open fullscreen</a>
+  </div>
+
+  <div class="grid3">
+    <div class="card"><div class="k stat-val">60%</div><div class="lbl">fewer people charged at traffic stops (2024 vs 2014)</div></div>
+    <div class="card"><div class="k stat-val">43,416</div><div class="lbl">speed-limit violations in March 2024</div></div>
+    <div class="card"><div class="k stat-val">6,507</div><div class="lbl">red-light violations in July 2023</div></div>
+  </div>
+
+  <div class="grid3">
+    <section class="card">
+      <h2>Why it matters</h2>
+      <p>Enforcement has fallen while complaints about Ottawa driving have not. The neighbourhood-level comparison of stops against injury crashes lives on the <a href="roads.html">Roads page</a>.</p>
+    </section>
+    <section class="card">
+      <h2>Method &amp; caveats</h2>
+      <p>Data from the Ottawa Police Service and City of Ottawa open releases. Some datasets are no longer updated, so most series stop at 2024–2025.</p>
+    </section>
+    <section class="card">
+      <h2>Data sources</h2>
+      <ul class="src">
+        <li><a href="https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore" target="_blank" rel="noopener">Ottawa Police — traffic stops</a><span class="meta">no longer updated</span></li>
+        <li><a href="https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore" target="_blank" rel="noopener">City of Ottawa — collisions</a><span class="meta">no longer updated</span></li>
+        <li><a href="https://open.ottawa.ca/search" target="_blank" rel="noopener">City of Ottawa — speed &amp; red-light cameras</a><span class="meta">yearly</span></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer>Ottawa Visuals · <a href="../index.html#reports">all reports</a> · Method and code: <a href="README.md">Traffic/README.md</a></footer>
+
+<script>
+// Hidden fallback button for the shared theme switch (no charts to redraw here).
+function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
+</script>
+</body>
+</html>
