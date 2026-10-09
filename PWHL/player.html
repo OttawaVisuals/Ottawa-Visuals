@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Player — Ottawa Visuals</title>
+<meta name="description" content="PWHL player page: season stats, game log, shot locations and model ratings."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+/* Same tokens and building blocks as pwhl.html. */
+:root {
+  --font-body:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+  --line:#DCE1E8; --line-2:#C3CAD4;
+  --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+  --accent:#C9542F; --accent-bg:rgba(201,84,47,0.08);
+  --green:#22885F; --red:#D0483A; --blue:#2F6FB4;
+}
+[data-theme="dark"] {
+  --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+  --line:#2A2F3D; --line-2:#383E4E;
+  --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+  --accent:#E06B45; --accent-bg:rgba(224,107,69,0.12);
+  --green:#2FB584; --red:#E85A44; --blue:#5B9BE0;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;cursor:pointer;}
+p{margin:0;}
+h1,h2,h3{margin:0;}
+table{border-collapse:collapse;width:100%;}
+.topbar{position:sticky;top:0;z-index:50;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;}
+.brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+.brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+[data-theme="dark"] .brand-logo img{filter:none;}
+.brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
+.topbar nav{display:flex;gap:2px;}
+.topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;}
+.topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+.topbar nav a.active{color:var(--accent);font-weight:600;}
+.spacer{flex:1;}
+.icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);}
+@media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+.report{max-width:1240px;margin:0 auto;padding:20px 24px 80px;display:flex;flex-direction:column;gap:22px;}
+@media (max-width:720px){ .report{padding:16px 12px 60px;} }
+.back{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);}
+.back:hover{color:var(--accent);}
+.section{display:flex;flex-direction:column;gap:10px;}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
+.section-head h2{font-size:12px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-2);}
+.section-head p{color:var(--ink-3);font-size:12.5px;max-width:680px;margin-top:3px;}
+.card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px;}
+.card-title{font-weight:600;font-size:12px;color:var(--ink-2);margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;}
+.note{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:7px;line-height:1.5;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid-2 > *{min-width:0;}
+@media (max-width:760px){ .grid-2{grid-template-columns:1fr;} }
+.cw{position:relative;height:300px;}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;}
+.stat{background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:9px 12px;}
+.stat .num{font-weight:700;font-size:20px;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;}
+.stat .lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-top:2px;letter-spacing:0.02em;text-transform:uppercase;}
+select.ov-select{background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:7px 26px 7px 10px;font-family:var(--font-body);font-size:13px;color:var(--ink);appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 10px center;}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;}
+.tab-btn{padding:4px 10px;border-radius:7px;border:1px solid var(--line);background:var(--bg-3);color:var(--ink-2);font-size:11px;font-family:var(--font-mono);}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tbl{font-size:12.5px;}
+.tbl th{text-align:right;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.03em;text-transform:uppercase;padding:6px 7px;border-bottom:1px solid var(--line-2);white-space:nowrap;}
+.tbl th:first-child,.tbl th:nth-child(2){text-align:left;}
+.tbl td{text-align:right;padding:6px 7px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.tbl td:first-child,.tbl td:nth-child(2){text-align:left;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--bg-3);}
+.tbl tr.sel td{background:var(--accent-bg);}
+.team-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;}
+.more-btn{margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2);background:var(--bg-3);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
+.more-btn:hover{color:var(--accent);border-color:var(--accent);}
+/* Player header */
+.p-head{display:flex;gap:18px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-left:6px solid var(--tc,var(--line-2));border-radius:10px;padding:14px 18px;flex-wrap:wrap;}
+.p-photo{width:96px;height:96px;border-radius:12px;object-fit:cover;background:var(--bg-3);border:1px solid var(--line);}
+.p-num{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;}
+.p-name{font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin:2px 0 4px;}
+.p-team{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;}
+.p-team .sw{width:12px;height:12px;border-radius:3px;background:var(--tc);}
+.p-bio{display:flex;gap:6px 16px;flex-wrap:wrap;color:var(--ink-2);font-size:12.5px;margin-top:6px;}
+.p-bio b{font-family:var(--font-mono);font-weight:400;font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.04em;margin-right:4px;}
+.p-controls{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.rink-wrap{display:flex;justify-content:center;}
+.rink-wrap canvas{max-width:100%;height:auto;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:6px;align-items:center;}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
+#load-error{display:none;background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;padding:14px 16px;}
+footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);font-family:var(--font-mono);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="pwhl.html" class="active">PWHL</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="report">
+  <a class="back" href="pwhl.html">← PWHL dashboard</a>
+  <div id="load-error">Couldn't load this player. Check the link (it needs <code>?id=</code> and a
+    player id), or go back to the dashboard and pick a player from the search box.</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:22px;">
+    <div class="p-head" id="p-head"></div>
+
+    <div class="section">
+      <div class="section-head">
+        <div><h2 id="season-title">Season</h2><p id="season-sub"></p></div>
+      </div>
+      <div class="stat-row" id="tiles"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span id="log-title">Game by game</span></div>
+        <div class="cw"><canvas id="chart-log"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span id="shots-title">Shots</span>
+          <span class="tabs" id="shot-tabs">
+            <button class="tab-btn active" data-scope="season">This season</button>
+            <button class="tab-btn" data-scope="career">Career</button>
+          </span></div>
+        <div class="rink-wrap"><canvas id="shot-canvas" width="440" height="374"></canvas></div>
+        <div class="legend" id="shot-legend"></div>
+      </div>
+    </div>
+
+    <div class="section" id="model-section">
+      <div class="section-head">
+        <div><h2>Model view</h2>
+          <p>From the dashboard's expected-goals model and player impact ratings, same season.</p></div>
+      </div>
+      <div class="stat-row" id="model-tiles"></div>
+      <p class="note" id="model-note"></p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>Career by season</h2>
+        <p>Every stat line in the feed: regular season, playoffs and preseason. A mid-season
+           trade shows as one line per team. Click a row to switch season.</p></div></div>
+      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="career-table"></table></div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2 id="games-title">Game log</h2></div></div>
+      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="games-table"></table></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+
+const DATA_BASE = 'data/json/';
+const CHARTS = [];
+let P = null, META = null, XG = null, RATINGS = null;
+let seasonId = null, shotScope = 'season';
+
+function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function fmt(n){ return n == null || isNaN(n) ? '—' : Number(n).toLocaleString(); }
+function esc(s){ return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+const signed = v => v == null ? '—' : (v > 0 ? '+' : '') + v;
+const signed2 = v => v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(2);
+const mmss = secs => Math.floor(secs / 60) + ':' + String(Math.round(secs % 60)).padStart(2, '0');
+const pct1 = (a, b) => b ? (100 * a / b).toFixed(1) + '%' : '—';
+const shortDate = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }); };
+const seasonName = sid => ((META && META.seasons.find(s => s.season_id === sid)) || {}).name || ('Season ' + sid);
+const isGoalie = () => P.pos === 'G';
+
+// ---- theme (same pattern as pwhl.html) ------------------------------
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+const toggle = document.getElementById('theme-toggle');
+toggle.innerHTML = root.getAttribute('data-theme') === 'dark' ? MOON : SUN;
+toggle.addEventListener('click', () => {
+  const mode = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  toggle.innerHTML = mode === 'dark' ? MOON : SUN;
+  if (P) render();
+});
+
+function baseOptions(overrides = {}) {
+  const base = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: cssVar('--ink-2'), font: { family: 'Inter', size: 11 }, boxWidth: 12 } },
+      tooltip: { backgroundColor: cssVar('--bg-3'), titleColor: cssVar('--ink'), bodyColor: cssVar('--ink-2'), borderColor: cssVar('--line'), borderWidth: 1 },
+    },
+  };
+  const { plugins, ...rest } = overrides;
+  Object.assign(base, rest);
+  if (plugins) Object.assign(base.plugins, plugins);
+  return base;
+}
+const axis = (extra = {}) => Object.assign({ ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, extra);
+function destroyChart(id) {
+  const i = CHARTS.findIndex(c => c.canvas && c.canvas.id === id);
+  if (i >= 0) { CHARTS[i].destroy(); CHARTS.splice(i, 1); }
+}
+
+// ---- load -----------------------------------------------------------
+const pid = new URLSearchParams(location.search).get('id');
+Promise.all([
+  pid && /^\d+$/.test(pid) ? fetch(DATA_BASE + 'players/' + pid + '.json').then(r => { if (!r.ok) throw new Error('no player'); return r.json(); })
+      : Promise.reject(new Error('no id')),
+  fetch(DATA_BASE + 'pwhl_meta.json').then(r => r.json()),
+  fetch(DATA_BASE + 'pwhl_xg.json').then(r => r.ok ? r.json() : null).catch(() => null),
+  fetch(DATA_BASE + 'pwhl_ratings.json').then(r => r.ok ? r.json() : null).catch(() => null),
+]).then(([p, meta, xg, ratings]) => {
+  P = p; META = meta; XG = xg; RATINGS = ratings;
+  document.title = `${P.name} — PWHL — Ottawa Visuals`;
+  // Default to the latest regular season she played, else her latest season.
+  const sids = seasonsPlayed();
+  const regular = sids.filter(s => /Regular/.test(seasonName(s)));
+  seasonId = (regular.length ? regular : sids).slice(-1)[0] || null;
+  document.getElementById('app').style.display = 'flex';
+  document.querySelectorAll('#shot-tabs .tab-btn').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#shot-tabs .tab-btn').forEach(x => x.classList.toggle('active', x === b));
+    shotScope = b.dataset.scope; drawShots();
+  }));
+  render();
+}).catch(err => {
+  console.error(err);
+  document.getElementById('load-error').style.display = 'block';
+});
+
+function seasonsPlayed() {
+  const s = new Set(P.seasons.map(l => l.season_id));
+  P.games.forEach(g => s.add(g.s));
+  return [...s].sort((a, b) => Number(a) - Number(b));
+}
+// The team she played for in a season: the line with the most games.
+function seasonTeam(sid) {
+  const lines = P.seasons.filter(l => l.season_id === sid && l.team);
+  if (lines.length) return lines.reduce((a, b) => b.gp > a.gp ? b : a).team;
+  const g = P.games.find(g => g.s === sid);
+  return (g && g.team) || P.team;
+}
+function sumLines(lines) {
+  const out = {};
+  lines.forEach(l => Object.entries(l).forEach(([k, v]) => { if (typeof v === 'number') out[k] = (out[k] || 0) + v; }));
+  return out;
+}
+
+function render() {
+  renderHead();
+  renderSeason();
+  renderCareer();
+}
+
+function renderHead() {
+  const tc = teamColor(seasonTeam(seasonId) || P.team);
+  const head = document.getElementById('p-head');
+  head.style.setProperty('--tc', tc);
+  const age = P.dob ? Math.floor((Date.now() - new Date(P.dob + 'T00:00:00')) / 31557600000) : null;
+  const posName = { F: 'Forward', D: 'Defence', G: 'Goalie' }[P.pos] || P.pos || '';
+  const bio = [
+    ['Born', P.dob ? `${P.dob}${age ? ` (${age})` : ''}` : null],
+    ['From', P.hometown], ['Height', P.height], [isGoalie() ? 'Catches' : 'Shoots', P.shoots], ['Nation', P.nationality],
+  ].filter(([, v]) => v);
+  const sids = seasonsPlayed();
+  head.innerHTML = `
+    ${P.image ? `<img class="p-photo" src="${esc(P.image)}" alt="" onerror="this.remove()">` : ''}
+    <div>
+      <div class="p-num">${P.number ? '#' + esc(P.number) + ' · ' : ''}${esc(posName)}</div>
+      <h1 class="p-name">${esc(P.name)}</h1>
+      <span class="p-team"><span class="sw"></span>${esc(P.team_name || P.team || '')}</span>
+      <div class="p-bio">${bio.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
+    </div>
+    <div class="p-controls">
+      <select class="ov-select" id="season-select" aria-label="Season">
+        ${sids.slice().reverse().map(s => `<option value="${s}"${s === seasonId ? ' selected' : ''}>${esc(seasonName(s))}</option>`).join('')}
+      </select>
+    </div>`;
+  document.getElementById('season-select').addEventListener('change', e => { seasonId = e.target.value; render(); });
+}
+
+function renderSeason() {
+  const lines = P.seasons.filter(l => l.season_id === seasonId);
+  const t = sumLines(lines);
+  const teams = [...new Set(lines.map(l => l.team).filter(Boolean))];
+  document.getElementById('season-title').textContent = seasonName(seasonId);
+  document.getElementById('season-sub').textContent = teams.length
+    ? (teams.length > 1 ? `Split between ${teams.join(' and ')} (combined below).` : `With ${teams[0]}.`)
+    : 'No season stat line in the feed for this season; game log only.';
+
+  const tiles = isGoalie()
+    ? [[fmt(t.gp), 'Games'], [`${t.w || 0}-${t.l || 0}-${t.otl || 0}`, 'W-L-OTL'],
+       [t.sa ? (1 - t.ga / t.sa).toFixed(3).replace(/^0/, '') : '—', 'Save %'],
+       [t.toi ? (t.ga * 3600 / t.toi).toFixed(2) : '—', 'Goals against avg'],
+       [fmt(t.sa), 'Shots faced'], [fmt(t.ga), 'Goals against'], [t.toi ? fmt(Math.round(t.toi / 60)) : '—', 'Minutes']]
+    : [[fmt(t.gp), 'Games'], [fmt(t.goals), 'Goals'], [fmt(t.assists), 'Assists'], [fmt(t.points), 'Points'],
+       [signed(t.pm), 'Plus/minus'], [fmt(t.shots), 'Shots'], [pct1(t.goals, t.shots), 'Shooting %'],
+       [t.toi && t.gp ? mmss(t.toi / t.gp) : '—', 'Ice time / game'], [fmt(t.pim), 'PIM'],
+       [fmt(t.hits), 'Hits'], [fmt(t.blocks), 'Blocks'],
+       ...(t.foa >= 20 ? [[pct1(t.fow, t.foa), `Faceoffs (${t.foa})`]] : [])];
+  document.getElementById('tiles').innerHTML = lines.length
+    ? tiles.map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${esc(l)}</div></div>`).join('')
+    : '';
+
+  renderModel();
+  renderLogChart();
+  drawShots();
+  renderGames();
+}
+
+function renderModel() {
+  const sec = document.getElementById('model-section');
+  const x = XG && XG.by_season[seasonId];
+  const r = RATINGS && RATINGS.by_season[seasonId];
+  const tiles = [];
+  let note = '';
+  if (isGoalie()) {
+    const g = x && x.goalies.find(g => g.player_id === P.player_id);
+    if (g) {
+      tiles.push([signed2(g.gsax), 'Goals saved above expected'], [g.xga.toFixed(1), 'Expected goals against'],
+                 [g.sv_pct != null ? g.sv_pct.toFixed(3).replace(/^0/, '') : '—', 'Save %'],
+                 [g.xsv_pct != null ? g.xsv_pct.toFixed(3).replace(/^0/, '') : '—', 'Expected save %']);
+      const rank = x.goalies.filter(o => o.shots >= 100).sort((a, b) => b.gsax - a.gsax).findIndex(o => o.player_id === P.player_id);
+      if (rank >= 0) note = `Ranks #${rank + 1} in GSAx among goalies with 100+ shots faced this season.`;
+    }
+  } else {
+    const s = x && x.skaters.find(s => s.player_id === P.player_id);
+    if (s) tiles.push([s.ixg.toFixed(1), 'Expected goals (xG)'], [signed2(s.g_minus_xg), 'Goals − xG']);
+    const rt = r && r.skaters.find(s => s.player_id === P.player_id);
+    if (rt) {
+      tiles.push([signed2(rt.total), 'Impact (goals above avg.)'], [signed2(rt.per30), 'Impact per 30 GP']);
+      const pool = r.skaters.filter(o => o.pos === rt.pos);
+      const rank = pool.slice().sort((a, b) => b.total - a.total).findIndex(o => o.player_id === P.player_id);
+      note = `Impact rating ranks #${rank + 1} of ${pool.length} ${rt.pos === 'D' ? 'defenders' : 'forwards'} this season. `
+        + 'Pieces: ' + Object.entries(rt.components).map(([k, v]) => `${k.replace('_', ' ')} ${signed2(v)}`).join(', ') + '.';
+    }
+  }
+  sec.style.display = tiles.length ? '' : 'none';
+  document.getElementById('model-tiles').innerHTML = tiles.map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${esc(l)}</div></div>`).join('');
+  document.getElementById('model-note').textContent = note;
+}
+
+function renderLogChart() {
+  const games = P.games.filter(g => g.s === seasonId);
+  const tc = teamColor(seasonTeam(seasonId));
+  const labels = games.map(g => `${shortDate(g.d)} ${g.h ? 'v' : '@'} ${g.opp}`);
+  destroyChart('chart-log');
+  const ctx = document.getElementById('chart-log').getContext('2d');
+  if (isGoalie()) {
+    document.getElementById('log-title').textContent = `Game by game: save % and shots faced (${games.length} games)`;
+    CHARTS.push(new Chart(ctx, {
+      data: { labels, datasets: [
+        { type: 'bar', label: 'Save %', data: games.map(g => g.sa ? 100 * g.sv / g.sa : null), backgroundColor: tc, yAxisID: 'y', borderRadius: 2 },
+        { type: 'line', label: 'Shots faced', data: games.map(g => g.sa), borderColor: cssVar('--ink-3'), backgroundColor: cssVar('--ink-3'), pointRadius: 2, borderWidth: 1.5, yAxisID: 'y2' },
+      ] },
+      options: baseOptions({
+        plugins: { tooltip: { callbacks: { afterTitle: items => { const g = games[items[0].dataIndex]; return `${g.sv}/${g.sa} saves${g.dec ? ' · ' + g.dec : ''}`; } } } },
+        scales: { x: axis({ ticks: { color: cssVar('--ink-3'), font: { size: 9 }, maxRotation: 60, autoSkip: true } }),
+                  y: axis({ min: Math.min(70, ...games.filter(g => g.sa).map(g => Math.floor(100 * g.sv / g.sa / 5) * 5)), max: 100, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v + '%' } }),
+                  y2: axis({ position: 'right', beginAtZero: true, grid: { display: false } }) },
+      }),
+    }));
+    return;
+  }
+  document.getElementById('log-title').textContent = `Game by game: points and ice time (${games.length} games)`;
+  CHARTS.push(new Chart(ctx, {
+    data: { labels, datasets: [
+      { type: 'bar', label: 'Goals', data: games.map(g => g.g), backgroundColor: tc, stack: 'p', yAxisID: 'y' },
+      { type: 'bar', label: 'Assists', data: games.map(g => g.a), backgroundColor: teamColorA(seasonTeam(seasonId), 0.4), borderColor: tc, borderWidth: 1, stack: 'p', yAxisID: 'y' },
+      { type: 'line', label: 'Ice time (min)', data: games.map(g => g.toi ? g.toi / 60 : null), borderColor: cssVar('--ink-3'), backgroundColor: cssVar('--ink-3'), pointRadius: 1.5, borderWidth: 1.5, yAxisID: 'y2', spanGaps: true },
+    ] },
+    options: baseOptions({
+      plugins: { tooltip: { callbacks: { afterTitle: items => { const g = games[items[0].dataIndex]; return `${g.sog} shots · ${signed(g.pm)} · ${g.toi ? mmss(g.toi) : '—'} TOI`; } } } },
+      scales: { x: axis({ stacked: true, ticks: { color: cssVar('--ink-3'), font: { size: 9 }, maxRotation: 60, autoSkip: true } }),
+                y: axis({ stacked: true, beginAtZero: true, suggestedMax: 3, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, stepSize: 1 } }),
+                y2: axis({ position: 'right', beginAtZero: true, grid: { display: false } }) },
+    }),
+  }));
+}
+
+// Offensive half of the rink, attacking right, with every shot (skaters) or
+// every shot faced (goalies) as a dot. Coordinates are feet from centre ice.
+function drawShots() {
+  const canvas = document.getElementById('shot-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, pad = 8;
+  const w = W - pad * 2, h = H - pad * 2;
+  const px = x => pad + x / 100 * w;
+  const py = y => pad + (y + 42.5) / 85 * h;
+  ctx.clearRect(0, 0, W, H);
+
+  // Rink markings.
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = cssVar('--line-2');
+  const r = 28 / 100 * w;
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(-42.5));
+  ctx.arcTo(px(100), py(-42.5), px(100), py(42.5), r);
+  ctx.arcTo(px(100), py(42.5), px(0), py(42.5), r);
+  ctx.lineTo(px(0), py(42.5));
+  ctx.stroke();
+  ctx.strokeStyle = cssVar('--blue');
+  ctx.beginPath(); ctx.moveTo(px(25), py(-42.5)); ctx.lineTo(px(25), py(42.5)); ctx.stroke();
+  ctx.strokeStyle = cssVar('--red');
+  ctx.beginPath(); ctx.moveTo(px(89), py(-40)); ctx.lineTo(px(89), py(40)); ctx.stroke();
+  ctx.strokeRect(px(89), py(-3), px(93) - px(89), py(3) - py(-3));
+  ctx.beginPath(); ctx.arc(px(89), py(0), 6 / 100 * w, Math.PI / 2, Math.PI * 1.5); ctx.stroke();
+  ctx.strokeStyle = cssVar('--line-2');
+  [-22, 22].forEach(fy => { ctx.beginPath(); ctx.arc(px(69), py(fy), 15 / 100 * w, 0, Math.PI * 2); ctx.stroke(); });
+
+  const all = shotScope === 'career' ? P.shots : P.shots.filter(s => s[0] === seasonId);
+  const inZone = all.filter(s => s[1] >= 0);
+  const tc = teamColor(seasonTeam(seasonId));
+  // Goals against in ink: a red would vanish against Ottawa's red.
+  const goalColor = isGoalie() ? cssVar('--ink') : tc;
+  // Shots first (hollow), goals on top (filled).
+  inZone.filter(s => !s[3]).forEach(s => {
+    ctx.beginPath(); ctx.arc(px(s[1]), py(s[2]), 3.2, 0, Math.PI * 2);
+    ctx.strokeStyle = teamColorA(seasonTeam(seasonId), 0.55); ctx.lineWidth = 1.2; ctx.stroke();
+  });
+  inZone.filter(s => s[3]).forEach(s => {
+    ctx.beginPath(); ctx.arc(px(s[1]), py(s[2]), 5, 0, Math.PI * 2);
+    ctx.fillStyle = goalColor; ctx.fill();
+    ctx.strokeStyle = cssVar('--bg-2'); ctx.lineWidth = 1.2; ctx.stroke();
+  });
+
+  const goals = all.filter(s => s[3]).length;
+  const scope = shotScope === 'career' ? 'career' : 'this season';
+  document.getElementById('shots-title').textContent = isGoalie()
+    ? `Shots faced, ${scope}: ${fmt(all.length)} (${goals} goals)`
+    : `Shots on goal, ${scope}: ${fmt(all.length)} (${goals} goals)`;
+  const off = all.length - inZone.length;
+  document.getElementById('shot-legend').innerHTML =
+    `<span><i style="border:1.5px solid ${tc}"></i>${isGoalie() ? 'save' : 'shot'}</span>`
+    + `<span><i style="background:${goalColor}"></i>${isGoalie() ? 'goal against' : 'goal'}</span>`
+    + `<span>attacking → right${off ? ` · ${off} from the other half not shown` : ''}</span>`
+    + (all.length ? '' : '<span>no located shots in the play-by-play for this season</span>');
+}
+
+function renderCareer() {
+  const table = document.getElementById('career-table');
+  const lines = P.seasons.slice().sort((a, b) => Number(b.season_id) - Number(a.season_id));
+  const row = (l, cells) => `<tr data-sid="${l.season_id}" class="${l.season_id === seasonId ? 'sel' : ''}" style="cursor:pointer">
+      <td>${esc(seasonName(l.season_id))}</td><td>${l.team ? `<span class="team-dot" style="background:${teamColor(l.team)}"></span>${esc(l.team)}` : '—'}</td>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+  if (isGoalie()) {
+    table.innerHTML = `<thead><tr><th>Season</th><th>Team</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SA</th><th>GA</th><th>SV%</th><th>GAA</th><th>Min</th></tr></thead>
+      <tbody>${lines.map(l => row(l, [l.gp, l.w, l.l, l.otl, fmt(l.sa), l.ga,
+        l.svpct != null ? l.svpct.toFixed(3).replace(/^0/, '') : '—', l.toi ? (l.ga * 3600 / l.toi).toFixed(2) : '—', l.toi ? fmt(Math.round(l.toi / 60)) : '—'])).join('')}</tbody>`;
+  } else {
+    table.innerHTML = `<thead><tr><th>Season</th><th>Team</th><th>GP</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>PIM</th><th>PPG</th><th>SHG</th><th>GWG</th><th>S</th><th>S%</th><th>Hits</th><th>Blk</th><th>FO%</th><th>TOI/GP</th></tr></thead>
+      <tbody>${lines.map(l => row(l, [l.gp, l.goals, l.assists, `<b>${l.points}</b>`, signed(l.pm), l.pim, l.ppg, l.shg, l.gwg, l.shots,
+        pct1(l.goals, l.shots), l.hits, l.blocks, l.foa ? pct1(l.fow, l.foa) : '—', l.toi && l.gp ? mmss(l.toi / l.gp) : '—'])).join('')}</tbody>`;
+  }
+  table.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
+    seasonId = tr.dataset.sid; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+}
+
+function renderGames() {
+  const games = P.games.filter(g => g.s === seasonId).slice().reverse();
+  document.getElementById('games-title').textContent = `Game log · ${seasonName(seasonId)} (${games.length} games, most recent first)`;
+  const table = document.getElementById('games-table');
+  const opp = g => `${g.h ? 'vs' : '@'} <span class="team-dot" style="background:${teamColor(g.opp)}"></span>${esc(g.opp)}`;
+  if (isGoalie()) {
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Dec.</th><th>SA</th><th>Saves</th><th>GA</th><th>SV%</th><th>TOI</th></tr></thead>
+      <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${esc(g.dec || '—')}</td><td>${g.sa}</td><td>${g.sv}</td><td>${g.ga}</td>
+        <td>${g.sa ? (g.sv / g.sa).toFixed(3).replace(/^0/, '') : '—'}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+  } else {
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>S</th><th>PIM</th><th>Hits</th><th>Blk</th><th>TOI</th></tr></thead>
+      <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${g.g}</td><td>${g.a}</td><td><b>${g.p}</b></td><td>${signed(g.pm)}</td>
+        <td>${g.sog}</td><td>${g.pim}</td><td>${g.hits}</td><td>${g.blk}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+  }
+  if (!games.length) table.innerHTML = '<tbody><tr><td style="color:var(--ink-3)">No game log for this season.</td></tr></tbody>';
+  collapseRows(table, 10, 'games');
+}
+</script>
+</body>
+</html>

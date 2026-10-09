@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -119,6 +120,14 @@ table{border-collapse:collapse;width:100%;}
 .team-cell img{width:20px;height:20px;object-fit:contain;border-radius:3px;}
 .rank-badge{display:inline-block;width:20px;text-align:center;font-family:var(--font-mono);color:var(--ink-3);}
 .pts-cell{font-weight:700;color:var(--ink);}
+.team-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:baseline;}
+.tbl td.team-stripe{box-shadow:inset 3px 0 0 var(--tc);padding-left:9px;}
+a.pl-link{color:inherit;border-bottom:1px dotted var(--line-2);}
+a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
+.more-btn{margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2);background:var(--bg-3);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
+.more-btn:hover{color:var(--accent);border-color:var(--accent);}
+.player-search{display:flex;gap:8px;align-items:center;margin-top:6px;}
+.player-search input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);width:min(320px,100%);}
 /* ── AWARDS ────────────────────────────────────────────────────── */
 .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 @media (max-width:1000px){ .awards-grid{grid-template-columns:1fr 1fr;} }
@@ -237,6 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
     <p>Standings, player leaders, shot locations, and playoff results across three PWHL seasons —
        built from a daily-refreshed pipeline against the league's own stats feed. <strong>This is a
        first draft</strong> — treat every section below as a candidate, not a finished page.</p>
+    <form class="player-search" id="player-search" autocomplete="off">
+      <input id="player-search-input" list="player-search-list" placeholder="Find a player…" aria-label="Find a player">
+      <datalist id="player-search-list"></datalist>
+      <button class="tab-btn" type="submit">Open</button>
+    </form>
   </div>
 
   <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
@@ -311,19 +325,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="section-head">
         <div>
           <h2>Player leaders</h2>
-          <p>Top 15 by category, selected season. Minimum 5 games played for rate stats.</p>
+          <p>Top 15 by category, selected season, in team colours. Minimum 5 games played for
+             faceoff %. Click a bar for that player's page.</p>
         </div>
         <div class="tabs" id="leader-tabs"></div>
       </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title" id="leaders-chart-title">Points</div>
-          <div class="cw-lg"><canvas id="chart-leaders"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-title" id="leaders-table-title">Full list</div>
-          <div style="overflow-x:auto;max-height:420px;overflow-y:auto;"><table class="tbl" id="leaders-table"></table></div>
-        </div>
+      <div class="card">
+        <div class="card-title" id="leaders-chart-title">Points</div>
+        <div class="cw-lg"><canvas id="chart-leaders"></canvas></div>
       </div>
     </div>
 
@@ -335,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>The categories the league doesn't hand out trophies for, for whichever season is
              picked above. Switch to <strong>per 60 minutes</strong> to see who does
              this stuff at a high rate rather than just who plays the most — it's where the
-             third-liners show up.</p>
+             third-liners show up. Awards that are already a percentage stay as one in both views.</p>
         </div>
         <div class="tabs" id="awards-mode-tabs">
           <button class="tab-btn active" data-mode="total">Totals</button>
@@ -364,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="card">
           <div class="card-title">Goalie detail</div>
-          <div style="overflow-x:auto;max-height:280px;overflow-y:auto;"><table class="tbl" id="gsax-table"></table></div>
+          <div style="overflow-x:auto;"><table class="tbl" id="gsax-table"></table></div>
         </div>
       </div>
       <div class="grid-2">
@@ -374,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="card">
           <div class="card-title">Finishing: goals vs. expected, top shooters by xG</div>
-          <div style="overflow-x:auto;max-height:320px;overflow-y:auto;"><table class="tbl" id="skater-xg-table"></table></div>
+          <div style="overflow-x:auto;"><table class="tbl" id="skater-xg-table"></table></div>
         </div>
       </div>
       <div class="grid-2">
@@ -406,15 +415,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="tab-btn" data-group="G">Goalies</button>
         </div>
       </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title" id="ratings-chart-title">Top 15: where the value comes from</div>
-          <div class="cw-lg"><canvas id="chart-ratings"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Full list</div>
-          <div style="overflow-x:auto;max-height:420px;overflow-y:auto;"><table class="tbl" id="ratings-table"></table></div>
-        </div>
+      <div class="card">
+        <div class="card-title" id="ratings-chart-title">Top 15: where the value comes from</div>
+        <div class="cw-lg"><canvas id="chart-ratings"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Full list</div>
+        <div style="overflow-x:auto;"><table class="tbl" id="ratings-table"></table></div>
       </div>
       <p class="note" id="ratings-note"></p>
     </div>
@@ -463,10 +470,33 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="section-head">
         <div>
           <h2>Attendance</h2>
-          <p>Reported attendance for every game in the selected season, in schedule order.</p>
+          <p>Reported attendance for the selected season, split between games in the home team's
+             own market and <strong>Takeover Tour</strong> / neutral-site games played elsewhere.
+             Bars use the home team's colour; capacity comes from the venue list.</p>
         </div>
       </div>
-      <div class="card"><div class="cw"><canvas id="chart-attendance"></canvas></div></div>
+      <div class="stat-row" id="attendance-stats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Total attendance by home team</div>
+          <div class="cw"><canvas id="chart-att-total"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Home-market games: average % of capacity</div>
+          <div class="cw"><canvas id="chart-att-capacity"></canvas></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" id="att-home-title">Home-market games, in schedule order</div>
+          <div class="cw"><canvas id="chart-attendance"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title" id="att-takeover-title">Takeover Tour &amp; neutral-site games</div>
+          <div class="cw" id="att-takeover-wrap"><canvas id="chart-att-takeover"></canvas></div>
+        </div>
+      </div>
+      <p class="note" id="attendance-note"></p>
     </div>
 
     <!-- TRANSACTIONS -->
@@ -484,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="card">
           <div class="card-title">Most recent</div>
-          <div class="txn-list" id="txn-list" style="max-height:280px;overflow-y:auto;"></div>
+          <div class="txn-list" id="txn-list"></div>
         </div>
       </div>
     </div>
@@ -500,6 +530,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <li>Covers three seasons: 2024 (inaugural), 2024-25, and 2025-26, plus each season's
             playoffs.</li>
           <li>"Player leaders" uses regular-season totals only; playoff stats aren't blended in.</li>
+          <li>Team colours are each club's dominant brand colour, approximated by eye (the league
+            publishes colour names, not codes); the darkest ones are lightened a little on the dark
+            theme so they stay visible.</li>
+          <li>Attendance: a game counts as <em>Takeover Tour / neutral site</em> when its venue is
+            outside the home team's own market (e.g. Ottawa's games in Calgary or Winnipeg).
+            Big-arena games inside the market (Canadian Tire Centre, Bell Centre, Scotiabank
+            Arena) count as home-market games. Capacity is the hockey capacity from
+            <code>PWHL/data/PWHL_Venues.csv</code>, so a sold-out game can read slightly above or
+            below 100%; games at venues with no listed capacity are left out of the % figures.</li>
           <li>"Superlatives" uses skater totals for the selected season (regular, preseason, or
             playoff, matching the season picked). Players traded mid-season appear once, with
             their split rows summed (marked <code>*</code>); the feed also emits occasional
@@ -605,6 +644,8 @@ function setTheme(mode) {
   refreshChartColors();
   drawRink();
   drawDangerMap();
+  // Team colours shift slightly between themes; redraw the charts that use them.
+  if (META) { renderSeason(currentSeasonId); renderBracket(currentBracketSeasonId); }
 }
 let savedTheme = null;
 try { savedTheme = localStorage.getItem('ov-theme'); } catch(e){}
@@ -661,7 +702,12 @@ function baseOptions(overrides = {}) {
       y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
     },
   };
-  return Object.assign(base, overrides);
+  // Merge `plugins` one level deep so a chart that only hides its legend keeps
+  // the themed tooltip.
+  const { plugins, ...rest } = overrides;
+  Object.assign(base, rest);
+  if (plugins) Object.assign(base.plugins, plugins);
+  return base;
 }
 function trackChart(chart) { CHARTS.push(chart); return chart; }
 function refreshChartColors() {
@@ -691,6 +737,7 @@ function init() {
   buildAwardsTabs();
   buildBracketTabs();
   buildRatingsTabs();
+  buildPlayerSearch();
   renderOverview();
   renderForecast();
   renderSeason(currentSeasonId);
@@ -699,6 +746,32 @@ function init() {
   renderBracket(currentBracketSeasonId);
   renderTransactions();
 }
+
+// Player search: a datalist over every player with a page; submitting jumps
+// to player.html. Loaded separately so the main page doesn't wait on it.
+function buildPlayerSearch() {
+  const form = document.getElementById('player-search');
+  const input = document.getElementById('player-search-input');
+  let byLabel = {};
+  fetch(DATA_BASE + 'pwhl_players_index.json').then(r => r.ok ? r.json() : []).then(list => {
+    byLabel = {};
+    document.getElementById('player-search-list').innerHTML = list.map(p => {
+      const label = `${p.name} (${p.team || '—'}${p.pos ? ', ' + p.pos : ''})`;
+      byLabel[label.toLowerCase()] = p.id;
+      byLabel[p.name.toLowerCase()] = byLabel[p.name.toLowerCase()] || p.id;
+      return `<option value="${esc(label)}"></option>`;
+    }).join('');
+  }).catch(() => { form.style.display = 'none'; });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const q = input.value.trim().toLowerCase();
+    const id = byLabel[q] || Object.entries(byLabel).find(([k]) => k.includes(q))?.[1];
+    if (q && id) window.location.href = playerHref(id);
+  });
+  input.addEventListener('change', () => { if (byLabel[input.value.trim().toLowerCase()]) form.requestSubmit(); });
+}
+const plLink = (id, name) => id ? `<a class="pl-link" href="${playerHref(id)}">${esc(name)}</a>` : esc(name);
+const teamDot = code => `<span class="team-dot" style="background:${teamColor(code)}"></span>`;
 
 function buildSeasonSelect() {
   const sel = document.getElementById('season-select');
@@ -752,7 +825,7 @@ function renderStandingsTable(seasonId) {
       ${teams.map(t => `
         <tr>
           <td class="rank-badge">${t.rank ?? '—'}</td>
-          <td><div class="team-cell">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<span>${esc(t.name || t.code)}</span></div></td>
+          <td class="team-stripe" style="--tc:${teamColor(t.code)}"><div class="team-cell">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<span>${esc(t.name || t.code)}</span></div></td>
           <td>${fmt(t.gp)}</td><td>${fmt(t.w)}</td><td>${fmt(t.l)}</td>
           <td>${fmt((t.otl||0))}</td><td>${fmt((t.sol||0))}</td>
           <td class="pts-cell">${fmt(t.pts)}</td><td>${fmt(t.gf)}</td><td>${fmt(t.ga)}</td>
@@ -769,12 +842,22 @@ function renderGoalsChart(seasonId) {
     data: {
       labels: teams.map(t => t.code || t.name),
       datasets: [
-        { label: 'Goals for', data: teams.map(t => t.gf), backgroundColor: cssVar('--blue') },
-        { label: 'Goals against', data: teams.map(t => t.ga), backgroundColor: cssVar('--accent') },
+        { label: 'Goals for', data: teams.map(t => t.gf), backgroundColor: teams.map(t => teamColor(t.code)) },
+        { label: 'Goals against', data: teams.map(t => t.ga), backgroundColor: teams.map(t => teamColorA(t.code, 0.35)),
+          borderColor: teams.map(t => teamColor(t.code)), borderWidth: 1 },
       ],
     },
-    options: baseOptions(),
+    options: baseOptions({ plugins: { legend: pairedLegend() } }),
   }));
+}
+// Legend for "team colour, solid vs. faded" bar pairs: neutral swatches,
+// since each bar's actual colour is its team's.
+function pairedLegend() {
+  return { labels: { color: cssVar('--ink-2'), font: { family: 'Inter', size: 11 }, boxWidth: 12,
+    generateLabels: chart => chart.data.datasets.map((ds, i) => ({
+      text: ds.label, datasetIndex: i, hidden: !chart.isDatasetVisible(i), fontColor: cssVar('--ink-2'),
+      fillStyle: i === 0 ? cssVar('--ink-2') : 'transparent', strokeStyle: cssVar('--ink-2'), lineWidth: 1,
+    })) } };
 }
 
 function renderSpecialTeamsChart(seasonId) {
@@ -787,11 +870,12 @@ function renderSpecialTeamsChart(seasonId) {
     data: {
       labels: teams.map(t => t.code || t.name),
       datasets: [
-        { label: 'Power play %', data: teams.map(t => pct(t.pp_pct)), backgroundColor: cssVar('--green') },
-        { label: 'Penalty kill %', data: teams.map(t => pct(t.pk_pct)), backgroundColor: cssVar('--purple') },
+        { label: 'Power play %', data: teams.map(t => pct(t.pp_pct)), backgroundColor: teams.map(t => teamColor(t.code)) },
+        { label: 'Penalty kill %', data: teams.map(t => pct(t.pk_pct)), backgroundColor: teams.map(t => teamColorA(t.code, 0.35)),
+          borderColor: teams.map(t => teamColor(t.code)), borderWidth: 1 },
       ],
     },
-    options: baseOptions({ scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, y: { beginAtZero: true, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v + '%' }, grid: { color: cssVar('--line') } } } }),
+    options: baseOptions({ plugins: { legend: pairedLegend() }, scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, y: { beginAtZero: true, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v + '%' }, grid: { color: cssVar('--line') } } } }),
   }));
 }
 
@@ -820,24 +904,35 @@ function renderLeaders(seasonId, statKey) {
   const spec = LEADER_STATS.find(s => s.key === statKey) || LEADER_STATS[0];
   const rows = ((LEADERS[seasonId] || {})[statKey] || []);
   document.getElementById('leaders-chart-title').textContent = spec.label + ' leaders';
-  document.getElementById('leaders-table-title').textContent = spec.label + ' — full list';
 
+  // One chart instead of chart + duplicate table: bars in team colour, with
+  // the value and games played written inside each bar.
   destroyChart('chart-leaders');
   const ctx = document.getElementById('chart-leaders').getContext('2d');
   const isPct = statKey === 'faceoff_pct';
+  const valueText = v => v == null ? '—' : isPct ? v.toFixed(1) + '%' : fmt(v);
   trackChart(new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: rows.map(r => r.name),
-      datasets: [{ label: spec.label, data: rows.map(r => isPct ? r[statKey] : r[statKey]), backgroundColor: cssVar('--accent') }],
+      labels: rows.map((r, i) => `${i + 1}. ${r.name} · ${r.team_code || ''}`),
+      datasets: [{ label: spec.label, data: rows.map(r => r[statKey]),
+        backgroundColor: rows.map(r => teamColor(r.team_code)), borderRadius: 3, barPercentage: 0.82 }],
     },
-    options: baseOptions({ indexAxis: 'y', plugins: { legend: { display: false } } }),
+    options: baseOptions({
+      indexAxis: 'y',
+      onClick: (_e, els) => { if (els.length) window.location.href = playerHref(rows[els[0].index].player_id); },
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => `${spec.label}: ${valueText(c.raw)} · ${rows[c.dataIndex].gp} GP` } },
+        barLabels: { format: (v, i) => `${valueText(v)}  ·  ${rows[i].gp} GP`, size: 11 },
+      },
+      scales: {
+        x: { beginAtZero: !isPct, ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
+        y: { ticks: { color: cssVar('--ink-2'), font: { size: 11.5 } }, grid: { display: false } },
+      },
+    }),
   }));
-
-  const table = document.getElementById('leaders-table');
-  table.innerHTML = `
-    <thead><tr><th>#</th><th>Player</th><th>Team</th><th>GP</th><th>${esc(spec.label)}</th></tr></thead>
-    <tbody>${rows.map((r,i) => `<tr><td class="rank-badge">${i+1}</td><td>${esc(r.name)}</td><td>${esc(r.team_code||'')}</td><td>${fmt(r.gp)}</td><td class="pts-cell">${isPct ? (r[statKey]!=null? r[statKey].toFixed(1)+'%':'—') : fmt(r[statKey])}</td></tr>`).join('')}</tbody>`;
 }
 
 // ================================================================
@@ -864,6 +959,7 @@ function awardsThresholds(rows) {
 
 const per60 = (v, r) => r.toi > 0 ? v * 3600 / r.toi : 0;
 const int0 = v => fmt(Math.round(v));
+const dec0 = v => v.toFixed(0);
 const dec1 = v => v.toFixed(1);
 const dec2 = v => v.toFixed(2);
 const signed = v => (v > 0 ? '+' : '') + (Number.isInteger(v) ? v : v.toFixed(2));
@@ -874,9 +970,12 @@ const AWARDS_DEFS = [
     blurb:'Most penalty minutes. The box is a second home.',
     val: r => r.pim, fmt: int0, unit:'PIM', rateUnit:'PIM/60' },
   { key:'fairplay', emoji:'😇', title:'The Fair-Play Award',
-    blurb:'Most ice time without taking a single penalty all season.',
-    filter: r => r.pim === 0, val: r => r.toi / 60, fmt: v => int0(v) + ' min',
-    noRate:true, sub:'Zero PIM, ranked by minutes played' },
+    blurb:'Highest share of games played without taking a single penalty.',
+    filter: (r, th) => r.log_gp >= th.minGp, val: r => 100 * r.clean_gp / r.log_gp,
+    // Plenty of players finish at 100%; the one who did it over more games ranks first.
+    tie: r => r.log_gp * 1e7 + r.toi,
+    fmt: (v, r) => `${dec0(v)}% · ${r.clean_gp}/${r.log_gp} GP`,
+    noRate:true, sub: th => `Penalty-free games ÷ games played · min. ${th.minGp} GP` },
   { key:'impact_high', emoji:'📈', title:'Most Impactful',
     blurb:'Best plus/minus — on the ice for a lot more goals for than against.',
     val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
@@ -975,8 +1074,8 @@ function renderAwards(seasonId, mode) {
       ? list.map((x, i) => `
           <div class="aw-row">
             <span class="rk">${i+1}</span>
-            <span class="nm">${esc(x.r.name)}<span class="tm">${esc(x.r.team_code || '')}${x.r.traded ? '*' : ''}</span></span>
-            <span class="vl">${esc(formatter(x.v))}</span>
+            <span class="nm">${plLink(x.r.player_id, x.r.name)}<span class="tm">${teamDot(x.r.team_code)}${esc(x.r.team_code || '')}${x.r.traded ? '*' : ''}</span></span>
+            <span class="vl">${esc(formatter(x.v, x.r))}</span>
           </div>`).join('')
       : '<div class="aw-sub">Not enough qualifying players.</div>';
     return `
@@ -990,7 +1089,7 @@ function renderAwards(seasonId, mode) {
   note.textContent = `${rows.length} skaters with at least one game played. `
     + (mode === 'rate'
        ? `Rate stats are per 60 minutes of ice time, restricted to players with ${th.minGp}+ games and ${th.minMin}+ minutes.`
-       : 'Ties broken by ice time. Awards that are already rates or eligibility-based (fair play, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
+       : 'Ties broken by ice time. Awards that are already rates or eligibility-based (fair play %, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
     + ' * = played for more than one team this season; stats are combined.';
 }
 
@@ -1121,6 +1220,7 @@ function renderBracket(seasonId) {
     rounds[r.round] = rounds[r.round] || {};
     const s = rounds[r.round][r.series_letter] = rounds[r.round][r.series_letter] || {
       round_name: r.round_name, team1_name: r.team1_name, team2_name: r.team2_name,
+      team1_id: r.team1_id, team2_id: r.team2_id,
       team1_wins: r.team1_series_wins, team2_wins: r.team2_series_wins, games: 0,
     };
     s.games++;
@@ -1133,9 +1233,11 @@ function renderBracket(seasonId) {
       <div class="bracket-round-title">${esc(series[0].round_name || ('Round ' + rk))}</div>
       ${series.map(s => {
         const w1 = Number(s.team1_wins) > Number(s.team2_wins);
+        const teams = (META.teams_by_season || {})[seasonId] || [];
+        const dot = id => { const t = teams.find(t => t.team_id === id); return t ? teamDot(t.code) : ''; };
         return `<div class="series-card">
-          <div class="series-row${w1?' winner':''}"><span class="nm">${esc(s.team1_name)}</span><span class="sc">${fmt(s.team1_wins)}</span></div>
-          <div class="series-row${!w1?' winner':''}"><span class="nm">${esc(s.team2_name)}</span><span class="sc">${fmt(s.team2_wins)}</span></div>
+          <div class="series-row${w1?' winner':''}"><span class="nm">${dot(s.team1_id)}${esc(s.team1_name)}</span><span class="sc">${fmt(s.team1_wins)}</span></div>
+          <div class="series-row${!w1?' winner':''}"><span class="nm">${dot(s.team2_id)}${esc(s.team2_name)}</span><span class="sc">${fmt(s.team2_wins)}</span></div>
           <div class="series-meta">${s.games} game${s.games===1?'':'s'} played</div>
         </div>`;
       }).join('')}
@@ -1270,7 +1372,9 @@ function teamLogo(seasonId, code) {
   return t && t.logo ? `<img src="${esc(t.logo)}" alt="">` : '';
 }
 function emptyTable(id, msg) {
-  document.getElementById(id).innerHTML = `<tbody><tr><td style="text-align:left;color:var(--ink-3)">${esc(msg)}</td></tr></tbody>`;
+  const table = document.getElementById(id);
+  table.innerHTML = `<tbody><tr><td style="text-align:left;color:var(--ink-3)">${esc(msg)}</td></tr></tbody>`;
+  collapseRows(table, 1);  // drops a stale "show all" button from the previous season
 }
 
 function renderXg(seasonId) {
@@ -1290,15 +1394,18 @@ function renderXg(seasonId) {
     data: {
       labels: regulars.map(g => `${g.name} (${g.team_code})`),
       datasets: [{ label: 'GSAx', data: regulars.map(g => g.gsax),
-        backgroundColor: regulars.map(g => g.gsax >= 0 ? cssVar('--green') : cssVar('--red')) }],
+        backgroundColor: regulars.map(g => teamColor(g.team_code)), borderRadius: 3 }],
     },
-    options: baseOptions({ indexAxis: 'y', plugins: { legend: { display: false },
-      tooltip: { callbacks: { label: c => `GSAx ${signed2(c.raw)}` } } } }),
+    options: baseOptions({ indexAxis: 'y',
+      onClick: (_e, els) => { if (els.length) window.location.href = playerHref(regulars[els[0].index].player_id); },
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => `GSAx ${signed2(c.raw)}` } },
+        barLabels: { format: v => signed2(v), size: 10.5 } } }),
   }));
   document.getElementById('gsax-table').innerHTML = `
     <thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>Shots</th><th>GA</th><th>SV%</th><th>xSV%</th><th>GSAx</th></tr></thead>
     <tbody>${s.goalies.filter(g => g.shots >= 20).map((g, i) => `<tr>
-      <td class="rank-badge">${i+1}</td><td>${esc(g.name)}</td><td>${esc(g.team_code)}</td>
+      <td class="rank-badge">${i+1}</td><td>${plLink(g.player_id, g.name)}</td><td>${teamDot(g.team_code)}${esc(g.team_code)}</td>
       <td>${fmt(g.shots)}</td><td>${fmt(g.goals_against)}</td>
       <td>${g.sv_pct != null ? g.sv_pct.toFixed(3) : '—'}</td><td>${g.xsv_pct != null ? g.xsv_pct.toFixed(3) : '—'}</td>
       <td class="pts-cell">${signedCell(g.gsax)}</td></tr>`).join('')}</tbody>`;
@@ -1307,15 +1414,17 @@ function renderXg(seasonId) {
     <thead><tr><th>#</th><th>Team</th><th>xGF</th><th>xGA</th><th>xGF%</th><th>GF</th><th>GA</th></tr></thead>
     <tbody>${s.teams.map((t, i) => `<tr>
       <td class="rank-badge">${i+1}</td>
-      <td><div class="team-cell">${teamLogo(seasonId, t.code)}<span>${esc(t.name)}</span></div></td>
+      <td class="team-stripe" style="--tc:${teamColor(t.code)}"><div class="team-cell">${teamLogo(seasonId, t.code)}<span>${esc(t.name)}</span></div></td>
       <td>${t.xgf.toFixed(1)}</td><td>${t.xga.toFixed(1)}</td>
       <td class="pts-cell">${t.xgf_pct.toFixed(1)}%</td><td>${fmt(t.gf)}</td><td>${fmt(t.ga)}</td></tr>`).join('')}</tbody>`;
 
   document.getElementById('skater-xg-table').innerHTML = `
     <thead><tr><th>#</th><th>Player</th><th>Shots</th><th>Goals</th><th>xG</th><th>G − xG</th></tr></thead>
     <tbody>${s.skaters.slice(0, 25).map((p, i) => `<tr>
-      <td class="rank-badge">${i+1}</td><td>${esc(p.name)}</td><td>${fmt(p.shots)}</td><td>${fmt(p.goals)}</td>
+      <td class="rank-badge">${i+1}</td><td>${plLink(p.player_id, p.name)}</td><td>${fmt(p.shots)}</td><td>${fmt(p.goals)}</td>
       <td class="pts-cell">${p.ixg.toFixed(1)}</td><td>${signedCell(p.g_minus_xg)}</td></tr>`).join('')}</tbody>`;
+  collapseRows(document.getElementById('gsax-table'), 10, 'goalies');
+  collapseRows(document.getElementById('skater-xg-table'), 10, 'shooters');
 }
 
 function renderXgModelCharts() {
@@ -1443,8 +1552,9 @@ function renderRatings(seasonId, group) {
     }));
     table.innerHTML = `
       <thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>Shots</th><th>GSAx</th></tr></thead>
-      <tbody>${rows.map((g, i) => `<tr><td class="rank-badge">${i+1}</td><td>${esc(g.name)}</td>
-        <td>${esc(g.team_code)}</td><td>${fmt(g.shots)}</td><td class="pts-cell">${signedCell(g.gsax)}</td></tr>`).join('')}</tbody>`;
+      <tbody>${rows.map((g, i) => `<tr><td class="rank-badge">${i+1}</td><td>${plLink(g.player_id, g.name)}</td>
+        <td>${teamDot(g.team_code)}${esc(g.team_code)}</td><td>${fmt(g.shots)}</td><td class="pts-cell">${signedCell(g.gsax)}</td></tr>`).join('')}</tbody>`;
+    collapseRows(table, 15, 'goalies');
     note.textContent = 'Goalie ratings are GSAx from the expected-goals model. Minimum 10% of the season\'s top shot load.';
     return;
   }
@@ -1472,10 +1582,11 @@ function renderRatings(seasonId, group) {
   table.innerHTML = `
     <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Pos</th><th>GP</th>
       ${keys.map(k => `<th>${esc(RATING_COMPONENTS[k].label)}</th>`).join('')}<th>Total</th><th>Per 30 GP</th></tr></thead>
-    <tbody>${rows.map((r, i) => `<tr><td class="rank-badge">${i+1}</td><td>${esc(r.name)}</td>
-      <td>${esc(r.team_code)}</td><td>${esc(r.pos)}</td><td>${fmt(r.gp)}</td>
+    <tbody>${rows.map((r, i) => `<tr><td class="rank-badge">${i+1}</td><td>${plLink(r.player_id, r.name)}</td>
+      <td>${teamDot(r.team_code)}${esc(r.team_code)}</td><td>${esc(r.pos)}</td><td>${fmt(r.gp)}</td>
       ${keys.map(k => `<td>${signed2(r.components[k])}</td>`).join('')}
       <td class="pts-cell">${signedCell(r.total)}</td><td>${signed2(r.per30)}</td></tr>`).join('')}</tbody>`;
+  collapseRows(table, 15, 'players');
 
   note.textContent = s.model === 'full'
     ? `Full model: on-ice lists cover ${(s.onice_coverage * 100).toFixed(0)}% of this season's shots, so even-strength `
@@ -1486,17 +1597,111 @@ function renderRatings(seasonId, group) {
 }
 
 function renderAttendance(seasonId) {
-  const games = (GAMES[seasonId] || []).filter(g => g.attendance != null);
-  destroyChart('chart-attendance');
-  const ctx = document.getElementById('chart-attendance').getContext('2d');
-  trackChart(new Chart(ctx, {
+  const all = GAMES[seasonId] || [];
+  const games = all.filter(g => g.attendance);
+  const home = games.filter(g => !g.takeover), tko = games.filter(g => g.takeover);
+  const sum = (arr, f) => arr.reduce((a, g) => a + (f(g) || 0), 0);
+  const capPct = arr => { const c = arr.filter(g => g.capacity); const cap = sum(c, g => g.capacity); return cap ? 100 * sum(c, g => g.attendance) / cap : null; };
+  const pctTxt = v => v == null ? '—' : Math.round(v) + '%';
+  const city = g => (g.venue || '').split('|')[1]?.trim() || (g.venue || '').split(' - ')[0];
+  const shortDay = d => (d || '').replace(/^\w+,\s*/, '').replace(/\s+/g, ' ');
+  const gameTip = g => `${shortDay(g.date)} · ${g.away_code || g.away} @ ${g.home_code || g.home} · ${g.venue}: `
+    + `${fmt(g.attendance)}${g.capacity ? ` (${pctTxt(100 * g.attendance / g.capacity)} of ${fmt(g.capacity)})` : ''}`;
+
+  const biggest = games.reduce((b, g) => !b || g.attendance > b.attendance ? g : b, null);
+  document.getElementById('attendance-stats').innerHTML = [
+    [fmt(sum(games, g => g.attendance)), `TOTAL ATTENDANCE · ${games.length} GAMES`],
+    [home.length ? fmt(Math.round(sum(home, g => g.attendance) / home.length)) : '—', `AVG HOME-MARKET GAME · ${pctTxt(capPct(home))} FULL`],
+    [tko.length ? fmt(Math.round(sum(tko, g => g.attendance) / tko.length)) : '—', `AVG TAKEOVER / NEUTRAL GAME · ${tko.length} GAMES`],
+    [biggest ? fmt(biggest.attendance) : '—', biggest ? `BIGGEST CROWD · ${city(biggest).toUpperCase()}` : 'BIGGEST CROWD'],
+  ].map(([num, lbl]) => `<div class="stat"><div class="num">${num}</div><div class="lbl">${esc(lbl)}</div></div>`).join('');
+
+  // Per team (credited to the home team).
+  const codes = [...new Set(games.map(g => g.home_code).filter(Boolean))];
+  const teams = codes.map(code => {
+    const h = home.filter(g => g.home_code === code), t = tko.filter(g => g.home_code === code);
+    return { code, home: sum(h, g => g.attendance), tko: sum(t, g => g.attendance), nHome: h.length,
+             avgHome: h.length ? sum(h, g => g.attendance) / h.length : null, pct: capPct(h) };
+  });
+  const byTotal = teams.slice().sort((a, b) => (b.home + b.tko) - (a.home + a.tko));
+  const intAxis = { ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v >= 1000 ? (v / 1000) + 'k' : v }, grid: { color: cssVar('--line') } };
+  const catAxis = { ticks: { color: cssVar('--ink-2'), font: { size: 11 } }, grid: { display: false } };
+
+  destroyChart('chart-att-total');
+  trackChart(new Chart(document.getElementById('chart-att-total').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: games.map((g,i) => `${g.home} vs ${g.away}`),
-      datasets: [{ label: 'Attendance', data: games.map(g => g.attendance), backgroundColor: cssVar('--blue') }],
+      labels: byTotal.map(t => t.code),
+      datasets: [
+        { label: 'Home market', data: byTotal.map(t => t.home), backgroundColor: byTotal.map(t => teamColor(t.code)) },
+        { label: 'Takeover / neutral site', data: byTotal.map(t => t.tko), backgroundColor: byTotal.map(t => stripedFill(teamColor(t.code))) },
+      ],
     },
-    options: baseOptions({ scales: { x: { display: false }, y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } } } }),
+    options: baseOptions({
+      indexAxis: 'y',
+      plugins: { legend: pairedLegend(),
+        tooltip: { callbacks: { footer: items => 'Total ' + fmt(byTotal[items[0].dataIndex].home + byTotal[items[0].dataIndex].tko) } },
+        barLabels: { format: (_v, i) => fmt(byTotal[i].home + byTotal[i].tko), outside: true, size: 10.5 } },
+      scales: { x: { stacked: true, ...intAxis, grace: '12%' }, y: { stacked: true, ...catAxis } },
+    }),
   }));
+
+  const byPct = teams.filter(t => t.pct != null).sort((a, b) => b.pct - a.pct);
+  destroyChart('chart-att-capacity');
+  trackChart(new Chart(document.getElementById('chart-att-capacity').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: byPct.map(t => t.code),
+      datasets: [{ label: '% of capacity', data: byPct.map(t => t.pct), backgroundColor: byPct.map(t => teamColor(t.code)), borderRadius: 3 }],
+    },
+    options: baseOptions({
+      indexAxis: 'y',
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => `${pctTxt(c.raw)} full · avg ${fmt(Math.round(byPct[c.dataIndex].avgHome))} over ${byPct[c.dataIndex].nHome} games` } },
+        barLabels: { format: (v, i) => `${pctTxt(v)} · avg ${fmt(Math.round(byPct[i].avgHome))}`, size: 10.5 } },
+      scales: { x: { min: 0, suggestedMax: 100, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v + '%' }, grid: { color: cssVar('--line') } }, y: catAxis },
+    }),
+  }));
+
+  document.getElementById('att-home-title').textContent = `Home-market games, in schedule order (${home.length})`;
+  destroyChart('chart-attendance');
+  trackChart(new Chart(document.getElementById('chart-attendance').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: home.map(g => `${g.away_code || g.away} @ ${g.home_code || g.home}`),
+      datasets: [{ label: 'Attendance', data: home.map(g => g.attendance), backgroundColor: home.map(g => teamColor(g.home_code)) }],
+    },
+    options: baseOptions({
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => gameTip(home[c.dataIndex]) } } },
+      scales: { x: { display: false }, y: intAxis },
+    }),
+  }));
+
+  // One bar per takeover game; the card grows with the game count so the
+  // labels never need a scroll box.
+  document.getElementById('att-takeover-title').textContent = `Takeover Tour & neutral-site games (${tko.length})`;
+  document.getElementById('att-takeover-wrap').style.height = Math.max(120, tko.length * 24 + 40) + 'px';
+  destroyChart('chart-att-takeover');
+  trackChart(new Chart(document.getElementById('chart-att-takeover').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: tko.map(g => `${city(g)} · ${g.away_code || g.away} @ ${g.home_code || g.home}`),
+      datasets: [{ label: 'Attendance', data: tko.map(g => g.attendance), backgroundColor: tko.map(g => teamColor(g.home_code)), borderRadius: 3 }],
+    },
+    options: baseOptions({
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: () => '', label: c => gameTip(tko[c.dataIndex]) } },
+        barLabels: { format: (v, i) => tko[i].capacity ? `${fmt(v)} · ${pctTxt(100 * v / tko[i].capacity)}` : fmt(v), size: 10.5 } },
+      scales: { x: { ...intAxis, grace: '5%' }, y: { ticks: { color: cssVar('--ink-2'), font: { size: 10.5 } }, grid: { display: false } } },
+    }),
+  }));
+
+  const noAtt = all.length - games.length;
+  const noCap = games.filter(g => !g.capacity).length;
+  document.getElementById('attendance-note').textContent =
+    `Attendance is credited to the home team. % of capacity uses home-market games at venues with a listed capacity.`
+    + (noAtt ? ` ${noAtt} game${noAtt === 1 ? '' : 's'} with no reported attendance left out.` : '')
+    + (noCap ? ` ${noCap} game${noCap === 1 ? '' : 's'} at a venue with no listed capacity.` : '');
 }
 
 // ================================================================
@@ -1521,6 +1726,7 @@ function renderTransactions() {
       <span>${esc(t.player_name || '')} — ${esc(t.team_name || '')}</span>
     </div>`;
   }).join('');
+  collapseRows(list, 8, 'transactions');
 }
 </script>
 </body>
