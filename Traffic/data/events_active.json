@@ -1472,6 +1472,29 @@
 },
 "fp": "5cbe0667e8a4"
 },
+"28836": {
+"event": {
+"cause": "construction",
+"created": "2026-09-14 16:28:00",
+"cross_street_1": "CHURCHILL",
+"cross_street_2": "ROOSEVELT",
+"direction": null,
+"event_id": "28836",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "DANFORTH closed between CHURCHILL and ROOSEVELT due to construction. From October 13th to 14th.",
+"lanes": "closed",
+"lat": 45.391527,
+"lon": -75.753433,
+"planned_end": "2026-10-14T17:00",
+"planned_start": "2026-10-09T07:00",
+"priority": "MEDIUM",
+"road": "DANFORTH",
+"source": "city",
+"updated": "2026-10-09 06:56:00"
+},
+"fp": "7e0f1ba81e5d"
+},
 "28837": {
 "event": {
 "cause": "construction",
@@ -1586,29 +1609,6 @@
 "updated": "2026-10-02 06:56:00"
 },
 "fp": "d4511bc7638d"
-},
-"28910": {
-"event": {
-"cause": "construction",
-"created": "2026-09-17 12:42:00",
-"cross_street_1": "Boul Orl\u00e9ans Blvd",
-"cross_street_2": "Viseneau",
-"direction": null,
-"event_id": "28910",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Innes nightly lane reductions in both directions between Orl\u00e9ans Blvd and Viseneau due to construction, from October 5th to 9th. Flagpersons present. ",
-"lanes": "lane reductions in both directions",
-"lat": 45.444401,
-"lon": -75.532688,
-"planned_end": "2026-10-09T07:00",
-"planned_start": "2026-10-02T18:00",
-"priority": "LOW",
-"road": "Innes",
-"source": "city",
-"updated": "2026-10-02 17:56:00"
-},
-"fp": "908ea0d06ddf"
 },
 "28913": {
 "event": {
@@ -1747,6 +1747,29 @@
 "updated": "2026-09-25 06:56:00"
 },
 "fp": "ddcf6a310a0e"
+},
+"29069": {
+"event": {
+"cause": "construction",
+"created": "2026-09-24 18:22:00",
+"cross_street_1": "RIDEAU",
+"cross_street_2": "MITCH OWENS",
+"direction": null,
+"event_id": "29069",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "BOWESVILLE closed between RIDEAU and MITCH OWENS due to construction, from October 12th to 16th. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.276718,
+"lon": -75.626123,
+"planned_end": "2026-10-16T17:00",
+"planned_start": "2026-10-09T07:00",
+"priority": "MEDIUM",
+"road": "BOWESVILLE",
+"source": "city",
+"updated": "2026-10-09 06:56:00"
+},
+"fp": "94e12769c5a0"
 },
 "29116": {
 "event": {
@@ -2346,6 +2369,29 @@
 },
 "fp": "bfa4a1699758"
 },
+"29248": {
+"event": {
+"cause": "construction",
+"created": "2026-10-05 08:36:00",
+"cross_street_1": "STAR TOP",
+"cross_street_2": "MEADOWBROOK",
+"direction": null,
+"event_id": "29248",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CYRVILLE lane reductions between STAR TOP and MEADOWBROOK due to construction, Monday October 12th",
+"lanes": "lane reductions",
+"lat": 45.420171,
+"lon": -75.617964,
+"planned_end": "2026-10-12T17:00",
+"planned_start": "2026-10-09T07:00",
+"priority": "LOW",
+"road": "CYRVILLE",
+"source": "city",
+"updated": "2026-10-09 06:56:00"
+},
+"fp": "4767dee7e2cc"
+},
 "29255": {
 "event": {
 "cause": "construction",
@@ -2599,6 +2645,29 @@
 },
 "fp": "c5a68ea816ab"
 },
+"29342": {
+"event": {
+"cause": "construction",
+"created": "2026-10-08 12:34:00",
+"cross_street_1": "Anna",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29342",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Crerar closed at Anna due to construction, from October 12th to 23rd. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.386049,
+"lon": -75.727342,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-09T07:00",
+"priority": "LOW",
+"road": "Crerar",
+"source": "city",
+"updated": "2026-10-09 06:56:00"
+},
+"fp": "bc04cdd11514"
+},
 "29345": {
 "event": {
 "cause": "construction",
@@ -2713,6 +2782,52 @@
 "updated": "2026-10-08 13:28:00"
 },
 "fp": "d6588c301a9a"
+},
+"29362": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 06:23:00",
+"cross_street_1": "Ter Lassiter Ter",
+"cross_street_2": "Naskapi",
+"direction": null,
+"event_id": "29362",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Ogilvie off-peak lane reduction between Lassiter Ter and Naskapi due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.451,
+"lon": -75.596324,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "Ogilvie",
+"source": "city",
+"updated": "2026-10-09 06:24:00"
+},
+"fp": "e1f94d1bf171"
+},
+"29363": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 06:29:00",
+"cross_street_1": "EVE",
+"cross_street_2": "LOLA",
+"direction": null,
+"event_id": "29363",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "DONALD off-peak lane reduction between EVE and LOLA due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.427856,
+"lon": -75.655038,
+"planned_end": "2026-11-09T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "DONALD",
+"source": "city",
+"updated": "2026-10-09 06:32:00"
+},
+"fp": "c3a388d2ec85"
 }
 }
 }
