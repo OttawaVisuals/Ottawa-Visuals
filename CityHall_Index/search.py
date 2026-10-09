@@ -14,6 +14,8 @@ Usage
   python search.py '"funding gap" water' --sort date --limit 50
   python search.py "OCC 2024-13" --full          # print each hit's whole text
   python search.py "watermain" --csv hits.csv    # all hits to a spreadsheet
+  python search.py "watermain" --pdf-list wm.html  # page of PDF links to download
+  python search.py "break" --in pdfs             # only downloaded PDFs (ingest_pdfs.py)
 
 Query syntax is SQLite FTS5: words are ANDed, "exact phrase", OR, NOT,
 NEAR(a b, 10), prefix*. Words are stemmed (break/breaks/breaking match).
@@ -24,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 import sqlite3
 import sys
@@ -33,7 +36,12 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "data"      # --data overrides
 DB = DATA / "search.db"
-SOURCES = ["meetings", "agenda_items", "item_text", "motions", "attachments"]
+SOURCES = ["meetings", "agenda_items", "item_text", "motions", "attachments",
+           "pdf_files", "pdf_pages"]
+# Columns of the items table. kind: item | meeting (whole-page text) | pdf (one PDF page)
+COLS = ["kind", "meeting_id", "date", "committee", "item_number", "title",
+        "report_number", "disposition", "category", "url", "text", "motions",
+        "attachments", "attachment_urls", "local_file"]
 # bm25 weights, in FTS column order: title, report, text, motions, attachments
 WEIGHTS = (8.0, 6.0, 1.0, 1.5, 3.0)
 
@@ -81,20 +89,24 @@ def build():
     tmp = DB.with_suffix(".tmp")
     tmp.unlink(missing_ok=True)
     con = sqlite3.connect(tmp)
-    con.executescript("""
-        CREATE TABLE items(
-            id INTEGER PRIMARY KEY, meeting_id TEXT, date TEXT, committee TEXT,
-            item_number TEXT, title TEXT, report_number TEXT, disposition TEXT,
-            category TEXT, url TEXT, text TEXT, motions TEXT, attachments TEXT,
-            attachment_urls TEXT);
+    con.executescript(f"""
+        CREATE TABLE items(id INTEGER PRIMARY KEY, {", ".join(c + " TEXT" for c in COLS)});
         CREATE VIRTUAL TABLE fts USING fts5(
             title, report_number, text, motions, attachments,
             content='items', content_rowid='id',
             tokenize='porter unicode61 remove_diacritics 2');
     """)
+    insert = (f"INSERT INTO items({', '.join(COLS)}) "
+              f"VALUES ({', '.join(':' + c for c in COLS)})")
+
+    def add(**row):
+        con.execute(insert, {c: row.get(c, "") for c in COLS})
+
     seen = defaultdict(int)
     n = 0
+    items_by_key = {}
     for it in _rows("agenda_items"):
+        items_by_key.setdefault((it["meeting_id"], it["item_number"]), it)
         key = (it["meeting_id"], it["item_number"])
         k = seen[key]
         seen[key] += 1
@@ -106,25 +118,45 @@ def build():
                         for m in motions.get(key, [])) if k == 0 else ""
         att = attach.get(key, []) if k == 0 else []
         mtg = meetings.get(it["meeting_id"], {})
-        con.execute(
-            "INSERT INTO items VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (it["meeting_id"], it["date"], it["committee"], it["item_number"],
-             it["title"], it["report_number"], it["disposition"], it["category"],
-             mtg.get("url", ""), text, mot,
-             "\n".join(a["filename"] for a in att),
-             "\n".join(a["url"] for a in att)))
+        add(kind="item", meeting_id=it["meeting_id"], date=it["date"],
+            committee=it["committee"], item_number=it["item_number"], title=it["title"],
+            report_number=it["report_number"], disposition=it["disposition"],
+            category=it["category"], url=mtg.get("url", ""), text=text, motions=mot,
+            attachments="\n".join(a["filename"] for a in att),
+            attachment_urls="\n".join(a["url"] for a in att))
         n += 1
     # Text rows with no agenda item: whole-meeting pages (pre-2022 meetings have
     # no item breakdown) or items the other CSVs didn't capture.
     for key, rows in texts.items():
         mtg = meetings.get(key[0], {})
         for r in rows[seen.get(key, 0):]:
-            con.execute(
-                "INSERT INTO items VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (key[0], mtg.get("date", ""), mtg.get("committee", ""), key[1],
-                 "Full meeting text (no item breakdown)" if not key[1] else "(item text only)",
-                 "", "", "", mtg.get("url", ""), r["text"], "", "", ""))
+            add(kind="meeting", meeting_id=key[0], date=mtg.get("date", ""),
+                committee=mtg.get("committee", ""), item_number=key[1],
+                title="Full meeting text (no item breakdown)" if not key[1] else "(item text only)",
+                url=mtg.get("url", ""), text=r["text"])
             n += 1
+    # Downloaded PDFs (ingest_pdfs.py): one document per page, linked to the page.
+    pages = defaultdict(list)
+    for r in _rows("pdf_pages"):
+        pages[r["sha1"]].append(r)
+    n_pdf = 0
+    for f in _rows("pdf_files"):
+        if f.get("duplicate_of"):
+            continue
+        mtg = meetings.get(f["meeting_id"], {})
+        it = items_by_key.get((f["meeting_id"], f["item_number"]), {})
+        name = f["attachment_name"] or f["file"]
+        for pg in pages.get(f["sha1"], []):
+            if not pg["text"]:
+                continue
+            add(kind="pdf", meeting_id=f["meeting_id"], date=mtg.get("date", ""),
+                committee=mtg.get("committee", ""), item_number=f["item_number"],
+                title=f"{name} · p. {pg['page']}" + (f" · {it['title']}" if it.get("title") else ""),
+                report_number=it.get("report_number", ""), disposition=it.get("disposition", ""),
+                url=(f["url"] + f"#page={pg['page']}") if f["url"] else mtg.get("url", ""),
+                text=pg["text"], local_file=f["path"])
+            n += 1
+        n_pdf += 1
     con.execute("INSERT INTO fts(rowid, title, report_number, text, motions, attachments) "
                 "SELECT id, title, report_number, text, motions, attachments FROM items")
     con.commit()
@@ -134,7 +166,7 @@ def build():
     tmp.replace(DB)
     with_text = sum(len(v) for v in texts.values())
     print(f"built {DB.name}: {n:,} search documents, {with_text:,} with page text, "
-          f"{len(meetings):,} meetings", file=sys.stderr)
+          f"{len(meetings):,} meetings, {n_pdf:,} PDFs", file=sys.stderr)
 
 
 # --------------------------------------------------------------------------- #
@@ -155,6 +187,8 @@ def search(con, query, args):
     if args.committee:
         where.append("i.committee LIKE ?")
         params.append(f"%{args.committee}%")
+    if args.within != "all":
+        where.append("i.kind = 'pdf'" if args.within == "pdfs" else "i.kind != 'pdf'")
     order = "i.date DESC" if args.sort == "date" else "score"
     hl = ("\033[1m", "\033[0m") if sys.stdout.isatty() and not args.csv else ("**", "**")
     sql = f"""
@@ -164,7 +198,7 @@ def search(con, query, args):
         FROM fts JOIN items i ON i.id = fts.rowid
         WHERE {' AND '.join(where)}
         ORDER BY {order} LIMIT ?"""
-    limit = -1 if args.csv else args.limit
+    limit = -1 if (args.csv or args.pdf_list) else args.limit
     run = lambda q: con.execute(sql, (*hl, *hl, q, *params, limit)).fetchall()
     try:
         return run(query), query
@@ -189,19 +223,68 @@ def show(rows, args):
             if snip:
                 print("  " + re.sub(r"\s*\n\s*", " / ", snip))
         print(f"  {r['url']}")
+        if r["local_file"]:
+            print(f"  Local: {r['local_file']}")
         for name, url in list(zip(r["attachments"].splitlines(), r["attachment_urls"].splitlines()))[:args.pdfs]:
             print(f"    PDF: {name}  {url}")
         print()
 
 
 def to_csv(rows, path):
-    cols = ["date", "committee", "item_number", "title", "report_number",
-            "disposition", "url", "text", "motions", "attachments", "attachment_urls"]
+    cols = ["kind", "date", "committee", "item_number", "title", "report_number",
+            "disposition", "url", "local_file", "text", "motions", "attachments",
+            "attachment_urls"]
     with open(path, "w", encoding="utf-8-sig", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(cols)
         for r in rows:
             w.writerow([r[c] for c in cols])
+
+
+FRENCH_RE = re.compile(r"\bFR\b|\bfrench\b|fran[cç]ais", re.I)
+
+
+def pdf_list(rows, path, query, keep_french=False):
+    """HTML page of the hits' PDF links to download in a browser; records the
+    DocumentIds in data/pdf_wanted.json so ingest_pdfs.py can tell apart PDFs
+    that share a filename."""
+    import html
+    have = {r["document_id"] for r in _rows("pdf_files")}
+    groups, wanted, seen = [], set(), set()
+    for r in rows:
+        links = []
+        for name, url in zip(r["attachments"].splitlines(), r["attachment_urls"].splitlines()):
+            if url in seen or (not keep_french and FRENCH_RE.search(name)):
+                continue
+            seen.add(url)
+            m = re.search(r"DocumentId=(\d+)", url, re.I)
+            did = m.group(1) if m else ""
+            wanted.add(did)
+            links.append((name, url, did in have))
+        if links:
+            groups.append((r, links))
+    out = [f"<!doctype html><meta charset='utf-8'><title>PDFs: {html.escape(query)}</title>",
+           "<style>body{font:15px system-ui,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;"
+           "line-height:1.5}h2{font-size:15px;margin:22px 0 4px}small{color:#666}"
+           "li.have{color:#888}li.have a{color:#888}</style>",
+           f"<h1>PDFs for “{html.escape(query)}”</h1>",
+           f"<p>{sum(len(l) for _, l in groups)} PDF(s) in {len(groups)} agenda item(s). "
+           "Click each link and save the file (keep the suggested name) into "
+           "<code>CityHall_Index/pdfs/</code>, or into Downloads. Then run "
+           "<code>python CityHall_Index/ingest_pdfs.py</code>, adding <code>--dir</code> and your "
+           "Downloads folder if you saved them there. Greyed links are already ingested.</p>"]
+    for r, links in groups:
+        out.append(f"<h2>{html.escape(r['date'])} · {html.escape(r['committee'])} · item "
+                   f"{html.escape(r['item_number'] or '—')}</h2><small>{html.escape(r['title'])}</small><ul>")
+        for name, url, got in links:
+            out.append(f"<li class='{'have' if got else ''}'><a href='{html.escape(url)}' target='_blank'>"
+                       f"{html.escape(name)}</a>{' ✓' if got else ''}</li>")
+        out.append("</ul>")
+    Path(path).write_text("\n".join(out), encoding="utf-8")
+    wp = DATA / "pdf_wanted.json"
+    old = set(json.loads(wp.read_text("utf-8"))) if wp.exists() else set()
+    wp.write_text(json.dumps(sorted((old | wanted) - {""})), encoding="utf-8")
+    return sum(len(l) for _, l in groups), len(groups)
 
 
 def main(argv=None):
@@ -218,6 +301,11 @@ def main(argv=None):
     ap.add_argument("--csv", help="write all hits to this CSV instead of printing")
     ap.add_argument("--rebuild", action="store_true", help="force a rebuild of search.db")
     ap.add_argument("--data", help="indexer output folder (default: data/ next to this script)")
+    ap.add_argument("--in", dest="within", choices=["all", "meetings", "pdfs"], default="all",
+                    help="search meeting pages, downloaded PDFs, or both (default)")
+    ap.add_argument("--pdf-list", metavar="FILE.html",
+                    help="write an HTML page of every hit's PDF links, to download in a browser")
+    ap.add_argument("--french", action="store_true", help="keep French copies in --pdf-list")
     args = ap.parse_args(argv)
 
     global DATA, DB
@@ -237,6 +325,10 @@ def main(argv=None):
     rows, used = search(con, args.query, args)
     if used != args.query:
         print(f"(searched as: {used})", file=sys.stderr)
+    if args.pdf_list:
+        n_pdf, n_items = pdf_list(rows, args.pdf_list, args.query, args.french)
+        print(f"{n_pdf} PDF link(s) from {n_items} item(s) -> {args.pdf_list}", file=sys.stderr)
+        rows = rows[:args.limit] if not args.csv else rows
     if args.csv:
         to_csv(rows, args.csv)
         print(f"{len(rows)} hit(s) -> {args.csv}", file=sys.stderr)

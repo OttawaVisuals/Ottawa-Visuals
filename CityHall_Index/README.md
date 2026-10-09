@@ -62,6 +62,29 @@ Coverage: from about mid-2022, agenda items are broken out one by one. Meetings
 before that (Word-exported pages, no item structure) are searchable as one
 "Full meeting text" document per meeting.
 
+## PDFs (Stage 2: browser download, then ingest)
+The numbers usually live in the PDF reports, and scripts can't fetch those
+(eScribe's browser check). So you download them in a browser and the tools take it from there:
+
+```bash
+python search.py "watermain" --pdf-list watermain.html   # 1. page of every hit's PDF links
+#   2. open watermain.html, click each link, save into CityHall_Index/pdfs/ (or Downloads)
+python ingest_pdfs.py --dir ~/Downloads                    # 3. copy + read + match (omit --dir if saved to pdfs/)
+python search.py "watermain breaks" --in pdfs              # 4. search inside them
+```
+- `--pdf-list` skips French copies (`--french` keeps them), greys out PDFs already
+  ingested, and records the requested DocumentIds in `data/pdf_wanted.json`.
+- `ingest_pdfs.py` matches each file to its meeting/item through `attachments.csv`:
+  DocumentId in the filename → unique filename → shared names narrowed by
+  `pdf_wanted.json` and by report numbers inside the PDF → report number alone.
+  Unmatched files are still searchable; renaming one to `<DocumentId> - name.pdf` links it.
+- Text is read page by page (pypdf) and cached by file hash in `data/pdf_pages.csv`;
+  `data/pdf_files.csv` lists every PDF with its match, page count and flags.
+  Scanned PDFs (no text layer) are flagged `needs_ocr`. A browser re-download
+  ("name (1).pdf") of the same document is flagged `duplicate_of` and skipped in search.
+- In search, each PDF page is one document: the hit links to `…DocumentId=N#page=P`
+  and prints the local file path.
+
 ## Options
 | Flag | Meaning |
 |------|---------|

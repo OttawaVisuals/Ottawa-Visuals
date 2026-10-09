@@ -42,6 +42,8 @@ Weather/lightning_fetch.log
 CityHall_Index/data/
 CityHall_Index/data_*/
 CityHall_Index/*.log
+# Downloaded meeting PDFs (ingest_pdfs.py reads them; their text lands in data/)
+CityHall_Index/pdfs/
 
 # Secrets for the Pi-hosted collectors — never commit (key lives in ~/.ottawa_visuals.env)
 *.env
