@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ontario elections — turnout and the 2025 result</title>
+<title>Ontario elections — what if the opposition hadn't split the vote?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -37,12 +37,15 @@
     --accent-bg:color-mix(in srgb,var(--purple) 10%,transparent); --hl:color-mix(in srgb,var(--purple) 16%,transparent);
     /* legacy aliases used throughout this page */
     --panel:var(--bg-2); --muted:var(--ink-3); --nodata:var(--line-2);
+    /* tooltip: always a dark chip — can't reuse --ink, which flips to near-white in dark mode */
+    --tip-bg:#1F2530; --tip-ink:#FFFFFF;
   }
   [data-theme="dark"]{
     --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
     --line:#2A2F3D; --line-2:#383E4E;
     --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
     --green:#2FB584; --amber:#E8A030; --red:#E85A44; --blue:#5B9BE0; --purple:#8F84E8;
+    --tip-bg:#2A3040; --tip-ink:#EEF1F7;
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -58,7 +61,8 @@
   .brand-logo{width:26px; height:26px; border-radius:999px; background:#1F2530; display:grid; place-items:center; overflow:hidden; border:1px solid var(--line-2)}
   .brand-logo img{width:110%; height:110%; object-fit:cover; filter:invert(1)}
   [data-theme="dark"] .brand-logo img{filter:none}
-  .brand small{font-family:var(--font-mono); font-size:9.5px; font-weight:400; color:var(--ink-3); letter-spacing:0.07em; text-transform:uppercase}
+  .topbar .brand > span:last-child{line-height:1.2}
+  .brand small{display:block; font-family:var(--font-mono); font-size:9.5px; font-weight:400; color:var(--ink-3); letter-spacing:0.07em; text-transform:uppercase}
   .topbar nav{display:flex; gap:2px}
   .topbar nav a{padding:5px 9px; color:var(--ink-2); font-size:12.5px; border-radius:6px; text-decoration:none; transition:color .15s, background .15s}
   .topbar nav a:hover{color:var(--ink); background:var(--bg-3)}
@@ -76,7 +80,7 @@
   .sub{color:var(--muted); max-width:68ch; margin:0; font-size:13.5px}
   .source{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:6px}
 
-  .banner{background:#FFF7E6; border:1px solid #F0D58A; color:#6B5212;
+  .banner{background:color-mix(in srgb,var(--amber) 12%,var(--bg-2)); border:1px solid color-mix(in srgb,var(--amber) 45%,transparent); color:var(--ink);
     padding:8px 12px; border-radius:8px; font-size:13px; margin:8px 0 0}
   .banner b{font-weight:600}
 
@@ -104,7 +108,7 @@
   .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
 
   /* LAST ELECTION SECTION */
-  .lastel{display:grid; grid-template-columns:1.9fr 1fr; gap:10px}
+  .lastel{display:grid; grid-template-columns:1.9fr 1fr; gap:10px; scroll-margin-top:60px}
   @media (max-width:900px){ .lastel{grid-template-columns:1fr} }
   .mapcard{position:relative}
   .mapcard-head{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:6px}
@@ -113,7 +117,7 @@
   select{font-family:var(--font-body); font-size:13.5px; padding:7px 10px; border-radius:8px;
     border:1px solid var(--line); background:var(--bg-2); color:var(--ink)}
   svg.map{width:100%; height:auto; display:block}
-  svg.map path{stroke:#fff; stroke-width:.4; stroke-linejoin:round; transition:fill .35s ease; cursor:pointer}
+  svg.map path{stroke:var(--bg-2); stroke-width:.4; stroke-linejoin:round; transition:fill .35s ease; cursor:pointer}
   svg.map path:hover{stroke:var(--ink); stroke-width:1}
   svg.map path.selected{stroke:var(--ink); stroke-width:1.6}
   .mapempty{color:var(--muted); font-size:13.5px; padding:30px 6px; text-align:center}
@@ -134,6 +138,17 @@
   .mapinset-lines .zoom-line{stroke:var(--muted); stroke-width:1; stroke-dasharray:3 3}
   .mapinset-lines .zoom-dot{fill:none; stroke:var(--muted); stroke-width:1.4}
   #mapMain .zoomrect{fill:none; stroke:var(--ink); stroke-width:1.6; stroke-dasharray:4 3; pointer-events:none}
+  /* phones: the overlaid insets shrink to ~180px wide, too small to click Southern Ontario's
+     dense ridings — stack them full-width under the main map instead (overrides INSET_CONFIG's inline box) */
+  @media (max-width:600px){
+    .mapcomposite{display:flex; flex-direction:column; gap:10px}
+    .mapinset{position:static !important; width:100% !important}
+    .mapinset-lines{display:none}
+  }
+
+  /* slider lives inside the map card, next to the map-mode dropdown it drives */
+  .mapctrl{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 0 10px; margin:0 0 8px}
+  .mapctrl .ctrl{max-width:none}
 
   .panel-title{font-family:var(--font-body); font-weight:700; font-size:17px; margin:0 0 2px}
   .panel-sub{font-size:12px; color:var(--muted); margin:0 0 8px}
@@ -178,8 +193,8 @@
     letter-spacing:.06em; color:var(--muted)}
   table.seats td.num{font-family:var(--font-mono); text-align:right}
 
-  .tip{position:fixed; pointer-events:none; z-index:20; background:var(--ink); color:#fff;
-    font-size:12.5px; padding:7px 10px; border-radius:7px; opacity:0; transition:opacity .12s; max-width:240px}
+  .tip{position:fixed; pointer-events:none; z-index:20; background:var(--tip-bg); color:var(--tip-ink);
+    border:1px solid var(--line-2); font-size:12.5px; padding:7px 10px; border-radius:7px; opacity:0; transition:opacity .12s; max-width:240px}
   .tip b{font-weight:600} .tip .mono{font-size:11.5px; opacity:.85}
 
   /* ALL-RESULTS TABLE */
@@ -187,7 +202,7 @@
   .ctrl label{display:flex; justify-content:space-between; font-size:13px; font-weight:500; margin-bottom:6px; gap:10px}
   .ctrl label .val{font-family:var(--font-mono); color:var(--accent); font-weight:600; flex:none}
   input[type=range]{width:100%; accent-color:var(--accent)}
-  .hint{font-size:12px; color:var(--muted); margin:4px 0 0; display:flex; align-items:center; gap:6px}
+  .hint{font-size:12px; color:var(--muted); margin:4px 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px}
   .tablewrap{overflow-x:auto; margin-top:10px; max-height:640px; overflow-y:auto; border:1px solid var(--line); border-radius:10px}
   table.results{width:100%; border-collapse:collapse; font-size:12.5px; min-width:780px}
   table.results th,table.results td{text-align:right; padding:7px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
@@ -200,7 +215,29 @@
   table.results tbody tr:nth-child(even) td:first-child{background:var(--bg-3)}
   table.results td.win{font-weight:700}
   .flip-tag{font-family:var(--font-mono); font-size:10px; padding:1px 6px; border-radius:5px;
-    background:#FFE8E0; color:#A1391F; margin-left:6px}
+    background:color-mix(in srgb,var(--red) 16%,transparent); color:var(--red); margin-left:6px}
+  .tabletools{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .tabletools input[type=search]{font-family:var(--font-body); font-size:13px; padding:6px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg-2); color:var(--ink); width:min(280px,100%)}
+  .tabletools label{font-size:12.5px; color:var(--ink-2); display:flex; align-items:center; gap:6px; cursor:pointer}
+  .tabletools .count{font-family:var(--font-mono); font-size:11.5px; color:var(--muted)}
+
+  /* MOST WINNABLE — compact cards in a responsive grid instead of a 3-column table stretched full width */
+  .winlist{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; list-style:none; margin:0; padding:0}
+  .wincard{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:4px 10px; width:100%;
+    padding:8px 10px; border:1px solid var(--line); border-radius:9px; background:var(--bg-3);
+    font:inherit; color:inherit; text-align:left; cursor:pointer; transition:border-color .15s}
+  .wincard:hover{border-color:var(--accent)}
+  .wincard .rank{font-family:var(--font-mono); font-size:11px; color:var(--muted)}
+  .wincard .dn{font-weight:600; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .wincard .thr{font-family:var(--font-mono); font-weight:600; font-size:14px}
+  .wincard .who{grid-column:2 / 4; display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted)}
+  .wincard .who .dot{width:9px; height:9px; border-radius:2px; flex:none}
+  .wincard .meter{grid-column:1 / 4; height:4px; background:var(--line); border-radius:3px; overflow:hidden; position:relative}
+  .wincard .meter span{display:block; height:100%; background:var(--accent)}
+  .wincard .meter i{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink)}
+  .wincard.flips{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+  .wincard.flips .thr{color:var(--accent)}
   .caveat{font-size:12.5px; color:var(--muted); margin-top:10px; max-width:74ch}
   .caveat b{color:var(--ink); font-weight:600}
 
@@ -252,9 +289,10 @@
 
   <header class="top">
     <p class="eyebrow">Ontario elections</p>
-    <h1>Turnout over time, and the last election district by district</h1>
-    <p class="sub">How many eligible voters actually showed up since 1981, and how the most recent general
-      election broke down by district — pick a region, click a district for its own numbers.</p>
+    <h1>What if Ontario's opposition hadn't split the vote?</h1>
+    <p class="sub">The 2025 general election district by district: the actual result, the seats won with a true
+      majority, and a model where Liberal, NDP and Green voters back one candidate per riding. Click a district for
+      its own numbers. Turnout since 1981 is further down.</p>
     <p class="source mono" id="source"></p>
   </header>
 
@@ -263,61 +301,6 @@
     export to generate real <span class="mono">data.js</span> / <span class="mono">turnout.js</span>, drop them
     beside this file, and reload.
   </div>
-
-  <section>
-    <p class="sec-label">Vote coordination assumption
-      <details class="info"><summary class="infobtn">?</summary>
-        <div class="info-pop">In every riding, whichever of LIB / NDP / Green actually got the most votes becomes
-          the single "unity" candidate; the other two step aside. The slider controls how many of <i>their</i> voters
-          would actually follow and vote for the survivor instead of staying home or voting elsewhere — 100% assumes
-          perfect transfer, which real-world vote consolidation never achieves. This feeds the "Modelled results"
-          option on the map and gauges below.</div>
-      </details>
-    </p>
-    <div class="card">
-      <div class="ctrl">
-        <label>Estimated share of the dropped candidates' voters who'd back the survivor
-          <span class="val" id="coordVal">65%</span></label>
-        <input type="range" id="coordSlider" min="0" max="100" value="65">
-        <p class="hint">65% is a reasonable starting point.
-          <details class="info"><summary class="infobtn">?</summary>
-            <div class="info-pop"><b>On the base number:</b> studies of strategic/anti-splitting voting in similar
-              first-past-the-post systems generally find 50–75% of a dropped candidate's voters will switch to block
-              a disliked front-runner, with the rest staying home or voting sincerely anyway. A full merger of party
-              machines (not just a single-riding stand-down) can push retention toward 80–90%, but that's a
-              different, bigger ask than what this slider models. Move it to see how sensitive the result is.</div>
-          </details>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <p class="sec-label">Seats at a glance · 0–124</p>
-    <div class="gauges">
-      <div class="card gaugecard">
-        <h3>Actual result</h3>
-        <p class="gsub">Every seat, coloured by the party that got the most votes</p>
-        <svg class="gauge" id="gaugeActual" viewBox="0 0 320 190" role="img" aria-label="Gauge of actual seats won by party"></svg>
-        <p class="gauge-figure" id="gaugeActualFigure"></p>
-        <div class="gauge-legend" id="gaugeActualLegend"></div>
-      </div>
-      <div class="card gaugecard">
-        <h3>True majority winners only</h3>
-        <p class="gsub">Only seats where the winner took more than 50% of the vote; the rest are grey</p>
-        <svg class="gauge" id="gaugeMajority" viewBox="0 0 320 190" role="img" aria-label="Gauge of seats won with a true majority, by party"></svg>
-        <p class="gauge-figure" id="gaugeMajorityFigure"></p>
-        <div class="gauge-legend" id="gaugeMajorityLegend"></div>
-      </div>
-      <div class="card gaugecard">
-        <h3>Modelled result</h3>
-        <p class="gsub">Coloured by whichever party would hold the seat under the vote-coordination slider above</p>
-        <svg class="gauge" id="gaugeCoord" viewBox="0 0 320 190" role="img" aria-label="Gauge of hypothetical seats under vote coordination"></svg>
-        <p class="gauge-figure" id="gaugeCoordFigure"></p>
-        <div class="gauge-legend" id="gaugeCoordLegend"></div>
-      </div>
-    </div>
-  </section>
 
   <section>
     <p class="sec-label">Results by district</p>
@@ -330,6 +313,30 @@
             <option value="majority">Majority results</option>
             <option value="model">Modelled results</option>
           </select>
+        </div>
+        <div class="mapctrl">
+          <div class="ctrl">
+            <label>Vote coordination: share of the dropped candidates' voters who'd back the survivor
+              <span class="val" id="coordVal">65%</span></label>
+            <input type="range" id="coordSlider" min="0" max="100" value="65" aria-label="Vote coordination retention percentage">
+            <div class="hint">How the model works
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop">In every riding, whichever of LIB / NDP / Green actually got the most votes becomes
+                  the single "unity" candidate; the other two step aside. The slider controls how many of <i>their</i> voters
+                  would actually follow and vote for the survivor instead of staying home or voting elsewhere — 100% assumes
+                  perfect transfer, which real-world vote consolidation never achieves. Moving it switches the map to
+                  "Modelled results", and it drives the modelled gauge, winnable-seat list and table below.</div>
+              </details>
+              <span aria-hidden="true">·</span> 65% is a reasonable starting point
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop"><b>On the base number:</b> studies of strategic/anti-splitting voting in similar
+                  first-past-the-post systems generally find 50–75% of a dropped candidate's voters will switch to block
+                  a disliked front-runner, with the rest staying home or voting sincerely anyway. A full merger of party
+                  machines (not just a single-riding stand-down) can push retention toward 80–90%, but that's a
+                  different, bigger ask than what this slider models. Move it to see how sensitive the result is.</div>
+              </details>
+            </div>
+          </div>
         </div>
         <div class="mapcomposite">
           <svg class="map" id="mapMain" role="img" aria-label="Ontario electoral districts by winning party"></svg>
@@ -383,22 +390,41 @@
   </section>
 
   <section>
-    <p class="sec-label">Province-wide voter turnout, 1981–2025</p>
-    <div class="card">
-      <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="Ontario province-wide voter turnout from 1981 to 2025"></svg>
-      <div class="turn-stat" id="turnoutHistoryStat"></div>
-      <div class="turn-stat" id="turnoutHistoryLegend" style="margin-top:4px"></div>
+    <p class="sec-label">Seats at a glance · 0–124</p>
+    <div class="gauges">
+      <div class="card gaugecard">
+        <h3>Actual result</h3>
+        <p class="gsub">Every seat, coloured by the party that got the most votes</p>
+        <svg class="gauge" id="gaugeActual" viewBox="0 0 320 190" role="img" aria-label="Gauge of actual seats won by party"></svg>
+        <p class="gauge-figure" id="gaugeActualFigure"></p>
+        <div class="gauge-legend" id="gaugeActualLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>True majority winners only</h3>
+        <p class="gsub">Only seats where the winner took more than 50% of the vote; the rest are grey</p>
+        <svg class="gauge" id="gaugeMajority" viewBox="0 0 320 190" role="img" aria-label="Gauge of seats won with a true majority, by party"></svg>
+        <p class="gauge-figure" id="gaugeMajorityFigure"></p>
+        <div class="gauge-legend" id="gaugeMajorityLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>Modelled result</h3>
+        <p class="gsub">Coloured by whichever party would hold the seat under the vote-coordination slider above</p>
+        <svg class="gauge" id="gaugeCoord" viewBox="0 0 320 190" role="img" aria-label="Gauge of hypothetical seats under vote coordination"></svg>
+        <p class="gauge-figure" id="gaugeCoordFigure"></p>
+        <div class="gauge-legend" id="gaugeCoordLegend"></div>
+      </div>
     </div>
   </section>
 
   <section>
-    <p class="sec-label">Most winnable PCP-held seats
+    <div class="sec-label">Most winnable PCP-held seats
       <details class="info"><summary class="infobtn">?</summary>
-        <div class="info-pop">Every PCP-held riding where the opposition survivor could realistically overtake PCP
-          with less than full vote transfer, ranked by how little coordination it would take — the lowest thresholds
-          first. This is the "flip threshold" column from the full table below, independent of the slider above.</div>
+        <div class="info-pop">The ten PCP-held ridings where the opposition survivor could overtake PCP with the least
+          vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the full table below and
+          doesn't depend on the slider; the bar's tick marks the current slider setting, and a highlighted card means the
+          riding flips at that setting. Click a card to open the riding on the map.</div>
       </details>
-    </p>
+    </div>
     <div class="card" id="strategicCard">
       <div id="strategicList"></div>
     </div>
@@ -407,6 +433,11 @@
   <section>
     <p class="sec-label">Vote coordination · full district table</p>
     <div class="card">
+      <div class="tabletools">
+        <input type="search" id="tableSearch" placeholder="Find a district…" aria-label="Filter districts by name">
+        <label><input type="checkbox" id="flipsOnly"> Flips only</label>
+        <span class="count" id="tableCount"></span>
+      </div>
       <div class="tablewrap">
         <table class="results" id="coordTable">
           <thead>
@@ -427,6 +458,15 @@
         </table>
       </div>
       <p class="caveat" id="coordCaveat"></p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Province-wide voter turnout, 1981–2025</p>
+    <div class="card">
+      <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="Ontario province-wide voter turnout from 1981 to 2025"></svg>
+      <div class="turn-stat" id="turnoutHistoryStat"></div>
+      <div class="turn-stat" id="turnoutHistoryLegend" style="margin-top:4px"></div>
     </div>
   </section>
 
@@ -1076,15 +1116,20 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       strategicList.innerHTML = `<p class="caveat" style="margin:0">No PCP-held riding is reachable through this
         model even at 100% vote-coordination retention.</p>`;
     } else {
-      strategicList.innerHTML = `<table class="seats"><thead><tr>
-          <th>District</th><th>Consolidate behind</th><th>Flip threshold</th>
-        </tr></thead><tbody>`
-        + winnable.map(c=>`<tr>
-            <td>${c.r.name}</td>
-            <td><span class="nm"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${P[c.survivor].color}"></span> ${P[c.survivor].name}</span></td>
-            <td class="num">${(c.pctNeeded*100).toFixed(0)}%</td>
-          </tr>`).join("")
-        + `</tbody></table>
+      // meter: fill = threshold, tick = current slider setting; highlighted when the slider clears it
+      strategicList.innerHTML = `<ol class="winlist">`
+        + winnable.map((c,i)=>{
+            const need=(c.pctNeeded*100).toFixed(0);
+            return `<li><button type="button" class="wincard${pct>=c.pctNeeded?" flips":""}" data-key="${norm(c.r.name)}"
+                title="${c.r.name}: needs ${need}% vote transfer${pct>=c.pctNeeded?" — flips at the current setting":""}">
+              <span class="rank">${i+1}</span>
+              <span class="dn">${c.r.name}</span>
+              <span class="thr">${need}%</span>
+              <span class="who"><span class="dot" style="background:${P[c.survivor].color}"></span>Consolidate behind ${P[c.survivor].name}</span>
+              <span class="meter"><span style="width:${need}%"></span><i style="left:calc(${coordSlider.value}% - 1px)"></i></span>
+            </button></li>`;
+          }).join("")
+        + `</ol>
         <p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the opposition
           survivor to overtake PCP's actual vote count — see the Methodology section below for exactly how this is
           calculated, and its limits.</p>`;
@@ -1118,7 +1163,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
         if(c.pctNeeded<=1) reachableCount++;
         thresholdCell = `<td class="num">${(Math.min(c.pctNeeded,1)*100).toFixed(0)}%${c.pctNeeded>1?"+":""}</td>`;
       }
-      return `<tr>
+      return `<tr data-name="${c.r.name.toLowerCase()}"${c.flipped?' data-flip="1"':''}>
         <td>${c.r.name}</td>
         ${cell(c.pcp,"PCP")}
         <td class="num">${c.lib.toLocaleString()}</td>
@@ -1132,6 +1177,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       </tr>`;
     });
     document.getElementById("coordTableBody").innerHTML = rows.join("");
+    filterTable();
     document.getElementById("coordCaveat").innerHTML =
       `At <b>${coordSlider.value}%</b> retention, <b>${flips}</b> of ${N} ridings would flip to a different bucket than the actual result, `
       + `and <b>${reachableCount}</b> of the ${pcpLedCount} PCP-led ridings have a flip threshold at or under 100% at all. `
@@ -1140,7 +1186,35 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       + `survivor to overtake PCP's actual vote count in that riding, independent of the slider above — see Methodology. `
       + `This is a simple reallocation, not a forecast — it assumes turnout and every other vote stays fixed.`;
   }
-  coordSlider.addEventListener("input", ()=>{ renderCoordination(); renderPanel(); });
+  // ---- table filter: name search + "flips only" (re-applied after every slider re-render) ----
+  const tableSearch = document.getElementById("tableSearch");
+  const flipsOnly = document.getElementById("flipsOnly");
+  function filterTable(){
+    const q = tableSearch.value.trim().toLowerCase();
+    let shown = 0;
+    const trs = document.querySelectorAll("#coordTableBody tr");
+    trs.forEach(tr=>{
+      const ok = (!q || tr.dataset.name.includes(q)) && (!flipsOnly.checked || tr.dataset.flip);
+      tr.hidden = !ok; if(ok) shown++;
+    });
+    document.getElementById("tableCount").textContent = shown===trs.length ? `${trs.length} districts` : `${shown} of ${trs.length} districts`;
+  }
+  tableSearch.addEventListener("input", filterTable);
+  flipsOnly.addEventListener("change", filterTable);
+
+  // winnable cards open their riding on the map
+  document.getElementById("strategicList").addEventListener("click", e=>{
+    const card = e.target.closest(".wincard"); if(!card) return;
+    selectedKey = card.dataset.key;
+    renderPanel();
+    document.querySelector(".lastel").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  coordSlider.addEventListener("input", ()=>{
+    // the slider only shows on the map in "Modelled" mode — switch to it so the change is visible
+    if(mapModeSelect.value!=="model") mapModeSelect.value = "model";
+    renderCoordination(); renderPanel();
+  });
   renderCoordination();
 })();
 
