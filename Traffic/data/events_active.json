@@ -2943,6 +2943,167 @@
 "updated": "2026-10-09 09:05:00"
 },
 "fp": "f5c1f99fb936"
+},
+"29373": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:05:00",
+"cross_street_1": "MALAK",
+"cross_street_2": "NOTMAN",
+"direction": null,
+"event_id": "29373",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BLOHM off-peak lane reductions between MALAK and NOTMAN due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.369027,
+"lon": -75.615389,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "BLOHM",
+"source": "city",
+"updated": "2026-10-09 10:08:00"
+},
+"fp": "6eb2d7ad1537"
+},
+"29374": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:07:00",
+"cross_street_1": "SAI",
+"cross_street_2": "HUNTERSWOOD",
+"direction": null,
+"event_id": "29374",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BLOHM off-peak lane reductions between SAI and HUNTERSWOOD due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.37539,
+"lon": -75.606313,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "BLOHM",
+"source": "city",
+"updated": "2026-10-09 10:08:00"
+},
+"fp": "37f476e88469"
+},
+"29375": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:12:00",
+"cross_street_1": "CANYON WALK / GOLDENEYE",
+"cross_street_2": "HOLLOW TRAIL",
+"direction": null,
+"event_id": "29375",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "SPRATT off-peak lane reductions between CANYON WALK / GOLDENEYE and HOLLOW TRAIL due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.28236,
+"lon": -75.685841,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "SPRATT",
+"source": "city",
+"updated": "2026-10-09 10:16:00"
+},
+"fp": "d2753207c3a4"
+},
+"29376": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:21:00",
+"cross_street_1": "Markdale",
+"cross_street_2": "Earl Armstrong",
+"direction": null,
+"event_id": "29376",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Ralph Hennessy off-peak lane reductions between Markdale and Earl Armstrong due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.273166,
+"lon": -75.681761,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "Ralph Hennessy",
+"source": "city",
+"updated": "2026-10-09 10:24:00"
+},
+"fp": "b5dd98ac33e4"
+},
+"29377": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:27:00",
+"cross_street_1": "SOMERSET / MARIE-CURIE, PRIVE",
+"cross_street_2": "TEMPLETON",
+"direction": null,
+"event_id": "29377",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "KING EDWARD off-peak lane reductions between SOMERSET / MARIE-CURIE, PRIVE and TEMPLETON due to construction. From 12:00am, 06/10/26 to 5:00pm, 06/11/26",
+"lanes": "off-peak lane reductions",
+"lat": 45.422069,
+"lon": -75.680176,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "MEDIUM",
+"road": "KING EDWARD",
+"source": "city",
+"updated": "2026-10-09 10:28:00"
+},
+"fp": "9efd97e402b9"
+},
+"29378": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-09 10:47:00",
+"cross_street_1": "Longfields",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29378",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Woodroffe closed at Longfields due to a collision. Police are directing traffic.",
+"lanes": "closed",
+"lat": 45.291464,
+"lon": -75.727199,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Woodroffe",
+"source": "city",
+"updated": "2026-10-09 10:47:00"
+},
+"fp": "8e43e4f7c134"
+},
+"29379": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 10:59:00",
+"cross_street_1": "O'Connor",
+"cross_street_2": "Bank",
+"direction": null,
+"event_id": "29379",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Catherine off-peak lane reduction between O'Connor and Bank due to construction. From 12:00am, 06/10/26 to 5:00pm, 06/11/26",
+"lanes": "off-peak lane reduction",
+"lat": 45.410599,
+"lon": -75.689463,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "Catherine",
+"source": "city",
+"updated": "2026-10-09 11:00:00"
+},
+"fp": "1fdf4487f031"
 }
 }
 }
