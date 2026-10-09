@@ -546,182 +546,6 @@
     opacity: 0.7; margin-top: 2px;
   }
 
-  /* ============== TAB BAR (report switcher) =========================== */
-  .tabbar-wrap {
-    position: sticky; top: 48px; z-index: 40;
-    background: var(--bg-2);
-    border-bottom: 1px solid var(--line);
-  }
-  .tabbar {
-    display: flex; gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .tabbar::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0;
-    padding: 9px 16px 8px;
-    border: 0; background: transparent;
-    border-bottom: 2px solid transparent;
-    color: var(--ink-3);
-    text-align: left;
-    transition: color .15s, border-color .15s, background .15s;
-    font-family: var(--font-body);
-    display: flex; flex-direction: column; gap: 2px;
-    line-height: 1.2;
-    min-width: 170px;
-  }
-  .tab:hover { color: var(--ink-2); background: var(--bg-3); }
-  .tab .small {
-    font-family: var(--font-mono);
-    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--ink-3);
-  }
-  .tab .name {
-    font-family: var(--font-display);
-    font-size: 13.5px; font-weight: 600;
-    color: var(--ink-2);
-    letter-spacing: -0.005em;
-  }
-  .tab.cur { color: var(--ink); border-bottom-color: var(--accent); background: var(--bg-2); }
-  .tab.cur .name { color: var(--ink); }
-  .tab.cur .small { color: var(--accent); }
-
-  /* ============== REPORT VIEW ========================================= */
-  .report {
-    padding: 28px 0 24px;
-    border-bottom: 1px solid var(--line);
-  }
-  .breadcrumb {
-    font-family: var(--font-mono);
-    font-size: 12px; letter-spacing: 0.06em;
-    color: var(--ink-3);
-    margin-bottom: 14px;
-  }
-  .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
-  .breadcrumb .cur { color: var(--accent); }
-
-  .report-head {
-    display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: end;
-    margin-bottom: 20px;
-  }
-  .report-head h2 { max-width: 20ch; }
-  .report-lede { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin-top: 12px; max-width: 68ch;}
-  .report-meta {
-    display: flex; gap: 8px; flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  @media (max-width: 980px) { .report-head { grid-template-columns: 1fr; } .report-meta { justify-content: flex-start; } }
-
-  /* the iframe — designed for a 1600x900 (16:9) Power BI report */
-  .embed {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 900px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background: var(--bg-2);
-    box-shadow: var(--shadow);
-  }
-  .embed iframe {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    border: 0;
-    display: block;
-  }
-  .embed-empty {
-    position: absolute; inset: 0;
-    display: grid; place-items: center;
-    color: var(--ink-3);
-    text-align: center;
-    font-family: var(--font-mono); font-size: 13px;
-    background:
-      repeating-linear-gradient(45deg, transparent 0 18px, var(--bg-3) 18px 19px),
-      var(--bg-2);
-  }
-  .embed-empty .big {
-    font-family: var(--font-display);
-    font-size: 28px; color: var(--ink-2);
-    margin-bottom: 6px; font-weight: 600;
-  }
-
-  .embed-toolbar {
-    display: flex; gap: 10px; justify-content: space-between; align-items: center;
-    margin-top: 14px; padding: 0 4px;
-    color: var(--ink-3); font-size: 13px;
-    font-family: var(--font-mono);
-  }
-  .embed-toolbar .left { display: flex; gap: 14px; align-items: center; flex-wrap: wrap;}
-  .embed-toolbar .right { display: flex; gap: 8px; }
-  .embed-toolbar a { color: var(--ink-2); border-bottom: 1px dotted var(--line-2); padding-bottom: 1px;}
-  .embed-toolbar a:hover { color: var(--accent); border-color: var(--accent); }
-
-  /* ——— Below-embed info row (replaces the right rail) ——— */
-  .info-row {
-    margin-top: 36px;
-    display: grid;
-    grid-template-columns: 1.1fr 1fr 1fr;
-    gap: 18px;
-  }
-  @media (max-width: 980px) { .info-row { grid-template-columns: 1fr; } }
-  .panel {
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 22px;
-  }
-  .panel.accent {
-    background: linear-gradient(180deg, var(--accent-bg) 0%, var(--bg-2) 100%);
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
-  }
-  .panel h4 { margin-bottom: 10px; }
-  .panel h3 { margin-bottom: 12px; }
-  .panel p { color: var(--ink-2); font-size: 15px; line-height: 1.6; }
-  .panel ul { margin: 0; padding-left: 0; list-style: none; }
-  .panel ul li {
-    padding: 8px 0; border-bottom: 1px dashed var(--line);
-    font-size: 14px; color: var(--ink-2);
-    display: flex; gap: 10px; align-items: baseline;
-  }
-  .panel ul li:last-child { border-bottom: 0; }
-  .panel ul li .src-name { flex: 1; color: var(--ink); font-weight: 500; }
-  .panel ul li .src-meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.05em;}
-  .panel a.src-link { color: var(--accent); font-family: var(--font-mono); font-size: 12px;}
-  .panel a.src-link:hover { text-decoration: underline; }
-
-  /* ——— Takeaways ——— */
-  .takeaways {
-    margin-top: 36px;
-  }
-  .takeaways h3 { margin-bottom: 14px; }
-  .takeaways .grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-  }
-  @media (max-width: 980px) { .takeaways .grid { grid-template-columns: 1fr; } }
-  .takeaway {
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 22px;
-    position: relative; overflow: hidden;
-  }
-  .takeaway::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: var(--accent);
-  }
-  .takeaway .k {
-    font-family: var(--font-display);
-    font-size: 44px; font-weight: 800; line-height: 1;
-    color: var(--accent);
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-  .takeaway .label {
-    font-size: 14px; color: var(--ink-2); line-height: 1.5;
-  }
-
   /* ============== BROWSE STRIP ======================================== */
   .browse {
     padding: 56px 0 28px;
@@ -736,20 +560,24 @@
   .cards {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   }
-  @media (max-width: 980px) { .cards { grid-template-columns: 1fr; } }
-  .card {
+  @media (max-width: 980px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+  /* Each tile is a link to the report's own page. */
+  a.card {
+    display: flex; flex-direction: column;
     background: var(--bg-2);
     border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 20px;
-    cursor: pointer;
-    transition: border-color .2s, transform .2s, background .2s;
+    border-radius: 12px;
+    padding: 18px 20px 16px;
+    color: inherit; text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: border-color .2s, transform .2s;
     position: relative;
   }
-  .card:hover { border-color: var(--ink-2); transform: translateY(-2px); }
-  .card.cur { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-bg) 0%, var(--bg-2) 70%); }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .card .thumb {
-    height: 140px;
+    height: 96px;
     border-radius: 8px;
     background: var(--bg-3);
     border: 1px solid var(--line);
@@ -769,33 +597,38 @@
     background-color: var(--bg-3);
   }
   .card .thumb.line::after {
-    content: ""; position: absolute; inset: 18px;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'><polyline points='0,30 14,22 30,28 48,10 65,16 80,4 100,8' fill='none' stroke='%23e85a44' stroke-width='2.5'/></svg>") no-repeat center/100% 100%;
+    content: ""; position: absolute; inset: 16px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'><polyline points='0,30 14,22 30,28 48,10 65,16 80,4 100,8' fill='none' stroke='%23C8881A' stroke-width='2.5'/></svg>") no-repeat center/100% 100%;
   }
   .card .thumb.donut::before {
     content: ""; position: absolute; inset: 0; margin: auto;
-    width: 88px; height: 88px;
+    width: 70px; height: 70px;
     background: conic-gradient(var(--accent) 0 35%, var(--ink-2) 35% 60%, var(--line-2) 60% 100%);
     border-radius: 999px;
-    mask: radial-gradient(circle, transparent 30px, black 31px);
-    -webkit-mask: radial-gradient(circle, transparent 30px, black 31px);
+    mask: radial-gradient(circle, transparent 23px, black 24px);
+    -webkit-mask: radial-gradient(circle, transparent 23px, black 24px);
   }
   .card .num {
-    position: absolute; top: 14px; right: 14px;
+    position: absolute; top: 12px; right: 12px;
     font-family: var(--font-mono); font-size: 11px;
     letter-spacing: 0.08em; color: var(--ink-3);
-    background: var(--bg);
+    background: var(--bg-2);
     border: 1px solid var(--line);
     padding: 3px 8px; border-radius: 999px;
   }
+  .card .topic { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);}
   .card h4 {
     font-family: var(--font-display); font-size: 22px;
     color: var(--ink); text-transform: none; letter-spacing: -0.01em;
-    margin: 4px 0 6px; font-weight: 700;
-    line-height: 1.15;
+    margin: 6px 0 6px; font-weight: 400;
+    line-height: 1.2;
   }
-  .card .topic { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);}
-  .card .meta { color: var(--ink-3); font-size: 13px; margin-top: 10px; display: flex; gap: 10px;}
+  .card .lede { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); margin: 0 0 14px; }
+  .card .tile-stat { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); display: flex; gap: 12px; align-items: baseline; }
+  .card .tile-k { font-family: var(--font-display); font-weight: 300; font-size: 26px; color: var(--ink); white-space: nowrap; letter-spacing: -0.02em; }
+  .card .tile-v { font-family: var(--font-body); font-size: 12.5px; color: var(--ink-2); line-height: 1.4; text-transform: none; letter-spacing: 0; }
+  .card .meta { color: var(--ink-3); font-size: 12px; margin-top: 12px; display: flex; justify-content: space-between; gap: 10px; font-family: var(--font-mono); }
+  .card .meta .go { color: var(--accent); }
 
   /* ============== ABOUT BANNER ======================================== */
   .about {
@@ -912,7 +745,7 @@
         <a class="btn" href="#about">About this project</a>
       </div>
       <div class="hero-meta">
-        <span class="pill"><span class="dot"></span>7 reports live</span>
+        <span class="pill"><span class="dot"></span><span class="n-reports">10</span> reports live</span>
         <span class="pill">↻ updated regularly</span>
         <span class="pill">data: Open Ottawa · StatCan</span>
       </div>
@@ -1104,7 +937,7 @@
       <!-- ============ Variant D · MOSAIC (original) ============ -->
       <div class="variant mosaic">
         <div class="stat-row">
-          <div class="stat"><div class="k">7</div><div class="v">reports live</div></div>
+          <div class="stat"><div class="k n-reports">10</div><div class="v">reports live</div></div>
           <div class="stat"><div class="k">12</div><div class="v">data sources</div></div>
           <div class="stat"><div class="k">Jul</div><div class="v">last update</div></div>
         </div>
@@ -1122,91 +955,13 @@
 </section>
 
 <!-- =================================================================
-     TAB BAR — switches the embedded report below
-     ================================================================= -->
-<div class="tabbar-wrap" id="reports">
-  <div class="wrap">
-    <div class="tabbar" role="tablist" id="tabbar">
-      <!-- tabs are injected by JS so they stay in sync with REPORTS data -->
-    </div>
-  </div>
-</div>
-
-<!-- =================================================================
-     REPORT VIEW
-     ================================================================= -->
-<section class="report">
-  <div class="wrap">
-
-    <div class="breadcrumb">
-      Reports <span class="sep">/</span>
-      <span id="rv-topic">Ottawa Traffic</span> <span class="sep">/</span>
-      <span class="cur" id="rv-id">№ 01</span>
-    </div>
-
-    <div class="report-head">
-      <div>
-        <h2 id="rv-title">Historical traffic accidents, stops, demographics</h2>
-        <p class="report-lede" id="rv-lede"></p>
-      </div>
-      <div class="report-meta">
-        <span class="pill accent" id="rv-tag">#traffic</span>
-        <span class="pill" id="rv-date">Updated Apr 2026</span>
-        <span class="pill" id="rv-read">~3 min read</span>
-      </div>
-    </div>
-
-    <!-- THE EMBED — designed for 1600 × 900 (16:9) Power BI reports -->
-    <div class="embed" id="embed-container">
-      <!-- iframe is injected here by JS so switching tabs swaps the source cleanly -->
-    </div>
-
-    <div class="embed-toolbar">
-      <div class="left">
-        <span id="rv-embed-type">Interactive HTML visualization</span>
-        <span style="opacity:0.5;">·</span>
-        <a id="rv-fullscreen" href="#" target="_blank" rel="noopener">⛶ open fullscreen</a>
-      </div>
-      <div class="right">
-        <a id="rv-share" href="#">↗ share</a>
-      </div>
-    </div>
-
-    <!-- INFO ROW — sources / method / interpretation, beneath the wide embed -->
-    <div class="info-row">
-      <div class="panel accent">
-        <h4>Why it matters</h4>
-        <p id="rv-why"></p>
-      </div>
-
-      <div class="panel">
-        <h4>Data sources</h4>
-        <ul id="rv-sources"></ul>
-      </div>
-
-      <div class="panel">
-        <h4>Method &amp; caveats</h4>
-        <p id="rv-method"></p>
-      </div>
-    </div>
-
-    <!-- TAKEAWAYS -->
-    <div class="takeaways">
-      <h3 id="rv-take-head">Three things to take from this</h3>
-      <div class="grid" id="rv-takeaways"></div>
-    </div>
-
-  </div>
-</section>
-
-<!-- =================================================================
      BROWSE STRIP
      ================================================================= -->
-<section class="browse">
+<section class="browse" id="reports">
   <div class="wrap">
     <div class="browse-head">
-      <h3>All reports</h3>
-      <span class="sub">7 published · more coming</span>
+      <h3>Reports</h3>
+      <span class="sub" id="reports-count"></span>
     </div>
     <div class="cards" id="cards"></div>
   </div>
@@ -1251,10 +1006,10 @@
     </div>
     <div class="foot-col">
       <h5>Reports</h5>
-      <a href="#reports" data-go="0">Traffic</a>
-      <a href="#reports" data-go="2">Ontario elections</a>
-      <a href="#reports" data-go="3">Road safety</a>
-      <a href="#reports" data-go="4">Mortgage</a>
+      <a href="#reports" data-go="traffic">Traffic</a>
+      <a href="#reports" data-go="on-elections">Ontario elections</a>
+      <a href="#reports" data-go="road-safety">Road safety</a>
+      <a href="#reports" data-go="mortgage">Mortgage</a>
     </div>
     <div class="foot-col">
       <h5>Project</h5>
@@ -1307,22 +1062,41 @@
      DATA + LOGIC
      =================================================================
      Edit REPORTS to add/remove reports. Each report has:
-       id        — short slug used for URLs (#report-<id>)
-       topic     — short topic label shown in the breadcrumb
+       id        — short slug; old #report-<id> links redirect to the page
+       topic     — short topic label shown on the tile
        title     — main headline
        lede      — one-paragraph intro
        date      — "Updated <Month YYYY>"
        readTime  — minutes label
        tag       — single hashtag shown in meta
-       embedUrl  — full Power BI publish-to-web "view" URL (or "" for placeholder)
-       why       — "why it matters" paragraph
-       method    — methodology + caveats paragraph
-       sources   — array of { name, meta, url }
-       takeaways — array of [ "BIG VALUE", "explanation" ]
+       page      — the report's own page (each report is a standalone page;
+                   the home page only shows tiles linking to them)
+       why, method, sources — kept as a summary of each report (the pages
+                   carry the full version)
+       takeaways — array of [ "BIG VALUE", "explanation" ]; the first one
+                   is shown on the tile (optional)
        thumb     — visual style for the card thumbnail: "bars" | "line" | "donut"
      ================================================================= -->
 <script>
   const REPORTS = [
+    {
+      id: "rto",
+      topic: "Return to office",
+      title: "Ottawa RTO Watch",
+      lede: "What the federal four-day return-to-office mandate did to Ottawa: commute times, OC Transpo service, downtown parking, 311 complaints and electricity load, logged continuously.",
+      date: "Updated live",
+      readTime: "~ 6 min read",
+      tag: "#rto",
+      page: "rto.html",
+      why: "Ottawa is a company town; moving a few hundred thousand public servants back downtown four days a week is a city-scale change.",
+      method: "Our own collectors (TomTom traffic every 15 min, OC Transpo GTFS-Realtime) plus City of Ottawa, OC Transpo KPI and IESO open data. Every section states what the data can't show yet.",
+      sources: [
+        { name: "Method + code — RTO4/README.md", meta: "GitHub", url: "RTO4/README.md" },
+      ],
+      takeaways: [],
+      thumb: "line",
+    },
+
     {
       id: "traffic",
       topic: "Traffic & roads",
@@ -1331,8 +1105,8 @@
       date: "Updated Mar 2026",
       readTime: "~ 4 min read",
       tag: "#traffic",
-      // TODO: paste your Power BI publish-to-web URL here
-      embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9",
+      // Power BI publish-to-web report, wrapped in its own page
+      page: "Traffic/stops.html",
       why: "Traffic stops seems to have decrease significantly in the last year, while driving in Ottawa only seems to get worse.",
       method: "Data from the Ottawa Police Service open releases. Some datasets are not updated anymore so most of the information stops at 2025.",
       sources: [
@@ -1356,7 +1130,7 @@
       date: "Updated June 2026",
       readTime: "~ 5 min read",
       tag: "#elections",
-      embedUrl: "Ottawa_Elections/ottawa_ward_elections.html",
+      page: "Ottawa_Elections/ottawa_ward_elections.html",
       why: "Municipal elections have the most impact on our daily life (traffic, public transit, recreation...). Recent voter turnout have been low and votes for the Mayor represent a small share of voters while decision from the City has impacted everyone (Transit failures, traffic worsening, funding for controversial projects...)",
       method: "Results are pulled from Elections Ottawa's official ward results. Wards have changed for the 2022 election (addition of one ward), historical data for some wards have been estimated from previous wards.",
       sources: [
@@ -1378,7 +1152,7 @@
       date: "Updated Jun 2026",
       readTime: "~ 5 min read",
       tag: "#elections",
-      embedUrl: "Ontario_Elections/ONelections.html",
+      page: "Ontario_Elections/ONelections.html",
       why: "Ontario's last two elections handed comfortable majorities on historically low turnout. This report shows how few voters that actually represents, and lets you test how much the result depends on a split opposition.",
       method: "Riding-level vote counts and province-wide turnout come from Elections Ontario's public Explorer export for the Feb 27 2025 general election. A 'true majority' counts only ridings where the winner cleared 50%. The consolidation model reallocates Liberal/NDP/Green votes to whichever of them led each riding, holding turnout fixed — a deliberate simplification.",
       sources: [
@@ -1400,7 +1174,7 @@
       date: "Updated Jul 2026",
       readTime: "~ 3 min read",
       tag: "#safety",
-      embedUrl: "Vehicles/road-safety.html",
+      page: "Vehicles/road-safety.html",
       why: "Two things quietly drive pedestrian risk: how fast vehicles hit, and how tall and heavy they've become. This report makes both legible — the physics of a single crash, and the fleet-wide trend behind it.",
       method: "Injury and fatality curves come from IIHS crash research (Monfort & Mueller, 2024–25), keyed to a vehicle's front-end height. Speed-camera, red-light and collision figures come from City of Ottawa open data, refreshed weekly; vehicle registrations from Statistics Canada. The pedestrian fatal/major-injury series uses the City's Road Safety Action Plan figures, checked against the open collision data on every load.",
       sources: [
@@ -1424,7 +1198,7 @@
       date: "Updated Oct 2026",
       readTime: "~ 5 min read",
       tag: "#traffic",
-      embedUrl: "Traffic/roads.html",
+      page: "Traffic/roads.html",
       why: "Enforcement and harm don't line up: some neighbourhoods get three times more police stops than their share of injury crashes, others less than a third. Knowing where the gaps are is the start of asking why.",
       method: "City of Ottawa collision records (2017–2024; the City has published no 2023 file), intersection and midblock traffic counts, and red-light and photo-radar camera data are joined with Ottawa Police traffic stops on the City's own road-network IDs, then rolled up to the police's 111 neighbourhoods. 'Stops vs harm' divides a neighbourhood's share of stops by its share of injury collisions over the same years; areas with fewer than 20 injury collisions get no index. Intersection risk is collisions per million vehicles, limited to intersections carrying 10,000+ vehicles a day.",
       sources: [
@@ -1448,7 +1222,7 @@
       date: "Updated Oct 2026",
       readTime: "~ 6 min read",
       tag: "#tax",
-      embedUrl: "Tax/tax.html",
+      page: "Tax/tax.html",
       why: "\"Tax the rich\" arguments lean on history: the 80% top rates of the 1950s and the broadly shared growth of that era. This page checks what the Canadian numbers actually support, and what they can't.",
       method: "Top marginal and average tax rates from Saez & Veall (2007) to 2000, then federal + Ontario statutory rates and StatCan 11-10-0055 average rates paid. Income shares and real incomes per adult from WID.world. Political donations: Elections Canada itemized individual contributions (2019–2023) matched by postal-code area (FSA) to CRA average income per filer. Correlations are descriptive: one country, a handful of policy regimes.",
       sources: [
@@ -1474,7 +1248,7 @@
       date: "Updated Jul 2026",
       readTime: "~ 4 min read",
       tag: "#housing",
-      embedUrl: "Mortgage/mortgage.html",
+      page: "Mortgage/mortgage.html",
       why: "Affordability rules are opaque until you run your own numbers. This tool applies the same stress test a lender would, then shows the result against two decades of Ottawa price history.",
       method: "Qualifying uses OSFI B-20 rules: GDS ≤ 39% and TDS ≤ 44% at the greater of your rate + 2% or 5.25%. Ottawa MLS benchmark prices (CREA HPI) run 2005–present and are inflation-adjusted with Statistics Canada CPI. Weekly Ottawa figures are community-sourced.",
       sources: [
@@ -1498,7 +1272,7 @@
       date: "Updated Jul 2026",
       readTime: "~ 3 min read",
       tag: "#hockey",
-      embedUrl: "PWHL/pwhl.html",
+      page: "PWHL/pwhl.html",
       why: "The PWHL — Ottawa included — is young enough that clean, comparable stats are hard to find in one place. This pulls the league's own feed into a single dashboard you can page through by season.",
       method: "Data comes from the PWHL's official stats provider (HockeyTech), pulled by a daily-scheduled pipeline into local JSON. Rate-stat leaderboards require a 5-game minimum. This page is explicitly a first draft — sections are candidates, not final.",
       sources: [
@@ -1520,7 +1294,7 @@
       date: "Updated Jul 2026",
       readTime: "~ 4 min read",
       tag: "#climate",
-      embedUrl: "Weather/weather.html",
+      page: "Weather/weather.html",
       why: "It's easy to have a feeling that winters aren't what they used to be. This report puts 135 years of Environment Canada records on one page — and shows the honest picture: not simply 'more extreme weather,' but a real shift in which kind of extreme Ottawa sees.",
       method: "Daily data (1889–present) and hourly data (1953–present) from Environment and Climate Change Canada's historical climate archive. Splices the historic Ottawa station with the modern one, filling gaps day-by-day rather than a hard cutover.",
       sources: [
@@ -1546,13 +1320,6 @@
     if (btn) btn.innerHTML = mode === "dark"
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
       : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
-    // Same-origin embedded pages read ov-theme on load; reload them so they follow the switch.
-    document.querySelectorAll('#embed-container iframe').forEach(f => {
-      try {
-        const sameOrigin = f.src && !/^https?:\/\//i.test(f.src) || (f.src && f.src.indexOf(location.origin) === 0);
-        if (sameOrigin) f.contentWindow.location.reload();
-      } catch (e) {}
-    });
   }
   let stored = null;
   try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) {}
@@ -1566,145 +1333,34 @@
   });
 
   // ——— RENDER ——————————————————————————————————————————————————————
-  const tabbar = document.getElementById("tabbar");
-  const cards  = document.getElementById("cards");
+  // Old shared links (#report-<id>) go straight to that report's page.
+  const deep = REPORTS.find(r => "#report-" + r.id === location.hash);
+  if (deep) location.replace(deep.page);
 
+  const cards = document.getElementById("cards");
   REPORTS.forEach((r, i) => {
-    // tab
-    const t = document.createElement("button");
-    t.className = "tab" + (i === 0 ? " cur" : "");
-    t.dataset.idx = i;
-    t.innerHTML = `
-      <span class="small">№ ${String(i+1).padStart(2,"0")} · ${r.topic}</span>
-      <span class="name">${r.title}</span>`;
-    t.addEventListener("click", () => selectReport(i));
-    tabbar.appendChild(t);
-
-    // card
-    const c = document.createElement("div");
-    c.className = "card" + (i === 0 ? " cur" : "");
-    c.dataset.idx = i;
+    const c = document.createElement("a");
+    c.className = "card";
+    c.href = r.page;
+    const take = r.takeaways && r.takeaways[0];
     c.innerHTML = `
       <div class="num">№ ${String(i+1).padStart(2,"0")}</div>
       <div class="thumb ${r.thumb}"></div>
       <div class="topic">${r.topic}</div>
       <h4>${r.title}</h4>
-      <div class="meta">${r.date} · ${r.readTime.replace("~ ","")}</div>`;
-    c.addEventListener("click", () => {
-      selectReport(i);
-      document.getElementById("reports").scrollIntoView({behavior:"smooth", block:"start"});
-    });
+      <p class="lede">${r.lede}</p>
+      ${take ? `<div class="tile-stat"><span class="tile-k">${take[0]}</span><span class="tile-v">${take[1]}</span></div>` : ""}
+      <div class="meta"><span>${r.date} · ${r.readTime.replace("~ ","")}</span><span class="go">Open →</span></div>`;
     cards.appendChild(c);
   });
+  document.getElementById("reports-count").textContent = `${REPORTS.length} reports · one page each`;
+  document.querySelectorAll(".n-reports").forEach(el => el.textContent = REPORTS.length);
 
-  // footer "Reports" links also switch
+  // footer links point at the pages themselves
   document.querySelectorAll("[data-go]").forEach(a => {
-    a.addEventListener("click", (e) => {
-      const i = parseInt(a.dataset.go, 10);
-      selectReport(i);
-    });
+    const r = REPORTS.find(x => x.id === a.dataset.go);
+    if (r) a.href = r.page;
   });
-
-  function selectReport(i) {
-    const r = REPORTS[i];
-
-    // tabs
-    document.querySelectorAll(".tab").forEach((el, j) => el.classList.toggle("cur", j === i));
-    document.querySelectorAll(".card").forEach((el, j) => el.classList.toggle("cur", j === i));
-
-    // breadcrumb
-    document.getElementById("rv-topic").textContent = r.topic;
-    document.getElementById("rv-id").textContent = "№ " + String(i+1).padStart(2,"0");
-
-    // head
-    document.getElementById("rv-title").textContent = r.title;
-    document.getElementById("rv-lede").textContent  = r.lede;
-    document.getElementById("rv-tag").textContent   = r.tag;
-    document.getElementById("rv-date").textContent  = r.date;
-    document.getElementById("rv-read").textContent  = r.readTime;
-
-    // text
-    document.getElementById("rv-why").textContent    = r.why;
-    document.getElementById("rv-method").textContent = r.method;
-
-    // sources
-    const ul = document.getElementById("rv-sources");
-    ul.innerHTML = "";
-    r.sources.forEach(s => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span class="src-name">${s.name}</span>
-        <span class="src-meta">${s.meta}</span>
-        ${s.url ? `<a class="src-link" href="${s.url}" target="_blank" rel="noopener">↗</a>` : ""}`;
-      ul.appendChild(li);
-    });
-
-    // takeaways
-    const tg = document.getElementById("rv-takeaways");
-    tg.innerHTML = "";
-    r.takeaways.forEach(t => {
-      const d = document.createElement("div");
-      d.className = "takeaway";
-      d.innerHTML = `<div class="k">${t[0]}</div><div class="label">${t[1]}</div>`;
-      tg.appendChild(d);
-    });
-
-    // share / fullscreen
-    const fs = document.getElementById("rv-fullscreen");
-    if (r.embedUrl) {
-      fs.href = r.embedUrl;
-      fs.style.opacity = "1";
-      fs.style.pointerEvents = "auto";
-    } else {
-      fs.href = "#";
-      fs.style.opacity = "0.4";
-      fs.style.pointerEvents = "none";
-    }
-
-    // embed type label
-    const embedTypeEl = document.getElementById("rv-embed-type");
-    if (embedTypeEl) {
-      const isHtml = r.embedUrl && r.embedUrl.endsWith(".html");
-      embedTypeEl.textContent = isHtml ? "Interactive HTML visualization" : "Embedded Power BI report · 1600 × 900";
-    }
-
-    // EMBED — replace iframe so reload is clean
-    const embed = document.getElementById("embed-container");
-    embed.innerHTML = "";
-    if (r.embedUrl) {
-      const f = document.createElement("iframe");
-      f.src = r.embedUrl;
-      f.title = r.title;
-      f.setAttribute("allowfullscreen", "true");
-      f.setAttribute("loading", "lazy");
-      // HTML files need scripts; Power BI needs allow-same-origin + allow-scripts
-      const isHtml = r.embedUrl.endsWith(".html");
-      if (!isHtml) {
-        f.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups allow-forms");
-      }
-      embed.appendChild(f);
-    } else {
-      embed.innerHTML = `
-        <div class="embed-empty">
-          <div>
-            <div class="big">Coming soon</div>
-            <div>This report hasn't been published yet.<br>
-            Drop your URL into <code>REPORTS[${i}].embedUrl</code> in the HTML.</div>
-          </div>
-        </div>`;
-    }
-
-    // URL hash so deep links work
-    history.replaceState(null, "", "#report-" + r.id);
-  }
-
-  // initial render — honour deep link if present
-  const initial = (() => {
-    const h = location.hash.replace("#report-", "");
-    const idx = REPORTS.findIndex(r => r.id === h);
-    return idx >= 0 ? idx : 0;
-  })();
-  selectReport(initial);
 
   // ——— TWEAKS PANEL ———————————————————————————————————————————————
   // These defaults persist to disk via the host's __edit_mode_set_keys protocol.
@@ -1731,8 +1387,12 @@
       .forEach(b => b.classList.toggle("cur", b.dataset.val === v));
   }
   function refreshFeatured() {
-    const i = REPORTS.findIndex(r => r.id === (location.hash.replace("#report-","") || REPORTS[0].id));
-    const r = REPORTS[Math.max(0,i)];
+    const when = r => { const m = /(\w{3})\w* (\d{4})/.exec(r.date); return m ? new Date(`${m[1]} 1, ${m[2]}`).getTime() : 0; };
+    const r = REPORTS.reduce((a, b) => when(b) > when(a) ? b : a);
+    document.getElementById("featured-link").href = r.page;
+    // The "Open report" link is nested in the card's <a>, which the parser splits apart.
+    const open = document.querySelector(".variant.featured .meta a");
+    if (open) open.href = r.page;
     document.getElementById("featured-tag").textContent   = r.tag;
     document.getElementById("featured-title").textContent = r.title;
     document.getElementById("featured-lede").textContent  = r.lede;
@@ -1774,12 +1434,6 @@
   // Keep the visitor's saved/OS theme (set above). Applying TWEAKS.theme here
   // reset every visitor to "dark" on each home-page load, across the whole site.
   applyTheme(root.getAttribute("data-theme"));
-  // when switching reports, keep the featured card in sync
-  const _origSelect = selectReport;
-  // already called; install a hook for future calls
-  document.querySelectorAll(".tab, .card").forEach(el => {
-    el.addEventListener("click", () => setTimeout(refreshFeatured, 0));
-  });
 </script>
 
 </body>

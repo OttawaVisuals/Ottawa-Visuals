@@ -4,7 +4,8 @@
 **Project tracker:** [`tracker.html`](tracker.html) — a project atlas: status, build timeline, data sources, pipeline/methodology write-ups and a checkbox list of assumptions to verify, per sub-project.
 
 A static site served straight from `index.html` on GitHub Pages (no Jekyll — see
-`.nojekyll`). Each report is a standalone HTML page embedded in the homepage.
+`.nojekyll`). Each report is a standalone HTML page; the homepage shows one tile per report linking to it
+(old `#report-<id>` links redirect to the page).
 Each sub-project lives in its own folder (data, scripts, README) with its
 page inside that folder — e.g. `Mortgage/mortgage.html`, `Weather/weather.html`.
 A thin redirect stub is kept at the old root path (e.g. `/mortgage.html`) for
@@ -38,7 +39,7 @@ for our own live collection, and `RTO4/` for everything published by others. See
 standalone root-level tools not (yet) tied to a specific data folder.
 
 ## Edit points
-- Home page + report list: `/index.html` (edit the `REPORTS` array near the bottom)
+- Home page tiles: `/index.html` (edit the `REPORTS` array near the bottom; `page` is the report's own page)
 - Report pages: each sub-project's own folder (e.g. `Mortgage/mortgage.html`,
   `Weather/weather.html`) plus root-level standalone pages (`rto.html`,
   `ghg_calculator.html`, `Comparator.html`, `dataset_prospector.html`)
@@ -48,11 +49,12 @@ standalone root-level tools not (yet) tied to a specific data folder.
 - Styles: inline in each page's `<style>` block, then overridden site-wide by
   `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
-  `tracker.html`, `rto.html` and `dataset_prospector.html` don't load it yet.
+  `tracker.html`, `rto.html` and `dataset_prospector.html` keep their own token names but load it too.
 
 ## Power BI
 Power BI → File → **Publish to web** → paste the `app.powerbi.com/view?...` URL
-into the relevant report's `embedUrl` in `index.html`.
+into the report page's `<iframe>` (see `Traffic/stops.html`), then add a `REPORTS` tile
+in `index.html` pointing at that page.
 
 ## Notes
 - Static site (no server).

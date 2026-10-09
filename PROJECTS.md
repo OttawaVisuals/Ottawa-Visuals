@@ -120,7 +120,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ### Ottawa Traffic Stops, Red Lights & Speed Violations
 - **Progress:** ~100% · Power BI dashboard (featured on home page + Dashboards page).
 - OPS traffic stops by result type (charged / warning / no action).
-- **Data:** Ottawa Police data portal. · **Page:** `/#report-traffic`
+- **Data:** Ottawa Police data portal. · **Page:** `Traffic/stops.html` (Power BI embed; `/#report-traffic` redirects there)
 
 ### Ottawa Roads — risk vs enforcement
 - **Progress:** ~85% (live Oct 2026) · `Traffic/roads.html`, also a home-page report (`#report-roads`).
