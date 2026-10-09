@@ -213,6 +213,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#road-safety">🚗 Road Safety</a>
       <a href="#roads">🛣️ Roads</a>
       <a href="#tax">🧾 Tax</a>
+      <a href="#oilgas">🛢️ Oil &amp; Gas</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
       <a href="#todo">🗺️ What's left</a>
@@ -282,6 +283,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚗 Road Safety Calculator</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛢️ Oil &amp; Gas</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">60%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">draft</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -907,6 +909,53 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         <span class="tag data">source limit</span><b>Donations are itemized gifts over $200 (about 80% of dollars), located by the donor's postal code.</b>
         <p>Postal codes can be offices (K1P downtown is an outlier). FSA income is CRA's 2021 average total income per filer, not the median. "Gifts per 1k filers" counts contribution rows, not unique people.</p>
         <div class="where">Tax/scripts/aggregate_contributions.py, build_data.py donations().</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ OIL & GAS ══════════════════ -->
+<section id="oilgas" class="card">
+  <div class="proj-head">
+    <h2>🛢️ Oil &amp; Gas</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="OilGas/oilgas.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> what Canada's oil and gas producers earned since 2002, what they paid in
+  dividends and corporate income tax, and how many people they employ, in 2025 dollars.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">StatCan 33-10-0500-01 — annual income statement + taxation statistics, 2002–2024<small>NAICS "Oil and gas extraction and support services"</small></div>
+    <div class="src">StatCan 33-10-0225-01 — quarterly income statement<small>full-year sums for years past the annual table (2025)</small></div>
+    <div class="src">StatCan 14-10-0202-01 — SEPH employment by industry and province<small>NAICS 211 + 213</small></div>
+    <div class="src">StatCan 18-10-0005-01 — CPI all-items<small>converts everything to latest-year dollars</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Fetch</b><span>StatCan WDS API → OilGas/data/raw/ (gitignored cache)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Distil</b><span>build_data.py → oilgas.json (~20 KB), which oilgas.html reads</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="oilgas-quarterly"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>2025 comes from summed quarters; earlier years from the annual table.</b>
+        <p>Where both exist (2022–24) the quarterly sums run 1–5% higher on revenue and net income. The page flags 2025 with an asterisk.</p>
+        <div class="where">OilGas/scripts/build_data.py main(), finance_overlap_check in oilgas.json.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="oilgas-royalties"><div class="a-body">
+        <span class="tag data">source limit</span><b>"Tax" is corporate income tax only; royalties are an expense inside these figures.</b>
+        <p>The government take is understated until royalties are added. The page says so next to the tax chart.</p>
+        <div class="where">OilGas/oilgas.html, tax section.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="oilgas-naics213"><div class="a-body">
+        <span class="tag data">source limit</span><b>Jobs include NAICS 213 support activities, which also covers mining support.</b>
+        <p>Slight national overcount; pipelines (NAICS 486) excluded because SEPH suppresses them after 2002.</p>
+        <div class="where">OilGas/scripts/build_data.py JOBS_NAICS.</div>
       </div></li>
     </ul>
   </div>

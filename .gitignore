@@ -58,3 +58,6 @@ PWHL/data/pwhl_pbp.csv
 
 # Tax page — raw downloads (StatCan, Elections Canada, WID); only Tax/data/*.json is committed
 Tax/data/raw/
+
+# Oil & gas page — cached StatCan API responses; only OilGas/data/oilgas.json is committed
+OilGas/data/raw/

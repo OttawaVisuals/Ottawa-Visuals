@@ -144,6 +144,17 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   comparison (Quebec/Alberta top rates); an Ontario donations version (Elections Ontario, corporate
   ban 2017) if the open data has postal codes.
 
+### Oil & Gas — profits, tax, jobs (Canada)
+- **Progress:** ~60% (live Oct 2026) · `OilGas/oilgas.html`, also a home-page report (`#report-oilgas`).
+- Net profit and dividends 2002–2025 (record $53B in 2022, 2025 dollars; $179B over 2021–25);
+  employees down 20% from the 2014 peak while real revenue is up 8%; federal + provincial
+  corporate income tax ($4.4B in 2022); jobs by province.
+- **Data:** StatCan 33-10-0500-01, 33-10-0225-01, 14-10-0202-01, 18-10-0005-01 via the WDS API →
+  `OilGas/scripts/build_data.py` → `oilgas.json`. See `OilGas/README.md`.
+- **Still to do:** government money in and out as sourced estimates: provincial royalties,
+  federal support (Trans Mountain, CCUS credit, EDC, 2020 site rehab), Alberta (Keystone XL,
+  Sturgeon, orphan wells), Environmental Defence / IISD / Auditor General 2023 tallies.
+
 ### Ottawa Ward Elections
 - **Progress:** ~90% (live, iterating) · Interactive ward-level election map/visual.
 - Ongoing work on ward redistribution impact + Deneb custom visual with ward labels/leader lines.
@@ -373,7 +384,8 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
    `top_vendors.json` before any of this becomes a public-facing page.
 
 ### Political Spending / Transparency
-- Pierre Poilievre taxpayer expenses; Canadian MP spending transparency; Alberta oil-company profits & capital flows.
+- Pierre Poilievre taxpayer expenses; Canadian MP spending transparency; Alberta oil-company profits & capital flows
+  (industry-level profits/tax/jobs now live in `OilGas/`; company-level capital flows still open).
 
 ---
 

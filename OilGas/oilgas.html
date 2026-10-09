@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oil &amp; Gas Profits · Canada</title>
+<meta name="description" content="Canada's oil and gas industry since 2002: profits, dividends, corporate income tax and jobs, from Statistics Canada.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    /* Chart series — validated categorical order (dataviz reference palette). */
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --muted:#B9C0CB;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --muted:#454C5C;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:960px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:22px; margin:0 0 5px; font-weight:700; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-3); max-width:680px; line-height:1.5; margin:0; font-size:13px; }
+  .layout { display:flex; flex-direction:column; gap:12px; max-width:960px; margin:0 auto; padding:14px 16px 60px; }
+
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px; min-width:0; }
+  .q { font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin:0 0 4px; }
+  .section-title { font-size:16px; font-weight:650; margin:0 0 8px; letter-spacing:-0.01em; }
+  .section-note { font-size:13px; color:var(--ink-2); line-height:1.6; margin:0 0 12px; max-width:740px; }
+  .section-note b { color:var(--ink); font-weight:600; }
+  .chart-sub { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); margin:16px 0 8px; }
+  .chart-wrap { position:relative; width:100%; height:300px; }
+  .chart-wrap.short { height:240px; }
+  @media (max-width:640px){ .chart-wrap{height:260px;} .chart-wrap.short{height:220px;} }
+  .note { font-size:12px; color:var(--ink-3); margin-top:10px; padding:8px 12px; border-left:2px solid var(--line-2); line-height:1.55; }
+  .verdict { margin:14px 0 0; padding:10px 12px; border-radius:8px; background:var(--bg-3); border:1px solid var(--line); font-size:13px; line-height:1.55; color:var(--ink-2); }
+  .verdict b { color:var(--ink); }
+  .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); margin-bottom:12px; display:none; }
+
+  .stat-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:4px; }
+  @media (max-width:760px){ .stat-row { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:420px){ .stat-row { grid-template-columns:1fr; } }
+  .stat-box { background:var(--bg-3); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .stat-val { font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--ink); }
+  .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
+
+  .legend { display:flex; flex-wrap:wrap; gap:14px; margin:4px 0 6px; font-size:12px; color:var(--ink-2); }
+  .legend span { display:flex; align-items:center; gap:6px; }
+  .swatch { width:14px; height:3px; border-radius:2px; flex-shrink:0; }
+  .swatch.box { height:10px; width:10px; }
+
+  .table-wrap { overflow-x:auto; }
+  .table-wrap.scroll { max-height:420px; overflow-y:auto; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3); padding:6px 8px; border-bottom:1px solid var(--line-2); white-space:nowrap; position:sticky; top:0; background:var(--bg-2); }
+  td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num, th.num { text-align:right; font-family:var(--font-mono); white-space:nowrap; }
+  td.neg { color:var(--accent); }
+  tr:hover td { background:var(--bg-3); }
+  details { margin-top:10px; }
+  summary { cursor:pointer; font-size:12px; color:var(--ink-2); font-family:var(--font-mono); }
+  ul.plain { margin:4px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:var(--ink-2); }
+  ul.plain b { color:var(--ink); }
+
+  footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
+  footer a { color:var(--ink-2); }
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../rto.html">RTO watch</a>
+    <a href="../Tax/tax.html">Tax</a>
+    <a href="oilgas.html" class="active">Oil &amp; gas</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Canada · oil &amp; gas industry · 2002–2025</p>
+  <h1>Oil &amp; gas: record profits, fewer jobs</h1>
+  <p class="sub">How much Canada's oil and gas producers earned, what they paid out to shareholders and in corporate income tax, and how many people they employ. All from Statistics Canada, and all dollar figures in <b id="base-yr"></b> dollars (adjusted for inflation).</p>
+</div>
+
+<main class="layout">
+  <div class="error-msg" id="err"></div>
+
+  <div class="stat-row" id="hero"></div>
+
+  <!-- 1. PROFITS -->
+  <section class="card">
+    <p class="q">Profits</p>
+    <h2 class="section-title">Boom, bust, and the biggest boom yet</h2>
+    <p class="section-note" id="profit-note"></p>
+    <div class="legend" id="lg-profit"></div>
+    <div class="chart-wrap"><canvas id="c-profit" aria-label="Net income and dividends of Canadian oil and gas extraction, 2002 to 2025"></canvas></div>
+    <p class="note">Net income after tax, industry "Oil and gas extraction and support services" (StatCan 33-10-0500-01, annual, to 2024; <span id="q-years"></span> summed from the quarterly table 33-10-0225-01, which comes within about 5% of the annual figures in the years both cover). The big losses are mostly <b>write-downs</b>: companies cutting the book value of oil sands and other assets when prices crashed. These are accounting charges, not cash leaving the business. Dividends are what companies <i>declared</i> to shareholders in the year.</p>
+  </section>
+
+  <!-- 2. JOBS -->
+  <section class="card">
+    <p class="q">Jobs</p>
+    <h2 class="section-title">More revenue, fewer workers</h2>
+    <p class="section-note" id="jobs-note"></p>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">Employees in Canada, thousands</p>
+        <div class="legend" id="lg-jobs"></div>
+        <div class="chart-wrap short"><canvas id="c-jobs" aria-label="Oil and gas employment in Canada, 2001 to 2025"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Indexed, 2014 = 100 (the jobs peak)</p>
+        <div class="legend" id="lg-index"></div>
+        <div class="chart-wrap short"><canvas id="c-index" aria-label="Real revenue versus jobs, indexed to 2014"></canvas></div>
+      </div>
+    </div>
+    <details>
+      <summary>Jobs by province, <span class="last-jobs-yr"></span></summary>
+      <div class="table-wrap"><table id="t-prov"></table></div>
+    </details>
+    <p class="note">Employees on payroll (StatCan SEPH, 14-10-0202-01), not counting self-employed contractors. "Support activities" is NAICS 213: drilling contractors, well services and similar. StatCan doesn't split it between oil &amp; gas and mining. In Alberta it is almost all oil &amp; gas; nationally a minority is mining support, so the national total is a slight overcount. Pipelines are excluded: StatCan suppresses that series after 2002.</p>
+  </section>
+
+  <!-- 3. TAX -->
+  <section class="card">
+    <p class="q">Corporate income tax</p>
+    <h2 class="section-title">What the industry paid in corporate income tax</h2>
+    <p class="section-note" id="tax-note"></p>
+    <div class="legend" id="lg-tax"></div>
+    <div class="chart-wrap short"><canvas id="c-tax" aria-label="Federal and provincial corporate income tax paid by oil and gas extraction, 2002 to 2024"></canvas></div>
+    <div class="verdict"><b>This is not the whole government take.</b> Royalties paid to provinces for the oil and gas itself are a much bigger flow. StatCan counts them as a business expense, so they are already subtracted before profit and don't appear here. Royalties and government support (subsidies, Trans Mountain, loan guarantees) are the next section to build.</div>
+    <p class="note">Federal + provincial corporate income tax from StatCan 33-10-0500-01 (taxation statistics, latest year 2024). Tax is assessed on <i>taxable</i> income, which differs from book profit: losses from 2015–2020 are carried forward and reduce tax in later years, and resource deductions differ between tax and accounting rules.</p>
+  </section>
+
+  <!-- 4. NEXT -->
+  <section class="card">
+    <p class="q">Coming next</p>
+    <h2 class="section-title">Government money in and out</h2>
+    <p class="section-note">There is no official yearly series for government support to oil and gas. The next version will add it as <b>labelled estimates</b>, each bar tied to its source, rather than one stitched-together line:</p>
+    <ul class="plain">
+      <li><b>Money in to governments:</b> provincial royalties (Alberta, Saskatchewan, BC, Newfoundland budgets).</li>
+      <li><b>Money out, federal:</b> Trans Mountain, carbon-capture tax credits, Export Development Canada financing, the 2020 well-cleanup program.</li>
+      <li><b>Money out, Alberta:</b> Keystone XL, the Sturgeon refinery, orphan-well funding, royalty credits.</li>
+      <li><b>Independent tallies</b> (Environmental Defence, IISD) and the Auditor General's 2023 review, with how each defines "subsidy".</li>
+    </ul>
+  </section>
+
+  <!-- 5. TABLE -->
+  <section class="card">
+    <p class="q">The numbers</p>
+    <h2 class="section-title">Year by year</h2>
+    <div class="table-wrap scroll"><table id="t-years"></table></div>
+  </section>
+</main>
+
+<footer>
+  Sources: Statistics Canada tables 33-10-0500-01 (balance sheet, income statement and taxation statistics, annual), 33-10-0225-01 (quarterly balance sheet and income statement), 14-10-0202-01 (Survey of Employment, Payrolls and Hours) and 18-10-0005-01 (CPI, all-items, Canada). Method and code: <a href="README.md">OilGas/README.md</a>.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA_URL = 'data/oilgas.json';
+let D = null, BASE = null, YEARS = [];
+const charts = {};
+
+// ── helpers ─────────────────────────────────────────────────────────────────
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const fin = (y, k) => (D.finance[y] || {})[k];
+// $ millions in year y → $ billions in BASE-year dollars.
+const real = (v, y) => v == null ? null : v * D.cpi[BASE] / D.cpi[y] / 1000;
+const fin$ = (y, k) => real(fin(y, k), y);
+const fmtB = (v, d = 1) => v == null ? '—' : (v < 0 ? '−$' : '$') + Math.abs(v).toFixed(d) + 'B';
+const fmtK = v => Math.round(v / 1000) + 'k';
+const jobs = (geo, y) => { const r = D.jobs[geo][y]; return r ? r.extraction + r.support : null; };
+
+function legend(id, items) {
+  $(id).innerHTML = items.map(([label, color, kind = '']) =>
+    `<span><i class="swatch ${kind}" style="background:${color}"></i>${label}</span>`).join('');
+}
+
+function baseOpts({ yTitle, money = true, stacked = false } = {}) {
+  const grid = css('--line'), ink3 = css('--ink-3');
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    interaction: { mode: 'index', intersect: false },
+    elements: { point: { radius: 0, hoverRadius: 4, hitRadius: 8 }, line: { borderWidth: 2, tension: 0 } },
+    scales: {
+      x: { stacked, grid: { display: false }, border: { color: css('--line-2') },
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 0, autoSkipPadding: 8 } },
+      y: { stacked, grid: { color: grid }, border: { display: false },
+           title: yTitle ? { display: true, text: yTitle, color: ink3, font: { size: 11 } } : undefined,
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, callback: v => money ? (v < 0 ? '−$' : '$') + Math.abs(v) + 'B' : v } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: css('--bg-2'), titleColor: css('--ink'), bodyColor: css('--ink-2'),
+        borderColor: css('--line-2'), borderWidth: 1, padding: 10, boxPadding: 4,
+        titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'Inter', size: 12 },
+      }
+    }
+  };
+}
+function make(id, cfg) { if (charts[id]) charts[id].destroy(); charts[id] = new Chart($(id), cfg); return charts[id]; }
+
+// ── renderers ───────────────────────────────────────────────────────────────
+function renderHero() {
+  const ys = YEARS, best = ys.reduce((a, b) => fin$(b, 'net_income') > fin$(a, 'net_income') ? b : a);
+  const recent = ys.filter(y => +y >= 2021), sumRecent = recent.reduce((s, y) => s + fin$(y, 'net_income'), 0);
+  const jy = Object.keys(D.jobs.Canada), jLast = jy[jy.length - 1];
+  const jPeak = jy.reduce((a, b) => jobs('Canada', b) > jobs('Canada', a) ? b : a);
+  const drop = 1 - jobs('Canada', jLast) / jobs('Canada', jPeak);
+  $('hero').innerHTML = [
+    [fmtB(fin$(best, 'net_income'), 0), `Net profit in ${best}, the record year since at least 2002.`],
+    [fmtB(sumRecent, 0), `Total net profit ${recent[0]}–${recent[recent.length - 1]}, after tax.`],
+    [fmtK(jobs('Canada', jLast)), `Employees in ${jLast}, down ${Math.round(drop * 100)}% from the ${jPeak} peak of ${fmtK(jobs('Canada', jPeak))}.`],
+    [(jobs('Canada', jLast) / D.jobs.Canada[jLast].all_industries * 100).toFixed(1) + '%', `of all Canadian employees work in oil & gas. In Alberta it's ${(jobs('Alberta', jLast) / D.jobs.Alberta[jLast].all_industries * 100).toFixed(1)}%.`],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+}
+
+function renderProfit() {
+  const c1 = css('--s1'), c2 = css('--s2'), c3 = css('--s4');
+  const ni = YEARS.map(y => fin$(y, 'net_income')), dv = YEARS.map(y => fin$(y, 'dividends'));
+  const sum = (a, b) => YEARS.filter(y => +y >= a && +y <= b).reduce((s, y) => s + fin$(y, 'net_income'), 0);
+  const lossYrs = YEARS.filter(y => fin$(y, 'net_income') < 0);
+  $('profit-note').innerHTML = `Profits follow the oil price. The industry made <b>${fmtB(sum(2003, 2008), 0)}</b> in the 2003–2008 run-up, lost money in ${lossYrs.length} of the ${2020 - 2015 + 1} years from 2015 to 2020, then earned <b>${fmtB(sum(2021, +YEARS[YEARS.length - 1]), 0)}</b> from 2021 on. ` +
+    `Dividends kept flowing through the bad years: <b>${fmtB(lossYrs.reduce((s, y) => s + fin$(y, 'dividends'), 0), 0)}</b> was declared in the ${lossYrs.length} loss years.`;
+  legend('lg-profit', [['Net profit', c1, 'box'], ['Net loss', c2, 'box'], ['Dividends declared', c3]]);
+  const o = baseOpts();
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${fmtB(c.parsed.y)}` };
+  make('c-profit', { data: { labels: YEARS, datasets: [
+    { type: 'line', label: 'Dividends declared', data: dv, borderColor: c3, backgroundColor: c3, order: 0 },
+    { type: 'bar', label: 'Net income', data: ni, backgroundColor: ni.map(v => v < 0 ? c2 : c1), borderRadius: 2, order: 1 },
+  ]}, options: o });
+  const q = YEARS.filter(y => fin(y, 'from_quarterly'));
+  $('q-years').textContent = q.length ? q.join(', ') + ' is' : 'no year is';
+}
+
+function renderJobs() {
+  const c1 = css('--s1'), c2 = css('--s3');
+  const jy = Object.keys(D.jobs.Canada), jLast = jy[jy.length - 1];
+  const J = D.jobs.Canada;
+  legend('lg-jobs', [['Extraction (producers)', c1, 'box'], ['Support (drilling, services)', c2, 'box']]);
+  const o = baseOpts({ money: false, stacked: true });
+  o.scales.y.ticks.callback = v => v + 'k';
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}k` };
+  make('c-jobs', { type: 'bar', options: o, data: { labels: jy, datasets: [
+    { label: 'Extraction', data: jy.map(y => J[y].extraction / 1000), backgroundColor: c1 },
+    { label: 'Support', data: jy.map(y => J[y].support / 1000), backgroundColor: c2 },
+  ]}});
+
+  // Index: real revenue vs jobs, 2014 = 100, over years with both.
+  const both = YEARS.filter(y => J[y]);
+  const rev14 = fin$('2014', 'revenue'), job14 = jobs('Canada', '2014');
+  const ci1 = css('--s1'), ci2 = css('--s2');
+  legend('lg-index', [['Revenue (after inflation)', ci1], ['Employees', ci2]]);
+  const oi = baseOpts({ money: false });
+  oi.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${Math.round(c.parsed.y)}` };
+  make('c-index', { type: 'line', options: oi, data: { labels: both, datasets: [
+    { label: 'Revenue', data: both.map(y => fin$(y, 'revenue') / rev14 * 100), borderColor: ci1, backgroundColor: ci1 },
+    { label: 'Employees', data: both.map(y => jobs('Canada', y) / job14 * 100), borderColor: ci2, backgroundColor: ci2 },
+  ]}});
+
+  const lastBoth = both[both.length - 1];
+  const revChg = fin$(lastBoth, 'revenue') / rev14 - 1, jobChg = jobs('Canada', lastBoth) / job14 - 1;
+  const ab = y => jobs('Alberta', y) / D.jobs.Alberta[y].all_industries * 100;
+  const lab = fin$('2024', 'labour'), ni24 = fin$('2024', 'net_income');
+  $('jobs-note').innerHTML = `Compared with 2014, the industry's ${lastBoth} revenue was <b>${revChg >= 0 ? 'up' : 'down'} ${Math.abs(Math.round(revChg * 100))}%</b> after inflation, with <b>${Math.abs(Math.round(jobChg * 100))}% ${jobChg < 0 ? 'fewer' : 'more'} employees</b> (${fmtK(job14)} → ${fmtK(jobs('Canada', lastBoth))}). ` +
+    `Likely reasons: oil sands sites need far fewer people once construction ends, and drillers get more out of each well, so output can grow without hiring. In Alberta the industry's share of all jobs fell from <b>${ab('2014').toFixed(1)}%</b> in 2014 to <b>${ab(jLast).toFixed(1)}%</b> in ${jLast}. ` +
+    `In 2024 the whole payroll cost (wages, salaries and benefits) was <b>${fmtB(lab)}</b>, against <b>${fmtB(ni24)}</b> of net profit.`;
+
+  document.querySelectorAll('.last-jobs-yr').forEach(e => e.textContent = jLast);
+  const geos = Object.keys(D.jobs);
+  $('t-prov').innerHTML = '<thead><tr><th>Province</th><th class="num">Extraction</th><th class="num">Support</th><th class="num">Total</th><th class="num">Share of all jobs</th></tr></thead><tbody>' +
+    geos.map(g => { const r = D.jobs[g][jLast]; const t = r.extraction + r.support;
+      return `<tr><td>${g}</td><td class="num">${r.extraction.toLocaleString('en-CA')}</td><td class="num">${r.support.toLocaleString('en-CA')}</td><td class="num">${t.toLocaleString('en-CA')}</td><td class="num">${(t / r.all_industries * 100).toFixed(1)}%</td></tr>`; }).join('') + '</tbody>';
+}
+
+function renderTax() {
+  const c1 = css('--s1'), c2 = css('--s3');
+  const ty = YEARS.filter(y => fin(y, 'tax_total') != null);
+  const sumT = ty.reduce((s, y) => s + fin$(y, 'tax_total'), 0);
+  const sumN = ty.reduce((s, y) => s + fin$(y, 'net_income'), 0);
+  const tLast = ty[ty.length - 1];
+  $('tax-note').innerHTML = `From ${ty[0]} to ${tLast} the industry paid <b>${fmtB(sumT, 0)}</b> in federal and provincial corporate income tax, against <b>${fmtB(sumN, 0)}</b> of after-tax profit over the same years. ` +
+    `In 2022, the record-profit year, it paid <b>${fmtB(fin$('2022', 'tax_total'))}</b>, about ${Math.round(fin('2022', 'tax_total') / (fin('2022', 'net_income') + fin('2022', 'tax_total')) * 100)}% of pre-tax profit, partly because losses from 2015–2020 were still being written off. By ${tLast} that was ${fmtB(fin$(tLast, 'tax_total'))}.`;
+  legend('lg-tax', [['Federal', c1, 'box'], ['Provincial', c2, 'box']]);
+  const o = baseOpts({ stacked: true });
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${fmtB(c.parsed.y, 2)}` };
+  make('c-tax', { type: 'bar', options: o, data: { labels: ty, datasets: [
+    { label: 'Federal', data: ty.map(y => fin$(y, 'fed_tax')), backgroundColor: c1 },
+    { label: 'Provincial', data: ty.map(y => fin$(y, 'prov_tax')), backgroundColor: c2 },
+  ]}});
+}
+
+function renderTable() {
+  const cell = v => `<td class="num${v != null && v < 0 ? ' neg' : ''}">${fmtB(v)}</td>`;
+  $('t-years').innerHTML = `<thead><tr><th>Year</th><th class="num">Revenue</th><th class="num">Net profit</th><th class="num">Dividends</th><th class="num">Corp. income tax</th><th class="num">Payroll cost</th><th class="num">Employees</th></tr></thead><tbody>` +
+    YEARS.slice().reverse().map(y => `<tr><td>${y}${fin(y, 'from_quarterly') ? '*' : ''}</td>${cell(fin$(y, 'revenue'))}${cell(fin$(y, 'net_income'))}${cell(fin$(y, 'dividends'))}${cell(fin$(y, 'tax_total'))}${cell(fin$(y, 'labour'))}<td class="num">${D.jobs.Canada[y] ? jobs('Canada', y).toLocaleString('en-CA') : '—'}</td></tr>`).join('') +
+    `</tbody><caption style="caption-side:bottom;text-align:left;font-size:11.5px;color:var(--ink-3);padding-top:8px">$ billions, ${BASE} dollars. * from quarterly data; tax and payroll not yet published for that year.</caption>`;
+}
+
+function renderAll() { renderHero(); renderProfit(); renderJobs(); renderTax(); renderTable(); }
+
+fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(`oilgas.json: HTTP ${r.status}`); return r.json(); })
+  .then(j => {
+    D = j; YEARS = Object.keys(D.finance);
+    BASE = Object.keys(D.cpi).filter(y => D.finance[y]).pop();
+    $('base-yr').textContent = BASE;
+    renderAll();
+  })
+  .catch(err => { const el = $('err'); el.textContent = `⚠ Could not load data: ${err.message}`; el.style.display = 'block'; });
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ $('theme-toggle').innerHTML = mode === 'dark' ? MOON : SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+  if (D) renderAll();
+}
+setToggleIcon(root.getAttribute('data-theme'));
+$('theme-toggle').addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>

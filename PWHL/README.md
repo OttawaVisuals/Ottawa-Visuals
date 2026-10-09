@@ -13,6 +13,7 @@ early draft — sections are candidates, not final.
 | `pwhl.html` | The dashboard page (loads JSON from `data/json/`, `DATA_BASE = 'data/json/'`) |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
 | `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the compact `data/json/` files the page reads |
+| `scripts/build_models.py` | Fits the expected-goals model on the play-by-play; writes `pwhl_xg.json` (GSAx, team/skater xG, danger map) and `pwhl_ratings.json` (player impact ratings) |
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos) |
 | `data/json/` | Committed build output for the dashboard, including `pwhl_meta.json` |
 
@@ -24,5 +25,9 @@ Rscript PWHL/scripts/daily_update.R
 ```bash
 python PWHL/scripts/build_dashboard_json.py
 ```
+```bash
+python PWHL/scripts/build_models.py
+```
 
-Run the R pull first, then the Python aggregator, from the repo root.
+Run them in that order from the repo root: the model step reads the meta/awards JSON
+the aggregator writes, and needs `data/pwhl_pbp.csv` (gitignored, cached in CI).
