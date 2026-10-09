@@ -1,0 +1,95 @@
+/* ── Ottawa Visuals shared theme ─────────────────────────────────────
+   Brings every page onto the Retrofit Explorer look (Energy repo,
+   assets/site-theme.css): navy top bar, cream page, white cards, amber
+   accent, Fraunces light-weight display type, and a light / dark /
+   colour-blind theme switch (wired by assets/site-theme.js).
+
+   How it works without rewriting each page: every page already styles
+   itself through the same tokens (--bg, --bg-2, --ink, --accent …) in
+   its own <style> block. This file is linked AFTER that block and
+   re-points those tokens with :root[data-theme=…] selectors, which also
+   out-rank the pages' plain :root / [data-theme="dark"] rules. Pages
+   keep their own layout; only colour, type and chrome change here.
+
+   Token meanings (page side):
+     --bg      page background        --bg-2   card / panel surface
+     --bg-3    inset surface (chips, stat boxes)
+     --line(-2) borders               --ink / -2 / -3  text, strong → muted
+     --accent  brand accent (active nav, highlights, eyebrows)
+     --accent-2 secondary accent (blue on roads/tax/road-safety) */
+
+:root{
+  --navy:#0B2545; --amber2:#E8A124;
+  --font-display:"Fraunces",Georgia,serif;
+  --font-serif:"Fraunces",Georgia,serif;
+}
+:root[data-theme="light"],:root:not([data-theme]){
+  --bg:#F7F4EE; --bg-2:#FFFFFF; --bg-3:#EDF1F7;
+  --line:#D2D8E3; --line-2:#B9C3D1;
+  --ink:#1C2B3A; --ink-2:#5C6E82; --ink-3:#74859A;
+  --accent:#A86E0F; --accent-2:#2F6FB4;
+  --accent-bg:rgba(200,136,26,.10); --accent-soft:rgba(200,136,26,.14); --hl:rgba(200,136,26,.16);
+  --green:#1A7A55; --amber:#C8881A; --red:#B33A2E; --blue:#378ADD; --purple:#533AB7;
+  --shadow:0 1px 3px rgba(11,37,69,.08),0 4px 12px rgba(11,37,69,.05);
+}
+:root[data-theme="dark"]{
+  --navy:#0A1622;
+  --bg:#0E1621; --bg-2:#16202E; --bg-3:#1B2735;
+  --line:#2C3A4B; --line-2:#3A4A5E;
+  --ink:#E4EBF4; --ink-2:#A3B2C4; --ink-3:#7E90A4;
+  --accent:#E8A124; --accent-2:#5FA6E8;
+  --accent-bg:rgba(232,161,36,.12); --accent-soft:rgba(232,161,36,.16); --hl:rgba(232,161,36,.20);
+  --green:#3FA97C; --amber:#E8A124; --red:#E2705F; --blue:#5FA6E8; --purple:#8C79D8;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.3);
+}
+/* Colour-blind: light surfaces, Okabe–Ito hues; good/bad moved off the
+   red–green axis (dark blue vs burnt orange), as on the Energy site. */
+:root[data-theme="cb"]{
+  --navy:#10263D;
+  --bg:#F7F4EE; --bg-2:#FFFFFF; --bg-3:#EDF1F7;
+  --line:#D2D8E3; --line-2:#B9C3D1;
+  --ink:#1C2B3A; --ink-2:#5C6E82; --ink-3:#74859A;
+  --accent:#966700; --accent-2:#0072B2;
+  --accent-bg:rgba(230,159,0,.10); --accent-soft:rgba(230,159,0,.14); --hl:rgba(230,159,0,.18);
+  --green:#1B4F8C; --amber:#E69F00; --red:#C1521A; --blue:#0072B2; --purple:#CC79A7;
+  --shadow:0 1px 3px rgba(11,37,69,.08),0 4px 12px rgba(11,37,69,.05);
+  color-scheme:light;
+}
+:root[data-theme="dark"]{color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif}
+
+/* ── Top bar: navy, as Retrofit Explorer's header ── */
+.topbar{background:var(--navy)!important;border-bottom:1px solid rgba(255,255,255,.08)!important;box-shadow:none!important;backdrop-filter:none!important}
+.topbar .brand,.topbar .brand span{color:#fff}
+.topbar .brand>span:last-child{font-family:var(--font-serif);font-weight:300;font-size:18px;letter-spacing:-.01em;display:flex;align-items:baseline;gap:10px}
+.topbar .brand small{font-family:"Inter",sans-serif;font-size:10.5px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.topbar .brand-logo{background:transparent;border-color:rgba(255,255,255,.22)}
+.topbar .brand-logo img{filter:none}
+.topbar nav a{color:rgba(255,255,255,.62)!important;background:transparent}
+.topbar nav a:hover{color:#fff!important;background:rgba(255,255,255,.08)!important}
+.topbar nav a.active,.topbar nav a[aria-current]{color:var(--amber2)!important;font-weight:500}
+.topbar #theme-toggle{display:none!important}
+@media(max-width:560px){.topbar .brand small{display:none}}
+
+/* ── Theme switch pill (built by site-theme.js) ── */
+.ov-theme-toggle{display:flex;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:2px;flex:none}
+.ov-theme-toggle button{display:flex;align-items:center;justify-content:center;width:30px;height:26px;border:none;border-radius:18px;background:transparent;color:rgba(255,255,255,.6);cursor:pointer;transition:background .15s,color .15s}
+.ov-theme-toggle button:hover{color:#fff}
+.ov-theme-toggle button[aria-pressed="true"]{background:var(--amber2);color:#0B2545}
+.ov-theme-toggle button:focus-visible{outline:2px solid var(--amber2);outline-offset:1px}
+
+/* ── Type: Fraunces light for display text, Inter for everything else ── */
+h1{font-family:var(--font-serif)!important;font-weight:300!important;letter-spacing:-.02em;color:var(--ink)}
+h1 em{font-style:italic;color:var(--accent)}
+main h2,.card>h2,.section-title,.section-head h2{font-family:var(--font-serif);font-weight:400;letter-spacing:-.01em}
+.stat-val,.stat-value,.kpi-val,.big-num{font-family:var(--font-serif)!important;font-weight:300!important;letter-spacing:-.02em}
+.eyebrow{color:var(--accent)!important;letter-spacing:.14em}
+
+/* ── Cards pick up the soft Retrofit shadow ── */
+.card{box-shadow:var(--shadow)}
+
+/* ── Footer: full-bleed navy band ── */
+body>footer,body>.footer{background:var(--navy);color:rgba(255,255,255,.55)!important;box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);padding-top:18px!important;padding-bottom:22px!important;margin-top:24px}
+body>footer a,body>.footer a{color:rgba(255,255,255,.75)!important}
+body>footer a:hover,body>.footer a:hover{color:var(--amber2)!important}

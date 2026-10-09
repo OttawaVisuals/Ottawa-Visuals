@@ -25,6 +25,8 @@ any bookmarked or shared links.
 | [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector, feeds RTO Watch |
 | [`RTO4/`](RTO4/README.md) | External datasets behind RTO Watch (311, IESO, volumes, GHG) |
 | [`CityHall_Index/`](CityHall_Index/README.md) | eScribe committee/council meeting indexer |
+| [`Tax/`](Tax/README.md) | Taxing the top: top income-tax rate since 1920 vs top-1% share, who grew in high- vs low-tax eras, donations by neighbourhood income ([`tax.html`](Tax/tax.html)) |
+| [`GovContracts/`](GovContracts/README.md) | Federal Proactive Disclosure contracts — consulting spend / in-house duplication (exploration) |
 
 [`rto.html`](rto.html) — **Ottawa RTO Watch**, the return-to-office page — sits at
 the root because it draws on three folders at once: `Traffic/` and `OC_Transpo/`
@@ -43,7 +45,10 @@ standalone root-level tools not (yet) tied to a specific data folder.
 - Project status: `/tracker.html` and `/PROJECTS.md`
 - About / footer copy: the `#about` and footer sections of `/index.html`
 - Images: `/assets/img/`
-- Styles: inline in each page's `<style>` block
+- Styles: inline in each page's `<style>` block, then overridden site-wide by
+  `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
+  cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
+  `tracker.html`, `rto.html` and `dataset_prospector.html` don't load it yet.
 
 ## Power BI
 Power BI → File → **Publish to web** → paste the `app.powerbi.com/view?...` URL

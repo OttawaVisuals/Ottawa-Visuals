@@ -16,10 +16,12 @@
   })();
 </script>
 <style>
+/* Palette = Retrofit Explorer (Energy repo assets/site-theme.css); the shared
+   assets/site-theme.css adds the font + light/dark/colour-blind switch. */
 :root{
-  --navy:#1F2530; --amber:#C9542F; --cream:#F1F3F6; --card:#FFFFFF;
-  --ink:#1F2530; --muted:#4E586A; --line:#E1E5EC;
-  --data-navy:#245A96;
+  --navy:#0B2545; --amber:#A86E0F; --cream:#F7F4EE; --card:#FFFFFF;
+  --ink:#1C2B3A; --muted:#5C6E82; --line:#D2D8E3;
+  --data-navy:#2F6FB4;
   --done:#1A7A55;  --done-bg:#E7F2EC;
   --build:#9A6A00; --build-bg:#FBF0DA;
   --plan:#6E675E;  --plan-bg:#EEEBE5;
@@ -28,19 +30,25 @@
   --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
 }
-[data-theme="dark"]{
-  --navy:#0E1117; --amber:#E06B45; --cream:#0E1117; --card:#161A23;
-  --ink:#EEF1F7; --muted:#B6BDCC; --line:#262C3A;
-  --data-navy:#5B9BE0;
+:root[data-theme="dark"]{
+  --navy:#0A1622; --amber:#E8A124; --cream:#0E1621; --card:#16202E;
+  --ink:#E4EBF4; --muted:#A3B2C4; --line:#2C3A4B;
+  --data-navy:#5FA6E8;
   --done:#3FC087;  --done-bg:rgba(63,192,135,0.14);
   --build:#E0B23F; --build-bg:rgba(224,178,63,0.14);
   --plan:#9098AC;  --plan-bg:rgba(122,128,148,0.16);
   --warn:#E85A44;  --warn-bg:rgba(232,90,68,0.14);
 }
+:root[data-theme="cb"]{
+  --navy:#10263D; --amber:#966700; --data-navy:#0072B2;
+  --done:#1B4F8C; --done-bg:#DCE7F3;
+  --build:#966700; --build-bg:#FBF0DA;
+  --warn:#C1521A; --warn-bg:#F7DDCC;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:120px}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.55}
-h1,h2,h3,h4{font-family:var(--serif);line-height:1.15;margin:0 0 .4em}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.15;margin:0 0 .4em}
 h1{font-size:2rem} h2{font-size:1.45rem} h3{font-size:1.08rem} h4{font-size:.98rem;margin-top:1em}
 a{color:var(--data-navy)} a:hover{color:var(--amber)}
 code{background:rgba(128,128,128,0.14);border-radius:4px;padding:.08em .35em;font-size:.86em;font-family:var(--mono)}
@@ -48,10 +56,11 @@ p{margin:.35em 0 .8em}
 
 /* ── header ── */
 header{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-[data-theme="dark"] header{background:#070809}
+[data-theme="dark"] header{background:var(--navy)}
 .hwrap{max-width:1060px;margin:0 auto;padding:.7rem 1.2rem .55rem}
 .htitle{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
-.htitle .logo{font-family:var(--serif);font-weight:700;font-size:1.25rem}
+.htitle .logo{font-family:var(--serif);font-weight:300;font-size:1.3rem}
+.htitle .ov-theme-toggle{margin-left:auto}
 .htitle .logo em{color:var(--amber);font-style:normal}
 .htitle .sub{font-size:.8rem;opacity:.75}
 nav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
@@ -93,7 +102,7 @@ main{max-width:1060px;margin:0 auto;padding:1.4rem 1.2rem 4rem}
 /* ── overview tiles ── */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin:.8rem 0}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;text-align:center}
-.tile .n{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--navy)}
+.tile .n{font-family:var(--serif);font-size:1.9rem;font-weight:300;color:var(--ink)}
 [data-theme="dark"] .tile .n{color:var(--ink)}
 .tile .l{font-size:.78rem;color:var(--muted);font-weight:600}
 
@@ -175,6 +184,13 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
 .reset-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:.3rem .7rem;font-size:.78rem;color:var(--muted);cursor:pointer;font-family:var(--sans)}
 .reset-btn:hover{border-color:var(--warn);color:var(--warn)}
 </style>
+<!-- Shared Retrofit-style theme: font + light/dark/colour-blind switch (this page keeps its own token names above) -->
+<link rel="stylesheet" href="assets/site-theme.css">
+<script>
+// No charts here to redraw, so switching is just the attribute + saved choice.
+function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
+</script>
+<script src="assets/site-theme.js"></script>
 </head>
 <body>
 
@@ -184,6 +200,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
       <span class="logo">ottawa<em>·</em>atlas</span>
       <span class="chip build" style="font-size:.7rem">v1 · every project, how it was built</span>
       <span class="sub">updated 2026-07-31</span>
+      <button id="theme-toggle" hidden aria-hidden="true" tabindex="-1"></button>
     </div>
     <nav>
       <a href="#overview">Overview</a>
@@ -195,6 +212,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
       <a href="#weather">🌡️ Weather</a>
       <a href="#road-safety">🚗 Road Safety</a>
       <a href="#roads">🛣️ Roads</a>
+      <a href="#tax">🧾 Tax</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
       <a href="#todo">🗺️ What's left</a>
@@ -251,7 +269,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
   <div class="tiles">
     <div class="tile"><div class="n">10</div><div class="l">✅ tools live</div></div>
     <div class="tile"><div class="n">4</div><div class="l">🔨 in progress</div></div>
-    <div class="tile"><div class="n">7</div><div class="l">🆕 planned / scoped</div></div>
+    <div class="tile"><div class="n">8</div><div class="l">🆕 planned / scoped</div></div>
     <div class="tile"><div class="n" id="assump-count">—</div><div class="l">⚠️ assumptions to verify</div></div>
     <div class="tile"><div class="n" id="assump-done">0</div><div class="l">✓ verified by you</div></div>
   </div>
@@ -263,6 +281,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌡️ Weather / Climate</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚗 Road Safety Calculator</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">draft</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -841,6 +860,58 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
   </div>
 </section>
 
+<!-- ══════════════════ TAX ══════════════════ -->
+<section id="tax" class="card">
+  <div class="proj-head">
+    <h2>🧾 Taxing the Top</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="Tax/tax.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> Canada's top income-tax rate since 1920 against the top 1%'s income
+  share, who got richer in the high- and low-tax eras, and which neighbourhoods fund federal politics.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">Saez &amp; Veall (2007) Tables F1/F2 — marginal &amp; average tax rates 1920–2000<small>extracted to Tax/data/sources/*.csv</small></div>
+    <div class="src">WID.world Canada — income shares, real income per adult, wealth shares<small>only the _CA files, via HTTP range requests</small></div>
+    <div class="src">StatCan 11-10-0055 — high-income tax filers 1982–2023<small>filtered to Canada / Ontario / Ottawa</small></div>
+    <div class="src">Elections Canada contributions + CRA tax stats by FSA (2021)<small>2.2 GB CSV rolled up to year × party × FSA</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Fetch</b><span>downloads → Tax/data/raw/ (gitignored)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Roll up</b><span>aggregate_contributions.py → year × party × FSA</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · Distil</b><span>build_data.py → tax.json (~70 KB), which tax.html reads</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="tax-splice"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>"Average rate paid" splices Saez &amp; Veall (to 2000) onto StatCan 11-10-0055 (2001+).</b>
+        <p>They agree within about 1 pt in 2000, but differ by about 4 pts in 1982 (different income definitions and ranking). Splicing at 1982 would put a false step in the line.</p>
+        <div class="where">Tax/scripts/build_data.py main(), paid_top1 / paid_top001.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="tax-wid"><div class="a-body">
+        <span class="tag data">source limit</span><b>WID's pre-1980 bottom-50 / middle-40 incomes are modelled, and its published middle-40 average is about 4× too high.</b>
+        <p>Group averages are rebuilt from shares × the overall average. Before 1980 the bottom and middle grow at identical rates by construction, so the "shared growth" finding is indicative there.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 5 min<ol>
+          <li>In WID_data_CA.csv compare <code>aptinci992 p50p90</code> with <code>sptinci992 p50p90 × aptinci992 p0p100 ÷ 0.4</code> for any year.</li>
+        </ol></div>
+        <div class="where">Tax/scripts/build_data.py wid().</div>
+      </div></li>
+      <li><input type="checkbox" data-key="tax-donations"><div class="a-body">
+        <span class="tag data">source limit</span><b>Donations are itemized gifts over $200 (about 80% of dollars), located by the donor's postal code.</b>
+        <p>Postal codes can be offices (K1P downtown is an outlier). FSA income is CRA's 2021 average total income per filer, not the median. "Gifts per 1k filers" counts contribution rows, not unique people.</p>
+        <div class="where">Tax/scripts/aggregate_contributions.py, build_data.py donations().</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
 <!-- ══════════════════ ROAD SAFETY / VEHICLES ══════════════════ -->
 <section id="road-safety" class="card">
   <div class="proj-head">
@@ -1005,6 +1076,7 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
     <tr><td>5</td><td><b>Province Spending by Category</b></td><td>Ontario spending across healthcare, education, etc.</td><td>2 sessions</td></tr>
     <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>
     <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>The Ottawa version of this is already live (see Progress at a glance, above) — this row is specifically the <em>national</em> expansion, which is essentially unstarted: WWIS well data is Ontario-only, so a national version needs a different well-data source per province, not just a bigger bounding box on the existing pipeline.</td><td>3+ sessions</td></tr>
+    <tr><td>8</td><td><b>Federal Consulting Spend / GovContracts page</b></td><td>Data layer is done (<code>GovContracts/</code>) — categorized office-footprint spend, procurement-type split. The actual chart/page hasn't been built. Blocked on one thing first: the RTO-mandate-spike check needs a contracts.csv refresh that covers Jul 2026+ (current data only reaches Jun 2026). See <a href="GovContracts/README.md">GovContracts/README.md</a> for the full methodology and exact next steps.</td><td>1–2 sessions</td></tr>
   </table>
 </section>
 

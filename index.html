@@ -860,6 +860,9 @@
      }
      ===================================================================== */
 </style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="assets/site-theme.css">
+<script src="assets/site-theme.js"></script>
 </head>
 <body>
 
@@ -1438,6 +1441,32 @@
     },
 
     {
+      id: "tax",
+      topic: "Tax & inequality",
+      title: "Taxing the top: what a century of Canadian data shows",
+      lede: "Canada's top income-tax rate since 1920 against the top 1%'s share of income, who got richer in the high-tax and low-tax eras, and which neighbourhoods fund federal politics.",
+      date: "Updated Oct 2026",
+      readTime: "~ 6 min read",
+      tag: "#tax",
+      embedUrl: "Tax/tax.html",
+      why: "\"Tax the rich\" arguments lean on history: the 80% top rates of the 1950s and the broadly shared growth of that era. This page checks what the Canadian numbers actually support, and what they can't.",
+      method: "Top marginal and average tax rates from Saez & Veall (2007) to 2000, then federal + Ontario statutory rates and StatCan 11-10-0055 average rates paid. Income shares and real incomes per adult from WID.world. Political donations: Elections Canada itemized individual contributions (2019–2023) matched by postal-code area (FSA) to CRA average income per filer. Correlations are descriptive: one country, a handful of policy regimes.",
+      sources: [
+        { name: "Saez & Veall — The Evolution of High Incomes in Canada, 1920–2000", meta: "OUP 2007", url: "https://eml.berkeley.edu/~saez/canada-oup.pdf" },
+        { name: "WID.world — Canada", meta: "income & wealth shares", url: "https://wid.world/country/canada/" },
+        { name: "Statistics Canada 11-10-0055 — high-income tax filers", meta: "1982–2023", url: "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110005501" },
+        { name: "Elections Canada — political contributions", meta: "audited returns", url: "https://www.elections.ca/content.aspx?section=fin&dir=oda&document=index&lang=e" },
+        { name: "Method + code — Tax/README.md", meta: "GitHub", url: "Tax/README.md" },
+      ],
+      takeaways: [
+        ["−0.58", "correlation, 1946–2019: higher top rate, smaller top-1% share"],
+        ["0.88% vs 1.89%", "yearly real growth, bottom 50% vs top 1%, 1980–2019 (even, ~2.8%, in 1950–80)"],
+        ["6.7×", "donations per filer, richest vs poorest tenth of neighbourhoods"],
+      ],
+      thumb: "line",
+    },
+
+    {
       id: "mortgage",
       topic: "Housing",
       title: "Can we afford it?",
@@ -1742,7 +1771,9 @@
 
   // apply defaults from EDITMODE block (which the user can later edit on disk)
   applyHero(TWEAKS.hero);
-  applyTheme(TWEAKS.theme);
+  // Keep the visitor's saved/OS theme (set above). Applying TWEAKS.theme here
+  // reset every visitor to "dark" on each home-page load, across the whole site.
+  applyTheme(root.getAttribute("data-theme"));
   // when switching reports, keep the featured card in sync
   const _origSelect = selectReport;
   // already called; install a hook for future calls

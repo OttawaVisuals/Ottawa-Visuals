@@ -55,3 +55,6 @@ PWHL/data/pwhl_pbp.csv
 # OC Transpo GTFS-RT collector — rt_data/ summaries ARE committed, including
 # the small official KPI xlsx snapshots (exception to the global *.xlsx rule)
 !OC_Transpo/rt_data/kpi_snapshots/*.xlsx
+
+# Tax page — raw downloads (StatCan, Elections Canada, WID); only Tax/data/*.json is committed
+Tax/data/raw/

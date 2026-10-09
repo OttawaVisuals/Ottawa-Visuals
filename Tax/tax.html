@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taxing the Top · Canada</title>
+<meta name="description" content="A century of Canada's top income tax rate against who got richer, who got left behind, and who funds federal politics.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    /* Chart series — validated categorical order (dataviz reference palette). */
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --muted:#B9C0CB;
+    /* Parties: conventional colours; only CPC/LPC are charted (pair validated), rest in tables. */
+    --cpc:#2a78d6; --lpc:#e34948;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --muted:#454C5C;
+    --cpc:#3987e5; --lpc:#e66767;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:960px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:22px; margin:0 0 5px; font-weight:700; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-3); max-width:680px; line-height:1.5; margin:0; font-size:13px; }
+  .layout { display:flex; flex-direction:column; gap:12px; max-width:960px; margin:0 auto; padding:14px 16px 60px; }
+
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px; min-width:0; }
+  .q { font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin:0 0 4px; }
+  .section-title { font-size:16px; font-weight:650; margin:0 0 8px; letter-spacing:-0.01em; }
+  .section-note { font-size:13px; color:var(--ink-2); line-height:1.6; margin:0 0 12px; max-width:740px; }
+  .section-note b { color:var(--ink); font-weight:600; }
+  .chart-sub { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); margin:16px 0 8px; }
+  .chart-wrap { position:relative; width:100%; height:300px; }
+  .chart-wrap.tall { height:360px; }
+  .chart-wrap.short { height:220px; }
+  @media (max-width:640px){ .chart-wrap{height:260px;} .chart-wrap.tall{height:300px;} }
+  .note { font-size:12px; color:var(--ink-3); margin-top:10px; padding:8px 12px; border-left:2px solid var(--line-2); line-height:1.55; }
+  .verdict { margin:14px 0 0; padding:10px 12px; border-radius:8px; background:var(--bg-3); border:1px solid var(--line); font-size:13px; line-height:1.55; color:var(--ink-2); }
+  .verdict b { color:var(--ink); }
+  .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); margin-bottom:12px; display:none; }
+
+  .stat-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:4px; }
+  .stat-row.four { grid-template-columns:repeat(4, 1fr); }
+  @media (max-width:760px){ .stat-row.four { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:640px){ .stat-row { grid-template-columns:1fr; } }
+  .stat-box { background:var(--bg-3); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .stat-val { font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--ink); }
+  .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
+
+  .legend { display:flex; flex-wrap:wrap; gap:14px; margin:4px 0 6px; font-size:12px; color:var(--ink-2); }
+  .legend span { display:flex; align-items:center; gap:6px; }
+  .swatch { width:14px; height:3px; border-radius:2px; flex-shrink:0; }
+  .swatch.dash { height:0; border-top:2px dashed; background:none !important; }
+  .swatch.box { height:10px; width:10px; }
+  .swatch.dot { height:9px; width:9px; border-radius:999px; }
+
+  /* Table */
+  .table-wrap { overflow-x:auto; }
+  .table-wrap.scroll { max-height:420px; overflow-y:auto; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3); padding:6px 8px; border-bottom:1px solid var(--line-2); white-space:nowrap; position:sticky; top:0; background:var(--bg-2); }
+  td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num, th.num { text-align:right; font-family:var(--font-mono); white-space:nowrap; }
+  tr:hover td { background:var(--bg-3); }
+  .bar-cell { display:flex; align-items:center; gap:6px; justify-content:flex-end; }
+  .bar-cell i { display:block; height:8px; border-radius:2px; background:var(--s1); }
+  details { margin-top:10px; }
+  summary { cursor:pointer; font-size:12px; color:var(--ink-2); font-family:var(--font-mono); }
+
+  .timeline { list-style:none; margin:4px 0 0; padding:0; border-left:2px solid var(--line-2); }
+  .timeline li { position:relative; padding:0 0 10px 16px; font-size:13px; line-height:1.5; color:var(--ink-2); }
+  .timeline li::before { content:""; position:absolute; left:-6px; top:6px; width:10px; height:10px; border-radius:999px; background:var(--bg-2); border:2px solid var(--accent-2); }
+  .timeline b { color:var(--ink); font-family:var(--font-mono); font-weight:500; margin-right:6px; }
+
+  footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
+  footer a { color:var(--ink-2); }
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../rto.html">RTO watch</a>
+    <a href="../Traffic/roads.html">Roads</a>
+    <a href="tax.html" class="active">Tax</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Canada · income tax &amp; inequality · 1920–2026</p>
+  <h1>Taxing the top: what a century of Canadian data does and doesn't show</h1>
+  <p class="sub">Three questions. When Canada taxed its highest earners hardest, did the top take a smaller slice? Did the bottom and middle do better? And today, who actually funds federal politics? Combined federal&nbsp;+&nbsp;Ontario rates throughout, the rate an Ottawa resident pays.</p>
+</div>
+
+<main class="layout">
+  <div class="error-msg" id="err"></div>
+
+  <div class="stat-row four" id="hero"></div>
+
+  <!-- 1. THE RATE -->
+  <section class="card">
+    <p class="q">Context</p>
+    <h2 class="section-title">The headline rate vs what top earners actually paid</h2>
+    <p class="section-note">The famous 80–95% rates of the 1940s–60s applied only to incomes far above the top 1% line, roughly the top <b>0.001%</b>. In 1950 someone at the 99th percentile faced a marginal rate of <b id="p99-1950"></b>. The best measure of "taxing the rich" is the <b>average rate actually paid</b> by each group: total federal and provincial income tax divided by income.</p>
+    <div class="legend" id="lg-rates"></div>
+    <div class="chart-wrap tall"><canvas id="c-rates" aria-label="Top statutory tax rate and average tax rates paid, 1920 to 2026"></canvas></div>
+    <p class="note">Statutory rate: Saez &amp; Veall Table F1 "top" column to 2000, then federal + Ontario incl. surtax (excl. Ontario Health Premium). Before 1972 the federal rate already included provincial tax for most provinces. Average rates paid: Saez &amp; Veall Table F2 to 2000, then StatCan table 11-10-0055 (tax filers ranked by total income incl. capital gains). The two sources agree within about 1 pt at the 2000/2001 splice. 1942 dip: wartime transitional rules.</p>
+  </section>
+
+  <!-- 2. TOP SHARE -->
+  <section class="card">
+    <p class="q">Question 1</p>
+    <h2 class="section-title">When the top rate was high, did the top 1% take less?</h2>
+    <p class="section-note" id="q1-note"></p>
+    <p class="chart-sub">Share of all income going to the top 1% of adults, %</p>
+    <div class="legend" id="lg-share"></div>
+    <div class="chart-wrap"><canvas id="c-share" aria-label="Top 1 percent income share, 1920 to 2023"></canvas></div>
+    <p class="chart-sub">Each dot is one year: top statutory rate (x) vs top-1% share (y)</p>
+    <div class="legend" id="lg-scatter"></div>
+    <div class="chart-wrap"><canvas id="c-scatter" aria-label="Scatter of top rate versus top 1 percent share by year"></canvas></div>
+    <div class="verdict" id="q1-verdict"></div>
+  </section>
+
+  <!-- 3. WHO GREW -->
+  <section class="card">
+    <p class="q">Question 2</p>
+    <h2 class="section-title">Did taxing the top coincide with better outcomes for the bottom and middle?</h2>
+    <p class="section-note" id="q2-note"></p>
+    <p class="chart-sub">Real pre-tax income per adult, annual growth %, by group and era</p>
+    <div class="legend" id="lg-eras"></div>
+    <div class="chart-wrap short"><canvas id="c-eras" aria-label="Annual real income growth by group, 1950-1980 vs 1980-2019"></canvas></div>
+    <p class="chart-sub">Real pre-tax income per adult, indexed 1950 = 100</p>
+    <div class="legend" id="lg-index"></div>
+    <div class="chart-wrap"><canvas id="c-index" aria-label="Real income index by group, 1950 to 2019"></canvas></div>
+    <details open>
+      <summary>Decade by decade</summary>
+      <div class="table-wrap"><table id="t-decades"></table></div>
+    </details>
+    <div class="verdict" id="q2-verdict"></div>
+    <p class="note">Source: WID.world Canada (Xuereb &amp; Fisher-Post DINA series, pre-tax national income per adult, constant dollars). Group averages are derived from WID shares × the overall average, because WID's own published middle-40% average is about 4× too high. <b>Caveat:</b> before about 1980 WID's split between the bottom 50% and the middle 40% is modelled from limited data (their growth rates are nearly identical by construction), so treat pre-1980 bottom/middle figures as indicative. The top-1% series rests on tax records and is solid.</p>
+  </section>
+
+  <!-- 4. DONATIONS -->
+  <section class="card">
+    <p class="q">Question 3</p>
+    <h2 class="section-title">Who funds federal politics? Donations by neighbourhood income</h2>
+    <p class="section-note" id="q3-note"></p>
+    <div class="stat-row" id="don-stats"></div>
+    <p class="chart-sub">Itemized individual donations per tax filer per year, by postal-code-area (FSA) income decile</p>
+    <div class="chart-wrap short"><canvas id="c-deciles" aria-label="Donations per filer by FSA income decile"></canvas></div>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">Each dot is one FSA (log income axis). Ottawa highlighted.</p>
+        <div class="legend" id="lg-fsa"></div>
+        <div class="chart-wrap"><canvas id="c-fsa" aria-label="FSA average income versus donations per filer"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Party share of itemized dollars, by decile</p>
+        <div class="legend" id="lg-party"></div>
+        <div class="chart-wrap"><canvas id="c-party" aria-label="Conservative and Liberal share of donations by decile"></canvas></div>
+      </div>
+    </div>
+    <details>
+      <summary>Party mix by decile (all parties)</summary>
+      <div class="table-wrap"><table id="t-party"></table></div>
+    </details>
+    <p class="chart-sub" style="margin-top:18px">And the time-series version: itemized individual donations per year (election years darker)</p>
+    <div class="chart-wrap short"><canvas id="c-years" aria-label="Individual donations by year, 2004 to 2023"></canvas></div>
+    <div class="verdict" id="q3-verdict"></div>
+    <p class="note">Sources: Elections Canada contributions database (audited returns of parties, riding associations, candidates, nomination and leadership contestants; individuals only); CRA Individual Tax Statistics by FSA, 2021 tax year (average total income per filer). Elections Canada publishes names and postal codes only for donors giving more than $200 per entity per year. Smaller gifts (<span id="unitem"></span> of dollars in this window) have no address, so this measures <b>itemized</b> giving. A donor's postal code can be a business address: K1P (downtown Ottawa, ~700 filers, mostly offices) shows up as an extreme outlier for that reason. FSAs with fewer than 500 filers are dropped. Deciles are filer-weighted: each holds about 10% of Canada's tax filers.</p>
+  </section>
+
+  <!-- 5. OTTAWA -->
+  <section class="card">
+    <p class="q">Local lens</p>
+    <h2 class="section-title">Ottawa: richer than average at the top 10%, not at the top 1%</h2>
+    <p class="section-note" id="ott-note"></p>
+    <div class="table-wrap scroll"><table id="t-ottawa"></table></div>
+  </section>
+
+  <!-- 6. WEALTH -->
+  <section class="card">
+    <p class="q">Wealth</p>
+    <h2 class="section-title">The tax Canada doesn't have</h2>
+    <p class="section-note">Canada has had no tax on inherited estates since <b>1972</b>. the federal government replaced its estate tax with a capital-gains tax triggered at death, and the provinces' succession duties were gone by 1985. Wealth is far more concentrated than income: the top 1% of adults hold about <b id="w1"></b> of net personal wealth, and the bottom half hold <b id="wb50"></b>.</p>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">Share of net personal wealth, %</p>
+        <div class="legend" id="lg-wealth"></div>
+        <div class="chart-wrap"><canvas id="c-wealth" aria-label="Wealth shares 1980 to 2024"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">How Canada taxes wealth instead: milestones</p>
+        <ul class="timeline">
+          <li><b>1972</b>Federal estate &amp; gift tax repealed. Capital gains taxed for the first time, at a <b>50%</b> inclusion rate, with deemed disposition at death.</li>
+          <li><b>1988–90</b>Inclusion rate raised to 66⅔%, then <b>75%</b>.</li>
+          <li><b>2000</b>Cut back to 66⅔% (Feb.), then <b>50%</b> (Oct.), where it still stands.</li>
+          <li><b>2021</b>The budget officer (PBO) costs a 1% annual tax on family wealth above $10M at <b>$10.9B</b> in its first year, after assuming 35% of wealth escapes through avoidance. Not adopted.</li>
+          <li><b>2024–25</b>A proposed 66⅔% inclusion rate on gains above $250k is announced in Budget 2024, then cancelled in March 2025.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Source: WID.world net personal wealth shares (adults, equal-split), 1980 onward; WID's pre-1980 Canadian wealth figures are sparse and imputed, so they're omitted. PBO, "Cost estimate of election campaign proposal: Wealth tax" (2021).</p>
+  </section>
+
+  <!-- 7. METHOD -->
+  <section class="card">
+    <p class="q">Read before quoting</p>
+    <h2 class="section-title">What correlation can and can't tell you here</h2>
+    <p class="section-note"><b>One country, one century, a handful of regimes.</b> The high-rate era (1940s–70s) was also the era of postwar reconstruction, the baby boom, strong unions, cheap energy and catch-up productivity growth, in most rich countries at once. Annual data points aren't independent: 100 years of data contain maybe five or six real policy regimes. Correlations below are descriptive, not causal.</p>
+    <p class="section-note"><b>Why the top-share link is more credible than the growth link.</b> There's a direct mechanism: a high top rate removes most of the reward for bargaining for, or booking, very high income, and reduces how much income compounds into wealth. Saez &amp; Veall (2005) found Canada's top shares moved with US shares even when Canadian rates didn't, so part of the post-1980 rise is a North American labour-market story (executive pay, finance) rather than Canadian tax policy alone.</p>
+    <p class="section-note"><b>Donations.</b> The donation tax credit (75% on the first $400, falling to 33⅓%, max $650) is non-refundable: a filer who owes no income tax gets no rebate. That adds a direct tax link to the income gradient.</p>
+  </section>
+</main>
+
+<footer>
+  Sources: Saez &amp; Veall (2007), "The Evolution of High Incomes in Canada, 1920–2000," in Atkinson &amp; Piketty (eds.), <i>Top Incomes over the Twentieth Century</i>, OUP (Tables F1, F2); WID.world Canada (fiscal income shares; pre-tax national income; net personal wealth); Statistics Canada table 11-10-0055-01 (high-income tax filers); TaxTips.ca prior-year Ontario rate tables; Elections Canada political financing contributions database; Canada Revenue Agency Individual Tax Statistics by FSA (2021 tax year); Parliamentary Budget Officer. Method and code: <a href="README.md">Tax/README.md</a>.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA_URL = 'data/tax.json';
+let D = null;
+const charts = {};
+
+// ── helpers ─────────────────────────────────────────────────────────────────
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const fmt$ = v => '$' + Math.round(v).toLocaleString('en-CA');
+const fmt2 = v => '$' + v.toFixed(2);
+const pct = (v, d = 1) => v == null ? '—' : v.toFixed(d) + '%';
+const at = (key, year) => D.series[key][D.series.year.indexOf(year)];
+const pts = (key, from = 0, to = 9999) => D.series.year
+  .map((y, i) => ({ x: y, y: D.series[key][i] }))
+  .filter(p => p.x >= from && p.x <= to && p.y != null);
+const lastOf = key => { const p = pts(key); return p[p.length - 1]; };
+
+function legend(id, items) {
+  $(id).innerHTML = items.map(([label, color, kind = '']) =>
+    `<span><i class="swatch ${kind}" style="background:${color};border-color:${color}"></i>${label}</span>`).join('');
+}
+
+// Event markers on time axes (thin dashed verticals + small label at top).
+const eventsPlugin = {
+  id: 'events',
+  afterDatasetsDraw(chart, _a, opts) {
+    if (!opts || !opts.items) return;
+    const { ctx, chartArea: a, scales: { x } } = chart;
+    ctx.save();
+    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.fillStyle = css('--ink-3'); ctx.strokeStyle = css('--line-2');
+    ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
+    opts.items.forEach(([yr, label], i) => {
+      const px = x.getPixelForValue(yr);
+      if (px < a.left || px > a.right) return;
+      ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke();
+      ctx.textAlign = px > a.right - 80 ? 'right' : 'left';
+      ctx.fillText(label, px + (ctx.textAlign === 'left' ? 4 : -4), a.top + 10 + (i % 2) * 12);
+    });
+    ctx.restore();
+  }
+};
+// Direct label at the end of each line (text in ink, never series colour).
+const endLabels = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart, _a, opts) {
+    if (!opts || !opts.on) return;
+    const { ctx } = chart;
+    ctx.save(); ctx.font = '11px Inter, sans-serif'; ctx.fillStyle = css('--ink-2'); ctx.textBaseline = 'middle';
+    // Collect end points, then push apart so labels keep >= 13px between them.
+    const labs = chart.data.datasets.map((ds, i) => {
+      const meta = chart.getDatasetMeta(i), p = meta.data[meta.data.length - 1];
+      return ds.endLabel && !meta.hidden && p ? { t: ds.endLabel, x: p.x, y: p.y } : null;
+    }).filter(Boolean).sort((a, b) => a.y - b.y);
+    for (let k = 1; k < labs.length; k++) labs[k].y = Math.max(labs[k].y, labs[k - 1].y + 13);
+    labs.forEach(l => ctx.fillText(l.t, l.x + 6, l.y));
+    ctx.restore();
+  }
+};
+Chart.register(eventsPlugin, endLabels);
+
+function baseOpts({ yTitle, yMin, yMax, xMin = 1920, xMax = 2026, pctAxis = true, rightPad = 0 } = {}) {
+  const grid = css('--line'), ink3 = css('--ink-3');
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    layout: { padding: { right: rightPad, top: 4 } },
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    elements: { point: { radius: 0, hoverRadius: 4, hitRadius: 8 }, line: { borderWidth: 2, tension: 0 } },
+    scales: {
+      x: { type: 'linear', min: xMin, max: xMax, grid: { display: false },
+           border: { color: css('--line-2') },
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, stepSize: 10, callback: v => String(v) } },
+      y: { min: yMin, max: yMax, grid: { color: grid }, border: { display: false },
+           title: yTitle ? { display: true, text: yTitle, color: ink3, font: { size: 11 } } : undefined,
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, callback: v => pctAxis ? v + '%' : v } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: css('--bg-2'), titleColor: css('--ink'), bodyColor: css('--ink-2'),
+        borderColor: css('--line-2'), borderWidth: 1, padding: 10, boxPadding: 4,
+        titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'Inter', size: 12 },
+        callbacks: { title: items => String(items[0].parsed.x) }
+      }
+    }
+  };
+}
+function make(id, cfg) { if (charts[id]) charts[id].destroy(); charts[id] = new Chart($(id), cfg); return charts[id]; }
+
+// ── renderers ───────────────────────────────────────────────────────────────
+function renderHero() {
+  const o = D.ottawa_top1;
+  $('hero').innerHTML = [
+    ['95%', 'Top combined rate in 1943–44, the peak. It applied only to incomes many times the top 1% line.'],
+    [pct(at('top_rate', 2026), 2), 'Top federal + Ontario rate today, on income over about $220k (since 2016).'],
+    [pct(lastOf('paid_top1').y), `Average tax rate the top 1% actually paid in ${lastOf('paid_top1').x}. It was ${pct(at('paid_top1', 1950))} in 1950.`],
+    [pct(o.pct_in_top10), `of Ottawa filers are in Canada's top 10% (≥ ${fmt$(o.top10_threshold)}). Only ${pct(o.pct_in_top1, 2)} are in the top 1%.`],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+}
+
+function renderRates() {
+  $('p99-1950').textContent = pct(at('p99_mtr', 1950), 0) + ' on extra income, not 80%';
+  const c1 = css('--s1'), c2 = css('--s2'), c3 = css('--s3'), c4 = css('--s4');
+  legend('lg-rates', [['Top statutory rate', c1], ['Avg rate paid: top 0.01%', c2], ['Avg rate paid: top 1%', c3], ['Avg rate paid: bottom 50%', c4]]);
+  const o = baseOpts({ yMin: 0, yMax: 100, rightPad: 8 });
+  o.plugins.events = { items: [[1943, '1943: 95%'], [1972, '1972 reform'], [1988, '1988 reform'], [2016, '2016: 33% fed bracket']] };
+  o.plugins.tooltip.callbacks.label = c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`;
+  make('c-rates', { type: 'line', options: o, data: { datasets: [
+    { label: 'Top statutory rate', data: pts('top_rate'), borderColor: c1, backgroundColor: c1, stepped: 'before' },
+    { label: 'Avg paid, top 0.01%', data: pts('paid_top001'), borderColor: c2, backgroundColor: c2 },
+    { label: 'Avg paid, top 1%', data: pts('paid_top1'), borderColor: c3, backgroundColor: c3 },
+    { label: 'Avg paid, bottom 50%', data: pts('sc_b50_avg_tax_rate'), borderColor: c4, backgroundColor: c4 },
+  ]}});
+}
+
+function renderShare() {
+  const c = D.corr, c1 = css('--s1'), c2 = css('--s2'), c3 = css('--s3');
+  const s = y => at('top1_share', y);
+  $('q1-note').innerHTML = `Mostly yes, with a lag. The top 1% took <b>${pct(s(1938))}</b> of income in 1938. After the wartime jump in rates, that fell to <b>${pct(s(1950))}</b> by 1950 and <b>${pct(s(1978))}</b> by 1978, while the top rate stayed above 60%. Rates were cut in 1972 and 1988, and the share climbed to <b>${pct(s(2000))}</b> by 2000. It has stayed around 12–15% since.`;
+  legend('lg-share', [['WID / Saez–Veall (adults 20+, tax records)', c1], ['StatCan tax filers (incl. capital gains)', c1, 'dash']]);
+  const o = baseOpts({ yMin: 0, yMax: 20, xMax: 2024 });
+  o.plugins.events = { items: [[1943, 'wartime rates'], [1972, '1972'], [1988, '1988']] };
+  o.plugins.tooltip.callbacks.label = c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`;
+  make('c-share', { type: 'line', options: o, data: { datasets: [
+    { label: 'Top 1% share (WID)', data: pts('top1_share'), borderColor: c1, backgroundColor: c1 },
+    { label: 'Top 1% share (StatCan)', data: pts('sc_top1_share'), borderColor: c1, backgroundColor: c1, borderDash: [5, 4], borderWidth: 1.5 },
+  ]}});
+
+  // scatter coloured by era (3 slots — validated all-pairs)
+  const eras = [['1920–1945', 1920, 1945, c1], ['1946–1979', 1946, 1979, c2], ['1980–2019', 1980, 2019, c3]];
+  legend('lg-scatter', eras.map(([l, , , col]) => [l, col, 'dot']));
+  const rows = D.series.year.map((y, i) => ({ y, r: D.series.top_rate[i], s: D.series.top1_share[i] })).filter(p => p.r != null && p.s != null);
+  const so = baseOpts({ yMin: 0, yMax: 20, xMin: 40, xMax: 100 });
+  so.interaction = { mode: 'nearest', intersect: true };
+  so.scales.x.ticks.callback = v => v + '%'; so.scales.x.ticks.stepSize = 10;
+  so.scales.x.title = { display: true, text: 'Top statutory rate', color: css('--ink-3'), font: { size: 11 } };
+  so.plugins.tooltip.callbacks = { title: i => String(i[0].raw.yr), label: i => ` top rate ${i.raw.x}% · top-1% share ${i.raw.y.toFixed(1)}%` };
+  make('c-scatter', { type: 'scatter', options: so, data: { datasets: eras.map(([l, a, b, col]) => ({
+    label: l, data: rows.filter(p => p.y >= a && p.y <= b).map(p => ({ x: p.r, y: p.s, yr: p.y })),
+    backgroundColor: col, borderColor: css('--bg-2'), borderWidth: 1.5, pointRadius: 4.5, pointHoverRadius: 6,
+  }))}});
+
+  $('q1-verdict').innerHTML = `<b>Correlation:</b> r = ${c.rate_vs_top1_postwar.r} for ${c.rate_vs_top1_postwar.years} (higher top rate, lower top share), and r = ${c.rate_vs_top1_lag5.r} when the share is compared with the rate five years earlier. Over the full ${c.rate_vs_top1_same_year.years} span it drops to r = ${c.rate_vs_top1_same_year.r}, because the 1920s–30s had high nominal rates that almost nobody paid (see the chart above). <b>Reading:</b> a moderately strong, persistent link, consistent with the international evidence. It's still one country's history and can't prove causation.`;
+}
+
+function renderGrowth() {
+  const [hi, lo] = D.eras, c1 = css('--s1'), c2 = css('--s2'), c3 = css('--s3'), c4 = css('--s4');
+  $('q2-note').innerHTML = `In <b>${hi.span}</b>, with the top rate averaging <b>${hi.avg_top_rate}%</b>, every group's real income grew about <b>${hi.all.toFixed(1)}% a year</b>, and roughly evenly. In <b>${lo.span}</b>, with the top rate averaging <b>${lo.avg_top_rate}%</b>, growth slowed to <b>${lo.all.toFixed(1)}%</b>: the bottom half got <b>${lo.b50.toFixed(2)}%</b> a year and the top 1% got <b>${lo.t1.toFixed(2)}%</b>, more than twice as fast.`;
+  legend('lg-eras', [[`${hi.span} (avg top rate ${hi.avg_top_rate}%)`, c1, 'box'], [`${lo.span} (avg top rate ${lo.avg_top_rate}%)`, c2, 'box']]);
+  const groups = [['Bottom 50%', 'b50'], ['Middle 40%', 'm40'], ['Top 10%', 't10'], ['Top 1%', 't1'], ['All adults', 'all']];
+  const o = baseOpts({ yMin: 0, yMax: 3.5 });
+  o.scales.x = { grid: { display: false }, border: { color: css('--line-2') }, ticks: { color: css('--ink-2'), font: { size: 11 } } };
+  o.interaction = { mode: 'index', intersect: false };
+  o.plugins.tooltip.callbacks = { title: i => i[0].label, label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(2)}% / yr` };
+  make('c-eras', { type: 'bar', options: o, data: { labels: groups.map(g => g[0]), datasets: [hi, lo].map((e, k) => ({
+    label: e.span, data: groups.map(g => e[g[1]]), backgroundColor: k ? c2 : c1,
+    borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: 'bottom', borderColor: css('--bg-2'), borderWidth: { left: 1, right: 1 },
+    barPercentage: 0.8, categoryPercentage: 0.7,
+  }))}});
+
+  // indexed lines
+  const series = [['Bottom 50%', 'b50_inc', c1], ['Middle 40%', 'm40_inc', c2], ['Top 10%', 't10_inc', c3], ['Top 1%', 't1_inc', c4]];
+  legend('lg-index', series.map(([l, , col]) => [l, col]));
+  const io = baseOpts({ yMin: 0, xMin: 1950, xMax: 2019, pctAxis: false, rightPad: 74 });
+  io.plugins.endLabels = { on: true };
+  io.plugins.events = { items: [[1972, '1972'], [1988, '1988']] };
+  io.plugins.tooltip.callbacks.label = c => ` ${c.dataset.label}: ${Math.round(c.parsed.y)}`;
+  io.interaction = { mode: 'index', intersect: false };
+  make('c-index', { type: 'line', options: io, data: { datasets: series.map(([l, k, col]) => {
+    const base = at(k, 1950), p = pts(k, 1950, 2019).map(q => ({ x: q.x, y: q.y / base * 100 }));
+    return { label: l, data: p, borderColor: col, backgroundColor: col, endLabel: `${l} ${Math.round(p[p.length - 1].y)}` };
+  })}});
+
+  const maxG = Math.max(...D.decades.flatMap(d => [d.b50, d.m40, d.t1]).map(Math.abs));
+  const cell = v => `<td class="num"><span class="bar-cell">${v.toFixed(2)}%<i style="width:${Math.max(0, v) / maxG * 50}px"></i></span></td>`;
+  $('t-decades').innerHTML = `<thead><tr><th>Decade</th><th class="num">Avg top rate</th><th class="num">Bottom 50%</th><th class="num">Middle 40%</th><th class="num">Top 1%</th></tr></thead><tbody>` +
+    D.decades.map(d => `<tr><td>${d.span}</td><td class="num">${d.avg_top_rate}%</td>${cell(d.b50)}${cell(d.m40)}${cell(d.t1)}</tr>`).join('') + '</tbody>';
+
+  const c = D.corr;
+  $('q2-verdict').innerHTML = `<b>Correlation (decades, n = ${c.decade_rate_vs_b50_growth.n}):</b> top rate vs bottom-50 growth r = ${c.decade_rate_vs_b50_growth.r}, vs middle-40 growth r = ${c.decade_rate_vs_m40_growth.r}, but also vs <i>everyone's</i> growth r = ${c.decade_rate_vs_all_growth.r}. The high-rate decades were simply boom decades. On whether the bottom gained <i>relative</i> to the top (bottom-50 growth minus top-1 growth), the link is weak: r = ${c.decade_rate_vs_b50_minus_t1.r}. <b>Reading:</b> the high-tax era was better for the bottom and middle in absolute terms. Seven decades can't separate the tax rate from the postwar boom. The best-supported claim is that growth was shared evenly when top rates were high, and has tilted toward the top since about 1980.`;
+}
+
+function renderDonations() {
+  const d = D.donations, dec = d.deciles, c1 = css('--s1');
+  const top = dec[9], bot = dec[0];
+  $('unitem').textContent = pct(100 - d.itemized_share_pct, 0);
+  $('q3-note').innerHTML = `Federal law has banned corporate and union donations since 2007, so all the money below comes from individuals. Over ${d.years}, ${'$' + Math.round(d.total_amount / 1e6)}M was donated. Ranking Canada's ${d.n_fsa.toLocaleString()} postal-code areas (FSAs) by average income gives a steep gradient: the richest tenth of neighbourhoods gave <b>${(top.per_filer / bot.per_filer).toFixed(1)}×</b> as much per resident as the poorest tenth.`;
+  $('don-stats').innerHTML = [
+    [pct(top.amount_share), 'of itemized donations came from the richest 10% of neighbourhoods (by filers)'],
+    [`${fmt2(top.per_filer)} vs ${fmt2(bot.per_filer)}`, 'donated per filer per year, richest vs poorest decile'],
+    [`r = ${d.r_log_income_vs_per_filer}`, 'between log FSA income and $ donated per filer, across all FSAs'],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+
+  const o = baseOpts({ yMin: 0, pctAxis: false });
+  o.scales.x = { grid: { display: false }, border: { color: css('--line-2') }, ticks: { color: css('--ink-2'), font: { size: 11 } } };
+  o.scales.y.ticks.callback = v => '$' + v;
+  o.interaction = { mode: 'index', intersect: false };
+  o.plugins.tooltip.callbacks = {
+    title: i => `Decile ${dec[i[0].dataIndex].decile}`,
+    label: i => { const x = dec[i.dataIndex]; return [` ${fmt2(x.per_filer)} per filer / yr`, ` FSA avg income ${fmt$(x.income_lo)}–${fmt$(x.income_hi)}`, ` ${pct(x.amount_share)} of all itemized $`]; }
+  };
+  make('c-deciles', { type: 'bar', options: o, data: { labels: dec.map(x => x.decile === 1 ? '1 (poorest)' : x.decile === 10 ? '10 (richest)' : String(x.decile)),
+    datasets: [{ data: dec.map(x => x.per_filer), backgroundColor: c1, borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: 'bottom', barPercentage: 0.85 }] } });
+
+  // FSA scatter — Ottawa vs rest (emphasis)
+  const ott = css('--s2'), rest = css('--muted');
+  legend('lg-fsa', [['Ottawa FSAs (K1, K2, K4)', ott, 'dot'], ['Rest of Canada', rest, 'dot']]);
+  const so = baseOpts({ yMin: 0, yMax: 35, xMin: 20000, xMax: 1600000, pctAxis: false });
+  so.scales.x = { type: 'logarithmic', min: 20000, max: 1600000, grid: { display: false }, border: { color: css('--line-2') },
+    title: { display: true, text: 'FSA average income (log)', color: css('--ink-3'), font: { size: 11 } },
+    ticks: { color: css('--ink-3'), font: { family: 'JetBrains Mono', size: 10 }, callback: v => [25e3, 50e3, 100e3, 200e3, 500e3, 1e6].includes(v) ? '$' + (v >= 1e6 ? v / 1e6 + 'M' : v / 1e3 + 'k') : '' } };
+  so.scales.y.ticks.callback = v => '$' + v;
+  so.interaction = { mode: 'nearest', intersect: true };
+  so.plugins.tooltip.callbacks = { title: i => i[0].raw.f, label: i => [` avg income ${fmt$(i.raw.x)}`, ` ${fmt2(i.raw.y)} donated per filer / yr`, ` ${i.raw.n.toLocaleString()} filers`] };
+  const pt = s => ({ x: s[1], y: Math.min(s[2], 35), f: s[0], n: s[3] });
+  make('c-fsa', { type: 'scatter', options: so, data: { datasets: [
+    { label: 'Ottawa', data: d.scatter.filter(s => s[4]).map(pt), backgroundColor: ott, borderColor: css('--bg-2'), borderWidth: 1, pointRadius: 4.5, order: 0 },
+    { label: 'Canada', data: d.scatter.filter(s => !s[4]).map(pt), backgroundColor: rest, pointRadius: 2.5, order: 1 },
+  ]}});
+
+  // Party share lines (CPC / LPC only; full mix in table)
+  const cpc = css('--cpc'), lpc = css('--lpc');
+  legend('lg-party', [['Conservative', cpc], ['Liberal', lpc]]);
+  const po = baseOpts({ yMin: 0, yMax: 70, xMin: 1, xMax: 10, rightPad: 10 });
+  po.scales.x.ticks.stepSize = 1; po.scales.x.ticks.callback = v => v === 1 ? '1 poorest' : v === 10 ? '10 richest' : v;
+  po.scales.x.title = { display: true, text: 'FSA income decile', color: css('--ink-3'), font: { size: 11 } };
+  po.elements.point.radius = 3;
+  po.interaction = { mode: 'index', intersect: false };
+  po.plugins.tooltip.callbacks = { title: i => 'Decile ' + i[0].parsed.x, label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%` };
+  make('c-party', { type: 'line', options: po, data: { datasets: [
+    { label: 'Conservative', data: dec.map(x => ({ x: x.decile, y: x.party_share.Conservative })), borderColor: cpc, backgroundColor: cpc },
+    { label: 'Liberal', data: dec.map(x => ({ x: x.decile, y: x.party_share.Liberal })), borderColor: lpc, backgroundColor: lpc },
+  ]}});
+  const P = ['Conservative', 'Liberal', 'NDP', 'Green', 'Bloc', 'PPC', 'Other'];
+  $('t-party').innerHTML = `<thead><tr><th>Decile</th><th class="num">FSA avg income</th>${P.map(p => `<th class="num">${p}</th>`).join('')}</tr></thead><tbody>` +
+    dec.map(x => `<tr><td>${x.decile}</td><td class="num">${fmt$(x.avg_income)}</td>${P.map(p => `<td class="num">${pct(x.party_share[p])}</td>`).join('')}</tr>`).join('') + '</tbody>';
+
+  // By year — election years emphasised
+  const elections = new Set([2004, 2006, 2008, 2011, 2015, 2019, 2021]);
+  const yo = baseOpts({ yMin: 0, pctAxis: false });
+  yo.scales.x = { grid: { display: false }, border: { color: css('--line-2') }, ticks: { color: css('--ink-3'), font: { family: 'JetBrains Mono', size: 10 } } };
+  yo.scales.y.ticks.callback = v => '$' + v + 'M';
+  yo.interaction = { mode: 'index', intersect: false };
+  yo.plugins.tooltip.callbacks = { title: i => i[0].label + (elections.has(+i[0].label) ? ' (election)' : ''), label: i => ` $${i.parsed.y.toFixed(1)}M` };
+  make('c-years', { type: 'bar', options: yo, data: { labels: d.by_year.map(x => x.year),
+    datasets: [{ data: d.by_year.map(x => x.amount / 1e6), backgroundColor: d.by_year.map(x => elections.has(x.year) ? c1 : css('--muted')),
+      borderRadius: { topLeft: 3, topRight: 3 }, borderSkipped: 'bottom', barPercentage: 0.85 }] } });
+
+  const cpcS = dec.map(x => x.party_share.Conservative), lpcS = dec.map(x => x.party_share.Liberal);
+  $('q3-verdict').innerHTML = `<b>Donations vs neighbourhood income:</b> strong and consistent: r = ${d.r_log_income_vs_per_filer} across FSAs (${d.r_without_k1p} without downtown K1P; rank correlation ${d.spearman}). <b>Donations vs the top tax rate over time:</b> this can't be tested. The federal top rate sat at 29% from 1988 to 2015, the only increase (2016) fell the year after a record election, and the rules kept changing (2004 limits, the 2007 corporate/union ban, the per-vote subsidy phased out 2012–15). Totals swing with the election calendar, not with the tax schedule. Conservatives raise the most from individuals in every income decile (${pct(Math.min(...cpcS), 0)}–${pct(Math.max(...cpcS), 0)} of dollars). The Liberal share stays between ${pct(Math.min(...lpcS), 0)} and ${pct(Math.max(...lpcS), 0)}.`;
+}
+
+function renderOttawa() {
+  const o = D.ottawa_top1, rows = D.donations.ottawa;
+  $('ott-note').innerHTML = `In ${o.year}, <b>${pct(o.pct_in_top10)}</b> of Ottawa (Ontario side) tax filers earned at least ${fmt$(o.top10_threshold)}, which puts them in Canada's top 10%. Only <b>${pct(o.pct_in_top1, 2)}</b> cleared the ${fmt$(o.top1_threshold)} top-1% line, about the national rate. Below: every Ottawa postal-code area, richest first, with its donation rate (${D.donations.years}).`;
+  const maxP = Math.max(...rows.map(r => Math.min(r.per_filer, 32)));
+  $('t-ottawa').innerHTML = `<thead><tr><th>FSA</th><th class="num">Avg income</th><th class="num">Filers</th><th class="num">$ / filer / yr</th><th class="num">Gifts / 1k filers</th><th>Most $ to</th></tr></thead><tbody>` +
+    rows.map(r => `<tr><td>${r.fsa}</td><td class="num">${fmt$(r.avg_income)}</td><td class="num">${r.filers.toLocaleString()}</td><td class="num"><span class="bar-cell">$${r.per_filer.toFixed(2)}<i style="width:${Math.min(r.per_filer, 32) / maxP * 50}px"></i></span></td><td class="num">${r.gifts_per_1k}</td><td>${r.top_party || '—'}</td></tr>`).join('') + '</tbody>';
+}
+
+function renderWealth() {
+  const c1 = css('--s1'), c2 = css('--s2'), c3 = css('--s3');
+  const L = k => lastOf(k);
+  $('w1').textContent = pct(L('w_top1').y, 0); $('wb50').textContent = pct(L('w_b50').y, 0);
+  legend('lg-wealth', [['Top 10%', c1], ['Top 1%', c2], ['Bottom 50%', c3]]);
+  const o = baseOpts({ yMin: 0, yMax: 70, xMin: 1980, xMax: 2024, rightPad: 40 });
+  o.scales.x.ticks.stepSize = 10;
+  o.plugins.endLabels = { on: true };
+  o.interaction = { mode: 'index', intersect: false };
+  o.plugins.tooltip.callbacks.label = c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`;
+  make('c-wealth', { type: 'line', options: o, data: { datasets: [
+    { label: 'Top 10%', data: pts('w_top10', 1980), borderColor: c1, backgroundColor: c1, endLabel: pct(L('w_top10').y, 0) },
+    { label: 'Top 1%', data: pts('w_top1', 1980), borderColor: c2, backgroundColor: c2, endLabel: pct(L('w_top1').y, 0) },
+    { label: 'Bottom 50%', data: pts('w_b50', 1980), borderColor: c3, backgroundColor: c3, endLabel: pct(L('w_b50').y, 0) },
+  ]}});
+}
+
+function renderAll() {
+  renderHero(); renderRates(); renderShare(); renderGrowth(); renderDonations(); renderOttawa(); renderWealth();
+}
+
+fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(`tax.json: HTTP ${r.status}`); return r.json(); })
+  .then(j => { D = j; renderAll(); })
+  .catch(err => { const el = $('err'); el.textContent = `⚠ Could not load data: ${err.message}`; el.style.display = 'block'; });
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ $('theme-toggle').innerHTML = mode === 'dark' ? MOON : SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+  if (D) renderAll();
+}
+setToggleIcon(root.getAttribute('data-theme'));
+$('theme-toggle').addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>

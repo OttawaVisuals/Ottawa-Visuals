@@ -1,0 +1,28 @@
+{
+  "_note": "commodity_code-based categories (separate axis from office_footprint_categories.json, which is description_en-based and has much better field coverage -- see README). Exact GSIN commodity_code values, not blind prefixes -- a bare 4-char prefix like R199 or R123 also covers unrelated multi-billion-dollar contracts, e.g. facilities management and overseas logistics support. The one exception is the N7110* prefix, verified clean (every N7110* code in the GSIN table is an office-furniture item). Kept in sync with CONSULTING_CODES / OFFICE_FOOTPRINT_CODES / OFFICE_FOOTPRINT_PREFIXES in scripts/build_aggregates.py -- edit both together.",
+  "R019F": "Management & business consulting",
+  "R019AB": "Management & business consulting",
+  "R019BF": "Management & business consulting",
+  "R199H": "Management & business consulting",
+  "B308A": "Management & business consulting",
+  "D302AAP": "IT / informatics consulting",
+  "D302AAR": "IT / informatics consulting",
+  "D302AAH": "IT / informatics consulting",
+  "D302AAI": "IT / informatics consulting",
+  "D302AAJ": "IT / informatics consulting",
+  "D309BB": "IT / informatics consulting",
+  "R118AB": "Real estate / workplace advisory",
+  "N7110*": "Office furniture & fit-up",
+  "N7195F": "Office furniture & fit-up",
+  "N7195FE": "Office furniture & fit-up",
+  "N7195FEB": "Office furniture & fit-up",
+  "N7195FEC": "Office furniture & fit-up",
+  "JI7110": "Office furniture & fit-up",
+  "JX7110": "Office furniture & fit-up",
+  "JX7195B": "Office furniture & fit-up",
+  "5177BA": "Office space leasing & moves",
+  "X111B": "Office space leasing & moves",
+  "M110A": "Office space leasing & moves",
+  "V001BA": "Office space leasing & moves"
+}
+

@@ -9,16 +9,28 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <style>
+  /* Surfaces/text = Retrofit Explorer palette (shared assets/site-theme.css);
+     series + status colours unchanged (validated dataviz palette). */
   :root {
-    --plane:      #f9f9f7;
-    --surface-1:  #fcfcfb;
-    --surface-2:  #f2f1ec;
-    --text-primary:   #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted:     #898781;
-    --hairline:   #e1e0d9;
-    --border:     rgba(11,11,11,0.10);
+    --plane:      #F7F4EE;
+    --surface-1:  #FFFFFF;
+    --surface-2:  #EDF1F7;
+    --text-primary:   #1C2B3A;
+    --text-secondary: #5C6E82;
+    --text-muted:     #74859A;
+    --hairline:   #D2D8E3;
+    --border:     rgba(11,37,69,0.12);
     --series-1:   #2a78d6;
     --series-1-fill: rgba(42,120,214,0.14);
     --series-2:   #b0498c;
@@ -30,15 +42,14 @@
     --serious:  #c85c30;
     --critical: #d03b3b;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --plane:      #0d0d0d;
-      --surface-1:  #1a1a19;
-      --surface-2:  #232322;
-      --text-primary:   #ffffff;
-      --text-secondary: #c3c2b7;
-      --text-muted:     #898781;
-      --hairline:   #2c2c2a;
+  :root[data-theme="dark"] {
+      --plane:      #0E1621;
+      --surface-1:  #16202E;
+      --surface-2:  #1B2735;
+      --text-primary:   #E4EBF4;
+      --text-secondary: #A3B2C4;
+      --text-muted:     #7E90A4;
+      --hairline:   #2C3A4B;
       --border:     rgba(255,255,255,0.10);
       --series-1:   #3987e5;
       --series-1-fill: rgba(57,135,229,0.18);
@@ -50,16 +61,32 @@
       --warning:  #fab219;
       --serious:  #ec835a;
       --critical: #e05656;
-    }
+  }
+  /* Colour-blind: Okabe–Ito series; good/bad off the red–green axis. */
+  :root[data-theme="cb"] {
+    --series-1: #0072B2; --series-1-fill: rgba(0,114,178,0.14);
+    --series-2: #D55E00; --series-2-fill: rgba(213,94,0,0.14);
+    --series-3: #009E73; --series-4: #CC79A7;
+    --good: #0072B2; --warning: #E69F00; --serious: #D55E00; --critical: #A63A00;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0; background: var(--plane); color: var(--text-primary);
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.45; padding: clamp(16px, 4vw, 40px);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.45;
   }
-  .wrap { max-width: 980px; margin: 0 auto; }
-  header { margin-bottom: 20px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: clamp(16px, 4vw, 40px); }
+
+  /* ── TOPBAR (site-wide chrome, same markup as the other pages) ── */
+  .topbar{position:sticky;top:0;z-index:1000;height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;overflow:hidden;border:1px solid;}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar .spacer{flex:1;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+  .wrap > header { margin-bottom: 20px; }
   h1 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); margin: 0 0 6px; letter-spacing: -0.02em; }
   .sub { color: var(--text-secondary); font-size: 0.92rem; margin: 0; max-width: 68ch; }
   .updated { color: var(--text-muted); font-size: 0.8rem; margin-top: 8px; }
@@ -100,10 +127,8 @@
 
   /* Map */
   #map { height: clamp(300px, 46vh, 440px); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; background: var(--surface-1); z-index: 0; }
-  @media (prefers-color-scheme: dark) {
-    .leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9); }
-    .leaflet-container { background: #0d0d0d; }
-  }
+  [data-theme="dark"] .leaflet-tile { filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9); }
+  [data-theme="dark"] .leaflet-container { background: #0E1621; }
   .route-lbl { background: rgba(252,252,251,0.92); color:#0b0b0b; border: none !important; box-shadow: none !important; font-weight: 700; font-size: 11px; padding: 0 4px; border-radius: 4px; }
   .route-lbl::before { display: none !important; }
   .leaflet-popup-content { font: 13px/1.4 system-ui, sans-serif; margin: 10px 12px; }
@@ -183,8 +208,29 @@
   .muted { color: var(--text-muted); }
   .pending { font-size: 0.84rem; color: var(--text-muted); padding: 10px 0; }
 </style>
+<!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
+<link rel="stylesheet" href="assets/site-theme.css">
+<script>
+// Charts and map read CSS variables, so switching is just the attribute + saved choice.
+function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
+</script>
+<script src="assets/site-theme.js"></script>
 </head>
 <body>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="rto.html" class="active">RTO watch</a>
+    <a href="Traffic/roads.html">Roads</a>
+    <a href="Tax/tax.html">Tax</a>
+  </nav>
+  <span class="spacer"></span>
+  <button id="theme-toggle" hidden aria-hidden="true" tabindex="-1"></button>
+</header>
 <div class="wrap">
   <header>
     <h1>Ottawa RTO Watch</h1>
