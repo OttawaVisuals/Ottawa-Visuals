@@ -5,7 +5,7 @@ committee / council / commission discussed and decided**, straight from the
 public eScribe portal. This is the *metadata + decisions* layer — not the
 contents of the PDFs (that's Stage 2, per-topic extraction).
 
-## Output — five joinable CSVs
+## Output — six joinable CSVs
 Join on `meeting_id` (and `item_number` where present).
 
 | File | One row per | Key columns |
@@ -15,6 +15,7 @@ Join on `meeting_id` (and `item_number` where present).
 | `motions.csv` | motion | item_number, motion_index, **result** (Carried/Lost/…), motion_text |
 | `votes.csv` | recorded vote tally | item_number, motion_index, **vote** (For/Against), **count**, **voters** (names) |
 | `attachments.csv` | PDF attachment | item_number, filename, document_id, url |
+| `item_text.csv` | agenda item | item_number, source_page, n_chars, **text**: everything the meeting page shows for the item (report summary, recommendations incl. amendments, motions, moved/seconded, directions to staff, minutes notes), one line per paragraph |
 
 This turns years of meetings into a database you can query: what was discussed,
 what passed/failed, which report numbers, which PDFs, and — where councils held
@@ -64,6 +65,16 @@ same command continues where it stopped.
   retry/backoff, resumable, logs to `data/indexer.log`.
 
 ## Notes & limits
+- **item_text backfill.** `item_text.csv` has its own resume file (`state_text.json`).
+  Re-running the usual command over meetings indexed before it existed fetches each
+  page once more and writes only `item_text` rows (logged as `(text backfill)`).
+- **PDF contents are not reachable by script.** Since Oct 2026 `filestream.ashx` PDF
+  links answer scripts with a "Verifying your browser" check (meeting pages and the
+  calendar API are unaffected). Don't try to get around it: download the PDFs you need
+  in a browser, or ask the City Clerk for bulk access.
+- **Agenda-only rows go stale.** A meeting indexed before its minutes were published
+  keeps its Agenda-page items/motions (no dispositions or votes); state marks it done.
+  `item_text` for it comes from whatever page is current at backfill time.
 - Calendar API reaches back to ~2019; older meetings likely live in a separate
   archive not covered here.
 - `voters` is captured as the name string per tally. Exploding it to one row

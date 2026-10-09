@@ -6,13 +6,16 @@ Builds a structured, queryable index of what every City of Ottawa committee /
 council / commission *discussed and decided*, straight from the public eScribe
 portal. This is "Stage 1": metadata + decisions, NOT the contents of the PDFs.
 
-It writes five joinable CSVs (join on meeting_id, and item_number where present):
+It writes six joinable CSVs (join on meeting_id, and item_number where present):
 
   meetings.csv      one row per meeting        (committee, date, id, url, ...)
   agenda_items.csv  one row per agenda item    (number, title, report #, disposition)
   motions.csv       one row per motion         (text, result)
   votes.csv         one row per councillor-vote (item, motion, vote, councillor)
   attachments.csv   one row per PDF attachment (filename, DocumentId, url)
+  item_text.csv     one row per agenda item    (all text shown on the page for it:
+                    report summary, recommendations, motions, directions to
+                    staff, minutes notes)
 
 Data source per meeting (richest first): PostMinutes -> Minutes -> Agenda.
 Minutes pages carry dispositions (Carried/Lost/Deferred) and recorded votes;
@@ -30,12 +33,15 @@ Usage
   python escribe_indexer.py --years 2025 --limit 5 --verbose   # quick test
 
 Etiquette: public-records site; keep --delay >= 3s, don't run parallel copies.
-The resume state avoids re-fetching finished meetings.
+The resume state avoids re-fetching finished meetings. item_text has its own
+state file, so re-running over meetings indexed before it existed backfills
+their text without duplicating rows in the other CSVs.
 """
 
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import json
 import logging
@@ -196,10 +202,13 @@ def fetch_meeting_html(session, throttle, meeting: Meeting):
             continue
         if r.status_code != 200:
             continue
+        # eScribe redirects e.g. PostMinutes -> Agenda when minutes aren't
+        # published; record the page actually served.
+        served = parse_qs(urlparse(r.url).query).get("Agenda", [page])[0]
         soup = BeautifulSoup(r.text, "html.parser")
         if soup.find(class_="AgendaItemContainer"):   # real rendered items
-            return soup, page
-        fallback = fallback or (soup, page)
+            return soup, served
+        fallback = fallback or (soup, served)
     return (None, None) if fallback is None else fallback
 
 
@@ -210,9 +219,34 @@ def _has(tag, name):
     return tag.has_attr("class") and name in tag["class"]
 
 
-def parse_meeting(soup, meeting: Meeting):
-    """Return (items, motions, votes, attachments) rows for one meeting."""
-    items, motions, votes, attachments = [], [], [], []
+# Parts of an item container that aren't the item's own text: nested child
+# items (indexed separately), the title row (already in agenda_items) and the
+# attachment list / icons / navigation chrome.
+_NOT_OWN_TEXT = ["AgendaItemContainer", "AgendaItemTitleRow",
+                 "AgendaItemAttachmentsList", "AgendaItemIcons",
+                 "AgendaItemNavigate"]
+_BLOCK_TAGS = ["p", "div", "li", "tr", "td", "h1", "h2", "h3", "h4", "h5",
+               "h6", "ul", "ol", "table", "section"]
+
+
+def _own_text(cont) -> str:
+    """All text shown for this item, one line per block, children excluded."""
+    c = copy.copy(cont)
+    for sub in c.find_all(class_=_NOT_OWN_TEXT):
+        sub.decompose()
+    # Newlines only at block boundaries, so inline links/emphasis don't split
+    # sentences across lines.
+    for br in c.find_all("br"):
+        br.replace_with("\n")
+    for blk in c.find_all(_BLOCK_TAGS):
+        blk.append("\n")
+    lines = (ln.strip() for ln in c.get_text("").splitlines())
+    return "\n".join(re.sub(r"[ \t\xa0]+", " ", ln) for ln in lines if ln)
+
+
+def parse_meeting(soup, meeting: Meeting, page: str = ""):
+    """Return (items, motions, votes, attachments, item_text) rows for one meeting."""
+    items, motions, votes, attachments, texts = [], [], [], [], []
 
     for cont in soup.find_all(class_="AgendaItemContainer"):
         number = _txt(cont, "AgendaItemCounter").rstrip(". ").strip()
@@ -281,6 +315,12 @@ def parse_meeting(soup, meeting: Meeting):
                 "url": f"{BASE_URL}filestream.ashx?DocumentId={did}",
             })
 
+        text = _own_text(cont)
+        texts.append({
+            "meeting_id": meeting.meeting_id, "item_number": number,
+            "source_page": page, "n_chars": len(text), "text": text,
+        })
+
         items.append({
             "meeting_id": meeting.meeting_id, "date": meeting.date,
             "committee": meeting.committee, "item_number": number,
@@ -289,7 +329,7 @@ def parse_meeting(soup, meeting: Meeting):
             "n_motions": n_motions, "n_attachments": n_att,
             "has_vote": int(has_vote),
         })
-    return items, motions, votes, attachments
+    return items, motions, votes, attachments, texts
 
 
 # --------------------------------------------------------------------------- #
@@ -308,6 +348,8 @@ class CsvSet:
                   "count", "voters"],
         "attachments": ["meeting_id", "item_number", "filename",
                         "document_id", "url"],
+        "item_text": ["meeting_id", "item_number", "source_page", "n_chars",
+                      "text"],
     }
 
     def __init__(self, out_dir: Path):
@@ -383,8 +425,10 @@ def main(argv=None):
     session = make_session()
     throttle = Throttle(args.delay)
     state = State(out_dir / "state.json")
+    text_state = State(out_dir / "state_text.json")
     if args.no_resume:
         state.done.clear()
+        text_state.done.clear()
 
     meetings = discover(session, throttle, parse_years(args.years), args.committee)
     if args.limit:
@@ -392,13 +436,24 @@ def main(argv=None):
     log.info("Indexing %d meeting(s) -> %s", len(meetings), out_dir)
 
     sink = CsvSet(out_dir)
-    tot = {"items": 0, "motions": 0, "votes": 0, "attachments": 0}
+    tot = {"items": 0, "motions": 0, "votes": 0, "attachments": 0, "item_text": 0}
     try:
         for i, mtg in enumerate(sorted(meetings, key=lambda m: m.date), 1):
-            if state.is_done(mtg.meeting_id):
+            text_only = state.is_done(mtg.meeting_id)
+            if text_only and text_state.is_done(mtg.meeting_id):
                 continue
-            log.info("[%d/%d] %s  %s", i, len(meetings), mtg.date, mtg.committee)
+            log.info("[%d/%d] %s  %s%s", i, len(meetings), mtg.date, mtg.committee,
+                     "  (text backfill)" if text_only else "")
             soup, page = fetch_meeting_html(session, throttle, mtg)
+            if text_only:
+                # Indexed before item_text existed: add only the text rows.
+                if soup is not None:
+                    texts = parse_meeting(soup, mtg, page)[4]
+                    sink.write("item_text", texts)
+                    tot["item_text"] += len(texts)
+                    log.info("  %s: %d item texts", page, len(texts))
+                text_state.mark(mtg.meeting_id)
+                continue
             if soup is None:
                 log.warning("  no agenda/minutes page available")
                 sink.write("meetings", {
@@ -406,8 +461,9 @@ def main(argv=None):
                     "committee": mtg.committee, "meeting_type": mtg.meeting_type,
                     "source_page": "", "n_items": 0, "url": mtg.url("Agenda")})
                 state.mark(mtg.meeting_id)
+                text_state.mark(mtg.meeting_id)
                 continue
-            items, motions, votes, attachments = parse_meeting(soup, mtg)
+            items, motions, votes, attachments, texts = parse_meeting(soup, mtg, page)
             sink.write("meetings", {
                 "meeting_id": mtg.meeting_id, "date": mtg.date,
                 "committee": mtg.committee, "meeting_type": mtg.meeting_type,
@@ -417,17 +473,21 @@ def main(argv=None):
             sink.write("motions", motions)
             sink.write("votes", votes)
             sink.write("attachments", attachments)
+            sink.write("item_text", texts)
             for k, v in (("items", items), ("motions", motions),
-                         ("votes", votes), ("attachments", attachments)):
+                         ("votes", votes), ("attachments", attachments),
+                         ("item_text", texts)):
                 tot[k] += len(v)
             log.info("  %s: %d items, %d motions, %d votes, %d attachments",
                      page, len(items), len(motions), len(votes), len(attachments))
             state.mark(mtg.meeting_id)
+            text_state.mark(mtg.meeting_id)
     finally:
         sink.close()
 
-    log.info("Done. Totals: %d items, %d motions, %d votes, %d attachments -> %s",
-             tot["items"], tot["motions"], tot["votes"], tot["attachments"], out_dir)
+    log.info("Done. Totals: %d items, %d motions, %d votes, %d attachments, "
+             "%d item texts -> %s", tot["items"], tot["motions"], tot["votes"],
+             tot["attachments"], tot["item_text"], out_dir)
     return 0
 
 
