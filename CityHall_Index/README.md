@@ -42,6 +42,26 @@ mkdir data -Force; python escribe_indexer.py --years 2020-2026 --delay 4 | Tee-O
 Resumable: it checkpoints each meeting in `data\state.json`, so re-running the
 same command continues where it stopped.
 
+## Search
+```bash
+python search.py "watermain break"
+python search.py "asset management plan" --from 2024 --committee council
+python search.py '"funding gap" water' --sort date --limit 50
+python search.py "OCC 2024-13" --full          # whole text of each hit
+python search.py "watermain" --csv hits.csv    # every hit to a spreadsheet
+```
+Builds `data/search.db` (SQLite full-text index, gitignored) from the CSVs, and
+rebuilds it automatically whenever a CSV is newer. One document per agenda item:
+title, report number, page text, motions and attachment filenames. Titles and
+report numbers rank highest. Words are stemmed (break/breaks match). Syntax:
+`"exact phrase"`, `OR`, `NOT`, `NEAR(a b, 10)`, `prefix*`. Each hit prints the date,
+committee, item, decision, a highlighted snippet, the meeting link and up to 3 PDF
+links (`--pdfs N`).
+
+Coverage: from about mid-2022, agenda items are broken out one by one. Meetings
+before that (Word-exported pages, no item structure) are searchable as one
+"Full meeting text" document per meeting.
+
 ## Options
 | Flag | Meaning |
 |------|---------|
