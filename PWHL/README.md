@@ -13,6 +13,7 @@ early draft — sections are candidates, not final.
 | `pwhl.html` | The dashboard page (loads JSON from `data/json/`, `DATA_BASE = 'data/json/'`) |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
 | `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the compact `data/json/` files the page reads |
+| `scripts/build_elo.py` | Team Elo ratings, upcoming-game win chances and 10,000-run playoff simulations; writes `pwhl_elo.json`. The playoff format per league year lives in its `FORMATS` dict, so update it when the league changes format |
 | `scripts/build_models.py` | Fits the expected-goals model on the play-by-play; writes `pwhl_xg.json` (GSAx, team/skater xG, danger map) and `pwhl_ratings.json` (player impact ratings) |
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos) |
 | `data/json/` | Committed build output for the dashboard, including `pwhl_meta.json` |
@@ -27,6 +28,9 @@ python PWHL/scripts/build_dashboard_json.py
 ```
 ```bash
 python PWHL/scripts/build_models.py
+```
+```bash
+python PWHL/scripts/build_elo.py
 ```
 
 Run them in that order from the repo root: the model step reads the meta/awards JSON

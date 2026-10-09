@@ -73,6 +73,10 @@ jobs:
         # if the PBP cache missed.
         run: python PWHL/scripts/build_models.py
 
+      - name: Build Elo forecast and playoff odds
+        # Needs only the schedule/results CSVs, not the play-by-play.
+        run: python PWHL/scripts/build_elo.py
+
       - name: Upload play-by-play artifact
         if: always()
         uses: actions/upload-artifact@v4
