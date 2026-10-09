@@ -1,0 +1,1182 @@
+{
+ "sources": {
+  "finance_annual": "Statistics Canada, Table 33-10-0500-01 (Oil and gas extraction and support services)",
+  "finance_quarterly": "Statistics Canada, Table 33-10-0225-01 (same industry, quarters summed)",
+  "jobs": "Statistics Canada, Table 14-10-0202-01 (SEPH, all employees)",
+  "cpi": "Statistics Canada, Table 18-10-0005-01 (CPI all-items, Canada)"
+ },
+ "cpi": {
+  "2002": 100.0,
+  "2003": 102.8,
+  "2004": 104.7,
+  "2005": 107.0,
+  "2006": 109.1,
+  "2007": 111.5,
+  "2008": 114.1,
+  "2009": 114.4,
+  "2010": 116.5,
+  "2011": 119.9,
+  "2012": 121.7,
+  "2013": 122.8,
+  "2014": 125.2,
+  "2015": 126.6,
+  "2016": 128.4,
+  "2017": 130.4,
+  "2018": 133.4,
+  "2019": 136.0,
+  "2020": 137.0,
+  "2021": 141.6,
+  "2022": 151.2,
+  "2023": 157.1,
+  "2024": 160.9,
+  "2025": 164.2
+ },
+ "finance": {
+  "2002": {
+   "revenue": 95662.0,
+   "operating_profit": 15365.0,
+   "net_income": 5610.0,
+   "labour": 5052.0,
+   "dividends": 2905.0,
+   "fed_tax": 994.0,
+   "prov_tax": 491.0,
+   "tax_total": 1485.0,
+   "itc": 119.0
+  },
+  "2003": {
+   "revenue": 108372.0,
+   "operating_profit": 20283.0,
+   "net_income": 16411.0,
+   "labour": 5454.0,
+   "dividends": 3175.0,
+   "fed_tax": 981.0,
+   "prov_tax": 440.0,
+   "tax_total": 1421.0,
+   "itc": 153.0
+  },
+  "2004": {
+   "revenue": 116982.0,
+   "operating_profit": 19983.0,
+   "net_income": 14621.0,
+   "labour": 7184.0,
+   "dividends": 9180.0,
+   "fed_tax": 2280.0,
+   "prov_tax": 1028.0,
+   "tax_total": 3308.0,
+   "itc": 96.0
+  },
+  "2005": {
+   "revenue": 138086.0,
+   "operating_profit": 30541.0,
+   "net_income": 19986.0,
+   "labour": 8718.0,
+   "dividends": 7693.0,
+   "fed_tax": 2384.0,
+   "prov_tax": 1128.0,
+   "tax_total": 3512.0,
+   "itc": 76.0
+  },
+  "2006": {
+   "revenue": 156901.0,
+   "operating_profit": 27780.0,
+   "net_income": 25717.0,
+   "labour": 9760.0,
+   "dividends": 11483.0,
+   "fed_tax": 3456.0,
+   "prov_tax": 1505.0,
+   "tax_total": 4961.0,
+   "itc": 141.0
+  },
+  "2007": {
+   "revenue": 168190.0,
+   "operating_profit": 25081.0,
+   "net_income": 18510.0,
+   "labour": 10621.0,
+   "dividends": 8309.0,
+   "fed_tax": 2221.0,
+   "prov_tax": 981.0,
+   "tax_total": 3201.0,
+   "itc": 117.0
+  },
+  "2008": {
+   "revenue": 195358.0,
+   "operating_profit": 39188.0,
+   "net_income": 19162.0,
+   "labour": 14165.0,
+   "dividends": 8950.0,
+   "fed_tax": 2966.0,
+   "prov_tax": 1644.0,
+   "tax_total": 4611.0,
+   "itc": 109.0
+  },
+  "2009": {
+   "revenue": 131665.0,
+   "operating_profit": 10231.0,
+   "net_income": 5063.0,
+   "labour": 14065.0,
+   "dividends": 10515.0,
+   "fed_tax": 3885.0,
+   "prov_tax": 2166.0,
+   "tax_total": 6051.0,
+   "itc": 98.0
+  },
+  "2010": {
+   "revenue": 164456.0,
+   "operating_profit": 12071.0,
+   "net_income": 18722.0,
+   "labour": 14137.0,
+   "dividends": 14701.0,
+   "fed_tax": 1637.0,
+   "prov_tax": 980.0,
+   "tax_total": 2617.0,
+   "itc": 70.0
+  },
+  "2011": {
+   "revenue": 196129.0,
+   "operating_profit": 20627.0,
+   "net_income": 11476.0,
+   "labour": 15729.0,
+   "dividends": 12459.0,
+   "fed_tax": 1339.0,
+   "prov_tax": 918.0,
+   "tax_total": 2258.0,
+   "itc": 122.0
+  },
+  "2012": {
+   "revenue": 166944.0,
+   "operating_profit": 11108.0,
+   "net_income": 3409.0,
+   "labour": 16324.0,
+   "dividends": 8822.0,
+   "fed_tax": 1245.0,
+   "prov_tax": 995.0,
+   "tax_total": 2240.0,
+   "itc": 230.0
+  },
+  "2013": {
+   "revenue": 151366.0,
+   "operating_profit": 13314.0,
+   "net_income": 1997.0,
+   "labour": 18132.0,
+   "dividends": 12211.0,
+   "fed_tax": 1023.0,
+   "prov_tax": 871.0,
+   "tax_total": 1894.0,
+   "itc": 232.0
+  },
+  "2014": {
+   "revenue": 168474.0,
+   "operating_profit": 19156.0,
+   "net_income": 3070.0,
+   "labour": 19444.0,
+   "dividends": 12172.0,
+   "fed_tax": 1558.0,
+   "prov_tax": 1231.0,
+   "tax_total": 2789.0,
+   "itc": 243.0
+  },
+  "2015": {
+   "revenue": 81592.0,
+   "operating_profit": -12853.0,
+   "net_income": -43754.0,
+   "labour": 16929.0,
+   "dividends": 9019.0,
+   "fed_tax": 684.0,
+   "prov_tax": 535.0,
+   "tax_total": 1219.0,
+   "itc": 118.0
+  },
+  "2016": {
+   "revenue": 94079.0,
+   "operating_profit": -13140.0,
+   "net_income": -17854.0,
+   "labour": 14041.0,
+   "dividends": 6832.0,
+   "fed_tax": 513.0,
+   "prov_tax": 448.0,
+   "tax_total": 960.0,
+   "itc": 65.0
+  },
+  "2017": {
+   "revenue": 134885.0,
+   "operating_profit": 2437.0,
+   "net_income": 6866.0,
+   "labour": 14747.0,
+   "dividends": 6640.0,
+   "fed_tax": 481.0,
+   "prov_tax": 434.0,
+   "tax_total": 916.0,
+   "itc": 80.0
+  },
+  "2018": {
+   "revenue": 133892.0,
+   "operating_profit": 9771.0,
+   "net_income": -4751.0,
+   "labour": 14383.0,
+   "dividends": 5909.0,
+   "fed_tax": 453.0,
+   "prov_tax": 479.0,
+   "tax_total": 931.0,
+   "itc": 173.0
+  },
+  "2019": {
+   "revenue": 144116.0,
+   "operating_profit": 6550.0,
+   "net_income": 4558.0,
+   "labour": 13408.0,
+   "dividends": 5668.0,
+   "fed_tax": 731.0,
+   "prov_tax": 670.0,
+   "tax_total": 1401.0,
+   "itc": 146.0
+  },
+  "2020": {
+   "revenue": 105190.0,
+   "operating_profit": -15120.0,
+   "net_income": -37701.0,
+   "labour": 11068.0,
+   "dividends": 5106.0,
+   "fed_tax": 268.0,
+   "prov_tax": 176.0,
+   "tax_total": 444.0,
+   "itc": 57.0
+  },
+  "2021": {
+   "revenue": 177223.0,
+   "operating_profit": 29485.0,
+   "net_income": 34827.0,
+   "labour": 11912.0,
+   "dividends": 5640.0,
+   "fed_tax": 1735.0,
+   "prov_tax": 957.0,
+   "tax_total": 2692.0,
+   "itc": 64.0
+  },
+  "2022": {
+   "revenue": 253981.0,
+   "operating_profit": 66569.0,
+   "net_income": 49012.0,
+   "labour": 16031.0,
+   "dividends": 12607.0,
+   "fed_tax": 2562.0,
+   "prov_tax": 1497.0,
+   "tax_total": 4059.0,
+   "itc": 158.0
+  },
+  "2023": {
+   "revenue": 222715.0,
+   "operating_profit": 39116.0,
+   "net_income": 28078.0,
+   "labour": 15046.0,
+   "dividends": 13562.0,
+   "fed_tax": 3316.0,
+   "prov_tax": 1887.0,
+   "tax_total": 5203.0,
+   "itc": 101.0
+  },
+  "2024": {
+   "revenue": 217472.0,
+   "operating_profit": 33794.0,
+   "net_income": 20833.0,
+   "labour": 16451.0,
+   "dividends": 11525.0,
+   "fed_tax": 4409.0,
+   "prov_tax": 1835.0,
+   "tax_total": 6243.0,
+   "itc": 239.0
+  },
+  "2025": {
+   "revenue": 239407,
+   "operating_profit": 38040,
+   "net_income": 34713,
+   "dividends": 13950,
+   "from_quarterly": true
+  }
+ },
+ "finance_overlap_check": {
+  "2010": {
+   "revenue": [
+    164456.0,
+    164546
+   ],
+   "operating_profit": [
+    12071.0,
+    12568
+   ],
+   "net_income": [
+    18722.0,
+    18753
+   ],
+   "dividends": [
+    14701.0,
+    14662
+   ]
+  },
+  "2011": {
+   "revenue": [
+    196129.0,
+    196594
+   ],
+   "operating_profit": [
+    20627.0,
+    21276
+   ],
+   "net_income": [
+    11476.0,
+    11488
+   ],
+   "dividends": [
+    12459.0,
+    12430
+   ]
+  },
+  "2012": {
+   "revenue": [
+    166944.0,
+    166631
+   ],
+   "operating_profit": [
+    11108.0,
+    11518
+   ],
+   "net_income": [
+    3409.0,
+    2517
+   ],
+   "dividends": [
+    8822.0,
+    8759
+   ]
+  },
+  "2013": {
+   "revenue": [
+    151366.0,
+    151345
+   ],
+   "operating_profit": [
+    13314.0,
+    13692
+   ],
+   "net_income": [
+    1997.0,
+    1945
+   ],
+   "dividends": [
+    12211.0,
+    12177
+   ]
+  },
+  "2014": {
+   "revenue": [
+    168474.0,
+    168453
+   ],
+   "operating_profit": [
+    19156.0,
+    19589
+   ],
+   "net_income": [
+    3070.0,
+    3117
+   ],
+   "dividends": [
+    12172.0,
+    12139
+   ]
+  },
+  "2015": {
+   "revenue": [
+    81592.0,
+    81536
+   ],
+   "operating_profit": [
+    -12853.0,
+    -12343
+   ],
+   "net_income": [
+    -43754.0,
+    -43392
+   ],
+   "dividends": [
+    9019.0,
+    9008
+   ]
+  },
+  "2016": {
+   "revenue": [
+    94079.0,
+    94372
+   ],
+   "operating_profit": [
+    -13140.0,
+    -12751
+   ],
+   "net_income": [
+    -17854.0,
+    -17633
+   ],
+   "dividends": [
+    6832.0,
+    6871
+   ]
+  },
+  "2017": {
+   "revenue": [
+    134885.0,
+    135282
+   ],
+   "operating_profit": [
+    2437.0,
+    2976
+   ],
+   "net_income": [
+    6866.0,
+    6902
+   ],
+   "dividends": [
+    6640.0,
+    6685
+   ]
+  },
+  "2018": {
+   "revenue": [
+    133892.0,
+    134275
+   ],
+   "operating_profit": [
+    9771.0,
+    10115
+   ],
+   "net_income": [
+    -4751.0,
+    -4708
+   ],
+   "dividends": [
+    5909.0,
+    5909
+   ]
+  },
+  "2019": {
+   "revenue": [
+    144116.0,
+    144802
+   ],
+   "operating_profit": [
+    6550.0,
+    6936
+   ],
+   "net_income": [
+    4558.0,
+    4412
+   ],
+   "dividends": [
+    5668.0,
+    5749
+   ]
+  },
+  "2020": {
+   "revenue": [
+    105190.0,
+    107837
+   ],
+   "operating_profit": [
+    -15120.0,
+    -15309
+   ],
+   "net_income": [
+    -37701.0,
+    -38314
+   ],
+   "dividends": [
+    5106.0,
+    6030
+   ]
+  },
+  "2021": {
+   "revenue": [
+    177223.0,
+    183082
+   ],
+   "operating_profit": [
+    29485.0,
+    30466
+   ],
+   "net_income": [
+    34827.0,
+    34000
+   ],
+   "dividends": [
+    5640.0,
+    6035
+   ]
+  },
+  "2022": {
+   "revenue": [
+    253981.0,
+    262402
+   ],
+   "operating_profit": [
+    66569.0,
+    68209
+   ],
+   "net_income": [
+    49012.0,
+    48359
+   ],
+   "dividends": [
+    12607.0,
+    12687
+   ]
+  },
+  "2023": {
+   "revenue": [
+    222715.0,
+    227232
+   ],
+   "operating_profit": [
+    39116.0,
+    39633
+   ],
+   "net_income": [
+    28078.0,
+    27986
+   ],
+   "dividends": [
+    13562.0,
+    14254
+   ]
+  },
+  "2024": {
+   "revenue": [
+    217472.0,
+    228715
+   ],
+   "operating_profit": [
+    33794.0,
+    35094
+   ],
+   "net_income": [
+    20833.0,
+    21938
+   ],
+   "dividends": [
+    11525.0,
+    13270
+   ]
+  }
+ },
+ "jobs": {
+  "Canada": {
+   "2001": {
+    "extraction": 37539.0,
+    "support": 50177.0,
+    "all_industries": 12962266.0
+   },
+   "2002": {
+    "extraction": 39498.0,
+    "support": 53834.0,
+    "all_industries": 13166863.0
+   },
+   "2003": {
+    "extraction": 40831.0,
+    "support": 60816.0,
+    "all_industries": 13425962.0
+   },
+   "2004": {
+    "extraction": 42173.0,
+    "support": 65617.0,
+    "all_industries": 13648756.0
+   },
+   "2005": {
+    "extraction": 44346.0,
+    "support": 71453.0,
+    "all_industries": 13932935.0
+   },
+   "2006": {
+    "extraction": 48677.0,
+    "support": 83486.0,
+    "all_industries": 14299168.0
+   },
+   "2007": {
+    "extraction": 54035.0,
+    "support": 85325.0,
+    "all_industries": 14605561.0
+   },
+   "2008": {
+    "extraction": 56288.0,
+    "support": 87711.0,
+    "all_industries": 14872488.0
+   },
+   "2009": {
+    "extraction": 54660.0,
+    "support": 74526.0,
+    "all_industries": 14604986.0
+   },
+   "2010": {
+    "extraction": 51686.0,
+    "support": 82432.0,
+    "all_industries": 14746196.0
+   },
+   "2011": {
+    "extraction": 54113.0,
+    "support": 96250.0,
+    "all_industries": 15000885.0
+   },
+   "2012": {
+    "extraction": 58887.0,
+    "support": 98906.0,
+    "all_industries": 15252053.0
+   },
+   "2013": {
+    "extraction": 61572.0,
+    "support": 99435.0,
+    "all_industries": 15441864.0
+   },
+   "2014": {
+    "extraction": 64306.0,
+    "support": 102008.0,
+    "all_industries": 15625893.0
+   },
+   "2015": {
+    "extraction": 61900.0,
+    "support": 86373.0,
+    "all_industries": 15805839.0
+   },
+   "2016": {
+    "extraction": 57349.0,
+    "support": 70279.0,
+    "all_industries": 15990169.0
+   },
+   "2017": {
+    "extraction": 55636.0,
+    "support": 77491.0,
+    "all_industries": 16312587.0
+   },
+   "2018": {
+    "extraction": 56270.0,
+    "support": 76521.0,
+    "all_industries": 16663860.0
+   },
+   "2019": {
+    "extraction": 55853.0,
+    "support": 73154.0,
+    "all_industries": 16999850.0
+   },
+   "2020": {
+    "extraction": 54271.0,
+    "support": 60153.0,
+    "all_industries": 15611422.0
+   },
+   "2021": {
+    "extraction": 52509.0,
+    "support": 65346.0,
+    "all_industries": 16501587.0
+   },
+   "2022": {
+    "extraction": 54714.0,
+    "support": 71653.0,
+    "all_industries": 17550597.0
+   },
+   "2023": {
+    "extraction": 56211.0,
+    "support": 73998.0,
+    "all_industries": 18034443.0
+   },
+   "2024": {
+    "extraction": 54192.0,
+    "support": 75487.0,
+    "all_industries": 18226883.0
+   },
+   "2025": {
+    "extraction": 55573.0,
+    "support": 77406.0,
+    "all_industries": 18286325.0
+   }
+  },
+  "Alberta": {
+   "2001": {
+    "extraction": 33201.0,
+    "support": 37736.0,
+    "all_industries": 1413417.0
+   },
+   "2002": {
+    "extraction": 35731.0,
+    "support": 40968.0,
+    "all_industries": 1451079.0
+   },
+   "2003": {
+    "extraction": 36890.0,
+    "support": 46398.0,
+    "all_industries": 1481124.0
+   },
+   "2004": {
+    "extraction": 38042.0,
+    "support": 49173.0,
+    "all_industries": 1527902.0
+   },
+   "2005": {
+    "extraction": 40118.0,
+    "support": 52665.0,
+    "all_industries": 1601896.0
+   },
+   "2006": {
+    "extraction": 44579.0,
+    "support": 60299.0,
+    "all_industries": 1693109.0
+   },
+   "2007": {
+    "extraction": 49467.0,
+    "support": 58266.0,
+    "all_industries": 1763533.0
+   },
+   "2008": {
+    "extraction": 51556.0,
+    "support": 56185.0,
+    "all_industries": 1805068.0
+   },
+   "2009": {
+    "extraction": 50120.0,
+    "support": 49274.0,
+    "all_industries": 1749410.0
+   },
+   "2010": {
+    "extraction": 46416.0,
+    "support": 54369.0,
+    "all_industries": 1767860.0
+   },
+   "2011": {
+    "extraction": 48355.0,
+    "support": 63592.0,
+    "all_industries": 1837894.0
+   },
+   "2012": {
+    "extraction": 51692.0,
+    "support": 65543.0,
+    "all_industries": 1928659.0
+   },
+   "2013": {
+    "extraction": 54557.0,
+    "support": 67863.0,
+    "all_industries": 1996141.0
+   },
+   "2014": {
+    "extraction": 57210.0,
+    "support": 71602.0,
+    "all_industries": 2063997.0
+   },
+   "2015": {
+    "extraction": 55623.0,
+    "support": 57645.0,
+    "all_industries": 2048694.0
+   },
+   "2016": {
+    "extraction": 51495.0,
+    "support": 43860.0,
+    "all_industries": 1978784.0
+   },
+   "2017": {
+    "extraction": 50420.0,
+    "support": 49509.0,
+    "all_industries": 1995414.0
+   },
+   "2018": {
+    "extraction": 51132.0,
+    "support": 48886.0,
+    "all_industries": 2019018.0
+   },
+   "2019": {
+    "extraction": 50279.0,
+    "support": 45856.0,
+    "all_industries": 2031450.0
+   },
+   "2020": {
+    "extraction": 49142.0,
+    "support": 35984.0,
+    "all_industries": 1825640.0
+   },
+   "2021": {
+    "extraction": 47576.0,
+    "support": 37785.0,
+    "all_industries": 1914291.0
+   },
+   "2022": {
+    "extraction": 49954.0,
+    "support": 42850.0,
+    "all_industries": 2044520.0
+   },
+   "2023": {
+    "extraction": 50712.0,
+    "support": 45163.0,
+    "all_industries": 2122492.0
+   },
+   "2024": {
+    "extraction": 48446.0,
+    "support": 46813.0,
+    "all_industries": 2162059.0
+   },
+   "2025": {
+    "extraction": 49812.0,
+    "support": 46932.0,
+    "all_industries": 2188213.0
+   }
+  },
+  "Saskatchewan": {
+   "2001": {
+    "extraction": 2005.0,
+    "support": 3234.0,
+    "all_industries": 374310.0
+   },
+   "2002": {
+    "extraction": 1320.0,
+    "support": 3230.0,
+    "all_industries": 375732.0
+   },
+   "2003": {
+    "extraction": 1325.0,
+    "support": 3796.0,
+    "all_industries": 382738.0
+   },
+   "2004": {
+    "extraction": 1443.0,
+    "support": 3873.0,
+    "all_industries": 391666.0
+   },
+   "2005": {
+    "extraction": 1511.0,
+    "support": 4759.0,
+    "all_industries": 400410.0
+   },
+   "2006": {
+    "extraction": 1656.0,
+    "support": 6034.0,
+    "all_industries": 411340.0
+   },
+   "2007": {
+    "extraction": 1822.0,
+    "support": 6278.0,
+    "all_industries": 421975.0
+   },
+   "2008": {
+    "extraction": 1974.0,
+    "support": 6546.0,
+    "all_industries": 434772.0
+   },
+   "2009": {
+    "extraction": 1950.0,
+    "support": 5725.0,
+    "all_industries": 440012.0
+   },
+   "2010": {
+    "extraction": 2183.0,
+    "support": 6839.0,
+    "all_industries": 442755.0
+   },
+   "2011": {
+    "extraction": 2411.0,
+    "support": 7041.0,
+    "all_industries": 454483.0
+   },
+   "2012": {
+    "extraction": 3239.0,
+    "support": 7198.0,
+    "all_industries": 469540.0
+   },
+   "2013": {
+    "extraction": 2932.0,
+    "support": 7444.0,
+    "all_industries": 479226.0
+   },
+   "2014": {
+    "extraction": 2815.0,
+    "support": 7415.0,
+    "all_industries": 484157.0
+   },
+   "2015": {
+    "extraction": 2722.0,
+    "support": 6353.0,
+    "all_industries": 483946.0
+   },
+   "2016": {
+    "extraction": 2456.0,
+    "support": 4931.0,
+    "all_industries": 477316.0
+   },
+   "2017": {
+    "extraction": 1871.0,
+    "support": 5542.0,
+    "all_industries": 474863.0
+   },
+   "2018": {
+    "extraction": 2039.0,
+    "support": 5417.0,
+    "all_industries": 477006.0
+   },
+   "2019": {
+    "extraction": 2342.0,
+    "support": 5415.0,
+    "all_industries": 481676.0
+   },
+   "2020": {
+    "extraction": 1813.0,
+    "support": 4460.0,
+    "all_industries": 448316.0
+   },
+   "2021": {
+    "extraction": 1594.0,
+    "support": 4925.0,
+    "all_industries": 472724.0
+   },
+   "2022": {
+    "extraction": 1779.0,
+    "support": 5377.0,
+    "all_industries": 493919.0
+   },
+   "2023": {
+    "extraction": 1855.0,
+    "support": 5666.0,
+    "all_industries": 507163.0
+   },
+   "2024": {
+    "extraction": 1905.0,
+    "support": 5793.0,
+    "all_industries": 515149.0
+   },
+   "2025": {
+    "extraction": 1770.0,
+    "support": 6027.0,
+    "all_industries": 526646.0
+   }
+  },
+  "British Columbia": {
+   "2001": {
+    "extraction": 1227.0,
+    "support": 2412.0,
+    "all_industries": 1620457.0
+   },
+   "2002": {
+    "extraction": 1325.0,
+    "support": 2509.0,
+    "all_industries": 1622205.0
+   },
+   "2003": {
+    "extraction": 1344.0,
+    "support": 2787.0,
+    "all_industries": 1655180.0
+   },
+   "2004": {
+    "extraction": 1434.0,
+    "support": 3563.0,
+    "all_industries": 1696030.0
+   },
+   "2005": {
+    "extraction": 1379.0,
+    "support": 4635.0,
+    "all_industries": 1755881.0
+   },
+   "2006": {
+    "extraction": 979.0,
+    "support": 6038.0,
+    "all_industries": 1830018.0
+   },
+   "2007": {
+    "extraction": 1157.0,
+    "support": 6914.0,
+    "all_industries": 1895505.0
+   },
+   "2008": {
+    "extraction": 1272.0,
+    "support": 7834.0,
+    "all_industries": 1946950.0
+   },
+   "2009": {
+    "extraction": 1127.0,
+    "support": 5835.0,
+    "all_industries": 1896102.0
+   },
+   "2010": {
+    "extraction": 1303.0,
+    "support": 6416.0,
+    "all_industries": 1898834.0
+   },
+   "2011": {
+    "extraction": 1921.0,
+    "support": 8091.0,
+    "all_industries": 1932260.0
+   },
+   "2012": {
+    "extraction": 2258.0,
+    "support": 8274.0,
+    "all_industries": 1955182.0
+   },
+   "2013": {
+    "extraction": 2092.0,
+    "support": 7429.0,
+    "all_industries": 1992535.0
+   },
+   "2014": {
+    "extraction": 2135.0,
+    "support": 7597.0,
+    "all_industries": 2025894.0
+   },
+   "2015": {
+    "extraction": 1755.0,
+    "support": 7138.0,
+    "all_industries": 2076725.0
+   },
+   "2016": {
+    "extraction": 1677.0,
+    "support": 6531.0,
+    "all_industries": 2142195.0
+   },
+   "2017": {
+    "extraction": 1963.0,
+    "support": 6913.0,
+    "all_industries": 2213191.0
+   },
+   "2018": {
+    "extraction": 1962.0,
+    "support": 6466.0,
+    "all_industries": 2284459.0
+   },
+   "2019": {
+    "extraction": 2267.0,
+    "support": 5822.0,
+    "all_industries": 2339297.0
+   },
+   "2020": {
+    "extraction": 2311.0,
+    "support": 5080.0,
+    "all_industries": 2153880.0
+   },
+   "2021": {
+    "extraction": 2624.0,
+    "support": 6274.0,
+    "all_industries": 2302972.0
+   },
+   "2022": {
+    "extraction": 2189.0,
+    "support": 6565.0,
+    "all_industries": 2469779.0
+   },
+   "2023": {
+    "extraction": 2720.0,
+    "support": 6894.0,
+    "all_industries": 2549728.0
+   },
+   "2024": {
+    "extraction": 2819.0,
+    "support": 6931.0,
+    "all_industries": 2566998.0
+   },
+   "2025": {
+    "extraction": 2919.0,
+    "support": 7741.0,
+    "all_industries": 2571273.0
+   }
+  },
+  "Newfoundland and Labrador": {
+   "2001": {
+    "all_industries": 179316.0
+   },
+   "2002": {
+    "all_industries": 182484.0
+   },
+   "2003": {
+    "support": 854.0,
+    "all_industries": 181084.0
+   },
+   "2004": {
+    "support": 971.0,
+    "all_industries": 180617.0
+   },
+   "2005": {
+    "support": 935.0,
+    "all_industries": 177630.0
+   },
+   "2006": {
+    "support": 948.0,
+    "all_industries": 181586.0
+   },
+   "2007": {
+    "support": 1040.0,
+    "all_industries": 186862.0
+   },
+   "2008": {
+    "support": 1331.0,
+    "all_industries": 193051.0
+   },
+   "2009": {
+    "support": 1703.0,
+    "all_industries": 194091.0
+   },
+   "2010": {
+    "support": 1709.0,
+    "all_industries": 199847.0
+   },
+   "2011": {
+    "support": 1859.0,
+    "all_industries": 205764.0
+   },
+   "2012": {
+    "support": 1680.0,
+    "all_industries": 210875.0
+   },
+   "2013": {
+    "support": 1688.0,
+    "all_industries": 215328.0
+   },
+   "2014": {
+    "support": 1813.0,
+    "all_industries": 218229.0
+   },
+   "2015": {
+    "support": 1560.0,
+    "all_industries": 221188.0
+   },
+   "2016": {
+    "all_industries": 221346.0
+   },
+   "2017": {
+    "support": 1857.0,
+    "all_industries": 219599.0
+   },
+   "2018": {
+    "support": 1957.0,
+    "all_industries": 215579.0
+   },
+   "2019": {
+    "support": 2001.0,
+    "all_industries": 216662.0
+   },
+   "2020": {
+    "support": 1688.0,
+    "all_industries": 199026.0
+   },
+   "2021": {
+    "extraction": 529.0,
+    "support": 1407.0,
+    "all_industries": 209875.0
+   },
+   "2022": {
+    "extraction": 526.0,
+    "support": 1528.0,
+    "all_industries": 218065.0
+   },
+   "2023": {
+    "extraction": 665.0,
+    "support": 1462.0,
+    "all_industries": 220933.0
+   },
+   "2024": {
+    "extraction": 750.0,
+    "support": 1345.0,
+    "all_industries": 219852.0
+   },
+   "2025": {
+    "extraction": 806.0,
+    "support": 1586.0,
+    "all_industries": 220377.0
+   }
+  }
+ }
+}

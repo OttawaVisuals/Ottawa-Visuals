@@ -27,6 +27,7 @@ any bookmarked or shared links.
 | [`RTO4/`](RTO4/README.md) | External datasets behind RTO Watch (311, IESO, volumes, GHG) |
 | [`CityHall_Index/`](CityHall_Index/README.md) | eScribe committee/council meeting indexer |
 | [`Tax/`](Tax/README.md) | Taxing the top: top income-tax rate since 1920 vs top-1% share, who grew in high- vs low-tax eras, donations by neighbourhood income ([`tax.html`](Tax/tax.html)) |
+| [`OilGas/`](OilGas/README.md) | Canada's oil & gas industry since 2002: profits, dividends, corporate income tax and jobs, in 2025 dollars ([`oilgas.html`](OilGas/oilgas.html)) |
 | [`GovContracts/`](GovContracts/README.md) | Federal Proactive Disclosure contracts — consulting spend / in-house duplication (exploration) |
 
 [`rto.html`](rto.html) — **Ottawa RTO Watch**, the return-to-office page — sits at
