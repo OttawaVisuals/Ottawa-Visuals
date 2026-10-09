@@ -132,6 +132,18 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Still to do:** the "why was the commute bad?" section, once ~4 weeks of `events_log.csv`
   (Pi, since 2026-10-08) overlap the TomTom readings.
 
+### Taxing the Top — income tax, inequality & donations (Canada)
+- **Progress:** ~80% (live Oct 2026) · `Tax/tax.html`, also a home-page report (`#report-tax`).
+- Top fed+ON rate 1920–2026 vs average rate actually paid (top 0.01% / top 1% / bottom 50%);
+  top-1% share vs top rate (r = −0.58 postwar); real income growth by group, 1950–80 vs
+  1980–2019; Elections Canada individual donations by FSA income decile (richest tenth gives
+  6.7× per filer); WID wealth shares + estate/capital-gains/PBO wealth-tax timeline.
+- **Data:** Saez & Veall tables (committed CSVs), WID.world, StatCan 11-10-0055, Elections
+  Canada contributions, CRA FSA stats → `Tax/scripts/build_data.py` → `tax.json`. See `Tax/README.md`.
+- **Still to do:** extend WID real-income series past 2019 when WID updates; a provincial
+  comparison (Quebec/Alberta top rates); an Ontario donations version (Elections Ontario, corporate
+  ban 2017) if the open data has postal codes.
+
 ### Ottawa Ward Elections
 - **Progress:** ~90% (live, iterating) · Interactive ward-level election map/visual.
 - Ongoing work on ward redistribution impact + Deneb custom visual with ward labels/leader lines.

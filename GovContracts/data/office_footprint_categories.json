@@ -1,0 +1,43 @@
+{
+  "_note": "description_en-based categories (separate axis from category_definitions.json, which is commodity_code-based). description_en covers 99.9% of rows vs. 65% for commodity_code, but needs normalization first: strip leading economic_object_code number (e.g. '1231 Office furniture...'), unify case/dashes. Matched by PREFIX against this whitelist after normalization (checked most-specific-first), not a bare substring search -- 'architect' alone would wrongly catch 'IT Architect' job titles. Kept in sync with OFFICE_DESCRIPTION_CATEGORIES / normalize_description() / categorize_by_description() in scripts/build_aggregates.py -- edit both together.",
+  "categories": [
+    {
+      "category": "Repair and maintenance - Office buildings",
+      "match_prefixes": [
+        "repair and maintenance-office buildings", "r&m-office buildings",
+        "repair of office buildings", "office buildings-purchased repair and maintenance",
+        "office buildings-repair of buildings", "repair of building-office building"
+      ]
+    },
+    {
+      "category": "Contracted building cleaning",
+      "match_prefixes": ["contracted building cleaning", "contract building cleaning"]
+    },
+    {
+      "category": "Architectural services",
+      "match_prefixes": ["architectural services", "architectual services", "services d'architecture"]
+    },
+    {
+      "category": "Engineering consultants - construction",
+      "match_prefixes": [
+        "engineering consultants-construction", "engineering consultant-construction",
+        "engineering consultants-design and construction"
+      ]
+    },
+    {
+      "category": "Office furniture and furnishings, including parts",
+      "match_prefixes": [
+        "office furniture and furnishings", "office furniture & furnishings",
+        "office furnishing furniture", "office furnishg furnit", "office furniture"
+      ]
+    },
+    {
+      "category": "Other Office Equipment and Parts",
+      "match_prefixes": ["other office equipment and parts", "other office equipment"]
+    },
+    {
+      "category": "Office buildings",
+      "match_prefixes": ["office buildings", "rental of office building"]
+    }
+  ]
+}

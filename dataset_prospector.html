@@ -5,41 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dataset Prospector — Ottawa Visuals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <style>
+/* Palette = Retrofit Explorer (shared assets/site-theme.css). "teal" is this
+   page's secondary role; it maps to the Retrofit blue. */
 :root{
-  --paper:#E9EDEB;
-  --card:#F6F8F5;
-  --ink:#1A2E2A;
-  --ink-soft:#4A5E58;
-  --line:#C4CEC8;
-  --amber:#B87514;
-  --amber-soft:#F0E2C8;
-  --teal:#0F6E63;
-  --teal-soft:#D5E7E3;
-  --tier3:#8A9A93;
+  --paper:#F7F4EE;
+  --card:#FFFFFF;
+  --ink:#1C2B3A;
+  --ink-soft:#5C6E82;
+  --line:#D2D8E3;
+  --amber:#A86E0F;
+  --amber-soft:#F6E7C8;
+  --teal:#2F6FB4;
+  --teal-soft:#D6E8F8;
+  --tier3:#8A9BB0;
+  --gem-bg:#0B2545; --gem-fg:#F0B94E;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
-  --sans:'Archivo',system-ui,sans-serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+:root[data-theme="dark"]{
+  --paper:#0E1621; --card:#16202E; --ink:#E4EBF4; --ink-soft:#A3B2C4; --line:#2C3A4B;
+  --amber:#E8A124; --amber-soft:rgba(232,161,36,.16);
+  --teal:#5FA6E8; --teal-soft:#152F47; --tier3:#738699;
+  --gem-bg:#E8A124; --gem-fg:#0B2545;
+}
+:root[data-theme="cb"]{
+  --amber:#966700; --amber-soft:#F7E6BF; --teal:#0072B2; --teal-soft:#CCE4F0;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
 
+/* ── TOPBAR (site-wide chrome, same markup as the other pages) ── */
+.topbar{position:sticky;top:0;z-index:1000;height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;border-bottom:none}
+.topbar .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;text-decoration:none}
+.topbar .brand-logo{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;overflow:hidden;border:1px solid}
+.topbar .brand-logo img{width:110%;height:110%;object-fit:cover}
+.topbar nav{display:flex;gap:2px}
+.topbar nav a{padding:5px 9px;font-size:12.5px;border-radius:6px;text-decoration:none}
+.topbar .spacer{flex:1}
+@media (max-width:720px){.topbar nav{display:none}.topbar{padding:0 12px;gap:10px}}
+
 /* ---------- header ---------- */
-header{position:relative;border-bottom:2px solid var(--ink);overflow:hidden;padding:44px 24px 30px}
-header svg.contours{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+header.hero-band{position:relative;border-bottom:2px solid var(--ink);overflow:hidden;padding:44px 24px 30px}
+header.hero-band svg.contours{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
 .hwrap{position:relative;max-width:1180px;margin:0 auto}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
-h1{font-family:var(--sans);font-variation-settings:'wdth' 72;font-weight:850;font-size:clamp(34px,6vw,62px);line-height:.95;text-transform:uppercase;letter-spacing:-.01em}
-h1 em{font-style:normal;color:var(--amber)}
+h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(34px,6vw,58px);line-height:1;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--amber)}
 .subtitle{max-width:640px;margin-top:14px;color:var(--ink-soft);font-size:15px}
 .hstats{display:flex;gap:28px;margin-top:22px;font-family:var(--mono);font-size:12px}
 .hstats b{display:block;font-size:22px;font-weight:600;color:var(--ink)}
 .hstats span{color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;font-size:10px}
 
 /* ---------- filter bar ---------- */
-.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 24px}
+.bar{position:sticky;top:48px;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 24px}
 .barwrap{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;border:1px solid var(--ink);background:transparent;color:var(--ink);padding:6px 12px;cursor:pointer;border-radius:2px;transition:background .12s,color .12s}
 .chip:hover{background:var(--ink);color:var(--card)}
@@ -74,8 +105,8 @@ main{max-width:1180px;margin:0 auto;padding:28px 24px 60px}
 .badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;padding:2px 6px;border-radius:2px;text-transform:uppercase}
 .badge.display{background:var(--teal-soft);color:var(--teal)}
 .badge.analyze{background:var(--amber-soft);color:var(--amber)}
-.badge.gem{background:var(--ink);color:#F2D28A}
-.card h3{font-size:16.5px;font-weight:750;font-variation-settings:'wdth' 82;line-height:1.15;margin:6px 0 4px}
+.badge.gem{background:var(--gem-bg);color:var(--gem-fg)}
+.card h3{font-size:16px;font-weight:600;line-height:1.2;margin:6px 0 4px}
 .src{font-family:var(--mono);font-size:11px;color:var(--teal);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .src a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--teal)}
 .src a:hover{border-bottom-style:solid}
@@ -95,7 +126,7 @@ summary:hover{text-decoration:underline}
 
 /* ---------- combos ---------- */
 .combos{margin-top:52px;border-top:2px solid var(--ink);padding-top:20px}
-.combos h2{font-variation-settings:'wdth' 72;font-weight:850;text-transform:uppercase;font-size:26px;margin-bottom:4px}
+.combos h2{font-family:var(--font-serif);font-weight:300;font-size:28px;letter-spacing:-.01em;margin-bottom:4px}
 .combos p.lead{color:var(--ink-soft);font-size:14px;margin-bottom:18px;max-width:620px}
 .combo{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
 .combo .cn{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--amber)}
@@ -106,18 +137,39 @@ footer{max-width:1180px;margin:0 auto;padding:26px 24px 46px;font-family:var(--m
 .hidden{display:none!important}
 @media(max-width:640px){.search{min-width:0;width:100%;margin-left:0}.grid{grid-template-columns:1fr}}
 </style>
+<!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
+<link rel="stylesheet" href="assets/site-theme.css">
+<script>
+// No canvas charts here, so switching is just the attribute + saved choice.
+function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
+</script>
+<script src="assets/site-theme.js"></script>
 </head>
 <body>
 
-<header>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="rto.html">RTO watch</a>
+    <a href="tracker.html">Atlas</a>
+    <a href="dataset_prospector.html" class="active">Datasets</a>
+  </nav>
+  <span class="spacer"></span>
+  <button id="theme-toggle" hidden aria-hidden="true" tabindex="-1"></button>
+</header>
+<header class="hero-band">
   <svg class="contours" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
-    <g fill="none" stroke="#C4CEC8" stroke-width="1">
+    <g fill="none" stroke="var(--line)" stroke-width="1">
       <path d="M-20,200 C150,140 300,230 480,180 S820,90 1000,150 S1180,120 1240,160"/>
       <path d="M-20,170 C160,110 320,200 500,150 S840,60 1020,120 S1190,95 1240,130"/>
       <path d="M-20,140 C170,85 340,170 520,122 S860,35 1040,92 S1200,70 1240,100"/>
       <path d="M-20,230 C140,175 280,255 460,212 S800,125 980,182 S1170,150 1240,192"/>
     </g>
-    <g fill="none" stroke="#B87514" stroke-width="1" stroke-dasharray="2 5" opacity=".6">
+    <g fill="none" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 5" opacity=".6">
       <path d="M-20,110 C180,60 360,140 540,96 S880,12 1060,66 S1210,48 1240,72"/>
     </g>
   </svg>
