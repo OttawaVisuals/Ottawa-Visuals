@@ -180,6 +180,13 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   strategic-candidate flip-threshold analysis, turnout/gauge charts.
 - Combined multi-zoom GeoJSON filled map (main + 2 zoom insets, custom placement).
 - **Live:** [`Ontario_Elections/ONelections.html`](Ontario_Elections/ONelections.html), embedded on the homepage.
+- **What changed 2026-10-09 (design pass):** reframed the headline around the coalition question
+  and reordered the page (map → gauges → winnable seats → table → turnout history → methodology);
+  moved the coordination slider into the map card (moving it switches the map to "Modelled");
+  "Most winnable" is now a clickable card grid that opens the riding on the map; the full table
+  got a name search + "flips only" filter; on phones the Ottawa/Southern Ontario insets stack
+  full-width under the main map. Fixed dark-mode bugs: unreadable white-on-white map tooltip,
+  hard-coded light banner/flip-tag colours, and the topbar brand subtitle running into the name.
 - **What changed 2026-09-03:** confirmed the page was already substantially further along than
   ~70% (build_data.py runs clean with 100% name-join coverage, zero console errors, real data
   loads correctly — the file:// preview tool's "sample data" banner was a preview-tool artifact,
