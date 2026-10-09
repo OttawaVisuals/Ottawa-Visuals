@@ -85,15 +85,35 @@ python search.py "watermain breaks" --in pdfs              # 4. search inside th
 - In search, each PDF page is one document: the hit links to `…DocumentId=N#page=P`
   and prints the local file path.
 
+## Weekly update
+```bash
+python weekly_update.py            # what the scheduler runs
+```
+Runs `escribe_indexer.py --years recent --refresh-days 120` (last year through next
+year), then `search.py --rebuild`; output goes to `data/weekly_update.log`.
+Scheduled on the desktop PC as the Windows task **OttawaVisuals CityHall weekly**
+(Sundays 09:00 via `pythonw.exe`, runs at next start if the PC was off; it runs only
+while you're signed in). Check it with `Get-ScheduledTaskInfo "OttawaVisuals CityHall weekly"`.
+- New meetings are indexed as usual.
+- Meetings from the last 120 days (or upcoming) that were indexed before their
+  minutes were posted (Agenda page, or no items) are removed from every CSV and
+  indexed again, so their decisions and votes fill in.
+- eScribe replaces placeholder meetings with new meeting IDs and drops cancelled
+  ones. Stale meetings no longer on the calendar are removed, but only for years
+  the calendar actually returned and the committee filter in use.
+- `data/indexer.lock` keeps two indexer runs off the same folder (exit code 3,
+  logged as "skipped"). A lock older than 24 h counts as left over from a crash.
+
 ## Options
 | Flag | Meaning |
 |------|---------|
-| `--years 2020-2026` | Year or range to index (required). |
+| `--years 2020-2026` | Year or range to index (required); `recent` = last year to next year. |
 | `--committee "text"` | Only meetings whose name contains this (default: **all** committees). |
 | `--out DIR` | Output directory (default: `data`). |
 | `--delay 4` | Seconds between requests (be polite; default 3). |
 | `--limit N` | Cap number of meetings (testing). |
 | `--no-resume` | Ignore saved state, reprocess all. |
+| `--refresh-days N` | Re-index meetings from the last N days still lacking minutes (see Weekly update). |
 | `-v` | Verbose logging. |
 
 ## How it works

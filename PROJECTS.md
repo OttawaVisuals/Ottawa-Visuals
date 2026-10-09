@@ -188,6 +188,22 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### City Hall Index — searchable council & committee records
+- **Progress:** ~60% (tooling done Oct 2026, no public page) · `CityHall_Index/`.
+- eScribe indexer: 1,898 meetings 2020–2026 → meetings / items / motions / votes / attachments,
+  plus `item_text.csv` (everything each item's page shows; pre-2022 meetings as one whole-page
+  text each). `search.py` = SQLite full-text search with snippets, meeting + PDF links, CSV export.
+- **PDFs:** eScribe's PDF links sit behind a browser check (since Oct 2026), so scripts can't
+  fetch them. Workflow: `search.py --pdf-list` → download in a browser → `ingest_pdfs.py`
+  matches each PDF to its item and makes it searchable page by page.
+- **Weekly:** `weekly_update.py` indexes new meetings and re-indexes ones first seen before
+  their minutes were posted (eScribe also swaps placeholder meeting IDs; those get dropped).
+  Scheduled on the desktop PC (Windows Task Scheduler, "OttawaVisuals CityHall weekly",
+  Sundays 09:00, catches up at next start if missed; set up 2026-10-09). Not on the Pi: the
+  index is gitignored, so it lives where search and the PDFs are. Log: `data/weekly_update.log`.
+- **Still to do:** split `votes.voters` into one row per
+  councillor; a public page (e.g. "what did council decide about X").
+
 ### RTO4 Impact Page — "Ottawa RTO Watch"
 - **Progress:** ~35% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
   former `Traffic/traffic.html`, which now redirects). Historical before/after charts come
