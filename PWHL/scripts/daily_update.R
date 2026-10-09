@@ -391,6 +391,44 @@ current_games <- all_games %>%
 
 write_csv(current_games, file.path(data_dir, "pwhl_season_game_ids.csv"))
 
+# pwhl_teams.csv used to be a hand-maintained seed, and it drifted: 2025-26
+# listed only 3 of 8 teams and 2026-27 (expansion to 12) was missing
+# entirely, so rosters (section 8) and the dashboard's teams_by_season were
+# both short. Rebuild it from the feed's own team list for every season.
+fetch_teams_for_season <- function(sid) {
+  res <- GET(base_url, query = c(common_params, list(view = "teamsbyseason", season_id = sid)))
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+  teams <- js$SiteKit$Teamsbyseason
+  if (is.null(teams) || length(teams) == 0) return(NULL)
+
+  as_tibble(teams) %>%
+    transmute(
+      season_id = as.character(sid),
+      team_id   = as.character(id),
+      team_name = name,
+      team_city = city,
+      team_code = code,
+      team_logo = team_logo_url
+    )
+}
+
+all_teams <- map_dfr(all_seasons$season_id, function(sid) {
+  result <- fetch_teams_for_season(sid)
+  Sys.sleep(0.3)
+  result
+})
+
+if (nrow(all_teams) > 0) {
+  write_csv(all_teams, file.path(data_dir, "pwhl_teams.csv"))
+  message("  ✓ Updated teams (", nrow(all_teams), " team-seasons across ",
+          length(unique(all_teams$season_id)), " season(s))")
+} else {
+  message("  ⚠ No team list returned, keeping existing pwhl_teams.csv")
+}
+
 # Find new (final, not-yet-properly-summarized) games
 new_games <- current_games %>%
   filter(is_final) %>%
@@ -472,6 +510,74 @@ all_game_players <- read_csv(file.path(data_dir, "pwhl_game_players.csv"), show_
   ) %>%
   filter(!is.na(player_id))
 
+# pwhl_game_players.csv turned out NOT to be complete (lineups for only ~130
+# of 343 final games), so on its own it missed 25 of 207 players in 2025-26,
+# including most starting goalies. The league's official stat tables
+# (statviewfeed, same key as standings) list every skater and goalie who
+# played in a season along with games played, so use them as the
+# authoritative player universe and union in game_players as a fallback.
+fetch_league_player_table <- function(season_id, position) {
+  res <- GET(
+    base_url,
+    query = list(
+      feed        = "statviewfeed",
+      view        = "players",
+      season      = season_id,
+      team        = "all",
+      position    = position,
+      rookies     = "0",
+      statsType   = "standard",
+      league_id   = "1",
+      limit       = "1000",
+      sort        = "points",
+      lang        = "en",
+      key         = "694cfeed58c932ee",
+      client_code = client_code
+    )
+  )
+  if (http_error(res)) return(NULL)
+
+  txt <- content(res, as = "text", encoding = "UTF-8")
+  txt <- sub("^\\(", "", txt)
+  txt <- sub("\\)$", "", txt)
+  js <- tryCatch(fromJSON(txt, simplifyVector = FALSE), error = function(e) NULL)
+  if (is.null(js) || length(js) == 0) return(NULL)
+
+  data_list <- js[[1]]$sections[[1]]$data
+  if (is.null(data_list) || length(data_list) == 0) return(NULL)
+
+  map_dfr(data_list, function(x) {
+    tibble(
+      season_id    = as.character(season_id),
+      player_id    = scalar_chr(x$row$player_id),
+      games_played = suppressWarnings(as.integer(scalar_chr(x$row$games_played)))
+    )
+  })
+}
+
+league_player_seasons <- bind_rows(
+  tibble(season_id = character(), player_id = character(), games_played = integer()),
+  map_dfr(all_seasons$season_id, function(sid) {
+    bind_rows(
+      fetch_league_player_table(sid, "skaters"),
+      { Sys.sleep(0.2); fetch_league_player_table(sid, "goalies") }
+    )
+  })
+) %>%
+  filter(!is.na(player_id), !is.na(games_played)) %>%
+  group_by(season_id, player_id) %>%
+  summarise(games_played = max(games_played), .groups = "drop")
+
+message("  ✓ League stat tables list ", n_distinct(league_player_seasons$player_id),
+        " player(s) across ", n_distinct(league_player_seasons$season_id), " season(s)")
+
+known_player_ids <- bind_rows(
+  all_game_players %>% select(player_id),
+  league_player_seasons %>% select(player_id)
+) %>%
+  distinct(player_id) %>%
+  filter(!is.na(player_id))
+
 existing_log_appearances <- read_csv(file.path(data_dir, "pwhl_player_game_logs.csv"), show_col_types = FALSE) %>%
   mutate(
     season_id = as.character(season_id),
@@ -481,9 +587,21 @@ existing_log_appearances <- read_csv(file.path(data_dir, "pwhl_player_game_logs.
   select(-any_of("id")) %>%
   distinct(season_id, player_id, game_id)
 
-new_player_list <- all_game_players %>%
-  distinct(season_id, player_id, game_id) %>%
-  anti_join(existing_log_appearances, by = c("season_id", "player_id", "game_id")) %>%
+# A player-season needs a (re)fetch if game_players shows an appearance we
+# haven't logged, or the league table says they've played more games than
+# we have logged (catches both never-fetched players and new games).
+logged_counts <- existing_log_appearances %>% count(season_id, player_id, name = "logged")
+
+new_player_list <- bind_rows(
+  all_game_players %>%
+    distinct(season_id, player_id, game_id) %>%
+    anti_join(existing_log_appearances, by = c("season_id", "player_id", "game_id")) %>%
+    distinct(season_id, player_id),
+  league_player_seasons %>%
+    left_join(logged_counts, by = c("season_id", "player_id")) %>%
+    filter(games_played > coalesce(logged, 0L)) %>%
+    select(season_id, player_id)
+) %>%
   distinct(season_id, player_id)
 
 {
@@ -576,8 +694,7 @@ existing_players_info <- read_csv(file.path(data_dir, "pwhl_players_info.csv"),
 # not just today's new_game_players, so a profile gap from an earlier
 # crashed run still gets caught up once summaries stop finding anything new.
 {
-  new_player_ids <- all_game_players %>%
-    distinct(player_id) %>%
+  new_player_ids <- known_player_ids %>%
     anti_join(existing_players_info, by = "player_id")
 
   if (nrow(new_player_ids) > 0) {
@@ -654,25 +771,38 @@ existing_transactions <- read_csv(file.path(data_dir, "pwhl_transactions.csv"),
                                  show_col_types = FALSE) %>%
   mutate(season_id = as.character(season_id))
 
+# The feed returns 20 transactions per call by default, which silently
+# truncated every season at 20 (2025-26 has 29). Ask for a large page and
+# keep paging with `first` (the feed's offset param) until num_results is met.
 fetch_transactions_for_season <- function(season_id) {
-  res <- GET(base_url, query = c(common_params, list(
-    view = "statviewtype", type = "transactions", season_id = season_id
-  )))
+  pages <- list()
+  offset <- 0
+  repeat {
+    res <- GET(base_url, query = c(common_params, list(
+      view = "statviewtype", type = "transactions", season_id = season_id,
+      limit = 500, first = offset
+    )))
+    if (http_error(res)) break
 
-  if (http_error(res)) return(NULL)
+    txt <- content(res, as = "text", encoding = "UTF-8")
+    js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
+    if (is.null(js)) break
 
-  txt <- content(res, as = "text", encoding = "UTF-8")
-  js <- tryCatch(fromJSON(txt, flatten = TRUE), error = function(e) NULL)
-  
-  if (is.null(js)) return(NULL)
-  
-  trans <- js$SiteKit$Statviewtype$transactions
-  if (is.null(trans) || length(trans) == 0) return(NULL)
+    trans <- js$SiteKit$Statviewtype$transactions
+    if (is.null(trans) || length(trans) == 0) break
 
-  df <- tryCatch(as_tibble(trans), error = function(e) NULL)
-  if (is.null(df) || nrow(df) == 0) return(NULL)
+    df <- tryCatch(as_tibble(trans), error = function(e) NULL)
+    if (is.null(df) || nrow(df) == 0) break
 
-  df %>% mutate(season_id = as.character(season_id))
+    pages[[length(pages) + 1]] <- df
+    offset <- offset + nrow(df)
+    total <- suppressWarnings(as.integer(js$SiteKit$Statviewtype$num_results))
+    if (is.na(total) || offset >= total) break
+    Sys.sleep(0.3)
+  }
+  if (length(pages) == 0) return(NULL)
+
+  bind_rows(pages) %>% mutate(season_id = as.character(season_id))
 }
 
 # Fetch current transactions
@@ -1061,7 +1191,7 @@ existing_season_stats_ids <- tryCatch(
 
 players_needing_season_stats <- bind_rows(
   new_player_list %>% select(player_id),
-  all_game_players %>% distinct(player_id) %>% anti_join(existing_season_stats_ids, by = "player_id")
+  known_player_ids %>% anti_join(existing_season_stats_ids, by = "player_id")
 ) %>%
   distinct(player_id) %>%
   filter(!is.na(player_id))
@@ -1249,9 +1379,7 @@ existing_media_ids <- tryCatch(
   error = function(e) tibble(player_id = character())
 )
 
-players_needing_media <- all_game_players %>%
-  distinct(player_id) %>%
-  filter(!is.na(player_id)) %>%
+players_needing_media <- known_player_ids %>%
   anti_join(existing_media_ids, by = "player_id")
 
 if (nrow(players_needing_media) > 0) {
