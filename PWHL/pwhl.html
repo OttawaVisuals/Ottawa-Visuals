@@ -496,16 +496,16 @@ document.addEventListener('DOMContentLoaded', () => {
           <li><strong>Player impact ratings</strong> are in goals above an average player at the
             same position, for the selected season. Two versions exist:
             <ul>
-              <li><em>Full model</em> (2025-26 onward, when the feed started listing who was on
-                the ice): even-strength offence and defence come from a ridge regression of 5-on-5
-                xG rates on every skater on the ice at once, which separates a player from their
-                linemates and opponents. Ice time between events is approximated from those on-ice
-                lists.</li>
-              <li><em>Box-score estimate</em> (earlier seasons): no on-ice data, so shot generation
-                (individual xG above position average for the minutes played) and playmaking
-                (0.5 × primary + 0.25 × secondary assists above average) stand in for it. These
-                totals are larger and noisier and shouldn't be compared directly with full-model
-                seasons.</li>
+              <li><em>Full model</em> (any season where the play-by-play lists who was on the ice,
+                which today is every season): even-strength offence and defence come from a ridge
+                regression of 5-on-5 xG rates on every skater on the ice at once, which separates a
+                player from their linemates and opponents. Ice time between events is approximated
+                from those on-ice lists.</li>
+              <li><em>Box-score estimate</em> (fallback for a season without on-ice data): shot
+                generation (individual xG above position average for the minutes played) and
+                playmaking (0.5 × primary + 0.25 × secondary assists above average) stand in for it.
+                These totals are larger and noisier and shouldn't be compared directly with
+                full-model seasons. The note under the ratings says which version a season uses.</li>
             </ul>
             Both versions add <em>finishing</em> (goals minus xG, shrunk toward zero by
             shots ÷ (shots + 300) because shooting luck is large in a 30-game season),
@@ -1320,7 +1320,7 @@ function renderRatings(seasonId, group) {
       + `offence/defence come from a regression on every skater on the ice. Minimum ${th.minGp} GP. `
       + `A power-play goal was worth ${s.pp_goals_per_minor} per minor penalty this season.`
     : `Box-score estimate: the feed has no on-ice lists for this season, so shot generation and playmaking `
-      + `stand in for on-ice impact. Not directly comparable with 2025-26 onward. Minimum ${th.minGp} GP.`;
+      + `stand in for on-ice impact. Not directly comparable with full-model seasons. Minimum ${th.minGp} GP.`;
 }
 
 function renderAttendance(seasonId) {
