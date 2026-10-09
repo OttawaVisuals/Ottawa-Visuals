@@ -3035,6 +3035,52 @@
 "updated": "2026-10-09 16:57:00"
 },
 "fp": "9ff70a84fd10"
+},
+"29400": {
+"event": {
+"cause": "",
+"created": "2026-10-09 17:03:00",
+"cross_street_1": "HWY 7 (IC 145)",
+"cross_street_2": "HWY 7 (IC 145)",
+"direction": null,
+"event_id": "29400",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from Highway 7 to Highway 7 - Daily Maintenance. 1 Alternating Lane. Detailed closure information is as follows: Thurs-Fri: 10:00-14:30. 2026-10-15 10:00 to 2026-10-16 14:30",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.27704,
+"lon": -75.96443,
+"planned_end": "2026-10-16T14:30",
+"planned_start": "2026-10-15T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-09 17:03:00"
+},
+"fp": "058913433d3f"
+},
+"29405": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 17:58:00",
+"cross_street_1": "Garland",
+"cross_street_2": "Bayview",
+"direction": null,
+"event_id": "29405",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "O'Meara closed between Garland and Bayview due to construction, until November 13th. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.406468,
+"lon": -75.724076,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-09T00:00",
+"priority": "MEDIUM",
+"road": "O'Meara",
+"source": "city",
+"updated": "2026-10-09 18:00:00"
+},
+"fp": "73484a08a25b"
 }
 }
 }
