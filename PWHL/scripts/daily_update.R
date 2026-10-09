@@ -366,6 +366,22 @@ for (sid in 1:20) {
   Sys.sleep(0.3)
 }
 
+# Season names and types straight from the feed, including seasons that
+# haven't started yet (the dashboard JSON only knows seasons with results).
+res <- GET(base_url, query = c(common_params, list(view = "seasons")))
+if (!http_error(res)) {
+  js <- tryCatch(fromJSON(content(res, as = "text", encoding = "UTF-8"), flatten = TRUE),
+                 error = function(e) NULL)
+  seasons_df <- js$SiteKit$Seasons
+  if (!is.null(seasons_df) && length(seasons_df) > 0) {
+    as_tibble(seasons_df) %>%
+      select(any_of(c("season_id", "season_name", "shortname", "career", "playoff",
+                      "start_date", "end_date"))) %>%
+      arrange(as.integer(season_id)) %>%
+      write_csv(file.path(data_dir, "pwhl_seasons.csv"))
+  }
+}
+
 fetch_schedule_for_season <- function(sid) {
   res <- GET(base_url, query = c(common_params, list(view = "schedule", season_id = sid)))
   if (http_error(res)) return(NULL)
@@ -382,12 +398,16 @@ all_games <- map_dfr(all_seasons$season_id, fetch_schedule_for_season)
 
 # Keep the full schedule (with played/final status) so future runs can tell
 # which already-known game_ids are actually done, not just which exist.
+# Team ids and scores are kept so build_elo.py can rate teams and simulate
+# the rest of the schedule; game_status carries "Final OT" / "Final SO".
 current_games <- all_games %>%
   mutate(
     game_id = as.character(game_id),
     is_final = final == "1" | grepl("^final", game_status, ignore.case = TRUE)
   ) %>%
-  select(season_id, game_id, date_played, game_status, is_final)
+  select(season_id, game_id, date_played, game_status, is_final,
+         home_team_id = home_team, visiting_team_id = visiting_team,
+         home_score = home_goal_count, visiting_score = visiting_goal_count)
 
 write_csv(current_games, file.path(data_dir, "pwhl_season_game_ids.csv"))
 

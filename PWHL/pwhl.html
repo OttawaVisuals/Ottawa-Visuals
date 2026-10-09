@@ -143,6 +143,20 @@ table{border-collapse:collapse;width:100%;}
 .rink-wrap canvas{max-width:100%;height:auto;}
 .rink-legend{display:flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
 .rink-legend .bar{height:8px;flex:1;max-width:200px;border-radius:4px;background:linear-gradient(90deg,transparent,var(--accent));}
+/* ── FORECAST ──────────────────────────────────────────────────── */
+.game-list{display:flex;flex-direction:column;max-height:420px;overflow-y:auto;}
+.game-row{display:grid;grid-template-columns:62px 1fr;gap:4px 10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;align-items:center;}
+.game-row:last-child{border-bottom:none;}
+.game-date{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);grid-row:span 2;}
+.game-teams{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums;}
+.game-teams .fav{font-weight:700;}
+.prob-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--bg-3);}
+.prob-bar .away{background:var(--blue);}
+.prob-bar .home{background:var(--accent);}
+.pct-cell{font-variant-numeric:tabular-nums;}
+#odds-grid .tbl th, #odds-grid .tbl td{padding-left:5px;padding-right:5px;}
+.result-tag{font-family:var(--font-mono);font-size:10px;margin-left:6px;}
+.result-tag.hit{color:var(--green);} .result-tag.miss{color:var(--red);}
 /* ── BRACKET ───────────────────────────────────────────────────── */
 .bracket-rounds{display:flex;gap:22px;overflow-x:auto;padding-bottom:6px;}
 .bracket-round{display:flex;flex-direction:column;gap:14px;min-width:220px;justify-content:center;}
@@ -240,6 +254,29 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
       <div class="stat-row" id="overview-stats"></div>
+    </div>
+
+    <!-- FORECAST: ELO PREDICTIONS + PLAYOFF ODDS -->
+    <div class="section" id="forecast">
+      <div class="section-head">
+        <div>
+          <h2 id="forecast-title">Forecast</h2>
+          <p id="forecast-sub">Team strength ratings (Elo), win chances for upcoming games, and playoff
+             odds from simulating the rest of the season thousands of times.</p>
+        </div>
+      </div>
+      <div class="grid-2" id="odds-grid"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" id="upcoming-title">Upcoming games</div>
+          <div class="game-list" id="upcoming-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Elo rating over time</div>
+          <div class="cw-lg"><canvas id="chart-elo"></canvas></div>
+        </div>
+      </div>
+      <p class="note" id="forecast-note"></p>
     </div>
 
     <!-- STANDINGS -->
@@ -481,6 +518,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <li>Coordinates in the play-by-play feed are in feet from center ice/center width,
             matching a standard 200×85 ft rink; they aren't normalized for which end a team was
             attacking, so the map shows raw shot locations rather than "offensive zone" shots.</li>
+          <li><strong>Forecast</strong> (<code>PWHL/scripts/build_elo.py</code>): Elo ratings
+            updated after every regular-season and playoff game (preseason ignored). Settings are
+            chosen by testing them on past seasons. The test scores are nearly identical across a wide
+            range of settings, so among those within 0.001 log loss of the best, the most responsive
+            is used. Playoff odds come from simulating the rest of the schedule and the playoff
+            bracket 10,000 times, with ratings updating inside each simulation. The 2026-27 format
+            (two six-team conferences, top four qualify, best-of-3 then best-of-5 rounds) is from
+            the league's 2 Oct 2026 schedule announcement. Playoff games already played aren't fed
+            into the bracket simulation yet.</li>
           <li><strong>Expected goals (xG)</strong> come from a logistic regression fitted in
             <code>PWHL/scripts/build_models.py</code> on every shot on goal with a goalie in net.
             Inputs are distance and angle to the net, shot type, rebound (team shot in the previous
@@ -534,7 +580,7 @@ if (window.self !== window.top) {
 
 const DATA_BASE = 'data/json/';
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
-    EVENTS = null, BRACKET = null, TXN = null, AWARDS = null, XG = null, RATINGS = null;
+    EVENTS = null, BRACKET = null, TXN = null, AWARDS = null, XG = null, RATINGS = null, ELO = null;
 let currentRatingsGroup = 'all';
 const CHARTS = [];
 let currentSeasonId = null;
@@ -586,10 +632,11 @@ Promise.all([
   // Model outputs are optional: the rest of the page still renders without them.
   fetch(DATA_BASE + 'pwhl_xg.json').then(r => r.ok ? r.json() : null).catch(() => null),
   fetch(DATA_BASE + 'pwhl_ratings.json').then(r => r.ok ? r.json() : null).catch(() => null),
-]).then(([meta, standings, leaders, games, shotmap, events, bracket, txn, awards, xg, ratings]) => {
+  fetch(DATA_BASE + 'pwhl_elo.json').then(r => r.ok ? r.json() : null).catch(() => null),
+]).then(([meta, standings, leaders, games, shotmap, events, bracket, txn, awards, xg, ratings, elo]) => {
   META = meta; STANDINGS = standings; LEADERS = leaders; GAMES = games;
   SHOTMAP = shotmap; EVENTS = events; BRACKET = bracket; TXN = txn; AWARDS = awards;
-  XG = xg; RATINGS = ratings;
+  XG = xg; RATINGS = ratings; ELO = elo;
   currentSeasonId = meta.current_season_id;
   currentBracketSeasonId = meta.current_playoff_season_id || Object.keys(bracket)[0];
   document.getElementById('app').style.display = 'flex';
@@ -645,6 +692,7 @@ function init() {
   buildBracketTabs();
   buildRatingsTabs();
   renderOverview();
+  renderForecast();
   renderSeason(currentSeasonId);
   renderShotSections();
   renderXgModelCharts();
@@ -1098,6 +1146,120 @@ function renderBracket(seasonId) {
 // ================================================================
 // ATTENDANCE
 // ================================================================
+// ================================================================
+// FORECAST: Elo ratings, game predictions, playoff odds
+// ================================================================
+const pctFmt = v => v == null ? '—' : v >= 0.995 ? '>99%' : v > 0 && v < 0.005 ? '<1%' : Math.round(v * 100) + '%';
+// "2026-12-05" -> "Dec 5" (parsed as a local date, not UTC midnight).
+const shortDate = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }); };
+let currentEloConf = null;
+
+function renderForecast() {
+  const sec = document.getElementById('forecast');
+  if (!ELO) { sec.style.display = 'none'; return; }
+  document.getElementById('forecast-title').textContent = `${ELO.season_name.replace(' Regular Season', '')} forecast`;
+  document.getElementById('forecast-sub').textContent = ELO.started
+    ? `Team strength ratings (Elo), win chances for upcoming games, and playoff odds from simulating the rest of the season ${fmt(ELO.n_sims)} times.`
+    : `The season starts ${ELO.upcoming.length ? shortDate(ELO.upcoming[0].date) : 'soon'}. Opening Elo ratings carry over from last season, pulled part of the way back to average, and playoff odds come from simulating the whole season ${fmt(ELO.n_sims)} times.`;
+
+  // Playoff odds, one table per conference (or one league table).
+  const confs = ELO.format ? Object.keys(ELO.format.conferences) : [null];
+  const cols = ELO.format
+    ? [['pts', 'Pts'], ['playoffs', 'Playoffs'], ['conf_final', 'Conf F'], ['final', 'Final'], ['cup', 'Cup']]
+    : [['pts', 'Proj. pts'], ['rank', 'Avg. rank']];
+  document.getElementById('odds-grid').innerHTML = confs.map(conf => {
+    const teams = ELO.teams.filter(t => conf == null || t.conference === conf)
+      .sort((a, b) => ELO.format ? (b.playoffs - a.playoffs) || (b.cup - a.cup) : a.rank - b.rank);
+    return `<div class="card">
+      <div class="card-title">${conf ? esc(conf) + 'ern Conference' : 'League'}${ELO.format ? ` · top ${ELO.format.per_conference} make the playoffs` : ''}</div>
+      <div style="overflow-x:auto;"><table class="tbl">
+        <thead><tr><th>#</th><th>Team</th><th>Elo</th>${cols.map(c => `<th>${c[1]}</th>`).join('')}</tr></thead>
+        <tbody>${teams.map((t, i) => `<tr>
+          <td class="rank-badge">${i + 1}</td>
+          <td><div class="team-cell">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<span>${esc(t.name)}</span></div></td>
+          <td>${Math.round(t.elo)}</td>
+          ${cols.map(([k]) => `<td class="pct-cell${k === 'playoffs' ? ' pts-cell' : ''}">${k === 'pts' || k === 'rank' ? (t[k] != null ? t[k].toFixed(1) : '—') : pctFmt(t[k])}</td>`).join('')}
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  }).join('');
+
+  // Upcoming games, plus how recent predictions fared once the season is on.
+  const gameRow = g => {
+    const homeFav = g.p_home >= 0.5;
+    return `<div class="game-row">
+      <span class="game-date">${esc(shortDate(g.date))}</span>
+      <div class="game-teams">
+        <span class="${homeFav ? '' : 'fav'}">${esc(g.away)} ${Math.round((1 - g.p_home) * 100)}%</span>
+        <span class="${homeFav ? 'fav' : ''}">${Math.round(g.p_home * 100)}% @ ${esc(g.home)}</span>
+      </div>
+      <div class="prob-bar"><span class="away" style="width:${(1 - g.p_home) * 100}%"></span><span class="home" style="width:${g.p_home * 100}%"></span></div>
+    </div>`;
+  };
+  const recentRow = g => {
+    const hit = (g.p_home >= 0.5) === (g.home_score > g.away_score);
+    return `<div class="game-row">
+      <span class="game-date">${esc(shortDate(g.date))}</span>
+      <div class="game-teams"><span>${esc(g.away)} ${g.away_score} @ ${esc(g.home)} ${g.home_score}${g.late ? ' (OT/SO)' : ''}</span>
+        <span>home ${Math.round(g.p_home * 100)}%<span class="result-tag ${hit ? 'hit' : 'miss'}">${hit ? '✓ called' : '✗ missed'}</span></span></div>
+    </div>`;
+  };
+  document.getElementById('upcoming-title').textContent = `Upcoming games: win chances (away · home)`;
+  document.getElementById('upcoming-list').innerHTML =
+    (ELO.upcoming.length ? ELO.upcoming.map(gameRow).join('') : '<p class="note">No games left on the schedule.</p>')
+    + (ELO.recent.length ? `<div class="card-title" style="margin-top:14px;">Recent results vs. prediction</div>${ELO.recent.map(recentRow).join('')}` : '');
+
+  currentEloConf = confs[0];
+  renderEloChart();
+
+  const p = ELO.params, sc = ELO.scorecard, bt = sc.backtest;
+  const now = sc.this_season
+    ? ` This season so far: ${Math.round(sc.this_season.accuracy * 100)}% of ${sc.this_season.games} winners called.` : '';
+  document.getElementById('forecast-note').textContent =
+    `Pts = average final points across the simulations; Conf F = reaches the conference final. `
+    + `Elo: K=${p.k}, home ice worth ${p.hfa} points, ratings pulled ${Math.round(p.regress * 100)}% back to 1500 between seasons, `
+    + `margin of victory ${p.mov ? 'counted' : 'ignored'}, expansion teams start ${-p.expansion} below average (based on only two teams: Seattle and Vancouver in 2025-26). `
+    + `Settings tuned on ${bt.games} games (${sc.backtest_seasons.join(', ')}): picked the winner ${Math.round(bt.accuracy * 100)}% of the time `
+    + `(home teams win ${Math.round(ELO.home_win_rate * 100)}%), log loss ${bt.log_loss} vs ${bt.baseline_log_loss} for always guessing the home-win rate. `
+    + `Hockey is close to a coin flip game to game, so treat single-game numbers as leanings.${now} `
+    + `Simulations: ${Math.round(ELO.ot_rate * 100)}% of games go to OT/SO (3-2-1-0 points), ties broken by regulation wins, `
+    + `the top seed picks the lower-rated of 3rd/4th, and playoff games are played at neutral strength.`;
+}
+
+function renderEloChart() {
+  const confs = ELO.format ? Object.keys(ELO.format.conferences) : [null];
+  const teams = ELO.teams.filter(t => currentEloConf == null || t.conference === currentEloConf);
+  const palette = ['--accent', '--blue', '--green', '--purple', '--red', '--ink-3'];
+  destroyChart('chart-elo');
+  const ctx = document.getElementById('chart-elo').getContext('2d');
+  trackChart(new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: teams.map((t, i) => ({
+        label: t.code,
+        data: (ELO.history[t.code] || []).map(([d, v]) => ({ x: d, y: v })),
+        borderColor: cssVar(palette[i % palette.length]), backgroundColor: cssVar(palette[i % palette.length]),
+        // Expansion teams have a single opening-day point until they play.
+        borderWidth: 1.5, pointRadius: (ELO.history[t.code] || []).length < 2 ? 3 : 0, tension: 0.2,
+      })),
+    },
+    options: baseOptions({
+      parsing: false,
+      scales: {
+        x: { type: 'category', labels: [...new Set(teams.flatMap(t => (ELO.history[t.code] || []).map(h => h[0])))].sort(),
+             ticks: { color: cssVar('--ink-3'), font: { size: 10 }, maxTicksLimit: 8 }, grid: { color: cssVar('--line') } },
+        y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
+      },
+    }),
+  }));
+  // Conference toggle lives in the chart card's title row.
+  const title = document.querySelector('#chart-elo').closest('.card').querySelector('.card-title');
+  if (confs.length > 1) {
+    title.innerHTML = `Elo rating over time · ${confs.map(c => `<button class="tab-btn${c === currentEloConf ? ' active' : ''}" data-conf="${esc(c)}" style="padding:2px 8px;margin-left:4px;">${esc(c)}</button>`).join('')}`;
+    title.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { currentEloConf = b.dataset.conf; renderEloChart(); }));
+  }
+}
+
 // ================================================================
 // EXPECTED GOALS (season-dependent tables + all-season model charts)
 // ================================================================
