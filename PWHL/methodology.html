@@ -103,6 +103,11 @@
           <li><strong>Player impact ratings</strong> are in goals above an average player at the
             same position, for the selected season. Two versions exist:
             <ul>
+              <li>On-ice lists at goals: on a goal (both its shot row and its goal row) the feed often
+                lists the skaters from both sides of the next line change, 7-10 names a team. Those lists
+                are rebuilt from the goal's plus/minus players, which are exactly who was on. Before this
+                fix (10 Oct 2026) the 5-on-5 ratings silently skipped about half of all even-strength
+                goals; correcting it moved the median player's rating by about 0.1 goals.</li>
               <li><em>Full model</em> (any season where the play-by-play lists who was on the ice,
                 which today is every season): even-strength offence and defence come from a ridge
                 regression of 5-on-5 xG rates on every skater on the ice at once, which separates a
@@ -122,8 +127,7 @@
           <li><strong>Team pages</strong>: the roster and stats follow the season picked; the
             "most used lines" are 5-on-5 forward trios and defence pairs ranked by time on ice together,
             rebuilt from the on-ice lists in the play-by-play (same approximation as the ratings, so
-            treat ice time as close, not exact). On a goal's shot row the feed often lists the
-            skaters from both sides of a line change, so goals use the goal row's plus/minus lists.
+            treat ice time as close, not exact).
             Franchise leaders add up each player's impact rating over every regular season with the club.</li>
           <li><strong>Player pages</strong>: shot mix and goalie matchups come from the expected-goals
             model, goalie-in-net shots only. About a third of shots have no type in the feed ("not
