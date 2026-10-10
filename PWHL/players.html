@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Players — Ottawa Visuals</title>
+<meta name="description" content="Every PWHL skater and goalie in one sortable table, with impact ratings and expected goals."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script src="pwhl-sections.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('players');</script>
+
+<div class="report">
+
+  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
+    <code>data/json/</code> is reachable from this page (run
+    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:30px;">
+    <div class="section">
+    <div class="section-head">
+      <div><h2>All players</h2><p>Every player with a game this season. Click a column to sort, a name for the player page.</p></div>
+      <div class="filters"><select id="season-select" class="ov-select" aria-label="Season"></select></div>
+    </div>
+      <div class="card">
+        <div class="card-title">
+          <span class="tabs" id="pl-tabs">
+            <button class="tab-btn active" data-kind="skaters">Skaters</button>
+            <button class="tab-btn" data-kind="goalies">Goalies</button>
+          </span>
+          <span class="filters">
+            <input id="pl-filter" placeholder="Filter by name…" aria-label="Filter by name">
+            <select id="pl-team" class="ov-select" aria-label="Team"></select>
+            <select id="pl-pos" class="ov-select" aria-label="Position">
+              <option value="">All positions</option><option value="F">Forwards</option><option value="D">Defence</option>
+            </select>
+          </span>
+        </div>
+        <div style="overflow-x:auto;"><table class="tbl" id="players-table"></table></div>
+        <p class="note" id="players-note"></p>
+      </div>
+    </div>
+
+    <div class="section" id="ratings">
+      <div class="section-head">
+        <div>
+          <h2>Player impact ratings</h2>
+          <p id="ratings-sub">Each skater's value in goals above an average player, split into the
+             pieces it comes from. Follows the season picked above.</p>
+        </div>
+        <div class="tabs" id="ratings-tabs">
+          <button class="tab-btn active" data-group="all">All skaters</button>
+          <button class="tab-btn" data-group="F">Forwards</button>
+          <button class="tab-btn" data-group="D">Defence</button>
+          <button class="tab-btn" data-group="G">Goalies</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" id="ratings-chart-title">Top 15: where the value comes from</div>
+        <div class="cw-lg"><canvas id="chart-ratings"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Full list</div>
+        <div style="overflow-x:auto;"><table class="tbl" id="ratings-table"></table></div>
+      </div>
+      <p class="note" id="ratings-note"></p>
+    </div>
+
+    <div class="section" id="xg">
+      <div class="section-head">
+        <div>
+          <h2>Expected goals</h2>
+          <p>How likely each shot on goal was to go in. Goalies are rated by <strong>goals saved above
+             expected</strong> (GSAx): positive means they stopped more than an average goalie would have
+             on the same shots. Shooters by goals minus expected goals.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Goalies: goals saved above expected</div>
+          <div class="cw"><canvas id="chart-gsax"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Goalie detail</div>
+          <div style="overflow-x:auto;"><table class="tbl" id="gsax-table"></table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Finishing: goals vs. expected, top shooters by xG</div>
+        <div style="overflow-x:auto;"><table class="tbl" id="skater-xg-table"></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+let plKind = 'skaters';
+const pctOf = (a, b) => b ? 100 * a / b : null;
+function renderPlayersTable(sid) {
+  const table = document.getElementById('players-table');
+  const q = document.getElementById('pl-filter').value.trim().toLowerCase();
+  const team = document.getElementById('pl-team').value;
+  const pos = document.getElementById('pl-pos').value;
+  document.getElementById('pl-pos').style.display = plKind === 'skaters' ? '' : 'none';
+  const xg = XG && XG.by_season[sid];
+  const rt = RATINGS && RATINGS.by_season[sid];
+  const keep = r => (!q || r.name.toLowerCase().includes(q)) && (!team || r.team_code === team);
+  const teamCol = { key: 'team', label: 'Team', get: r => r.team_code, fmt: v => v ? `${teamDot(v)}${teamLink(v)}` : '—' };
+  const nameCol = { key: 'name', label: 'Player', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) };
+  const n0 = v => v == null ? '—' : fmt(v), p1 = v => v == null ? '—' : v.toFixed(1) + '%';
+  if (plKind === 'skaters') {
+    const xs = xg ? Object.fromEntries(xg.skaters.map(s => [s.player_id, s])) : {};
+    const rs = rt ? Object.fromEntries(rt.skaters.map(s => [s.player_id, s])) : {};
+    const rows = (AWARDS[sid] || []).map(r => Object.assign({}, r, {
+      pg: /D/.test((r.pos || '').toUpperCase()) ? 'D' : 'F', xs: xs[r.player_id], rs: rs[r.player_id] }))
+      .filter(r => keep(r) && (!pos || r.pg === pos));
+    PWHL.sortableTable(table, [
+      nameCol, teamCol, { key: 'pos', label: 'Pos', get: r => r.pg },
+      { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
+      { key: 'g', label: 'G', num: 1, get: r => r.goals, fmt: n0 },
+      { key: 'a', label: 'A', num: 1, get: r => r.assists, fmt: n0 },
+      { key: 'p', label: 'PTS', num: 1, get: r => r.points, fmt: n0 },
+      { key: 'pm', label: '+/−', num: 1, get: r => r.plus_minus, fmt: v => (v > 0 ? '+' : '') + v },
+      { key: 'pim', label: 'PIM', num: 1, get: r => r.pim, fmt: n0 },
+      { key: 's', label: 'S', num: 1, get: r => r.shots, fmt: n0 },
+      { key: 'sp', label: 'S%', num: 1, get: r => pctOf(r.goals, r.shots), fmt: p1 },
+      { key: 'toi', label: 'TOI/GP', num: 1, get: r => r.gp ? r.toi / r.gp : null, fmt: v => v == null ? '—' : mmss(v) },
+      { key: 'hits', label: 'Hits', num: 1, get: r => r.hits, fmt: n0 },
+      { key: 'blk', label: 'Blk', num: 1, get: r => r.blocks, fmt: n0 },
+      { key: 'fo', label: 'FO%', num: 1, title: 'min. 20 faceoffs', get: r => r.fo_attempts >= 20 ? pctOf(r.fo_wins, r.fo_attempts) : null, fmt: p1 },
+      { key: 'xg', label: 'xG', num: 1, get: r => r.xs ? r.xs.ixg : null, fmt: v => v == null ? '—' : v.toFixed(1) },
+      { key: 'gx', label: 'G−xG', num: 1, get: r => r.xs ? r.xs.g_minus_xg : null, fmt: v => v == null ? '—' : signedCell(v) },
+      { key: 'imp', label: 'Impact', num: 1, title: 'goals above an average player', get: r => r.rs ? r.rs.total : null, fmt: v => v == null ? '—' : signedCell(v) },
+    ], rows, { sortKey: 'p', show: 25, noun: 'skaters' });
+    document.getElementById('players-note').textContent = `${rows.length} skaters. Impact = player impact rating in goals above an average player at the same position (see below).`;
+  } else {
+    const gx = xg ? Object.fromEntries(xg.goalies.map(g => [g.player_id, g])) : {};
+    const rows = ((GOALIES && GOALIES[sid]) || []).map(g => Object.assign({}, g, { x: gx[g.player_id] })).filter(keep);
+    PWHL.sortableTable(table, [
+      nameCol, teamCol,
+      { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
+      { key: 'w', label: 'W', num: 1, get: r => r.w, fmt: n0 },
+      { key: 'l', label: 'L', num: 1, get: r => r.l, fmt: n0 },
+      { key: 'otl', label: 'OTL', num: 1, get: r => r.otl, fmt: n0 },
+      { key: 'sa', label: 'SA', num: 1, get: r => r.sa, fmt: n0 },
+      { key: 'ga', label: 'GA', num: 1, get: r => r.ga, fmt: n0 },
+      { key: 'sv', label: 'SV%', num: 1, get: r => r.sa ? 1 - r.ga / r.sa : null, fmt: v => v == null ? '—' : v.toFixed(3).replace(/^0/, '') },
+      { key: 'gaa', label: 'GAA', num: 1, get: r => r.toi ? r.ga * 3600 / r.toi : null, fmt: v => v == null ? '—' : v.toFixed(2) },
+      { key: 'so', label: 'SO', num: 1, get: r => r.so, fmt: n0 },
+      { key: 'xsv', label: 'xSV%', num: 1, get: r => r.x ? r.x.xsv_pct : null, fmt: v => v == null ? '—' : v.toFixed(3).replace(/^0/, '') },
+      { key: 'gsax', label: 'GSAx', num: 1, get: r => r.x ? r.x.gsax : null, fmt: v => v == null ? '—' : signedCell(v) },
+    ], rows, { sortKey: 'gp', show: 25, noun: 'goalies' });
+    document.getElementById('players-note').textContent = `${rows.length} goalies. GSAx = goals saved above expected, from the expected-goals model.`;
+  }
+}
+function renderPlayersSeason(sid) {
+  const teams = [...new Set((AWARDS[sid] || []).map(r => r.team_code).filter(c => c && c !== 'NA'))].sort();
+  const sel = document.getElementById('pl-team'), cur = sel.value;
+  sel.innerHTML = '<option value="">All teams</option>' + teams.map(c => `<option${c === cur ? ' selected' : ''}>${esc(c)}</option>`).join('');
+  renderPlayersTable(sid);
+  renderRatings(sid, currentRatingsGroup);
+  renderXg(sid);
+}
+PWHL.load(['meta', 'standings', 'awards', 'xg', 'ratings', 'goalies', 'elo']).then(() => {
+  PWHL.fillHeader();
+  document.getElementById('app').style.display = 'flex';
+  buildRatingsTabs();
+  PWHL.tabs(document.getElementById('pl-tabs'), 'kind', k => { plKind = k; renderPlayersTable(currentSeasonId); });
+  ['pl-filter', 'pl-team', 'pl-pos'].forEach(id => document.getElementById(id)
+    .addEventListener('input', () => renderPlayersTable(currentSeasonId)));
+  const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);
+  PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderPlayersSeason);
+  renderPlayersSeason(currentSeasonId);
+  PWHL.onTheme(() => { renderPlayersSeason(currentSeasonId); PWHL.fillHeader(); });
+}).catch(PWHL.fail);
+</script>
+</body>
+</html>

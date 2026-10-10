@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Superlatives — Ottawa Visuals</title>
+<meta name="description" content="Tongue-in-cheek PWHL awards: the Goon, the Vulture, the Shin-Pad Shooter, the Rap Sheet and more."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script src="pwhl-sections.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('superlatives');</script>
+
+<div class="report">
+
+  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
+    <code>data/json/</code> is reachable from this page (run
+    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:30px;">
+    <div class="section" id="awards">
+      <div class="section-head">
+        <div>
+          <h2>Superlatives</h2>
+          <p>The categories the league doesn't hand out trophies for, for the season you pick. Switch to <strong>per 60 minutes</strong> to see who does
+             this stuff at a high rate rather than just who plays the most — it's where the
+             third-liners show up. Awards that are already a percentage stay as one in both views.</p>
+        </div>
+        <div class="filters"><select id="season-select" class="ov-select" aria-label="Season"></select></div>
+        <div class="tabs" id="awards-mode-tabs">
+          <button class="tab-btn active" data-mode="total">Totals</button>
+          <button class="tab-btn" data-mode="rate">Per 60 min</button>
+        </div>
+      </div>
+      <div class="awards-grid" id="awards-grid"></div>
+      <p class="note" id="awards-note"></p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>The Rap Sheet</h2>
+        <p>Every infraction in the rulebook gets its own wanted poster: the three players called for it
+           most this season, from the play-by-play's penalty log.</p></div></div>
+      <div class="awards-grid" id="rapsheet-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>The Hall of Sustained Quirk</h2>
+        <p>Players who were the outright winner of the same superlative in two or more regular seasons.
+           Once is a fluke. Twice is a personality.</p></div></div>
+      <div class="card"><div class="aw-list" id="hall-list"></div></div>
+      <p class="note" id="hall-note"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+function renderSupSeason(sid) {
+  renderAwards(sid, currentAwardsMode);
+  renderRapSheet(sid);
+}
+PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']).then(() => {
+  PWHL.fillHeader();
+  document.getElementById('app').style.display = 'flex';
+  buildAwardsTabs();
+  const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);
+  PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderSupSeason);
+  renderSupSeason(currentSeasonId);
+  renderHall();
+  PWHL.onTheme(() => { renderSupSeason(currentSeasonId); renderHall(); PWHL.fillHeader(); });
+}).catch(PWHL.fail);
+</script>
+</body>
+</html>

@@ -146,8 +146,18 @@ def main():
     code_by_name = {(r["season_id"], r["team_name"]): r["team_code"] for r in teams}
     code_by_id = {r["team_id"]: r["team_code"] for r in teams}  # later seasons win
 
+    # Date of the most recent completed game, for the pages' "data through" bar.
+    def iso_date(d):
+        try:
+            return datetime.strptime(" ".join((d or "").split()), "%A, %B %d, %Y").date().isoformat()
+        except ValueError:
+            return None
+    last_game_date = max((iso_date(g.get("game_date")) for gs in final_games_by_season.values() for g in gs),
+                         default=None, key=lambda d: d or "")
+
     write_json("pwhl_meta.json", {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "last_game_date": last_game_date,
         "seasons": [{"season_id": sid, "name": season_names[sid]} for sid in all_season_ids],
         "current_season_id": current_season_id,
         "current_playoff_season_id": current_playoff_season_id,
@@ -250,6 +260,13 @@ def main():
         logged_games[key] += 1
         if not (to_num(r.get("penalty_minutes"), int) or 0):
             clean_games[key] += 1
+    # Shin-Pad Shooter award: shot attempts that were blocked. In the feed a
+    # blocked_shot row's player is the *shooter* (the blocker isn't recorded).
+    season_of_game = {g["game_id"]: g["season_id"] for g in game_summaries}
+    blocked_attempts = defaultdict(int)
+    for e in pbp:
+        if e.get("event") == "blocked_shot" and e.get("player_id") not in (None, "", "NA"):
+            blocked_attempts[(season_of_game.get(e["game_id"]), e["player_id"])] += 1
     awards_by_season = {}
     for sid in all_season_ids:
         # Each season id carries only one kind of stat line; preseason is filed
@@ -322,11 +339,87 @@ def main():
                 "shg": total("short_handed_goals"),
                 "log_gp": logged_games.get((sid, pid), 0),
                 "clean_gp": clean_games.get((sid, pid), 0),
+                "en_goals": total("empty_net_goals"),
+                "blocked_att": blocked_attempts.get((sid, pid), 0),
             })
         rows.sort(key=lambda r: -r["toi"])
         if rows:
             awards_by_season[sid] = rows
     write_json("pwhl_awards.json", awards_by_season)
+
+    # ---- Goalie season lines (players page / team pages) -----------------
+    shutouts = defaultdict(int)
+    for r in game_logs:
+        if r.get("goalie") == "1" and r.get("shutout") == "1":
+            shutouts[(r["season_id"], r["player_id"])] += 1
+    goalies_by_season = defaultdict(dict)
+    seen_g = set()
+    for r in season_stats:
+        if r.get("season_name") == "Total" or to_num(r.get("shots_against"), int) is None:
+            continue
+        if not to_num(r.get("games_played"), int):
+            continue
+        sig = (r["player_id"], r["season_id"], r.get("games_played"), r.get("shots_against"), r.get("seconds_played"))
+        if sig in seen_g:
+            continue
+        seen_g.add(sig)
+        sid, pid = r["season_id"], r["player_id"]
+        g = goalies_by_season[sid].setdefault(pid, {
+            "player_id": pid, "name": player_display_name(pid), "team_code": "", "_toi_best": -1,
+            "gp": 0, "w": 0, "l": 0, "otl": 0, "sa": 0, "ga": 0, "toi": 0,
+            "so": shutouts.get((sid, pid), 0)})
+        toi = to_num(r.get("seconds_played"), int) or 0
+        for k, f in (("gp", "games_played"), ("w", "wins"), ("l", "losses"), ("otl", "ot_losses"),
+                     ("sa", "shots_against"), ("ga", "goals_against")):
+            g[k] += to_num(r.get(f), int) or 0
+        g["toi"] += toi
+        code = r.get("team_code")
+        if code not in (None, "", "NA") and toi > g["_toi_best"]:
+            g["team_code"], g["_toi_best"] = code, toi
+    write_json("pwhl_goalies.json", {
+        sid: sorted(({k: v for k, v in g.items() if not k.startswith("_")} for g in rows.values()),
+                    key=lambda g: -g["toi"])
+        for sid, rows in goalies_by_season.items()})
+
+    # ---- Rap sheet: penalties by infraction, per season ------------------
+    code_by_season_team = {(r["season_id"], r["team_id"]): r["team_code"] for r in teams}
+    rap = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    rap_team = {}
+    for e in pbp:
+        if e.get("event") != "penalty" or e.get("player_id") in (None, "", "NA"):
+            continue
+        sid = season_of_game.get(e["game_id"])
+        kind = (e.get("event_type") or "").strip()
+        if not sid or not kind or kind == "NA":
+            continue
+        rap[sid][kind][e["player_id"]] += 1
+        rap_team[(sid, e["player_id"])] = code_by_season_team.get((sid, e.get("team_id")), "")
+    write_json("pwhl_rapsheet.json", {
+        sid: sorted(
+            ({"infraction": kind, "total": sum(cnt.values()),
+              "top": [{"player_id": pid, "name": player_display_name(pid),
+                       "team_code": rap_team.get((sid, pid), ""), "n": n}
+                      for pid, n in sorted(cnt.items(), key=lambda kv: -kv[1])[:3]]}
+             for kind, cnt in kinds.items()),
+            key=lambda x: -x["total"])
+        for sid, kinds in rap.items()})
+
+    # ---- Latest rosters (team pages, incl. expansion teams with no games) --
+    roster_rows = read_csv("pwhl_team_rosters.csv")
+    if roster_rows:
+        latest = max(roster_rows, key=lambda r: int(r["season_id"]))["season_id"]
+        rosters = defaultdict(list)
+        for r in roster_rows:
+            if r["season_id"] != latest:
+                continue
+            code = code_by_season_team.get((latest, r.get("team_id")), "")
+            rosters[code].append({
+                "player_id": r.get("player_id"), "name": r.get("name"),
+                "pos": r.get("position"), "number": r.get("tp_jersey_number"),
+                "rookie": r.get("rookie") == "1",
+            })
+        write_json("pwhl_rosters.json", {"season_id": latest, "season": season_names.get(latest),
+                                         "teams": rosters})
 
     # ---- Games (schedule/results + attendance) ------------------------
     # Capacity by arena name (the venue sheet sometimes omits the "| City"
@@ -337,6 +430,15 @@ def main():
         if cap:
             capacity_by_venue[venue_parts(v.get("venue"))[0]] = cap
     missing_caps = set()
+    # Overtime / shootout flag per game from the play-by-play (the summaries'
+    # game_length is wall-clock time). Empty on a CI cache miss.
+    extra_time = {}
+    for e in pbp:
+        per = e.get("period_of_game") or ""
+        if e.get("event") == "shootout":
+            extra_time[e["game_id"]] = "SO"
+        elif per not in ("", "1", "2", "3", "NA") and extra_time.get(e["game_id"]) != "SO":
+            extra_time[e["game_id"]] = "OT"
 
     games_by_season = defaultdict(list)
     for g in game_summaries:
@@ -362,6 +464,7 @@ def main():
             "capacity": capacity,
             # No city (e.g. the 2024 preseason's Utica showcase) = neutral site.
             "takeover": vcity not in HOME_MARKETS.get(home_code, set()),
+            "ot": extra_time.get(g["game_id"]),
         })
     if missing_caps:
         print("  note: no capacity in PWHL_Venues.csv for: " + "; ".join(sorted(missing_caps)))
@@ -534,8 +637,27 @@ def write_player_pages(players_info, season_stats, game_logs, pbp, game_summarie
             if r.get("goalie_id") not in (None, "", "NA"):
                 shots_against[r["goalie_id"]].append(shot)
 
+    # Action shot for the page header: the primary media item, else the most
+    # recent upload.
+    action_photo = {}
+    for m in sorted(read_csv("pwhl_players_media.csv", required=False),
+                    key=lambda m: (m.get("is_primary") == "1", m.get("uploaded") or "")):
+        if m.get("url") not in (None, "", "NA"):
+            action_photo[m["player_id"]] = m["url"]
+
     os.makedirs(PLAYERS_DIR, exist_ok=True)
+    # build_models.py adds a "model" block to these files afterwards, and on a
+    # CI cache miss there's no play-by-play at all. Carry the previous model
+    # block over (the model step refreshes it when it runs), and the previous
+    # shots too when the play-by-play is missing, so a miss doesn't blank them.
+    carried = {}
     for old in glob.glob(os.path.join(PLAYERS_DIR, "*.json")):
+        try:
+            with open(old, encoding="utf-8") as f:
+                prev = json.load(f)
+            carried[prev["player_id"]] = {k: prev[k] for k in ("model", "shots") if k in prev}
+        except (ValueError, KeyError, OSError):
+            pass
         os.remove(old)
     index = []
     for pid in sorted(set(lines) | set(games), key=int):
@@ -552,11 +674,17 @@ def write_player_pages(players_info, season_stats, game_logs, pbp, game_summarie
             "height": clean("height"), "dob": clean("date_of_birth"),
             "hometown": clean("hometown") or clean("birthplace"),
             "nationality": clean("nationality"), "image": clean("primary_image"),
+            "action": action_photo.get(pid),
             "seasons": sorted(lines.get(pid, []), key=lambda l: int(l["season_id"])),
             "games": sorted(games.get(pid, []), key=lambda g: (g["d"] or "", int(g["gid"]))),
             # [season_id, x, y, goal]; for goalies these are shots faced.
             "shots": (shots_against if goalie else shots_for).get(pid, []),
         }
+        prev = carried.get(pid, {})
+        if not pbp and "shots" in prev:
+            obj["shots"] = prev["shots"]
+        if "model" in prev:
+            obj["model"] = prev["model"]
         with open(os.path.join(PLAYERS_DIR, f"{pid}.json"), "w", encoding="utf-8") as f:
             json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
         index.append({"id": pid, "name": name, "pos": pos, "team": team})
