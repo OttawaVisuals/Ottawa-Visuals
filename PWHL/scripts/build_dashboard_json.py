@@ -83,6 +83,7 @@ def write_json(name, obj):
 
 def main():
     teams = read_csv("pwhl_teams.csv")
+    season_catalog = read_csv("pwhl_seasons.csv")
     team_logos = read_csv("pwhl_team_logos.csv")
     game_summaries = read_csv("pwhl_game_summaries.csv")
     season_ids_rows = read_csv("pwhl_season_game_ids.csv")
@@ -573,10 +574,147 @@ def main():
         "recent": sorted(transactions, key=lambda t: t.get("transaction_date", ""), reverse=True)[:20],
         "trade_moves": trade_moves,
     })
+    write_movement_json(roster_rows, season_catalog, season_stats, teams,
+                        transactions, trade_moves, code_by_id)
 
     print(f"\nCurrent season: {current_season_id} ({season_names.get(current_season_id)})")
     print(f"Current playoff season: {current_playoff_season_id}")
     print("Done.")
+
+
+def write_movement_json(roster_rows, season_catalog, season_stats, teams,
+                        transactions, trade_moves, code_by_id):
+    """Roster history plus high-confidence team changes for the movement map."""
+    seasons = {r["season_id"]: r for r in season_catalog}
+    cycle_by_season = {sid: r["season_name"].split()[0] for sid, r in seasons.items()
+                       if r.get("playoff") != "1"}
+    regulars = sorted((r for r in season_catalog if "Regular" in r["season_name"]),
+                      key=lambda r: r.get("start_date", ""))
+    for sid, r in seasons.items():
+        if r.get("playoff") == "1":
+            prior = [s for s in regulars if s.get("start_date", "") <= r.get("start_date", "")]
+            if prior:
+                cycle_by_season[sid] = cycle_by_season[prior[-1]["season_id"]]
+    cycle_starts = {}
+    for sid, cycle in cycle_by_season.items():
+        start = seasons[sid].get("start_date", "")
+        cycle_starts[cycle] = min(start, cycle_starts.get(cycle, start))
+    periods = sorted(cycle_starts, key=lambda c: cycle_starts[c])
+    latest_team_rows = {}
+    for t in teams:
+        tid = t.get("team_id", "")
+        if tid and (tid not in latest_team_rows or int(t["season_id"]) > int(latest_team_rows[tid]["season_id"])):
+            latest_team_rows[tid] = t
+    team_list = sorted(({"code": code_by_id[tid], "name": t["team_name"]}
+                        for tid, t in latest_team_rows.items() if tid in code_by_id),
+                       key=lambda t: t["code"])
+    by_player = defaultdict(list)
+    by_player_period = defaultdict(lambda: defaultdict(lambda: defaultdict(set)))
+    for r in roster_rows:
+        pid, sid = r.get("player_id", ""), r.get("season_id", "")
+        code = code_by_id.get(r.get("team_id", ""), "")
+        if not pid or sid not in seasons or not code:
+            continue
+        by_player[pid].append((r, code))
+        by_player_period[pid][cycle_by_season[sid]][code].add(r.get("status", ""))
+    played = set()
+    for r in season_stats:
+        sid = r.get("season_id", "")
+        gp = to_num(r.get("games_played"), int) or 0
+        code = code_by_id.get(r.get("team_id", ""), "")
+        if sid in seasons and gp > 0 and code and r.get("season_name") != "Total":
+            played.add((r.get("player_id", ""), cycle_by_season[sid], code))
+    signed_tx = {(t.get("player_id"), t.get("team_code"), t.get("transaction_date", ""))
+                 for t in transactions if t.get("title") == "Signed"}
+
+    players, entries = [], []
+    for pid, rows in by_player.items():
+        rows.sort(key=lambda rc: (seasons[rc[0]["season_id"]].get("start_date", ""),
+                                  int(rc[0]["season_id"])))
+        name = next((r.get("name") or " ".join(filter(None, (r.get("first_name"), r.get("last_name"))))
+                     for r, _ in reversed(rows) if r.get("name") or r.get("first_name")), f"Player {pid}")
+        member_by_team = defaultdict(list)
+        for r, code in rows:
+            member_by_team[code].append(r)
+        memberships = []
+        for code, team_rows in member_by_team.items():
+            cycles = sorted({cycle_by_season[r["season_id"]] for r in team_rows},
+                            key=lambda c: cycle_starts[c])
+            statuses = {r.get("status", "") for r in team_rows}
+            ever_played = any((pid, cycle, code) in played for cycle in cycles)
+            role = ("Played" if ever_played else "Signed" if "Signed" in statuses
+                    else "Draftee" if "Draftee" in statuses else "Camp invitee" if "Camp Invitee" in statuses
+                    else "Reserve" if "Reserve" in statuses else "Roster-listed")
+            memberships.append({"team": code, "first": cycles[0], "last": cycles[-1],
+                                "periods": cycles, "role": role})
+        memberships.sort(key=lambda m: (cycle_starts[m["first"]], m["team"]))
+        players.append({"id": pid, "name": name, "teams": memberships})
+
+        first_start = seasons[rows[0][0]["season_id"]].get("start_date", "")
+        first_rows = [(r, code) for r, code in rows
+                      if seasons[r["season_id"]].get("start_date", "") == first_start]
+        first_teams = {code for _, code in first_rows}
+        if len(first_teams) == 1:
+            first_team = next(iter(first_teams))
+            first_sid = first_rows[0][0]["season_id"]
+            end = seasons[first_sid].get("end_date", "")
+            first_statuses = {r.get("status", "") for r, _ in first_rows}
+            has_signing = any(tx_pid == pid and tx_code == first_team and first_start <= date <= end
+                              for tx_pid, tx_code, date in signed_tx)
+            kind = ("draft" if "Draftee" in first_statuses else
+                    "signing" if "Signed" in first_statuses or has_signing else "roster")
+            entries.append({"player_id": pid, "to": first_team,
+                            "period": cycle_by_season[first_sid], "kind": kind})
+
+    official_pairs = {(m["player_id"], m["from"], m["to"], cycle_by_season.get(m["season_id"]))
+                      for m in trade_moves}
+    moves = [{"player_id": m["player_id"], "from": m["from"], "to": m["to"],
+              "period": cycle_by_season.get(m["season_id"], ""), "kind": "trade", "date": m["date"]}
+             for m in trade_moves]
+    # Consecutive season-cycle rosters identify other changes, including
+    # offseason signings. Require one club in each cycle and signed/played
+    # evidence at both ends; skip a pair already documented as a trade.
+    for pid, history in by_player_period.items():
+        for before, after in zip(periods, periods[1:]):
+            prior, following = history.get(before, {}), history.get(after, {})
+            if len(prior) != 1 or len(following) != 1:
+                continue
+            from_code, to_code = next(iter(prior)), next(iter(following))
+            if from_code == to_code or (pid, from_code, to_code, after) in official_pairs:
+                continue
+            credible_from = "Signed" in prior[from_code] or (pid, before, from_code) in played
+            credible_to = "Signed" in following[to_code] or (pid, after, to_code) in played
+            if credible_from and credible_to:
+                moves.append({"player_id": pid, "from": from_code, "to": to_code,
+                              "period": after, "kind": "roster", "date": ""})
+
+    retirement_events = {}
+    for t in transactions:
+        if t.get("title") != "Retired" or not t.get("player_id") or not t.get("team_code"):
+            continue
+        key = (t["player_id"], t["team_code"])
+        date = t.get("transaction_date", "")
+        if key not in retirement_events or date < retirement_events[key]:
+            retirement_events[key] = date
+    retirements = []
+    for (pid, code), date in retirement_events.items():
+        later_roster = any(seasons[r["season_id"]].get("start_date", "") > date
+                           for r, _ in by_player.get(pid, []))
+        retirements.append({"player_id": pid, "from": code, "date": date,
+                            "period": next((cycle_by_season[t["season_id"]] for t in transactions
+                                            if t.get("player_id") == pid and t.get("title") == "Retired"
+                                            and t.get("team_code") == code and t.get("season_id") in seasons), ""),
+                            "later_roster": later_roster})
+    players.sort(key=lambda p: (p["name"].casefold(), p["id"]))
+    listed_codes = {m["team"] for p in players for m in p["teams"]}
+    team_list = [t for t in team_list if t["code"] in listed_codes]
+    entries.sort(key=lambda e: (e["period"], e["player_id"]))
+    moves.sort(key=lambda m: (cycle_starts.get(m["period"], ""), m["date"], m["player_id"]))
+    retirements.sort(key=lambda r: (r["date"], r["player_id"]))
+    write_json("pwhl_movement.json", {
+        "periods": periods, "teams": team_list, "players": players,
+        "entries": entries, "moves": moves, "retirements": retirements,
+    })
 
 
 def write_player_pages(players_info, season_stats, game_logs, pbp, game_summaries,

@@ -8,7 +8,8 @@ const DATA_BASE = 'data/json/';
 // Data globals, filled by PWHL.load(). Pages only fetch what they use.
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
     EVENTS = null, BRACKET = null, TXN = null, AWARDS = null, XG = null, RATINGS = null,
-    ELO = null, GOALIES = null, RAPSHEET = null, ROSTERS = null, LINES = null, PINDEX = null;
+    ELO = null, GOALIES = null, RAPSHEET = null, ROSTERS = null, LINES = null, PINDEX = null,
+    MOVEMENT = null;
 const CHARTS = [];
 let currentSeasonId = null;
 
@@ -30,6 +31,7 @@ PWHL.PAGES = [
   ['teams', 'teams.html', 'Teams'],
   ['players', 'players.html', 'Players'],
   ['superlatives', 'superlatives.html', 'Superlatives'],
+  ['movement', 'movement.html', 'Movement'],
   ['method', 'methodology.html', 'How it works'],
 ];
 
@@ -107,6 +109,7 @@ const _DATA_VARS = {
   awards: v => AWARDS = v, xg: v => XG = v, ratings: v => RATINGS = v, elo: v => ELO = v,
   goalies: v => GOALIES = v, rapsheet: v => RAPSHEET = v, rosters: v => ROSTERS = v, lines: v => LINES = v,
   players_index: v => PINDEX = v,
+  movement: v => MOVEMENT = v,
 };
 // Model outputs and other extras may be missing; the core files may not.
 const _OPTIONAL = new Set(['xg', 'ratings', 'elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index']);

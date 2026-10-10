@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Player Movement — Ottawa Visuals</title>
+<meta name="description" content="Explore PWHL roster histories, team changes, league entries, recorded trades, and retirement events."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js?v=movement-1"></script>
+<script src="pwhl-movement.js?v=movement-1"></script>
+<script>
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css?v=movement-1"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-1"/>
+<link rel="stylesheet" href="../assets/site-theme.css"/>
+<script src="../assets/site-theme.js"></script>
+</head>
+<body class="movement-page">
+<div id="pwhl-header"></div>
+<script>PWHL.header('movement');</script>
+
+<main class="report">
+  <div class="hero">
+    <span class="eyebrow">Ottawa Visuals · Hockey</span>
+    <h1>Player movement</h1>
+    <p>Follow who joined the PWHL, who appeared on multiple team rosters, and the retirement events recorded by the league. Select a team to open every player listed on its rosters.</p>
+  </div>
+  <div id="load-error">Couldn't load the movement data. Try refreshing the page.</div>
+  <p id="movement-loading" role="status">Loading roster history…</p>
+  <div id="app" style="display:none;flex-direction:column;gap:18px;">
+    <div class="stat-row" id="movement-stats"></div>
+    <section class="card movement-card" aria-labelledby="movement-map-title">
+      <div class="movement-head">
+        <div>
+          <h2 id="movement-map-title">Team network</h2>
+          <p>Arrows show player movement. Spotlight a team to see every line count; select an arrow for names.</p>
+        </div>
+        <div class="movement-controls">
+          <select id="movement-team-select" class="ov-select" aria-label="Spotlight team"></select>
+          <button id="movement-show-all" class="tab-btn" type="button">All teams</button>
+        </div>
+      </div>
+      <div class="movement-legend">
+        <span><i class="movement-key entry"></i> First roster entry</span>
+        <span><i class="movement-key team"></i> Between teams</span>
+        <span><i class="movement-key retired"></i> Retirement recorded</span>
+      </div>
+      <div id="movement-network" class="movement-network" aria-label="Player movement network"></div>
+    </section>
+    <section class="card movement-detail-card" aria-labelledby="movement-detail-title">
+      <div class="movement-detail-top">
+        <div>
+          <h2 id="movement-detail-title">Ottawa roster history</h2>
+          <p id="movement-detail-sub"></p>
+        </div>
+        <form id="movement-search" class="movement-search" autocomplete="off">
+          <input id="movement-search-input" list="movement-search-list" placeholder="Find a player…" aria-label="Find a player"/>
+          <datalist id="movement-search-list"></datalist>
+          <button class="tab-btn" type="submit">Show path</button>
+        </form>
+      </div>
+      <div id="movement-detail" aria-live="polite"></div>
+    </section>
+    <p class="movement-method"><strong>How to read this:</strong> Team circles count everyone listed on a team roster, including camp invitees and draftees. Purple lines start at a player's first recorded PWHL roster: Drafted, Signed, or Other roster entry. Team-to-team lines combine recorded trades with changes between consecutive season rosters when the player was signed or played for both clubs. Grey lines are explicit retirement transactions; a retirement record does not prove a permanent exit. The 2026–27 preseason roster is included. Missing or ambiguous records are left out of the arrows.</p>
+  </div>
+</main>
+<footer><span>Ottawa Visuals</span><span>Data: PWHL / HockeyTech</span></footer>
+<script>
+function fillMovementHeader() {
+  PWHL.fillHeader();
+  document.getElementById('data-through').textContent = `Roster data rebuilt ${META.generated_at.slice(0, 10)}`;
+}
+PWHL.load(['meta', 'movement'], { movement:'movement-1' }).then(() => {
+  fillMovementHeader();
+  document.getElementById('movement-loading').remove();
+  document.getElementById('app').style.display = 'flex';
+  initMovementPage();
+  PWHL.onTheme(() => { renderMovementPage(); fillMovementHeader(); });
+}).catch(err => {
+  document.getElementById('movement-loading')?.remove();
+  PWHL.fail(err);
+});
+</script>
+</body>
+</html>
