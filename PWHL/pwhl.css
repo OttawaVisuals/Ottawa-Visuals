@@ -108,14 +108,25 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .player-search{display:flex;gap:8px;align-items:center;margin-top:6px;}
 .player-search input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);width:min(320px,100%);}
 /* ── AWARDS ────────────────────────────────────────────────────── */
+.superlatives-page #awards > .section-head h2{font-size:26px;letter-spacing:-.02em;text-transform:none;color:var(--ink);}
+.superlatives-page .superlatives-data-note{margin-top:9px;color:var(--ink-2);font-size:12px;line-height:1.45;}
+.award-jumps{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 18px;}
+.award-jumps a{padding:6px 10px;border:1px solid var(--line-2);border-radius:999px;background:var(--bg-2);font-size:12px;color:var(--ink-2);}
+.award-jumps a:hover,.award-jumps a:focus-visible{color:var(--accent);border-color:var(--accent);}
+.awards-groups{display:flex;flex-direction:column;gap:26px;}
+.award-group{scroll-margin-top:125px;}
+.award-group h3{font-size:15px;font-weight:600;color:var(--ink);margin:0 0 9px;}
 .awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 @media (max-width:1000px){ .awards-grid{grid-template-columns:1fr 1fr;} }
 @media (max-width:640px){ .awards-grid{grid-template-columns:1fr;} }
 .aw-card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;}
-.aw-head{display:flex;align-items:baseline;gap:7px;}
-.aw-emoji{font-size:15px;line-height:1;}
+.aw-head{display:flex;align-items:center;gap:10px;min-height:40px;}
+.aw-icon{width:62px;height:40px;flex:none;display:grid;place-items:center;}
+.aw-icon svg{display:block;width:100%;height:100%;}
+.aw-emoji{font-size:24px;line-height:1;}
 .aw-title{font-weight:700;font-size:13px;letter-spacing:-0.01em;}
 .aw-blurb{font-size:11.5px;color:var(--ink-3);line-height:1.45;}
+.superlatives-page .aw-blurb{font-size:12.5px;}
 .aw-list{display:flex;flex-direction:column;gap:1px;}
 .aw-row{display:grid;grid-template-columns:16px 1fr auto;align-items:center;gap:8px;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--line);}
 .aw-row:last-child{border-bottom:none;}
@@ -123,9 +134,14 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .aw-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .aw-row .tm{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-left:5px;}
 .aw-row .vl{font-variant-numeric:tabular-nums;font-weight:600;}
+.aw-row-detail{grid-column:2 / -1;justify-self:end;margin-top:-3px;font-family:var(--font-mono);font-size:10.5px;line-height:1.25;color:var(--ink-2);}
 .aw-row:first-child .nm{font-weight:700;}
 .aw-row:first-child .vl{color:var(--accent);}
 .aw-sub{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);}
+.superlatives-page .aw-sub,.superlatives-page .note{font-size:11px;}
+.aw-tie-note{font-size:11px;line-height:1.35;color:var(--ink-2);}
+.aw-hall-icon{width:28px;height:24px;display:grid;place-items:center;}
+.aw-hall-icon svg{display:block;width:100%;height:100%;}
 /* ── SHOT MAP ──────────────────────────────────────────────────── */
 .rink-wrap{display:flex;justify-content:center;}
 .rink-wrap canvas{max-width:100%;height:auto;}
@@ -186,6 +202,14 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
 .logo-strip a.active{border-color:var(--tc);background:var(--bg-2);box-shadow:inset 0 -3px 0 var(--tc);}
 .logo-strip img{width:26px;height:26px;object-fit:contain;}
 .logo-strip span{font-family:var(--font-mono);font-size:10px;color:var(--ink-2);}
+@media (max-width:640px){
+  .superlatives-page .award-jumps{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+  .superlatives-page .award-jumps a{flex:none;}
+  .superlatives-page .logo-strip{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;gap:3px;padding:3px 12px;scrollbar-width:none;}
+  .superlatives-page .award-jumps::-webkit-scrollbar,.superlatives-page .logo-strip::-webkit-scrollbar{display:none;}
+  .superlatives-page .logo-strip a{flex:0 0 32px;width:32px;height:32px;}
+  .superlatives-page .logo-strip img{width:24px;height:24px;}
+}
 a.team-cell:hover span{color:var(--accent);}
 /* ── EXPLORE GRID (home) ──────────────────────────────────────── */
 .explore{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
@@ -208,7 +232,7 @@ a.team-cell:hover span{color:var(--accent);}
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .filters input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);width:min(220px,100%);}
 /* ── SUPERLATIVES EXTRAS ──────────────────────────────────────── */
-.hall-row{grid-template-columns:22px 1fr auto;}
+.hall-row{grid-template-columns:30px 1fr auto;}
 .hall-row .rk{font-size:14px;}
 .hall-row .vl{font-weight:500;color:var(--ink-2);font-size:12px;}
 /* ── TEAM / PLAYER PAGE HEADER ────────────────────────────────── */
