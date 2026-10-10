@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Team — Ottawa Visuals</title>
+<meta name="description" content="PWHL team page: record, roster, most-used lines, results, attendance and outlook."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('teams');</script>
+
+<div class="report">
+  <a class="back" href="teams.html">← All teams</a>
+  <div id="load-error">Couldn't load this team. Check the link (it needs <code>?code=</code> and a
+    team code such as <code>OTT</code>), or pick a team from the logos above.</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:26px;">
+    <div class="p-head" id="t-head"></div>
+
+    <div class="section" id="outlook-section">
+      <div class="section-head"><div><h2 id="outlook-title">Outlook</h2><p id="outlook-sub"></p></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Next games: win chances</div>
+          <div class="game-list" id="t-upcoming"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Elo rating over time</div>
+          <div class="cw"><canvas id="chart-t-elo"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="season-sections" style="display:flex;flex-direction:column;gap:26px;">
+      <div class="section">
+        <div class="section-head"><div><h2 id="season-title">Season</h2><p id="season-sub"></p></div></div>
+        <div class="stat-grid" id="t-tiles"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title"><span>Results, game by game</span><span class="legend" style="margin:0"><span><i style="background:var(--green)"></i>win</span><span><i style="background:var(--amber)"></i>OT/SO loss</span><span><i style="background:var(--red)"></i>loss</span></span></div>
+          <div class="results" id="t-results"></div>
+          <div class="cw" style="margin-top:10px"><canvas id="chart-t-margin"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Top contributors: impact rating (goals above average)</div>
+          <div class="cw"><canvas id="chart-t-top"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section" id="lines-section">
+        <div class="section-head"><div><h2>Most-used lines</h2>
+          <p>5-on-5 forward trios and defence pairs with the most time on ice together this season, and
+             how the shots went with them out there. xGF% above 50% = more expected goals for than against.</p></div></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-title">Forward trios</div><div id="t-trios"></div></div>
+          <div class="card"><div class="card-title">Defence pairs</div><div id="t-pairs"></div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div><h2>Roster stats</h2><p>Everyone who played for the team this season. Click a column to sort.</p></div></div>
+        <div class="card"><div class="card-title">Skaters</div><div style="overflow-x:auto;"><table class="tbl" id="t-skaters"></table></div></div>
+        <div class="card"><div class="card-title">Goalies</div><div style="overflow-x:auto;"><table class="tbl" id="t-goalies"></table></div></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><div><h2>Game log</h2><p id="games-sub"></p></div></div>
+        <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="t-games"></table></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>Franchise leaders</h2>
+        <p>Impact rating added up over every regular season with the club: who has given this team the most
+           goals above an average player.</p></div></div>
+      <div class="card"><div class="aw-list" id="t-franchise"></div></div>
+    </div>
+
+    <div class="section" id="roster-section">
+      <div class="section-head"><div><h2 id="roster-title">Current roster</h2><p>From the league's roster feed.</p></div></div>
+      <div class="card"><div id="t-roster" class="roster-cols"></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+const CODE = (new URLSearchParams(location.search).get('code') || '').toUpperCase();
+let TEAM = null;          // latest name/logo for the code
+let teamSeasons = [];     // seasons with standings for this team
+const isD = pos => /D/.test((pos || '').toUpperCase());
+
+PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', 'lines', 'elo', 'rosters', 'players_index'])
+  .then(() => {
+    // Latest identity for the code (names changed after the inaugural season).
+    Object.keys(META.teams_by_season).sort((a, b) => Number(a) - Number(b)).forEach(sid => {
+      const t = META.teams_by_season[sid].find(t => t.code === CODE);
+      if (t) TEAM = t;
+    });
+    const eloTeam = ELO && ELO.teams.find(t => t.code === CODE);
+    if (!TEAM && eloTeam) TEAM = { code: CODE, name: eloTeam.name, logo: eloTeam.logo };
+    if (!TEAM) throw new Error('unknown team ' + CODE);
+    document.title = `${TEAM.name} — PWHL — Ottawa Visuals`;
+    PWHL.fillHeader(CODE);
+    teamSeasons = META.seasons.map(s => s.season_id).filter(s => (STANDINGS[s] || []).some(t => t.code === CODE));
+    document.getElementById('app').style.display = 'flex';
+    if (teamSeasons.length) currentSeasonId = PWHL.initialSeason(teamSeasons);
+    render();
+    PWHL.onTheme(() => { render(); PWHL.fillHeader(CODE); });
+  }).catch(PWHL.fail);
+
+function render() {
+  renderHead();
+  renderOutlook();
+  const hasSeason = teamSeasons.length > 0;
+  document.getElementById('season-sections').style.display = hasSeason ? 'flex' : 'none';
+  if (hasSeason) renderSeason(currentSeasonId);
+  renderFranchise();
+  renderRoster();
+}
+
+function standingRow(sid) { return (STANDINGS[sid] || []).find(t => t.code === CODE); }
+
+function renderHead() {
+  const head = document.getElementById('t-head');
+  head.style.setProperty('--tc', teamColor(CODE));
+  const st = teamSeasons.length ? standingRow(currentSeasonId) : null;
+  const eloTeam = ELO && ELO.teams.find(t => t.code === CODE);
+  const facts = [];
+  if (st) facts.push(['Record', `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}`], ['Points', `${st.pts} (#${st.rank})`], ['Goals', `${st.gf} for · ${st.ga} against`]);
+  if (eloTeam) facts.push(['Elo', Math.round(eloTeam.elo)], [`${ELO.season_name.split(' ')[0]} playoffs`, pctFmt(eloTeam.playoffs)]);
+  head.innerHTML = `
+    ${TEAM.logo ? `<img class="t-logo" src="${esc(TEAM.logo)}" alt="">` : ''}
+    <div>
+      <div class="p-num">PWHL${eloTeam && eloTeam.conference ? ' · ' + esc(eloTeam.conference) + 'ern Conference' : ''}</div>
+      <h1 class="p-name">${esc(TEAM.name)}</h1>
+      <div class="p-bio">${facts.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
+    </div>
+    ${teamSeasons.length ? `<div class="p-controls"><select class="ov-select" id="season-select" aria-label="Season">
+      ${teamSeasons.slice().reverse().map(s => `<option value="${s}"${s === currentSeasonId ? ' selected' : ''}>${esc(seasonName(s))}</option>`).join('')}
+    </select></div>` : ''}`;
+  const sel = document.getElementById('season-select');
+  if (sel) sel.addEventListener('change', () => {
+    currentSeasonId = sel.value;
+    try { localStorage.setItem('pwhl-season', currentSeasonId); } catch (e) {}
+    const u = new URL(location.href); u.searchParams.set('season', currentSeasonId); history.replaceState(null, '', u);
+    render();
+  });
+}
+
+// ---- Outlook: Elo, next games, rating history ------------------------
+function renderOutlook() {
+  const sec = document.getElementById('outlook-section');
+  const t = ELO && ELO.teams.find(t => t.code === CODE);
+  if (!t) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  document.getElementById('outlook-title').textContent = `${ELO.season_name.replace(' Regular Season', '')} outlook`;
+  const rank = ELO.teams.slice().sort((a, b) => b.elo - a.elo).findIndex(x => x.code === CODE) + 1;
+  document.getElementById('outlook-sub').textContent =
+    `Elo ${Math.round(t.elo)} (#${rank} of ${ELO.teams.length}). Across ${fmt(ELO.n_sims)} simulated seasons: `
+    + `${t.pts != null ? t.pts.toFixed(1) + ' points on average, ' : ''}playoffs ${pctFmt(t.playoffs)}`
+    + `${t.final != null ? `, final ${pctFmt(t.final)}` : ''}${t.cup != null ? `, champion ${pctFmt(t.cup)}` : ''}.`;
+  const games = ELO.upcoming.filter(g => g.home === CODE || g.away === CODE);
+  const list = document.getElementById('t-upcoming');
+  list.innerHTML = games.length ? games.map(g => {
+    const home = g.home === CODE, opp = home ? g.away : g.home, p = home ? g.p_home : 1 - g.p_home;
+    return `<div class="game-row">
+      <span class="game-date">${esc(shortDate(g.date))}</span>
+      <div class="game-teams"><span>${home ? 'vs' : '@'} ${teamDot(opp)}${teamLink(opp)}</span><span class="${p >= 0.5 ? 'fav' : ''}">${Math.round(p * 100)}% to win</span></div>
+      <div class="prob-bar"><span style="width:${p * 100}%;background:${teamColor(CODE)}"></span><span style="width:${(1 - p) * 100}%;background:${teamColor(opp)}"></span></div>
+    </div>`;
+  }).join('') : '<p class="note">No upcoming games on the schedule.</p>';
+  collapseRows(list, 6, 'games');
+
+  const hist = ELO.history[CODE] || [];
+  destroyChart('chart-t-elo');
+  trackChart(new Chart(document.getElementById('chart-t-elo').getContext('2d'), {
+    type: 'line',
+    data: { labels: hist.map(h => h[0]), datasets: [
+      { label: TEAM.name, data: hist.map(h => h[1]), borderColor: teamColor(CODE), backgroundColor: teamColorA(CODE, 0.12),
+        fill: true, borderWidth: 2, pointRadius: hist.length < 2 ? 3 : 0, tension: 0.2 },
+      { label: 'Average (1500)', data: hist.map(() => 1500), borderColor: cssVar('--ink-3'), borderDash: [4, 4], borderWidth: 1, pointRadius: 0 },
+    ] },
+    options: baseOptions({ scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 }, maxTicksLimit: 8 }, grid: { color: cssVar('--line') } },
+                                     y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } } } }),
+  }));
+}
+
+// ---- Season sections ---------------------------------------------------
+function teamGames(sid) {
+  return (GAMES[sid] || []).filter(g => g.home_code === CODE || g.away_code === CODE).map(g => {
+    const home = g.home_code === CODE;
+    const gf = home ? g.home_score : g.away_score, ga = home ? g.away_score : g.home_score;
+    return Object.assign({}, g, { home: home, opp: home ? g.away_code : g.home_code, gf, ga,
+      res: gf > ga ? 'W' : g.ot ? 'O' : 'L' });
+  });
+}
+
+function renderSeason(sid) {
+  const st = standingRow(sid);
+  const games = teamGames(sid);
+  document.getElementById('season-title').textContent = seasonName(sid);
+  const pct = v => v ? parseFloat(String(v).replace('%', '')) : null;
+  const xg = XG && XG.by_season[sid] && XG.by_season[sid].teams.find(t => t.code === CODE);
+  const homeGames = games.filter(g => g.home && !g.takeover && g.attendance);
+  const cap = homeGames.filter(g => g.capacity);
+  const capPct = cap.length ? 100 * cap.reduce((a, g) => a + g.attendance, 0) / cap.reduce((a, g) => a + g.capacity, 0) : null;
+  document.getElementById('season-sub').textContent = st ? `Finished #${st.rank} with ${st.pts} points.` : '';
+  const tiles = [
+    [st ? `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}` : '—', 'W-L-OT'],
+    [st ? fmt(st.pts) : '—', 'Points'],
+    [st ? fmt(st.gf) : '—', 'Goals for'], [st ? fmt(st.ga) : '—', 'Goals against'],
+    [st ? (st.gf - st.ga > 0 ? '+' : '') + (st.gf - st.ga) : '—', 'Goal diff'],
+    [st && pct(st.pp_pct) != null ? pct(st.pp_pct).toFixed(1) + '%' : '—', 'Power play'],
+    [st && pct(st.pk_pct) != null ? pct(st.pk_pct).toFixed(1) + '%' : '—', 'Penalty kill'],
+    [xg ? xg.xgf_pct.toFixed(1) + '%' : '—', 'xG share'],
+    [homeGames.length ? fmt(Math.round(homeGames.reduce((a, g) => a + g.attendance, 0) / homeGames.length)) : '—', 'Avg home crowd'],
+    [capPct != null ? Math.round(capPct) + '%' : '—', 'Home capacity'],
+  ];
+  document.getElementById('t-tiles').innerHTML = tiles.map(([n, l]) => `<div class="stat"><div class="num">${esc(n)}</div><div class="lbl">${esc(l)}</div></div>`).join('');
+
+  // Results strip + goal margin per game.
+  document.getElementById('t-results').innerHTML = games.map(g =>
+    `<a class="${g.res}" title="${esc(g.date)}: ${g.home ? 'vs' : '@'} ${esc(g.opp)} ${g.gf}-${g.ga}${g.ot ? ' (' + g.ot + ')' : ''}">${g.res === 'O' ? g.ot : g.res}</a>`).join('');
+  destroyChart('chart-t-margin');
+  trackChart(new Chart(document.getElementById('chart-t-margin').getContext('2d'), {
+    type: 'bar',
+    data: { labels: games.map(g => `${g.home ? 'vs' : '@'} ${g.opp}`), datasets: [{ label: 'Goal margin', data: games.map(g => g.gf - g.ga),
+      backgroundColor: games.map(g => g.gf > g.ga ? teamColor(CODE) : teamColorA(CODE, 0.3)), borderColor: teamColor(CODE), borderWidth: 1 }] },
+    options: baseOptions({ plugins: { legend: { display: false },
+      tooltip: { callbacks: { title: items => games[items[0].dataIndex].date, label: c => { const g = games[c.dataIndex]; return `${g.home ? 'vs' : '@'} ${g.opp}: ${g.gf}-${g.ga}${g.ot ? ' ' + g.ot : ''}`; } } } },
+      scales: { x: { display: false }, y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 }, stepSize: 1 }, grid: { color: cssVar('--line') } } } }),
+  }));
+
+  renderTopContributors(sid);
+  renderLines(sid);
+  renderRosterStats(sid);
+  renderGameLog(sid, games);
+}
+
+function renderTopContributors(sid) {
+  const rt = RATINGS && RATINGS.by_season[sid];
+  const rows = [];
+  if (rt) {
+    rt.skaters.filter(s => s.team_code === CODE).forEach(s => rows.push({ id: s.player_id, name: s.name, v: s.total, pos: s.pos }));
+    rt.goalies.filter(g => g.team_code === CODE).forEach(g => rows.push({ id: g.player_id, name: g.name, v: g.gsax, pos: 'G' }));
+  }
+  rows.sort((a, b) => b.v - a.v);
+  const top = rows.slice(0, 10);
+  destroyChart('chart-t-top');
+  trackChart(new Chart(document.getElementById('chart-t-top').getContext('2d'), {
+    type: 'bar',
+    data: { labels: top.map(r => `${r.name} · ${r.pos}`), datasets: [{ label: 'Impact', data: top.map(r => r.v),
+      backgroundColor: top.map(r => r.v >= 0 ? teamColor(CODE) : teamColorA(CODE, 0.35)), borderRadius: 3 }] },
+    options: baseOptions({ indexAxis: 'y',
+      onClick: (_e, els) => { if (els.length) location.href = playerHref(top[els[0].index].id); },
+      plugins: { legend: { display: false }, barLabels: { format: v => signed2(v), size: 10.5 },
+        tooltip: { callbacks: { label: c => `${signed2(c.raw)} goals${top[c.dataIndex].pos === 'G' ? ' saved above expected' : ' above average'}` } } },
+      scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
+                y: { ticks: { color: cssVar('--ink-2'), font: { size: 11 } }, grid: { display: false } } } }),
+  }));
+}
+
+function renderLines(sid) {
+  const sec = document.getElementById('lines-section');
+  const t = LINES && LINES.by_season[sid] && LINES.by_season[sid][CODE];
+  sec.style.display = t ? '' : 'none';
+  if (!t) return;
+  const unit = u => {
+    const share = u.xgf + u.xga ? 100 * u.xgf / (u.xgf + u.xga) : 50;
+    return `<div class="unit-row">
+      <span class="names">${u.ids.map((id, i) => plLink(id, u.names[i])).join('<span class="lbl">·</span>')}</span>
+      <span class="num">${Math.round(u.toi / 60)}<span class="lbl"> min</span></span>
+      <span class="num" title="expected goals for / against">${share.toFixed(0)}%<span class="lbl"> xGF</span>
+        <span class="xg-bar"><span style="width:${share}%;background:${teamColor(CODE)}"></span></span></span>
+      <span class="num">${u.gf}-${u.ga}<span class="lbl"> GF-GA</span></span>
+    </div>`;
+  };
+  document.getElementById('t-trios').innerHTML = t.trios.length ? t.trios.map(unit).join('') : '<p class="note">No trio with 15+ minutes together.</p>';
+  document.getElementById('t-pairs').innerHTML = t.pairs.length ? t.pairs.map(unit).join('') : '<p class="note">No pair with 20+ minutes together.</p>';
+}
+
+function renderRosterStats(sid) {
+  const rt = RATINGS && RATINGS.by_season[sid];
+  const imp = rt ? Object.fromEntries(rt.skaters.map(s => [s.player_id, s.total])) : {};
+  const skaters = (AWARDS[sid] || []).filter(r => r.team_code === CODE);
+  const n0 = v => v == null ? '—' : fmt(v);
+  PWHL.sortableTable(document.getElementById('t-skaters'), [
+    { key: 'name', label: 'Player', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) + (r.traded ? '*' : '') },
+    { key: 'pos', label: 'Pos', get: r => isD(r.pos) ? 'D' : 'F' },
+    { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
+    { key: 'g', label: 'G', num: 1, get: r => r.goals, fmt: n0 },
+    { key: 'a', label: 'A', num: 1, get: r => r.assists, fmt: n0 },
+    { key: 'p', label: 'PTS', num: 1, get: r => r.points, fmt: n0 },
+    { key: 'pm', label: '+/−', num: 1, get: r => r.plus_minus, fmt: v => (v > 0 ? '+' : '') + v },
+    { key: 'pim', label: 'PIM', num: 1, get: r => r.pim, fmt: n0 },
+    { key: 's', label: 'S', num: 1, get: r => r.shots, fmt: n0 },
+    { key: 'toi', label: 'TOI/GP', num: 1, get: r => r.gp ? r.toi / r.gp : null, fmt: v => v == null ? '—' : mmss(v) },
+    { key: 'imp', label: 'Impact', num: 1, get: r => imp[r.player_id] != null ? imp[r.player_id] : null, fmt: v => v == null ? '—' : signedCell(v) },
+  ], skaters, { sortKey: 'p', show: 30, noun: 'skaters' });
+  const gx = XG && XG.by_season[sid] ? Object.fromEntries(XG.by_season[sid].goalies.map(g => [g.player_id, g])) : {};
+  const goalies = ((GOALIES && GOALIES[sid]) || []).filter(g => g.team_code === CODE);
+  PWHL.sortableTable(document.getElementById('t-goalies'), [
+    { key: 'name', label: 'Goalie', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) },
+    { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
+    { key: 'rec', label: 'W-L-OTL', get: r => `${r.w}-${r.l}-${r.otl}` },
+    { key: 'sa', label: 'SA', num: 1, get: r => r.sa, fmt: n0 },
+    { key: 'sv', label: 'SV%', num: 1, get: r => r.sa ? 1 - r.ga / r.sa : null, fmt: v => v == null ? '—' : v.toFixed(3).replace(/^0/, '') },
+    { key: 'gaa', label: 'GAA', num: 1, get: r => r.toi ? r.ga * 3600 / r.toi : null, fmt: v => v == null ? '—' : v.toFixed(2) },
+    { key: 'so', label: 'SO', num: 1, get: r => r.so, fmt: n0 },
+    { key: 'gsax', label: 'GSAx', num: 1, get: r => gx[r.player_id] ? gx[r.player_id].gsax : null, fmt: v => v == null ? '—' : signedCell(v) },
+  ], goalies, { sortKey: 'gp', show: 10, noun: 'goalies' });
+}
+
+function renderGameLog(sid, games) {
+  const rows = games.slice().reverse();
+  const w = games.filter(g => g.res === 'W').length;
+  document.getElementById('games-sub').textContent = `${games.length} games, most recent first. ${w} wins.`;
+  const table = document.getElementById('t-games');
+  table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Result</th><th>Score</th><th>Venue</th><th>Crowd</th></tr></thead>
+    <tbody>${rows.map(g => `<tr>
+      <td>${esc((g.date || '').replace(/^\w+,\s*/, '').replace(/\s+/g, ' '))}</td>
+      <td>${g.home ? 'vs' : '@'} ${teamDot(g.opp)}${teamLink(g.opp)}</td>
+      <td><b style="color:${g.res === 'W' ? 'var(--green)' : g.res === 'O' ? 'var(--amber)' : 'var(--red)'}">${g.res === 'O' ? g.ot + ' L' : g.res}${g.res === 'W' && g.ot ? ' (' + g.ot + ')' : ''}</b></td>
+      <td>${g.gf}-${g.ga}</td>
+      <td style="text-align:right">${esc((g.venue || '').split('|')[0].trim())}${g.takeover ? ' <span class="txn-tag">takeover</span>' : ''}</td>
+      <td>${g.attendance ? fmt(g.attendance) : '—'}</td></tr>`).join('')}</tbody>`;
+  collapseRows(table, 10, 'games');
+}
+
+// ---- Franchise leaders (all regular seasons) ---------------------------
+function renderFranchise() {
+  const wrap = document.getElementById('t-franchise');
+  const tot = {};
+  if (RATINGS) Object.entries(RATINGS.by_season).forEach(([sid, s]) => {
+    if (!/Regular/.test(seasonName(sid))) return;
+    s.skaters.filter(r => r.team_code === CODE).forEach(r => {
+      const t = tot[r.player_id] = tot[r.player_id] || { id: r.player_id, name: r.name, v: 0, gp: 0, from: sid, pos: r.pos };
+      t.v += r.total; t.gp += r.gp; if (Number(sid) < Number(t.from)) t.from = sid;
+    });
+    s.goalies.filter(g => g.team_code === CODE).forEach(g => {
+      const t = tot[g.player_id] = tot[g.player_id] || { id: g.player_id, name: g.name, v: 0, gp: null, from: sid, pos: 'G' };
+      t.v += g.gsax; if (Number(sid) < Number(t.from)) t.from = sid;
+    });
+  });
+  const rows = Object.values(tot).sort((a, b) => b.v - a.v).slice(0, 8);
+  wrap.innerHTML = rows.length ? rows.map((r, i) => `<div class="aw-row">
+      <span class="rk">${i + 1}</span>
+      <span class="nm">${plLink(r.id, r.name)}<span class="tm">${r.pos}${r.gp ? ' · ' + r.gp + ' GP' : ''} · since ${esc(seasonName(r.from).split(' ')[0])}</span></span>
+      <span class="vl">${signed2(r.v)}</span></div>`).join('')
+    : '<p class="note">No rated seasons yet: this team hasn\'t played a regular-season game.</p>';
+}
+
+// ---- Current roster from the league roster feed -------------------------
+function renderRoster() {
+  const sec = document.getElementById('roster-section');
+  const list = ROSTERS && ROSTERS.teams[CODE];
+  if (!list || !list.length) { sec.style.display = 'none'; return; }
+  const known = new Set((PINDEX || []).map(p => p.id));
+  const group = (label, test) => {
+    const ps = list.filter(test).sort((a, b) => Number(a.number || 99) - Number(b.number || 99));
+    return ps.length ? `<div><div class="card-title">${label} (${ps.length})</div>${ps.map(p => `<div class="aw-row" style="grid-template-columns:28px 1fr auto">
+      <span class="rk">${p.number ? '#' + esc(p.number) : ''}</span>
+      <span class="nm">${known.has(p.player_id) ? plLink(p.player_id, p.name) : esc(p.name)}</span>
+      <span class="aw-sub">${p.rookie ? 'rookie' : ''}</span></div>`).join('')}</div>` : '';
+  };
+  document.getElementById('roster-title').textContent = `Roster${ROSTERS.season ? ' · ' + ROSTERS.season : ''}`;
+  document.getElementById('t-roster').innerHTML =
+    group('Forwards', p => !isD(p.pos) && p.pos !== 'G') + group('Defence', p => isD(p.pos)) + group('Goalies', p => p.pos === 'G');
+}
+</script>
+</body>
+</html>

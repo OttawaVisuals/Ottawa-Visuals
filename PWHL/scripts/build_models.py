@@ -272,7 +272,7 @@ def parse_games(pbp, season_of, season_kind):
                 last_shot[team] = t
 
                 shots.append({
-                    "game_id": gid, "season_id": sid, "t": t, "period": per,
+                    "game_id": gid, "season_id": sid, "t": t, "t_raw": r.get("sec_from_start"), "period": per,
                     "team_id": team, "opp_id": opp,
                     "shooter": r.get("player_id"), "goalie": r.get("goalie_id"),
                     "type": r.get("event_type") or "Default",
@@ -394,6 +394,152 @@ def rapm(stints, shots_5v5):
         XtWX[i][i] += RAPM_LAMBDA_HOURS
     beta = solve_spd(XtWX, XtWy)
     return {p: (beta[idx[p]], beta[n + idx[p]], toi[p]) for p in players}, mean
+
+
+# ------------------------------------------- player pages & line combos
+
+SHOT_TYPE_LABEL = {"Default": "Not recorded", "Tip": "Tip-in"}
+LINE_MIN_SECS = {"trios": 15 * 60, "pairs": 20 * 60}
+
+
+def write_player_models(model_shots, pname, team_code):
+    """Add a "model" block to each data/json/players/<id>.json (written by
+    build_dashboard_json.py): per season, shots by type and results against
+    each goalie (or, for a goalie, against each shooter), plus xG per game.
+    Goalie-in-net shots only, so empty-net goals don't count as finishing."""
+    per = defaultdict(lambda: {"types": defaultdict(lambda: [0, 0, 0.0, 0.0]),
+                               "vs": defaultdict(lambda: [0, 0, 0.0])})
+    game_xg = defaultdict(lambda: defaultdict(float))
+    for sh in model_shots:
+        label = SHOT_TYPE_LABEL.get(sh["type"], sh["type"])
+        for pid, other in ((sh["shooter"], sh["goalie"]), (sh["goalie"], sh["shooter"])):
+            if pid in (None, "", "NA"):
+                continue
+            d = per[(pid, sh["season_id"])]
+            t = d["types"][label]
+            t[0] += 1; t[1] += sh["goal"]; t[2] += sh["xg"]; t[3] += sh["dist"]
+            if other not in (None, "", "NA"):
+                v = d["vs"][other]
+                v[0] += 1; v[1] += sh["goal"]; v[2] += sh["xg"]
+            game_xg[pid][sh["game_id"]] += sh["xg"]
+
+    by_player = defaultdict(dict)
+    for (pid, sid), d in per.items():
+        by_player[pid][sid] = {
+            # [type, shots, goals, xG, average distance in ft]
+            "types": sorted(([k, v[0], v[1], round(v[2], 2), round(v[3] / v[0], 1)]
+                             for k, v in d["types"].items()), key=lambda r: -r[1]),
+            # [player_id, name, shots, goals, xG]
+            "vs": [[o, pname(o), v[0], v[1], round(v[2], 2)] for o, v in d["vs"].items()],
+        }
+    players_dir = os.path.join(OUT_DIR, "players")
+    written = 0
+    for pid, seasons in by_player.items():
+        path = os.path.join(players_dir, f"{pid}.json")
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            obj = json.load(f)
+        obj["model"] = {"by_season": seasons,
+                        "game_xg": {g: round(x, 3) for g, x in game_xg[pid].items()}}
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
+        written += 1
+    print(f"  added model blocks to {written} player files")
+
+
+def unit_stints(games, goalie_ids, season_id):
+    """Like build_stints, but keeps which team each five belongs to:
+    [(home_team, away_team, home5, away5, seconds)]."""
+    out = []
+    for g in games.values():
+        if g["season_id"] != season_id:
+            continue
+        last = None
+        for t, _, r in g["events"]:
+            h = [p for p in ids(r.get("on_ice_home")) if p not in goalie_ids]
+            a = [p for p in ids(r.get("on_ice_away")) if p not in goalie_ids]
+            cur = (tuple(sorted(h)), tuple(sorted(a))) if len(h) == 5 and len(a) == 5 else None
+            if last is not None:
+                lt, lper, lset = last
+                if r.get("period_of_game") == lper and t > lt:
+                    half = (t - lt) / 2
+                    for st in (lset, cur):
+                        if st:
+                            out.append((g["home"], g["away"], st[0], st[1], half))
+            last = (t, r.get("period_of_game"), cur)
+    return out
+
+
+def line_combos(pbp, games, model_shots, goalie_ids, players_info, pname, team_code, seasons):
+    """Most-used 5v5 forward trios and defence pairs per team and season,
+    with their together ice time and on-ice xG/goals for and against.
+
+    On a goal's shot row the on-ice lists are often the union of the skaters
+    before and after the next change (7-10 names a side), so for goals use the
+    separate goal row's plus/minus lists, which are exactly who was on."""
+    plus_minus = {}
+    for r in pbp:
+        if r["event"] == "goal":
+            plus = [r.get(f"plus_player_{n}_id") for n in ("one", "two", "three", "four", "five")]
+            minus = [r.get(f"minus_player_{n}_id") for n in ("one", "two", "three", "four", "five")]
+            plus_minus[(r["game_id"], r.get("sec_from_start"), r.get("player_id"))] = (
+                [x for x in plus if x not in (None, "", "NA")], [x for x in minus if x not in (None, "", "NA")])
+    def is_d(pid):
+        return "D" in ((players_info.get(pid) or {}).get("position") or "").upper()
+
+    def units(five):
+        fw = tuple(sorted(p for p in five if not is_d(p)))
+        dm = tuple(sorted(p for p in five if is_d(p)))
+        return (("trios", fw) if len(fw) == 3 else None), (("pairs", dm) if len(dm) == 2 else None)
+
+    out = {}
+    for sid in seasons:
+        stints = unit_stints(games, goalie_ids, sid)
+        if not stints:
+            continue
+        agg = defaultdict(lambda: [0.0, 0.0, 0.0, 0, 0])   # secs, xgf, xga, gf, ga
+        for home, away, h5, a5, secs in stints:
+            for team, five in ((home, h5), (away, a5)):
+                for u in units(five):
+                    if u:
+                        agg[(team,) + u][0] += secs
+        for sh in model_shots:
+            if sh["season_id"] != sid:
+                continue
+            home_shot = sh["team_id"] == sh["home"]
+            h = [p for p in sh["on_home"] if p not in goalie_ids]
+            a = [p for p in sh["on_away"] if p not in goalie_ids]
+            pm = plus_minus.get((sh["game_id"], sh["t_raw"], sh["shooter"])) if sh["goal"] else None
+            if pm:
+                h, a = (pm[0], pm[1]) if home_shot else (pm[1], pm[0])
+                h = [p for p in h if p not in goalie_ids]
+                a = [p for p in a if p not in goalie_ids]
+            if len(h) != 5 or len(a) != 5:
+                continue
+            away_team = sh["opp_id"] if home_shot else sh["team_id"]
+            for team, five, shooting in ((sh["home"], h, home_shot), (away_team, a, not home_shot)):
+                for u in units(five):
+                    if not u or (team,) + u not in agg:
+                        continue
+                    v = agg[(team,) + u]
+                    if shooting:
+                        v[1] += sh["xg"]; v[3] += sh["goal"]
+                    else:
+                        v[2] += sh["xg"]; v[4] += sh["goal"]
+        teams = defaultdict(lambda: {"trios": [], "pairs": []})
+        for (tid, kind, members), v in agg.items():
+            if v[0] < LINE_MIN_SECS[kind]:
+                continue
+            teams[team_code.get((sid, tid), tid)][kind].append({
+                "ids": list(members), "names": [pname(p) for p in members],
+                "toi": round(v[0]), "xgf": round(v[1], 2), "xga": round(v[2], 2), "gf": v[3], "ga": v[4]})
+        for t in teams.values():
+            t["trios"] = sorted(t["trios"], key=lambda r: -r["toi"])[:6]
+            t["pairs"] = sorted(t["pairs"], key=lambda r: -r["toi"])[:4]
+        if teams:
+            out[sid] = teams
+    return out
 
 
 # ------------------------------------------------------------- main
@@ -710,6 +856,12 @@ def main():
             "goalies": [{"player_id": x["player_id"], "name": x["name"], "team_code": x["team_code"],
                          "shots": x["shots"], "gsax": x["gsax"]} for x in goalies],
         }
+
+    print("Player model blocks and line combos...")
+    write_player_models(model_shots, pname, team_code)
+    lines = line_combos(pbp, games, model_shots, goalie_ids, players_info, pname, team_code,
+                        sorted(ratings_by_season, key=int))
+    write_json("pwhl_lines.json", {"min_secs": LINE_MIN_SECS, "by_season": lines})
 
     write_json("pwhl_xg.json", {
         "model": {

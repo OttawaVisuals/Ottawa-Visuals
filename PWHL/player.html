@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Player — Ottawa Visuals</title>
-<meta name="description" content="PWHL player page: season stats, game log, shot locations and model ratings."/>
+<meta name="description" content="PWHL player page: season stats, game log, shot locations and types, goalie matchups and model ratings."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -19,128 +20,28 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<style>
-/* Same tokens and building blocks as pwhl.html. */
-:root {
-  --font-body:"Inter",system-ui,sans-serif;
-  --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-  --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
-  --line:#DCE1E8; --line-2:#C3CAD4;
-  --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
-  --accent:#C9542F; --accent-bg:rgba(201,84,47,0.08);
-  --green:#22885F; --red:#D0483A; --blue:#2F6FB4;
-}
-[data-theme="dark"] {
-  --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
-  --line:#2A2F3D; --line-2:#383E4E;
-  --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
-  --accent:#E06B45; --accent-bg:rgba(224,107,69,0.12);
-  --green:#2FB584; --red:#E85A44; --blue:#5B9BE0;
-}
-*,*::before,*::after{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased;}
-a{color:inherit;text-decoration:none;}
-button{font:inherit;color:inherit;cursor:pointer;}
-p{margin:0;}
-h1,h2,h3{margin:0;}
-table{border-collapse:collapse;width:100%;}
-.topbar{position:sticky;top:0;z-index:50;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
-.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;}
-.brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
-.brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
-[data-theme="dark"] .brand-logo img{filter:none;}
-.brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
-.topbar nav{display:flex;gap:2px;}
-.topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;}
-.topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
-.topbar nav a.active{color:var(--accent);font-weight:600;}
-.spacer{flex:1;}
-.icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);}
-@media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
-.report{max-width:1240px;margin:0 auto;padding:20px 24px 80px;display:flex;flex-direction:column;gap:22px;}
-@media (max-width:720px){ .report{padding:16px 12px 60px;} }
-.back{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);}
-.back:hover{color:var(--accent);}
-.section{display:flex;flex-direction:column;gap:10px;}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;}
-.section-head h2{font-size:12px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-2);}
-.section-head p{color:var(--ink-3);font-size:12.5px;max-width:680px;margin-top:3px;}
-.card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px;}
-.card-title{font-weight:600;font-size:12px;color:var(--ink-2);margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;}
-.note{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:7px;line-height:1.5;}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.grid-2 > *{min-width:0;}
-@media (max-width:760px){ .grid-2{grid-template-columns:1fr;} }
-.cw{position:relative;height:300px;}
-.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;}
-.stat{background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:9px 12px;}
-.stat .num{font-weight:700;font-size:20px;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;}
-.stat .lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-top:2px;letter-spacing:0.02em;text-transform:uppercase;}
-select.ov-select{background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:7px 26px 7px 10px;font-family:var(--font-body);font-size:13px;color:var(--ink);appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='5'><polyline points='0,0 4,4 8,0' fill='none' stroke='%237a8094' stroke-width='1.5'/></svg>");background-repeat:no-repeat;background-position:right 10px center;}
-.tabs{display:flex;gap:4px;flex-wrap:wrap;}
-.tab-btn{padding:4px 10px;border-radius:7px;border:1px solid var(--line);background:var(--bg-3);color:var(--ink-2);font-size:11px;font-family:var(--font-mono);}
-.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.tbl{font-size:12.5px;}
-.tbl th{text-align:right;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);letter-spacing:0.03em;text-transform:uppercase;padding:6px 7px;border-bottom:1px solid var(--line-2);white-space:nowrap;}
-.tbl th:first-child,.tbl th:nth-child(2){text-align:left;}
-.tbl td{text-align:right;padding:6px 7px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;}
-.tbl td:first-child,.tbl td:nth-child(2){text-align:left;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl tr:hover td{background:var(--bg-3);}
-.tbl tr.sel td{background:var(--accent-bg);}
-.team-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;}
-.more-btn{margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2);background:var(--bg-3);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
-.more-btn:hover{color:var(--accent);border-color:var(--accent);}
-/* Player header */
-.p-head{display:flex;gap:18px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-left:6px solid var(--tc,var(--line-2));border-radius:10px;padding:14px 18px;flex-wrap:wrap;}
-.p-photo{width:96px;height:96px;border-radius:12px;object-fit:cover;background:var(--bg-3);border:1px solid var(--line);}
-.p-num{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;}
-.p-name{font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin:2px 0 4px;}
-.p-team{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;}
-.p-team .sw{width:12px;height:12px;border-radius:3px;background:var(--tc);}
-.p-bio{display:flex;gap:6px 16px;flex-wrap:wrap;color:var(--ink-2);font-size:12.5px;margin-top:6px;}
-.p-bio b{font-family:var(--font-mono);font-weight:400;font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.04em;margin-right:4px;}
-.p-controls{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.rink-wrap{display:flex;justify-content:center;}
-.rink-wrap canvas{max-width:100%;height:auto;}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:6px;align-items:center;}
-.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px;}
-#load-error{display:none;background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;padding:14px 16px;}
-footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);font-family:var(--font-mono);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-</style>
+<link rel="stylesheet" href="pwhl.css">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
 <body>
 
-<header class="topbar">
-  <a href="../index.html" class="brand">
-    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
-    <span>Ottawa Visuals<small>data, charted simply</small></span>
-  </a>
-  <nav>
-    <a href="../index.html#reports">Reports</a>
-    <a href="pwhl.html" class="active">PWHL</a>
-    <a href="../index.html#about">About</a>
-  </nav>
-  <span class="spacer"></span>
-  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
-</header>
+<div id="pwhl-header"></div>
+<script>PWHL.header('players');</script>
 
 <div class="report">
-  <a class="back" href="pwhl.html">← PWHL dashboard</a>
+  <a class="back" href="players.html">← All players</a>
   <div id="load-error">Couldn't load this player. Check the link (it needs <code>?id=</code> and a
-    player id), or go back to the dashboard and pick a player from the search box.</div>
+    player id), or find the player from the Players page.</div>
 
-  <div id="app" style="display:none;flex-direction:column;gap:22px;">
+  <div id="app" style="display:none;flex-direction:column;gap:24px;">
     <div class="p-head" id="p-head"></div>
 
     <div class="section">
       <div class="section-head">
         <div><h2 id="season-title">Season</h2><p id="season-sub"></p></div>
       </div>
-      <div class="stat-row" id="tiles"></div>
+      <div class="stat-grid" id="tiles"></div>
     </div>
 
     <div class="grid-2">
@@ -159,12 +60,42 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
       </div>
     </div>
 
+    <div class="grid-2" id="model-grid">
+      <div class="card">
+        <div class="card-title"><span id="mix-title">Shot mix</span><span class="note" style="margin:0" id="mix-scope"></span></div>
+        <div style="overflow-x:auto;"><table class="tbl" id="mix-table"></table></div>
+        <p class="note" id="mix-note"></p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span id="vs-title">Goalie matchups</span></div>
+        <div class="grid-2" style="gap:14px">
+          <div><div class="aw-sub" id="vs-best-label" style="margin-bottom:4px">Most success against</div><div class="aw-list" id="vs-best"></div></div>
+          <div><div class="aw-sub" id="vs-worst-label" style="margin-bottom:4px">Least success against</div><div class="aw-list" id="vs-worst"></div></div>
+        </div>
+        <p class="note" id="vs-note"></p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Home and away</div>
+        <div style="overflow-x:auto;"><table class="tbl" id="split-table"></table></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span id="best-title">Best games</span></div>
+        <div class="grid-2" style="gap:14px">
+          <div><div class="aw-sub" id="best-label" style="margin-bottom:4px">Best</div><div class="aw-list" id="best-games"></div></div>
+          <div><div class="aw-sub" id="worst-label" style="margin-bottom:4px">Toughest</div><div class="aw-list" id="worst-games"></div></div>
+        </div>
+      </div>
+    </div>
+
     <div class="section" id="model-section">
       <div class="section-head">
         <div><h2>Model view</h2>
-          <p>From the dashboard's expected-goals model and player impact ratings, same season.</p></div>
+          <p>From the expected-goals model and player impact ratings, same season.</p></div>
       </div>
-      <div class="stat-row" id="model-tiles"></div>
+      <div class="stat-grid" id="model-tiles"></div>
       <p class="note" id="model-note"></p>
     </div>
 
@@ -188,92 +119,43 @@ footer{max-width:1080px;margin:0 auto;padding:20px 20px 40px;color:var(--ink-3);
 </footer>
 
 <script>
-if (window.self !== window.top) {
-  const tb = document.querySelector('.topbar');
-  if (tb) tb.style.display = 'none';
-}
-
-const DATA_BASE = 'data/json/';
-const CHARTS = [];
-let P = null, META = null, XG = null, RATINGS = null;
+let P = null;
 let seasonId = null, shotScope = 'season';
 
-function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-function fmt(n){ return n == null || isNaN(n) ? '—' : Number(n).toLocaleString(); }
-function esc(s){ return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 const signed = v => v == null ? '—' : (v > 0 ? '+' : '') + v;
-const signed2 = v => v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(2);
-const mmss = secs => Math.floor(secs / 60) + ':' + String(Math.round(secs % 60)).padStart(2, '0');
 const pct1 = (a, b) => b ? (100 * a / b).toFixed(1) + '%' : '—';
-const shortDate = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-CA', { month: 'short', day: 'numeric' }); };
-const seasonName = sid => ((META && META.seasons.find(s => s.season_id === sid)) || {}).name || ('Season ' + sid);
+const sv3 = v => v == null ? '—' : v.toFixed(3).replace(/^0/, '');
 const isGoalie = () => P.pos === 'G';
-
-// ---- theme (same pattern as pwhl.html) ------------------------------
-const root = document.documentElement;
-const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-const SUN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
-const toggle = document.getElementById('theme-toggle');
-toggle.innerHTML = root.getAttribute('data-theme') === 'dark' ? MOON : SUN;
-toggle.addEventListener('click', () => {
-  const mode = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', mode);
-  try { localStorage.setItem('ov-theme', mode); } catch(e){}
-  toggle.innerHTML = mode === 'dark' ? MOON : SUN;
-  if (P) render();
-});
-
-function baseOptions(overrides = {}) {
-  const base = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { labels: { color: cssVar('--ink-2'), font: { family: 'Inter', size: 11 }, boxWidth: 12 } },
-      tooltip: { backgroundColor: cssVar('--bg-3'), titleColor: cssVar('--ink'), bodyColor: cssVar('--ink-2'), borderColor: cssVar('--line'), borderWidth: 1 },
-    },
-  };
-  const { plugins, ...rest } = overrides;
-  Object.assign(base, rest);
-  if (plugins) Object.assign(base.plugins, plugins);
-  return base;
-}
-const axis = (extra = {}) => Object.assign({ ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, extra);
-function destroyChart(id) {
-  const i = CHARTS.findIndex(c => c.canvas && c.canvas.id === id);
-  if (i >= 0) { CHARTS[i].destroy(); CHARTS.splice(i, 1); }
-}
+const posGroup = pos => /D/.test((pos || '').toUpperCase()) ? 'D' : 'F';
 
 // ---- load -----------------------------------------------------------
 const pid = new URLSearchParams(location.search).get('id');
 Promise.all([
   pid && /^\d+$/.test(pid) ? fetch(DATA_BASE + 'players/' + pid + '.json').then(r => { if (!r.ok) throw new Error('no player'); return r.json(); })
       : Promise.reject(new Error('no id')),
-  fetch(DATA_BASE + 'pwhl_meta.json').then(r => r.json()),
-  fetch(DATA_BASE + 'pwhl_xg.json').then(r => r.ok ? r.json() : null).catch(() => null),
-  fetch(DATA_BASE + 'pwhl_ratings.json').then(r => r.ok ? r.json() : null).catch(() => null),
-]).then(([p, meta, xg, ratings]) => {
-  P = p; META = meta; XG = xg; RATINGS = ratings;
+  PWHL.load(['meta', 'xg', 'ratings', 'awards', 'goalies', 'elo']),
+]).then(([p]) => {
+  P = p;
   document.title = `${P.name} — PWHL — Ottawa Visuals`;
-  // Default to the latest regular season she played, else her latest season.
   const sids = seasonsPlayed();
+  // The season picked on other pages if the player has it, else the latest regular season.
   const regular = sids.filter(s => /Regular/.test(seasonName(s)));
-  seasonId = (regular.length ? regular : sids).slice(-1)[0] || null;
+  const fromUrl = new URLSearchParams(location.search).get('season');
+  let saved = null; try { saved = localStorage.getItem('pwhl-season'); } catch (e) {}
+  seasonId = [fromUrl, saved].find(s => s && sids.includes(s)) || (regular.length ? regular : sids).slice(-1)[0] || null;
+  PWHL.fillHeader(seasonTeam(seasonId));
   document.getElementById('app').style.display = 'flex';
-  document.querySelectorAll('#shot-tabs .tab-btn').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('#shot-tabs .tab-btn').forEach(x => x.classList.toggle('active', x === b));
-    shotScope = b.dataset.scope; drawShots();
-  }));
+  PWHL.tabs(document.getElementById('shot-tabs'), 'scope', s => { shotScope = s; drawShots(); renderMix(); });
   render();
-}).catch(err => {
-  console.error(err);
-  document.getElementById('load-error').style.display = 'block';
-});
+  PWHL.onTheme(() => { render(); PWHL.fillHeader(seasonTeam(seasonId)); });
+}).catch(PWHL.fail);
 
 function seasonsPlayed() {
   const s = new Set(P.seasons.map(l => l.season_id));
   P.games.forEach(g => s.add(g.s));
   return [...s].sort((a, b) => Number(a) - Number(b));
 }
-// The team she played for in a season: the line with the most games.
+// The player's team in a season: the line with the most games.
 function seasonTeam(sid) {
   const lines = P.seasons.filter(l => l.season_id === sid && l.team);
   if (lines.length) return lines.reduce((a, b) => b.gp > a.gp ? b : a).team;
@@ -292,10 +174,45 @@ function render() {
   renderCareer();
 }
 
+// ---- header: photo, role tag, bio, season picker ------------------------
+// Role tag: impact rating rank at the player's position this season, plus
+// rank in the team's ice time (skaters) or games started (goalies).
+function roleTag() {
+  const r = RATINGS && RATINGS.by_season[seasonId];
+  const team = seasonTeam(seasonId);
+  if (isGoalie()) {
+    const gs = ((GOALIES && GOALIES[seasonId]) || []).filter(g => g.team_code === team);
+    const me = gs.find(g => g.player_id === P.player_id);
+    if (!me) return null;
+    const teamGp = Math.max(...gs.map(g => g.gp));
+    const share = me.gp / Math.max(1, gs.reduce((a, g) => a + g.gp, 0));
+    const role = me.gp === teamGp && share > 0.5 ? 'Starting goalie' : share > 0.3 ? 'Platoon goalie' : 'Backup goalie';
+    const x = XG && XG.by_season[seasonId];
+    const pool = x ? x.goalies.filter(g => g.shots >= 100).sort((a, b) => b.gsax - a.gsax) : [];
+    const rank = pool.findIndex(g => g.player_id === P.player_id);
+    return `${role} · ${me.gp} GP${rank >= 0 ? ` · #${rank + 1} of ${pool.length} in GSAx` : ''}`;
+  }
+  const me = r && r.skaters.find(s => s.player_id === P.player_id);
+  if (!me) return null;
+  const pool = r.skaters.filter(s => s.pos === me.pos).sort((a, b) => b.total - a.total);
+  const rank = pool.findIndex(s => s.player_id === P.player_id) + 1;
+  const pctile = rank / pool.length;
+  const d = me.pos === 'D';
+  const tier = pctile <= 0.05 ? (d ? 'Elite defender' : 'Elite forward')
+    : pctile <= 0.2 ? (d ? 'Top-pair defender' : 'Top-line forward')
+    : pctile <= 0.5 ? (d ? 'Second-pair defender' : 'Middle-six forward')
+    : (d ? 'Depth defender' : 'Depth forward');
+  // Ice-time rank among teammates at the same position.
+  const mates = ((AWARDS && AWARDS[seasonId]) || []).filter(a => a.team_code === team && posGroup(a.pos) === me.pos && a.gp >= 5)
+    .sort((a, b) => b.toi / b.gp - a.toi / a.gp);
+  const tr = mates.findIndex(a => a.player_id === P.player_id) + 1;
+  return `${tier} · #${rank} of ${pool.length} ${d ? 'D' : 'F'} by impact${tr ? ` · No. ${tr} in ice time on ${team}` : ''}`;
+}
+
 function renderHead() {
-  const tc = teamColor(seasonTeam(seasonId) || P.team);
+  const team = seasonTeam(seasonId) || P.team;
   const head = document.getElementById('p-head');
-  head.style.setProperty('--tc', tc);
+  head.style.setProperty('--tc', teamColor(team));
   const age = P.dob ? Math.floor((Date.now() - new Date(P.dob + 'T00:00:00')) / 31557600000) : null;
   const posName = { F: 'Forward', D: 'Defence', G: 'Goalie' }[P.pos] || P.pos || '';
   const bio = [
@@ -303,12 +220,15 @@ function renderHead() {
     ['From', P.hometown], ['Height', P.height], [isGoalie() ? 'Catches' : 'Shoots', P.shoots], ['Nation', P.nationality],
   ].filter(([, v]) => v);
   const sids = seasonsPlayed();
+  const role = roleTag();
   head.innerHTML = `
+    ${P.action ? `<div class="p-action" style="background-image:url('${esc(P.action)}')"></div>` : ''}
     ${P.image ? `<img class="p-photo" src="${esc(P.image)}" alt="" onerror="this.remove()">` : ''}
     <div>
       <div class="p-num">${P.number ? '#' + esc(P.number) + ' · ' : ''}${esc(posName)}</div>
       <h1 class="p-name">${esc(P.name)}</h1>
-      <span class="p-team"><span class="sw"></span>${esc(P.team_name || P.team || '')}</span>
+      ${role ? `<span class="p-role">${esc(role)}</span><br>` : ''}
+      <a class="p-team" href="${teamHref(P.team || team)}"><span class="sw"></span>${esc(P.team_name || P.team || '')}</a>
       <div class="p-bio">${bio.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
     </div>
     <div class="p-controls">
@@ -316,7 +236,11 @@ function renderHead() {
         ${sids.slice().reverse().map(s => `<option value="${s}"${s === seasonId ? ' selected' : ''}>${esc(seasonName(s))}</option>`).join('')}
       </select>
     </div>`;
-  document.getElementById('season-select').addEventListener('change', e => { seasonId = e.target.value; render(); });
+  document.getElementById('season-select').addEventListener('change', e => {
+    seasonId = e.target.value;
+    try { localStorage.setItem('pwhl-season', seasonId); } catch (er) {}
+    render(); PWHL.fillHeader(seasonTeam(seasonId));
+  });
 }
 
 function renderSeason() {
@@ -324,13 +248,13 @@ function renderSeason() {
   const t = sumLines(lines);
   const teams = [...new Set(lines.map(l => l.team).filter(Boolean))];
   document.getElementById('season-title').textContent = seasonName(seasonId);
-  document.getElementById('season-sub').textContent = teams.length
-    ? (teams.length > 1 ? `Split between ${teams.join(' and ')} (combined below).` : `With ${teams[0]}.`)
+  document.getElementById('season-sub').innerHTML = teams.length
+    ? (teams.length > 1 ? `Split between ${teams.map(c => teamLink(c)).join(' and ')} (combined below).` : `With ${teamLink(teams[0])}.`)
     : 'No season stat line in the feed for this season; game log only.';
 
   const tiles = isGoalie()
     ? [[fmt(t.gp), 'Games'], [`${t.w || 0}-${t.l || 0}-${t.otl || 0}`, 'W-L-OTL'],
-       [t.sa ? (1 - t.ga / t.sa).toFixed(3).replace(/^0/, '') : '—', 'Save %'],
+       [t.sa ? sv3(1 - t.ga / t.sa) : '—', 'Save %'],
        [t.toi ? (t.ga * 3600 / t.toi).toFixed(2) : '—', 'Goals against avg'],
        [fmt(t.sa), 'Shots faced'], [fmt(t.ga), 'Goals against'], [t.toi ? fmt(Math.round(t.toi / 60)) : '—', 'Minutes']]
     : [[fmt(t.gp), 'Games'], [fmt(t.goals), 'Goals'], [fmt(t.assists), 'Assists'], [fmt(t.points), 'Points'],
@@ -345,9 +269,14 @@ function renderSeason() {
   renderModel();
   renderLogChart();
   drawShots();
+  renderMix();
+  renderMatchups();
+  renderSplits();
+  renderBestGames();
   renderGames();
 }
 
+// ---- model tiles ----------------------------------------------------------
 function renderModel() {
   const sec = document.getElementById('model-section');
   const x = XG && XG.by_season[seasonId];
@@ -356,23 +285,15 @@ function renderModel() {
   let note = '';
   if (isGoalie()) {
     const g = x && x.goalies.find(g => g.player_id === P.player_id);
-    if (g) {
-      tiles.push([signed2(g.gsax), 'Goals saved above expected'], [g.xga.toFixed(1), 'Expected goals against'],
-                 [g.sv_pct != null ? g.sv_pct.toFixed(3).replace(/^0/, '') : '—', 'Save %'],
-                 [g.xsv_pct != null ? g.xsv_pct.toFixed(3).replace(/^0/, '') : '—', 'Expected save %']);
-      const rank = x.goalies.filter(o => o.shots >= 100).sort((a, b) => b.gsax - a.gsax).findIndex(o => o.player_id === P.player_id);
-      if (rank >= 0) note = `Ranks #${rank + 1} in GSAx among goalies with 100+ shots faced this season.`;
-    }
+    if (g) tiles.push([signed2(g.gsax), 'Goals saved above expected'], [g.xga.toFixed(1), 'Expected goals against'],
+                      [sv3(g.sv_pct), 'Save %'], [sv3(g.xsv_pct), 'Expected save %']);
   } else {
     const s = x && x.skaters.find(s => s.player_id === P.player_id);
     if (s) tiles.push([s.ixg.toFixed(1), 'Expected goals (xG)'], [signed2(s.g_minus_xg), 'Goals − xG']);
     const rt = r && r.skaters.find(s => s.player_id === P.player_id);
     if (rt) {
       tiles.push([signed2(rt.total), 'Impact (goals above avg.)'], [signed2(rt.per30), 'Impact per 30 GP']);
-      const pool = r.skaters.filter(o => o.pos === rt.pos);
-      const rank = pool.slice().sort((a, b) => b.total - a.total).findIndex(o => o.player_id === P.player_id);
-      note = `Impact rating ranks #${rank + 1} of ${pool.length} ${rt.pos === 'D' ? 'defenders' : 'forwards'} this season. `
-        + 'Pieces: ' + Object.entries(rt.components).map(([k, v]) => `${k.replace('_', ' ')} ${signed2(v)}`).join(', ') + '.';
+      note = 'Impact pieces: ' + Object.entries(rt.components).map(([k, v]) => `${k.replace('_', ' ')} ${signed2(v)}`).join(', ') + '.';
     }
   }
   sec.style.display = tiles.length ? '' : 'none';
@@ -380,15 +301,129 @@ function renderModel() {
   document.getElementById('model-note').textContent = note;
 }
 
+// ---- shot mix by type (model block) ---------------------------------------
+// Season block, or every season added together for the career view.
+function modelSeasons() {
+  const m = P.model && P.model.by_season;
+  if (!m) return [];
+  return shotScope === 'career' ? Object.values(m) : (m[seasonId] ? [m[seasonId]] : []);
+}
+function renderMix() {
+  const blocks = modelSeasons();
+  const agg = {};
+  blocks.forEach(b => b.types.forEach(([type, n, g, xg, dist]) => {
+    const a = agg[type] = agg[type] || { n: 0, g: 0, xg: 0, dsum: 0 };
+    a.n += n; a.g += g; a.xg += xg; a.dsum += dist * n;
+  }));
+  const rows = Object.entries(agg).sort((a, b) => b[1].n - a[1].n);
+  const total = rows.reduce((s, [, a]) => s + a.n, 0);
+  const goalie = isGoalie();
+  document.getElementById('mix-title').textContent = goalie ? 'Shots faced by type' : 'Shot mix by type';
+  document.getElementById('mix-scope').textContent = shotScope === 'career' ? 'career' : seasonName(seasonId);
+  const table = document.getElementById('mix-table');
+  if (!rows.length) { emptyTable(table, 'No model data for this selection.'); document.getElementById('mix-note').textContent = ''; return; }
+  const tc = teamColor(seasonTeam(seasonId));
+  const sum = rows.reduce((s, [, a]) => ({ n: s.n + a.n, g: s.g + a.g, xg: s.xg + a.xg, dsum: s.dsum + a.dsum }), { n: 0, g: 0, xg: 0, dsum: 0 });
+  const line = (label, a, bold) => {
+    const share = total ? 100 * a.n / total : 0;
+    const last = goalie
+      ? `<td>${sv3(a.n ? 1 - a.g / a.n : null)}</td><td>${signedCell(a.xg - a.g)}</td>`
+      : `<td>${a.xg ? (a.g / a.xg).toFixed(2) : '—'}</td><td>${signedCell(a.g - a.xg)}</td>`;
+    return `<tr${bold ? ' style="font-weight:600"' : ''}><td>${esc(label)}</td>
+      <td><span class="xg-bar" style="display:inline-flex;width:60px;vertical-align:middle;margin-right:6px"><span style="width:${share}%;background:${tc}"></span></span>${share.toFixed(0)}%</td>
+      <td>${fmt(a.n)}</td><td>${(a.dsum / a.n).toFixed(0)}</td><td>${a.xg.toFixed(1)}</td><td>${a.g}</td>${last}</tr>`;
+  };
+  table.innerHTML = `<thead><tr><th>Type</th><th>Share</th><th>Shots</th><th>Avg ft</th><th>xG</th><th>${goalie ? 'GA' : 'G'}</th>
+      <th>${goalie ? 'SV%' : 'G/xG'}</th><th>${goalie ? 'GSAx' : 'G−xG'}</th></tr></thead>
+    <tbody>${rows.map(([t, a]) => line(t, a)).join('')}${line('Total', sum, true)}</tbody>`;
+  document.getElementById('mix-note').textContent = `Shots on goal with a goalie in net. "Not recorded" = the feed gave no shot type. `
+    + (goalie ? 'GSAx above zero = stopped more than an average goalie would on those shots.' : 'G/xG above 1 = finished better than the chances suggested.');
+}
+
+// ---- goalie (or shooter) matchups -----------------------------------------
+function renderMatchups() {
+  const goalie = isGoalie();
+  const agg = {};
+  modelSeasons().forEach(b => b.vs.forEach(([id, name, n, g, xg]) => {
+    const a = agg[id] = agg[id] || { id, name, n: 0, g: 0, xg: 0 };
+    a.n += n; a.g += g; a.xg += xg;
+  }));
+  // Score = goals above expected from the shooter's side.
+  const rows = Object.values(agg).filter(a => a.n >= (shotScope === 'career' ? 8 : 4)).map(a => Object.assign(a, { d: a.g - a.xg }));
+  document.getElementById('vs-title').textContent = goalie ? 'Shooter matchups' : 'Goalie matchups';
+  document.getElementById('vs-best-label').textContent = goalie ? 'Stops best' : 'Most success against';
+  document.getElementById('vs-worst-label').textContent = goalie ? 'Toughest shooters' : 'Least success against';
+  const best = rows.slice().sort((a, b) => goalie ? a.d - b.d : b.d - a.d).slice(0, 4);
+  const worst = rows.slice().sort((a, b) => goalie ? b.d - a.d : a.d - b.d).slice(0, 4);
+  const row = a => `<div class="aw-row"><span class="rk"></span>
+      <span class="nm">${plLink(a.id, a.name)}<span class="tm">${a.g}/${a.n} · xG ${a.xg.toFixed(1)}</span></span>
+      <span class="vl">${signedCell(goalie ? a.xg - a.g : a.d)}</span></div>`;
+  const none = '<div class="aw-sub">Not enough shots.</div>';
+  document.getElementById('vs-best').innerHTML = best.length ? best.map(row).join('') : none;
+  document.getElementById('vs-worst').innerHTML = worst.length ? worst.map(row).join('') : none;
+  document.getElementById('vs-note').textContent = goalie
+    ? `Expected goals minus goals on each shooter's shots (positive = the goalie stopped more than expected). Min. ${shotScope === 'career' ? 8 : 4} shots.`
+    : `Goals minus expected goals against each goalie (positive = more goals than the chances suggested). Min. ${shotScope === 'career' ? 8 : 4} shots.`;
+}
+
+// ---- home / away split ---------------------------------------------------
+function renderSplits() {
+  const games = P.games.filter(g => g.s === seasonId);
+  const table = document.getElementById('split-table');
+  if (!games.length) { emptyTable(table, 'No game log for this season.'); return; }
+  const parts = [['Home', games.filter(g => g.h)], ['Away', games.filter(g => !g.h)], ['All', games]];
+  const s = (arr, k) => arr.reduce((a, g) => a + (g[k] || 0), 0);
+  if (isGoalie()) {
+    table.innerHTML = `<thead><tr><th></th><th>GP</th><th>Record</th><th>SA</th><th>GA</th><th>SV%</th><th>GA/60</th></tr></thead>
+      <tbody>${parts.map(([l, a]) => `<tr${l === 'All' ? ' style="font-weight:600"' : ''}><td>${l}</td><td>${a.length}</td>
+        <td>${a.filter(g => g.dec === 'W').length}-${a.filter(g => g.dec === 'L').length}-${a.filter(g => g.dec === 'OTL').length}</td>
+        <td>${s(a, 'sa')}</td><td>${s(a, 'ga')}</td><td>${s(a, 'sa') ? sv3(s(a, 'sv') / s(a, 'sa')) : '—'}</td>
+        <td>${s(a, 'toi') ? (s(a, 'ga') * 3600 / s(a, 'toi')).toFixed(2) : '—'}</td></tr>`).join('')}</tbody>`;
+  } else {
+    table.innerHTML = `<thead><tr><th></th><th>GP</th><th>G</th><th>A</th><th>PTS</th><th>P/GP</th><th>S</th><th>+/−</th><th>TOI/GP</th></tr></thead>
+      <tbody>${parts.map(([l, a]) => `<tr${l === 'All' ? ' style="font-weight:600"' : ''}><td>${l}</td><td>${a.length}</td>
+        <td>${s(a, 'g')}</td><td>${s(a, 'a')}</td><td>${s(a, 'p')}</td><td>${a.length ? (s(a, 'p') / a.length).toFixed(2) : '—'}</td>
+        <td>${s(a, 'sog')}</td><td>${signed(s(a, 'pm'))}</td><td>${a.length && s(a, 'toi') ? mmss(s(a, 'toi') / a.length) : '—'}</td></tr>`).join('')}</tbody>`;
+  }
+}
+
+// ---- best / toughest games -------------------------------------------------
+function renderBestGames() {
+  const gx = (P.model && P.model.game_xg) || {};
+  const games = P.games.filter(g => g.s === seasonId).map(g => Object.assign({ xg: gx[g.gid] }, g));
+  const row = (g, val) => `<div class="aw-row"><span class="rk"></span>
+      <span class="nm">${esc(shortDate(g.d))} ${g.h ? 'vs' : '@'} ${teamDot(g.opp)}${esc(g.opp)}</span><span class="vl">${val}</span></div>`;
+  let best, worst, bl, wl;
+  if (isGoalie()) {
+    // Goals saved above expected in each game.
+    const scored = games.filter(g => g.xg != null && g.sa).map(g => Object.assign(g, { gsax: g.xg - g.ga }));
+    best = scored.slice().sort((a, b) => b.gsax - a.gsax).slice(0, 3).map(g => row(g, `${g.sv}/${g.sa} · ${signed2(g.gsax)}`));
+    worst = scored.slice().sort((a, b) => a.gsax - b.gsax).slice(0, 3).map(g => row(g, `${g.sv}/${g.sa} · ${signed2(g.gsax)}`));
+    bl = 'Best (saves · GSAx)'; wl = 'Toughest (saves · GSAx)';
+  } else {
+    best = games.slice().sort((a, b) => b.p - a.p || b.g - a.g || (b.xg || 0) - (a.xg || 0)).filter(g => g.p > 0).slice(0, 3)
+      .map(g => row(g, `${g.g}G ${g.a}A`));
+    worst = games.filter(g => g.xg != null).sort((a, b) => b.xg - a.xg).slice(0, 3)
+      .map(g => row(g, `${g.xg.toFixed(2)} xG · ${g.g}G`));
+    bl = 'Most points'; wl = 'Most chances (xG)';
+  }
+  document.getElementById('best-label').textContent = bl;
+  document.getElementById('worst-label').textContent = wl;
+  document.getElementById('best-games').innerHTML = best.length ? best.join('') : '<div class="aw-sub">None yet.</div>';
+  document.getElementById('worst-games').innerHTML = worst.length ? worst.join('') : '<div class="aw-sub">No model data.</div>';
+}
+
+// ---- game-by-game chart ----------------------------------------------------
 function renderLogChart() {
   const games = P.games.filter(g => g.s === seasonId);
   const tc = teamColor(seasonTeam(seasonId));
   const labels = games.map(g => `${shortDate(g.d)} ${g.h ? 'v' : '@'} ${g.opp}`);
+  const axis = (extra = {}) => Object.assign({ ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, extra);
   destroyChart('chart-log');
   const ctx = document.getElementById('chart-log').getContext('2d');
   if (isGoalie()) {
     document.getElementById('log-title').textContent = `Game by game: save % and shots faced (${games.length} games)`;
-    CHARTS.push(new Chart(ctx, {
+    trackChart(new Chart(ctx, {
       data: { labels, datasets: [
         { type: 'bar', label: 'Save %', data: games.map(g => g.sa ? 100 * g.sv / g.sa : null), backgroundColor: tc, yAxisID: 'y', borderRadius: 2 },
         { type: 'line', label: 'Shots faced', data: games.map(g => g.sa), borderColor: cssVar('--ink-3'), backgroundColor: cssVar('--ink-3'), pointRadius: 2, borderWidth: 1.5, yAxisID: 'y2' },
@@ -403,7 +438,7 @@ function renderLogChart() {
     return;
   }
   document.getElementById('log-title').textContent = `Game by game: points and ice time (${games.length} games)`;
-  CHARTS.push(new Chart(ctx, {
+  trackChart(new Chart(ctx, {
     data: { labels, datasets: [
       { type: 'bar', label: 'Goals', data: games.map(g => g.g), backgroundColor: tc, stack: 'p', yAxisID: 'y' },
       { type: 'bar', label: 'Assists', data: games.map(g => g.a), backgroundColor: teamColorA(seasonTeam(seasonId), 0.4), borderColor: tc, borderWidth: 1, stack: 'p', yAxisID: 'y' },
@@ -418,8 +453,7 @@ function renderLogChart() {
   }));
 }
 
-// Offensive half of the rink, attacking right, with every shot (skaters) or
-// every shot faced (goalies) as a dot. Coordinates are feet from centre ice.
+// ---- shot map: offensive half, attacking right ----------------------------
 function drawShots() {
   const canvas = document.getElementById('shot-canvas');
   const ctx = canvas.getContext('2d');
@@ -428,8 +462,6 @@ function drawShots() {
   const px = x => pad + x / 100 * w;
   const py = y => pad + (y + 42.5) / 85 * h;
   ctx.clearRect(0, 0, W, H);
-
-  // Rink markings.
   ctx.lineWidth = 1.5;
   ctx.strokeStyle = cssVar('--line-2');
   const r = 28 / 100 * w;
@@ -450,20 +482,19 @@ function drawShots() {
 
   const all = shotScope === 'career' ? P.shots : P.shots.filter(s => s[0] === seasonId);
   const inZone = all.filter(s => s[1] >= 0);
-  const tc = teamColor(seasonTeam(seasonId));
+  const team = seasonTeam(seasonId);
+  const tc = teamColor(team);
   // Goals against in ink: a red would vanish against Ottawa's red.
   const goalColor = isGoalie() ? cssVar('--ink') : tc;
-  // Shots first (hollow), goals on top (filled).
   inZone.filter(s => !s[3]).forEach(s => {
     ctx.beginPath(); ctx.arc(px(s[1]), py(s[2]), 3.2, 0, Math.PI * 2);
-    ctx.strokeStyle = teamColorA(seasonTeam(seasonId), 0.55); ctx.lineWidth = 1.2; ctx.stroke();
+    ctx.strokeStyle = teamColorA(team, 0.55); ctx.lineWidth = 1.2; ctx.stroke();
   });
   inZone.filter(s => s[3]).forEach(s => {
     ctx.beginPath(); ctx.arc(px(s[1]), py(s[2]), 5, 0, Math.PI * 2);
     ctx.fillStyle = goalColor; ctx.fill();
     ctx.strokeStyle = cssVar('--bg-2'); ctx.lineWidth = 1.2; ctx.stroke();
   });
-
   const goals = all.filter(s => s[3]).length;
   const scope = shotScope === 'career' ? 'career' : 'this season';
   document.getElementById('shots-title').textContent = isGoalie()
@@ -477,38 +508,41 @@ function drawShots() {
     + (all.length ? '' : '<span>no located shots in the play-by-play for this season</span>');
 }
 
+// ---- career table + game log ------------------------------------------------
 function renderCareer() {
   const table = document.getElementById('career-table');
   const lines = P.seasons.slice().sort((a, b) => Number(b.season_id) - Number(a.season_id));
   const row = (l, cells) => `<tr data-sid="${l.season_id}" class="${l.season_id === seasonId ? 'sel' : ''}" style="cursor:pointer">
-      <td>${esc(seasonName(l.season_id))}</td><td>${l.team ? `<span class="team-dot" style="background:${teamColor(l.team)}"></span>${esc(l.team)}` : '—'}</td>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+      <td>${esc(seasonName(l.season_id))}</td><td>${l.team ? `${teamDot(l.team)}${esc(l.team)}` : '—'}</td>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
   if (isGoalie()) {
     table.innerHTML = `<thead><tr><th>Season</th><th>Team</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SA</th><th>GA</th><th>SV%</th><th>GAA</th><th>Min</th></tr></thead>
       <tbody>${lines.map(l => row(l, [l.gp, l.w, l.l, l.otl, fmt(l.sa), l.ga,
-        l.svpct != null ? l.svpct.toFixed(3).replace(/^0/, '') : '—', l.toi ? (l.ga * 3600 / l.toi).toFixed(2) : '—', l.toi ? fmt(Math.round(l.toi / 60)) : '—'])).join('')}</tbody>`;
+        sv3(l.svpct), l.toi ? (l.ga * 3600 / l.toi).toFixed(2) : '—', l.toi ? fmt(Math.round(l.toi / 60)) : '—'])).join('')}</tbody>`;
   } else {
     table.innerHTML = `<thead><tr><th>Season</th><th>Team</th><th>GP</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>PIM</th><th>PPG</th><th>SHG</th><th>GWG</th><th>S</th><th>S%</th><th>Hits</th><th>Blk</th><th>FO%</th><th>TOI/GP</th></tr></thead>
       <tbody>${lines.map(l => row(l, [l.gp, l.goals, l.assists, `<b>${l.points}</b>`, signed(l.pm), l.pim, l.ppg, l.shg, l.gwg, l.shots,
         pct1(l.goals, l.shots), l.hits, l.blocks, l.foa ? pct1(l.fow, l.foa) : '—', l.toi && l.gp ? mmss(l.toi / l.gp) : '—'])).join('')}</tbody>`;
   }
   table.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
-    seasonId = tr.dataset.sid; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    seasonId = tr.dataset.sid; render(); PWHL.fillHeader(seasonTeam(seasonId)); window.scrollTo({ top: 0, behavior: 'smooth' });
   }));
 }
 
 function renderGames() {
+  const gx = (P.model && P.model.game_xg) || {};
   const games = P.games.filter(g => g.s === seasonId).slice().reverse();
   document.getElementById('games-title').textContent = `Game log · ${seasonName(seasonId)} (${games.length} games, most recent first)`;
   const table = document.getElementById('games-table');
-  const opp = g => `${g.h ? 'vs' : '@'} <span class="team-dot" style="background:${teamColor(g.opp)}"></span>${esc(g.opp)}`;
+  const opp = g => `${g.h ? 'vs' : '@'} ${teamDot(g.opp)}${teamLink(g.opp)}`;
+  const xg = g => gx[g.gid] != null ? gx[g.gid].toFixed(2) : '—';
   if (isGoalie()) {
-    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Dec.</th><th>SA</th><th>Saves</th><th>GA</th><th>SV%</th><th>TOI</th></tr></thead>
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Dec.</th><th>SA</th><th>Saves</th><th>GA</th><th>SV%</th><th>xGA</th><th>TOI</th></tr></thead>
       <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${esc(g.dec || '—')}</td><td>${g.sa}</td><td>${g.sv}</td><td>${g.ga}</td>
-        <td>${g.sa ? (g.sv / g.sa).toFixed(3).replace(/^0/, '') : '—'}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+        <td>${g.sa ? sv3(g.sv / g.sa) : '—'}</td><td>${xg(g)}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
   } else {
-    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>S</th><th>PIM</th><th>Hits</th><th>Blk</th><th>TOI</th></tr></thead>
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>S</th><th>xG</th><th>PIM</th><th>Hits</th><th>Blk</th><th>TOI</th></tr></thead>
       <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${g.g}</td><td>${g.a}</td><td><b>${g.p}</b></td><td>${signed(g.pm)}</td>
-        <td>${g.sog}</td><td>${g.pim}</td><td>${g.hits}</td><td>${g.blk}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+        <td>${g.sog}</td><td>${xg(g)}</td><td>${g.pim}</td><td>${g.hits}</td><td>${g.blk}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
   }
   if (!games.length) table.innerHTML = '<tbody><tr><td style="color:var(--ink-3)">No game log for this season.</td></tr></tbody>';
   collapseRows(table, 10, 'games');

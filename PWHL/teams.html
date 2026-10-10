@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Teams — Ottawa Visuals</title>
+<meta name="description" content="Every PWHL team: records, special teams, expected-goal share and attendance, with a page per team."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script src="pwhl-sections.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('teams');</script>
+
+<div class="report">
+
+  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
+    <code>data/json/</code> is reachable from this page (run
+    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:30px;">
+    <div class="section">
+    <div class="section-head">
+      <div><h2>Teams</h2><p>Pick a team for its own page: roster, lines, results and outlook.</p></div>
+      <div class="filters"><select id="season-select" class="ov-select" aria-label="Season"></select></div>
+    </div>
+      <div class="team-grid" id="team-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>Scoring and special teams</h2>
+        <p>Solid bars are goals for / power play, faded bars goals against / penalty kill, each in the team's colour.</p></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Goals for vs. against</div>
+          <div class="cw"><canvas id="chart-goals"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Special teams: power play % vs. penalty kill %</div>
+          <div class="cw"><canvas id="chart-special-teams"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Team share of expected goals</div>
+        <div style="overflow-x:auto;"><table class="tbl" id="team-xg-table"></table></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div>
+          <h2>Attendance</h2>
+          <p>Reported attendance for the selected season, split between games in the home team's
+             own market and <strong>Takeover Tour</strong> / neutral-site games played elsewhere.
+             Bars use the home team's colour; capacity comes from the venue list.</p>
+        </div>
+      </div>
+      <div class="stat-row" id="attendance-stats"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Total attendance by home team</div>
+          <div class="cw"><canvas id="chart-att-total"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Home-market games: average % of capacity</div>
+          <div class="cw"><canvas id="chart-att-capacity"></canvas></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" id="att-home-title">Home-market games, in schedule order</div>
+          <div class="cw"><canvas id="chart-attendance"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title" id="att-takeover-title">Takeover Tour &amp; neutral-site games</div>
+          <div class="cw" id="att-takeover-wrap"><canvas id="chart-att-takeover"></canvas></div>
+        </div>
+      </div>
+      <p class="note" id="attendance-note"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+// Team cards: record, points, goal difference and xG share, linking to team.html.
+function renderTeamGrid(sid) {
+  const xg = XG && XG.by_season[sid];
+  const elo = ELO ? Object.fromEntries(ELO.teams.map(t => [t.code, t])) : {};
+  document.getElementById('team-grid').innerHTML = (STANDINGS[sid] || []).map(t => {
+    const x = xg && xg.teams.find(r => r.code === t.code);
+    return `<a class="team-card" href="${teamHref(t.code)}&season=${sid}" style="--tc:${teamColor(t.code)}">
+      ${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}
+      <div><b>${esc(t.name || t.code)}</b>
+        <span>${t.rank ? '#' + t.rank + ' · ' : ''}${fmt(t.pts)} pts · ${t.w + (t.otw || 0) + (t.sow || 0)}-${t.l}-${(t.otl || 0) + (t.sol || 0)}</span>
+        <span>GF ${fmt(t.gf)} · GA ${fmt(t.ga)}${x ? ` · xGF ${x.xgf_pct.toFixed(0)}%` : ''}${elo[t.code] ? ` · Elo ${Math.round(elo[t.code].elo)}` : ''}</span></div>
+    </a>`;
+  }).join('');
+}
+function renderTeamsSeason(sid) {
+  renderTeamGrid(sid);
+  renderGoalsChart(sid);
+  renderSpecialTeamsChart(sid);
+  renderTeamXg(sid);
+  renderAttendance(sid);
+}
+PWHL.load(['meta', 'standings', 'games', 'xg', 'elo']).then(() => {
+  PWHL.fillHeader();
+  document.getElementById('app').style.display = 'flex';
+  const seasons = META.seasons.map(s => s.season_id).filter(s => STANDINGS[s] && STANDINGS[s].length);
+  PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderTeamsSeason);
+  renderTeamsSeason(currentSeasonId);
+  PWHL.onTheme(() => { renderTeamsSeason(currentSeasonId); PWHL.fillHeader(); });
+}).catch(PWHL.fail);
+</script>
+</body>
+</html>

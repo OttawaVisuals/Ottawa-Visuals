@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL Forecast — Ottawa Visuals</title>
+<meta name="description" content="PWHL Elo ratings, upcoming-game win chances and playoff odds from 10,000 simulated seasons."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script src="pwhl-sections.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('forecast');</script>
+
+<div class="report">
+
+  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
+    <code>data/json/</code> is reachable from this page (run
+    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:30px;">
+    <div class="section" id="forecast">
+      <div class="section-head">
+        <div>
+          <h2 id="forecast-title">Forecast</h2>
+          <p id="forecast-sub">Team strength ratings (Elo), win chances for upcoming games, and playoff
+             odds from simulating the rest of the season thousands of times.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span>Prediction scorecard</span><span class="note" id="scorecard-sum" style="margin:0"></span></div>
+        <div class="sc-strip" id="scorecard-strip"></div>
+      </div>
+      <div class="grid-2" id="odds-grid"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" id="upcoming-title">Upcoming games</div>
+          <div class="game-list" id="upcoming-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Elo rating over time</div>
+          <div class="cw-lg"><canvas id="chart-elo"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Recent results vs. prediction</div>
+        <div class="game-list" id="recent-list"></div>
+      </div>
+      <p class="note" id="forecast-note"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+PWHL.load(['meta', 'elo']).then(() => {
+  PWHL.fillHeader();
+  document.getElementById('app').style.display = 'flex';
+  if (!ELO) { document.getElementById('load-error').style.display = 'block'; return; }
+  renderForecast();
+  PWHL.onTheme(() => { renderForecast(); PWHL.fillHeader(); });
+}).catch(PWHL.fail);
+</script>
+</body>
+</html>

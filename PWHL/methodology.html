@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>PWHL: How it works — Ottawa Visuals</title>
+<meta name="description" content="Data sources and methodology behind the PWHL dashboard: expected goals, impact ratings, forecasts."/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js"></script>
+<script src="pwhl-sections.js"></script>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="pwhl.css">
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<div id="pwhl-header"></div>
+<script>PWHL.header('method');</script>
+
+<div class="report">
+  <div class="hero">
+    <span class="eyebrow">PWHL · How it works</span>
+    <h1>Data &amp; methodology</h1>
+    <p>Where every number on these pages comes from, the choices behind the models, and their known limits.</p>
+  </div>
+  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
+    <code>data/json/</code> is reachable from this page (run
+    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+
+  <div id="app" style="display:none;flex-direction:column;gap:30px;">
+    <div class="section" id="methodology">
+      <div class="methodology">
+        <h3>Data &amp; methodology</h3>
+        <p>Source: the PWHL's own stats feed (HockeyTech), fetched by a daily-scheduled pipeline
+           in <code>PWHL/scripts/daily_update.R</code> and pre-aggregated into the JSON files this
+           page loads by <code>PWHL/scripts/build_dashboard_json.py</code>.</p>
+        <ul>
+          <li>Covers three seasons: 2024 (inaugural), 2024-25, and 2025-26, plus each season's
+            playoffs.</li>
+          <li>"Player leaders" uses regular-season totals only; playoff stats aren't blended in.</li>
+          <li>Team colours are each club's dominant brand colour, approximated by eye (the league
+            publishes colour names, not codes); the darkest ones are lightened a little on the dark
+            theme so they stay visible.</li>
+          <li>Attendance: a game counts as <em>Takeover Tour / neutral site</em> when its venue is
+            outside the home team's own market (e.g. Ottawa's games in Calgary or Winnipeg).
+            Big-arena games inside the market (Canadian Tire Centre, Bell Centre, Scotiabank
+            Arena) count as home-market games. Capacity is the hockey capacity from
+            <code>PWHL/data/PWHL_Venues.csv</code>, so a sold-out game can read slightly above or
+            below 100%; games at venues with no listed capacity are left out of the % figures.</li>
+          <li>"Superlatives" uses skater totals for the selected season (regular, preseason, or
+            playoff, matching the season picked). Players traded mid-season appear once, with
+            their split rows summed (marked <code>*</code>); the feed also emits occasional
+            exact-duplicate stat lines, which are dropped.</li>
+          <li>Per-60 rankings divide the stat by ice time (<code>stat × 3600 / seconds on ice</code>).
+            Eligibility minimums scale with the season's length — roughly 8 games and 120 minutes
+            over a full regular season, proportionally lower for a short playoff run — so a
+            three-game call-up with one lucky shift doesn't win everything.</li>
+          <li>Goalies are absent from the roster feed's position data and from these skater stat
+            lines, so every superlative is a skater award.</li>
+          <li>No "hit the post/crossbar" award: the play-by-play feed records shots on goal,
+            blocked shots, and goals, but never missed shots, so iron is invisible in this data.</li>
+          <li>The shot map, goals-by-period, and event-mix charts are drawn from the full
+            play-by-play record across all seasons combined, not filtered to the season selector
+            above — a per-season breakdown is a natural next step.</li>
+          <li>Coordinates in the play-by-play feed are in feet from center ice/center width,
+            matching a standard 200×85 ft rink; they aren't normalized for which end a team was
+            attacking, so the map shows raw shot locations rather than "offensive zone" shots.</li>
+          <li><strong>Forecast</strong> (<code>PWHL/scripts/build_elo.py</code>): Elo ratings
+            updated after every regular-season and playoff game (preseason ignored). Settings are
+            chosen by testing them on past seasons. The test scores are nearly identical across a wide
+            range of settings, so among those within 0.001 log loss of the best, the most responsive
+            is used. Playoff odds come from simulating the rest of the schedule and the playoff
+            bracket 10,000 times, with ratings updating inside each simulation. The 2026-27 format
+            (two six-team conferences, top four qualify, best-of-3 then best-of-5 rounds) is from
+            the league's 2 Oct 2026 schedule announcement. Playoff games already played aren't fed
+            into the bracket simulation yet.</li>
+          <li><strong>Expected goals (xG)</strong> come from a logistic regression fitted in
+            <code>PWHL/scripts/build_models.py</code> on every shot on goal with a goalie in net.
+            Inputs are distance and angle to the net, shot type, rebound (team shot in the previous
+            3 s), rush (previous event outside the offensive zone within 4 s) and manpower. The
+            feed doesn't say which end a team attacked, so that's inferred per period from where
+            its shots cluster. Manpower is rebuilt from the penalty log and matches the feed's own
+            power-play flag on about 99% of goals.</li>
+          <li>The feed records shots on goal but not missed shots, so this xG only covers shots
+            that reached the goalie. That lowers its accuracy compared with NHL models that also see
+            misses. Each league year is re-centred so total xG equals actual goals, which keeps one
+            season's goalies from all looking good or bad together. The calibration chart shows the
+            remaining error, which is largest on the highest-danger shots.</li>
+          <li><strong>Player impact ratings</strong> are in goals above an average player at the
+            same position, for the selected season. Two versions exist:
+            <ul>
+              <li><em>Full model</em> (any season where the play-by-play lists who was on the ice,
+                which today is every season): even-strength offence and defence come from a ridge
+                regression of 5-on-5 xG rates on every skater on the ice at once, which separates a
+                player from their linemates and opponents. Ice time between events is approximated
+                from those on-ice lists.</li>
+              <li><em>Box-score estimate</em> (fallback for a season without on-ice data): shot
+                generation (individual xG above position average for the minutes played) and
+                playmaking (0.5 × primary + 0.25 × secondary assists above average) stand in for it.
+                These totals are larger and noisier and shouldn't be compared directly with
+                full-model seasons. The note under the ratings says which version a season uses.</li>
+            </ul>
+            Both versions add <em>finishing</em> (goals minus xG, shrunk toward zero by
+            shots ÷ (shots + 300) because shooting luck is large in a 30-game season),
+            <em>penalties</em> (minors taken versus position average × that season's power-play
+            goals per minor) and <em>faceoffs</em> (0.01 goals per win above 50%). Goalies are
+            rated by GSAx. Weights marked as assumptions here are set by hand, not fitted.</li>
+          <li><strong>Team pages</strong>: the roster and stats follow the season picked; the
+            "most used lines" are 5-on-5 forward trios and defence pairs ranked by time on ice together,
+            rebuilt from the on-ice lists in the play-by-play (same approximation as the ratings, so
+            treat ice time as close, not exact). On a goal's shot row the feed often lists the
+            skaters from both sides of a line change, so goals use the goal row's plus/minus lists.
+            Franchise leaders add up each player's impact rating over every regular season with the club.</li>
+          <li><strong>Player pages</strong>: shot mix and goalie matchups come from the expected-goals
+            model, goalie-in-net shots only. About a third of shots have no type in the feed ("not
+            recorded"). The role tag ranks the player's impact rating against everyone at the same
+            position that season.</li>
+          <li><strong>The Shin-Pad Shooter</strong> counts a shot attempt as blocked when the feed logs a
+            blocked shot with that player as the shooter. Missed shots aren't in the feed, so attempts =
+            shots on goal + blocked. <strong>The Rap Sheet</strong> counts penalty events by infraction.
+            <strong>The Hall of Sustained Quirk</strong> uses the totals view, regular seasons only, and
+            needs an outright (untied) win.</li>
+          <li>This is a first draft built to show the range of what the data supports — most
+            sections are candidates for refinement, not final designs.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <div class="section">
+      <div class="section-head"><div><h2>The model's report card</h2>
+        <p>Where the expected-goals model thinks the danger is, and how its predictions held up on games it
+           never saw.</p></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Where the danger is: average xG per shot, attacking right</div>
+          <div class="rink-wrap"><canvas id="danger-canvas" width="420" height="357"></canvas></div>
+          <div class="rink-legend"><span>low</span><span class="bar"></span><span>high</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Model check: predicted vs. actual goal rate (held-out games)</div>
+          <div class="cw"><canvas id="chart-calibration"></canvas></div>
+        </div>
+      </div>
+      <p class="note" id="xg-note"></p>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div>
+          <h2>Where the shots come from</h2>
+          <p>Every recorded shot attempt, binned by location, across all games in the play-by-play
+             record. Darker = more shots from that spot on the ice.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Shot density</div>
+          <div class="rink-wrap"><canvas id="rink-canvas" width="700" height="310"></canvas></div>
+          <div class="rink-legend"><span>fewer</span><span class="bar"></span><span>more</span></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Goals by period</div>
+          <div class="cw-sm"><canvas id="chart-period"></canvas></div>
+          <div class="card-title" style="margin-top:18px;">Event mix</div>
+          <div class="cw-sm"><canvas id="chart-events"></canvas></div>
+        </div>
+      </div>
+      <p class="note" id="shot-map-note"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>Ottawa Visuals</span>
+  <span>Data: PWHL / HockeyTech</span>
+</footer>
+
+<script>
+PWHL.load(['meta', 'xg', 'shot_map', 'events', 'elo']).then(() => {
+  PWHL.fillHeader();
+  document.getElementById('app').style.display = 'flex';
+  renderXgModelCharts();
+  renderShotSections();
+  PWHL.onTheme(() => { drawRink(); drawDangerMap(); renderXgModelCharts(); renderShotSections(); PWHL.fillHeader(); });
+}).catch(PWHL.fail);
+</script>
+</body>
+</html>
