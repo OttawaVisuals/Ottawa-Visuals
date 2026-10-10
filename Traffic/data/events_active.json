@@ -1380,6 +1380,29 @@
 },
 "fp": "d4511bc7638d"
 },
+"28911": {
+"event": {
+"cause": "construction",
+"created": "2026-09-17 12:49:00",
+"cross_street_1": "Lemieux",
+"cross_street_2": "Donald",
+"direction": null,
+"event_id": "28911",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "St-Laurent nightly periodic lane reductions in each direction between Lemieux and Donald due to construction, from October 13th to 15th. Flagpersons present. ",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.422357,
+"lon": -75.636159,
+"planned_end": "2026-10-15T06:00",
+"planned_start": "2026-10-10T18:00",
+"priority": "UNKNOWN",
+"road": "St-Laurent",
+"source": "city",
+"updated": "2026-10-10 17:56:00"
+},
+"fp": "1cf03b3c5fb4"
+},
 "28913": {
 "event": {
 "cause": "construction",
@@ -2805,52 +2828,6 @@
 "updated": "2026-10-09 11:12:00"
 },
 "fp": "08cf49d138a0"
-},
-"29382": {
-"event": {
-"cause": "a broken watermain",
-"created": "2026-10-09 12:14:00",
-"cross_street_1": "Tremblay",
-"cross_street_2": "Industrial",
-"direction": null,
-"event_id": "29382",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Riverside southbound reduced to 1 lane between Tremblay and Industrial due to a broken watermain. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.415963,
-"lon": -75.656699,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-09 14:53:00"
-},
-"fp": "157ccff6206b"
-},
-"29385": {
-"event": {
-"cause": "a broken watermain",
-"created": "2026-10-09 13:54:00",
-"cross_street_1": "Industrial",
-"cross_street_2": "Tremblay",
-"direction": null,
-"event_id": "29385",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Riverside northbound closed between Industrial and Tremblay due to a broken watermain. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.412227,
-"lon": -75.658252,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-09 14:52:00"
-},
-"fp": "30ff9b68c11e"
 },
 "29393": {
 "event": {
