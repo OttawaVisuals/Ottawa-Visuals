@@ -2346,6 +2346,52 @@
 },
 "fp": "bc04cdd11514"
 },
+"29343": {
+"event": {
+"cause": "construction",
+"created": "2026-10-08 12:40:00",
+"cross_street_1": "CRERAR",
+"cross_street_2": "HARROLD Place North",
+"direction": null,
+"event_id": "29343",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "VETERAN closed between CRERAR and HARROLD Place North due to construction, from October 13th to 23rd. Follow the signed detour. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.385465,
+"lon": -75.728986,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-10T07:00",
+"priority": "LOW",
+"road": "VETERAN",
+"source": "city",
+"updated": "2026-10-10 06:56:00"
+},
+"fp": "68804a644cad"
+},
+"29344": {
+"event": {
+"cause": "construction",
+"created": "2026-10-08 12:48:00",
+"cross_street_1": "Veteran",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29344",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Crerar reduced to 1 lane with alternating traffic at Veteran due to construction, from October 13th to 23rd. Flagpersons present.",
+"lanes": "reduced to 1 lane with alternating traffic",
+"lat": 45.385455,
+"lon": -75.729007,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-10T07:00",
+"priority": "LOW",
+"road": "Crerar",
+"source": "city",
+"updated": "2026-10-10 06:56:00"
+},
+"fp": "13967f4ad5b8"
+},
 "29345": {
 "event": {
 "cause": "construction",
