@@ -559,11 +559,14 @@ def _run(args, out_dir: Path) -> int:
             soup, page = fetch_meeting_html(session, throttle, mtg)
             if text_only:
                 # Indexed before item_text existed: add only the text rows.
-                if soup is not None:
-                    texts = parse_meeting(soup, mtg, page)[4]
-                    sink.write("item_text", texts)
-                    tot["item_text"] += len(texts)
-                    log.info("  %s: %d item texts", page, len(texts))
+                if soup is None:
+                    # Not marked done, so the next run tries this meeting again.
+                    log.warning("  no page fetched; text backfill will retry next run")
+                    continue
+                texts = parse_meeting(soup, mtg, page)[4]
+                sink.write("item_text", texts)
+                tot["item_text"] += len(texts)
+                log.info("  %s: %d item texts", page, len(texts))
                 text_state.mark(mtg.meeting_id)
                 continue
             if soup is None:
