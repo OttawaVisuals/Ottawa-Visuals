@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js"></script>
-<script src="pwhl-sections.js"></script>
+<script src="pwhl-sections.js?v=20261010-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -33,6 +33,7 @@
 
 <div class="report">
 
+  <p id="load-status" role="status">Loading Superlatives…</p>
   <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
     <code>data/json/</code> is reachable from this page (run
     <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
@@ -91,20 +92,29 @@ function renderSupSeason(sid) {
   renderAwards(sid, currentAwardsMode);
   renderRapSheet(sid);
 }
-Promise.all([PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']), loadAwardIcons()]).then(() => {
+PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']).then(() => {
   PWHL.fillHeader();
   const displayDate = d => new Date(d.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-CA', { day:'numeric', month:'short', year:'numeric' });
   const lastGame = META.last_game_date ? displayDate(META.last_game_date) : 'unknown';
   document.getElementById('superlatives-data-note').textContent =
     `Games included through ${lastGame} · Page data rebuilt ${displayDate(META.generated_at)}`;
   document.getElementById('app').style.display = 'flex';
+  document.getElementById('load-status').remove();
   buildAwardsTabs();
   const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);
   PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderSupSeason);
   renderSupSeason(currentSeasonId);
   renderHall();
   PWHL.onTheme(() => { renderSupSeason(currentSeasonId); renderHall(); PWHL.fillHeader(); });
-}).catch(PWHL.fail);
+  // Icons are optional decoration. Never hold the page open while they load.
+  if (typeof loadAwardIcons === 'function') {
+    loadAwardIcons().then(() => { renderSupSeason(currentSeasonId); renderHall(); })
+      .catch(err => console.warn('Award icons unavailable:', err));
+  }
+}).catch(err => {
+  document.getElementById('load-status').remove();
+  PWHL.fail(err);
+});
 </script>
 </body>
 </html>
