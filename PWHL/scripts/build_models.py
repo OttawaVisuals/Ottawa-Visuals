@@ -22,6 +22,7 @@ import json
 import math
 import os
 import random
+import time
 from collections import defaultdict
 
 DATA_DIR = os.path.join("PWHL", "data")
@@ -168,6 +169,40 @@ class Penalty:
         self.team, self.start, self.end, self.minor = team, start, start + length_secs, minor
 
 
+PM_SLOTS = ("one", "two", "three", "four", "five")
+
+
+def fix_goal_onice(pbp):
+    """On a goal, the feed's on-ice lists (on the goal row and on the matching
+    shot row) are often the union of the skaters before and after the next
+    line change: 7-10 names a side. The goal row's plus/minus lists are
+    exactly who was on, so rewrite both rows' on-ice lists from them (skaters
+    only; goalies are filtered out downstream anyway). Without this, the
+    5-on-5 ratings dropped about half of all even-strength goals, and those
+    are the most dangerous shots. Returns how many goals were rewritten."""
+    shot_rows = {}
+    for r in pbp:
+        if r["event"] == "shot" and r.get("goal") == "TRUE":
+            shot_rows[(r["game_id"], r.get("sec_from_start"), r.get("player_id"))] = r
+    fixed = 0
+    for r in pbp:
+        if r["event"] != "goal":
+            continue
+        plus = [r.get(f"plus_player_{n}_id") for n in PM_SLOTS]
+        minus = [r.get(f"minus_player_{n}_id") for n in PM_SLOTS]
+        plus = [x for x in plus if x not in (None, "", "NA")]
+        minus = [x for x in minus if x not in (None, "", "NA")]
+        if not plus or not minus:
+            continue
+        home_scored = r.get("team_id") == r.get("home_team_id")
+        home, away = (plus, minus) if home_scored else (minus, plus)
+        for row in (r, shot_rows.get((r["game_id"], r.get("sec_from_start"), r.get("player_id")))):
+            if row is not None:
+                row["on_ice_home"], row["on_ice_away"] = ",".join(home), ",".join(away)
+        fixed += 1
+    return fixed
+
+
 def parse_games(pbp, season_of, season_kind):
     """Group events by game, infer attack direction and strength, and
     return a flat list of shot dicts (on-goal shots only) plus per-game
@@ -272,7 +307,7 @@ def parse_games(pbp, season_of, season_kind):
                 last_shot[team] = t
 
                 shots.append({
-                    "game_id": gid, "season_id": sid, "t": t, "t_raw": r.get("sec_from_start"), "period": per,
+                    "game_id": gid, "season_id": sid, "t": t, "period": per,
                     "team_id": team, "opp_id": opp,
                     "shooter": r.get("player_id"), "goalie": r.get("goalie_id"),
                     "type": r.get("event_type") or "Default",
@@ -442,8 +477,17 @@ def write_player_models(model_shots, pname, team_code):
             obj = json.load(f)
         obj["model"] = {"by_season": seasons,
                         "game_xg": {g: round(x, 3) for g, x in game_xg[pid].items()}}
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
+        # Rewriting ~300 files back to back can trip a momentary lock on Windows
+        # (antivirus / indexer scanning the file just written): retry briefly.
+        for attempt in range(5):
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
+                break
+            except OSError:
+                if attempt == 4:
+                    raise
+                time.sleep(0.3)
         written += 1
     print(f"  added model blocks to {written} player files")
 
@@ -471,20 +515,10 @@ def unit_stints(games, goalie_ids, season_id):
     return out
 
 
-def line_combos(pbp, games, model_shots, goalie_ids, players_info, pname, team_code, seasons):
+def line_combos(games, model_shots, goalie_ids, players_info, pname, team_code, seasons):
     """Most-used 5v5 forward trios and defence pairs per team and season,
     with their together ice time and on-ice xG/goals for and against.
-
-    On a goal's shot row the on-ice lists are often the union of the skaters
-    before and after the next change (7-10 names a side), so for goals use the
-    separate goal row's plus/minus lists, which are exactly who was on."""
-    plus_minus = {}
-    for r in pbp:
-        if r["event"] == "goal":
-            plus = [r.get(f"plus_player_{n}_id") for n in ("one", "two", "three", "four", "five")]
-            minus = [r.get(f"minus_player_{n}_id") for n in ("one", "two", "three", "four", "five")]
-            plus_minus[(r["game_id"], r.get("sec_from_start"), r.get("player_id"))] = (
-                [x for x in plus if x not in (None, "", "NA")], [x for x in minus if x not in (None, "", "NA")])
+    Goal rows' on-ice lists are already corrected by fix_goal_onice."""
     def is_d(pid):
         return "D" in ((players_info.get(pid) or {}).get("position") or "").upper()
 
@@ -510,11 +544,6 @@ def line_combos(pbp, games, model_shots, goalie_ids, players_info, pname, team_c
             home_shot = sh["team_id"] == sh["home"]
             h = [p for p in sh["on_home"] if p not in goalie_ids]
             a = [p for p in sh["on_away"] if p not in goalie_ids]
-            pm = plus_minus.get((sh["game_id"], sh["t_raw"], sh["shooter"])) if sh["goal"] else None
-            if pm:
-                h, a = (pm[0], pm[1]) if home_shot else (pm[1], pm[0])
-                h = [p for p in h if p not in goalie_ids]
-                a = [p for p in a if p not in goalie_ids]
             if len(h) != 5 or len(a) != 5:
                 continue
             away_team = sh["opp_id"] if home_shot else sh["team_id"]
@@ -589,6 +618,7 @@ def main():
                 or pbp_names.get(pid) or f"Player {pid}")
 
     print("Parsing play-by-play...")
+    print(f"  on-ice lists rebuilt from plus/minus on {fix_goal_onice(pbp)} goals")
     shots, games = parse_games(pbp, season_of, season_kind)
     model_shots = [s for s in shots if not s["empty_net"]]
     print(f"  {len(shots)} on-goal shots, {len(model_shots)} with a goalie in net")
@@ -859,7 +889,7 @@ def main():
 
     print("Player model blocks and line combos...")
     write_player_models(model_shots, pname, team_code)
-    lines = line_combos(pbp, games, model_shots, goalie_ids, players_info, pname, team_code,
+    lines = line_combos(games, model_shots, goalie_ids, players_info, pname, team_code,
                         sorted(ratings_by_season, key=int))
     write_json("pwhl_lines.json", {"min_secs": LINE_MIN_SECS, "by_season": lines})
 
