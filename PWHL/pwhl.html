@@ -11,8 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js"></script>
+<script src="pwhl-core.js?v=trade-network-1"></script>
 <script src="pwhl-sections.js"></script>
+<script src="pwhl-trades.js?v=trade-network-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +22,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css">
+<link rel="stylesheet" href="pwhl.css?v=trade-network-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -125,6 +126,18 @@
           <p>Signings, releases, trades, and call-ups league-wide.</p>
         </div>
       </div>
+      <div class="card trade-card">
+        <div class="trade-head">
+          <div>
+            <h3>Trades between teams</h3>
+            <p>Select a team or an arrow to see the players who moved.</p>
+          </div>
+          <select id="trade-season-select" class="ov-select" aria-label="Trade season"></select>
+        </div>
+        <div id="trade-network" class="trade-network" aria-label="Team trade network"></div>
+        <div id="trade-details" class="trade-details" aria-live="polite"></div>
+        <p class="note">A line requires matching “Traded from” and “Traded to” records for the same player and date. Duplicate entries count once. Signings without a known previous team are excluded.</p>
+      </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-title">By type</div>
@@ -150,7 +163,7 @@ function renderHomeSeason(sid) {
   renderGoalsChart(sid);
   renderLeaders(sid, currentLeaderStat);
 }
-PWHL.load(['meta', 'standings', 'leaders', 'games', 'events', 'bracket', 'transactions', 'elo']).then(() => {
+PWHL.load(['meta', 'standings', 'leaders', 'games', 'events', 'bracket', 'transactions', 'elo'], { transactions:'trade-network-1' }).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   PWHL.playerSearch(document.getElementById('player-search'));
@@ -162,7 +175,8 @@ PWHL.load(['meta', 'standings', 'leaders', 'games', 'events', 'bracket', 'transa
   renderHomeSeason(currentSeasonId);
   renderBracket(currentBracketSeasonId);
   renderTransactions();
-  PWHL.onTheme(() => { renderHomeSeason(currentSeasonId); renderBracket(currentBracketSeasonId); PWHL.fillHeader(); });
+  initTradeNetwork();
+  PWHL.onTheme(() => { renderHomeSeason(currentSeasonId); renderBracket(currentBracketSeasonId); renderTradeNetwork(); PWHL.fillHeader(); });
 }).catch(PWHL.fail);
 </script>
 </body>
