@@ -184,6 +184,27 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   fetch pipelines in [`Weather/`](Weather/PLAN.md).
 - **Page:** `/weather.html` · also on the homepage as Report № 04 · Climate.
 
+### PWHL Dashboard
+- **Progress:** ~85% (live, multi-page) · every PWHL
+  season (2024 → 2025-26 plus playoffs/preseason) from the league's HockeyTech feed, refreshed by
+  the `daily_update.yml` GitHub Action (last run checked green 2026-10-09 22:51 UTC).
+- **Pages (split 2026-10-10):** Home (standings, leaders, bracket, transactions) · Forecast (Elo,
+  win chances, 10,000-run playoff odds, prediction scorecard) · Teams + a page per team (outlook,
+  results, top contributors, most-used 5v5 lines, roster stats, franchise leaders, current roster,
+  incl. the four 2026-27 expansion teams) · Players (sortable table) + a page per player (role tag,
+  shot map, shot mix by type, goalie matchups, home/away, best games, career) · Superlatives (incl.
+  the Vulture, Shin-Pad Shooter, Rap Sheet, Hall of Sustained Quirk) · How it works.
+- **Models:** expected goals (logistic, held-out AUC ~0.69), player impact ratings (5v5 RAPM +
+  finishing/penalties/faceoffs), Elo forecasts. **2026-10-10 fix:** the feed's on-ice lists at goals
+  were unions across line changes, so the ratings had been skipping ~half of 5v5 goals; they're now
+  rebuilt from the goal's plus/minus lists (median rating moved ~0.1 goals).
+- **Gotcha:** `PWHL/data/pwhl_pbp.csv` is gitignored and goes stale locally — download CI's
+  `pwhl-pbp` artifact before running `build_models.py` by hand (a stale copy silently drops older
+  seasons to the box-score ratings fallback).
+- **Open:** in-game win probability; line chemistry (together vs. apart).
+- **Page:** `/PWHL/pwhl.html` · on the homepage as report *PWHL dashboard* · details in
+  [`PWHL/README.md`](PWHL/README.md).
+
 ---
 
 ## 🔄 In Progress
@@ -412,7 +433,6 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **RTO Road Maintenance** — spending on road maintenance; office permits. *(site roadmap)*
 - **Ottawa Building Permits** — permit data analysis/visual.
 - **Bike Collision / Traffic Collision Map** — Ottawa collision data.
-- **PWHL Hockey Dashboard** — Power BI on the PWHL API (side project).
 - **Stop-sign / speed compliance monitoring** — Raspberry Pi camera at a local intersection.
 - **Natural gas / electricity grid emissions** — Ontario gas distribution, Yukon hourly grid emissions, IESO data.
 
