@@ -179,6 +179,42 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .txn-date{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);flex-shrink:0;width:78px;}
 .txn-tag{font-family:var(--font-mono);font-size:9.5px;padding:1px 6px;border-radius:4px;background:var(--bg-3);color:var(--ink-2);flex-shrink:0;}
 .txn-tag.add{color:var(--green);} .txn-tag.del{color:var(--red);}
+.trade-card{margin-bottom:10px;}
+.trade-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.trade-head h3{font-size:15px;color:var(--ink);}
+.trade-head p{font-size:12px;color:var(--ink-3);margin-top:3px;}
+.trade-network{overflow-x:auto;margin:10px 0 4px;}
+.trade-network svg{display:block;width:100%;min-width:620px;height:auto;}
+.trade-rink{fill:var(--bg-3);stroke:var(--line);stroke-width:1.5;}
+.trade-centre-ring{fill:none;stroke:var(--line-2);stroke-width:1.5;stroke-dasharray:5 5;}
+.trade-centre-number,.trade-centre-label,.trade-count,.trade-node text{text-anchor:middle;font-family:var(--font-mono);pointer-events:none;}
+.trade-centre-number{fill:var(--ink);font-size:31px;font-weight:700;}
+.trade-centre-label{fill:var(--ink-3);font-size:10px;letter-spacing:.08em;}
+.trade-flow,.trade-node{cursor:pointer;transition:opacity .15s;}
+.trade-flow.muted,.trade-node.muted{opacity:.22;}
+.trade-node.inactive{opacity:.38;}
+.trade-node.selected circle{stroke:var(--ink);stroke-width:3;}
+.trade-node text{font-size:11px;font-weight:700;dominant-baseline:middle;}
+.trade-hit{fill:none;stroke:transparent;stroke-width:24;}
+.trade-line{fill:none;stroke-linecap:round;}
+.trade-flow:hover .trade-line,.trade-flow:focus-within .trade-line,.trade-flow.selected .trade-line{stroke-width:7;}
+.trade-node:hover circle,.trade-node:focus-visible circle{stroke:var(--ink);stroke-width:3;}
+.trade-flow-control:focus-visible .trade-count-bg{stroke:var(--ink);stroke-width:3;}
+.trade-flow-control:focus-visible,.trade-node:focus-visible{outline:none;}
+.trade-count-bg{fill:var(--bg-2);stroke:var(--line-2);stroke-width:1.5;}
+.trade-count{fill:var(--ink);font-size:11px;font-weight:700;dominant-baseline:middle;}
+.trade-details{border-top:1px solid var(--line);padding-top:11px;}
+.trade-detail-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:5px;}
+.trade-detail-head strong{font-size:12.5px;}
+.trade-detail-head span{margin-left:10px;color:var(--ink-3);font-family:var(--font-mono);font-size:10px;}
+.trade-moves{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+.trade-move{display:grid;grid-template-columns:78px minmax(120px,1fr) minmax(110px,1fr);gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px;}
+.trade-move time{color:var(--ink-3);font-family:var(--font-mono);font-size:10px;}
+.trade-route{white-space:nowrap;font-family:var(--font-mono);font-size:11px;color:var(--ink-2);}
+.trade-route .team-dot{margin-right:3px;}
+.trade-empty{padding:30px 10px;text-align:center;color:var(--ink-3);font-size:12px;}
+@media(max-width:800px){.trade-moves{grid-template-columns:1fr;}}
+@media(max-width:560px){.trade-move{grid-template-columns:78px 1fr;}.trade-move>.pl-link{grid-column:2;}}
 /* ── METHODOLOGY / FOOTER ─────────────────────────────────────── */
 .methodology{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:12.5px;color:var(--ink-2);}
 .methodology h3{font-size:13px;margin-bottom:8px;color:var(--ink);}

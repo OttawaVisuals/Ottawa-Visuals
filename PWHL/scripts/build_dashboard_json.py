@@ -534,10 +534,44 @@ def main():
         d = t.get("transaction_date", "")
         month = d[:7] if len(d) >= 7 else "unknown"
         txn_by_month[month] += 1
+    # A trade is a verified movement only when the feed names both clubs for
+    # the same player and date. The feed sometimes repeats identical rows or
+    # supplies just one side; neither should create an invented network edge.
+    trade_events = defaultdict(lambda: {"Traded from": set(), "Traded to": set()})
+    trade_details = {}
+    for t in transactions:
+        title = t.get("title", "")
+        if title not in ("Traded from", "Traded to"):
+            continue
+        key = (t.get("transaction_date", ""), t.get("player_id", ""))
+        code = t.get("team_code", "")
+        season_id = t.get("season_id", "")
+        if key[0] and key[1] and code and season_id:
+            trade_events[key][title].add((code, season_id))
+            trade_details[key] = t
+    trade_moves = []
+    for (date, player_id), sides in trade_events.items():
+        if len(sides["Traded from"]) != 1 or len(sides["Traded to"]) != 1:
+            continue
+        from_code, from_season = next(iter(sides["Traded from"]))
+        to_code, to_season = next(iter(sides["Traded to"]))
+        if from_code == to_code or from_season != to_season:
+            continue
+        t = trade_details[(date, player_id)]
+        trade_moves.append({
+            "date": date,
+            "season_id": from_season,
+            "player_id": player_id,
+            "player_name": " ".join(filter(None, (t.get("first_name"), t.get("last_name")))) or t.get("player_name", ""),
+            "from": from_code,
+            "to": to_code,
+        })
+    trade_moves.sort(key=lambda t: (t["date"], t["player_name"]), reverse=True)
     write_json("pwhl_transactions.json", {
         "by_type": dict(sorted(txn_by_type.items(), key=lambda kv: -kv[1])),
         "by_month": dict(sorted(txn_by_month.items())),
         "recent": sorted(transactions, key=lambda t: t.get("transaction_date", ""), reverse=True)[:20],
+        "trade_moves": trade_moves,
     })
 
     print(f"\nCurrent season: {current_season_id} ({season_names.get(current_season_id)})")

@@ -110,8 +110,9 @@ const _DATA_VARS = {
 };
 // Model outputs and other extras may be missing; the core files may not.
 const _OPTIONAL = new Set(['xg', 'ratings', 'elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index']);
-PWHL.load = function (names) {
-  return Promise.all(names.map(n => fetch(DATA_BASE + 'pwhl_' + n + '.json')
+PWHL.load = function (names, versions = {}) {
+  return Promise.all(names.map(n => fetch(DATA_BASE + 'pwhl_' + n + '.json'
+    + (versions[n] ? '?v=' + encodeURIComponent(versions[n]) : ''))
     .then(r => { if (!r.ok) throw new Error(n + ': HTTP ' + r.status); return r.json(); })
     .then(v => _DATA_VARS[n](v))
     .catch(err => { if (_OPTIONAL.has(n)) { _DATA_VARS[n](null); } else { throw err; } })));
