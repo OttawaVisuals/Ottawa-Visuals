@@ -284,7 +284,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛢️ Oil &amp; Gas</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">60%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">draft</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85% · multi-page</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -1020,11 +1020,14 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <section id="pwhl" class="card">
   <div class="proj-head">
     <h2>🏒 PWHL Dashboard</h2>
-    <span class="chip build">🔨 Live · draft</span>
+    <span class="chip done">✅ Live · multi-page (split 2026-10-10)</span>
     <a class="live-link" href="PWHL/pwhl.html" target="_blank">open the tool ↗</a>
   </div>
-  <p><b>In one sentence:</b> standings, player leaders, shot maps and playoff results across three
-  PWHL seasons, refreshed daily from the league's own stats feed. An explicit first draft.</p>
+  <p><b>In one sentence:</b> every PWHL season from the league's own stats feed, refreshed daily:
+  standings and leaders, an Elo forecast with playoff odds, a page per team and per player (lines,
+  shot maps, shot mix, matchups), expected goals, impact ratings and tongue-in-cheek superlatives.</p>
+  <p class="small muted">Pages: Home · Forecast · Teams (+ <code>team.html?code=</code>) · Players
+  (+ <code>player.html?id=</code>) · Superlatives · How it works.</p>
 
   <h3>Where the data comes from</h3>
   <div class="srcs">
@@ -1035,9 +1038,11 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="pipe">
     <div class="step"><b>1 · Daily pull</b><span>scripts/daily_update.R fetches games, standings, players, play-by-play into CSV</span></div>
     <div class="arr">→</div>
-    <div class="step"><b>2 · Aggregate</b><span>scripts/build_dashboard_json.py turns the raw CSVs into compact data/json/ files</span></div>
+    <div class="step"><b>2 · Aggregate</b><span>scripts/build_dashboard_json.py turns the raw CSVs into compact data/json/ files, incl. one file per player</span></div>
     <div class="arr">→</div>
-    <div class="step"><b>3 · One web page</b><span>pwhl.html reads data/json/</span></div>
+    <div class="step"><b>3 · Models</b><span>build_models.py (expected goals, impact ratings, line combos) and build_elo.py (forecast, playoff odds)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>4 · Eight pages</b><span>shared pwhl-core.js / pwhl-sections.js / pwhl.css read data/json/</span></div>
   </div>
 
   <div class="assump-box">
@@ -1052,10 +1057,29 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">index.html REPORTS[] "pwhl" §method.</div>
       </div></li>
-      <li><input type="checkbox" data-key="pw-draft"><div class="a-body">
-        <span class="tag data">source limit</span><b>This dashboard is explicitly a first draft — sections are candidates, not final.</b>
-        <p>Stated directly rather than presented as a finished product; expect sections to be reshaped as real usage clarifies what's useful.</p>
-        <div class="where">PWHL/README.md; index.html REPORTS[] "pwhl" §method.</div>
+      <li><input type="checkbox" data-key="pw-goal-onice"><div class="a-body">
+        <span class="tag data">source limit</span><b>Who was on the ice at a goal comes from the goal's plus/minus list, not the feed's on-ice list.</b>
+        <p>On goals the feed's on-ice lists often hold 7-10 names a side (both sides of a line change). Before 2026-10-10 that made the 5v5 ratings skip about half of all even-strength goals; fixing it moved the median rating by ~0.1 goals.</p>
+        <p class="alt"><b>Other options:</b> drop goal shots from the 5v5 model (the old, biased behaviour) or keep the union lists (credits players who weren't on).</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 3 min<ol>
+          <li>Run <code>python PWHL/scripts/build_models.py</code>: it prints "on-ice lists rebuilt from plus/minus on N goals".</li>
+          <li>In <code>pwhl_pbp.csv</code>, pick a goal row: compare <code>on_ice_home</code> (often 10 ids) with the five <code>plus_player_*</code> ids.</li>
+        </ol></div>
+        <div class="where">PWHL/scripts/build_models.py fix_goal_onice(); methodology.html.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="pw-takeover"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>A "Takeover Tour" game is any home game outside the home team's own market.</b>
+        <p>Ottawa in Calgary counts as takeover; Ottawa at Canadian Tire Centre counts as a home-market game. % of capacity uses the venue list's hockey capacity, so a sellout can read slightly above or below 100%.</p>
+        <p class="alt"><b>Other options:</b> use the league's own Takeover Tour schedule list, or treat every non-regular arena (incl. big in-market arenas) as special.</p>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
+          <li>Open Teams → Attendance and check the takeover list against the league's announced Takeover Tour stops.</li>
+        </ol></div>
+        <div class="where">PWHL/scripts/build_dashboard_json.py HOME_MARKETS; PWHL/data/PWHL_Venues.csv.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="pw-lines"><div class="a-body">
+        <span class="tag data">source limit</span><b>Line ice time is estimated from on-ice lists between events.</b>
+        <p>The feed has no shift data, so the gap between two events is split between the units on ice at either end. Good for ranking which trios and pairs played most together; not an exact minute count.</p>
+        <div class="where">PWHL/scripts/build_models.py unit_stints(), line_combos().</div>
       </div></li>
     </ul>
   </div>
