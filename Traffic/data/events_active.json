@@ -2944,6 +2944,52 @@
 },
 "fp": "058913433d3f"
 },
+"29402": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 17:43:00",
+"cross_street_1": "Blair",
+"cross_street_2": "Place d'Orl\u00e9ans",
+"direction": null,
+"event_id": "29402",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 eastbound reduced to 1 lane between Blair and Place d'Orl\u00e9ans due to construction. From 10:00pm October 9th to 5:00am October 10th.",
+"lanes": "reduced to 1 lane",
+"lat": 45.431734,
+"lon": -75.60555,
+"planned_end": "2026-10-10T05:00",
+"planned_start": "2026-10-09T22:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-09 21:56:00"
+},
+"fp": "ad1746a8ca72"
+},
+"29403": {
+"event": {
+"cause": "construction",
+"created": "2026-10-09 17:45:00",
+"cross_street_1": "Place d'Orl\u00e9ans",
+"cross_street_2": "Blair",
+"direction": null,
+"event_id": "29403",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 westbound reduced to 1 lane between Place d'Orl\u00e9ans and Blair due to construction. From 10:00pm October 9th to 5:00am October 10th.",
+"lanes": "reduced to 1 lane",
+"lat": 45.480013,
+"lon": -75.518129,
+"planned_end": "2026-10-10T05:00",
+"planned_start": "2026-10-09T22:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-09 21:56:00"
+},
+"fp": "18d6b10507e3"
+},
 "29405": {
 "event": {
 "cause": "construction",
