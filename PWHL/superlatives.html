@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
-<body>
+<body class="superlatives-page">
 
 <div id="pwhl-header"></div>
 <script>PWHL.header('superlatives');</script>
@@ -45,6 +45,7 @@
           <p>The categories the league doesn't hand out trophies for, for the season you pick. Switch to <strong>per 60 minutes</strong> to see who does
              this stuff at a high rate rather than just who plays the most — it's where the
              third-liners show up. Awards that are already a percentage stay as one in both views.</p>
+          <p class="superlatives-data-note" id="superlatives-data-note"></p>
         </div>
         <div class="filters"><select id="season-select" class="ov-select" aria-label="Season"></select></div>
         <div class="tabs" id="awards-mode-tabs">
@@ -52,11 +53,18 @@
           <button class="tab-btn" data-mode="rate">Per 60 min</button>
         </div>
       </div>
-      <div class="awards-grid" id="awards-grid"></div>
+      <nav class="award-jumps" aria-label="Jump to award categories">
+        <a href="#award-scoring">Scoring &amp; playmaking</a>
+        <a href="#award-workload">Workload &amp; on-ice</a>
+        <a href="#award-physical">Physical &amp; discipline</a>
+        <a href="#award-situational">Special situations</a>
+        <a href="#rap-sheet">Rap Sheet</a>
+      </nav>
+      <div class="awards-groups" id="awards-grid"></div>
       <p class="note" id="awards-note"></p>
     </div>
 
-    <div class="section">
+    <div class="section" id="rap-sheet">
       <div class="section-head"><div><h2>The Rap Sheet</h2>
         <p>Every infraction in the rulebook gets its own wanted poster: the three players called for it
            most this season, from the play-by-play's penalty log.</p></div></div>
@@ -83,8 +91,12 @@ function renderSupSeason(sid) {
   renderAwards(sid, currentAwardsMode);
   renderRapSheet(sid);
 }
-PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']).then(() => {
+Promise.all([PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']), loadAwardIcons()]).then(() => {
   PWHL.fillHeader();
+  const displayDate = d => new Date(d.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-CA', { day:'numeric', month:'short', year:'numeric' });
+  const lastGame = META.last_game_date ? displayDate(META.last_game_date) : 'unknown';
+  document.getElementById('superlatives-data-note').textContent =
+    `Games included through ${lastGame} · Page data rebuilt ${displayDate(META.generated_at)}`;
   document.getElementById('app').style.display = 'flex';
   buildAwardsTabs();
   const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);

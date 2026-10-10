@@ -176,8 +176,8 @@ const AWARDS_DEFS = [
     tie: r => r.log_gp * 1e7 + r.toi,
     fmt: (v, r) => `${dec0(v)}% · ${r.clean_gp}/${r.log_gp} GP`,
     noRate:true, sub: th => `Penalty-free games ÷ games played · min. ${th.minGp} GP` },
-  { key:'impact_high', emoji:'📈', title:'Most Impactful',
-    blurb:'Best plus/minus — on the ice for a lot more goals for than against.',
+  { key:'impact_high', emoji:'📈', title:'Plus/Minus Leader',
+    blurb:'Highest plus/minus: goals for minus goals against while on the ice.',
     val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
   { key:'impact_low', emoji:'📉', title:'Rough Nights',
     blurb:'Worst plus/minus. Often a good player on a bad night shift.',
@@ -206,8 +206,9 @@ const AWARDS_DEFS = [
     blurb:'Lowest shooting percentage among those same volume shooters. The pucks simply will not go in.',
     filter: (r, th) => r.shots >= th.minShots, asc:true, val: r => 100 * r.goals / r.shots,
     fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
-  { key:'value', emoji:'💸', title:'Bang For The Buck',
-    blurb:'Points per 60 minutes — the depth forwards producing on limited minutes.',
+  { key:'value', emoji:'💸', title:'The Point Producer', rateTitle:'Bang For The Buck',
+    blurb:'Most points scored this season.',
+    rateBlurb:'Most points per 60 minutes of ice time.',
     val: r => r.points, fmt: int0, unit:'PTS', rateFmt: dec2, rateUnit:'PTS/60' },
   { key:'playmaker', emoji:'🎩', title:'The Playmaker',
     blurb:'Most assists. Would rather set it up than shoot it.',
@@ -239,6 +240,53 @@ const AWARDS_DEFS = [
     noRate:true, sub: th => `Blocked ÷ (on goal + blocked) · min. ${Math.round(th.minShots * 1.5)} attempts` },
 ];
 
+const AWARD_GROUPS = [
+  { id:'scoring', title:'Scoring & playmaking', keys:['trigger','sniper','hardluck','value','playmaker','closer','icebreaker','lonewolf'] },
+  { id:'workload', title:'Workload & on-ice results', keys:['impact_high','impact_low','ironwoman','workhorse'] },
+  { id:'physical', title:'Physical play & discipline', keys:['goon','fairplay','hammer','shield','faceoff','shinpad'] },
+  { id:'situational', title:'Special situations', keys:['pk','vulture'] },
+];
+
+// Inline the local SVGs so their colours follow the site's light, dark, and
+// colour-blind themes. A missing icon falls back to its original emoji.
+const AWARD_ICONS = new Map();
+const AWARD_ICON_COLORS = {
+  '#283447': 'var(--ink)',
+  '#9ea8b7': 'var(--ink-3)',
+  '#697a8d': 'var(--ink-2)',
+  '#c9542f': 'var(--accent)',
+  '#c93436': 'var(--red)',
+  '#22885f': 'var(--green)',
+  '#fff': 'var(--bg-2)',
+};
+function awardIcon(def, className = 'aw-icon') {
+  const svg = AWARD_ICONS.get(def.key);
+  return svg ? `<span class="${className}" aria-hidden="true">${svg}</span>`
+    : `<span class="aw-emoji" aria-hidden="true">${def.emoji}</span>`;
+}
+function loadAwardIcons() {
+  return Promise.all(AWARDS_DEFS.map(async def => {
+    const filename = def.key.replaceAll('_', '-');
+    try {
+      const response = await fetch(`icon-concepts/${filename}.svg`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const doc = new DOMParser().parseFromString(await response.text(), 'image/svg+xml');
+      const svg = doc.documentElement;
+      if (svg.localName !== 'svg') throw new Error('Invalid SVG');
+      svg.querySelector('title')?.remove();
+      svg.removeAttribute('role');
+      svg.removeAttribute('aria-labelledby');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      const themed = svg.outerHTML.replace(/#[0-9a-f]{3,8}\b/gi,
+        color => AWARD_ICON_COLORS[color.toLowerCase()] || color);
+      AWARD_ICONS.set(def.key, themed);
+    } catch (err) {
+      console.warn(`Award icon ${filename} unavailable:`, err);
+    }
+  }));
+}
+
 function awardRanking(def, rows, mode, th) {
   const useRate = mode === 'rate' && !def.noRate;
   let pool = rows;
@@ -260,6 +308,28 @@ function awardRanking(def, rows, mode, th) {
   return { list, formatter, unit, useRate, qualified: pool.length };
 }
 
+const AWARD_DETAIL_GP = new Set([
+  'value', 'playmaker', 'closer', 'icebreaker', 'lonewolf',
+  'impact_high', 'impact_low', 'workhorse',
+]);
+const AWARD_DETAIL_MIN = new Set([
+  'trigger', 'value', 'playmaker', 'lonewolf',
+  'impact_high', 'impact_low', 'ironwoman',
+]);
+function awardRowDetail(def, r, useRate) {
+  const parts = [];
+  if (useRate) {
+    const total = def.fmt(def.val(r), r);
+    parts.push(def.rate ? total : `${total} ${def.unit || 'total'}`);
+  }
+  if (AWARD_DETAIL_GP.has(def.key)) parts.push(`${int0(r.gp)} GP`);
+  if ((useRate && !def.rate) || AWARD_DETAIL_MIN.has(def.key))
+    parts.push(`${int0(r.toi / 60)} min played`);
+  if (def.key === 'sniper' || def.key === 'hardluck') parts.push(`${int0(r.shots)} shots taken`);
+  if (def.key === 'shinpad') parts.push(`${int0(r.shots)} shots on goal`);
+  return parts.join(' · ');
+}
+
 function renderAwards(seasonId, mode) {
   const grid = document.getElementById('awards-grid');
   const note = document.getElementById('awards-note');
@@ -271,7 +341,7 @@ function renderAwards(seasonId, mode) {
     return;
   }
   const th = awardsThresholds(rows);
-  grid.innerHTML = AWARDS_DEFS.map(def => {
+  const cards = new Map(AWARDS_DEFS.map(def => {
     const { list, formatter, unit, useRate } = awardRanking(def, rows, mode, th);
     // Awards with a custom rate (e.g. minutes per game) label themselves via
     // rateUnit -- don't tack "per 60 min" onto those.
@@ -279,26 +349,37 @@ function renderAwards(seasonId, mode) {
     const sub = useRate
       ? `${def.rate ? '' : 'Per 60 min · '}min. ${th.minGp} GP, ${th.minMin} min`
       : ownSub;
+    const hasTies = list.some((x, i) => i > 0 && x.v === list[i - 1].v);
     const body = list.length
-      ? list.map((x, i) => `
+      ? list.map((x, i) => {
+        const detail = awardRowDetail(def, x.r, useRate);
+        return `
           <div class="aw-row">
-            <span class="rk">${i+1}</span>
+            <span class="rk">${list.some((y, j) => j !== i && y.v === x.v) ? 'T' : ''}${list.findIndex(y => y.v === x.v) + 1}</span>
             <span class="nm">${plLink(x.r.player_id, x.r.name)}<span class="tm">${teamDot(x.r.team_code)}${esc(x.r.team_code || '')}${x.r.traded ? '*' : ''}</span></span>
             <span class="vl">${esc(formatter(x.v, x.r))}</span>
-          </div>`).join('')
+            ${detail ? `<span class="aw-row-detail">${esc(detail)}</span>` : ''}
+          </div>`;
+      }).join('')
       : '<div class="aw-sub">Not enough qualifying players.</div>';
-    return `
+    return [def.key, `
       <div class="aw-card">
-        <div class="aw-head"><span class="aw-emoji">${def.emoji}</span><span class="aw-title">${esc(def.title)}</span></div>
-        <div class="aw-blurb">${esc(def.blurb)}</div>
+        <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(useRate && def.rateTitle ? def.rateTitle : def.title)}</span></div>
+        <div class="aw-blurb">${esc(useRate && def.rateBlurb ? def.rateBlurb : def.blurb)}</div>
         <div class="aw-list">${body}</div>
         <div class="aw-sub">${esc(unit ? unit + (sub ? ' · ' + sub : '') : sub)}</div>
-      </div>`;
-  }).join('');
+        ${hasTies ? `<div class="aw-tie-note">Equal values share a rank; listed by ${def.key === 'fairplay' ? 'games played, then ice time' : 'ice time'}.</div>` : ''}
+      </div>`];
+  }));
+  grid.innerHTML = AWARD_GROUPS.map(group => `
+    <section class="award-group" id="award-${group.id}" aria-labelledby="award-${group.id}-title">
+      <h3 id="award-${group.id}-title">${group.title}</h3>
+      <div class="awards-grid">${group.keys.map(key => cards.get(key)).join('')}</div>
+    </section>`).join('');
   note.textContent = `${rows.length} skaters with at least one game played. `
     + (mode === 'rate'
        ? `Rate stats are per 60 minutes of ice time, restricted to players with ${th.minGp}+ games and ${th.minMin}+ minutes.`
-       : 'Ties broken by ice time. Awards that are already rates or eligibility-based (fair play %, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
+       : 'Equal values share a rank. Awards that are already rates or eligibility-based (fair play %, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
     + ' * = played for more than one team this season; stats are combined.';
 }
 
@@ -339,7 +420,7 @@ function renderHall() {
     .sort((a, b) => b.seasons.length - a.seasons.length || a.r.name.localeCompare(b.r.name));
   wrap.innerHTML = hall.length ? hall.map(w => `
     <div class="aw-row hall-row">
-      <span class="rk">${w.def.emoji}</span>
+      ${awardIcon(w.def, 'aw-hall-icon')}
       <span class="nm">${plLink(w.r.player_id, w.r.name)}<span class="tm">${teamDot(w.r.team_code)}${esc(w.r.team_code || '')}</span></span>
       <span class="vl">${esc(w.def.title)} · ${w.seasons.map(s => esc(seasonName(s).replace(' Regular Season', ''))).join(', ')}</span>
     </div>`).join('') : '<p class="note">Nobody has won the same award outright twice yet.</p>';
