@@ -1955,52 +1955,6 @@
 },
 "fp": "b7d321607bd2"
 },
-"29222": {
-"event": {
-"cause": "",
-"created": "2026-10-02 15:42:00",
-"cross_street_1": "WOODROFFE AVE (IC 127)",
-"cross_street_2": "RICHMOND RD (IC 130)/BAYSHORE DR",
-"direction": null,
-"event_id": "29222",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from WOODROFFE AVE to RICHMOND RD /BAYSHORE DR - Continuous Construction. 1 Left Lane(s). 2026-10-09 23:00 to 2026-10-10 05:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.36114,
-"lon": -75.76829,
-"planned_end": "2026-10-10T05:00",
-"planned_start": "2026-10-09T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-02 15:42:00"
-},
-"fp": "ddf205ef67a8"
-},
-"29223": {
-"event": {
-"cause": "",
-"created": "2026-10-02 15:42:00",
-"cross_street_1": "RICHMOND RD (IC 130)/BAYSHORE DR",
-"cross_street_2": "WOODROFFE AVE (IC 127)",
-"direction": null,
-"event_id": "29223",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from RICHMOND RD /BAYSHORE DR to WOODROFFE AVE - Continuous Construction. 1 Left Lane(s). 2026-10-09 23:00 to 2026-10-10 05:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.34548,
-"lon": -75.80572,
-"planned_end": "2026-10-10T05:00",
-"planned_start": "2026-10-09T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-02 15:42:00"
-},
-"fp": "9b61051c0990"
-},
 "29240": {
 "event": {
 "cause": "a demonstration",
@@ -2966,52 +2920,6 @@
 "updated": "2026-10-09 17:03:00"
 },
 "fp": "058913433d3f"
-},
-"29402": {
-"event": {
-"cause": "construction",
-"created": "2026-10-09 17:43:00",
-"cross_street_1": "Blair",
-"cross_street_2": "Place d'Orl\u00e9ans",
-"direction": null,
-"event_id": "29402",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound reduced to 1 lane between Blair and Place d'Orl\u00e9ans due to construction. From 10:00pm October 9th to 5:00am October 10th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.431734,
-"lon": -75.60555,
-"planned_end": "2026-10-10T05:00",
-"planned_start": "2026-10-09T22:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-09 21:56:00"
-},
-"fp": "ad1746a8ca72"
-},
-"29403": {
-"event": {
-"cause": "construction",
-"created": "2026-10-09 17:45:00",
-"cross_street_1": "Place d'Orl\u00e9ans",
-"cross_street_2": "Blair",
-"direction": null,
-"event_id": "29403",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 westbound reduced to 1 lane between Place d'Orl\u00e9ans and Blair due to construction. From 10:00pm October 9th to 5:00am October 10th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.480013,
-"lon": -75.518129,
-"planned_end": "2026-10-10T05:00",
-"planned_start": "2026-10-09T22:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-09 21:56:00"
-},
-"fp": "18d6b10507e3"
 },
 "29405": {
 "event": {
