@@ -2116,6 +2116,52 @@
 },
 "fp": "9d3fb8f1fa46"
 },
+"29280": {
+"event": {
+"cause": "construction",
+"created": "2026-10-06 12:19:00",
+"cross_street_1": "Ogilvie",
+"cross_street_2": "417 E/B onramp",
+"direction": null,
+"event_id": "29280",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Aviation southbound closed between Ogilvie and 417 E/B onramp due to construction, from October 12th to 14th between 11:00pm and 4:00am.",
+"lanes": "closed",
+"lat": 45.427979,
+"lon": -75.627008,
+"planned_end": "2026-10-14T04:00",
+"planned_start": "2026-10-09T23:00",
+"priority": "LOW",
+"road": "Aviation",
+"source": "city",
+"updated": "2026-10-09 22:56:00"
+},
+"fp": "aab36da2620d"
+},
+"29281": {
+"event": {
+"cause": "construction",
+"created": "2026-10-06 12:29:00",
+"cross_street_1": "174 W/B",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29281",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "417 E/B onramp nightly closure at 174 W/B due to construction, from October 12th to 14th between 11:00pm and 4:00am.",
+"lanes": "closed",
+"lat": 45.423298,
+"lon": -75.622577,
+"planned_end": "2026-10-14T04:00",
+"planned_start": "2026-10-09T23:00",
+"priority": "LOW",
+"road": "417 E/B onramp",
+"source": "city",
+"updated": "2026-10-09 22:56:00"
+},
+"fp": "2e8ae12a62a0"
+},
 "29284": {
 "event": {
 "cause": "construction",
