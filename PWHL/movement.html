@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
-<script src="pwhl-movement-network.js?v=movement-5"></script>
+<script src="pwhl-movement-network.js?v=movement-6"></script>
 <script>
 (function(){
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
@@ -20,7 +20,7 @@
 })();
 </script>
 <link rel="stylesheet" href="pwhl.css?v=movement-1"/>
-<link rel="stylesheet" href="pwhl-movement.css?v=movement-5"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-6"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -42,7 +42,7 @@
       <div class="movement-head">
         <div>
           <h2 id="movement-map-title">Team network</h2>
-          <p>Thin dots start at the former team; the thicker solid segment ends at the new team. Select a line to see the player.</p>
+          <p>Dots grow closer and thicker from the former team, merging into a solid line toward the new team. Select a line to see the player.</p>
         </div>
         <div class="movement-controls">
           <select id="movement-team-select" class="ov-select" aria-label="Spotlight team"></select>
@@ -69,7 +69,7 @@
       </div>
       <div id="movement-detail" aria-live="polite"></div>
     </section>
-    <p class="movement-method"><strong>How to read this:</strong> A player has one dot on every team where she played a recorded game or was listed as signed. Camp invitees and unsigned draftees are excluded. Each line connects that player's dots on two teams, starting thin and dotted at the former team and ending thick and solid at the new team. Ten lines are recorded trades; the others are inferred from ordered season rosters with played or signed evidence at both ends. Those roster changes are not necessarily trades. The 2026–27 preseason roster is included. Missing or ambiguous moves are left out.</p>
+    <p class="movement-method"><strong>How to read this:</strong> A player has one dot on every team where she played a recorded game or was listed as signed. Camp invitees and unsigned draftees are excluded. Each line connects that player's dots on two teams: its dots start small and spaced apart at the former team, then grow and merge into a solid line that widens toward the new team. Ten lines are recorded trades; the others are inferred from ordered season rosters with played or signed evidence at both ends. Those roster changes are not necessarily trades. The 2026–27 preseason roster is included. Missing or ambiguous moves are left out.</p>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Data: PWHL / HockeyTech</span></footer>

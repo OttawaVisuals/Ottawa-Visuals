@@ -47,18 +47,34 @@ function movementArrow(from, to, move, index, chosen) {
   const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
   if (length < 20) return '';
   const ux = dx / length, uy = dy / length;
+  const nx = -uy, ny = ux;
   const sx = from.x + ux * 7, sy = from.y + uy * 7;
   const ex = to.x - ux * 10, ey = to.y - uy * 10;
-  const mx = sx + (ex - sx) * .5, my = sy + (ey - sy) * .5;
-  const start = `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${mx.toFixed(1)} ${my.toFixed(1)}`;
-  const finish = `M ${mx.toFixed(1)} ${my.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
-  const path = `${start} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  const span = Math.hypot(ex - sx, ey - sy);
+  const scale = move.kind === 'trade' ? 1.16 : 1;
+  const mergeAt = span * .58;
+  const dots = [];
+  for (let distance = 0; distance <= mergeAt; ) {
+    const progress = distance / mergeAt;
+    const radius = (.75 + 1.2 * progress) * scale;
+    const x = sx + ux * distance, y = sy + uy * distance;
+    dots.push(`M ${(x + radius).toFixed(1)} ${y.toFixed(1)} A ${radius.toFixed(2)} ${radius.toFixed(2)} 0 1 0 ${(x - radius).toFixed(1)} ${y.toFixed(1)} A ${radius.toFixed(2)} ${radius.toFixed(2)} 0 1 0 ${(x + radius).toFixed(1)} ${y.toFixed(1)} Z`);
+    distance += 15 * Math.pow(1 - progress, 1.4) + 1.2;
+  }
+  const taperStart = span * .55;
+  const mx = sx + ux * taperStart, my = sy + uy * taperStart;
+  const startWidth = 2 * scale, endWidth = 3.3 * scale;
+  const solid = `M ${(mx + nx * startWidth).toFixed(1)} ${(my + ny * startWidth).toFixed(1)} L ${(ex + nx * endWidth).toFixed(1)} ${(ey + ny * endWidth).toFixed(1)} L ${(ex - nx * endWidth).toFixed(1)} ${(ey - ny * endWidth).toFixed(1)} L ${(mx - nx * startWidth).toFixed(1)} ${(my - ny * startWidth).toFixed(1)} Z`;
+  const path = `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
   const player = movementPlayer(move.player_id);
   const label = `${player?.name || 'Player'}: ${move.from} to ${move.to}, ${move.kind === 'trade' ? 'recorded trade' : 'season roster change'}, ${move.date || move.period}`;
   return `<g class="mv-move${move.kind === 'trade' ? ' mv-trade' : ''}${chosen ? ' chosen' : ''}" role="button" tabindex="0" data-mv-move="${index}" aria-label="${esc(label)}">
+    <defs><linearGradient id="mv-flow-${index}" gradientUnits="userSpaceOnUse" x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}">
+      <stop offset="0%" stop-color="${teamColor(move.from)}" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="${teamColor(move.to)}"/>
+    </linearGradient></defs>
     <title>${esc(label)}</title><path class="mv-move-hit" d="${path}"/>
-    <path class="mv-move-line mv-move-from" d="${start}" stroke="${teamColor(move.from)}"/>
-    <path class="mv-move-line mv-move-to" d="${finish}" stroke="${teamColor(move.to)}"/>
+    <path class="mv-move-flow" d="${dots.join(' ')} ${solid}" fill="url(#mv-flow-${index})" stroke="url(#mv-flow-${index})"/>
   </g>`;
 }
 function renderMovementNetwork() {
@@ -90,7 +106,7 @@ function renderMovementNetwork() {
       <text class="mv-team-label" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-team="${esc(team.code)}" aria-label="Show ${esc(team.name)} players">${esc(team.code)}</text>
     </g>`;
   }).join('');
-  document.getElementById('movement-network').innerHTML = `<svg viewBox="0 0 1800 1000" role="group" aria-label="One dot per player who played or signed for a team; one line per team move, dotted at the source and solid at the destination">${arrows}${clusters}</svg>`;
+  document.getElementById('movement-network').innerHTML = `<svg viewBox="0 0 1800 1000" role="group" aria-label="One dot per player who played or signed for a team; one line per team move, with dots converging and the line widening toward the destination">${arrows}${clusters}</svg>`;
 }
 function movementPersonButton(player, meta = '') {
   return `<button type="button" class="mv-person" data-mv-player="${esc(player.id)}"><span>${esc(player.name)}</span><small>${esc(meta)}</small></button>`;
