@@ -49,17 +49,16 @@ function movementArrow(from, to, move, index, chosen) {
   const ux = dx / length, uy = dy / length;
   const sx = from.x + ux * 7, sy = from.y + uy * 7;
   const ex = to.x - ux * 10, ey = to.y - uy * 10;
-  const mx = sx + (ex - sx) * .72, my = sy + (ey - sy) * .72;
-  const path = `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${mx.toFixed(1)} ${my.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  const mx = sx + (ex - sx) * .5, my = sy + (ey - sy) * .5;
+  const start = `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${mx.toFixed(1)} ${my.toFixed(1)}`;
+  const finish = `M ${mx.toFixed(1)} ${my.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  const path = `${start} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
   const player = movementPlayer(move.player_id);
   const label = `${player?.name || 'Player'}: ${move.from} to ${move.to}, ${move.kind === 'trade' ? 'recorded trade' : 'season roster change'}, ${move.date || move.period}`;
   return `<g class="mv-move${move.kind === 'trade' ? ' mv-trade' : ''}${chosen ? ' chosen' : ''}" role="button" tabindex="0" data-mv-move="${index}" aria-label="${esc(label)}">
-    <defs><linearGradient id="mv-gradient-${index}" gradientUnits="userSpaceOnUse" x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}">
-      <stop offset="0%" stop-color="${teamColor(move.from)}" stop-opacity=".3"/>
-      <stop offset="100%" stop-color="${teamColor(move.to)}" stop-opacity="1"/>
-    </linearGradient></defs>
     <title>${esc(label)}</title><path class="mv-move-hit" d="${path}"/>
-    <path class="mv-move-line" d="${path}" stroke="url(#mv-gradient-${index})" marker-mid="url(#mv-head-${esc(move.to)})"/>
+    <path class="mv-move-line mv-move-from" d="${start}" stroke="${teamColor(move.from)}"/>
+    <path class="mv-move-line mv-move-to" d="${finish}" stroke="${teamColor(move.to)}"/>
   </g>`;
 }
 function renderMovementNetwork() {
@@ -71,7 +70,6 @@ function renderMovementNetwork() {
   if (movementSelection.type === 'player') {
     movementPlayer(movementSelection.id)?.teams.filter(m => MOVEMENT_ROLES.has(m.role)).forEach(m => activeTeams.add(m.team));
   }
-  const markers = teams.map(team => `<marker id="mv-head-${esc(team.code)}" viewBox="0 0 18 18" refX="9" refY="9" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L17 9 L1 17 Z" fill="${teamColor(team.code)}" stroke="var(--bg-2)" stroke-width="1.5"/></marker>`).join('');
   const arrows = shownMoves.map(({ move, index }) => {
     const from = dots.get(`${move.from}|${move.player_id}`);
     const to = dots.get(`${move.to}|${move.player_id}`);
@@ -79,6 +77,9 @@ function renderMovementNetwork() {
   }).join('');
   const clusters = teams.map(team => {
     const centre = centres.get(team.code);
+    const angle = Math.atan2((centre.y - 455) / 335, (centre.x - 900) / 650);
+    const labelX = centre.x + 102 * Math.cos(angle);
+    const labelY = centre.y + 102 * Math.sin(angle) + 7;
     const dim = movementSelection.type !== 'all' && !activeTeams.has(team.code);
     const points = movementTeamPlayers(team.code).map(player => {
       const point = dots.get(`${team.code}|${player.id}`);
@@ -86,10 +87,10 @@ function renderMovementNetwork() {
       return `<circle class="mv-player-dot${selected ? ' active' : ''}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="${selected ? 7 : 5}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-player="${esc(player.id)}" aria-label="${esc(player.name)}, ${esc(team.name)}"><title>${esc(player.name)} · ${esc(team.name)}</title></circle>`;
     }).join('');
     return `<g class="mv-team${dim ? ' dim' : ''}" data-mv-cluster="${esc(team.code)}">${points}
-      <text class="mv-team-label" x="${centre.x.toFixed(1)}" y="${(centre.y + 91).toFixed(1)}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-team="${esc(team.code)}" aria-label="Show ${esc(team.name)} players">${esc(team.code)}</text>
+      <text class="mv-team-label" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-team="${esc(team.code)}" aria-label="Show ${esc(team.name)} players">${esc(team.code)}</text>
     </g>`;
   }).join('');
-  document.getElementById('movement-network').innerHTML = `<svg viewBox="0 0 1800 1000" role="group" aria-label="One dot per player who played or signed for a team; one arrow per team move"><defs>${markers}</defs>${arrows}${clusters}</svg>`;
+  document.getElementById('movement-network').innerHTML = `<svg viewBox="0 0 1800 1000" role="group" aria-label="One dot per player who played or signed for a team; one line per team move, dotted at the source and solid at the destination">${arrows}${clusters}</svg>`;
 }
 function movementPersonButton(player, meta = '') {
   return `<button type="button" class="mv-person" data-mv-player="${esc(player.id)}"><span>${esc(player.name)}</span><small>${esc(meta)}</small></button>`;
@@ -120,7 +121,7 @@ function renderMovementDetail() {
       <h3>Moves</h3><div class="mv-journey">${moves.map(({ move, index }) => `<div class="${s.moveIndex === index ? 'mv-selected-move' : ''}"><strong>${esc(move.from)} → ${esc(move.to)}</strong><span>${esc(move.date || move.period)} · ${move.kind === 'trade' ? 'Recorded trade' : 'Change between season rosters'}</span></div>`).join('') || '<p class="note">No team-to-team move is confirmed by the available records.</p>'}</div>`;
   } else {
     title.textContent = 'All teams';
-    sub.textContent = 'Select a player dot or arrow to see her path. Select a team name to focus its moves.';
+    sub.textContent = 'Select a player dot or line to see her path. Select a team name to focus its moves.';
     box.innerHTML = `<div class="mv-team-list">${MOVEMENT.teams.map(team => `<button type="button" data-mv-team="${esc(team.code)}" style="--tc:${teamColor(team.code)}"><strong>${esc(team.name)}</strong><span>${movementTeamPlayers(team.code).length} players</span></button>`).join('')}</div>`;
   }
 }
