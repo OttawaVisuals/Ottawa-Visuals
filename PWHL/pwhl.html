@@ -13,7 +13,6 @@
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
 <script src="pwhl-sections.js"></script>
-<script src="pwhl-trades.js?v=trade-network-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -124,21 +123,8 @@
       <div class="section-head">
         <div>
           <h2>Transactions</h2>
-          <p>Signings, releases, trades, and call-ups league-wide.</p>
+          <p>Signings, releases, trades, and call-ups league-wide. <a class="pl-link" href="movement.html">Explore player movement →</a></p>
         </div>
-      </div>
-      <div class="card trade-card">
-        <div class="trade-head">
-          <div>
-            <h3>Trades between teams</h3>
-            <p>Select a team or an arrow to see the players who moved.</p>
-            <p><a class="pl-link" href="movement.html">Explore the full player movement map →</a></p>
-          </div>
-          <select id="trade-season-select" class="ov-select" aria-label="Trade season"></select>
-        </div>
-        <div id="trade-network" class="trade-network" aria-label="Team trade network"></div>
-        <div id="trade-details" class="trade-details" aria-live="polite"></div>
-        <p class="note">A line requires matching “Traded from” and “Traded to” records for the same player and date. Duplicate entries count once. Signings without a known previous team are excluded.</p>
       </div>
       <div class="grid-2">
         <div class="card">
@@ -177,8 +163,7 @@ PWHL.load(['meta', 'standings', 'leaders', 'games', 'events', 'bracket', 'transa
   renderHomeSeason(currentSeasonId);
   renderBracket(currentBracketSeasonId);
   renderTransactions();
-  initTradeNetwork();
-  PWHL.onTheme(() => { renderHomeSeason(currentSeasonId); renderBracket(currentBracketSeasonId); renderTradeNetwork(); PWHL.fillHeader(); });
+  PWHL.onTheme(() => { renderHomeSeason(currentSeasonId); renderBracket(currentBracketSeasonId); PWHL.fillHeader(); });
 }).catch(PWHL.fail);
 </script>
 </body>
