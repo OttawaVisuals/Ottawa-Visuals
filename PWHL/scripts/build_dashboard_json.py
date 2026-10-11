@@ -661,10 +661,12 @@ def write_movement_json(roster_rows, season_catalog, season_stats, teams,
             first_statuses = {r.get("status", "") for r, _ in first_rows}
             has_signing = any(tx_pid == pid and tx_code == first_team and first_start <= date <= end
                               for tx_pid, tx_code, date in signed_tx)
-            kind = ("draft" if "Draftee" in first_statuses else
-                    "signing" if "Signed" in first_statuses or has_signing else "roster")
-            entries.append({"player_id": pid, "to": first_team,
-                            "period": cycle_by_season[first_sid], "kind": kind})
+            # The external-entry pool shows observed signings only. A draft
+            # listing (or an otherwise unlabeled first roster) does not
+            # establish that the player joined the league.
+            if "Signed" in first_statuses or has_signing:
+                entries.append({"player_id": pid, "to": first_team,
+                                "period": cycle_by_season[first_sid], "kind": "signing"})
 
     official_pairs = {(m["player_id"], m["from"], m["to"], cycle_by_season.get(m["season_id"]))
                       for m in trade_moves}

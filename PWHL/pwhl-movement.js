@@ -1,7 +1,7 @@
 let movementSelection = { type:'team', code:'OTT' };
 const MOVEMENT_ORDER = ['BOS','NY','MTL','TOR','OTT','MIN','VAN','SEA','DET','HAM','VGS','SJ'];
-const MOVEMENT_CENTRE = { x:650, y:350 };
-const MOVEMENT_EXIT = { x:1220, y:650 };
+const MOVEMENT_CENTRE = { x:900, y:470 };
+const MOVEMENT_EXIT = { x:1640, y:935 };
 
 function movementTeam(code) {
   return MOVEMENT.teams.find(t => t.code === code) || { code, name:code };
@@ -44,20 +44,26 @@ function movementPath(a, b, fromRadius, toRadius, bend = 0) {
   const cx = (sx + ex) / 2 - uy * bend, cy = (sy + ey) / 2 + ux * bend;
   return {
     d:`M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`,
-    x:((sx + 2 * cx + ex) / 4).toFixed(1),
-    y:((sy + 2 * cy + ey) / 4).toFixed(1),
   };
 }
 function movementFlow(path, kind, key, count, label, color, marker) {
   const identity = `${esc(kind)}|${esc(key)}`;
-  return { count, edge:`<g class="mv-flow mv-${kind}" data-mv-flow="${identity}">
+  return `<g class="mv-flow mv-${kind}" role="button" tabindex="0" data-mv-flow="${identity}" aria-label="${esc(label)}, ${count} player${count === 1 ? '' : 's'}">
     <title>${esc(label)}: ${count} player${count === 1 ? '' : 's'}</title>
     <path class="mv-hit" d="${path.d}"/>
-    <path class="mv-line" d="${path.d}" stroke="${color}" stroke-width="${Math.min(8, 2.4 + Math.sqrt(count))}" marker-end="url(#${marker})"/>
-  </g>`, control:`<g class="mv-count-control" role="button" tabindex="0" data-mv-flow="${identity}" aria-label="${esc(label)}, ${count} player${count === 1 ? '' : 's'}">
-      <circle class="mv-count-bg" cx="${path.x}" cy="${path.y}" r="13"/>
-      <text class="mv-count" x="${path.x}" y="${path.y}">${count}</text>
-    </g>` };
+    <path class="mv-line" d="${path.d}" stroke="${color}" stroke-width="${Math.min(15, 1.6 + 1.7 * Math.sqrt(count)).toFixed(1)}" marker-end="url(#${marker})"/>
+  </g>`;
+}
+
+function movementDots(players, code) {
+  const columns = 11, spacing = 8.5;
+  const rows = Math.ceil(players.length / columns);
+  return players.map((p, i) => {
+    const x = (i % columns - 5) * spacing;
+    const y = (Math.floor(i / columns) - (rows - 1) / 2) * spacing + 9;
+    const active = movementSelection.type === 'player' && movementSelection.id === p.id;
+    return `<circle class="mv-player-dot${active ? ' active' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${active ? 5.5 : 4}" fill="${teamColor(code)}" role="button" tabindex="0" data-mv-player="${esc(p.id)}" aria-label="${esc(p.name)}, ${esc(movementTeam(code).name)} roster"><title>${esc(p.name)}</title></circle>`;
+  }).join('');
 }
 
 function renderMovementNetwork() {
@@ -65,7 +71,7 @@ function renderMovementNetwork() {
   const teams = [...MOVEMENT.teams].sort((a, b) => MOVEMENT_ORDER.indexOf(a.code) - MOVEMENT_ORDER.indexOf(b.code));
   const positions = new Map(teams.map((t, i) => {
     const angle = -Math.PI / 2 + i * 2 * Math.PI / teams.length;
-    return [t.code, { x:650 + 470 * Math.cos(angle), y:350 + 250 * Math.sin(angle) }];
+    return [t.code, { x:900 + 650 * Math.cos(angle), y:470 + 370 * Math.sin(angle) }];
   }));
   const shown = movementVisibleRows();
   const entryGroups = movementGroups(shown.entries, e => e.to);
@@ -73,42 +79,45 @@ function renderMovementNetwork() {
   const retireGroups = movementGroups(shown.retirements, r => r.from);
   const highlighted = new Set([...shown.entries.map(e => e.to),
     ...shown.moves.flatMap(m => [m.from, m.to]), ...shown.retirements.map(r => r.from)]);
+  if (movementSelection.type === 'player') {
+    movementPlayer(movementSelection.id)?.teams.forEach(m => highlighted.add(m.team));
+  }
   const defs = `<marker id="mv-entry-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="var(--purple)"/></marker>
     <marker id="mv-retired-arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="var(--ink-3)"/></marker>
     ${[...new Set(shown.moves.map(m => m.from))].map(code => `<marker id="mv-arrow-${esc(code)}" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="${teamColor(code)}"/></marker>`).join('')}`;
   const entries = [...entryGroups].map(([code, rows]) => movementFlow(
-    movementPath(MOVEMENT_CENTRE, positions.get(code), 70, 45), 'entry', `POOL|${code}`,
-    rows.length, `New to PWHL to ${code}`, 'var(--purple)', 'mv-entry-arrow'));
+    movementPath(MOVEMENT_CENTRE, positions.get(code), 75, 73), 'entry', `POOL|${code}`,
+    rows.length, `First signing to ${code}`, 'var(--purple)', 'mv-entry-arrow'));
   const moves = [...moveGroups].map(([key, rows]) => {
     const [from, to] = key.split('|');
-    const bend = moveGroups.has(`${to}|${from}`) ? 60 : 35;
-    return movementFlow(movementPath(positions.get(from), positions.get(to), 44, 49, bend),
+    const bend = moveGroups.has(`${to}|${from}`) ? 80 : 45;
+    return movementFlow(movementPath(positions.get(from), positions.get(to), 73, 78, bend),
       'move', key, rows.length, `${from} to ${to}`, teamColor(from), `mv-arrow-${from}`);
   });
   const retired = [...retireGroups].map(([code, rows]) => movementFlow(
-    movementPath(positions.get(code), MOVEMENT_EXIT, 44, 56, 30), 'retired', `${code}|EXIT`,
+    movementPath(positions.get(code), MOVEMENT_EXIT, 73, 56, 35), 'retired', `${code}|EXIT`,
     rows.length, `${code} retirement recorded`, 'var(--ink-3)', 'mv-retired-arrow'));
   const flows = [...entries, ...moves, ...retired];
   const nodes = teams.map(t => {
     const p = positions.get(t.code), count = movementTeamCount(t.code);
+    const players = MOVEMENT.players.filter(player => player.teams.some(m => m.team === t.code));
     const dim = movementSelection.type !== 'all' && !highlighted.has(t.code);
     return `<g class="mv-team${dim ? ' dim' : ''}${movementSelection.type === 'team' && movementSelection.code === t.code ? ' selected' : ''}" role="button" tabindex="0" data-mv-team="${esc(t.code)}" aria-label="${esc(t.name)}, ${count} roster-listed players" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})">
       <title>${esc(t.name)} · ${count} roster-listed players</title>
-      <circle r="43" fill="${teamColor(t.code)}"/>
-      <text class="mv-team-code" fill="${inkOn(teamColor(t.code))}" y="-5">${esc(t.code)}</text>
-      <text class="mv-team-count" fill="${inkOn(teamColor(t.code))}" y="16">${count}</text>
+      <circle class="mv-team-bg" r="69" stroke="${teamColor(t.code)}"/>
+      <text class="mv-team-code" fill="${teamColor(t.code)}" y="-47">${esc(t.code)} · ${count}</text>
+      ${movementDots(players, t.code)}
     </g>`;
   }).join('');
-  const badgeFlows = movementSelection.type === 'all' ? flows.filter(f => f.count >= 5) : flows;
-  host.innerHTML = `<svg class="${movementSelection.type === 'all' ? 'mv-overview' : ''}" viewBox="0 0 1360 770" role="group" aria-label="Movement among ${teams.length} PWHL team rosters">
+  host.innerHTML = `<svg class="${movementSelection.type === 'all' ? 'mv-overview' : ''}" viewBox="0 0 1800 1050" role="group" aria-label="Movement among ${teams.length} PWHL team rosters, with one dot per player-team roster listing and line width proportional to player count">
     <defs>${defs}</defs>
-    <ellipse class="mv-ring" cx="650" cy="350" rx="520" ry="305"/>
-    ${flows.map(f => f.edge).join('')}${nodes}${badgeFlows.map(f => f.control).join('')}
-    <g class="mv-pool${movementSelection.type === 'pool' ? ' selected' : ''}" role="button" tabindex="0" data-mv-pool aria-label="New to PWHL, ${MOVEMENT.entries.length} first roster entries" transform="translate(650 350)">
-      <title>Draft, signing, and other first roster entries</title>
-      <circle r="68"/><text y="-13" class="mv-pool-number">${MOVEMENT.entries.length}</text><text y="10">NEW TO PWHL</text><text y="27">DRAFT · SIGNING · OTHER</text>
+    <ellipse class="mv-ring" cx="900" cy="470" rx="750" ry="440"/>
+    ${flows.join('')}${nodes}
+    <g class="mv-pool${movementSelection.type === 'pool' ? ' selected' : ''}" role="button" tabindex="0" data-mv-pool aria-label="${MOVEMENT.entries.length} first recorded signings" transform="translate(900 470)">
+      <title>First recorded signings on PWHL team rosters</title>
+      <circle r="75"/><text y="-12" class="mv-pool-number">${MOVEMENT.entries.length}</text><text y="13">FIRST SIGNINGS</text>
     </g>
-    <g class="mv-exit${movementSelection.type === 'retired' ? ' selected' : ''}" role="button" tabindex="0" data-mv-retired aria-label="${MOVEMENT.retirements.length} recorded retirement events" transform="translate(1220 650)">
+    <g class="mv-exit${movementSelection.type === 'retired' ? ' selected' : ''}" role="button" tabindex="0" data-mv-retired aria-label="${MOVEMENT.retirements.length} recorded retirement events" transform="translate(1640 935)">
       <title>Recorded retirement events; later roster appearances are flagged below</title>
       <circle r="54"/><text y="-6" class="mv-exit-number">${MOVEMENT.retirements.length}</text><text y="15">RETIRED</text>
     </g>
@@ -143,7 +152,7 @@ function renderMovementDetail() {
     sub.textContent = `${p.teams.length} team roster${p.teams.length === 1 ? '' : 's'} recorded`;
     box.innerHTML = `<h3>Teams listed</h3><div class="mv-journey">${p.teams.map(m => `<div>${teamDot(m.team)}<strong>${esc(movementTeam(m.team).name)}</strong><span>${m.periods.map(esc).join(', ')} · ${esc(m.role)}</span></div>`).join('')}</div>
       <h3>Movement evidence</h3><div class="mv-journey">${[
-        ...entries.map(e => `<div><strong>New to PWHL → ${esc(e.to)}</strong><span>${esc(e.period)} · ${esc(e.kind === 'draft' ? 'Draftee' : e.kind === 'signing' ? 'Signing' : 'Other roster entry')}</span></div>`),
+        ...entries.map(e => `<div><strong>First signing → ${esc(e.to)}</strong><span>${esc(e.period)} · Signing</span></div>`),
         ...moves.map(m => `<div><strong>${esc(m.from)} → ${esc(m.to)}</strong><span>${esc(m.date || m.period)} · ${m.kind === 'trade' ? 'Recorded trade' : 'Change between season rosters'}</span></div>`),
         ...retirements.map(r => `<div><strong>${esc(r.from)} → Retirement recorded</strong><span>${esc(r.date)}${r.later_roster ? ' · later roster appearance' : ''}</span></div>`),
       ].join('') || '<p class="note">No directional move is confirmed by the available records.</p>'}</div>`;
@@ -151,7 +160,7 @@ function renderMovementDetail() {
     let rows, heading;
     if (s.kind === 'entry') {
       rows = MOVEMENT.entries.filter(e => e.to === s.to);
-      heading = `New to PWHL → ${s.to}`;
+      heading = `First signings → ${s.to}`;
     } else if (s.kind === 'retired') {
       rows = MOVEMENT.retirements.filter(r => r.from === s.from);
       heading = `${s.from} → Retirement recorded`;
@@ -164,19 +173,16 @@ function renderMovementDetail() {
     box.innerHTML = `<div class="mv-people">${rows.map(r => {
       const p = movementPlayer(r.player_id);
       const meta = s.kind === 'retired' ? `${r.date} · Retirement${r.later_roster ? ' (later roster)' : ''}`
-        : s.kind === 'entry' ? `${r.period} · ${r.kind === 'draft' ? 'Draft' : r.kind === 'signing' ? 'Signing' : 'Other entry'}`
+        : s.kind === 'entry' ? `${r.period} · Signing`
         : `${r.date || r.period} · ${r.kind === 'trade' ? 'Trade' : 'Roster change'}`;
       return p ? movementPersonButton(p, meta) : '';
     }).join('')}</div>`;
   } else if (s.type === 'pool') {
-    title.textContent = 'New to the PWHL';
-    sub.textContent = `${MOVEMENT.entries.length} first roster entries; source labels follow the league feed`;
-    const counts = { draft:0, signing:0, roster:0 };
-    MOVEMENT.entries.forEach(e => counts[e.kind]++);
-    box.innerHTML = `<div class="mv-category-counts"><span>${counts.draft} Drafted</span><span>${counts.signing} Signed</span><span>${counts.roster} Other roster entries</span></div>
-      <div class="mv-people">${MOVEMENT.entries.map(e => {
+    title.textContent = 'First recorded signings';
+    sub.textContent = `${MOVEMENT.entries.length} players with a signing recorded at their first roster entry`;
+    box.innerHTML = `<div class="mv-people">${MOVEMENT.entries.map(e => {
         const p = movementPlayer(e.player_id);
-        return p ? movementPersonButton(p, `${e.period} → ${e.to} · ${e.kind}`) : '';
+        return p ? movementPersonButton(p, `${e.period} → ${e.to}`) : '';
       }).join('')}</div>`;
   } else if (s.type === 'retired') {
     title.textContent = 'Retirement recorded';
@@ -196,7 +202,7 @@ function renderMovementPage() {
   document.getElementById('movement-stats').innerHTML = [
     [MOVEMENT.players.length, 'PLAYERS ROSTER-LISTED'],
     [MOVEMENT.moves.length, 'TEAM-TO-TEAM MOVES'],
-    [MOVEMENT.entries.length, 'FIRST ROSTER ENTRIES'],
+    [MOVEMENT.entries.length, 'FIRST SIGNINGS'],
     [MOVEMENT.retirements.length, 'RETIREMENT EVENTS'],
   ].map(([n, label]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${label}</div></div>`).join('');
   document.getElementById('movement-team-select').value = movementSelection.type === 'team' ? movementSelection.code : 'all';
@@ -218,9 +224,11 @@ function initMovementPage() {
     movementSelection = { type:'all' }; renderMovementPage();
   });
   const choose = (target, keyboard = false) => {
+    const player = target.closest('[data-mv-player]');
     const team = target.closest('[data-mv-team]');
     const flow = target.closest('[data-mv-flow]');
-    if (team) movementSelection = { type:'team', code:team.dataset.mvTeam };
+    if (player) movementSelection = { type:'player', id:player.dataset.mvPlayer };
+    else if (team) movementSelection = { type:'team', code:team.dataset.mvTeam };
     else if (target.closest('[data-mv-pool]')) movementSelection = { type:'pool' };
     else if (target.closest('[data-mv-retired]')) movementSelection = { type:'retired' };
     else if (flow) {
@@ -229,10 +237,11 @@ function initMovementPage() {
     } else return;
     renderMovementPage();
     if (keyboard) {
-      const focus = movementSelection.type === 'team' ? `[data-mv-team="${movementSelection.code}"]`
+      const focus = movementSelection.type === 'player' ? `[data-mv-player="${movementSelection.id}"]`
+        : movementSelection.type === 'team' ? `[data-mv-team="${movementSelection.code}"]`
         : movementSelection.type === 'pool' ? '[data-mv-pool]'
         : movementSelection.type === 'retired' ? '[data-mv-retired]'
-        : `.mv-count-control[data-mv-flow="${movementSelection.kind}|${movementSelection.from}|${movementSelection.to}"]`;
+        : `.mv-flow[data-mv-flow="${movementSelection.kind}|${movementSelection.from}|${movementSelection.to}"]`;
       document.querySelector('#movement-network ' + focus)?.focus();
     }
   };

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
-<script src="pwhl-movement.js?v=movement-1"></script>
+<script src="pwhl-movement.js?v=movement-2"></script>
 <script>
 (function(){
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
@@ -20,7 +20,7 @@
 })();
 </script>
 <link rel="stylesheet" href="pwhl.css?v=movement-1"/>
-<link rel="stylesheet" href="pwhl-movement.css?v=movement-1"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-2"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -32,7 +32,7 @@
   <div class="hero">
     <span class="eyebrow">Ottawa Visuals · Hockey</span>
     <h1>Player movement</h1>
-    <p>Follow who joined the PWHL, who appeared on multiple team rosters, and the retirement events recorded by the league. Select a team to open every player listed on its rosters.</p>
+    <p>Explore team rosters, first recorded signings, team changes, and retirement events. Each dot is a player listed on that team's roster.</p>
   </div>
   <div id="load-error">Couldn't load the movement data. Try refreshing the page.</div>
   <p id="movement-loading" role="status">Loading roster history…</p>
@@ -42,7 +42,7 @@
       <div class="movement-head">
         <div>
           <h2 id="movement-map-title">Team network</h2>
-          <p>Arrows show player movement. Spotlight a team to see every line count; select an arrow for names.</p>
+          <p>Each dot is one player. Thicker arrows represent more moves or signings. Select a dot or arrow for names.</p>
         </div>
         <div class="movement-controls">
           <select id="movement-team-select" class="ov-select" aria-label="Spotlight team"></select>
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="movement-legend">
-        <span><i class="movement-key entry"></i> First roster entry</span>
+        <span><i class="movement-key entry"></i> First recorded signing</span>
         <span><i class="movement-key team"></i> Between teams</span>
         <span><i class="movement-key retired"></i> Retirement recorded</span>
       </div>
@@ -70,7 +70,7 @@
       </div>
       <div id="movement-detail" aria-live="polite"></div>
     </section>
-    <p class="movement-method"><strong>How to read this:</strong> Team circles count everyone listed on a team roster, including camp invitees and draftees. Purple lines start at a player's first recorded PWHL roster: Drafted, Signed, or Other roster entry. Team-to-team lines combine recorded trades with changes between consecutive season rosters when the player was signed or played for both clubs. Grey lines are explicit retirement transactions; a retirement record does not prove a permanent exit. The 2026–27 preseason roster is included. Missing or ambiguous records are left out of the arrows.</p>
+    <p class="movement-method"><strong>How to read this:</strong> Each team dot represents one roster-listed player, including camp invitees and players who may not have played a game. The same player has a dot on each team that listed her. Purple lines show first recorded signings on PWHL team rosters. Arrow width reflects the number of players; select an arrow to see names and the exact count. Team-to-team lines combine recorded trades with changes between consecutive season rosters when the player was signed or played for both clubs. Grey lines are explicit retirement transactions; a retirement record does not prove a permanent exit. The 2026–27 preseason roster is included. Missing or ambiguous records are left out of the arrows.</p>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Data: PWHL / HockeyTech</span></footer>
@@ -79,7 +79,7 @@ function fillMovementHeader() {
   PWHL.fillHeader();
   document.getElementById('data-through').textContent = `Roster data rebuilt ${META.generated_at.slice(0, 10)}`;
 }
-PWHL.load(['meta', 'movement'], { movement:'movement-1' }).then(() => {
+PWHL.load(['meta', 'movement'], { movement:'movement-2' }).then(() => {
   fillMovementHeader();
   document.getElementById('movement-loading').remove();
   document.getElementById('app').style.display = 'flex';
