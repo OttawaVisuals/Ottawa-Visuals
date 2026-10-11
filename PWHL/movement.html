@@ -12,7 +12,7 @@
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
 <script src="pwhl-movement-network.js?v=movement-7"></script>
-<script src="pwhl-movement-map.js?v=movement-8"></script>
+<script src="pwhl-movement-map.js?v=movement-9"></script>
 <script>
 (function(){
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
@@ -21,7 +21,7 @@
 })();
 </script>
 <link rel="stylesheet" href="pwhl.css?v=movement-1"/>
-<link rel="stylesheet" href="pwhl-movement.css?v=movement-8"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-9"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -60,12 +60,12 @@
       <div class="movement-head">
         <div>
           <h2 id="movement-geography-title">Geographic view</h2>
-          <p>One map of the team cities. The eastern zoom sits below the clustered teams so their moves are easier to follow.</p>
+          <p>Player movement between team cities across Canada and the US. Select a route to see its players.</p>
         </div>
         <span class="movement-map-count" id="movement-map-count"></span>
       </div>
       <div id="movement-map-views" class="movement-map-figure"><p>Loading geography…</p></div>
-      <p class="movement-map-note">Moves between eastern teams appear in the inset; moves to or from other teams appear on the larger map. Each route groups players moving in the same direction; wider routes mean more players. Team markers use approximate city centres. Geography: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a>.</p>
+      <p class="movement-map-note">Each route groups moves in one direction. Dots start at the former team and merge into a solid line at the new team. At the solid end, 4 players make a line 4 times as wide as 1 player. Team markers use approximate city centres. Geography: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a>.</p>
     </section>
     <section class="card movement-detail-card" aria-labelledby="movement-detail-title">
       <div class="movement-detail-top">
@@ -95,7 +95,7 @@ PWHL.load(['meta', 'movement'], { movement:'movement-3' }).then(() => {
   document.getElementById('movement-loading').remove();
   document.getElementById('app').style.display = 'flex';
   initMovementPage();
-  fetch('data/json/pwhl_movement_geography.json?v=movement-8')
+  fetch('data/json/pwhl_movement_geography.json?v=movement-9')
     .then(response => { if (!response.ok) throw new Error(`geography: HTTP ${response.status}`); return response.json(); })
     .then(initMovementMap)
     .catch(error => {

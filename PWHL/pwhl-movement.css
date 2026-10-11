@@ -38,11 +38,6 @@
 .mv-geo-mex{opacity:.55;}
 .mv-geo-border{fill:none;stroke:var(--line);stroke-width:.8;}
 .mv-geo-lake{fill:var(--bg-2);stroke:var(--line-2);stroke-width:.7;}
-.mv-map-focus{fill:none;stroke:var(--ink-3);stroke-width:1.5;stroke-dasharray:5 4;opacity:.75;pointer-events:none;}
-.mv-map-focus-link{fill:none;stroke:var(--ink-3);stroke-width:1.5;opacity:.75;pointer-events:none;}
-.mv-map-inset-bg{fill:var(--bg-2);stroke:var(--ink-3);stroke-width:1.5;}
-.mv-map-inset-title,.mv-map-inset-count{font-family:var(--font-mono);font-size:11px;font-weight:700;fill:var(--ink);}
-.mv-map-inset-count{font-size:10px;font-weight:500;fill:var(--ink-3);}
 [data-theme="dark"] .mv-geo-land{fill:#223143;stroke:#496176;}
 [data-theme="dark"] .mv-geo-border{stroke:#3B5065;}
 [data-theme="dark"] .mv-geo-lake{fill:#172433;stroke:#496176;}
