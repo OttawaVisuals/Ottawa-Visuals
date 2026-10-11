@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Player Movement — Ottawa Visuals</title>
-<meta name="description" content="Explore PWHL roster histories, team changes, league entries, recorded trades, and retirement events."/>
+<meta name="description" content="Explore PWHL player moves with one dot per player-team and one arrow per move."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
-<script src="pwhl-movement.js?v=movement-2"></script>
+<script src="pwhl-movement-network.js?v=movement-3"></script>
 <script>
 (function(){
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
@@ -20,7 +20,7 @@
 })();
 </script>
 <link rel="stylesheet" href="pwhl.css?v=movement-1"/>
-<link rel="stylesheet" href="pwhl-movement.css?v=movement-2"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-3"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -32,7 +32,7 @@
   <div class="hero">
     <span class="eyebrow">Ottawa Visuals · Hockey</span>
     <h1>Player movement</h1>
-    <p>Explore team rosters, first recorded signings, team changes, and retirement events. Each dot is a player listed on that team's roster.</p>
+    <p>Each dot is a player who played or signed for a PWHL team. Each arrow is one player moving between teams.</p>
   </div>
   <div id="load-error">Couldn't load the movement data. Try refreshing the page.</div>
   <p id="movement-loading" role="status">Loading roster history…</p>
@@ -42,7 +42,7 @@
       <div class="movement-head">
         <div>
           <h2 id="movement-map-title">Team network</h2>
-          <p>Each dot is one player. Thicker arrows represent more moves or signings. Select a dot or arrow for names.</p>
+          <p>Select a dot or arrow to see the player. Choose a team to focus its moves.</p>
         </div>
         <div class="movement-controls">
           <select id="movement-team-select" class="ov-select" aria-label="Spotlight team"></select>
@@ -50,9 +50,8 @@
         </div>
       </div>
       <div class="movement-legend">
-        <span><i class="movement-key entry"></i> First recorded signing</span>
-        <span><i class="movement-key team"></i> Between teams</span>
-        <span><i class="movement-key retired"></i> Retirement recorded</span>
+        <span><i class="movement-key trade"></i> Recorded trade</span>
+        <span><i class="movement-key roster"></i> Change between season rosters</span>
       </div>
       <div id="movement-network" class="movement-network" aria-label="Player movement network"></div>
     </section>
@@ -70,7 +69,7 @@
       </div>
       <div id="movement-detail" aria-live="polite"></div>
     </section>
-    <p class="movement-method"><strong>How to read this:</strong> Each team dot represents one roster-listed player, including camp invitees and players who may not have played a game. The same player has a dot on each team that listed her. Purple lines show first recorded signings on PWHL team rosters. Arrow width reflects the number of players; select an arrow to see names and the exact count. Team-to-team lines combine recorded trades with changes between consecutive season rosters when the player was signed or played for both clubs. Grey lines are explicit retirement transactions; a retirement record does not prove a permanent exit. The 2026–27 preseason roster is included. Missing or ambiguous records are left out of the arrows.</p>
+    <p class="movement-method"><strong>How to read this:</strong> A player has one dot on every team where she played a recorded game or was listed as signed. Camp invitees and unsigned draftees are excluded. Each arrow connects that player's dots on two teams. Ten arrows are recorded trades; the others are inferred from ordered season rosters with played or signed evidence at both ends. Those roster changes are not necessarily trades. The 2026–27 preseason roster is included. Missing or ambiguous moves are left out.</p>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Data: PWHL / HockeyTech</span></footer>
@@ -79,7 +78,7 @@ function fillMovementHeader() {
   PWHL.fillHeader();
   document.getElementById('data-through').textContent = `Roster data rebuilt ${META.generated_at.slice(0, 10)}`;
 }
-PWHL.load(['meta', 'movement'], { movement:'movement-2' }).then(() => {
+PWHL.load(['meta', 'movement'], { movement:'movement-3' }).then(() => {
   fillMovementHeader();
   document.getElementById('movement-loading').remove();
   document.getElementById('app').style.display = 'flex';

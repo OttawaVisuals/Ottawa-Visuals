@@ -10,35 +10,23 @@
 .movement-legend{display:flex;gap:18px;flex-wrap:wrap;margin:13px 0 0;color:var(--ink-2);font-family:var(--font-mono);font-size:10px;}
 .movement-legend span{display:flex;align-items:center;gap:6px;}
 .movement-key{width:18px;height:3px;border-radius:3px;display:inline-block;}
-.movement-key.entry{background:var(--purple);}
-.movement-key.team{background:linear-gradient(90deg,#17513D,#C8102E,#2F62CF);}
-.movement-key.retired{background:var(--ink-3);}
+.movement-key.trade{background:var(--ink);}
+.movement-key.roster{background:var(--ink-3);opacity:.6;}
 .movement-network{overflow-x:auto;margin-top:8px;}
 .movement-network svg{display:block;width:100%;min-width:900px;height:auto;}
-.mv-ring{fill:var(--bg-3);stroke:var(--line);stroke-width:1.5;}
-.mv-flow,.mv-team,.mv-pool,.mv-exit{cursor:pointer;}
-.mv-hit{fill:none;stroke:transparent;stroke-width:22;}
-.mv-line{fill:none;stroke-linecap:round;opacity:.78;}
-.mv-overview .mv-line{opacity:.44;}
-.mv-flow:hover .mv-line,.mv-flow:focus-visible .mv-line{opacity:1;}
-.mv-team text,.mv-pool text,.mv-exit text{text-anchor:middle;dominant-baseline:middle;font-family:var(--font-mono);pointer-events:none;}
+.mv-move{cursor:pointer;}
+.mv-move-hit{fill:none;stroke:transparent;stroke-width:18;}
+.mv-move-line{fill:none;stroke-width:1.7;stroke-linecap:round;opacity:.48;pointer-events:none;}
+.mv-move.mv-trade .mv-move-line{stroke-width:2.7;opacity:.9;}
+.mv-move:hover .mv-move-line,.mv-move:focus-visible .mv-move-line,.mv-move.chosen .mv-move-line{stroke-width:4;opacity:1;}
 .mv-team{transition:opacity .15s;}
-.mv-team.dim{opacity:.28;}
-.mv-team-bg{fill:var(--bg-2);stroke-width:4;}
-.mv-team.selected .mv-team-bg,.mv-team:hover .mv-team-bg,.mv-team:focus-visible .mv-team-bg{stroke-width:7;}
-.mv-team-code{font-weight:700;font-size:14px;}
-.mv-player-dot{cursor:pointer;stroke:var(--bg-2);stroke-width:1;}
+.mv-team.dim{opacity:.22;}
+.mv-team-label{text-anchor:middle;font-family:var(--font-mono);font-size:20px;font-weight:700;cursor:pointer;}
+.mv-team-label:hover,.mv-team-label:focus-visible{text-decoration:underline;}
+.mv-player-dot{cursor:pointer;stroke:var(--bg-2);stroke-width:1.2;}
 .mv-player-dot:hover,.mv-player-dot:focus-visible,.mv-player-dot.active{stroke:var(--ink);stroke-width:2.5;}
 .mv-player-dot.active{fill:var(--purple);}
-.mv-pool circle{fill:var(--bg-2);stroke:var(--purple);stroke-width:3;}
-.mv-pool text{fill:var(--ink-2);font-size:9px;}
-.mv-pool .mv-pool-number{fill:var(--purple);font-size:24px;font-weight:700;}
-.mv-pool.selected circle,.mv-pool:hover circle,.mv-pool:focus-visible circle{stroke-width:5;}
-.mv-exit circle{fill:var(--bg-2);stroke:var(--ink-3);stroke-width:2.5;}
-.mv-exit text{fill:var(--ink-2);font-size:10px;}
-.mv-exit .mv-exit-number{font-size:20px;font-weight:700;}
-.mv-exit.selected circle,.mv-exit:hover circle,.mv-exit:focus-visible circle{stroke:var(--ink);stroke-width:4;}
-.mv-flow:focus-visible,.mv-player-dot:focus-visible,.mv-team:focus-visible,.mv-pool:focus-visible,.mv-exit:focus-visible{outline:none;}
+.mv-move:focus-visible,.mv-player-dot:focus-visible,.mv-team-label:focus-visible{outline:none;}
 .movement-detail-top{border-bottom:1px solid var(--line);padding-bottom:11px;margin-bottom:10px;}
 .movement-detail-card h3{font-size:12px;color:var(--ink-2);margin:12px 0 6px;}
 .mv-people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;max-height:450px;overflow:auto;align-content:start;padding-right:4px;}
@@ -48,6 +36,7 @@
 .mv-person small{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;}
 .mv-journey{display:flex;flex-direction:column;gap:5px;}
 .mv-journey>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:7px 9px;background:var(--bg-3);border:1px solid var(--line);border-radius:6px;}
+.mv-journey>div.mv-selected-move{border-color:var(--accent);background:var(--accent-bg);}
 .mv-journey strong{font-size:12px;}
 .mv-journey span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
 .mv-team-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;}

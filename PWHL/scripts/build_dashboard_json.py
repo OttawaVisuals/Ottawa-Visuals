@@ -690,6 +690,24 @@ def write_movement_json(roster_rows, season_catalog, season_stats, teams,
                 moves.append({"player_id": pid, "from": from_code, "to": to_code,
                               "period": after, "kind": "roster", "date": ""})
 
+    # A player can be listed by multiple clubs in one cycle, which makes the
+    # consecutive-cycle rule above skip later, otherwise clear transitions.
+    # Add ordered, non-overlapping played/signed team histories, including
+    # changes after a season gap. Same-cycle overlaps remain ambiguous.
+    period_rank = {period: index for index, period in enumerate(periods)}
+    seen_pairs = {(m["player_id"], m["from"], m["to"]) for m in moves}
+    for player in players:
+        memberships = sorted((m for m in player["teams"] if m["role"] in ("Played", "Signed")),
+                             key=lambda m: (period_rank[m["first"]], period_rank[m["last"]], m["team"]))
+        for prior, following in zip(memberships, memberships[1:]):
+            pair = (player["id"], prior["team"], following["team"])
+            if period_rank[prior["last"]] >= period_rank[following["first"]] or pair in seen_pairs:
+                continue
+            moves.append({"player_id": player["id"], "from": prior["team"],
+                          "to": following["team"], "period": following["first"],
+                          "kind": "roster", "date": ""})
+            seen_pairs.add(pair)
+
     retirement_events = {}
     for t in transactions:
         if t.get("title") != "Retired" or not t.get("player_id") or not t.get("team_code"):
