@@ -14,7 +14,7 @@ function renderOverview() {
   const goals = Object.values(GAMES).reduce((a, arr) => a + arr.reduce((s, g) => s + (g.home_score||0) + (g.away_score||0), 0), 0);
   const totalShots = Object.values(EVENTS.event_counts).length ? (EVENTS.event_counts.shot || 0) + (EVENTS.event_counts.goal || 0) : 0;
   document.getElementById('overview-sub').textContent =
-    `${META.seasons.length} recorded seasons (including preseason/playoffs) · last updated ${META.generated_at.slice(0,10)}`;
+    `${META.seasons.length} competition phases (regular season, preseason and playoffs) · last updated ${META.generated_at.slice(0,10)}`;
   const stats = [
     [fmt(gp), 'GAMES RECORDED'],
     [fmt(goals), 'TOTAL GOALS'],

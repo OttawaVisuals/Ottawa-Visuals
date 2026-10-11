@@ -41,7 +41,7 @@ function movementBaseMap(id) {
 }
 function movementMapRoutes() {
   const grouped = new Map();
-  MOVEMENT.moves.forEach(move => {
+  movementFilteredMoves().forEach(({ move }) => {
     const key = `${move.from}|${move.to}`;
     if (!grouped.has(key)) grouped.set(key,{ from:move.from, to:move.to, moves:[] });
     grouped.get(key).moves.push(move);
@@ -126,7 +126,7 @@ function movementMapMarkers(points, project) {
     const radius = 6.5;
     const leader = team.code === 'TOR' || team.code === 'HAM'
       ? `<path class="mv-map-leader" d="M ${original.x.toFixed(1)} ${original.y.toFixed(1)} L ${p.x.toFixed(1)} ${p.y.toFixed(1)}"/>` : '';
-    const active = movementSelection.type === 'all' || movementSelection.type === 'team' && movementSelection.code === team.code
+    const active = movementSelection.type === 'all' || movementSelection.type === 'most' || movementSelection.type === 'team' && movementSelection.code === team.code
       || movementSelection.type === 'route' && (movementSelection.from === team.code || movementSelection.to === team.code)
       || movementSelection.type === 'player' && movementMembership(movementPlayer(movementSelection.id), team.code);
     const label = `<text class="mv-map-label" x="${(p.x+offsetX).toFixed(1)}" y="${(p.y+offsetY).toFixed(1)}" text-anchor="${anchor}">${esc(team.code)}</text>`;
@@ -153,7 +153,16 @@ function renderMovementMap() {
   if (!MOVEMENT_GEO) return;
   const routes = movementMapRoutes();
   document.getElementById('movement-map-views').innerHTML = renderMovementMapSvg(routes);
-  document.getElementById('movement-map-count').textContent = `${routes.length} directional routes · ${MOVEMENT.moves.length} player moves`;
+  document.getElementById('movement-map-count').textContent = `${routes.length} directional routes · ${movementFilteredMoves().length} player moves`;
+  const ranked = [...routes].sort((a,b) => b.moves.length - a.moves.length || a.from.localeCompare(b.from) || a.to.localeCompare(b.to)).slice(0,10);
+  const max = ranked[0]?.moves.length || 1;
+  document.getElementById('movement-route-ranking').innerHTML = ranked.length ? ranked.map(route => {
+    const selected = movementSelection.type === 'route' && movementSelection.from === route.from && movementSelection.to === route.to;
+    return `<button class="mv-route-row${selected ? ' active' : ''}" type="button" data-mv-route-from="${esc(route.from)}" data-mv-route-to="${esc(route.to)}" aria-pressed="${selected}" aria-label="${esc(movementTeam(route.from).name)} to ${esc(movementTeam(route.to).name)}: ${route.moves.length} player move${route.moves.length === 1 ? '' : 's'}">
+      <span class="mv-route-label"><strong>${esc(route.from)} → ${esc(route.to)}</strong><small>${route.moves.length}</small></span>
+      <span class="mv-route-track"><span class="mv-route-bar" style="width:${(route.moves.length / max * 100).toFixed(1)}%;background:${teamColor(route.to)}"></span></span>
+    </button>`;
+  }).join('') : '<p class="note">No routes match these filters.</p>';
 }
 function initMovementMap(geography) {
   MOVEMENT_GEO = geography;
@@ -174,6 +183,12 @@ function initMovementMap(geography) {
   maps.addEventListener('click', event => choose(event.target));
   maps.addEventListener('keydown', event => {
     if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(event.target,true); }
+  });
+  document.getElementById('movement-route-ranking').addEventListener('click', event => {
+    const route = event.target.closest('[data-mv-route-from]');
+    if (!route) return;
+    movementSelection = { type:'route', from:route.dataset.mvRouteFrom, to:route.dataset.mvRouteTo };
+    renderMovementPage();
   });
   renderMovementMap();
 }

@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=movement-1"></script>
-<script src="pwhl-movement-network.js?v=movement-10"></script>
-<script src="pwhl-movement-map.js?v=movement-10"></script>
+<script src="pwhl-movement-network.js?v=movement-11"></script>
+<script src="pwhl-movement-map.js?v=movement-11"></script>
 <script>
 (function(){
   var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
@@ -21,7 +21,7 @@
 })();
 </script>
 <link rel="stylesheet" href="pwhl.css?v=movement-1"/>
-<link rel="stylesheet" href="pwhl-movement.css?v=movement-10"/>
+<link rel="stylesheet" href="pwhl-movement.css?v=movement-11"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -39,6 +39,12 @@
   <p id="movement-loading" role="status">Loading roster history…</p>
   <div id="app" style="display:none;flex-direction:column;gap:18px;">
     <div class="stat-row" id="movement-stats"></div>
+    <div class="movement-filter-bar" aria-label="Filter player moves">
+      <label for="movement-period-select">Arrival season</label>
+      <select id="movement-period-select" class="ov-select" aria-label="Arrival season"></select>
+      <label class="movement-trade-toggle"><input id="movement-trades-only" type="checkbox"/> Recorded trades only</label>
+      <span>Player dots show all-time team membership; filters change moves and routes.</span>
+    </div>
     <section class="card movement-card" aria-labelledby="movement-map-title">
       <div class="movement-head">
         <div>
@@ -65,7 +71,14 @@
         </div>
         <span class="movement-map-count" id="movement-map-count"></span>
       </div>
-      <div id="movement-map-views" class="movement-map-figure"><p>Loading geography…</p></div>
+      <div class="movement-map-layout">
+        <div id="movement-map-views" class="movement-map-figure"><p>Loading geography…</p></div>
+        <div class="movement-routes-panel">
+          <h3>Busiest routes</h3>
+          <p>Top 10 directional routes in this selection. Select one to highlight it.</p>
+          <div id="movement-route-ranking"></div>
+        </div>
+      </div>
       <p class="movement-map-note">Each route groups moves in one direction. Dots start at the former team and merge into a solid line at the new team. At the solid end, 4 players make a line 4 times as wide as 1 player. Team markers use approximate city centres. Geography: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a>.</p>
     </section>
     <section class="card movement-detail-card" aria-labelledby="movement-detail-title">
@@ -82,7 +95,7 @@
       </div>
       <div id="movement-detail" aria-live="polite"></div>
     </section>
-    <p class="movement-method"><strong>How to read this:</strong> A player has one dot on every team where she played a recorded game or was listed as signed. Camp invitees and unsigned draftees are excluded. Each line connects that player's dots on two teams: its dots start small and spaced apart at the former team, then grow and merge into a solid line that widens toward the new team. Ten lines are recorded trades; the others are inferred from ordered season rosters with played or signed evidence at both ends. Those roster changes are not necessarily trades. The 2026–27 preseason roster is included. Missing or ambiguous moves are left out.</p>
+    <p class="movement-method"><strong>How to read this:</strong> A player has one dot on every team where she played a recorded game or was listed as signed. Camp invitees and unsigned draftees are excluded. The season filter uses the move's arrival season; dots always show all-time membership. Each line connects that player's dots on two teams: its dots start small and spaced apart at the former team, then grow and merge into a solid line that widens toward the new team. Across all seasons, ten lines are recorded trades; the others are inferred from ordered season rosters with played or signed evidence at both ends. Those roster changes are not necessarily trades. The 2026–27 preseason roster is included. Missing or ambiguous moves are left out and marked as gaps in player histories where visible.</p>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Data: PWHL / HockeyTech</span></footer>

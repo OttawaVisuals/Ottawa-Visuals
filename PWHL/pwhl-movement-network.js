@@ -1,4 +1,5 @@
 let movementSelection = { type:'all' };
+let movementFilters = { period:'all', tradesOnly:false };
 const MOVEMENT_ORDER = ['BOS','NY','MTL','TOR','OTT','MIN','VAN','SEA','DET','HAM','VGS','SJ'];
 const MOVEMENT_ROLES = new Set(['Played','Signed']);
 
@@ -10,19 +11,21 @@ function movementMembership(player, code) {
 function movementTeamPlayers(code) {
   return MOVEMENT.players.filter(p => movementMembership(p, code));
 }
-let movementMostMovedCache = null;
+function movementFilteredMoves() {
+  return MOVEMENT.moves.map((move, index) => ({ move, index })).filter(({ move }) =>
+    (movementFilters.period === 'all' || move.period === movementFilters.period)
+    && (!movementFilters.tradesOnly || move.kind === 'trade'));
+}
 function movementMostMoved() {
-  if (movementMostMovedCache) return movementMostMovedCache;
   const byPlayer = new Map();
-  MOVEMENT.moves.forEach(move => {
+  movementFilteredMoves().forEach(({ move }) => {
     if (!byPlayer.has(move.player_id)) byPlayer.set(move.player_id, []);
     byPlayer.get(move.player_id).push(move);
   });
-  movementMostMovedCache = [...byPlayer].filter(([, moves]) => moves.length >= 2)
+  return [...byPlayer].filter(([, moves]) => moves.length >= 2)
     .map(([id, moves]) => ({ player:movementPlayer(id), moves }))
     .filter(item => item.player)
     .sort((a, b) => b.moves.length - a.moves.length || a.player.name.localeCompare(b.player.name));
-  return movementMostMovedCache;
 }
 function movementHash(value) {
   let hash = 2166136261;
@@ -54,11 +57,20 @@ function movementPositions(teams) {
 function movementShownMoves() {
   const s = movementSelection;
   const mostIds = s.type === 'most' ? new Set(movementMostMoved().map(item => item.player.id)) : null;
-  return MOVEMENT.moves.map((move, index) => ({ move, index })).filter(({ move }) =>
+  return movementFilteredMoves().filter(({ move }) =>
     s.type === 'all' || s.type === 'team' && (move.from === s.code || move.to === s.code)
     || s.type === 'player' && move.player_id === s.id
     || s.type === 'route' && move.from === s.from && move.to === s.to
     || s.type === 'most' && mostIds.has(move.player_id));
+}
+function movementGap(from, to, label = 'Unconfirmed link') {
+  return from !== to ? `${label}: ${from} → ${to}` : '';
+}
+function movementPathMarkup(moves) {
+  return moves.map((move, index) => {
+    const gap = index ? movementGap(moves[index - 1].to, move.from, 'Gap in shown moves') : '';
+    return `${gap ? `<span class="mv-path-gap" title="No move in this selection connects these teams">${esc(gap)}</span>` : ''}<span>${esc(move.from)} → ${esc(move.to)}</span>`;
+  }).join('');
 }
 function movementArrow(from, to, move, index, chosen) {
   const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
@@ -139,28 +151,29 @@ function renderMovementDetail() {
   const title = document.getElementById('movement-detail-title');
   const sub = document.getElementById('movement-detail-sub');
   const s = movementSelection;
+  const filtered = movementFilteredMoves().map(({ move }) => move);
   if (s.type === 'team') {
     const team = movementTeam(s.code), players = movementTeamPlayers(s.code);
-    const related = MOVEMENT.moves.filter(m => m.from === s.code || m.to === s.code);
+    const related = filtered.filter(m => m.from === s.code || m.to === s.code);
     title.textContent = team.name;
-    sub.textContent = `${players.length} players who played or signed · ${related.length} moves connected to this team`;
+    sub.textContent = `${players.length} all-time players who played or signed · ${related.length} moves in this selection`;
     box.innerHTML = `<div class="mv-people">${players.map(player => {
       const membership = movementMembership(player, s.code);
       return movementPersonButton(player, `${membership.periods.join(', ')} · ${membership.role}`);
     }).join('')}</div>`;
   } else if (s.type === 'route') {
-    const moves = MOVEMENT.moves.filter(move => move.from === s.from && move.to === s.to);
+    const moves = filtered.filter(move => move.from === s.from && move.to === s.to);
     title.textContent = `${movementTeam(s.from).name} → ${movementTeam(s.to).name}`;
-    sub.textContent = `${moves.length} player move${moves.length === 1 ? '' : 's'} in this direction`;
+    sub.textContent = `${moves.length} player move${moves.length === 1 ? '' : 's'} in this direction and selection`;
     box.innerHTML = `<div class="mv-people">${moves.map(move => movementPersonButton(movementPlayer(move.player_id), `${move.date || move.period} · ${move.kind === 'trade' ? 'Recorded trade' : 'Roster change'}`)).join('')}</div>`;
   } else if (s.type === 'most') {
     const ranked = movementMostMoved();
     title.textContent = 'Most moved players';
-    sub.textContent = `${ranked.length} players with at least 2 included team-to-team moves. Select a player to see her full history.`;
-    box.innerHTML = `<div class="mv-most-list">${ranked.map(({ player, moves }) => `<button type="button" class="mv-most" data-mv-player="${esc(player.id)}">
+    sub.textContent = `${ranked.length} players with at least 2 moves in this selection. Select a player to see her full recorded history.`;
+    box.innerHTML = ranked.length ? `<div class="mv-most-list">${ranked.map(({ player, moves }) => `<button type="button" class="mv-most" data-mv-player="${esc(player.id)}">
       <span class="mv-most-top"><strong>${esc(player.name)}</strong><small>${moves.length} moves</small></span>
-      <span class="mv-most-path">${moves.map(move => `<span>${esc(move.from)} → ${esc(move.to)}</span>`).join('')}</span>
-    </button>`).join('')}</div>`;
+      <span class="mv-most-path">${movementPathMarkup(moves)}</span>
+    </button>`).join('')}</div>` : '<p class="note">No player has two recorded moves in this selection. Try another arrival season or include roster changes.</p>';
   } else if (s.type === 'player') {
     const player = movementPlayer(s.id);
     if (!player) return;
@@ -169,8 +182,11 @@ function renderMovementDetail() {
     title.textContent = player.name;
     sub.textContent = s.moveIndex == null ? `${memberships.length} team${memberships.length === 1 ? '' : 's'} played or signed for`
       : `${MOVEMENT.moves[s.moveIndex].from} → ${MOVEMENT.moves[s.moveIndex].to} · ${MOVEMENT.moves[s.moveIndex].kind === 'trade' ? 'Recorded trade' : 'Season roster change'}`;
-    box.innerHTML = `<h3>Teams</h3><div class="mv-journey">${memberships.map(m => `<div>${teamDot(m.team)}<strong>${esc(movementTeam(m.team).name)}</strong><span>${m.periods.map(esc).join(', ')} · ${esc(m.role)}</span></div>`).join('')}</div>
-      <h3>Moves</h3><div class="mv-journey">${moves.map(({ move, index }) => `<div class="${s.moveIndex === index ? 'mv-selected-move' : ''}"><strong>${esc(move.from)} → ${esc(move.to)}</strong><span>${esc(move.date || move.period)} · ${move.kind === 'trade' ? 'Recorded trade' : 'Change between season rosters'}</span></div>`).join('') || '<p class="note">No team-to-team move is confirmed by the available records.</p>'}</div>`;
+    box.innerHTML = `<h3>Teams (all-time)</h3><div class="mv-journey">${memberships.map(m => `<div>${teamDot(m.team)}<strong>${esc(movementTeam(m.team).name)}</strong><span>${m.periods.map(esc).join(', ')} · ${esc(m.role)}</span></div>`).join('')}</div>
+      <h3>Moves (full recorded history)</h3><div class="mv-journey">${moves.map(({ move, index }, position) => {
+        const gap = position ? movementGap(moves[position - 1].move.to, move.from) : '';
+        return `${gap ? `<div class="mv-journey-gap">${esc(gap)} <small>No included move connects these teams.</small></div>` : ''}<div class="${s.moveIndex === index ? 'mv-selected-move' : ''}"><strong>${esc(move.from)} → ${esc(move.to)}</strong><span>${esc(move.date || move.period)} · ${move.kind === 'trade' ? 'Recorded trade' : 'Change between season rosters'}</span></div>`;
+      }).join('') || '<p class="note">No team-to-team move is confirmed by the available records.</p>'}</div>`;
   } else {
     title.textContent = 'All teams';
     sub.textContent = 'Select a player dot or line to see her path. Select a team name to focus its moves.';
@@ -180,11 +196,14 @@ function renderMovementDetail() {
 function renderMovementPage() {
   const visiblePlayers = MOVEMENT.players.filter(p => p.teams.some(m => MOVEMENT_ROLES.has(m.role)));
   const memberships = visiblePlayers.reduce((n, p) => n + p.teams.filter(m => MOVEMENT_ROLES.has(m.role)).length, 0);
+  const filteredMoves = movementFilteredMoves();
   document.getElementById('movement-stats').innerHTML = [
-    [visiblePlayers.length, 'PLAYED OR SIGNED'], [memberships, 'PLAYER DOTS'],
-    [MOVEMENT.moves.length, 'PLAYER MOVES'],
-    [MOVEMENT.moves.filter(m => m.kind === 'trade').length, 'RECORDED TRADES'],
+    [visiblePlayers.length, 'ALL-TIME PLAYERS'], [memberships, 'ALL-TIME DOTS'],
+    [filteredMoves.length, 'MOVES SHOWN'],
+    [filteredMoves.filter(({ move }) => move.kind === 'trade').length, 'TRADES SHOWN'],
   ].map(([n, label]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${label}</div></div>`).join('');
+  document.getElementById('movement-period-select').value = movementFilters.period;
+  document.getElementById('movement-trades-only').checked = movementFilters.tradesOnly;
   document.getElementById('movement-team-select').value = movementSelection.type === 'team' ? movementSelection.code : 'all';
   const mostButton = document.getElementById('movement-most-moved');
   mostButton.classList.toggle('active', movementSelection.type === 'most');
@@ -194,6 +213,19 @@ function renderMovementPage() {
   if (typeof renderMovementMap === 'function') renderMovementMap();
 }
 function initMovementPage() {
+  const periodSelect = document.getElementById('movement-period-select');
+  const periodsWithMoves = new Set(MOVEMENT.moves.map(move => move.period));
+  periodSelect.innerHTML = '<option value="all">All arrival seasons</option>' + MOVEMENT.periods.filter(period => periodsWithMoves.has(period)).map(period => `<option value="${esc(period)}">${esc(period)}</option>`).join('');
+  periodSelect.addEventListener('change', () => {
+    movementFilters.period = periodSelect.value;
+    movementSelection = { type:'all' };
+    renderMovementPage();
+  });
+  document.getElementById('movement-trades-only').addEventListener('change', event => {
+    movementFilters.tradesOnly = event.target.checked;
+    movementSelection = { type:'all' };
+    renderMovementPage();
+  });
   const select = document.getElementById('movement-team-select');
   select.innerHTML = '<option value="all">All teams</option>' + MOVEMENT.teams.map(team => `<option value="${esc(team.code)}">${esc(team.name)}</option>`).join('');
   document.getElementById('movement-search-list').innerHTML = MOVEMENT.players.filter(p => p.teams.some(m => MOVEMENT_ROLES.has(m.role))).map(p => `<option value="${esc(p.name)}"></option>`).join('');

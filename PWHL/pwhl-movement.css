@@ -6,6 +6,11 @@
 .movement-head h2,.movement-detail-top h2{font-size:17px;color:var(--ink);}
 .movement-head p,.movement-detail-top p{font-size:12px;color:var(--ink-3);margin-top:4px;}
 .movement-controls,.movement-search{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.movement-filter-bar{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);font-size:11px;color:var(--ink-2);}
+.movement-filter-bar>label:first-child{font-weight:700;color:var(--ink);}
+.movement-filter-bar>span{margin-left:auto;color:var(--ink-3);}
+.movement-trade-toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--ink);font-weight:600;}
+.movement-trade-toggle input{accent-color:var(--accent);}
 .movement-search input{background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;color:var(--ink);font:inherit;min-width:215px;}
 .movement-legend{display:flex;gap:18px;flex-wrap:wrap;margin:13px 0 0;color:var(--ink-2);font-family:var(--font-mono);font-size:10px;}
 .movement-legend span{display:flex;align-items:center;gap:6px;}
@@ -29,12 +34,23 @@
 .mv-player-dot.dim{opacity:.14;}
 .mv-move:focus-visible,.mv-player-dot:focus-visible,.mv-team-label:focus-visible{outline:none;}
 .movement-map-card{padding:16px;}
+.movement-map-layout{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:12px;align-items:start;}
 .movement-map-count{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
 .movement-map-figure{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);}
 .movement-map-figure>svg{display:block;width:100%;height:auto;min-width:850px;}
 .movement-map-figure>p{font-size:11px;color:var(--ink-3);padding:18px 12px;}
 .movement-map-note{font-size:10.5px;line-height:1.5;color:var(--ink-3);margin:9px 1px 0;}
 .movement-map-note a{color:var(--accent);}
+.movement-routes-panel{margin-top:14px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);padding:12px;}
+.movement-routes-panel h3{font-size:12px;color:var(--ink);margin:0 0 3px;}
+.movement-routes-panel>p{font-size:10px;line-height:1.4;color:var(--ink-3);margin:0 0 9px;}
+#movement-route-ranking{display:grid;gap:4px;}
+.mv-route-row{display:block;width:100%;text-align:left;border:1px solid transparent;border-radius:5px;background:transparent;padding:5px 6px;color:var(--ink);cursor:pointer;}
+.mv-route-row:hover,.mv-route-row:focus-visible,.mv-route-row.active{border-color:var(--accent);background:var(--accent-bg);}
+.mv-route-label{display:flex;justify-content:space-between;gap:8px;font-family:var(--font-mono);font-size:10px;}
+.mv-route-label small{color:var(--ink-3);font-size:10px;}
+.mv-route-track{display:block;height:5px;margin-top:4px;border-radius:5px;background:var(--bg-3);overflow:hidden;}
+.mv-route-bar{display:block;height:100%;border-radius:5px;}
 .mv-geo-land{fill:var(--bg-3);stroke:var(--line-2);stroke-width:1.2;}
 .mv-geo-mex{opacity:.55;}
 .mv-geo-border{fill:none;stroke:var(--line);stroke-width:.8;}
@@ -69,8 +85,11 @@
 .mv-most-top strong{font-size:12px;}
 .mv-most-top small{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
 .mv-most-path{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:5px;color:var(--ink-2);font-family:var(--font-mono);font-size:10px;}
+.mv-path-gap{color:var(--accent);font-weight:700;}
 .mv-journey{display:flex;flex-direction:column;gap:5px;}
 .mv-journey>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:7px 9px;background:var(--bg-3);border:1px solid var(--line);border-radius:6px;}
+.mv-journey>div.mv-journey-gap{border-style:dashed;color:var(--accent);font-size:11px;font-weight:700;}
+.mv-journey-gap small{font-weight:400;color:var(--ink-3);}
 .mv-journey>div.mv-selected-move{border-color:var(--accent);background:var(--accent-bg);}
 .mv-journey strong{font-size:12px;}
 .mv-journey span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);}
@@ -80,5 +99,6 @@
 .mv-team-list strong{font-size:11.5px;}
 .mv-team-list span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
 .movement-method{font-size:11.5px;line-height:1.55;color:var(--ink-2);max-width:1100px;}
+@media(max-width:1100px){.movement-map-layout{grid-template-columns:1fr;}.movement-routes-panel{margin-top:0;}.movement-routes-panel #movement-route-ranking{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:900px){.mv-people{grid-template-columns:repeat(2,minmax(0,1fr));}.mv-team-list{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media(max-width:620px){.mv-people,.mv-team-list,.mv-most-list{grid-template-columns:1fr;}.movement-search input{min-width:0;width:100%;}.movement-search{width:100%;}.movement-controls select{max-width:100%;}}
+@media(max-width:620px){.mv-people,.mv-team-list,.mv-most-list,.movement-routes-panel #movement-route-ranking{grid-template-columns:1fr;}.movement-filter-bar>span{margin-left:0;}.movement-search input{min-width:0;width:100%;}.movement-search{width:100%;}.movement-controls select{max-width:100%;}}
