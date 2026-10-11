@@ -9,9 +9,10 @@ const MOVEMENT_CITIES = {
 };
 const MOVEMENT_EAST = new Set(['BOS','NY','MTL','TOR','OTT','DET','HAM']);
 const MOVEMENT_MAPS = {
-  continent:{ width:900, height:560, bounds:[-132,24,-60,62], padding:22 },
-  east:{ width:440, height:390, bounds:[-85,39.2,-68,47.8], padding:24 },
+  continent:{ width:1000, height:520, bounds:[-125,35,-69,51], padding:10, alignTop:true },
+  east:{ width:435, height:196, bounds:[-85,40,-68,47], padding:13 },
 };
+const MOVEMENT_INSET = { x:555, y:284, width:435, height:226, header:30 };
 const movementMapBase = {};
 
 function movementMercator(lat) {
@@ -23,7 +24,7 @@ function movementProjection(config) {
   const y0 = movementMercator(south), y1 = movementMercator(north);
   const scale = Math.min((config.width - 2 * config.padding) / (x1 - x0), (config.height - 2 * config.padding) / (y1 - y0));
   const left = (config.width - (x1 - x0) * scale) / 2;
-  const top = (config.height - (y1 - y0) * scale) / 2;
+  const top = config.alignTop ? config.padding : (config.height - (y1 - y0) * scale) / 2;
   return ([lon,lat]) => ({ x:left + (lon * Math.PI / 180 - x0) * scale, y:top + (y1 - movementMercator(lat)) * scale });
 }
 function movementGeoPath(rings, project, close = true) {
@@ -119,7 +120,7 @@ function movementMapMarkers(id, points, project) {
   const east = id === 'east';
   const teams = MOVEMENT.teams.filter(team => !east || MOVEMENT_EAST.has(team.code));
   const labelOffsets = east ? {
-    BOS:[13,-12], NY:[13,18], MTL:[13,-12], TOR:[12,-13],
+    BOS:[13,-12], NY:[13,-9], MTL:[13,-12], TOR:[12,-13],
     OTT:[12,-13], DET:[-13,-12], HAM:[-13,24],
   } : {
     VAN:[-13,-12], SEA:[13,21], SJ:[13,18], VGS:[13,19], MIN:[12,-13],
@@ -145,24 +146,45 @@ function movementMapMarkers(id, points, project) {
       <title>${esc(team.name)} · ${movementTeamPlayers(team.code).length} players</title></g>`;
   }).join('');
 }
-function renderMovementMapPanel(id, routes) {
+function renderMovementMapLayer(id, routes) {
   const config = MOVEMENT_MAPS[id], project = movementProjection(config), points = movementMapPoints(id,project);
-  const visibleRoutes = routes.filter(route => id !== 'east' || MOVEMENT_EAST.has(route.from) && MOVEMENT_EAST.has(route.to));
+  const visibleRoutes = routes.filter(route => {
+    const easternMove = MOVEMENT_EAST.has(route.from) && MOVEMENT_EAST.has(route.to);
+    return id === 'east' ? easternMove : !easternMove;
+  });
   const flows = visibleRoutes.map((route,index) => movementMapRouteSvg(route,index,points,id)).join('');
-  const title = id === 'east' ? 'Eastern PWHL teams and moves between them' : 'PWHL teams and movement across the continental US and southern Canada';
-  return `<svg viewBox="0 0 ${config.width} ${config.height}" role="group" aria-label="${title}">
-    <defs><clipPath id="mv-map-clip-${id}"><rect x="0" y="0" width="${config.width}" height="${config.height}"/></clipPath></defs>
-    <g clip-path="url(#mv-map-clip-${id})">${movementBaseMap(id)}${flows}</g>${movementMapMarkers(id,points,project)}
+  return `<g clip-path="url(#mv-map-clip-${id})">${movementBaseMap(id)}${flows}</g>${movementMapMarkers(id,points,project)}`;
+}
+function renderMovementMapSvg(routes) {
+  const main = MOVEMENT_MAPS.continent, east = MOVEMENT_MAPS.east, inset = MOVEMENT_INSET;
+  const project = movementProjection(main);
+  const focusNW = project([-85,47]), focusSE = project([-69,40]);
+  const focusX = focusNW.x - 13, focusY = focusNW.y - 13;
+  const focusW = focusSE.x - focusNW.x + 26, focusH = focusSE.y - focusNW.y + 26;
+  const localRoutes = routes.filter(route => MOVEMENT_EAST.has(route.from) && MOVEMENT_EAST.has(route.to));
+  return `<svg viewBox="0 0 ${main.width} ${main.height}" role="group" aria-label="PWHL team movement across North America, with an eastern zoom inset">
+    <defs>
+      <clipPath id="mv-map-clip-continent"><rect width="${main.width}" height="${main.height}"/></clipPath>
+      <clipPath id="mv-map-clip-east"><rect width="${east.width}" height="${east.height}"/></clipPath>
+    </defs>
+    ${renderMovementMapLayer('continent',routes)}
+    <rect class="mv-map-focus" x="${focusX.toFixed(1)}" y="${focusY.toFixed(1)}" width="${focusW.toFixed(1)}" height="${focusH.toFixed(1)}" rx="8"/>
+    <path class="mv-map-focus-link" d="M ${focusX.toFixed(1)} ${(focusY+focusH).toFixed(1)} L ${inset.x} ${inset.y}"/>
+    <g class="mv-map-inset">
+      <rect class="mv-map-inset-bg" x="${inset.x}" y="${inset.y}" width="${inset.width}" height="${inset.height}" rx="9"/>
+      <text class="mv-map-inset-title" x="${inset.x+12}" y="${inset.y+19}">EASTERN TEAMS · ZOOM</text>
+      <text class="mv-map-inset-count" x="${inset.x+inset.width-12}" y="${inset.y+19}" text-anchor="end">${localRoutes.length} routes</text>
+      <svg x="${inset.x}" y="${inset.y+inset.header}" width="${east.width}" height="${east.height}" viewBox="0 0 ${east.width} ${east.height}" aria-label="Moves between eastern teams">
+        ${renderMovementMapLayer('east',routes)}
+      </svg>
+    </g>
   </svg>`;
 }
 function renderMovementMap() {
   if (!MOVEMENT_GEO) return;
   const routes = movementMapRoutes();
-  document.getElementById('movement-map-main').innerHTML = renderMovementMapPanel('continent',routes);
-  document.getElementById('movement-map-east').innerHTML = renderMovementMapPanel('east',routes);
-  const localRoutes = routes.filter(route => MOVEMENT_EAST.has(route.from) && MOVEMENT_EAST.has(route.to));
+  document.getElementById('movement-map-views').innerHTML = renderMovementMapSvg(routes);
   document.getElementById('movement-map-count').textContent = `${routes.length} directional routes · ${MOVEMENT.moves.length} player moves`;
-  document.getElementById('movement-map-east-count').textContent = `${localRoutes.length} routes between eastern teams`;
 }
 function initMovementMap(geography) {
   MOVEMENT_GEO = geography;
