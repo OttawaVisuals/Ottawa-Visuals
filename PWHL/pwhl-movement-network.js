@@ -47,12 +47,19 @@ function movementArrow(from, to, move, index, chosen) {
   const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
   if (length < 20) return '';
   const ux = dx / length, uy = dy / length;
-  const path = `M ${(from.x + ux * 7).toFixed(1)} ${(from.y + uy * 7).toFixed(1)} L ${(to.x - ux * 10).toFixed(1)} ${(to.y - uy * 10).toFixed(1)}`;
+  const sx = from.x + ux * 7, sy = from.y + uy * 7;
+  const ex = to.x - ux * 10, ey = to.y - uy * 10;
+  const mx = sx + (ex - sx) * .72, my = sy + (ey - sy) * .72;
+  const path = `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${mx.toFixed(1)} ${my.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`;
   const player = movementPlayer(move.player_id);
   const label = `${player?.name || 'Player'}: ${move.from} to ${move.to}, ${move.kind === 'trade' ? 'recorded trade' : 'season roster change'}, ${move.date || move.period}`;
   return `<g class="mv-move${move.kind === 'trade' ? ' mv-trade' : ''}${chosen ? ' chosen' : ''}" role="button" tabindex="0" data-mv-move="${index}" aria-label="${esc(label)}">
+    <defs><linearGradient id="mv-gradient-${index}" gradientUnits="userSpaceOnUse" x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}">
+      <stop offset="0%" stop-color="${teamColor(move.from)}" stop-opacity=".3"/>
+      <stop offset="100%" stop-color="${teamColor(move.to)}" stop-opacity="1"/>
+    </linearGradient></defs>
     <title>${esc(label)}</title><path class="mv-move-hit" d="${path}"/>
-    <path class="mv-move-line" d="${path}" stroke="${teamColor(move.from)}" marker-end="url(#mv-arrow-${esc(move.from)})"/>
+    <path class="mv-move-line" d="${path}" stroke="url(#mv-gradient-${index})" marker-mid="url(#mv-head-${esc(move.to)})"/>
   </g>`;
 }
 function renderMovementNetwork() {
@@ -64,7 +71,7 @@ function renderMovementNetwork() {
   if (movementSelection.type === 'player') {
     movementPlayer(movementSelection.id)?.teams.filter(m => MOVEMENT_ROLES.has(m.role)).forEach(m => activeTeams.add(m.team));
   }
-  const markers = teams.map(team => `<marker id="mv-arrow-${esc(team.code)}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="${teamColor(team.code)}"/></marker>`).join('');
+  const markers = teams.map(team => `<marker id="mv-head-${esc(team.code)}" viewBox="0 0 18 18" refX="9" refY="9" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L17 9 L1 17 Z" fill="${teamColor(team.code)}" stroke="var(--bg-2)" stroke-width="1.5"/></marker>`).join('');
   const arrows = shownMoves.map(({ move, index }) => {
     const from = dots.get(`${move.from}|${move.player_id}`);
     const to = dots.get(`${move.to}|${move.player_id}`);
