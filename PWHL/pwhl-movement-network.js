@@ -41,7 +41,8 @@ function movementShownMoves() {
   const s = movementSelection;
   return MOVEMENT.moves.map((move, index) => ({ move, index })).filter(({ move }) =>
     s.type === 'all' || s.type === 'team' && (move.from === s.code || move.to === s.code)
-    || s.type === 'player' && move.player_id === s.id);
+    || s.type === 'player' && move.player_id === s.id
+    || s.type === 'route' && move.from === s.from && move.to === s.to);
 }
 function movementArrow(from, to, move, index, chosen) {
   const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
@@ -86,6 +87,10 @@ function renderMovementNetwork() {
   if (movementSelection.type === 'player') {
     movementPlayer(movementSelection.id)?.teams.filter(m => MOVEMENT_ROLES.has(m.role)).forEach(m => activeTeams.add(m.team));
   }
+  if (movementSelection.type === 'route') {
+    activeTeams.add(movementSelection.from);
+    activeTeams.add(movementSelection.to);
+  }
   const arrows = shownMoves.map(({ move, index }) => {
     const from = dots.get(`${move.from}|${move.player_id}`);
     const to = dots.get(`${move.to}|${move.player_id}`);
@@ -125,6 +130,11 @@ function renderMovementDetail() {
       const membership = movementMembership(player, s.code);
       return movementPersonButton(player, `${membership.periods.join(', ')} · ${membership.role}`);
     }).join('')}</div>`;
+  } else if (s.type === 'route') {
+    const moves = MOVEMENT.moves.filter(move => move.from === s.from && move.to === s.to);
+    title.textContent = `${movementTeam(s.from).name} → ${movementTeam(s.to).name}`;
+    sub.textContent = `${moves.length} player move${moves.length === 1 ? '' : 's'} in this direction`;
+    box.innerHTML = `<div class="mv-people">${moves.map(move => movementPersonButton(movementPlayer(move.player_id), `${move.date || move.period} · ${move.kind === 'trade' ? 'Recorded trade' : 'Roster change'}`)).join('')}</div>`;
   } else if (s.type === 'player') {
     const player = movementPlayer(s.id);
     if (!player) return;
@@ -152,6 +162,7 @@ function renderMovementPage() {
   document.getElementById('movement-team-select').value = movementSelection.type === 'team' ? movementSelection.code : 'all';
   renderMovementNetwork();
   renderMovementDetail();
+  if (typeof renderMovementMap === 'function') renderMovementMap();
 }
 function initMovementPage() {
   const select = document.getElementById('movement-team-select');
