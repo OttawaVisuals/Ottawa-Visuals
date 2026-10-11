@@ -1863,6 +1863,52 @@
 },
 "fp": "40c4cc285c78"
 },
+"29185": {
+"event": {
+"cause": "construction",
+"created": "2026-10-01 15:09:00",
+"cross_street_1": "Viscount",
+"cross_street_2": "Anna",
+"direction": null,
+"event_id": "29185",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Carling off-peak lane reduction in both directions between Viscount and Anna due to construction. From 9:00am to 3pm on Tuesday, 13 October and Wednesday, 14 October 2026. ",
+"lanes": "off-peak lane reduction in both directions",
+"lat": 45.387994,
+"lon": -75.729563,
+"planned_end": "2026-10-14T15:00",
+"planned_start": "2026-10-11T09:00",
+"priority": "UNKNOWN",
+"road": "Carling",
+"source": "city",
+"updated": "2026-10-11 08:56:00"
+},
+"fp": "3ad4516e262a"
+},
+"29186": {
+"event": {
+"cause": "construction",
+"created": "2026-10-01 15:20:00",
+"cross_street_1": "Carling",
+"cross_street_2": "Anna",
+"direction": null,
+"event_id": "29186",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Merivale northbound off-peak lane reduction between Carling and Anna due to construction. Cycle lane closed south of Merivale. From 9am to 3pm on Tuesday, 13 October and Wednesday, 14 October.",
+"lanes": "off-peak lane reduction",
+"lat": 45.386646,
+"lon": -75.73263,
+"planned_end": "2026-10-14T15:30",
+"planned_start": "2026-10-11T09:00",
+"priority": "UNKNOWN",
+"road": "Merivale ",
+"source": "city",
+"updated": "2026-10-11 08:56:00"
+},
+"fp": "3833783f930d"
+},
 "29206": {
 "event": {
 "cause": "construction",
