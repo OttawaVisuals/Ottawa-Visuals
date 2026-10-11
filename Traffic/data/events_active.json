@@ -2070,29 +2070,6 @@
 },
 "fp": "9d3fb8f1fa46"
 },
-"29278": {
-"event": {
-"cause": "a sporting event",
-"created": "2026-10-06 10:37:00",
-"cross_street_1": "PETER HARKNESS / MARKET",
-"cross_street_2": "KINSELLA",
-"direction": null,
-"event_id": "29278",
-"event_type": "SPECIAL_EVENT",
-"full_closure": true,
-"headline": "OLD MONTREAL eastbound closed between PETER HARKNESS / MARKET and KINSELLA due to a sporting event, Sunday October 11th between 6:00am and 4:00pm.",
-"lanes": "closed",
-"lat": 45.517663,
-"lon": -75.403455,
-"planned_end": "2026-10-11T16:00",
-"planned_start": "2026-10-10T06:00",
-"priority": "MEDIUM",
-"road": "OLD MONTREAL",
-"source": "city",
-"updated": "2026-10-10 05:56:00"
-},
-"fp": "c9728561b6e3"
-},
 "29280": {
 "event": {
 "cause": "construction",
@@ -2989,6 +2966,52 @@
 "updated": "2026-10-09 18:00:00"
 },
 "fp": "73484a08a25b"
+},
+"29412": {
+"event": {
+"cause": "",
+"created": "2026-10-11 15:03:00",
+"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
+"cross_street_2": "OTTAWA RD 29 (IC 180)",
+"direction": null,
+"event_id": "29412",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to OTTAWA RD 29 - Daily Maintenance. 1 Right Lane(s). Detailed closure information is as follows: Tues-Wed: 09:00-18:00. 2026-10-13 09:00 to 2026-10-14 18:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.42092,
+"lon": -76.37281,
+"planned_end": "2026-10-14T18:00",
+"planned_start": "2026-10-13T09:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-11 15:03:00"
+},
+"fp": "dcb9848b96c0"
+},
+"29413": {
+"event": {
+"cause": "",
+"created": "2026-10-11 15:06:00",
+"cross_street_1": "TERRY FOX DR (IC 140)",
+"cross_street_2": "PALLADIUM DR (IC 142)",
+"direction": null,
+"event_id": "29413",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from TERRY FOX DR to PALLADIUM DR - Daily Maintenance. 1 Right Lane(s). Detailed closure information is as follows: Wed-Thurs: 10:00-14:30 Nearby ramps may be affected. 2026-10-14 10:00 to 2026-10-15 14:30",
+"lanes": "1 Right Lane(s)",
+"lat": 45.30556,
+"lon": -75.9117,
+"planned_end": "2026-10-15T14:30",
+"planned_start": "2026-10-14T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-11 15:06:00"
+},
+"fp": "20d81915b159"
 }
 }
 }
