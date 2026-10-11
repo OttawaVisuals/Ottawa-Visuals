@@ -58,7 +58,7 @@ function movementMapPoints(project) {
   points.HAM = { x:points.HAM.x - 7, y:points.HAM.y + 7 };
   return points;
 }
-function movementMapRouteSvg(route, index, points, id) {
+function movementMapRouteSvg(route, index, points, id, mostIds) {
   const from = points[route.from], to = points[route.to];
   if (!from || !to) return '';
   const dx = to.x - from.x, dy = to.y - from.y, distance = Math.hypot(dx,dy);
@@ -104,7 +104,8 @@ function movementMapRouteSvg(route, index, points, id) {
   const selected = movementSelection.type === 'route' && movementSelection.from === route.from && movementSelection.to === route.to;
   const relevant = movementSelection.type === 'all' || selected
     || movementSelection.type === 'team' && (route.from === movementSelection.code || route.to === movementSelection.code)
-    || movementSelection.type === 'player' && route.moves.some(move => move.player_id === movementSelection.id);
+    || movementSelection.type === 'player' && route.moves.some(move => move.player_id === movementSelection.id)
+    || movementSelection.type === 'most' && route.moves.some(move => mostIds.has(move.player_id));
   const title = `${movementTeam(route.from).name} → ${movementTeam(route.to).name}: ${count} player move${count === 1 ? '' : 's'}`;
   const gradientId = `mv-map-flow-${id}-${index}`;
   return `<g class="mv-map-route${selected ? ' chosen' : ''}${relevant ? '' : ' dim'}" role="button" tabindex="0" data-mv-route-from="${esc(route.from)}" data-mv-route-to="${esc(route.to)}" aria-label="${esc(title)}">
@@ -140,7 +141,8 @@ function renderMovementMapSvg(routes) {
   const main = MOVEMENT_MAPS.continent;
   const project = movementProjection(main);
   const points = movementMapPoints(project);
-  const flows = routes.map((route,index) => movementMapRouteSvg(route,index,points,'continent')).join('');
+  const mostIds = movementSelection.type === 'most' ? new Set(movementMostMoved().map(item => item.player.id)) : null;
+  const flows = routes.map((route,index) => movementMapRouteSvg(route,index,points,'continent',mostIds)).join('');
   return `<svg viewBox="0 0 ${main.width} ${main.height}" role="group" aria-label="PWHL team movement across North America">
     <defs><clipPath id="mv-map-clip-continent"><rect width="${main.width}" height="${main.height}"/></clipPath></defs>
     <g clip-path="url(#mv-map-clip-continent)">${movementBaseMap('continent')}${flows}</g>

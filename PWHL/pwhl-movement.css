@@ -26,6 +26,7 @@
 .mv-player-dot{cursor:pointer;stroke:var(--bg-2);stroke-width:1.2;}
 .mv-player-dot:hover,.mv-player-dot:focus-visible,.mv-player-dot.active{stroke:var(--ink);stroke-width:2.5;}
 .mv-player-dot.active{fill:var(--purple);}
+.mv-player-dot.dim{opacity:.14;}
 .mv-move:focus-visible,.mv-player-dot:focus-visible,.mv-team-label:focus-visible{outline:none;}
 .movement-map-card{padding:16px;}
 .movement-map-count{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
@@ -61,6 +62,13 @@
 .mv-person:hover,.mv-person:focus-visible{border-color:var(--accent);background:var(--accent-bg);}
 .mv-person span{font-size:11.5px;font-weight:600;}
 .mv-person small{font-family:var(--font-mono);font-size:9px;color:var(--ink-3);text-align:right;}
+.mv-most-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
+.mv-most{display:block;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:7px;background:var(--bg-3);}
+.mv-most:hover,.mv-most:focus-visible{border-color:var(--accent);background:var(--accent-bg);}
+.mv-most-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;}
+.mv-most-top strong{font-size:12px;}
+.mv-most-top small{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
+.mv-most-path{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:5px;color:var(--ink-2);font-family:var(--font-mono);font-size:10px;}
 .mv-journey{display:flex;flex-direction:column;gap:5px;}
 .mv-journey>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:7px 9px;background:var(--bg-3);border:1px solid var(--line);border-radius:6px;}
 .mv-journey>div.mv-selected-move{border-color:var(--accent);background:var(--accent-bg);}
@@ -73,4 +81,4 @@
 .mv-team-list span{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);white-space:nowrap;}
 .movement-method{font-size:11.5px;line-height:1.55;color:var(--ink-2);max-width:1100px;}
 @media(max-width:900px){.mv-people{grid-template-columns:repeat(2,minmax(0,1fr));}.mv-team-list{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media(max-width:620px){.mv-people,.mv-team-list{grid-template-columns:1fr;}.movement-search input{min-width:0;width:100%;}.movement-search{width:100%;}.movement-controls select{max-width:100%;}}
+@media(max-width:620px){.mv-people,.mv-team-list,.mv-most-list{grid-template-columns:1fr;}.movement-search input{min-width:0;width:100%;}.movement-search{width:100%;}.movement-controls select{max-width:100%;}}

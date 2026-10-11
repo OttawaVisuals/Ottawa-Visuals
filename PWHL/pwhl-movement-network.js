@@ -10,6 +10,20 @@ function movementMembership(player, code) {
 function movementTeamPlayers(code) {
   return MOVEMENT.players.filter(p => movementMembership(p, code));
 }
+let movementMostMovedCache = null;
+function movementMostMoved() {
+  if (movementMostMovedCache) return movementMostMovedCache;
+  const byPlayer = new Map();
+  MOVEMENT.moves.forEach(move => {
+    if (!byPlayer.has(move.player_id)) byPlayer.set(move.player_id, []);
+    byPlayer.get(move.player_id).push(move);
+  });
+  movementMostMovedCache = [...byPlayer].filter(([, moves]) => moves.length >= 2)
+    .map(([id, moves]) => ({ player:movementPlayer(id), moves }))
+    .filter(item => item.player)
+    .sort((a, b) => b.moves.length - a.moves.length || a.player.name.localeCompare(b.player.name));
+  return movementMostMovedCache;
+}
 function movementHash(value) {
   let hash = 2166136261;
   for (const character of value) {
@@ -39,10 +53,12 @@ function movementPositions(teams) {
 }
 function movementShownMoves() {
   const s = movementSelection;
+  const mostIds = s.type === 'most' ? new Set(movementMostMoved().map(item => item.player.id)) : null;
   return MOVEMENT.moves.map((move, index) => ({ move, index })).filter(({ move }) =>
     s.type === 'all' || s.type === 'team' && (move.from === s.code || move.to === s.code)
     || s.type === 'player' && move.player_id === s.id
-    || s.type === 'route' && move.from === s.from && move.to === s.to);
+    || s.type === 'route' && move.from === s.from && move.to === s.to
+    || s.type === 'most' && mostIds.has(move.player_id));
 }
 function movementArrow(from, to, move, index, chosen) {
   const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
@@ -82,6 +98,7 @@ function renderMovementNetwork() {
   const teams = [...MOVEMENT.teams].sort((a, b) => MOVEMENT_ORDER.indexOf(a.code) - MOVEMENT_ORDER.indexOf(b.code));
   const { dots, centres } = movementPositions(teams);
   const shownMoves = movementShownMoves();
+  const mostIds = movementSelection.type === 'most' ? new Set(movementMostMoved().map(item => item.player.id)) : null;
   const activeTeams = new Set(shownMoves.flatMap(({ move }) => [move.from, move.to]));
   if (movementSelection.type === 'team') activeTeams.add(movementSelection.code);
   if (movementSelection.type === 'player') {
@@ -105,7 +122,8 @@ function renderMovementNetwork() {
     const points = movementTeamPlayers(team.code).map(player => {
       const point = dots.get(`${team.code}|${player.id}`);
       const selected = movementSelection.type === 'player' && movementSelection.id === player.id;
-      return `<circle class="mv-player-dot${selected ? ' active' : ''}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="${selected ? 7 : 5}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-player="${esc(player.id)}" aria-label="${esc(player.name)}, ${esc(team.name)}"><title>${esc(player.name)} · ${esc(team.name)}</title></circle>`;
+      const dimPlayer = mostIds && !mostIds.has(player.id);
+      return `<circle class="mv-player-dot${selected ? ' active' : ''}${dimPlayer ? ' dim' : ''}" cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="${selected ? 7 : 5}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-player="${esc(player.id)}" aria-label="${esc(player.name)}, ${esc(team.name)}"><title>${esc(player.name)} · ${esc(team.name)}</title></circle>`;
     }).join('');
     return `<g class="mv-team${dim ? ' dim' : ''}" data-mv-cluster="${esc(team.code)}">${points}
       <text class="mv-team-label" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" fill="${teamColor(team.code)}" role="button" tabindex="0" data-mv-team="${esc(team.code)}" aria-label="Show ${esc(team.name)} players">${esc(team.code)}</text>
@@ -135,6 +153,14 @@ function renderMovementDetail() {
     title.textContent = `${movementTeam(s.from).name} → ${movementTeam(s.to).name}`;
     sub.textContent = `${moves.length} player move${moves.length === 1 ? '' : 's'} in this direction`;
     box.innerHTML = `<div class="mv-people">${moves.map(move => movementPersonButton(movementPlayer(move.player_id), `${move.date || move.period} · ${move.kind === 'trade' ? 'Recorded trade' : 'Roster change'}`)).join('')}</div>`;
+  } else if (s.type === 'most') {
+    const ranked = movementMostMoved();
+    title.textContent = 'Most moved players';
+    sub.textContent = `${ranked.length} players with at least 2 included team-to-team moves. Select a player to see her full history.`;
+    box.innerHTML = `<div class="mv-most-list">${ranked.map(({ player, moves }) => `<button type="button" class="mv-most" data-mv-player="${esc(player.id)}">
+      <span class="mv-most-top"><strong>${esc(player.name)}</strong><small>${moves.length} moves</small></span>
+      <span class="mv-most-path">${moves.map(move => `<span>${esc(move.from)} → ${esc(move.to)}</span>`).join('')}</span>
+    </button>`).join('')}</div>`;
   } else if (s.type === 'player') {
     const player = movementPlayer(s.id);
     if (!player) return;
@@ -160,6 +186,9 @@ function renderMovementPage() {
     [MOVEMENT.moves.filter(m => m.kind === 'trade').length, 'RECORDED TRADES'],
   ].map(([n, label]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${label}</div></div>`).join('');
   document.getElementById('movement-team-select').value = movementSelection.type === 'team' ? movementSelection.code : 'all';
+  const mostButton = document.getElementById('movement-most-moved');
+  mostButton.classList.toggle('active', movementSelection.type === 'most');
+  mostButton.setAttribute('aria-pressed', String(movementSelection.type === 'most'));
   renderMovementNetwork();
   renderMovementDetail();
   if (typeof renderMovementMap === 'function') renderMovementMap();
@@ -174,6 +203,10 @@ function initMovementPage() {
   });
   document.getElementById('movement-show-all').addEventListener('click', () => {
     movementSelection = { type:'all' }; renderMovementPage();
+  });
+  document.getElementById('movement-most-moved').addEventListener('click', () => {
+    movementSelection = { type:'most' }; renderMovementPage();
+    document.getElementById('movement-detail-title').scrollIntoView({ block:'start', behavior:'smooth' });
   });
   const choose = (target, keyboard = false) => {
     const player = target.closest('[data-mv-player]');
