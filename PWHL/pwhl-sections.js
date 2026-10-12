@@ -618,11 +618,13 @@ function renderForecast() {
   // Upcoming games, plus how recent predictions fared once the season is on.
   const gameRow = g => {
     const homeFav = g.p_home >= 0.5;
+    const homePct = Math.round(g.p_home * 100);
+    const awayPct = 100 - homePct;
     return `<div class="game-row">
       <span class="game-date">${esc(shortDate(g.date))}</span>
       <div class="game-teams">
-        <span class="${homeFav ? '' : 'fav'}">${teamDot(g.away)}${teamLink(g.away)} ${Math.round((1 - g.p_home) * 100)}%</span>
-        <span class="${homeFav ? 'fav' : ''}">${Math.round(g.p_home * 100)}% @ ${teamLink(g.home)}${teamDot(g.home)}</span>
+        <span class="${homeFav ? '' : 'fav'}">${teamDot(g.away)}${teamLink(g.away)} ${awayPct}%</span>
+        <span class="${homeFav ? 'fav' : ''}">${homePct}% @ ${teamLink(g.home)}${teamDot(g.home)}</span>
       </div>
       <div class="prob-bar"><span style="width:${(1 - g.p_home) * 100}%;background:${teamColor(g.away)}"></span><span style="width:${g.p_home * 100}%;background:${teamColor(g.home)}"></span></div>
     </div>`;
@@ -649,6 +651,11 @@ function renderForecast() {
   renderEloChart();
 
   const p = ELO.params, sc = ELO.scorecard, bt = sc.backtest;
+  document.getElementById('forecast-check').innerHTML =
+    `<div class="metric"><b>${Math.round(bt.accuracy * 100)}%</b><span>model backtest · ${fmt(bt.games)} games</span></div>`
+    + `<div class="metric"><b>${Math.round(ELO.home_win_rate * 100)}%</b><span>historical home-team win rate</span></div>`;
+  document.getElementById('forecast-caution').textContent =
+    `Early-season uncertainty: expansion teams start ${-p.expansion} Elo points below average, estimated from only two prior expansion teams (Seattle and Vancouver in 2025–26). Treat their forecast as especially tentative.`;
   const now = sc.this_season
     ? ` This season so far: ${Math.round(sc.this_season.accuracy * 100)}% of ${sc.this_season.games} winners called.` : '';
   document.getElementById('forecast-note').textContent =
@@ -683,7 +690,7 @@ function renderScorecardStrip() {
   const sc = ELO.scorecard;
   document.getElementById('scorecard-sum').textContent = sc.this_season
     ? `${Math.round(sc.this_season.accuracy * 100)}% of ${sc.this_season.games} winners called this season`
-    : `Season not started · back-tested at ${Math.round(sc.backtest.accuracy * 100)}% on ${sc.backtest.games} past games`;
+    : 'Season not started';
 }
 
 function renderEloChart() {

@@ -61,7 +61,8 @@ PWHL.header = function (active) {
       <span class="spacer"></span>
       <span class="data-through" id="data-through"></span>
     </nav>
-    <div class="logo-strip" id="logo-strip" aria-label="Teams"></div>`;
+    <div class="logo-strip" id="logo-strip" aria-label="Teams"></div>
+    <div class="data-context" id="data-context" aria-label="Data coverage"></div>`;
   // Inside the homepage iframe the site bar is redundant.
   if (window.self !== window.top) el.querySelector('.topbar').style.display = 'none';
   const t = document.getElementById('theme-toggle');
@@ -86,7 +87,17 @@ PWHL.fillHeader = function (activeCode) {
   const d = META.last_game_date;
   const nice = d ? new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { day: 'numeric', month: 'short', year: 'numeric' }) : null;
   document.getElementById('data-through').textContent =
-    (nice ? `Data through ${nice}` : '') + ` · refreshed ${META.generated_at.slice(0, 10)}`;
+    (nice ? `Games through ${nice}` : '') + ` · refreshed ${META.generated_at.slice(0, 10)}`;
+  const latestRegular = META.seasons.filter(s => /Regular Season/.test(s.name)).slice(-1)[0];
+  const gameSeason = latestRegular && latestRegular.name.replace(' Regular Season', '');
+  const forecastSeason = ELO && ELO.season_name && ELO.season_name.replace(' Regular Season', '');
+  const refreshed = META.generated_at.slice(0, 10);
+  document.getElementById('data-context').innerHTML = [
+    gameSeason ? `<span><b>Latest game stats</b> ${esc(gameSeason)}</span>` : '',
+    forecastSeason ? `<span><b>Forecast</b> ${esc(forecastSeason)}</span>` : '',
+    nice ? `<span><b>Last game</b> ${esc(nice)}</span>` : '',
+    `<span><b>Data refreshed</b> ${esc(refreshed)}</span>`,
+  ].filter(Boolean).join('<span class="context-sep" aria-hidden="true">·</span>');
 };
 
 // ----------------------------------------------------------------- theme

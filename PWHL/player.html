@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js"></script>
+<script src="pwhl-core.js?v=20261011-ux1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css">
+<link rel="stylesheet" href="pwhl.css?v=20261011-ux1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -42,6 +42,9 @@
         <div><h2 id="season-title">Season</h2><p id="season-sub"></p></div>
       </div>
       <div class="stat-grid" id="tiles"></div>
+      <details class="advanced-stats" id="advanced-stats"><summary>More season stats</summary>
+        <div class="stat-grid" id="advanced-tiles"></div>
+      </details>
     </div>
 
     <div class="grid-2">
@@ -57,6 +60,7 @@
           </span></div>
         <div class="rink-wrap"><canvas id="shot-canvas" width="440" height="374"></canvas></div>
         <div class="legend" id="shot-legend"></div>
+        <p class="note" id="shot-coverage"></p>
       </div>
     </div>
 
@@ -262,9 +266,11 @@ function renderSeason() {
        [t.toi && t.gp ? mmss(t.toi / t.gp) : '—', 'Ice time / game'], [fmt(t.pim), 'PIM'],
        [fmt(t.hits), 'Hits'], [fmt(t.blocks), 'Blocks'],
        ...(t.foa >= 20 ? [[pct1(t.fow, t.foa), `Faceoffs (${t.foa})`]] : [])];
-  document.getElementById('tiles').innerHTML = lines.length
-    ? tiles.map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${esc(l)}</div></div>`).join('')
-    : '';
+  const coreCount = isGoalie() ? 5 : 8;
+  const tileHtml = ([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${esc(l)}</div></div>`;
+  document.getElementById('tiles').innerHTML = lines.length ? tiles.slice(0, coreCount).map(tileHtml).join('') : '';
+  document.getElementById('advanced-tiles').innerHTML = lines.length ? tiles.slice(coreCount).map(tileHtml).join('') : '';
+  document.getElementById('advanced-stats').style.display = lines.length && tiles.length > coreCount ? '' : 'none';
 
   renderModel();
   renderLogChart();
@@ -506,6 +512,16 @@ function drawShots() {
     + `<span><i style="background:${goalColor}"></i>${isGoalie() ? 'goal against' : 'goal'}</span>`
     + `<span>attacking → right${off ? ` · ${off} from the other half not shown` : ''}</span>`
     + (all.length ? '' : '<span>no located shots in the play-by-play for this season</span>');
+  const statLines = shotScope === 'career' ? P.seasons : P.seasons.filter(l => l.season_id === seasonId);
+  const official = statLines.length ? statLines.reduce((n, l) => n + (isGoalie() ? (l.sa || 0) : (l.shots || 0)), 0) : null;
+  const modelBlocks = modelSeasons();
+  const modelShots = modelBlocks.reduce((n, b) => n + b.types.reduce((sum, type) => sum + type[1], 0), 0);
+  const counts = [official == null ? null : `box-score total ${fmt(official)}`,
+    `located play-by-play ${fmt(all.length)}`,
+    modelBlocks.length ? `goalie-in-net model ${fmt(modelShots)}` : null].filter(Boolean);
+  document.getElementById('shot-coverage').textContent =
+    `Shot coverage: ${counts.join(' · ')}. The map plots ${fmt(inZone.length)} located shots in the attacking half. `
+    + 'The box score, located events, and goalie-in-net model use different event coverage, so totals can differ.';
 }
 
 // ---- career table + game log ------------------------------------------------
