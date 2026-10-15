@@ -14,22 +14,24 @@
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
 <link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
-<link rel="stylesheet" href="pwhl-recap.css?v=recap-3"/>
+<link rel="stylesheet" href="pwhl-recap.css?v=recap-4"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
-<body>
+<body class="recap-page">
 <div id="pwhl-header"></div><script>PWHL.header('recap')</script>
 <main class="report">
   <div class="hero recap-hero">
-    <span class="eyebrow">PWHL · regular season</span>
-    <h1>The season in motion</h1>
-    <p>Every game day in about 30 seconds. Follow team routes, scores, the points race and the scoring leaders as the season unfolds.</p>
-    <div class="recap-hero-actions"><label class="recap-season-label" for="recap-season">Season <select class="ov-select" id="recap-season"></select></label>
-    <button type="button" class="tab-btn active recap-watch" id="recap-watch">▶ Watch 30-second replay</button></div>
+    <div><span class="eyebrow">PWHL · regular season</span><h1>The season in motion</h1></div>
+    <p>Replay the points race, game-day travel and scoring leaders in about 30 seconds.</p>
+    <label class="recap-season-label" for="recap-season">Season <select class="ov-select" id="recap-season"></select></label>
   </div>
   <p id="recap-loading" role="status">Building season replay…</p>
   <div id="recap-app" hidden>
+    <section class="card recap-trends" aria-labelledby="recap-trends-title">
+      <div class="recap-trends-head"><h2 id="recap-trends-title">The season race</h2><div id="recap-team-legend" class="recap-team-legend" aria-label="Highlight a team"></div><button type="button" class="tab-btn" id="recap-clear" hidden>Show all teams</button></div>
+      <div class="recap-charts"><div><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 112" role="img" aria-label="Team standings points through the selected date"></svg></div><div><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 112" role="img" aria-label="Team goal differential through the selected date"></svg></div></div>
+    </section>
     <section class="card recap-stage" aria-label="Season replay">
       <div class="recap-stage-head">
         <div><span class="recap-kicker" id="recap-counter">DAY 1</span><h2 id="recap-date"></h2></div>
@@ -37,18 +39,18 @@
       </div>
       <div class="recap-main-grid">
         <div class="recap-left">
-          <div class="recap-map-wrap"><svg id="recap-map" viewBox="0 0 1100 340" role="img" aria-label="Schematic routes to games on this date"></svg><span class="recap-map-caption">Routes to games on this date · modeled, not observed travel</span></div>
-          <div class="recap-counters" aria-label="Season totals through this game date">
-            <div><span>Est. team travel</span><strong id="recap-counter-travel">0 h</strong></div>
-            <div><span>Game-clock time</span><strong id="recap-counter-clock">0 h</strong></div>
-            <div><span>Goals scored</span><strong id="recap-counter-goals">0</strong></div>
-            <div><span>Player PIM</span><strong id="recap-counter-pim">0</strong></div>
-            <div><span>OT / SO games</span><strong id="recap-counter-extra">0</strong></div>
-          </div>
+          <div class="recap-map-wrap"><svg id="recap-map" viewBox="0 0 1000 380" role="img" aria-label="Schematic routes and team matchups on this date"></svg><span class="recap-map-caption">Modeled routes · actual travel unknown</span></div>
         </div>
         <div class="recap-boards">
           <div class="recap-board"><h3>Points table <span id="recap-standings-note">after today</span></h3><table id="recap-standings"><thead><tr><th>#</th><th>Team</th><th>GP</th><th>Pts</th><th>GD</th><th>Status</th></tr></thead><tbody></tbody></table><div class="recap-status-note">✓ Clinched · × Eliminated</div></div>
           <div class="recap-board"><h3>Top five skaters <span>points</span></h3><table id="recap-leaders"><thead><tr><th>#</th><th>Player</th><th>Team</th><th>Pts</th></tr></thead><tbody></tbody></table></div>
+          <div class="recap-counters" aria-label="Season totals through this game date">
+            <div><span>Est. travel</span><strong id="recap-counter-travel">0 h</strong></div>
+            <div><span>Game-clock</span><strong id="recap-counter-clock">0 h</strong></div>
+            <div><span>Goals</span><strong id="recap-counter-goals">0</strong></div>
+            <div><span>Player PIM</span><strong id="recap-counter-pim">0</strong></div>
+            <div><span>OT / SO</span><strong id="recap-counter-extra">0</strong></div>
+          </div>
         </div>
       </div>
       <div class="recap-controls">
@@ -61,15 +63,10 @@
         <label for="recap-speed">Speed</label><select id="recap-speed" class="ov-select"><option value="0.5">0.5×</option><option value="1" selected>1× · 30 sec</option><option value="2">2×</option></select>
       </div>
     </section>
-    <section class="card recap-trends" aria-labelledby="recap-trends-title">
-      <div class="recap-trends-head"><div><h2 id="recap-trends-title">The season race</h2><p>Cumulative totals through the selected date. Select a team to highlight it everywhere.</p></div><button type="button" class="tab-btn" id="recap-clear" hidden>Show all teams</button></div>
-      <div id="recap-team-legend" class="recap-team-legend"></div>
-      <div class="recap-charts"><div><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 200" role="img" aria-label="Team standings points over the season"></svg></div><div><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 200" role="img" aria-label="Team goal differential over the season"></svg></div></div>
-    </section>
-    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a date with at least one completed regular-season game. Tables and charts include games through that date. Team points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; reconstructed final points and goal totals are checked against the season standings. Teams tied on points share a displayed rank; historical official tie-break snapshots are unavailable. Scoring leaders sum skater game logs across teams when a player moved, with goals then name used to order point ties.</p><p>The <a href="https://www.thepwhl.com/en/2026-complete-guide-to-the-playoffs">top four teams qualify</a>. A team is marked clinched only when at most three others can still match its points, and eliminated only when four others already exceed its maximum possible points. Ties stay unresolved until the final standings. These conservative badges can appear later than official announcements.</p><p>Map lines run from a team's previous game venue to its next game venue. After a gap of more than four days, the model assumes a return to its most-used home rink. Routes are schematic and assigned to the <em>game date</em>; actual travel dates, transport and itinerary are unknown. The travel counter adds indicative team hours for these trips and assumed returns: road distance is 1.25× straight-line distance, bus if that is at most 400 miles at 80 km/h; otherwise air at 800 km/h plus three hours for transfers and overhead. Game-clock time sums 60-minute games and recorded goalie minutes in OT/SO games. PIM is the sum of player game-log penalty minutes. OT/SO counts games decided beyond regulation. Playoffs are separate and are not included.</p></section>
+    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a date with at least one completed regular-season game. Tables and charts include games through that date. Team points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; reconstructed final points and goal totals are checked against the season standings. Teams tied on points share a displayed rank; historical official tie-break snapshots are unavailable. Scoring leaders sum skater game logs across teams when a player moved, with goals then name used to order point ties.</p><p>The <a href="https://www.thepwhl.com/en/2026-complete-guide-to-the-playoffs">top four teams qualify</a>. A team is marked clinched only when at most three others can still match its points, and eliminated only when four others already exceed its maximum possible points. Ties stay unresolved until the final standings. These conservative badges can appear later than official announcements.</p><p>Map positions use one Mercator scale so geography is not stretched. Lines run from a team's previous game venue to its next game venue. After a gap of more than four days, the model assumes a return to its most-used home rink. Routes are schematic and assigned to the <em>game date</em>; actual travel dates, transport and itinerary are unknown. The travel counter adds indicative team hours for these trips and assumed returns: road distance is 1.25× straight-line distance, bus if that is at most 400 miles at 80 km/h; otherwise air at 800 km/h plus three hours for transfers and overhead. Game-clock time sums 60-minute games and recorded goalie minutes in OT/SO games. PIM is the sum of player game-log penalty minutes. OT/SO counts games decided beyond regulation. Playoffs are separate and are not included.</p></section>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Game and player data: PWHL / HockeyTech · Routes are assumptions</span></footer>
-<script src="pwhl-recap.js?v=recap-3"></script>
+<script src="pwhl-recap.js?v=recap-4"></script>
 </body>
 </html>

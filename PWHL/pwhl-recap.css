@@ -1,66 +1,75 @@
-#recap-app{display:flex;flex-direction:column;gap:16px}
+#recap-app{display:flex;flex-direction:column;gap:8px}
 #recap-app[hidden]{display:none}
-.recap-season-label{display:inline-flex;align-items:center;gap:10px;margin-top:8px;font-size:12px;font-weight:700}
+.recap-page .logo-strip,.recap-page .data-context{display:none}
+.recap-page .report{max-width:1320px;padding:8px 16px 36px;gap:8px}
+.recap-hero{display:flex;flex-direction:row;align-items:center;gap:10px 20px;flex-wrap:wrap}
+.recap-hero h1{font-size:19px}
+.recap-hero p{font-size:11px;flex:1;min-width:230px;max-width:none}
+.recap-season-label{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;white-space:nowrap}
 .recap-season-label select{min-width:185px}
-.recap-hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.recap-watch{display:inline-flex;width:auto;margin-top:8px}
-.recap-stage,.recap-trends,.recap-method{padding:16px}
-.recap-stage-head{display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:66px;padding-bottom:12px}
-.recap-kicker{display:block;font:700 10px var(--font-mono);letter-spacing:.09em;color:var(--accent);margin-bottom:4px}
-.recap-stage-head h2{font-size:23px;line-height:1.2}
+.recap-stage,.recap-trends{padding:8px}
+.recap-method{padding:12px}
+.recap-stage-head{display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:32px;padding-bottom:4px}
+.recap-kicker{display:block;font:700 9px var(--font-mono);letter-spacing:.09em;color:var(--accent);margin-bottom:1px}
+.recap-stage-head h2{font-size:16px;line-height:1.2}
 .recap-score{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
-.recap-score span{font:600 11px var(--font-mono);background:var(--bg-3);border:1px solid var(--line);border-radius:5px;padding:5px 7px;white-space:nowrap}
-.recap-main-grid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(265px,.75fr);gap:12px;align-items:stretch}
+.recap-score span{font:600 10px var(--font-mono);background:var(--bg-3);border:1px solid var(--line);border-radius:5px;padding:4px 6px;white-space:nowrap}
+.recap-main-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(500px,1fr);gap:8px;align-items:start}
 .recap-left{display:flex;flex-direction:column;gap:9px;min-width:0}
-.recap-map-wrap{position:relative;border:1px solid var(--line);background:var(--bg-3);border-radius:8px;overflow:hidden;min-width:0;aspect-ratio:1100/340}
+.recap-map-wrap{position:relative;border:1px solid var(--line);background:var(--bg-3);border-radius:8px;overflow:hidden;min-width:0;aspect-ratio:1000/380}
 #recap-map{display:block;width:100%;height:100%}
-.recap-map-caption{position:absolute;left:10px;bottom:10px;background:var(--bg-2);border:1px solid var(--line);border-radius:4px;padding:4px 6px;font-size:10px;color:var(--ink-2)}
-.recap-counters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
-.recap-counters>div{border:1px solid var(--line);border-radius:7px;background:var(--bg-3);padding:8px;min-width:0}
-.recap-counters span{display:block;color:var(--ink-3);font-size:10px;white-space:nowrap}
-.recap-counters strong{display:block;font:700 20px var(--font-mono);color:var(--ink);margin-top:4px;white-space:nowrap}
-.recap-boards{display:flex;flex-direction:column;gap:10px;min-width:0}
-.recap-board{border:1px solid var(--line);border-radius:8px;padding:10px;flex:1;background:var(--bg-3)}
-.recap-board h3{font-size:13px;display:flex;justify-content:space-between;gap:8px;margin:0 0 7px}
+.recap-map-caption{position:absolute;left:7px;bottom:7px;background:var(--bg-2);border:1px solid var(--line);border-radius:4px;padding:3px 5px;font-size:9px;color:var(--ink-2)}
+.recap-boards{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:6px;min-width:0;align-content:start}
+.recap-counters{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.recap-counters>div{border:1px solid var(--line);border-radius:6px;background:var(--bg-3);padding:3px 5px;min-width:0}
+.recap-counters span{display:block;color:var(--ink-3);font-size:9px;white-space:nowrap}
+.recap-counters strong{display:block;font:700 13px var(--font-mono);color:var(--ink);margin-top:1px;white-space:nowrap}
+.recap-board{border:1px solid var(--line);border-radius:8px;padding:6px;background:var(--bg-3);min-width:0}
+.recap-board h3{font-size:11px;display:flex;justify-content:space-between;gap:4px;margin:0 0 4px}
 .recap-board h3 span{font-size:10px;font-weight:500;color:var(--ink-3)}
-.recap-board table{border-collapse:collapse;width:100%;font:11px var(--font-mono)}
-.recap-board th{font-size:9px;color:var(--ink-3);text-align:right;padding:2px 4px 5px;font-weight:600}
+.recap-board table{border-collapse:collapse;width:100%;font:9px var(--font-mono);line-height:1.15}
+.recap-board th{font-size:8px;color:var(--ink-3);text-align:right;padding:2px 2px 4px;font-weight:600}
 .recap-board th:nth-child(2),.recap-board td:nth-child(2){text-align:left}
-.recap-board td{text-align:right;padding:4px;border-top:1px solid var(--line);white-space:nowrap}
+.recap-board td{text-align:right;padding:2px 2px;border-top:1px solid var(--line);white-space:nowrap}
 .recap-board tr[data-team]{cursor:pointer}
 .recap-board tr[data-team]:hover,.recap-board tr[data-team].focused{background:var(--accent-bg)}
 .recap-board tr.dimmed{opacity:.4}
 .recap-board tr.clinched{background:rgba(68,172,120,.11)}
 .recap-board tr.eliminated{background:rgba(161,100,100,.11)}
-.recap-board td .recap-status{display:inline-block;font:700 9px var(--font-mono);padding:2px 4px;border-radius:4px}
+.recap-board td .recap-status{display:inline-block;font:700 8px var(--font-mono);padding:1px 2px;border-radius:4px}
 .recap-status.in{color:#3faa71;background:rgba(63,170,113,.13)}
 .recap-status.out{color:#d17575;background:rgba(209,117,117,.13)}
 .recap-status-note{font-size:9px;color:var(--ink-3);text-align:right;margin-top:5px}
 .recap-board .team-swatch{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
-.recap-board .player-name{font-family:Inter,system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;max-width:125px}
-.recap-controls{display:flex;align-items:center;gap:7px 9px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--ink-2)}
+.recap-board .player-name{font-family:Inter,system-ui,sans-serif;overflow:hidden;text-overflow:ellipsis;max-width:100px}
+.recap-controls{display:flex;align-items:center;gap:5px 7px;flex-wrap:wrap;margin-top:6px;font-size:10px;color:var(--ink-2)}
 .recap-controls input[type=range]{flex:1;min-width:140px;accent-color:var(--accent)}
 .recap-controls label{white-space:nowrap}
-.recap-trends-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.recap-trends h2,.recap-method h2{font-size:16px}
+.recap-trends-head{display:flex;gap:8px;align-items:center;min-height:23px}
+.recap-trends h2,.recap-method h2{font-size:14px;white-space:nowrap}
 .recap-trends p,.recap-method p{font-size:11.5px;color:var(--ink-2);line-height:1.5;margin:4px 0 0}
 .recap-method p+p{margin-top:9px}
-.recap-team-legend{display:flex;gap:5px;flex-wrap:wrap;margin:11px 0}
-.recap-team-legend button{border:1px solid var(--line);background:var(--bg-3);color:var(--ink-2);border-radius:5px;padding:4px 7px;font:700 10px var(--font-mono);cursor:pointer}
+.recap-team-legend{display:flex;gap:3px;flex-wrap:wrap;margin-left:auto}
+.recap-team-legend button{border:1px solid var(--line);background:var(--bg-3);color:var(--ink-2);border-radius:5px;padding:2px 5px;font:700 9px var(--font-mono);cursor:pointer}
 .recap-team-legend button:before{content:"";display:inline-block;width:7px;height:7px;background:var(--team);border-radius:50%;margin-right:5px}
 .recap-team-legend button.focused{border-color:var(--team);color:var(--ink)}
 .recap-team-legend button.dimmed{opacity:.45}
-.recap-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.recap-charts>div{background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:9px;min-width:0}
-.recap-charts h3{font-size:14px;margin:0 0 3px}
+.recap-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:5px}
+.recap-charts>div{background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:5px 7px;min-width:0}
+.recap-charts h3{font-size:11px;margin:0 0 2px}
 .recap-charts svg{display:block;width:100%;height:auto}
 .recap-chart-grid{stroke:var(--line);stroke-width:1}
 .recap-chart-zero{stroke:var(--ink-3);stroke-width:1;stroke-dasharray:3 3}
 .recap-chart-label{font:10px var(--font-mono);fill:var(--ink-3)}
-.recap-chart-line{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
+.recap-chart-line{fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
 .recap-chart-line.dimmed{opacity:.15;stroke-width:1.5}
 .recap-chart-line.focused{opacity:1;stroke-width:3.5}
-.recap-chart-dot{stroke:var(--bg-3);stroke-width:1.5}
+.recap-chart-connector{stroke-width:1;opacity:.65}
+.recap-chart-logo{cursor:default}
+.recap-logo-fallback{fill:var(--ink);font:700 7px var(--font-mono)}
+.recap-moving-logo{filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
+.recap-matchup rect{fill:var(--bg-2);stroke:var(--line-2);stroke-width:1.4}
+.recap-venue-stem{stroke:var(--ink-3);stroke-width:1.2;stroke-dasharray:2 2}
 .recap-map-land{fill:#e5eaf0;stroke:#c9d2df;stroke-width:1}
 .recap-map-border{fill:none;stroke:#bec9d7;stroke-width:.8}
 .recap-map-lake{fill:var(--bg-3);stroke:#c9d2df;stroke-width:.6}
@@ -69,29 +78,23 @@
 [data-theme="dark"] .recap-map-lake{stroke:#40546a}
 .recap-route{fill:none;stroke-linecap:round;stroke-width:3.4;opacity:.95}
 .recap-route.prior{stroke-width:1.2;opacity:.16}
-.recap-base{stroke:var(--bg-3);stroke-width:2}
-.recap-venue{fill:var(--bg-2);stroke:var(--ink-2);stroke-width:1.5}
-.recap-comet{stroke:white;stroke-width:2}
-@media(max-width:900px){.recap-main-grid{grid-template-columns:1fr}.recap-boards{display:grid;grid-template-columns:1fr 1fr}.recap-counters strong{font-size:17px}.recap-charts svg{max-height:190px}}
-@media(max-width:580px){.recap-stage-head{display:block}.recap-score{justify-content:flex-start;margin-top:9px}.recap-boards{grid-template-columns:1fr}.recap-map-wrap{overflow-x:auto;aspect-ratio:auto}#recap-map{min-width:680px;height:240px}.recap-map-caption{position:sticky;display:inline-block;left:9px;bottom:7px}.recap-controls .tab-btn{padding:6px 8px}.recap-counters{grid-template-columns:repeat(2,minmax(0,1fr))}.recap-charts{grid-template-columns:1fr}}
-@media(max-width:580px){.recap-hero-actions{align-items:flex-start}.recap-watch{display:block}}
-#recap-app:fullscreen{background:var(--bg);padding:12px;overflow:auto;display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:10px}
+@media(max-height:800px) and (min-width:1001px){.recap-hero p,.recap-hero .eyebrow{display:none}.recap-hero .recap-season-label{margin-left:auto}}
+@media(max-width:1000px){.recap-main-grid{grid-template-columns:1fr}.recap-boards{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.recap-trends-head{flex-wrap:wrap}.recap-team-legend{margin-left:0}}
+@media(max-width:580px){.recap-page .report{padding:10px 10px 36px}.recap-hero{align-items:flex-start}.recap-hero p{flex-basis:100%;order:3}.recap-stage-head{display:block}.recap-score{justify-content:flex-start;margin-top:6px}.recap-boards{grid-template-columns:1fr}.recap-map-wrap{overflow-x:auto;aspect-ratio:auto}#recap-map{min-width:620px;height:236px}.recap-map-caption{position:sticky;display:inline-block;left:7px;bottom:7px}.recap-controls .tab-btn{padding:6px 8px}.recap-counters{grid-template-columns:repeat(3,minmax(0,1fr))}.recap-charts{grid-template-columns:1fr}.recap-trends-head{display:block}.recap-team-legend{margin:5px 0}}
+#recap-app:fullscreen{background:var(--bg);padding:8px;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:8px}
 #recap-app:fullscreen .recap-method{display:none}
-#recap-app:fullscreen .recap-stage{min-height:0;display:flex;flex-direction:column;padding:10px}
-#recap-app:fullscreen .recap-stage-head{min-height:42px;padding-bottom:6px}
-#recap-app:fullscreen .recap-stage-head h2{font-size:19px}
-#recap-app:fullscreen .recap-main-grid{flex:1;min-height:0}
+#recap-app:fullscreen .recap-stage{min-height:0;display:block;padding:8px}
+#recap-app:fullscreen .recap-stage-head{min-height:36px;padding-bottom:5px}
+#recap-app:fullscreen .recap-stage-head h2{font-size:17px}
+#recap-app:fullscreen .recap-main-grid{min-height:0}
 #recap-app:fullscreen .recap-left{min-height:0}
-#recap-app:fullscreen .recap-map-wrap{flex:1;min-height:0;aspect-ratio:auto}
+#recap-app:fullscreen .recap-map-wrap{min-height:0;aspect-ratio:1000/380}
 #recap-app:fullscreen #recap-map{min-height:0}
-#recap-app:fullscreen .recap-counters strong{font-size:18px}
-#recap-app:fullscreen .recap-counters>div{padding:5px 8px}
+#recap-app:fullscreen .recap-counters strong{font-size:15px}
+#recap-app:fullscreen .recap-counters>div{padding:4px 6px}
 #recap-app:fullscreen .recap-board{padding:6px}
-#recap-app:fullscreen .recap-board td{padding:2px 4px}
+#recap-app:fullscreen .recap-board td{padding:2px 3px}
 #recap-app:fullscreen .recap-board h3{margin-bottom:3px}
 #recap-app:fullscreen .recap-controls{margin-top:5px}
-#recap-app:fullscreen .recap-trends{padding:9px;min-height:0;overflow:hidden}
-#recap-app:fullscreen .recap-trends-head p{display:none}
-#recap-app:fullscreen .recap-team-legend{margin:5px 0}
-#recap-app:fullscreen .recap-charts svg{max-height:400px}
-@media(max-height:700px){#recap-app:fullscreen{grid-template-rows:minmax(0,1.9fr) minmax(0,1fr)}#recap-app:fullscreen .recap-map-caption{display:none}#recap-app:fullscreen .recap-chart-label{font-size:9px}}
+#recap-app:fullscreen .recap-trends{padding:7px;min-height:0}
+@media(max-height:800px){#recap-app:fullscreen{justify-content:flex-start}#recap-app:fullscreen .recap-map-caption{display:none}#recap-app:fullscreen .recap-chart-label{font-size:9px}}
