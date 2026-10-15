@@ -33,6 +33,11 @@ function recapTeamLogoUrl(code) {
   const team = teams.find(row => row.code === code);
   return team && team.logo || '';
 }
+function recapTeamCity(code) {
+  const teams = (META.teams_by_season || {})[recapSeasonId] || [];
+  const team = teams.find(row => row.code === code);
+  return code === 'MTL' ? 'Montréal' : team && team.city || code;
+}
 function recapLogoBadge(code, size = 24) {
   const g = recapSvg('g', {class:'recap-logo-badge'});
   const half = size / 2;
@@ -138,16 +143,15 @@ function recapTeamSwatch(code) {
 }
 function recapTables(day) {
   recapEl('recap-standings').tBodies[0].innerHTML = day.standings.map(row => {
-    const status = row.status === 'in' ? '<span class="recap-status in" title="Playoff berth certain">✓ IN</span>' :
-      row.status === 'out' ? '<span class="recap-status out" title="Eliminated from playoff contention">× OUT</span>' : '';
-    return `<tr data-team="${esc(row.team)}" class="${row.status === 'in' ? 'clinched' : row.status === 'out' ? 'eliminated' : ''}"><td>${row.rank}</td><td>${recapTeamSwatch(row.team)}${esc(row.team)}</td><td>${row.gp}</td><td><strong>${row.p}</strong></td><td>${row.gd > 0 ? '+' : ''}${row.gd}</td><td>${status}</td></tr>`;
+    const status = row.status === 'in' ? '<span class="recap-status in" title="Clinched playoff spot" aria-label="Clinched playoff spot">✓</span>' :
+      row.status === 'out' ? '<span class="recap-status out" title="Eliminated from playoff contention" aria-label="Eliminated from playoff contention">×</span>' : '';
+    return `<tr data-team="${esc(row.team)}" class="${row.status === 'in' ? 'clinched' : row.status === 'out' ? 'eliminated' : ''}"><td>${row.rank}</td><td>${recapTeamSwatch(row.team)}${esc(row.team)}${status}</td><td>${row.gp}</td><td><strong>${row.p}</strong></td><td>${row.gd > 0 ? '+' : ''}${row.gd}</td></tr>`;
   }).join('');
   recapEl('recap-leaders').tBodies[0].innerHTML = day.leaders.map((row,i) =>
     `<tr data-team="${esc(row.team)}"><td>${i+1}</td><td class="player-name" title="${esc(row.name)}">${esc(row.name)}</td><td>${recapTeamSwatch(row.team)}${esc(row.team)}</td><td><strong>${row.points}</strong></td></tr>`).join('');
-  recapEl('recap-standings').querySelectorAll('tr[data-team]').forEach(row => {
-    row.addEventListener('click', () => recapSetFocus(row.dataset.team));
-  });
-  recapEl('recap-leaders').querySelectorAll('tr[data-team]').forEach(row => {
+  recapEl('recap-goalies').tBodies[0].innerHTML = day.goalies.map((row,i) =>
+    `<tr data-team="${esc(row.team)}"><td>${i+1}</td><td class="player-name" title="${esc(row.name)}">${esc(row.name)}</td><td>${recapTeamSwatch(row.team)}${esc(row.team)}</td><td><strong>${row.wins}</strong></td><td>${row.save_pct === null ? '—' : (row.save_pct * 100).toFixed(1)}</td></tr>`).join('');
+  document.querySelectorAll('.recap-board tr[data-team]').forEach(row => {
     row.addEventListener('click', () => recapSetFocus(row.dataset.team));
   });
   recapUpdateFocusStyles();
@@ -166,7 +170,7 @@ function recapCounters(index, progress) {
 function recapBuildChart(key) {
   const svg = recapEl('recap-chart-' + key);
   svg.replaceChildren();
-  const W = 500, H = 112, left = 34, right = 30, top = 8, bottom = 16;
+  const W = 500, H = 260, left = 38, right = 32, top = 15, bottom = 24;
   const series = Object.fromEntries(recapSeason.teams.map(code =>
     [code, recapDays.map(day => day.standings.find(row => row.team === code)[key])]
   ));
@@ -186,7 +190,7 @@ function recapBuildChart(key) {
   });
   recapSeason.teams.forEach(code => {
     const connector = recapSvg('line',{class:'recap-chart-connector',stroke:teamColor(code)});
-    const logo = recapLogoBadge(code,11);
+    const logo = recapLogoBadge(code,13);
     logo.classList.add('recap-chart-logo');
     svg.append(connector,logo); connectors[code] = connector; logos[code] = logo;
   });
@@ -235,7 +239,7 @@ function recapChartProgress(index, progress) {
     });
     // When teams tie, fan the logos out while the line ends stay at the true value.
     endpoints.sort((a,b) => a.y-b.y || a.code.localeCompare(b.code));
-    const gap = 11, minY = top+6, maxY = H-bottom-6;
+    const gap = 16, minY = top+8, maxY = H-bottom-8;
     endpoints.forEach((entry,i) => {
       const lower = minY + i*gap, upper = maxY - (endpoints.length-1-i)*gap;
       entry.labelY = Math.max(lower,Math.min(upper,entry.y));
@@ -345,7 +349,7 @@ function recapSetSeason(sid) {
   recapSetProjection();
   recapEl('recap-scrub').max = String(recapDays.length-1);
   recapEl('recap-team-legend').innerHTML = recapSeason.teams.map(code =>
-    `<button type="button" data-team="${esc(code)}" style="--team:${teamColor(code)}" aria-pressed="false">${esc(code)}</button>`).join('');
+    `<button type="button" data-team="${esc(code)}" style="--team:${teamColor(code)}" aria-label="Highlight ${esc(recapTeamCity(code))}" aria-pressed="false"><img src="${esc(recapTeamLogoUrl(code))}" alt=""/><span>${esc(recapTeamCity(code))}</span></button>`).join('');
   recapEl('recap-team-legend').querySelectorAll('button').forEach(button =>
     button.addEventListener('click',() => recapSetFocus(button.dataset.team)));
   recapMapBase();
@@ -364,7 +368,7 @@ async function recapToggleFullscreen() {
 
 Promise.all([
   PWHL.load(['meta']),
-  fetch('data/json/pwhl_season_recap.json?v=recap-3').then(r => {if(!r.ok) throw Error(`Recap HTTP ${r.status}`);return r.json()}),
+  fetch('data/json/pwhl_season_recap.json?v=recap-6').then(r => {if(!r.ok) throw Error(`Recap HTTP ${r.status}`);return r.json()}),
   fetch('data/json/pwhl_movement_geography.json?v=movement-9').then(r => {if(!r.ok) throw Error(`Map HTTP ${r.status}`);return r.json()}),
 ]).then(([,data,geography]) => {
   recapData = data; recapGeography = geography;

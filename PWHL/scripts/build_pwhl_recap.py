@@ -85,6 +85,7 @@ def main():
             raise ValueError(f"No coordinates for {venue}")
 
         players_by_game = defaultdict(list)
+        goalies_by_game = defaultdict(list)
         pim_by_game = defaultdict(int)
         goalie_seconds_by_game = defaultdict(list)
         seen = set()
@@ -94,6 +95,17 @@ def main():
             pim_by_game[row["game_id"]] += number(row["penalty_minutes"])
             if row["goalie"] == "1":
                 goalie_seconds_by_game[row["game_id"]].append(number(row["seconds_played"]))
+                key = row["game_id"], row["player_id"]
+                if key in seen:
+                    raise ValueError(f"Duplicate goalie game log: {sid} {key}")
+                seen.add(key)
+                team = row["home_team_code"] if row["home"] == "1" else row["visiting_team_code"]
+                goalies_by_game[row["game_id"]].append({
+                    "id": row["player_id"], "name": names.get(row["player_id"], row["player_id"]),
+                    "team": team, "wins": number(row["win"]),
+                    "saves": number(row["saves"]), "shots": number(row["shots_against"]),
+                    "seconds": number(row["seconds_played"]),
+                })
                 continue
             key = row["game_id"], row["player_id"]
             if key in seen:
@@ -110,6 +122,7 @@ def main():
             by_day[game_date(game["date"])].append(game)
         totals = {code: {"p": 0, "gf": 0, "ga": 0, "gp": 0, "rw": 0, "w": 0} for code in teams}
         skaters = {}
+        goalie_totals = {}
         previous = {code: (bases[code], None) for code in teams}
         running = {"travel_hours": 0.0, "clock_minutes": 0.0, "goals": 0, "pim": 0, "extra_games": 0}
         days = []
@@ -162,6 +175,14 @@ def main():
                     entry["points"] += log["points"]
                     entry["goals"] += log["goals"]
                     entry["team"] = log["team"]
+                for log in goalies_by_game[game["game_id"]]:
+                    entry = goalie_totals.setdefault(log["id"], {
+                        "id": log["id"], "name": log["name"], "team": log["team"],
+                        "wins": 0, "saves": 0, "shots": 0, "seconds": 0,
+                    })
+                    for key in ("wins", "saves", "shots", "seconds"):
+                        entry[key] += log[key]
+                    entry["team"] = log["team"]
 
             standing = sorted(({"team": code, **values, "gd": values["gf"] - values["ga"]}
                                for code, values in totals.items()),
@@ -181,8 +202,14 @@ def main():
                 if all(item["gp"] == scheduled_games[item["team"]] for item in standing):
                     row["status"] = "in" if number(official[row["team"]]["rank"]) <= PLAYOFF_SPOTS else "out"
             leaders = sorted(skaters.values(), key=lambda r: (-r["points"], -r["goals"], r["name"]))[:5]
+            goalie_leaders = sorted(goalie_totals.values(),
+                                    key=lambda r: (-r["wins"], -r["seconds"], r["name"]))[:3]
             days.append({"date": date, "games": day_games, "routes": routes,
                          "standings": standing, "leaders": [dict(p) for p in leaders],
+                          "goalies": [{"id": g["id"], "name": g["name"], "team": g["team"],
+                                       "wins": g["wins"],
+                                       "save_pct": round(g["saves"] / g["shots"], 3) if g["shots"] else None}
+                                      for g in goalie_leaders],
                          "counters": {key: round(value, 2) for key, value in running.items()}})
 
         # Guard against silently shipping a partial historical season.
