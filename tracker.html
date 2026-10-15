@@ -214,6 +214,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#roads">🛣️ Roads</a>
       <a href="#tax">🧾 Tax</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
+      <a href="#ontario-costs">💸 Ontario Costs</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
       <a href="#todo">🗺️ What's left</a>
@@ -284,6 +285,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛢️ Oil &amp; Gas</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">60%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">💸 Ontario Costs</span><div class="track"><div class="fill f-done" style="width:70%"></div></div><span class="pct">70%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85% · multi-page</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -909,6 +911,55 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         <span class="tag data">source limit</span><b>Donations are itemized gifts over $200 (about 80% of dollars), located by the donor's postal code.</b>
         <p>Postal codes can be offices (K1P downtown is an outlier). FSA income is CRA's 2021 average total income per filer, not the median. "Gifts per 1k filers" counts contribution rows, not unique people.</p>
         <div class="where">Tax/scripts/aggregate_contributions.py, build_data.py donations().</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════ ONTARIO COSTS ══════════════════ -->
+<section id="ontario-costs" class="card">
+  <div class="proj-head">
+    <h2>💸 Ontario's costly decisions</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="Ontario_Costs/ontario_costs.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> twelve Ontario decisions the Auditor General or the FAO priced or
+  criticized, Liberal and PC, each with what the figure actually measures and its source.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">Auditor General of Ontario — annual and special reports<small>eHealth, gas plants, Fair Hydro, Greenbelt, Ontario Place, advertising</small></div>
+    <div class="src">Financial Accountability Office — costing reports<small>cap-and-trade, alcohol expansion, Bill 124, licence fees</small></div>
+    <div class="src">Public Accounts / government releases<small>renewable contract wind-down, $200 rebate</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Curate</b><span>each figure checked against its source → data/decisions.json</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · One web page</b><span>ontario_costs.html reads the JSON; filters by government and type</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="onc-kinds"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Figures of different kinds sit side by side but are never added up.</b>
+        <p>Spending, revenue given up, extra interest and value to landowners aren't the same thing. Each card states what its number measures; grey bars mark figures that aren't public spending or are per year.</p>
+        <div class="where">Ontario_Costs/ontario_costs.html isOther(); decisions.json "kind".</div>
+      </div></li>
+      <li><input type="checkbox" data-key="onc-selection"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>A short list of well-documented cases, not a full audit; 9 PC vs 3 Liberal reflects the cases chosen.</b>
+        <p>"Costed" is labelled separately from "criticized", and two entries are plain policy choices included for scale.</p>
+        <p class="alt"><b>Other options:</b> one entry per Auditor General value-for-money chapter (complete but hundreds of items, mostly not costed).</p>
+        <div class="where">Ontario_Costs/README.md.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="onc-relayed"><div class="a-body">
+        <span class="tag data">source limit</span><b>Two FAO figures are linked through news reports, and one figure comes from the Public Accounts rather than a watchdog.</b>
+        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
+          <li>Find the Bill 124 ($13.7B) and licence-fee (≈$1B/yr) estimates on fao-on.org and compare.</li>
+        </ol></div>
+        <div class="where">Ontario_Costs/data/decisions.json, ids bill124, plates, renewables.</div>
       </div></li>
     </ul>
   </div>

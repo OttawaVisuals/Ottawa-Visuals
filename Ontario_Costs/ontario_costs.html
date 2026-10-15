@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ontario's Costly Decisions</title>
+<meta name="description" content="Ontario decisions costed or criticized by the Auditor General and the Financial Accountability Office, 2009–2024, each with what the number measures and its source.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    --bar:#2a78d6; --bar-other:#B9C0CB;
+    /* Parties: conventional colours, used only on small chips */
+    --pc:#2a78d6; --lib:#d63c3c;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --bar:#3987e5; --bar-other:#454C5C;
+    --pc:#3987e5; --lib:#e66767;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:960px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:22px; margin:0 0 5px; font-weight:700; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-3); max-width:700px; line-height:1.5; margin:0; font-size:13px; }
+  .layout { display:flex; flex-direction:column; gap:12px; max-width:960px; margin:0 auto; padding:14px 16px 60px; }
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px; min-width:0; }
+  .q { font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin:0 0 4px; }
+  .section-title { font-size:16px; font-weight:650; margin:0 0 8px; letter-spacing:-0.01em; }
+  .section-note { font-size:13px; color:var(--ink-2); line-height:1.6; margin:0 0 8px; max-width:760px; }
+  .section-note b { color:var(--ink); font-weight:600; }
+  .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); display:none; }
+
+  .stat-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
+  @media (max-width:760px){ .stat-row { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:420px){ .stat-row { grid-template-columns:1fr; } }
+  .stat-box { background:var(--bg-3); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .stat-val { font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--ink); }
+  .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
+
+  ul.plain { margin:4px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:var(--ink-2); }
+  ul.plain b { color:var(--ink); }
+
+  /* Filters */
+  .filters { display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center; }
+  .fgroup { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .fgroup > span { font-family:var(--font-mono); font-size:10.5px; color:var(--ink-3); text-transform:uppercase; letter-spacing:0.06em; margin-right:2px; }
+  .fbtn { font:inherit; font-size:12.5px; padding:5px 10px; border-radius:999px; border:1px solid var(--line); background:var(--bg-2); color:var(--ink-2); cursor:pointer; }
+  .fbtn:hover { border-color:var(--ink-3); color:var(--ink); }
+  .fbtn[aria-pressed="true"] { background:var(--ink); color:var(--bg-2); border-color:var(--ink); }
+  .count { font-size:12px; color:var(--ink-3); margin-left:auto; }
+
+  /* Decision cards */
+  .list { display:flex; flex-direction:column; gap:10px; }
+  .dec { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .dec-top { display:flex; gap:16px; align-items:flex-start; justify-content:space-between; }
+  .dec h3 { font-size:15px; margin:0 0 6px; font-weight:650; letter-spacing:-0.01em; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line); color:var(--ink-2); background:var(--bg-3); white-space:nowrap; }
+  .chip.gov { display:inline-flex; align-items:center; gap:5px; }
+  .chip.gov i { width:8px; height:8px; border-radius:999px; display:inline-block; }
+  .chip.flag-criticized { border-color:var(--accent); color:var(--accent); background:transparent; }
+  .amount { text-align:right; flex-shrink:0; }
+  .amount b { font-family:var(--font-mono); font-size:20px; font-weight:500; display:block; }
+  .amount small { font-size:11px; color:var(--ink-3); }
+  .bar { height:6px; border-radius:3px; background:var(--bg-3); margin:10px 0 2px; overflow:hidden; }
+  .bar i { display:block; height:100%; border-radius:3px; background:var(--bar); min-width:2px; }
+  .bar i.other { background:var(--bar-other); }
+  .dl { display:grid; grid-template-columns:150px 1fr; gap:6px 14px; margin:10px 0 0; font-size:13px; line-height:1.55; }
+  .dl dt { color:var(--ink-3); font-size:12px; }
+  .dl dd { margin:0; color:var(--ink-2); }
+  .dl dd.measures { color:var(--ink); }
+  @media (max-width:600px){ .dl { grid-template-columns:1fr; gap:2px; } .dl dd { margin-bottom:6px; } .dec-top { flex-direction:column; gap:6px; } .amount { text-align:left; } }
+  .src a { color:var(--accent-2); }
+  .empty { font-size:13px; color:var(--ink-3); padding:16px; text-align:center; }
+
+  footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
+  footer a { color:var(--ink-2); }
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../Tax/tax.html">Tax</a>
+    <a href="../OilGas/oilgas.html">Oil &amp; gas</a>
+    <a href="ontario_costs.html" class="active">Ontario costs</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Ontario · watchdog reports · <span id="span-years"></span></p>
+  <h1>Ontario's costly decisions, by the watchdogs' numbers</h1>
+  <p class="sub">Decisions that Ontario's Auditor General or Financial Accountability Office put a price on or criticized, under Liberal and PC governments, plus two big policy choices for scale. Each figure is the official estimate, with what it actually measures.</p>
+</div>
+
+<main class="layout">
+  <div class="error-msg" id="err"></div>
+
+  <div class="stat-row" id="hero"></div>
+
+  <section class="card">
+    <p class="q">Read before comparing</p>
+    <h2 class="section-title">These numbers measure different things</h2>
+    <ul class="plain">
+      <li><b>Money spent</b> (ads, Ontario Place) is not the same as <b>revenue given up</b> (cap-and-trade, licence fees) or <b>value to someone else</b> (the Greenbelt figure is what landowners stood to gain, not public money).</li>
+      <li><b>"Costed" is not "wasted".</b> A watchdog pricing a decision isn't a verdict that it was wrong; the cards say which ones the watchdog actually criticized. Two are plain policy choices, included for scale.</li>
+      <li>Amounts are the official estimates as published, in <b>dollars of the day</b>, over different time spans. Several are ranges or projections, not final costs.</li>
+      <li>This is a short list of well-documented cases, not a complete audit of either government.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <div class="filters">
+      <div class="fgroup" data-key="gov"><span>Government</span>
+        <button class="fbtn" data-v="all" aria-pressed="true">All</button>
+        <button class="fbtn" data-v="PC">PC (Ford)</button>
+        <button class="fbtn" data-v="Liberal">Liberal (McGuinty, Wynne)</button>
+      </div>
+      <div class="fgroup" data-key="flag"><span>Type</span>
+        <button class="fbtn" data-v="all" aria-pressed="true">All</button>
+        <button class="fbtn" data-v="criticized">Watchdog criticized</button>
+        <button class="fbtn" data-v="costed">Watchdog costed</button>
+        <button class="fbtn" data-v="choice">Policy choice</button>
+      </div>
+      <div class="fgroup" data-key="sort"><span>Sort</span>
+        <button class="fbtn" data-v="size" aria-pressed="true">Largest first</button>
+        <button class="fbtn" data-v="year">By year</button>
+      </div>
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+
+  <div class="list" id="list"></div>
+</main>
+
+<footer>
+  Sources: Office of the Auditor General of Ontario (auditor.on.ca); Financial Accountability Office of Ontario (fao-on.org); Public Accounts of Ontario and Government of Ontario releases, as linked on each card. Bars are drawn to one scale, so small items are thin. Grey bars are figures that aren't public spending, or are per year. Method and data: <a href="README.md">Ontario_Costs/README.md</a> · <a href="data/decisions.json">decisions.json</a>.
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const KIND = {
+  spending: 'Public spending', cancellation: 'Cancellation cost', financing: 'Extra financing cost',
+  revenue: 'Revenue given up', court: 'Court-ordered pay', value: 'Value to private owners',
+  deal: 'Cost of a deal', transfer: 'Cash transfer'
+};
+const FLAG = { criticized: 'Watchdog criticized', costed: 'Watchdog costed', choice: 'Policy choice' };
+const state = { gov: 'all', flag: 'all', sort: 'size' };
+let D = null;
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtB = m => m >= 1000 ? '$' + (m / 1000).toFixed(m >= 10000 ? 1 : 2).replace(/\.?0+$/, '') + 'B' : '$' + Math.round(m) + 'M';
+// Not comparable with one-off public costs: value to others, or a per-year figure.
+const isOther = d => d.kind === 'value' || d.per_year;
+
+function renderHero() {
+  const ds = D.decisions;
+  const watch = ds.filter(d => d.flag !== 'choice');
+  const crit = ds.filter(d => d.flag === 'criticized');
+  const big = watch.filter(d => !isOther(d)).reduce((a, b) => b.amount_m > a.amount_m ? b : a);
+  $('hero').innerHTML = [
+    [String(ds.length), `decisions listed, ${ds.filter(d => d.government === 'PC').length} PC and ${ds.filter(d => d.government === 'Liberal').length} Liberal.`],
+    [String(crit.length), 'where a watchdog criticized how the decision was made or paid for, not just its cost.'],
+    [big.amount_label, `${big.title}: the largest public cost on the list.`],
+    ['$8.3B+', 'Greenbelt: value to landowners, not public spending. The removals were reversed.'],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${esc(v)}</div><div class="stat-lbl">${esc(l)}</div></div>`).join('');
+}
+
+function render() {
+  let ds = D.decisions.filter(d => (state.gov === 'all' || d.government === state.gov)
+                                && (state.flag === 'all' || d.flag === state.flag));
+  ds = ds.slice().sort(state.sort === 'year' ? (a, b) => a.year - b.year || b.amount_m - a.amount_m
+                                             : (a, b) => b.amount_m - a.amount_m);
+  const max = Math.max(...D.decisions.map(d => d.amount_m));
+  $('count').textContent = `${ds.length} of ${D.decisions.length} shown`;
+  $('list').innerHTML = ds.length ? ds.map(d => `
+    <article class="dec" id="${esc(d.id)}">
+      <div class="dec-top">
+        <div>
+          <h3>${esc(d.title)}</h3>
+          <div class="chips">
+            <span class="chip gov"><i style="background:var(${d.government === 'PC' ? '--pc' : '--lib'})"></i>${esc(d.government)} · ${esc(d.premier)} · ${d.year}</span>
+            <span class="chip">${esc(KIND[d.kind] || d.kind)}</span>
+            <span class="chip flag-${esc(d.flag)}">${esc(FLAG[d.flag])}</span>
+          </div>
+        </div>
+        <div class="amount"><b>${esc(d.amount_label)}</b><small>${esc(KIND[d.kind] || '')}</small></div>
+      </div>
+      <div class="bar" title="${esc(fmtB(d.amount_m))} on a scale where the largest item is ${esc(fmtB(max))}"><i class="${isOther(d) ? 'other' : ''}" style="width:${(d.amount_m / max * 100).toFixed(2)}%"></i></div>
+      <dl class="dl">
+        <dt>What the number measures</dt><dd class="measures">${esc(d.measures)}</dd>
+        <dt>${d.flag === 'choice' ? 'Context' : 'Watchdog finding'}</dt><dd>${esc(d.verdict)}</dd>
+        <dt>Government response</dt><dd>${esc(d.response)}</dd>
+        <dt>Source</dt><dd class="src">${d.sources.map(s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>`).join('<br>')}</dd>
+      </dl>
+    </article>`).join('') : '<div class="empty">Nothing matches these filters.</div>';
+}
+
+document.querySelectorAll('.fgroup').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('.fbtn');
+  if (!b) return;
+  g.querySelectorAll('.fbtn').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  state[g.dataset.key] = b.dataset.v;
+  render();
+}));
+
+fetch('data/decisions.json').then(r => { if (!r.ok) throw new Error(`decisions.json: HTTP ${r.status}`); return r.json(); })
+  .then(j => {
+    D = j;
+    const ys = D.decisions.map(d => d.year);
+    $('span-years').textContent = `${Math.min(...ys)}–${Math.max(...ys)}`;
+    renderHero(); render();
+  })
+  .catch(err => { const el = $('err'); el.textContent = `⚠ Could not load data: ${err.message}`; el.style.display = 'block'; });
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ $('theme-toggle').innerHTML = mode === 'dark' ? MOON : SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+}
+setToggleIcon(root.getAttribute('data-theme'));
+$('theme-toggle').addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>

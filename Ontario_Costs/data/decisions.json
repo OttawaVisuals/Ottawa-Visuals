@@ -1,0 +1,215 @@
+{
+  "updated": "2026-10-10",
+  "note": "Hand-curated. Every figure is the official estimate named in 'source'; 'measures' says what the number is. Amounts in $ millions, nominal (not inflation-adjusted).",
+  "decisions": [
+    {
+      "id": "ehealth",
+      "title": "eHealth electronic health records",
+      "government": "Liberal",
+      "premier": "McGuinty",
+      "year": 2009,
+      "kind": "spending",
+      "flag": "criticized",
+      "amount_m": 1000,
+      "amount_label": "$1B",
+      "measures": "Spent on electronic health records by 2009. The Auditor General found taxpayers had not received value for money for it. Not all of it was lost: about $800M built a network that was expensive to run and underused.",
+      "verdict": "No value for money; contracts awarded without open competition; heavy reliance on consultants.",
+      "response": "Health Minister David Caplan, the eHealth CEO and the board chair resigned.",
+      "sources": [
+        {"name": "Auditor General of Ontario, special report on eHealth (Oct 2009)", "url": "https://www.auditor.on.ca/en/content/specialreports/specialreports/ehealth_en.pdf"}
+      ]
+    },
+    {
+      "id": "gasplants",
+      "title": "Oakville and Mississauga gas plant cancellations",
+      "government": "Liberal",
+      "premier": "McGuinty",
+      "year": 2010,
+      "kind": "cancellation",
+      "flag": "criticized",
+      "amount_m": 1100,
+      "low_m": 950,
+      "amount_label": "$950M–$1.1B",
+      "measures": "Gross cost of cancelling and relocating two power plants (Oakville $675–815M, Mississauga $275M), partly future costs to ratepayers. Net of $437M in expected future savings, about $675M.",
+      "verdict": "Oakville cost 'significantly more than may have been necessary' because of decisions by the premier's office, including keeping TransCanada 'whole'.",
+      "response": "The government had first put the Oakville cost at $40M and Mississauga at $190M.",
+      "sources": [
+        {"name": "Auditor General, Oakville report (Oct 2013), via Global News", "url": "https://globalnews.ca/news/889685/cancellation-of-oakville-gas-plant-cost-at-least-675m-auditor-general/"},
+        {"name": "Auditor General, Mississauga report (Apr 2013), via CTV", "url": "https://toronto.ctvnews.ca/cancelled-gas-plant-in-mississauga-cost-275m-ag-1.1238057"}
+      ]
+    },
+    {
+      "id": "fairhydro",
+      "title": "Fair Hydro Plan financing",
+      "government": "Liberal",
+      "premier": "Wynne",
+      "year": 2017,
+      "kind": "financing",
+      "flag": "criticized",
+      "amount_m": 4000,
+      "amount_label": "$4B",
+      "measures": "Extra interest over 30 years from borrowing through Ontario Power Generation and other entities at higher rates instead of the Province borrowing directly. The FAO put the plan's total cost at $39.4B over 30 years.",
+      "verdict": "A 'needlessly complex' structure; officials knew it could cost significantly more than necessary, and it kept the cost off the Province's deficit and debt.",
+      "response": "The government disagreed with the Auditor General's view of how the plan should be accounted for.",
+      "sources": [
+        {"name": "Auditor General of Ontario, special report news release (Oct 2017)", "url": "https://www.auditor.on.ca/en/content/news/specials_newsreleases/newsrelease_2017fairhydro.pdf"}
+      ]
+    },
+    {
+      "id": "capandtrade",
+      "title": "Cancelling cap-and-trade",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2018,
+      "kind": "revenue",
+      "flag": "costed",
+      "amount_m": 3000,
+      "amount_label": "$3B",
+      "measures": "Worsening of the budget balance over four years (2018-19 to 2021-22): $7.2B of lost permit-auction revenue minus $4.2B of related spending also cancelled.",
+      "verdict": "The FAO also estimated cap-and-trade would have cost a typical household less by 2022 ($312) than the federal carbon charge that replaced it ($648).",
+      "response": "The government said it was keeping an election promise.",
+      "sources": [
+        {"name": "Financial Accountability Office, media release (Oct 2018)", "url": "https://fao-on.org/Blog/media/MR-Cap-Trade-Ending"}
+      ]
+    },
+    {
+      "id": "renewables",
+      "title": "Cancelling 750+ renewable energy contracts",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2018,
+      "kind": "cancellation",
+      "flag": "costed",
+      "amount_m": 231,
+      "amount_label": "$231M",
+      "measures": "Set aside in the 2018-19 Public Accounts to wind down the contracts, including the White Pines wind project in Prince Edward County. Final White Pines costs were not settled at the time.",
+      "verdict": "Not an Auditor General finding: the amount was found in the Public Accounts by NDP researchers; the NDP asked the Auditor General to investigate.",
+      "response": "The government said cancelling would save ratepayers $790M because the power wasn't needed.",
+      "sources": [
+        {"name": "CBC News (Dec 2019), from 2018-19 Public Accounts", "url": "https://www.cbc.ca/lite/story/1.5364815"}
+      ]
+    },
+    {
+      "id": "bill124",
+      "title": "Bill 124 wage cap, struck down",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2019,
+      "kind": "court",
+      "flag": "costed",
+      "amount_m": 13700,
+      "amount_label": "$13.7B",
+      "measures": "Retroactive pay owed to public-sector workers for 2022–2028 after courts found the 1% wage cap unconstitutional. The FAO had first estimated the law would save $9.7B.",
+      "verdict": "Ontario's Court of Appeal upheld that the law violated workers' bargaining rights; the government repealed it in 2024.",
+      "response": "The government said the cap was needed to control spending during a deficit.",
+      "sources": [
+        {"name": "Financial Accountability Office estimate, via CTV News", "url": "https://toronto.ctvnews.ca/ontario-bill-124-could-cost-government-over-13b-fao-report-suggests-1.6767007"},
+        {"name": "Globe and Mail (status of remedies)", "url": "https://www.theglobeandmail.com/canada/toronto/article-ontario-bill-124-public-sector-ieso-retroactive-pay/"}
+      ]
+    },
+    {
+      "id": "ontarioplace",
+      "title": "Ontario Place redevelopment and Science Centre move",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2019,
+      "kind": "spending",
+      "flag": "criticized",
+      "amount_m": 2237,
+      "amount_label": "$2.24B",
+      "measures": "Infrastructure Ontario's February 2024 projection of the public cost (site servicing, parking, public realm, new Science Centre), against $335–424M estimated in 2019. Not yet approved by the government.",
+      "verdict": "The process that gave Therme a 95-year lease was not 'fair, transparent or accountable to all participants' and broke the Province's own rules.",
+      "response": "The government defended the project and the Therme lease.",
+      "sources": [
+        {"name": "Auditor General of Ontario, 2024 report on Ontario Place", "url": "https://www.auditor.on.ca/en/content/annualreports/arreports/en24/pa_OntarioPlace_en24.pdf"}
+      ]
+    },
+    {
+      "id": "plates",
+      "title": "Ending licence plate renewal fees",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2022,
+      "kind": "revenue",
+      "flag": "choice",
+      "amount_m": 1000,
+      "amount_label": "≈$1B a year",
+      "per_year": true,
+      "measures": "Approximate yearly revenue given up (FAO estimate, 'somewhere around a billion dollars'), plus refunds of fees paid since March 2020 to about 7.5 million people.",
+      "verdict": "A policy choice rather than a finding of waste. Announced months before the 2022 election.",
+      "response": "The government said it put about $120 a year back in drivers' pockets.",
+      "sources": [
+        {"name": "CTV News (Feb 2022), citing the FAO", "url": "https://toronto.ctvnews.ca/ontario-licence-plate-renewal-fees-stickers-to-be-scrapped-1.5790852"}
+      ]
+    },
+    {
+      "id": "greenbelt",
+      "title": "Greenbelt land removals, reversed",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2022,
+      "kind": "value",
+      "flag": "criticized",
+      "amount_m": 8300,
+      "amount_label": "$8.3B+",
+      "measures": "Not public spending: the estimated rise in value for the owners of 15 sites removed from the Greenbelt (MPAC valuations, likely an underestimate). 92% of the land involved five sites and three developers. The removals were reversed in 2023.",
+      "verdict": "The process favoured certain developers; 14 of 15 sites came via the housing minister's chief of staff. The RCMP later opened an investigation.",
+      "response": "Premier Ford said he took 'full responsibility for the process' and reversed the removals.",
+      "sources": [
+        {"name": "Auditor General of Ontario, Greenbelt special report (Aug 2023)", "url": "https://www.auditor.on.ca/en/content/news/specials_newsreleases/newsrelease_Greenbelt_EN.pdf"}
+      ]
+    },
+    {
+      "id": "ads",
+      "title": "Government advertising",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2023,
+      "kind": "spending",
+      "flag": "criticized",
+      "amount_m": 215.4,
+      "amount_label": "$215M over 2 years",
+      "measures": "Record ad spending: $103.5M in 2023-24 (three times the year before) and $111.9M in 2024-25. Legal under 2015 rules that limit the Auditor General's veto to ads naming an MPP, using party colours or attacking another party.",
+      "verdict": "Most campaigns were more partisan than informational and would have failed the pre-2015 rules. Ad spending peaks in the year before an election.",
+      "response": "The finance minister said the ads promoted 'the people of Ontario' and complied with the law.",
+      "sources": [
+        {"name": "Auditor General 2024 annual report, via CBC", "url": "https://www.cbc.ca/lite/story/1.7399627"},
+        {"name": "Auditor General 2025 annual report, via Canadian Press", "url": "https://nationalnewswatch.com/2025/12/02/ontario-government-spending-112m-on-advertising-more-than-ever-before-auditor"}
+      ]
+    },
+    {
+      "id": "alcohol",
+      "title": "Starting alcohol sales expansion early",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2024,
+      "kind": "deal",
+      "flag": "costed",
+      "amount_m": 612,
+      "amount_label": "$612M",
+      "measures": "The part of the expansion's cost due to starting in 2024 instead of 2026, under the early deal with the Beer Store. Includes up to $225M paid to the Beer Store. The whole expansion costs the Province $1.4B net to 2030 (range $529M–$1.9B), mostly lower alcohol tax revenue.",
+      "verdict": "About three times what the government said moving up the timeline would cost.",
+      "response": "The Ministry of Finance disputed how the FAO framed the estimate.",
+      "sources": [
+        {"name": "Financial Accountability Office, 'Expanding the Beverage Alcohol Marketplace' (Jan 2025)", "url": "https://www.fao-on.org/en/report/alcohol-sales-expansion"}
+      ]
+    },
+    {
+      "id": "rebate",
+      "title": "$200 taxpayer rebate cheques",
+      "government": "PC",
+      "premier": "Ford",
+      "year": 2024,
+      "kind": "transfer",
+      "flag": "choice",
+      "amount_m": 3000,
+      "amount_label": "$3B",
+      "measures": "Government estimate: $200 per adult and per child, not means-tested, mailed in early 2025, for about 12.5 million adults and 2.5 million children. The Province was running a $6.6B deficit that year.",
+      "verdict": "A policy choice rather than a finding of waste. Paid in the months before the February 2025 election; critics called it a 'bribe'.",
+      "response": "The government said it was returning higher-than-expected tax revenue to families.",
+      "sources": [
+        {"name": "Government of Ontario news release (Oct 2024)", "url": "https://news.ontario.ca/en/release/1005241/ontario-providing-taxpayers-with-200-rebate"}
+      ]
+    }
+  ]
+}

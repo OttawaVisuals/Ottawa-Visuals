@@ -144,6 +144,16 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   comparison (Quebec/Alberta top rates); an Ontario donations version (Elections Ontario, corporate
   ban 2017) if the open data has postal codes.
 
+### Ontario's costly decisions (watchdog-costed)
+- **Progress:** ~70% (live Oct 2026) · `Ontario_Costs/ontario_costs.html`, also a home-page report (`#report-ontario-costs`).
+- 12 decisions, 3 Liberal (eHealth, gas plants, Fair Hydro financing) and 9 PC (cap-and-trade,
+  renewable contracts, Bill 124, Ontario Place, licence fees, Greenbelt, ads, early alcohol
+  expansion, $200 rebate). Each card: official figure, what it measures, watchdog finding,
+  government response, source. Filters by government / type; never totals unlike figures.
+- **Data:** hand-curated `Ontario_Costs/data/decisions.json`, sources checked 2026-10-10.
+- **Still to do:** swap the two news-relayed FAO figures (Bill 124, licence fees) for the FAO
+  reports; consider Ornge, smart meters, Skills Development Fund, Highway 413.
+
 ### Oil & Gas — profits, tax, jobs (Canada)
 - **Progress:** ~60% (live Oct 2026) · `OilGas/oilgas.html`, also a home-page report (`#report-oilgas`).
 - Net profit and dividends 2002–2025 (record $53B in 2022, 2025 dollars; $179B over 2021–25);
