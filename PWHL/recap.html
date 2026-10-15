@@ -4,17 +4,17 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>PWHL season replay — Ottawa Visuals</title>
-<meta name="description" content="Replay PWHL regular seasons and playoffs with game-day travel, playoff rounds, birthplace geography and game highlights."/>
+<meta name="description" content="Replay PWHL regular seasons and playoffs with game-day travel, playoff rounds and game highlights."/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav2"></script>
+<script src="pwhl-core.js?v=20261015-nav3"></script>
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
 <link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
-<link rel="stylesheet" href="pwhl-recap.css?v=recap-15"/>
+<link rel="stylesheet" href="pwhl-recap.css?v=recap-19"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -28,7 +28,6 @@
   </div>
   <p id="recap-loading" role="status">Building season replay…</p>
   <div id="recap-app" hidden>
-    <div class="recap-birth-tabs" role="tablist" aria-label="PWHL page views"><button type="button" class="tab-btn active" id="recap-view-replay" role="tab" aria-selected="true">Season replay</button><button type="button" class="tab-btn" id="recap-view-birth" role="tab" aria-selected="false">Player origins map</button></div>
     <div id="recap-replay-view">
     <section class="card recap-trends" aria-labelledby="recap-trends-title">
       <div class="recap-trends-head"><h2 id="recap-trends-title">The season race</h2><button type="button" class="tab-btn" id="recap-clear" hidden>Show all teams</button></div>
@@ -61,7 +60,7 @@
         </div>
         <div class="recap-boards">
           <div class="recap-board" id="recap-standings-board"><h3>Points table <span id="recap-standings-note">after today</span></h3><table id="recap-standings"><thead><tr><th>#</th><th>Team</th><th>GP</th><th>Pts</th><th>GD</th></tr></thead><tbody></tbody></table><div class="recap-status-note">✓ Clinched · × Eliminated</div></div>
-          <div class="recap-board" id="recap-playoff-board" hidden><h3>Playoff bracket <span id="recap-round-label"></span></h3><div id="recap-bracket" class="recap-bracket"></div></div>
+          <div class="recap-board" id="recap-playoff-board" hidden><h3>Playoff game recap <span id="recap-round-label"></span></h3><div class="recap-game-list" id="recap-game-list"></div></div>
           <div class="recap-leader-stack">
             <div class="recap-board"><h3>Top five skaters <span>points</span></h3><table id="recap-leaders"><thead><tr><th>#</th><th>Player</th><th>Team</th><th>Pts</th></tr></thead><tbody></tbody></table></div>
             <div class="recap-board"><h3>Top three goalies <span>wins</span></h3><table id="recap-goalies"><thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>W</th><th>SV%</th></tr></thead><tbody></tbody></table></div>
@@ -76,20 +75,15 @@
         <button type="button" class="tab-btn" id="recap-fullscreen">Watch full screen</button>
         <label for="recap-scrub">Game date <span id="recap-position"></span></label>
         <input type="range" id="recap-scrub" min="0" value="0" aria-label="Choose game date"/>
-        <label for="recap-speed">Speed</label><select id="recap-speed" class="ov-select"><option value="0.5">0.5×</option><option value="1" selected>1× · 45 sec</option><option value="2">2×</option></select>
+        <label for="recap-speed">Speed</label><select id="recap-speed" class="ov-select"><option value="0.5">0.5×</option><option value="1" selected>1× · 75 sec</option><option value="2">2×</option></select>
       </div>
       <div id="recap-champion-toast" class="recap-event-toast champion" hidden></div>
     </section>
-    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a game date. Regular-season points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; ties share a displayed rank because historical official tie-break snapshots are unavailable. Playoff results are grouped by round and series from the league bracket feed. The finale identifies the champion from the completed final series.</p><p>Game highlights use player game logs and play-by-play: shutouts, hat tricks and game misconducts. Suspension notices are read from transaction data when present; a game misconduct alone does not establish a suspension. Birthplace markers are grouped at the province/state level where available, and otherwise by country; their positions are approximate regional reference points, not exact city coordinates.</p><p>Travel lines are modeled between regular-season and playoff venues; actual travel dates, transport and itinerary are unknown. The counter assumes a return home after gaps longer than four days, road distance of 1.25× straight-line distance, bus travel up to 400 miles at 80 km/h, and otherwise air at 800 km/h plus three hours for transfers. Attendance sums reported visits rather than unique people. Birthplace counts add each player at their first regular-season appearance.</p></section>
+    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a game date. Regular-season points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; ties share a displayed rank because historical official tie-break snapshots are unavailable. Playoff results are grouped by round and series from the league bracket feed. The finale identifies the champion from the completed final series.</p><p>Game highlights use player game logs and play-by-play: shutouts, hat tricks, short-handed goals and game misconducts. Suspension notices are read from transaction data when present; a game misconduct alone does not establish a suspension.</p><p>Travel lines are modeled between regular-season and playoff venues; actual travel dates, transport and itinerary are unknown. The counter assumes a return home after gaps longer than four days, road distance of 1.25× straight-line distance, bus travel up to 400 miles at 80 km/h, and otherwise air at 800 km/h plus three hours for transfers. Attendance sums reported visits rather than unique people.</p></section>
     </div>
-    <section class="card recap-birthplaces" id="recap-birth-view" aria-labelledby="recap-birth-title" hidden>
-      <div class="recap-birth-head"><h2 id="recap-birth-title">Player places of birth</h2><p id="recap-birth-summary"></p></div>
-      <div id="recap-birth-map-wrap"><svg id="recap-birth-map" viewBox="0 0 1000 430" role="img" aria-label="Map showing player birthplaces by region"></svg><div id="recap-birth-legend"></div></div>
-      <div class="recap-birth-grid" id="recap-birth-bars-view"><div><h3>Countries</h3><div id="recap-birth-countries" class="recap-birth-bars"></div></div><div><h3>Season's top provinces and states</h3><div id="recap-birth-regions" class="recap-birth-bars"></div></div></div>
-    </section>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Game and player data: PWHL / HockeyTech · Routes are assumptions</span></footer>
-<script src="pwhl-recap.js?v=recap-15"></script>
+<script src="pwhl-recap.js?v=recap-20"></script>
 </body>
 </html>

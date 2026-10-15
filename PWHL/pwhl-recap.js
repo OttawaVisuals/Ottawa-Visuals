@@ -1,11 +1,10 @@
 // Regular-season replay. Numbers are built by scripts/build_pwhl_recap.py.
 const recapNS = 'http://www.w3.org/2000/svg';
-const recapDuration = 45000;
+const recapDuration = 75000;
 let recapData, recapGeography, recapSeason, recapSeasonId, recapDays = [], recapRegularDays = [], recapIndex = -1;
 let recapPosition = 0, recapPlaying = false, recapLastFrame = 0, recapFocus = null;
 let recapCurrentPaths = [], recapMarkers = [], recapFrameId = 0;
 let recapRecentPaths = [], recapChartState = {}, recapBounds, recapProjection;
-let recapBirthDays = [];
 let recapDefaultBounds, recapMapBoundsKey = '';
 let recapRenderedEventCount = 0;
 
@@ -322,7 +321,7 @@ function recapRender(index, progress = 1) {
     const day = recapDays[index];
     recapEl('recap-date').textContent = recapFormatDate(day.date);
     recapEl('recap-counter').textContent = `GAME DATE ${index+1} / ${recapDays.length}`;
-    recapEl('recap-phase').textContent = day.phase === 'final' ? 'FINAL' : day.phase === 'playoff' ? 'PLAYOFFS' : 'REGULAR SEASON';
+    recapEl('recap-phase').textContent = day.phase === 'final' ? 'FINAL' : day.phase === 'playoff' ? 'PLAYOFF' : 'REGULAR SEASON';
     recapEl('recap-position').textContent = `${index+1} / ${recapDays.length}`;
     recapEl('recap-scrub').value = String(index);
     recapEl('recap-score').innerHTML = day.games.map(game =>
@@ -333,16 +332,17 @@ function recapRender(index, progress = 1) {
     recapEl('recap-standings-board').hidden = postseason;
     recapEl('recap-playoff-board').hidden = !postseason;
     if (postseason) {
-      recapRenderBracket(day.bracket || [], day.round_name || '');
+      const playedPlayoffGames = recapDays.slice(0,index+1)
+        .filter(frame => frame.phase === 'playoff')
+        .flatMap(frame => (frame.games || []).map(game => ({...game,date:frame.date})));
+      recapRenderGameRecap(playedPlayoffGames, day.round_name || '');
       recapRenderPlayoffVisual(day.bracket || []);
     }
     else recapTables(day);
     recapZoomForDay(day);
     recapMapDay(index);
-    recapBirthplaces(Math.min(index,recapRegularDays.length-1));
     recapUpdateEventStrip(index,day);
-    if (day.phase === 'final') recapShowChampion(day.champion);
-    else recapEl('recap-champion-toast').hidden = true;
+    recapHideChampion();
   }
   recapMapProgress(progress);
   let regularIndex = -1;
@@ -377,28 +377,41 @@ function recapRenderPlayoffVisual(series) {
   };
   semis.forEach((item,i) => {
     const rows=item.teams.map((team,j)=>({team,wins:item.wins[j]}));
-    card(i === 0 ? 8 : 347,78,145,100,`SEMI-FINAL ${String.fromCharCode(65+i)}`,rows);
+    card(12,i === 0 ? 22 : 138,170,96,`SEMI-FINAL ${String.fromCharCode(65+i)}`,rows);
   });
   const finalParticipants=finalLines.map((row,i)=>({team:row.team,wins:row.wins}));
-  card(175,78,150,100,'CHAMPIONSHIP FINAL',finalParticipants);
-  [[153,128,175,128],[325,128,347,128]].forEach(([x1,y1,x2,y2])=>svg.append(recapSvg('path',{class:'playoff-graphic-connector',d:`M${x1} ${y1} L${x2} ${y2}`})));
+  card(320,80,168,104,'CHAMPIONSHIP FINAL',finalParticipants);
+  svg.append(recapSvg('path',{class:'playoff-graphic-connector',d:'M182 70 H226 V116 H320 M182 186 H226 V116'}));
   const label=recapSvg('text',{class:'playoff-graphic-note','text-anchor':'middle',x:250,y:238});
   label.textContent='Series wins update after each completed game';svg.append(label);
 }
-function recapRenderBracket(series, roundName) {
-  recapEl('recap-round-label').textContent = roundName;
-  recapEl('recap-bracket').innerHTML = series.map(item => {
-    const [a,b] = item.teams;
-    return `<div class="recap-series"><span>${esc(item.round_name)} · ${esc(item.series)}</span><strong>${esc(a)} ${item.wins[0]} – ${item.wins[1]} ${esc(b)}</strong></div>`;
-  }).join('') || '<span>Playoff results unavailable</span>';
+function recapRenderGameRecap(games, roundName) {
+  recapEl('recap-round-label').textContent = roundName
+    .replace(/^PWHL\s+Walter Cup\s+/i,'')
+    .replace(/\s+presented by\s+.+$/i,'')
+    .trim();
+  recapEl('recap-game-list').innerHTML = games.map(game => {
+    const status = game.ot === 'SO' ? 'SO' : game.ot ? 'OT' : 'REG';
+    const seconds = Number(game.duration_seconds) || 0;
+    const duration = seconds ? `${Math.floor(seconds / 3600)}h ${String(Math.floor(seconds % 3600 / 60)).padStart(2,'0')}m` : '';
+    const label = [duration, status === 'REG' ? 'REG' : status].filter(Boolean).join(' · ');
+    const date = new Date(`${game.date}T12:00:00`).toLocaleDateString('en-CA',{month:'short',day:'numeric'});
+    return `<div class="recap-game-row"><time datetime="${esc(game.date)}">${esc(date)}</time><span class="recap-game-matchup">${recapTeamSwatch(game.away)}${esc(game.away)} <b>${esc(game.as)}–${esc(game.hs)}</b> ${recapTeamSwatch(game.home)}${esc(game.home)}</span><span class="recap-game-status ${status.toLowerCase()}">${label || status}</span></div>`;
+  }).join('') || '<p class="recap-game-empty">No playoff games on this date.</p>';
 }
 function recapUpdateEventStrip(index, day) {
   const strip = recapEl('recap-event-strip'), track = recapEl('recap-event-track');
   const events = recapDays.slice(0,index+1).filter(frame => frame.phase !== 'final').flatMap(frame =>
     (frame.games || []).flatMap(game => (game.events || []).map(event => ({...event,date:frame.date,gameId:game.id}))));
-  const icons = {'hat-trick':'📯',shutout:'🧱','game-misconduct':'📣',suspension:'🚫'};
-  const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension'};
-  track.innerHTML = events.map((event,i) => `<div class="recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}" title="${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}"><span class="recap-event-icon" aria-hidden="true">${icons[event.type] || '•'}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span></div>`).join('');
+  const icons = {
+    'hat-trick':'<svg viewBox="0 0 64 64"><path d="M15 48h35M20 47c-2-5-4-8-4-14 0-5 3-9 8-11l5-14h19l5 14c5 2 8 6 8 11 0 6-3 10-5 14z"/><path d="M27 10h21M35 55l13-17M42 39l10 2"/></svg>',
+    shutout:'<svg viewBox="0 0 64 64"><path d="M9 10h46v44H9zM9 25h46M9 40h46M24 10v15M42 10v15M17 25v15M36 25v15M25 40v14M45 40v14"/></svg>',
+    'game-misconduct':'<svg viewBox="0 0 64 64"><path d="M7 40c0-13 9-23 22-23h9v7h8c8 0 12 4 12 11v7h-8c-8 0-14 4-20 11-5 6-13 7-19 3-3-3-4-9-4-16zM38 24h18v18h-8"/><circle cx="23" cy="40" r="9"/><path d="M28 17v-6h12v6M25 8l-4-5m18 5 4-5"/></svg>',
+    suspension:'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="23"/><path d="M16 16l32 32"/><path d="M23 27h18M23 37h18"/></svg>',
+    'short-handed-goal':'<svg viewBox="0 0 64 64"><path d="M8 12h48v42H8zM20 12v42M32 12v42M44 12v42M8 26h48M8 40h48"/><path d="M8 54V12h48v42"/><circle cx="20" cy="26" r="7"/><circle cx="20" cy="26" r="2.2"/></svg>',
+  };
+  const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension','short-handed-goal':'Short-handed goal'};
+  track.innerHTML = events.map((event,i) => `<div class="recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}" title="${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}"><span class="recap-event-icon" aria-hidden="true">${icons[event.type] || ''}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span></div>`).join('');
   strip.hidden = day.phase === 'final' || events.length === 0;
   if (events.length < recapRenderedEventCount) strip.scrollLeft = 0;
   else if (events.length > recapRenderedEventCount) requestAnimationFrame(() => strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'}));
@@ -407,9 +420,19 @@ function recapUpdateEventStrip(index, day) {
 function recapShowChampion(code) {
   if (!code) return;
   const toast = recapEl('recap-champion-toast');
-  toast.innerHTML = `<span>🏆 ${esc(recapTeamCity(code))} win the championship</span><img alt="${esc(code)} logo" src="${esc(recapTeamLogoUrl(code))}"/>`;
+  const confetti = Array.from({length:28},(_,i) => {
+    const hue = [44,197,353,213,133][i%5];
+    const x = ((i*37)%180)-90, y = -35-(i%7)*7, delay = (i%9)*-.11;
+    return `<i style="--confetti-x:${x}px;--confetti-y:${y}px;--confetti-delay:${delay}s;--confetti-hue:${hue}deg"></i>`;
+  }).join('');
+  toast.innerHTML = `<svg class="recap-champion-trophy" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 7h16v8c0 8-3 13-8 15-5-2-8-7-8-15zM16 11H7v5c0 6 4 9 11 9M32 11h9v5c0 6-4 9-11 9M24 30v8m-9 3h18m-14-3h10"/></svg><span>${esc(recapTeamCity(code))} win the championship</span><img alt="${esc(code)} logo" src="${esc(recapTeamLogoUrl(code))}"/><div class="recap-confetti-burst" aria-hidden="true">${confetti}</div>`;
   toast.hidden = false;
   toast.classList.add('champion');
+}
+function recapHideChampion() {
+  const toast = recapEl('recap-champion-toast');
+  toast.hidden = true;
+  toast.replaceChildren();
 }
 function recapStop() {
   recapPlaying = false;
@@ -427,6 +450,7 @@ function recapTick(now) {
   if (recapPosition >= recapDays.length) {
     recapPosition = recapDays.length;
     recapRender(recapDays.length-1,1);
+    recapShowChampion(recapSeason.champion);
     recapStop();
     return;
   }
@@ -434,6 +458,7 @@ function recapTick(now) {
   recapFrameId = requestAnimationFrame(recapTick);
 }
 function recapPlay() {
+  recapHideChampion();
   if (recapPlaying) {
     recapStop();
     recapRender(recapIndex,1);
@@ -448,129 +473,16 @@ function recapPlay() {
   recapFrameId = requestAnimationFrame(recapTick);
 }
 function recapSeek(index) {
+  recapHideChampion();
   recapStop();
   recapPosition = Math.max(0,Math.min(recapDays.length-1,index));
   recapRender(recapPosition,1);
   recapPosition = Math.min(recapDays.length,recapPosition+1);
   recapEl('recap-play').textContent = recapIndex === recapDays.length-1 ? 'Replay' : 'Play';
 }
-function recapBirthplaceBars(rows, region = false) {
-  return rows.map(row => {
-    const country = region ? row.country : row.name;
-    const shade = country === 'Canada' ? 'canada' : country === 'United States' ? 'us' :
-      country === 'Unknown' ? 'unknown' : 'other';
-    const name = region ? `${row.name}, ${country === 'United States' ? 'US' : 'Canada'}` : row.name;
-    return `<div class="recap-birth-row ${shade}"><span title="${esc(name)}">${esc(name)}</span><div class="recap-birth-track" aria-hidden="true"><i></i></div><strong>0</strong></div>`;
-  }).join('');
-}
-const recapRegionCoords = {
-  'Alberta':[-114.5,53.5],'British Columbia':[-125.0,54.5],'Manitoba':[-98.5,55.0],'New Brunswick':[-66.5,46.5],
-  'Newfoundland and Labrador':[-58.0,53.0],'Nova Scotia':[-63.5,45.0],'Ontario':[-85.0,50.5],'Prince Edward Island':[-63.2,46.3],
-  'Quebec':[-71.5,53.0],'Québec':[-71.5,53.0],'Saskatchewan':[-106.0,53.5],
-  'Massachusetts':[-71.8,42.3],'Minnesota':[-94.5,46.0],'Wisconsin':[-89.5,44.5],'New York':[-75.5,43.0],
-  'Ohio':[-82.8,40.3],'Illinois':[-89.0,40.0],'Michigan':[-85.5,44.0],'Connecticut':[-72.7,41.6],
-  'Pennsylvania':[-77.8,41.0],'California':[-119.5,36.5],'Colorado':[-105.5,39.0],'Washington':[-120.5,47.4],
-  'New Hampshire':[-71.6,43.8],'Maine':[-69.0,45.3],'Texas':[-99.0,31.0],'Florida':[-82.0,28.0],
-  'North Dakota':[-100.5,47.5],'South Dakota':[-100.0,44.5],'Iowa':[-93.5,42.0],'Indiana':[-86.0,40.0],
-  'New Jersey':[-74.5,40.2],'Virginia':[-79.0,37.5],'Oregon':[-120.5,44.0],'Arizona':[-111.5,34.0],
-  'Missouri':[-92.5,38.5],'Vermont':[-72.7,44.0],'Rhode Island':[-71.6,41.6],'Georgia':[-83.5,32.5],
-};
-const recapCountryCoords = {
-  'United States':[-98,39],'Canada':[-103,57],'Sweden':[15,62],'Finland':[26,64],'Czechia':[15,49.8],
-  'Czech Republic':[15,49.8],'Switzerland':[8,47],'Germany':[10,51],'France':[2,46],'Russia':[90,60],
-  'Japan':[138,37],'China':[105,35],'Norway':[10,62],'Denmark':[10,56],'Slovakia':[19,48.7],
-  'Austria':[14,47.5],'Netherlands':[5,52],'Italy':[12,42.5],'Unknown':[0,0]
-};
-function recapBirthplaceMap(index) {
-  const svg = recapEl('recap-birth-map');
-  svg.replaceChildren();
-  const project = ([lon,lat]) => [40+(lon+180)/360*920, 20+(82-lat)/145*370];
-  const continents = [
-    [[-168,72],[-140,70],[-120,55],[-98,50],[-82,25],[-104,15],[-118,32],[-130,50]],
-    [[-80,12],[-68,10],[-50,-5],[-44,-25],[-58,-55],[-75,-35],[-82,-5]],
-    [[-12,72],[35,68],[52,48],[35,35],[44,10],[30,-35],[15,-35],[-5,5],[-18,35]],
-    [[35,70],[90,72],[145,60],[170,45],[140,25],[115,5],[100,-5],[75,8],[55,30]],
-    [[112,-10],[154,-12],[150,-40],[122,-38]],
-  ];
-  continents.forEach(points => {
-    const coords = points.map(project).map(([x,y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-    svg.append(recapSvg('polygon',{class:'birth-land',points:coords}));
-  });
-  // A quiet global coordinate grid keeps markers legible without implying street-level precision.
-  for (let lon=-120;lon<=120;lon+=60) { const [x]=project([lon,0]); svg.append(recapSvg('line',{class:'birth-grid',x1:x,x2:x,y1:20,y2:390})); }
-  for (let lat=-40;lat<=80;lat+=30) { const [,y]=project([0,lat]); svg.append(recapSvg('line',{class:'birth-grid',x1:40,x2:960,y1:y,y2:y})); }
-  const snapshot = recapBirthDays[index] || recapBirthDays.at(-1);
-  const regions = snapshot.regions;
-  const countryTotals = snapshot.countries;
-  const placedCountries = new Set();
-  Object.entries(regions).forEach(([key,count]) => {
-    const [country,name] = key.split('|');
-    let point = recapRegionCoords[name];
-    if (!point && (country === 'United States' || country === 'Canada')) point = recapCountryCoords[country];
-    if (!point) return;
-    placedCountries.add(country);
-    const [x,y] = project(point), r = Math.min(26,5+Math.sqrt(count)*3.4);
-    const marker = recapSvg('g');
-    const bubble = recapSvg('circle',{class:'birth-dot',cx:x,cy:y,r});
-    const cityList = Object.entries(snapshot.places).filter(([place]) => place.endsWith(`${name}, ${country}`))
-      .sort((a,b) => b[1]-a[1]).slice(0,5).map(([place,n]) => `${place.split(',')[0]} (${n})`).join(', ');
-    const title = recapSvg('title'); title.textContent = `${name}, ${country}: ${count} players${cityList ? `\n${cityList}` : ''}`; bubble.append(title);
-    marker.append(bubble);
-    if (count >= 3) { const label = recapSvg('text',{class:'birth-count',x,y:y+3,'text-anchor':'middle'}); label.textContent = count; marker.append(label); }
-    svg.append(marker);
-  });
-  Object.entries(countryTotals).forEach(([country,count]) => {
-    if (!count || country === 'Unknown' || (placedCountries.has(country) && ['United States','Canada'].includes(country))) return;
-    const point = recapCountryCoords[country];
-    if (!point) return;
-    const [x,y] = project(point), r = Math.min(26,5+Math.sqrt(count)*3.4);
-    const marker = recapSvg('g');
-    const bubble = recapSvg('circle',{class:'birth-dot birth-dot-international',cx:x,cy:y,r});
-    const cityList = Object.entries(snapshot.places).filter(([place]) => place.endsWith(country))
-      .sort((a,b) => b[1]-a[1]).slice(0,5).map(([place,n]) => `${place.split(',')[0]} (${n})`).join(', ');
-    const title = recapSvg('title'); title.textContent = `${country}: ${count} players${cityList ? `\n${cityList}` : ''}`; bubble.append(title); marker.append(bubble);
-    if (count >= 3) { const label = recapSvg('text',{class:'birth-count',x,y:y+3,'text-anchor':'middle'}); label.textContent = count; marker.append(label); }
-    svg.append(marker);
-  });
-}
-function recapBuildBirthplaces() {
-  const birth = recapSeason.birthplaces;
-  recapEl('recap-birth-countries').innerHTML = recapBirthplaceBars(birth.countries);
-  recapEl('recap-birth-regions').innerHTML = recapBirthplaceBars(birth.regions,true);
-  const countries = {}, regions = {}, places = {};
-  let players = 0;
-  recapBirthDays = recapDays.map(day => {
-    day.birth_debuts.forEach(({country,region,place}) => {
-      players++;
-      countries[country] = (countries[country] || 0) + 1;
-      if (place && place !== 'Unknown') places[place] = (places[place] || 0) + 1;
-      if (region) {
-        const key = `${country}|${region}`;
-        regions[key] = (regions[key] || 0) + 1;
-      }
-    });
-    return {players,countries:{...countries},regions:{...regions},places:{...places}};
-  });
-  if (players !== birth.players) throw Error(`Birthplace debut count mismatch for ${recapSeasonId}`);
-}
-function recapBirthplaces(index) {
-  const birth = recapSeason.birthplaces, snapshot = recapBirthDays[index];
-  const unknown = snapshot.countries.Unknown || 0;
-  recapEl('recap-birth-summary').textContent = `${snapshot.players} players appeared · ${snapshot.players-unknown} with known birth country · ${unknown} unknown · hover for birthplace names`;
-  const update = (id,rows,counts,key) => {
-    const max = Math.max(1,...rows.map(row => row.count));
-    [...recapEl(id).children].forEach((el,i) => {
-      const count = counts[key(rows[i])] || 0;
-      el.querySelector('i').style.width = `${(count / max * 100).toFixed(1)}%`;
-      el.querySelector('strong').textContent = count;
-    });
-  };
-  update('recap-birth-countries',birth.countries,snapshot.countries,row => row.name);
-  update('recap-birth-regions',birth.regions,snapshot.regions,row => `${row.country}|${row.name}`);
-  recapBirthplaceMap(index);
-}
 function recapSetSeason(sid) {
   recapStop();
+  recapHideChampion();
   recapRenderedEventCount = 0;
   recapSeasonId = sid;
   recapSeason = recapData.seasons[sid];
@@ -594,24 +506,11 @@ function recapSetSeason(sid) {
     `<button type="button" data-team="${esc(code)}" style="--team:${teamColor(code)}" aria-label="Highlight ${esc(recapTeamCity(code))}" aria-pressed="false"><img src="${esc(recapTeamLogoUrl(code))}" alt=""/><span>${esc(recapTeamCity(code))}</span></button>`).join('');
   recapEl('recap-team-legend').querySelectorAll('button').forEach(button =>
     button.addEventListener('click',() => recapSetFocus(button.dataset.team)));
-  recapBuildBirthplaces();
   recapMapBase();
   recapBuildCharts();
   recapRender(0,1);
   recapPosition = 1;
   recapEl('recap-play').textContent = 'Play';
-  recapEl('recap-champion-toast').hidden = true;
-  recapSetView('replay');
-}
-function recapSetView(view) {
-  const birth = view === 'birth';
-  recapEl('recap-replay-view').hidden = birth;
-  recapEl('recap-birth-view').hidden = !birth;
-  recapEl('recap-view-replay').classList.toggle('active',!birth);
-  recapEl('recap-view-replay').setAttribute('aria-selected',String(!birth));
-  recapEl('recap-view-birth').classList.toggle('active',birth);
-  recapEl('recap-view-birth').setAttribute('aria-selected',String(birth));
-  recapBirthplaceMap(Math.min(recapIndex,recapBirthDays.length-1));
 }
 async function recapToggleFullscreen() {
   if (document.fullscreenElement) { await document.exitFullscreen(); return; }
@@ -625,7 +524,7 @@ async function recapToggleFullscreen() {
 
 Promise.all([
   PWHL.load(['meta']),
-  fetch('data/json/pwhl_season_recap.json?v=recap-15').then(r => {if(!r.ok) throw Error(`Recap HTTP ${r.status}`);return r.json()}),
+  fetch('data/json/pwhl_season_recap.json?v=recap-19').then(r => {if(!r.ok) throw Error(`Recap HTTP ${r.status}`);return r.json()}),
   fetch('data/json/pwhl_movement_geography.json?v=movement-9').then(r => {if(!r.ok) throw Error(`Map HTTP ${r.status}`);return r.json()}),
 ]).then(([,data,geography]) => {
   recapData = data; recapGeography = geography;
@@ -643,9 +542,7 @@ Promise.all([
     recapEl('recap-fullscreen').textContent = document.fullscreenElement ? 'Exit full screen' : 'Watch full screen';
   });
   recapEl('recap-clear').addEventListener('click',() => recapSetFocus(recapFocus));
-  recapEl('recap-view-replay').addEventListener('click',() => recapSetView('replay'));
-  recapEl('recap-view-birth').addEventListener('click',() => recapSetView('birth'));
-  PWHL.onTheme(() => { PWHL.fillHeader(); recapSetSeason(currentSeasonId); });
+  PWHL.onTheme(() => PWHL.fillHeader());
 }).catch(err => {
   console.error(err);
   recapEl('recap-loading').textContent = 'Could not load the season replay. Refresh the page or rebuild the recap data.';

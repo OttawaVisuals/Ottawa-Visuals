@@ -34,6 +34,7 @@ PWHL.PAGES = [
   ['movement', 'movement.html', 'Movement'],
   ['travel', 'travel.html', 'Travel'],
   ['recap', 'recap.html', 'Season replay'],
+  ['origins', 'origins.html', 'Player origins'],
   ['method', 'methodology.html', 'How it works'],
 ];
 

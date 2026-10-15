@@ -1,0 +1,16 @@
+.origins-page .report{gap:14px}
+.origins-hero{gap:8px}
+.origins-hero h1{font-size:clamp(24px,3vw,34px)}
+.origins-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.origins-toolbar p{margin:0;color:var(--ink-2);font-size:13px}
+.origins-toolbar label{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.origins-map-card{padding:8px}
+#origins-map{height:min(72vh,780px);min-height:480px;width:100%;border-radius:7px;background:#e9edf1;z-index:0}
+.origins-attribution-note{margin:7px 3px 0;color:var(--ink-3);font-size:10px}
+.origins-status{margin:0;color:var(--ink-2);font-size:13px}
+.origin-marker{border:2px solid #111;background:rgba(255,255,255,.86);border-radius:50%;color:#111;display:grid;place-items:center;font:700 10px var(--font-mono);box-shadow:0 1px 5px #0005}
+[data-theme="dark"] .origin-marker{border-color:#fff;background:rgba(25,32,42,.88);color:#fff}
+.leaflet-container{font:12px Inter,system-ui,sans-serif}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--bg-2);color:var(--ink)}
+.leaflet-control-zoom a{background:var(--bg-2)!important;color:var(--ink)!important;border-color:var(--line)!important}
+@media(max-width:720px){#origins-map{height:70vh;min-height:430px}.origins-map-card{padding:6px}}

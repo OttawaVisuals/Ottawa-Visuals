@@ -4,9 +4,21 @@ Rules: one task per day · commit after each · never two sessions on the same f
 never hand-edit collector data (fix the scripts) · tick the box when done.
 Resets: use one per week (marked **RESET**).
 
+## How to change this plan (it's a living file)
+- Did extra work or a different project? Tick its box, or add a line under "Extra work" below.
+- Want a different task today? Edit the "TODAY (override)" line; the 9am reminder shows it first. Clear it when done.
+- Task wasn't finished? Leave it unticked; it stays next in line.
+- Two projects in one day is fine: tick each when done. The reminder picks the next unticked item.
+- Tell any session (Claude Code or Codex): "update CODEX_PLAN.md: I did X" or "swap today to Y".
+
+TODAY (override): none
+
+## Extra work (done outside the plan)
+- PWHL page work with Codex (started Oct 15)
+
 ## Before anything
-- [ ] Commit or stash uncommitted edits, then `git pull`
-- [ ] Create `AGENTS.md` ("Read CLAUDE.md and follow it.")
+- [x] Commit or stash uncommitted edits, then `git pull` (done Oct 15; commits not pushed yet, push when the PWHL work with Codex is finished)
+- [x] Create `AGENTS.md` ("Read CLAUDE.md and follow it.")
 
 ## Week 1 (Oct 15–21): RTO Watch + collectors
 - [ ] Day 1: Claude Code checks Cloudflare cron + `collect.yml`; update `PROJECTS.md` + `tracker.html` together

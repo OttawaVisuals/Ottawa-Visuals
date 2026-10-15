@@ -54,6 +54,7 @@ def indicative_hours(a, b):
 
 def main():
     games_by_season = json.loads((DATA / "json/pwhl_games.json").read_text(encoding="utf-8"))
+    game_summaries = {row["game_id"]: row for row in rows("pwhl_game_summaries.csv")}
     logs = rows("pwhl_player_game_logs.csv")
     shutout_keys = {(r["game_id"], r["player_id"]) for r in logs if r.get("shutout") == "1"}
     names = {r["player_id"]: r["player_name"] for r in rows("pwhl_players_info.csv")}
@@ -75,11 +76,14 @@ def main():
     for row in rows("pwhl_venues.csv"):
         if row.get("Latitude") and row.get("Longitude"):
             venues[row["venue"]] = [float(row["Longitude"]), float(row["Latitude"])]
+    coordinate_path = DATA / "json/pwhl_birthplace_coordinates.json"
+    birthplace_coordinates = json.loads(coordinate_path.read_text(encoding="utf-8"))["locations"] if coordinate_path.exists() else {}
 
     result = {"seasons": {}}
     for sid, label in SEASONS.items():
         games = sorted(games_by_season[sid], key=lambda g: (game_date(g["date"]), number(g["game_id"])))
         game_ids = {g["game_id"] for g in games}
+        id_to_code = {r["team_id"]: r["team_code"] for r in team_rows if r["season_id"] == sid}
         teams = sorted({g["home_code"] for g in games} | {g["away_code"] for g in games})
         scheduled_games = Counter(code for g in games for code in (g["home_code"], g["away_code"]))
         official = {r["team_code"]: r for r in rows("pwhl_standings.csv") if r["season_id"] == sid}
@@ -133,6 +137,7 @@ def main():
             players_by_game[row["game_id"]].append({
                 "id": row["player_id"], "name": names.get(row["player_id"], row["player_id"]),
                 "team": team, "goals": number(row["goals"]), "points": number(row["points"]),
+                "short_handed_goals": number(row.get("short_handed_goals")),
             })
 
         by_day = defaultdict(list)
@@ -185,13 +190,16 @@ def main():
                 for player in players_by_game[game["game_id"]]:
                     if player["goals"] >= 3:
                         events.append({"type": "hat-trick", "player": player["name"], "team": player["team"]})
+                    if player["short_handed_goals"]:
+                        events.append({"type": "short-handed-goal", "player": player["name"], "team": player["team"]})
                 for goalie in goalies_by_game[game["game_id"]]:
                     if (game["game_id"], goalie["id"]) in shutout_keys:
                         events.append({"type": "shutout", "player": goalie["name"], "team": goalie["team"]})
                 for event in pbp_by_game[game["game_id"]]:
                     if event.get("event") == "penalty" and event.get("event_type") == "Game Misconduct":
                         player = " ".join(filter(None, (event.get("player_name_first"), event.get("player_name_last"))))
-                        events.append({"type": "game-misconduct", "player": player or "Player", "team": ""})
+                        events.append({"type": "game-misconduct", "player": player or "Player",
+                                       "team": id_to_code.get(event.get("team_id"), "")})
                 day_games.append({"id": game["game_id"], "home": home, "away": away, "hs": hs, "as": vs,
                                   "ot": game["ot"], "venue": coords(venue), "events": events})
                 running["goals"] += hs + vs
@@ -274,6 +282,7 @@ def main():
                 raise ValueError(f"{label} {code}: reconstructed {actual}, official {expected}")
         birth_countries = Counter()
         birth_regions = Counter()
+        birth_place_counts = Counter(player_info.get(pid, {}).get("birthplace", "") or "Unknown" for pid in player_ids)
         for player_id in player_ids:
             birth = birth_rosters.get((sid, player_id), {})
             country = birth.get("birthcntry") or "Unknown"
@@ -284,10 +293,17 @@ def main():
             "label": label, "teams": teams, "bases": {code: coords(venue) for code, venue in bases.items()},
             "birthplaces": {
                 "players": len(player_ids), "unknown": birth_countries["Unknown"],
-                "places": [{"name": player_info.get(pid, {}).get("birthplace", "") or "Unknown",
-                            "country": birth_rosters.get((sid, pid), {}).get("birthcntry") or "Unknown",
-                            "region": birth_rosters.get((sid, pid), {}).get("birthprov") or ""}
-                           for pid in sorted(player_ids)],
+                "places": [{"name": name,
+                            "country": next((birth_rosters.get((sid, pid), {}).get("birthcntry") or "Unknown"
+                                             for pid in sorted(player_ids)
+                                             if (player_info.get(pid, {}).get("birthplace", "") or "Unknown") == name), "Unknown"),
+                            "region": next((birth_rosters.get((sid, pid), {}).get("birthprov") or ""
+                                            for pid in sorted(player_ids)
+                                            if (player_info.get(pid, {}).get("birthplace", "") or "Unknown") == name), ""),
+                            "count": birth_place_counts[name],
+                            "coordinates": ([birthplace_coordinates[name]["lon"], birthplace_coordinates[name]["lat"]]
+                                            if birthplace_coordinates.get(name) else None)}
+                           for name in sorted(birth_place_counts)],
                 "countries": [{"name": name, "count": count}
                               for name, count in sorted(birth_countries.items(), key=lambda item: (-item[1], item[0]))],
                 "regions": [{"name": name, "country": country, "count": count}
@@ -355,6 +371,10 @@ def main():
                         player = player_info.get(row["player_id"], {})
                         events.append({"type": "hat-trick", "player": player.get("player_name", "Player"),
                                        "team": row["home_team_code"] if row["home"] == "1" else row["visiting_team_code"]})
+                    if row.get("goalie") == "0" and number(row.get("short_handed_goals")):
+                        player = player_info.get(row["player_id"], {})
+                        events.append({"type": "short-handed-goal", "player": player.get("player_name", "Player"),
+                                       "team": row["home_team_code"] if row["home"] == "1" else row["visiting_team_code"]})
                     if row.get("goalie") == "1" and row.get("shutout") == "1":
                         player = player_info.get(row["player_id"], {})
                         events.append({"type": "shutout", "player": player.get("player_name", "Goalie"),
@@ -362,10 +382,12 @@ def main():
                 for event in pbp_by_game[game_id]:
                     if event.get("event") == "penalty" and event.get("event_type") == "Game Misconduct":
                         player = " ".join(filter(None, (event.get("player_name_first"), event.get("player_name_last"))))
-                        events.append({"type": "game-misconduct", "player": player or "Player", "team": ""})
+                        events.append({"type": "game-misconduct", "player": player or "Player",
+                                       "team": id_to_code.get(event.get("team_id"), "")})
                 home, away = game["home_code"], game["away_code"]
                 day_games.append({"id": game_id, "home": home, "away": away,
                                   "hs": game["home_score"], "as": game["away_score"], "ot": game["ot"],
+                                  "duration_seconds": number(game_summaries.get(game_id, {}).get("game_length_seconds")),
                                   "venue": coords(game["venue"]), "events": events})
             for player in suspension_dates.get((psid, date), []):
                 if day_games:
