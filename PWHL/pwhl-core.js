@@ -9,7 +9,7 @@ const DATA_BASE = 'data/json/';
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
     EVENTS = null, BRACKET = null, TXN = null, AWARDS = null,
     ELO = null, GOALIES = null, RAPSHEET = null, ROSTERS = null, LINES = null, PINDEX = null,
-    MOVEMENT = null, TEAM_SHOTS = null, OVERVIEW = null;
+    MOVEMENT = null, TEAM_SHOTS = null, OVERVIEW = null, TEAM_AWARDS = null;
 const CHARTS = [];
 let currentSeasonId = null;
 
@@ -120,6 +120,7 @@ const _DATA_VARS = {
   movement: v => MOVEMENT = v,
   team_shots: v => TEAM_SHOTS = v,
   overview: v => OVERVIEW = v,
+  team_awards: v => TEAM_AWARDS = v,
 };
 // Model outputs and other extras may be missing; the core files may not.
 const _OPTIONAL = new Set(['elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index', 'team_shots']);

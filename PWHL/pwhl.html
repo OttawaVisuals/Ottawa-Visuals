@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=league-overview-1"></script>
-<script src="pwhl-sections.js?v=league-overview-1"></script>
+<script src="pwhl-core.js?v=historical-team-awards-1"></script>
+<script src="pwhl-sections.js?v=historical-team-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=team-shotmaps-1">
+<link rel="stylesheet" href="pwhl.css?v=historical-team-awards-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -51,6 +51,11 @@
       </div>
       <div class="stat-row" id="overview-stats"></div>
       <p class="note">Cumulative totals across completed regular-season, preseason and playoff games. Attendance counts reported visits; player ice time sums individual players' logged time.</p>
+      <div class="card season-summary-card">
+        <div class="card-title">Season-by-season league summary</div>
+        <div class="table-scroll"><table class="tbl" id="season-summary-table"></table></div>
+        <p class="note">Season totals use completed games and player game logs. Player counts are unique players with logs in each season; attendance adds reported visits, and missing attendance is unavailable.</p>
+      </div>
     </div>
 
     <div class="section">
@@ -134,7 +139,7 @@ function renderHomeSeason(sid) {
   renderGoalsChart(sid);
   renderLeaders(sid, currentLeaderStat);
 }
-PWHL.load(['meta', 'standings', 'leaders', 'games', 'bracket', 'awards', 'overview']).then(() => {
+PWHL.load(['meta', 'standings', 'leaders', 'games', 'bracket', 'awards', 'overview'], { overview:'season-summary-v1' }).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   currentBracketSeasonId = META.current_playoff_season_id || Object.keys(BRACKET)[0];

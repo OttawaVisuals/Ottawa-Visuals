@@ -31,6 +31,13 @@ function renderOverview() {
   ];
   const row = document.getElementById('overview-stats');
   row.innerHTML = stats.map(([num, lbl]) => `<div class="stat"><div class="num">${num}</div><div class="lbl">${lbl}</div></div>`).join('');
+
+  const seasonTable = document.getElementById('season-summary-table');
+  if (seasonTable) {
+    const seasons = OVERVIEW.by_season || {};
+    const rows = Object.entries(seasons).sort((a, b) => Number(b[0]) - Number(a[0]));
+    seasonTable.innerHTML = `<thead><tr><th>Season</th><th>Teams</th><th>GP</th><th>Goals</th><th>Shots</th><th>Attendance</th><th>Players</th><th>Player time</th><th>PIM</th><th>Hat tricks</th><th>Shutouts</th><th>SHG</th><th>Empty net</th></tr></thead><tbody>${rows.map(([, s]) => `<tr><td>${esc(s.season)}</td><td>${fmt(s.teams)}</td><td>${fmt(s.games)}</td><td>${fmt(s.goals)}</td><td>${fmt(s.shots_on_goal)}</td><td>${fmt(s.attendance)}</td><td>${fmt(s.players)}</td><td>${fmt(Math.round(s.player_seconds / 3600))} h</td><td>${fmt(s.pim)}</td><td>${fmt(s.hat_tricks)}</td><td>${fmt(s.shutouts)}</td><td>${fmt(s.shg)}</td><td>${fmt(s.empty_net_goals)}</td></tr>`).join('')}</tbody>`;
+  }
 }
 
 function renderStandingsTable(seasonId) {
@@ -393,6 +400,58 @@ function renderAwards(seasonId, mode) {
        ? `Rate stats are per 60 minutes of ice time, restricted to players with ${th.minGp}+ games and ${th.minMin}+ minutes.`
        : 'Equal values share a rank. Awards that are already rates or eligibility-based (fair play %, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
     + ' * = played for more than one team this season; stats are combined.';
+}
+
+function renderTeamAwards(seasonId) {
+  const grid = document.getElementById('team-awards-grid');
+  const note = document.getElementById('team-awards-note');
+  if (!grid || !note) return;
+  const rows = (TEAM_AWARDS && TEAM_AWARDS.by_season && TEAM_AWARDS.by_season[seasonId]) || [];
+  if (!rows.length) {
+    grid.innerHTML = '';
+    note.textContent = 'No completed team game-log data for this season.';
+    return;
+  }
+  const pct = v => `${(100 * v).toFixed(1)}%`;
+  const defs = [
+    { key:'top3_points_share', title:'The Most Balanced', emoji:'⚖️', asc:true,
+      blurb:'Lowest share of team goals and assists credited to the top three scorers.',
+      format:pct, detail:r => `${r.scorers} players recorded a point` },
+    { key:'top3_points_share', title:'The Top Line', emoji:'⭐', asc:false,
+      blurb:'Highest share of team goals and assists credited to the top three scorers; this is not a line-combination stat.',
+      format:pct, detail:r => `${r.scorers} players recorded a point` },
+    { key:'pim_per_game', title:'The Fair-Play Team', emoji:'😇', asc:true,
+      blurb:'Fewest logged player penalty minutes per team game.',
+      format:v => `${v.toFixed(2)} PIM/GP`, detail:r => `${fmt(r.pim)} PIM · ${fmt(r.games)} GP` },
+    { key:'pim_per_game', title:'The Penalty-Box Regulars', emoji:'🥊', asc:false,
+      blurb:'Most logged player penalty minutes per team game.',
+      format:v => `${v.toFixed(2)} PIM/GP`, detail:r => `${fmt(r.pim)} PIM · ${fmt(r.games)} GP` },
+    { key:'salary_cv', title:'The Fair-Pay Team', emoji:'🧾', asc:true, salary:true,
+      blurb:'Smallest salary spread relative to the team average (coefficient of variation).',
+      format:v => `${(v * 100).toFixed(1)}% CV`, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
+    { key:'top3_salary_share', title:'The Top-Heavy Team', emoji:'💰', asc:false, salary:true,
+      blurb:'Largest share of listed team salaries going to the top three earners.',
+      format:pct, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
+  ];
+  grid.innerHTML = defs.map(def => {
+    const ranked = rows.filter(r => r[def.key] != null && Number.isFinite(r[def.key]))
+      .slice().sort((a, b) => (def.asc ? 1 : -1) * (a[def.key] - b[def.key]) || a.code.localeCompare(b.code));
+    const body = ranked.length ? ranked.map((r, i) => `
+      <div class="aw-row team-aw-row">
+        <span class="rk">${i + 1}</span>
+        <span class="nm">${teamLink(r.code, r.name)}</span>
+        <span class="vl">${esc(def.format(r[def.key]))}</span>
+        <span class="aw-row-detail">${esc(def.detail(r))}</span>
+      </div>`).join('') : '<div class="aw-sub">Salary guide values are available for 2025–26 only.</div>';
+    const coverage = def.salary ? 'Salary guide · 2025–26' : 'All completed games in selected season';
+    return `<article class="aw-card team-aw-card">
+      <div class="aw-head"><span class="aw-emoji" aria-hidden="true">${def.emoji}</span><span class="aw-title">${def.title}</span></div>
+      <div class="aw-blurb">${def.blurb}</div>
+      <div class="aw-list">${body}</div>
+      <div class="aw-sub">${coverage}</div>
+    </article>`;
+  }).join('');
+  note.textContent = 'Scoring concentration is the top three players’ combined goals plus assists as a share of team scoring; a smaller share is more balanced. Penalty rates divide logged player and goalie penalty minutes by team games played. Salary comparisons use listed 2025–26 guide salaries only; the guide lists fewer players than the season roster, so these are not complete payroll totals.';
 }
 
 // A deterministic weekly shuffle keeps the home-page picks consistent for

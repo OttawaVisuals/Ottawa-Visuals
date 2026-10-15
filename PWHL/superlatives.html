@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=league-overview-1"></script>
-<script src="pwhl-sections.js?v=league-overview-1"></script>
+<script src="pwhl-core.js?v=historical-team-awards-1"></script>
+<script src="pwhl-sections.js?v=historical-team-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=team-shotmaps-1">
+<link rel="stylesheet" href="pwhl.css?v=historical-team-awards-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -55,6 +55,7 @@
         </div>
       </div>
       <nav class="award-jumps" aria-label="Jump to award categories">
+        <a href="#team-awards">Team awards</a>
         <a href="#award-scoring">Scoring &amp; playmaking</a>
         <a href="#award-workload">Workload &amp; on-ice</a>
         <a href="#award-physical">Physical &amp; discipline</a>
@@ -63,6 +64,13 @@
       </nav>
       <div class="awards-groups" id="awards-grid"></div>
       <p class="note" id="awards-note"></p>
+    </div>
+
+    <div class="section" id="team-awards">
+      <div class="section-head"><div><h2>Team awards</h2>
+        <p>Historical team comparisons: how concentrated the scoring is, penalty minutes per game, and salary distribution where the guide has coverage.</p></div></div>
+      <div class="awards-grid" id="team-awards-grid"></div>
+      <p class="note" id="team-awards-note"></p>
     </div>
 
     <div class="section" id="rap-sheet">
@@ -90,9 +98,10 @@
 <script>
 function renderSupSeason(sid) {
   renderAwards(sid, currentAwardsMode);
+  renderTeamAwards(sid);
   renderRapSheet(sid);
 }
-PWHL.load(['meta', 'standings', 'awards', 'rapsheet']).then(() => {
+PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'team_awards']).then(() => {
   PWHL.fillHeader();
   const displayDate = d => new Date(d.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-CA', { day:'numeric', month:'short', year:'numeric' });
   const lastGame = META.last_game_date ? displayDate(META.last_game_date) : 'unknown';

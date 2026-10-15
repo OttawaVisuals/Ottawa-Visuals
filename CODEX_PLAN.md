@@ -14,10 +14,10 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
-- PWHL page work with Codex (started Oct 15)
+- [x] PWHL page work with Codex (Oct 15: historical overview, season summaries and team awards)
 
 ## Before anything
-- [x] Commit or stash uncommitted edits, then `git pull` (done Oct 15; commits not pushed yet, push when the PWHL work with Codex is finished)
+- [x] Commit or stash uncommitted edits, then `git pull` (done Oct 15; PWHL work pushed Oct 15)
 - [x] Create `AGENTS.md` ("Read CLAUDE.md and follow it.")
 
 ## Week 1 (Oct 15–21): RTO Watch + collectors

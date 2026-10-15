@@ -69,6 +69,9 @@ jobs:
       - name: Build historical home-page totals
         run: python PWHL/scripts/build_pwhl_overview.py
 
+      - name: Build historical team awards
+        run: python PWHL/scripts/build_pwhl_team_awards.py
+
       - name: Build optional line and model outputs
         # Reads the meta/awards JSON from the step above. Skips (keeping the
         # last output) if the play-by-play cache missed.

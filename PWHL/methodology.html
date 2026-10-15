@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=league-overview-1"></script>
-<script src="pwhl-sections.js?v=league-overview-1"></script>
+<script src="pwhl-core.js?v=historical-team-awards-1"></script>
+<script src="pwhl-sections.js?v=historical-team-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=team-shotmaps-1">
+<link rel="stylesheet" href="pwhl.css?v=historical-team-awards-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -61,6 +61,7 @@
             <code>PWHL/data/PWHL_Venues.csv</code>, so a sold-out game can read slightly above or
             below 100%; games at venues with no listed capacity are left out of the % figures.</li>
           <li>Home-page attendance totals add reported game visits; they do not identify unique attendees. Player ice time adds each player's logged time.</li>
+          <li>The home-page season table breaks the league totals out by recorded season and competition phase. Player counts are players with game-log entries in that season.</li>
           <li>"Superlatives" uses skater totals for the selected season (regular, preseason, or
             playoff, matching the season picked). Players traded mid-season appear once, with
             their split rows summed (marked <code>*</code>); the feed also emits occasional
@@ -69,8 +70,9 @@
             Eligibility minimums scale with the season's length — roughly 8 games and 120 minutes
             over a full regular season, proportionally lower for a short playoff run — so a
             three-game call-up with one lucky shift doesn't win everything.</li>
-          <li>Goalies are absent from the roster feed's position data and from these skater stat
-            lines, so every superlative is a skater award.</li>
+          <li><strong>Team awards</strong>: scoring balance/top-line awards compare the top three scorers' goals plus assists as a share of team scoring. Fair play and penalty-box awards use logged player and goalie penalty minutes per completed team game.</li>
+          <li><strong>Salary awards</strong> use the <a href="https://www.pwhlpa.com/salary-guide?st_source=ai_overview">PWHLPA 2025–26 salary guide</a>. It lists 23–25 player salaries per team, while the season roster data has 26–29 players per team. These comparisons cover listed salaries only and are not complete payroll estimates.</li>
+          <li>Individual player superlatives use skater stat lines; the separate team penalty-rate awards include logged goalie penalties where available.</li>
           <li>No "hit the post/crossbar" award: the play-by-play feed records shots on goal,
             blocked shots, and goals, but never missed shots, so iron is invisible in this data.</li>
           <li>The shot map, goals-by-period, and event-mix charts are drawn from the full
