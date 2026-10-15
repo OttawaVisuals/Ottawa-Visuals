@@ -39,6 +39,10 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos, media) |
 | `data/json/` | Committed build output for the pages, including `pwhl_meta.json` |
 
+When `pwhl-core.js` changes, bump its `?v=` value on every PWHL HTML page.
+GitHub Pages caches JavaScript, and an unchanged URL can keep the old navigation
+visible after a deployment.
+
 ## Team travel estimates
 
 `python PWHL/scripts/build_pwhl_travel.py` rebuilds the static travel JSON from
