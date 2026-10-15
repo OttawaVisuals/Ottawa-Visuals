@@ -70,10 +70,11 @@ table{border-collapse:collapse;width:100%;}
 .note{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:7px;line-height:1.5;}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.team-shot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 /* Let wide tables scroll inside their card instead of stretching the grid column. */
-.grid-2 > *, .grid-3 > *{min-width:0;}
+.grid-2 > *, .grid-3 > *, .team-shot-grid > *{min-width:0;}
 @media (max-width:900px){ .grid-3{grid-template-columns:1fr 1fr;} }
-@media (max-width:560px){ .grid-2,.grid-3{grid-template-columns:1fr;} }
+@media (max-width:560px){ .grid-2,.grid-3,.team-shot-grid{grid-template-columns:1fr;} }
 .cw{position:relative;height:280px;}
 .cw-sm{height:220px;}
 .cw-lg{height:420px;}

@@ -9,7 +9,7 @@ const DATA_BASE = 'data/json/';
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
     EVENTS = null, BRACKET = null, TXN = null, AWARDS = null, XG = null, RATINGS = null,
     ELO = null, GOALIES = null, RAPSHEET = null, ROSTERS = null, LINES = null, PINDEX = null,
-    MOVEMENT = null;
+    MOVEMENT = null, TEAM_SHOTS = null;
 const CHARTS = [];
 let currentSeasonId = null;
 
@@ -118,9 +118,10 @@ const _DATA_VARS = {
   goalies: v => GOALIES = v, rapsheet: v => RAPSHEET = v, rosters: v => ROSTERS = v, lines: v => LINES = v,
   players_index: v => PINDEX = v,
   movement: v => MOVEMENT = v,
+  team_shots: v => TEAM_SHOTS = v,
 };
 // Model outputs and other extras may be missing; the core files may not.
-const _OPTIONAL = new Set(['xg', 'ratings', 'elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index']);
+const _OPTIONAL = new Set(['xg', 'ratings', 'elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index', 'team_shots']);
 PWHL.load = function (names, versions = {}) {
   return Promise.all(names.map(n => fetch(DATA_BASE + 'pwhl_' + n + '.json'
     + (versions[n] ? '?v=' + encodeURIComponent(versions[n]) : ''))

@@ -16,7 +16,7 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 |---|---|
 | `pwhl.html` | Home: league at a glance, standings, player leaders, playoff bracket, rotating historical awards, links to the rest |
 | `teams.html` | Team cards, goals for/against, special teams, team xG share, attendance |
-| `team.html?code=OTT` | One team: historical record tiles, results, top contributors, most-used lines, roster stats, game log, franchise leaders, current roster |
+| `team.html?code=OTT` | One team: historical record tiles, results, top contributors, home/away team and goalie shot maps, player award leaders, most-used lines, roster stats, game log, franchise leaders, current roster |
 | `players.html` | Sortable table of every skater and goalie, impact ratings, expected goals |
 | `player.html?id=<player_id>` | One player: role tag, season tiles, game-by-game chart, shot map, shot mix by type, goalie matchups, home/away split, best games, career table, game log |
 | `superlatives.html` | Tongue-in-cheek awards (totals or per 60), the Rap Sheet, the Hall of Sustained Quirk |
@@ -34,7 +34,7 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `pwhl-core.js` | Shared header/nav/logo strip, theme hook, JSON loader (`PWHL.load`), season picker, chart helpers, sortable tables |
 | `pwhl-sections.js` | Render functions for the dashboard sections; each page calls the ones it shows |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
-| `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the `data/json/` files the pages read, including one `players/<id>.json` per player, goalie lines, the rap sheet and current rosters |
+| `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the `data/json/` files the pages read, including one `players/<id>.json` per player, home/away team shot maps, goalie lines, the rap sheet and current rosters |
 | `scripts/build_pwhl_recap.py` | Reconstructs regular-season standings, playoff bracket snapshots, game highlights, birthplace counts and running counters; validates season-end team totals and writes `pwhl_season_recap.json` |
 | `scripts/geocode_recap_birthplaces.py` | One-time, cached lookup of player birthplace coordinates; run manually when new birthplace names are added, then rebuild the recap JSON |
 | `scripts/build_elo.py` | Team Elo ratings, upcoming-game win chances and 10,000-run playoff simulations; writes `pwhl_elo.json`. The playoff format per league year lives in its `FORMATS` dict, so update it when the league changes format |

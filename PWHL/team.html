@@ -11,7 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=chart-accessibility-1"></script>
+<script src="pwhl-core.js?v=team-shotmaps-1"></script>
+<script src="pwhl-sections.js?v=chart-accessibility-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1">
+<link rel="stylesheet" href="pwhl.css?v=team-shotmaps-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -55,6 +56,27 @@
         </div>
       </div>
 
+      <section class="section" id="team-shot-section">
+        <div class="section-head"><div><h2>Team shots and goals</h2><p>Located shots are oriented with the attacking team moving right. Away games are on the left; home games are on the right.</p></div></div>
+        <div class="team-shot-grid" id="team-shot-grid">
+          <article class="card"><div class="card-title" id="team-away-title">Away games · left</div><div class="rink-wrap"><canvas id="team-away-shots" width="420" height="357" role="img"></canvas></div></article>
+          <article class="card"><div class="card-title" id="team-home-title">Home games · right</div><div class="rink-wrap"><canvas id="team-home-shots" width="420" height="357" role="img"></canvas></div></article>
+        </div>
+        <p class="note" id="team-shot-note"></p>
+      </section>
+
+      <section class="section" id="goalie-shot-section">
+        <div class="section-head">
+          <div><h2>Goalie shots faced and goals against</h2><p>Each goalie’s located shots faced, split by whether their team was home or away.</p></div>
+          <select class="ov-select" id="goalie-shot-select" aria-label="Goalie"></select>
+        </div>
+        <div class="team-shot-grid" id="goalie-shot-grid">
+          <article class="card"><div class="card-title" id="goalie-away-title">Away games · left</div><div class="rink-wrap"><canvas id="goalie-away-shots" width="420" height="357" role="img"></canvas></div></article>
+          <article class="card"><div class="card-title" id="goalie-home-title">Home games · right</div><div class="rink-wrap"><canvas id="goalie-home-shots" width="420" height="357" role="img"></canvas></div></article>
+        </div>
+        <p class="note" id="goalie-shot-note"></p>
+      </section>
+
       <div class="section" id="lines-section">
         <div class="section-head"><div><h2>Most-used lines</h2>
           <p>5-on-5 forward trios and defence pairs with the most time on ice together this season, and
@@ -71,11 +93,22 @@
         <div class="card"><div class="card-title">Goalies</div><div style="overflow-x:auto;"><table class="tbl" id="t-goalies"></table></div></div>
       </div>
 
+      <div class="section" id="team-awards-section">
+        <div class="section-head"><div><h2>Player award leaders</h2><p>Team players ranked in the league’s top five for each superlative this season.</p></div></div>
+        <div class="awards-grid" id="team-awards"></div>
+      </div>
+
       <div class="section">
         <div class="section-head"><div><h2>Game log</h2><p id="games-sub"></p></div></div>
         <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="t-games"></table></div></div>
       </div>
     </div>
+
+    <section class="section" id="team-season-archive">
+      <div class="section-head"><div><h2>Season by season</h2>
+        <p>Regular-season record, finish and leading scorer. Pick a year to open its full results and roster stats.</p></div></div>
+      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="t-season-history"></table></div></div>
+    </section>
 
     <div class="section">
       <div class="section-head"><div><h2>Franchise leaders</h2>
@@ -100,9 +133,10 @@
 const CODE = (new URLSearchParams(location.search).get('code') || '').toUpperCase();
 let TEAM = null;          // latest name/logo for the code
 let teamSeasons = [];     // seasons with standings for this team
+let selectedGoalieId = null;
 const isD = pos => /D/.test((pos || '').toUpperCase());
 
-PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', 'lines', 'rosters', 'players_index'])
+PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', 'lines', 'rosters', 'players_index', 'team_shots'], { team_shots: 'team-shotmaps-1' })
   .then(() => {
     // Latest identity for the code (names changed after the inaugural season).
     Object.keys(META.teams_by_season).sort((a, b) => Number(a) - Number(b)).forEach(sid => {
@@ -124,11 +158,27 @@ function render() {
   const hasSeason = teamSeasons.length > 0;
   document.getElementById('season-sections').style.display = hasSeason ? 'flex' : 'none';
   if (hasSeason) renderSeason(currentSeasonId);
+  renderSeasonArchive();
   renderFranchise();
   renderRoster();
 }
 
 function standingRow(sid) { return (STANDINGS[sid] || []).find(t => t.code === CODE); }
+
+function renderSeasonArchive() {
+  const table = document.getElementById('t-season-history');
+  const rows = teamSeasons.filter(sid => /Regular/.test(seasonName(sid))).slice().reverse();
+  if (!rows.length) { emptyTable(table, 'No completed regular-season records yet.'); return; }
+  table.innerHTML = `<thead><tr><th>Season</th><th>Finish</th><th>Record</th><th>Points</th><th>Goals</th><th>Leading scorer</th></tr></thead><tbody>${rows.map(sid => {
+    const st = standingRow(sid);
+    const leader = (AWARDS && AWARDS[sid] || []).filter(p => p.team_code === CODE)
+      .sort((a, b) => (b.points || 0) - (a.points || 0))[0];
+    const record = st ? `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}` : '—';
+    const goals = st ? `${fmt(st.gf)}–${fmt(st.ga)}` : '—';
+    const scorer = leader ? `${plLink(leader.player_id, leader.name)} <span class="tm">${leader.points} P</span>` : '—';
+    return `<tr><th scope="row"><a href="${teamHref(CODE)}&season=${encodeURIComponent(sid)}">${esc(seasonName(sid))}</a></th><td>#${st && st.rank || '—'}</td><td>${record}</td><td>${st ? fmt(st.pts) : '—'}</td><td>${goals}</td><td>${scorer}</td></tr>`;
+  }).join('')}</tbody>`;
+}
 
 function renderHead() {
   const head = document.getElementById('t-head');
@@ -187,6 +237,9 @@ function renderSeason(sid) {
     [capPct != null ? Math.round(capPct) + '%' : '—', 'Home capacity'],
   ];
   document.getElementById('t-tiles').innerHTML = tiles.map(([n, l]) => `<div class="stat"><div class="num">${esc(n)}</div><div class="lbl">${esc(l)}</div></div>`).join('');
+  renderTeamShotMaps(sid);
+  renderGoalieShotMaps(sid);
+  renderTeamAwards(sid);
 
   // Results strip + goal margin per game.
   document.getElementById('t-results').innerHTML = games.map(g =>
@@ -295,6 +348,127 @@ function renderGameLog(sid, games) {
       <td style="text-align:right">${esc((g.venue || '').split('|')[0].trim())}${g.takeover ? ' <span class="txn-tag">takeover</span>' : ''}</td>
       <td>${g.attendance ? fmt(g.attendance) : '—'}</td></tr>`).join('')}</tbody>`;
   collapseRows(table, 10, 'games');
+}
+
+// ---- Team and goalie shot maps: each shot faces the attacking-right net --
+function drawShotRink(ctx, W, H) {
+  const pad = 8, w = W - pad * 2, h = H - pad * 2;
+  const px = x => pad + x / 100 * w;
+  const py = y => pad + (y + 42.5) / 85 * h;
+  ctx.clearRect(0, 0, W, H);
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = cssVar('--line-2');
+  const r = 28 / 100 * w;
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(-42.5));
+  ctx.arcTo(px(100), py(-42.5), px(100), py(42.5), r);
+  ctx.arcTo(px(100), py(42.5), px(0), py(42.5), r);
+  ctx.lineTo(px(0), py(42.5));
+  ctx.stroke();
+  ctx.strokeStyle = cssVar('--blue');
+  ctx.beginPath(); ctx.moveTo(px(25), py(-42.5)); ctx.lineTo(px(25), py(42.5)); ctx.stroke();
+  ctx.strokeStyle = cssVar('--red');
+  ctx.beginPath(); ctx.moveTo(px(89), py(-40)); ctx.lineTo(px(89), py(40)); ctx.stroke();
+  ctx.strokeRect(px(89), py(-3), px(93) - px(89), py(3) - py(-3));
+  ctx.beginPath(); ctx.arc(px(89), py(0), 6 / 100 * w, Math.PI / 2, Math.PI * 1.5); ctx.stroke();
+  ctx.strokeStyle = cssVar('--line-2');
+  [-22, 22].forEach(fy => { ctx.beginPath(); ctx.arc(px(69), py(fy), 15 / 100 * w, 0, Math.PI * 2); ctx.stroke(); });
+  return { px, py };
+}
+
+function drawTeamShotMap(canvasId, shots, label, noteId) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const { px, py } = drawShotRink(ctx, canvas.width, canvas.height);
+  const goals = shots.filter(s => s[5]).length;
+  shots.forEach(s => {
+    ctx.beginPath();
+    ctx.arc(px(s[3]), py(s[4]), s[5] ? 4.4 : 2.8, 0, Math.PI * 2);
+    if (s[5]) {
+      ctx.fillStyle = teamColor(CODE);
+      ctx.fill();
+      ctx.strokeStyle = cssVar('--bg-2');
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+    } else {
+      ctx.strokeStyle = teamColorA(CODE, 0.55);
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    }
+  });
+  canvas.setAttribute('aria-label', `${label}: ${fmt(shots.length)} located shots, ${fmt(goals)} goals. Hollow markers are shots; filled markers are goals.`);
+  canvas.setAttribute('aria-describedby', noteId);
+  return { shots: shots.length, goals };
+}
+
+function renderTeamShotMaps(sid) {
+  const section = document.getElementById('team-shot-section');
+  const grid = document.getElementById('team-shot-grid');
+  const note = document.getElementById('team-shot-note');
+  const events = TEAM_SHOTS && TEAM_SHOTS[sid];
+  if (!Array.isArray(events) || !events.length) {
+    grid.style.display = 'none';
+    note.textContent = 'No coordinate-level play-by-play shots are available for this season.';
+    return;
+  }
+  grid.style.display = '';
+  const away = events.filter(s => s[0] === CODE && s[1] !== CODE);
+  const home = events.filter(s => s[0] === CODE && s[1] === CODE);
+  const awayN = drawTeamShotMap('team-away-shots', away, `${seasonName(sid)} team shots, away games`, 'team-shot-note');
+  const homeN = drawTeamShotMap('team-home-shots', home, `${seasonName(sid)} team shots, home games`, 'team-shot-note');
+  document.getElementById('team-away-title').textContent = `Away games · left · ${fmt(awayN.shots)} shots / ${fmt(awayN.goals)} goals`;
+  document.getElementById('team-home-title').textContent = `Home games · right · ${fmt(homeN.shots)} shots / ${fmt(homeN.goals)} goals`;
+  note.textContent = 'Only shots with valid play-by-play coordinates are mapped; counts can be lower than official shot totals. Filled markers are goals.';
+}
+
+function renderGoalieShotMaps(sid) {
+  const section = document.getElementById('goalie-shot-section');
+  const grid = document.getElementById('goalie-shot-grid');
+  const note = document.getElementById('goalie-shot-note');
+  const goalies = ((GOALIES && GOALIES[sid]) || []).filter(g => g.team_code === CODE).sort((a, b) => b.gp - a.gp);
+  const events = TEAM_SHOTS && TEAM_SHOTS[sid];
+  if (!goalies.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  if (!Array.isArray(events) || !events.length) {
+    grid.style.display = 'none';
+    note.textContent = 'No coordinate-level play-by-play shots are available for this season.';
+    return;
+  }
+  grid.style.display = '';
+  const select = document.getElementById('goalie-shot-select');
+  if (!goalies.some(g => String(g.player_id) === String(selectedGoalieId))) selectedGoalieId = goalies[0].player_id;
+  select.innerHTML = goalies.map(g => `<option value="${esc(g.player_id)}"${String(g.player_id) === String(selectedGoalieId) ? ' selected' : ''}>${esc(g.name)}</option>`).join('');
+  const goalie = goalies.find(g => String(g.player_id) === String(selectedGoalieId));
+  const shots = events.filter(s => String(s[2]) === String(selectedGoalieId));
+  const away = shots.filter(s => s[1] !== CODE);
+  const home = shots.filter(s => s[1] === CODE);
+  const awayN = drawTeamShotMap('goalie-away-shots', away, `${goalie.name}, away games`, 'goalie-shot-note');
+  const homeN = drawTeamShotMap('goalie-home-shots', home, `${goalie.name}, home games`, 'goalie-shot-note');
+  document.getElementById('goalie-away-title').textContent = `Away games · left · ${fmt(awayN.shots)} shots / ${fmt(awayN.goals)} goals`;
+  document.getElementById('goalie-home-title').textContent = `Home games · right · ${fmt(homeN.shots)} shots / ${fmt(homeN.goals)} goals`;
+  note.textContent = 'Maps include shots for which this goalie is identified in the play-by-play. Coverage can be lower than official shots against.';
+  select.onchange = () => { selectedGoalieId = select.value; renderGoalieShotMaps(sid); };
+}
+
+function renderTeamAwards(sid) {
+  const grid = document.getElementById('team-awards');
+  const rows = AWARDS && AWARDS[sid] || [];
+  if (!rows.length) {
+    grid.innerHTML = '<p class="note">No superlative data for this season.</p>';
+    return;
+  }
+  const th = awardsThresholds(rows);
+  const cards = AWARDS_DEFS.flatMap(def => {
+    const { list, formatter } = awardRanking(def, rows, 'total', th);
+    const teamEntries = list.map((x, i) => ({ ...x, rank: list.findIndex(y => y.v === x.v) + 1 }))
+      .filter(x => x.r.team_code === CODE);
+    if (!teamEntries.length) return [];
+    return [`<article class="aw-card">
+      <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(def.title)}</span></div>
+      <div class="aw-list">${teamEntries.map(x => `<div class="aw-row"><span class="rk">${list.some(y => y.v === x.v && y.r.player_id !== x.r.player_id) ? 'T' : ''}${x.rank}</span><span class="nm">${plLink(x.r.player_id, x.r.name)}</span><span class="vl">${esc(formatter(x.v, x.r))}</span></div>`).join('')}</div>
+    </article>`];
+  });
+  grid.innerHTML = cards.length ? cards.join('') : '<p class="note">No team players rank in the league top five for this season’s superlatives.</p>';
 }
 
 // ---- Franchise leaders (all regular seasons) ---------------------------

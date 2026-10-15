@@ -54,10 +54,10 @@ def venue_parts(venue):
 def read_csv(name, required=True):
     path = os.path.join(DATA_DIR, name)
     # pwhl_pbp.csv is cached between CI runs rather than committed, so it can be
-    # absent on a cache miss. Only the shot map depends on it -- let the rest of
+    # absent on a cache miss. Shot map outputs depend on it -- let the rest of
     # the dashboard JSON still build instead of crashing the whole job.
     if not required and not os.path.exists(path):
-        print(f"  note: {path} not found, skipping (shot map will be empty)")
+        print(f"  note: {path} not found, skipping (shot maps will be empty)")
         return []
     with open(path, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
@@ -515,6 +515,47 @@ def main():
         "goals_by_period": dict(goals_by_period),
         "shots_by_period": dict(shots_by_period),
     })
+
+    # Team shot maps split home/away, including each team's goalies. Keep one
+    # compact, season-keyed event list so the browser can filter by team or goalie.
+    shots_by_game = defaultdict(list)
+    for e in pbp:
+        if e.get("event") == "shot":
+            shots_by_game[e.get("game_id")].append(e)
+    team_shots_by_season = defaultdict(list)
+    for gid, events in shots_by_game.items():
+        sid = season_of_game.get(gid)
+        if not sid:
+            continue
+        x_by_period_team = defaultdict(list)
+        for e in events:
+            x = to_num(e.get("x_coord"))
+            y = to_num(e.get("y_coord"))
+            if x is not None and y is not None and -100 <= x <= 100 and -42.5 <= y <= 42.5:
+                x_by_period_team[(e.get("period_of_game"), e.get("team_id"))].append(x)
+        direction = {}
+        for key, values in x_by_period_team.items():
+            values.sort()
+            median = values[len(values) // 2]
+            if median:
+                direction[key] = 1 if median > 0 else -1
+        for e in events:
+            d = direction.get((e.get("period_of_game"), e.get("team_id")))
+            x = to_num(e.get("x_coord"))
+            y = to_num(e.get("y_coord"))
+            shooter = code_by_season_team.get((sid, e.get("team_id")), "")
+            home = code_by_season_team.get((sid, e.get("home_team_id")), "")
+            if (d is None or x is None or y is None or not shooter or not home
+                    or not (-100 <= x <= 100 and -42.5 <= y <= 42.5)):
+                continue
+            goalie_id = e.get("goalie_id")
+            team_shots_by_season[sid].append([
+                shooter, home,
+                goalie_id if goalie_id not in (None, "", "NA") else "",
+                round(x * d, 1), round(y, 1),
+                1 if str(e.get("goal")).upper() == "TRUE" else 0,
+            ])
+    write_json("pwhl_team_shots.json", team_shots_by_season)
 
     # ---- Player pages ------------------------------------------------
     write_player_pages(players_info, season_stats, game_logs, pbp, game_summaries,
