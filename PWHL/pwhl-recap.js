@@ -32,7 +32,7 @@ function recapSetProjection() {
 }
 function recapZoomForDay(day) {
   let next = recapDefaultBounds;
-  if ((day.phase === 'playoff' || day.phase === 'final') && day.bracket?.length) {
+  if (day.phase === 'playoff' && day.bracket?.length) {
     const live = new Set();
     day.bracket.forEach(series => {
       if (Math.max(...series.wins) < 3) series.teams.forEach(code => live.add(code));
@@ -321,12 +321,13 @@ function recapRender(index, progress = 1) {
     const day = recapDays[index];
     recapEl('recap-date').textContent = recapFormatDate(day.date);
     recapEl('recap-counter').textContent = `GAME DATE ${index+1} / ${recapDays.length}`;
-    recapEl('recap-phase').textContent = day.phase === 'final' ? 'FINAL' : day.phase === 'playoff' ? 'PLAYOFF' : 'REGULAR SEASON';
+    recapEl('recap-phase').textContent = day.phase === 'playoff' ?
+      (day.round === 2 ? 'FINAL' : 'PLAYOFF') : 'REGULAR SEASON';
     recapEl('recap-position').textContent = `${index+1} / ${recapDays.length}`;
     recapEl('recap-scrub').value = String(index);
     recapEl('recap-score').innerHTML = day.games.map(game =>
       `<span>${esc(game.away)} ${game.as} – ${game.hs} ${esc(game.home)}${game.ot ? ` (${esc(game.ot)})` : ''}</span>`).join('');
-    const postseason = day.phase === 'playoff' || day.phase === 'final';
+    const postseason = day.phase === 'playoff';
     recapEl('recap-standings-chart').hidden = postseason;
     recapEl('recap-playoff-visual').hidden = !postseason;
     recapEl('recap-standings-board').hidden = postseason;
@@ -342,7 +343,6 @@ function recapRender(index, progress = 1) {
     recapZoomForDay(day);
     recapMapDay(index);
     recapUpdateEventStrip(index,day);
-    recapHideChampion();
   }
   recapMapProgress(progress);
   let regularIndex = -1;
@@ -354,36 +354,45 @@ function recapRender(index, progress = 1) {
 function recapRenderPlayoffVisual(series) {
   const svg = recapEl('recap-playoff-series');
   svg.replaceChildren();
-  const semis = series.filter(item => item.round === 1).slice(0,2);
+  const semis = series.filter(item => item.round === 1)
+    .sort((a,b) => a.series.localeCompare(b.series)).slice(0,2);
   const final = series.find(item => item.round === 2);
-  const byTeam = new Map();
-  semis.forEach(item => {
-    const winner = item.wins[0] >= 3 ? item.teams[0] : item.wins[1] >= 3 ? item.teams[1] : null;
-    if (winner) byTeam.set(winner,{won:true});
+  const winner = item => item && (item.wins[0] >= 3 ? item.teams[0] :
+    item.wins[1] >= 3 ? item.teams[1] : null);
+  const finalists = semis.map(item => {
+    const team = winner(item);
+    const finalIndex = final?.teams.indexOf(team) ?? -1;
+    return {team,wins:finalIndex >= 0 ? final.wins[finalIndex] : null};
   });
-  const finalLines = final ? final.teams.map((team,i) => {
-    const appears = series.some(item => item.round === 1 && item.teams.includes(team) && byTeam.has(team));
-    return appears ? {team,wins:final.wins[i]} : {team:null,wins:null};
-  }) : [{team:null,wins:null},{team:null,wins:null}];
-  const card = (x,y,w,h,title,rows) => {
-    svg.append(recapSvg('rect',{class:'playoff-graphic-card',x,y,width:w,height:h,rx:9}));
-    const heading = recapSvg('text',{class:'playoff-graphic-heading',x:x+9,y:y+16}); heading.textContent = title; svg.append(heading);
+  // Each semifinal feeds its own row in the centre final.
+  svg.append(recapSvg('path',{class:'playoff-graphic-connector',
+    d:'M153 90 H164 V160 H174 M347 90 H336 V198 H326'}));
+  const card = (x,y,w,rows) => {
+    svg.append(recapSvg('rect',{class:'playoff-graphic-card',x,y,width:w,height:76,rx:7}));
+    svg.append(recapSvg('line',{class:'playoff-graphic-separator',x1:x+7,x2:x+w-7,y1:y+38,y2:y+38}));
     rows.forEach((row,i) => {
-      const yy=y+31+i*30;
-      if (i === 0) svg.append(recapSvg('line',{class:'playoff-graphic-separator',x1:x+8,x2:x+w-8,y1:yy-8,y2:yy-8}));
-      const name=recapSvg('text',{class:'playoff-graphic-team',x:x+10,y:yy+12}); name.textContent=row.team || 'TBD'; svg.append(name);
-      const wins=recapSvg('text',{class:'playoff-graphic-wins','text-anchor':'end',x:x+w-10,y:yy+12}); wins.textContent=row.wins == null ? '—' : `${row.wins} W`; svg.append(wins);
+      const yy = y + 19 + i*38;
+      const won = row.team && row.wins >= 3;
+      if (won) svg.append(recapSvg('rect',{class:'playoff-graphic-winner',
+        x:x+3,y:yy-16,width:w-6,height:33,rx:4,fill:teamColor(row.team)}));
+      if (row.team) {
+        const logo = recapTeamLogoUrl(row.team);
+        if (logo) svg.append(recapSvg('image',{href:logo,x:x+8,y:yy-10,width:20,height:20}));
+        else svg.append(recapSvg('circle',{cx:x+18,cy:yy,r:7,fill:teamColor(row.team)}));
+      }
+      const name = recapSvg('text',{class:`playoff-graphic-team${row.team ? '' : ' pending'}`,
+        x:x+33,y:yy+4});
+      name.textContent = row.team ? recapTeamCity(row.team) : 'TBD';
+      svg.append(name);
+      const wins = recapSvg('text',{class:'playoff-graphic-wins','text-anchor':'end',
+        x:x+w-8,y:yy+4});
+      wins.textContent = row.wins == null ? '–' : row.wins;
+      svg.append(wins);
     });
   };
-  semis.forEach((item,i) => {
-    const rows=item.teams.map((team,j)=>({team,wins:item.wins[j]}));
-    card(12,i === 0 ? 22 : 138,170,96,`SEMI-FINAL ${String.fromCharCode(65+i)}`,rows);
-  });
-  const finalParticipants=finalLines.map((row,i)=>({team:row.team,wins:row.wins}));
-  card(320,80,168,104,'CHAMPIONSHIP FINAL',finalParticipants);
-  svg.append(recapSvg('path',{class:'playoff-graphic-connector',d:'M182 70 H226 V116 H320 M182 186 H226 V116'}));
-  const label=recapSvg('text',{class:'playoff-graphic-note','text-anchor':'middle',x:250,y:238});
-  label.textContent='Series wins update after each completed game';svg.append(label);
+  semis.forEach((item,i) => card(i ? 347 : 7,52,146,
+    item.teams.map((team,j) => ({team,wins:item.wins[j]}))));
+  card(174,141,152,finalists);
 }
 function recapRenderGameRecap(games, roundName) {
   recapEl('recap-round-label').textContent = roundName
@@ -401,7 +410,7 @@ function recapRenderGameRecap(games, roundName) {
 }
 function recapUpdateEventStrip(index, day) {
   const strip = recapEl('recap-event-strip'), track = recapEl('recap-event-track');
-  const events = recapDays.slice(0,index+1).filter(frame => frame.phase !== 'final').flatMap(frame =>
+  const events = recapDays.slice(0,index+1).flatMap(frame =>
     (frame.games || []).flatMap(game => (game.events || []).map(event => ({...event,date:frame.date,gameId:game.id}))));
   const icons = {
     'hat-trick':'<svg viewBox="0 0 64 64"><path d="M15 48h35M20 47c-2-5-4-8-4-14 0-5 3-9 8-11l5-14h19l5 14c5 2 8 6 8 11 0 6-3 10-5 14z"/><path d="M27 10h21M35 55l13-17M42 39l10 2"/></svg>',
@@ -412,27 +421,10 @@ function recapUpdateEventStrip(index, day) {
   };
   const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension','short-handed-goal':'Short-handed goal'};
   track.innerHTML = events.map((event,i) => `<div class="recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}" title="${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}"><span class="recap-event-icon" aria-hidden="true">${icons[event.type] || ''}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span></div>`).join('');
-  strip.hidden = day.phase === 'final' || events.length === 0;
+  strip.hidden = events.length === 0;
   if (events.length < recapRenderedEventCount) strip.scrollLeft = 0;
   else if (events.length > recapRenderedEventCount) requestAnimationFrame(() => strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'}));
   recapRenderedEventCount = events.length;
-}
-function recapShowChampion(code) {
-  if (!code) return;
-  const toast = recapEl('recap-champion-toast');
-  const confetti = Array.from({length:28},(_,i) => {
-    const hue = [44,197,353,213,133][i%5];
-    const x = ((i*37)%180)-90, y = -35-(i%7)*7, delay = (i%9)*-.11;
-    return `<i style="--confetti-x:${x}px;--confetti-y:${y}px;--confetti-delay:${delay}s;--confetti-hue:${hue}deg"></i>`;
-  }).join('');
-  toast.innerHTML = `<svg class="recap-champion-trophy" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 7h16v8c0 8-3 13-8 15-5-2-8-7-8-15zM16 11H7v5c0 6 4 9 11 9M32 11h9v5c0 6-4 9-11 9M24 30v8m-9 3h18m-14-3h10"/></svg><span>${esc(recapTeamCity(code))} win the championship</span><img alt="${esc(code)} logo" src="${esc(recapTeamLogoUrl(code))}"/><div class="recap-confetti-burst" aria-hidden="true">${confetti}</div>`;
-  toast.hidden = false;
-  toast.classList.add('champion');
-}
-function recapHideChampion() {
-  const toast = recapEl('recap-champion-toast');
-  toast.hidden = true;
-  toast.replaceChildren();
 }
 function recapStop() {
   recapPlaying = false;
@@ -450,7 +442,6 @@ function recapTick(now) {
   if (recapPosition >= recapDays.length) {
     recapPosition = recapDays.length;
     recapRender(recapDays.length-1,1);
-    recapShowChampion(recapSeason.champion);
     recapStop();
     return;
   }
@@ -458,7 +449,6 @@ function recapTick(now) {
   recapFrameId = requestAnimationFrame(recapTick);
 }
 function recapPlay() {
-  recapHideChampion();
   if (recapPlaying) {
     recapStop();
     recapRender(recapIndex,1);
@@ -473,7 +463,6 @@ function recapPlay() {
   recapFrameId = requestAnimationFrame(recapTick);
 }
 function recapSeek(index) {
-  recapHideChampion();
   recapStop();
   recapPosition = Math.max(0,Math.min(recapDays.length-1,index));
   recapRender(recapPosition,1);
@@ -482,16 +471,11 @@ function recapSeek(index) {
 }
 function recapSetSeason(sid) {
   recapStop();
-  recapHideChampion();
   recapRenderedEventCount = 0;
   recapSeasonId = sid;
   recapSeason = recapData.seasons[sid];
   recapRegularDays = recapSeason.days;
-  recapDays = [...recapSeason.days, ...(recapSeason.playoffs || []), ...(recapSeason.champion ? [{
-    date:recapSeason.playoffs?.at(-1)?.date || recapSeason.days.at(-1).date,
-    phase:'final', games:[], routes:[], bracket:recapSeason.playoffs?.at(-1)?.bracket || [], champion:recapSeason.champion,
-    standings:[], leaders:[], goalies:[], birth_debuts:[], counters:recapSeason.days.at(-1).counters,
-  }] : [])];
+  recapDays = [...recapSeason.days, ...(recapSeason.playoffs || [])];
   recapIndex = -1; recapPosition = 0; recapFocus = null;
   const places = [...Object.values(recapSeason.bases),
     ...recapDays.flatMap(day => day.games.map(game => game.venue))];

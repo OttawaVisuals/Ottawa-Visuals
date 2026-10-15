@@ -93,23 +93,17 @@
 .recap-game-empty{font-size:11px;color:var(--ink-3)}
 #recap-standings-chart[hidden],#recap-playoff-visual[hidden]{display:none}
 .playoff-graphic-card{fill:var(--bg-2);stroke:var(--line-2);stroke-width:1.2}
-.playoff-graphic-heading{font:700 9px var(--font-mono);letter-spacing:.07em;fill:var(--ink-3)}
-.playoff-graphic-team{font:700 13px Inter,system-ui,sans-serif;fill:var(--ink)}
-.playoff-graphic-wins{font:700 12px var(--font-mono);fill:var(--accent)}
+.playoff-graphic-winner{fill-opacity:.14}
+.playoff-graphic-team{font:700 12px Inter,system-ui,sans-serif;fill:var(--ink)}
+.playoff-graphic-team.pending{fill:var(--ink-3)}
+.playoff-graphic-wins{font:700 13px var(--font-mono);fill:var(--ink)}
 .playoff-graphic-separator{stroke:var(--line);stroke-width:.8}
-.playoff-graphic-connector{fill:none;stroke:var(--line-2);stroke-width:2}
-.playoff-graphic-note{font:11px Inter,system-ui,sans-serif;fill:var(--ink-3)}
+.playoff-graphic-connector{fill:none;stroke:var(--line-2);stroke-width:2.5;stroke-linejoin:round}
 .recap-series{display:grid;gap:2px;padding:5px 6px;border:1px solid var(--line);border-radius:5px;background:var(--bg-2)}
 .recap-series span{font-size:10px;color:var(--ink-3)}.recap-series strong{font:600 11px var(--font-mono)}
 #recap-replay-view[hidden]{display:none}
 #recap-charts[hidden]{display:none}
 #recap-replay-view{display:flex;flex-direction:column;gap:8px}
-.recap-event-toast{position:fixed;z-index:30;right:18px;top:18px;max-width:min(420px,calc(100vw - 36px));padding:12px 16px;border:1px solid var(--accent);border-radius:12px;background:var(--bg);box-shadow:0 8px 35px #0005;color:var(--ink);font-weight:700;animation:recap-pop .35s ease-out}
-.recap-event-toast[hidden],.recap-event-toast.champion[hidden]{display:none!important}.recap-event-toast.champion{top:25%;left:50%;right:auto;transform:translateX(-50%);display:flex;align-items:center;gap:14px;padding:22px 28px;font-size:22px;animation:recap-champion-pop .6s ease-out;overflow:visible}
-.recap-event-toast img{width:70px;height:70px;object-fit:contain}
-.recap-champion-trophy{width:38px;height:38px;flex:none;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.recap-confetti-burst{position:absolute;inset:0;pointer-events:none;overflow:visible}
-.recap-confetti-burst i{position:absolute;left:50%;top:35%;width:7px;height:11px;border-radius:2px;background:hsl(var(--confetti-hue) 80% 55%);animation:recap-confetti-fall 2.4s ease-out var(--confetti-delay) both}
 .recap-event-strip{display:flex;overflow-x:auto;overflow-y:hidden;gap:0;border:1px solid var(--line);border-radius:8px;background:var(--bg-3);scrollbar-width:thin;scroll-behavior:smooth;min-height:0;margin-top:6px}
 .recap-event-strip[hidden]{display:none}
 .recap-event-track{display:flex;gap:7px;min-width:100%;width:max-content;padding:5px}
@@ -124,10 +118,6 @@
 .recap-event-box.short-handed-goal{color:#3e85a5;background:rgba(62,133,165,.14)}
 .recap-event-box.is-new{animation:recap-event-in .45s ease-out both}
 @keyframes recap-event-in{from{opacity:0;transform:translateX(-16px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
-@keyframes recap-pop{from{opacity:0;transform:translateY(-12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes recap-champion-pop{from{opacity:0;transform:translate(-50%,-12px) scale(.92)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
-@keyframes recap-confetti-fall{0%{opacity:0;transform:translate(0,0) rotate(0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--confetti-x),calc(190px - var(--confetti-y))) rotate(640deg)}}
-@media(prefers-reduced-motion:reduce){.recap-event-toast,.recap-confetti-burst i{animation:none!important}}
 @media(max-height:800px) and (min-width:1001px){.recap-hero p,.recap-hero .eyebrow{display:none}.recap-hero .recap-season-label{margin-left:auto}}
 @media(max-width:960px){.recap-main-grid{grid-template-columns:1fr}.recap-boards{grid-template-columns:minmax(0,1fr) minmax(0,1fr);order:0}}
 @media(max-width:750px){.recap-top-grid{grid-template-columns:1fr}.recap-counters{grid-template-columns:repeat(3,minmax(0,1fr))}.recap-counters>div{display:block}.recap-charts{grid-template-columns:1fr}}
