@@ -1,0 +1,105 @@
+name: Collect Ottawa Data (traffic + transit)
+
+# Triggered every 5 min by the Cloudflare Worker in cloudflare-worker/ via the
+# workflow_dispatch API. GitHub's own `schedule:` is throttled on this account,
+# and dispatch events are not. Replaces the Raspberry Pi cron (Traffic/PI_SETUP.md).
+#
+# Each pollers self-gates its cadence (peak / off-peak / overnight), so most
+# runs are cheap no-ops. Readings are appended to the CSVs, kept between runs in
+# the Actions cache, and committed to main at most once an hour so git history
+# doesn't balloon (the CSVs are multi-MB; a commit per run would add GBs/week).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-data
+  cancel-in-progress: false
+
+env:
+  # Files the pollers append to. Only these are cached between runs; other
+  # workflows write the rest of Traffic/data (city/, derived/, ...).
+  SPOOL_PATHS: |
+    Traffic/data/corridor_travel_times.csv
+    Traffic/data/segment_speeds.csv
+    Traffic/data/incidents_summary.csv
+    Traffic/data/parking_lots.csv
+    Traffic/data/parking_summary.csv
+    Traffic/data/events_log.csv
+    Traffic/data/events_summary.csv
+    Traffic/data/events_active.json
+    Traffic/data/cameras.csv
+    OC_Transpo/rt_data/trip_updates_summary.csv
+    OC_Transpo/rt_data/vehicle_positions_summary.csv
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Newest spool wins over the checkout: it holds readings not yet
+      # committed. Safe because only this workflow writes these files.
+      - name: Restore un-committed readings
+        id: spool
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.SPOOL_PATHS }}
+          key: collect-spool-none
+          restore-keys: collect-spool-
+
+      - name: Poll
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+          OCTRANSPO_API_KEY: ${{ secrets.OCTRANSPO_API_KEY }}
+          ONTARIO_511_KEY: ${{ secrets.ONTARIO_511_KEY }}
+        run: |
+          python Traffic/scripts/poll_traffic.py
+          python Traffic/scripts/poll_parking.py || echo "poll_parking failed (non-fatal)"
+          python Traffic/scripts/poll_events.py || echo "poll_events failed (non-fatal)"
+          python OC_Transpo/scripts/poll_gtfsrt.py
+
+      - name: Save readings to spool
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.SPOOL_PATHS }}
+          key: collect-spool-${{ github.run_id }}-${{ github.run_attempt }}
+
+      # Commit each collector at most once an hour (>=55 min since its last
+      # readings commit), keeping the Pi's "traffic: readings" / "transit:
+      # readings" messages so collector-heartbeat.yml keeps working.
+      - name: Commit hourly
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git fetch --quiet --depth=200 origin main
+          now=$(date -u +%s)
+          due () { # $1 = commit message prefix
+            last=$(git log origin/main -1 --grep="^$1" --format=%ct || true)
+            [ -z "$last" ] || [ $((now - last)) -ge 3300 ]
+          }
+          stamp=$(date -u +'%Y-%m-%d %H:%M UTC')
+
+          if due "traffic: readings"; then
+            python Traffic/scripts/build_history.py || echo "build_history failed (non-fatal)"
+            git add Traffic/data/
+            git diff --cached --quiet || git commit -q -m "traffic: readings $stamp"
+          fi
+          if due "transit: readings"; then
+            python OC_Transpo/scripts/build_history_transit.py || echo "build_history_transit failed (non-fatal)"
+            git add OC_Transpo/rt_data/
+            git diff --cached --quiet || git commit -q -m "transit: readings $stamp"
+          fi
+
+          if [ "$(git rev-list --count origin/main..HEAD)" -gt 0 ]; then
+            git pull --rebase --autostash -q origin main
+            git push -q origin HEAD:main
+          fi
