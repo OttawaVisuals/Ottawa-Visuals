@@ -435,7 +435,8 @@ function renderTeamAwards(seasonId) {
   ];
   grid.innerHTML = defs.map(def => {
     const ranked = rows.filter(r => r[def.key] != null && Number.isFinite(r[def.key]))
-      .slice().sort((a, b) => (def.asc ? 1 : -1) * (a[def.key] - b[def.key]) || a.code.localeCompare(b.code));
+      .slice().sort((a, b) => (def.asc ? 1 : -1) * (a[def.key] - b[def.key]) || a.code.localeCompare(b.code))
+      .slice(0, 3);
     const body = ranked.length ? ranked.map((r, i) => `
       <div class="aw-row team-aw-row">
         <span class="rk">${i + 1}</span>
