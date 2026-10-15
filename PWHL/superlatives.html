@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav3"></script>
-<script src="pwhl-sections.js?v=20261010-1"></script>
+<script src="pwhl-core.js?v=chart-accessibility-1"></script>
+<script src="pwhl-sections.js?v=chart-accessibility-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=20261011-ux1">
+<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -92,7 +92,7 @@ function renderSupSeason(sid) {
   renderAwards(sid, currentAwardsMode);
   renderRapSheet(sid);
 }
-PWHL.load(['meta', 'standings', 'awards', 'rapsheet', 'elo']).then(() => {
+PWHL.load(['meta', 'standings', 'awards', 'rapsheet']).then(() => {
   PWHL.fillHeader();
   const displayDate = d => new Date(d.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-CA', { day:'numeric', month:'short', year:'numeric' });
   const lastGame = META.last_game_date ? displayDate(META.last_game_date) : 'unknown';

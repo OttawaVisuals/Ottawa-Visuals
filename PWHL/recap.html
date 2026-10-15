@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav3"></script>
+<script src="pwhl-core.js?v=chart-accessibility-1"></script>
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
-<link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
+<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
 <link rel="stylesheet" href="pwhl-recap.css?v=recap-19"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
@@ -34,9 +34,9 @@
       <div id="recap-team-legend" class="recap-team-legend" aria-label="Highlight a team"></div>
       <div class="recap-top-grid">
         <div class="recap-charts" id="recap-charts">
-          <div id="recap-standings-chart"><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 260" role="img" aria-label="Team standings points through the selected date"></svg></div>
-          <div id="recap-playoff-visual" hidden><h3>Playoff series</h3><svg id="recap-playoff-series" viewBox="0 0 500 260" role="img" aria-label="Playoff series scores as of this date"></svg></div>
-          <div id="recap-chart-gd-wrap"><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 260" role="img" aria-label="Team goal differential through the selected date"></svg></div>
+          <div id="recap-standings-chart"><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 260" role="img" aria-label="Team standings points through the selected date; exact values are in the points table." aria-describedby="recap-standings"></svg></div>
+          <div id="recap-playoff-visual" hidden><h3>Playoff series</h3><svg id="recap-playoff-series" viewBox="0 0 500 260" role="img" aria-label="Playoff series scores as of this date; game results are listed below." aria-describedby="recap-game-list"></svg></div>
+          <div id="recap-chart-gd-wrap"><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 260" role="img" aria-label="Team goal differential through the selected date; exact values are in the points table." aria-describedby="recap-standings"></svg></div>
         </div>
         <div class="recap-counters" aria-label="Season totals through this game date">
           <div><span>Est. travel</span><strong id="recap-counter-travel">0 h</strong></div>

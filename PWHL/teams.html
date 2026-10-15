@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav3"></script>
-<script src="pwhl-sections.js"></script>
+<script src="pwhl-core.js?v=chart-accessibility-1"></script>
+<script src="pwhl-sections.js?v=chart-accessibility-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=20261011-ux1">
+<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -109,14 +109,13 @@
 // Team cards: record, points, goal difference and xG share, linking to team.html.
 function renderTeamGrid(sid) {
   const xg = XG && XG.by_season[sid];
-  const elo = ELO ? Object.fromEntries(ELO.teams.map(t => [t.code, t])) : {};
   document.getElementById('team-grid').innerHTML = (STANDINGS[sid] || []).map(t => {
     const x = xg && xg.teams.find(r => r.code === t.code);
     return `<a class="team-card" href="${teamHref(t.code)}&season=${sid}" style="--tc:${teamColor(t.code)}">
       ${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}
       <div><b>${esc(t.name || t.code)}</b>
         <span>${t.rank ? '#' + t.rank + ' · ' : ''}${fmt(t.pts)} pts · ${t.w + (t.otw || 0) + (t.sow || 0)}-${t.l}-${(t.otl || 0) + (t.sol || 0)}</span>
-        <span>GF ${fmt(t.gf)} · GA ${fmt(t.ga)}${x ? ` · xGF ${x.xgf_pct.toFixed(0)}%` : ''}${elo[t.code] ? ` · Elo ${Math.round(elo[t.code].elo)}` : ''}</span></div>
+        <span>GF ${fmt(t.gf)} · GA ${fmt(t.ga)}${x ? ` · xGF ${x.xgf_pct.toFixed(0)}%` : ''}</span></div>
     </a>`;
   }).join('');
 }
@@ -127,7 +126,7 @@ function renderTeamsSeason(sid) {
   renderTeamXg(sid);
   renderAttendance(sid);
 }
-PWHL.load(['meta', 'standings', 'games', 'xg', 'elo']).then(() => {
+PWHL.load(['meta', 'standings', 'games', 'xg']).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   const seasons = META.seasons.map(s => s.season_id).filter(s => STANDINGS[s] && STANDINGS[s].length);

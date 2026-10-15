@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Team — Ottawa Visuals</title>
-<meta name="description" content="PWHL team page: record, roster, most-used lines, results, attendance and outlook."/>
+<meta name="description" content="PWHL team page: historical record, roster, most-used lines, results and attendance."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav3"></script>
+<script src="pwhl-core.js?v=chart-accessibility-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=20261011-ux1">
+<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -36,20 +36,6 @@
 
   <div id="app" style="display:none;flex-direction:column;gap:26px;">
     <div class="p-head" id="t-head"></div>
-
-    <div class="section" id="outlook-section">
-      <div class="section-head"><div><h2 id="outlook-title">Outlook</h2><p id="outlook-sub"></p></div></div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">Next games: win chances</div>
-          <div class="game-list" id="t-upcoming"></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Elo rating over time</div>
-          <div class="cw"><canvas id="chart-t-elo"></canvas></div>
-        </div>
-      </div>
-    </div>
 
     <div id="season-sections" style="display:flex;flex-direction:column;gap:26px;">
       <div class="section">
@@ -116,15 +102,13 @@ let TEAM = null;          // latest name/logo for the code
 let teamSeasons = [];     // seasons with standings for this team
 const isD = pos => /D/.test((pos || '').toUpperCase());
 
-PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', 'lines', 'elo', 'rosters', 'players_index'])
+PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', 'lines', 'rosters', 'players_index'])
   .then(() => {
     // Latest identity for the code (names changed after the inaugural season).
     Object.keys(META.teams_by_season).sort((a, b) => Number(a) - Number(b)).forEach(sid => {
       const t = META.teams_by_season[sid].find(t => t.code === CODE);
       if (t) TEAM = t;
     });
-    const eloTeam = ELO && ELO.teams.find(t => t.code === CODE);
-    if (!TEAM && eloTeam) TEAM = { code: CODE, name: eloTeam.name, logo: eloTeam.logo };
     if (!TEAM) throw new Error('unknown team ' + CODE);
     document.title = `${TEAM.name} — PWHL — Ottawa Visuals`;
     PWHL.fillHeader(CODE);
@@ -137,7 +121,6 @@ PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'ratings', 'xg', '
 
 function render() {
   renderHead();
-  renderOutlook();
   const hasSeason = teamSeasons.length > 0;
   document.getElementById('season-sections').style.display = hasSeason ? 'flex' : 'none';
   if (hasSeason) renderSeason(currentSeasonId);
@@ -151,14 +134,12 @@ function renderHead() {
   const head = document.getElementById('t-head');
   head.style.setProperty('--tc', teamColor(CODE));
   const st = teamSeasons.length ? standingRow(currentSeasonId) : null;
-  const eloTeam = ELO && ELO.teams.find(t => t.code === CODE);
   const facts = [];
   if (st) facts.push(['Record', `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}`], ['Points', `${st.pts} (#${st.rank})`], ['Goals', `${st.gf} for · ${st.ga} against`]);
-  if (eloTeam) facts.push(['Elo', Math.round(eloTeam.elo)], [`${ELO.season_name.split(' ')[0]} playoffs`, pctFmt(eloTeam.playoffs)]);
   head.innerHTML = `
     ${TEAM.logo ? `<img class="t-logo" src="${esc(TEAM.logo)}" alt="">` : ''}
     <div>
-      <div class="p-num">PWHL${eloTeam && eloTeam.conference ? ' · ' + esc(eloTeam.conference) + 'ern Conference' : ''}</div>
+      <div class="p-num">PWHL</div>
       <h1 class="p-name">${esc(TEAM.name)}</h1>
       <div class="p-bio">${facts.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
     </div>
@@ -172,44 +153,6 @@ function renderHead() {
     const u = new URL(location.href); u.searchParams.set('season', currentSeasonId); history.replaceState(null, '', u);
     render();
   });
-}
-
-// ---- Outlook: Elo, next games, rating history ------------------------
-function renderOutlook() {
-  const sec = document.getElementById('outlook-section');
-  const t = ELO && ELO.teams.find(t => t.code === CODE);
-  if (!t) { sec.style.display = 'none'; return; }
-  sec.style.display = '';
-  document.getElementById('outlook-title').textContent = `${ELO.season_name.replace(' Regular Season', '')} outlook`;
-  const rank = ELO.teams.slice().sort((a, b) => b.elo - a.elo).findIndex(x => x.code === CODE) + 1;
-  document.getElementById('outlook-sub').textContent =
-    `Elo ${Math.round(t.elo)} (#${rank} of ${ELO.teams.length}). Across ${fmt(ELO.n_sims)} simulated seasons: `
-    + `${t.pts != null ? t.pts.toFixed(1) + ' points on average, ' : ''}playoffs ${pctFmt(t.playoffs)}`
-    + `${t.final != null ? `, final ${pctFmt(t.final)}` : ''}${t.cup != null ? `, champion ${pctFmt(t.cup)}` : ''}.`;
-  const games = ELO.upcoming.filter(g => g.home === CODE || g.away === CODE);
-  const list = document.getElementById('t-upcoming');
-  list.innerHTML = games.length ? games.map(g => {
-    const home = g.home === CODE, opp = home ? g.away : g.home, p = home ? g.p_home : 1 - g.p_home;
-    return `<div class="game-row">
-      <span class="game-date">${esc(shortDate(g.date))}</span>
-      <div class="game-teams"><span>${home ? 'vs' : '@'} ${teamDot(opp)}${teamLink(opp)}</span><span class="${p >= 0.5 ? 'fav' : ''}">${Math.round(p * 100)}% to win</span></div>
-      <div class="prob-bar"><span style="width:${p * 100}%;background:${teamColor(CODE)}"></span><span style="width:${(1 - p) * 100}%;background:${teamColor(opp)}"></span></div>
-    </div>`;
-  }).join('') : '<p class="note">No upcoming games on the schedule.</p>';
-  collapseRows(list, 6, 'games');
-
-  const hist = ELO.history[CODE] || [];
-  destroyChart('chart-t-elo');
-  trackChart(new Chart(document.getElementById('chart-t-elo').getContext('2d'), {
-    type: 'line',
-    data: { labels: hist.map(h => h[0]), datasets: [
-      { label: TEAM.name, data: hist.map(h => h[1]), borderColor: teamColor(CODE), backgroundColor: teamColorA(CODE, 0.12),
-        fill: true, borderWidth: 2, pointRadius: hist.length < 2 ? 3 : 0, tension: 0.2 },
-      { label: 'Average (1500)', data: hist.map(() => 1500), borderColor: cssVar('--ink-3'), borderDash: [4, 4], borderWidth: 1, pointRadius: 0 },
-    ] },
-    options: baseOptions({ scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 }, maxTicksLimit: 8 }, grid: { color: cssVar('--line') } },
-                                     y: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } } } }),
-  }));
 }
 
 // ---- Season sections ---------------------------------------------------

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=20261015-nav3"></script>
+<script src="pwhl-core.js?v=chart-accessibility-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=20261011-ux1">
+<link rel="stylesheet" href="pwhl.css?v=chart-accessibility-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -58,7 +58,7 @@
             <button class="tab-btn active" data-scope="season">This season</button>
             <button class="tab-btn" data-scope="career">Career</button>
           </span></div>
-        <div class="rink-wrap"><canvas id="shot-canvas" width="440" height="374"></canvas></div>
+        <div class="rink-wrap"><canvas id="shot-canvas" width="440" height="374" role="img" aria-describedby="shot-coverage"></canvas></div>
         <div class="legend" id="shot-legend"></div>
         <p class="note" id="shot-coverage"></p>
       </div>
@@ -137,7 +137,7 @@ const pid = new URLSearchParams(location.search).get('id');
 Promise.all([
   pid && /^\d+$/.test(pid) ? fetch(DATA_BASE + 'players/' + pid + '.json').then(r => { if (!r.ok) throw new Error('no player'); return r.json(); })
       : Promise.reject(new Error('no id')),
-  PWHL.load(['meta', 'xg', 'ratings', 'awards', 'goalies', 'elo']),
+  PWHL.load(['meta', 'xg', 'ratings', 'awards', 'goalies']),
 ]).then(([p]) => {
   P = p;
   document.title = `${P.name} — PWHL — Ottawa Visuals`;
@@ -522,6 +522,7 @@ function drawShots() {
   document.getElementById('shot-coverage').textContent =
     `Shot coverage: ${counts.join(' · ')}. The map plots ${fmt(inZone.length)} located shots in the attacking half. `
     + 'The box score, located events, and goalie-in-net model use different event coverage, so totals can differ.';
+  canvas.setAttribute('aria-label', `${P.name}: ${isGoalie() ? 'shots faced' : 'shots on goal'}, ${scope}. ${fmt(inZone.length)} located shots plotted in the attacking half, including ${goals} goals. Other-half shots are omitted.`);
 }
 
 // ---- career table + game log ------------------------------------------------

@@ -27,7 +27,6 @@ const PWHL = {};
 // ---------------------------------------------------------------- header
 PWHL.PAGES = [
   ['home', 'pwhl.html', 'Home'],
-  ['forecast', 'forecast.html', 'Forecast'],
   ['teams', 'teams.html', 'Teams'],
   ['players', 'players.html', 'Players'],
   ['superlatives', 'superlatives.html', 'Superlatives'],
@@ -73,15 +72,12 @@ PWHL.header = function (active) {
 };
 
 // Fills the logo strip (current league teams) and the "data through" bar.
-// Needs META; uses ELO's team list when loaded, since it is the season ahead.
+// Needs META; shows teams in the latest season with historical game data.
 PWHL.fillHeader = function (activeCode) {
   if (!META) return;
-  let teams = ELO && ELO.teams ? ELO.teams.map(t => ({ code: t.code, name: t.name, logo: t.logo })) : null;
-  if (!teams) {
-    const tb = META.teams_by_season || {};
-    const latest = Object.keys(tb).sort((a, b) => Number(b) - Number(a))[0];
-    teams = (tb[latest] || []).filter(t => t.code !== 'TBD');
-  }
+  const tb = META.teams_by_season || {};
+  const latest = Object.keys(tb).sort((a, b) => Number(b) - Number(a))[0];
+  let teams = (tb[latest] || []).filter(t => t.code !== 'TBD');
   teams = teams.slice().sort((a, b) => a.code.localeCompare(b.code));
   document.getElementById('logo-strip').innerHTML = teams.map(t => `
     <a href="${teamHref(t.code)}" title="${esc(t.name)}" class="${t.code === activeCode ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
@@ -93,11 +89,9 @@ PWHL.fillHeader = function (activeCode) {
     (nice ? `Games through ${nice}` : '') + ` · refreshed ${META.generated_at.slice(0, 10)}`;
   const latestRegular = META.seasons.filter(s => /Regular Season/.test(s.name)).slice(-1)[0];
   const gameSeason = latestRegular && latestRegular.name.replace(' Regular Season', '');
-  const forecastSeason = ELO && ELO.season_name && ELO.season_name.replace(' Regular Season', '');
   const refreshed = META.generated_at.slice(0, 10);
   document.getElementById('data-context').innerHTML = [
     gameSeason ? `<span><b>Latest game stats</b> ${esc(gameSeason)}</span>` : '',
-    forecastSeason ? `<span><b>Forecast</b> ${esc(forecastSeason)}</span>` : '',
     nice ? `<span><b>Last game</b> ${esc(nice)}</span>` : '',
     `<span><b>Data refreshed</b> ${esc(refreshed)}</span>`,
   ].filter(Boolean).join('<span class="context-sep" aria-hidden="true">·</span>');
@@ -210,7 +204,50 @@ function baseOptions(overrides = {}) {
   if (plugins) Object.assign(base.plugins, plugins);
   return base;
 }
-function trackChart(chart) { CHARTS.push(chart); return chart; }
+function chartNumber(value) {
+  if (value == null || value === '') return '—';
+  if (typeof value === 'number' && Number.isFinite(value))
+    return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  if (typeof value === 'object') {
+    if (value.y != null) return `${chartNumber(value.x)}: ${chartNumber(value.y)}`;
+    return Object.entries(value).map(([k, v]) => `${k}: ${chartNumber(v)}`).join(', ');
+  }
+  return String(value);
+}
+function chartDataTable(chart, links = []) {
+  const canvas = chart.canvas;
+  const id = `${canvas.id}-data`;
+  document.getElementById(id)?.remove();
+  const card = canvas.closest('.card');
+  const titleNode = card && Array.from(card.querySelectorAll('.card-title'))
+    .filter(node => node.compareDocumentPosition(canvas) & Node.DOCUMENT_POSITION_FOLLOWING).pop();
+  const title = titleNode?.innerText.trim()
+    || canvas.getAttribute('aria-label') || 'Chart';
+  const labels = chart.data.labels || [];
+  const sets = chart.data.datasets || [];
+  const extra = chart.a11yDetails || [];
+  const hasExtra = extra.some(Boolean);
+  const count = Math.max(labels.length, ...sets.map(ds => (ds.data || []).length), 0);
+  const heads = sets.map((ds, i) => ds.label || `Series ${i + 1}`);
+  const rows = Array.from({ length: count }, (_, i) => {
+    const label = labels[i] == null ? `Item ${i + 1}` : String(labels[i]);
+    const item = links[i] ? `<a href="${esc(links[i].href)}">${esc(label)}</a>` : esc(label);
+    return `<tr><th scope="row">${item}</th>${sets.map(ds => `<td>${esc(chartNumber((ds.data || [])[i]))}</td>`).join('')}${hasExtra ? `<td>${esc(extra[i] || '')}</td>` : ''}</tr>`;
+  }).join('');
+  const details = document.createElement('details');
+  details.className = 'chart-data';
+  details.id = id;
+  details.innerHTML = `<summary>View chart data</summary><div class="chart-data-scroll"><table class="tbl"><caption>${esc(title)}</caption><thead><tr><th scope="col">Category</th>${heads.map(h => `<th scope="col">${esc(h)}</th>`).join('')}${hasExtra ? '<th scope="col">Details</th>' : ''}</tr></thead><tbody>${rows || `<tr><td colspan="${heads.length + 1 + Number(hasExtra)}">No chart data.</td></tr>`}</tbody></table></div>`;
+  const frame = canvas.closest('.cw, .cw-lg, .cw-sm') || canvas;
+  frame.insertAdjacentElement('afterend', details);
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', `${title} chart. A data table follows.`);
+}
+function trackChart(chart, links = []) {
+  CHARTS.push(chart);
+  chartDataTable(chart, links);
+  return chart;
+}
 function refreshChartColors() {
   CHARTS.forEach(chart => {
     if (!chart.options.plugins) return;
@@ -225,7 +262,11 @@ function refreshChartColors() {
 }
 function destroyChart(id) {
   const idx = CHARTS.findIndex(c => c.canvas && c.canvas.id === id);
-  if (idx >= 0) { CHARTS[idx].destroy(); CHARTS.splice(idx, 1); }
+  if (idx >= 0) {
+    CHARTS[idx].destroy();
+    document.getElementById(`${id}-data`)?.remove();
+    CHARTS.splice(idx, 1);
+  }
 }
 // Legend for "team colour, solid vs. faded" bar pairs: neutral swatches,
 // since each bar's actual colour is its team's.

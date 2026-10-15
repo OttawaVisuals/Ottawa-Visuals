@@ -2,20 +2,21 @@
 
 **Live:** [`pwhl.html`](pwhl.html) (embedded on the homepage as report *PWHL dashboard*)
 
-Standings, forecasts, team and player pages, expected goals and superlatives across
+Standings, team and player pages, expected goals and superlatives across
 every PWHL season, refreshed daily from the league's own stats feed (HockeyTech).
 
 ## Pages
 
-Every page shares one header (site bar, PWHL section nav, team-logo strip, "data
+Forecasts are paused; the old forecast URL returns to the historical dashboard.
+
+Every active page shares one header (site bar, PWHL section nav, team-logo strip, "data
 through" date) and remembers the season you picked (`?season=` / localStorage).
 
 | Page | What's on it |
 |---|---|
-| `pwhl.html` | Home: league at a glance, standings, player leaders, playoff bracket, transactions, links to the rest |
-| `forecast.html` | Elo ratings, upcoming-game win chances, playoff odds, prediction scorecard strip |
+| `pwhl.html` | Home: league at a glance, standings, player leaders, playoff bracket, rotating historical awards, links to the rest |
 | `teams.html` | Team cards, goals for/against, special teams, team xG share, attendance |
-| `team.html?code=OTT` | One team: outlook, record tiles, results, top contributors, most-used lines, roster stats, game log, franchise leaders, current roster |
+| `team.html?code=OTT` | One team: historical record tiles, results, top contributors, most-used lines, roster stats, game log, franchise leaders, current roster |
 | `players.html` | Sortable table of every skater and goalie, impact ratings, expected goals |
 | `player.html?id=<player_id>` | One player: role tag, season tiles, game-by-game chart, shot map, shot mix by type, goalie matchups, home/away split, best games, career table, game log |
 | `superlatives.html` | Tongue-in-cheek awards (totals or per 60), the Rap Sheet, the Hall of Sustained Quirk |

@@ -77,6 +77,12 @@ table{border-collapse:collapse;width:100%;}
 .cw{position:relative;height:280px;}
 .cw-sm{height:220px;}
 .cw-lg{height:420px;}
+.chart-data{margin-top:8px;border-top:1px solid var(--line);font-size:12px;}
+.chart-data summary{width:max-content;padding:5px 2px;color:var(--accent);cursor:pointer;}
+.chart-data summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px;}
+.chart-data[open] summary{margin-bottom:5px;}
+.chart-data-scroll{max-width:100%;overflow-x:auto;}
+.chart-data .tbl caption{text-align:left;padding:4px 8px;color:var(--ink-2);font-weight:600;}
 /* ── STAT CALLOUTS ─────────────────────────────────────────────── */
 .stat-row{display:flex;gap:10px;flex-wrap:wrap;}
 .stat{background:var(--bg-3);border:1px solid var(--line);border-radius:7px;padding:10px 13px;flex:1;min-width:150px;}
@@ -134,6 +140,7 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .aw-row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .aw-row .tm{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-left:5px;}
 .aw-row .vl{font-variant-numeric:tabular-nums;font-weight:600;}
+.home-award .aw-row{grid-template-columns:1fr auto;}
 .aw-row-detail{grid-column:2 / -1;justify-self:end;margin-top:-3px;font-family:var(--font-mono);font-size:10.5px;line-height:1.25;color:var(--ink-2);}
 .aw-row:first-child .nm{font-weight:700;}
 .aw-row:first-child .vl{color:var(--accent);}
@@ -172,11 +179,7 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .series-row:not(.winner) .nm{color:var(--ink-3);}
 .series-row .sc{font-family:var(--font-mono);font-weight:700;}
 .series-meta{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:6px;padding-top:6px;border-top:1px solid var(--line);}
-/* ── TRANSACTIONS ──────────────────────────────────────────────── */
-.txn-list{display:flex;flex-direction:column;}
-.txn-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px;align-items:baseline;}
-.txn-row:last-child{border-bottom:none;}
-.txn-date{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);flex-shrink:0;width:78px;}
+/* ── TRANSACTION TAGS (movement + roster history) ──────────────── */
 .txn-tag{font-family:var(--font-mono);font-size:9.5px;padding:1px 6px;border-radius:4px;background:var(--bg-3);color:var(--ink-2);flex-shrink:0;}
 .txn-tag.add{color:var(--green);} .txn-tag.del{color:var(--red);}
 .trade-card{margin-bottom:10px;}

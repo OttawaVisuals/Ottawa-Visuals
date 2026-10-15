@@ -1,5 +1,5 @@
 // Render functions for the dashboard sections, shared by the PWHL pages
-// (home, forecast, teams, players, superlatives, how it works). Each page
+// (home, teams, players, superlatives, how it works). Each page
 // includes the markup for the sections it shows and calls their render
 // functions; see the init block at the bottom of each page.
 // Needs pwhl-teams.js and pwhl-core.js loaded first.
@@ -48,7 +48,7 @@ function renderGoalsChart(seasonId) {
   const teams = (STANDINGS[seasonId] || []).slice().sort((a,b) => (b.pts||0) - (a.pts||0));
   destroyChart('chart-goals');
   const ctx = document.getElementById('chart-goals').getContext('2d');
-  trackChart(new Chart(ctx, {
+  const chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: teams.map(t => t.code || t.name),
@@ -59,14 +59,15 @@ function renderGoalsChart(seasonId) {
       ],
     },
     options: baseOptions({ plugins: { legend: pairedLegend() } }),
-  }));
+  });
+  trackChart(chart);
 }
 function renderSpecialTeamsChart(seasonId) {
   const teams = (STANDINGS[seasonId] || []).slice().sort((a,b) => (b.pts||0) - (a.pts||0));
   const pct = v => v ? parseFloat(String(v).replace('%','')) : 0;
   destroyChart('chart-special-teams');
   const ctx = document.getElementById('chart-special-teams').getContext('2d');
-  trackChart(new Chart(ctx, {
+  const chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: teams.map(t => t.code || t.name),
@@ -77,7 +78,8 @@ function renderSpecialTeamsChart(seasonId) {
       ],
     },
     options: baseOptions({ plugins: { legend: pairedLegend() }, scales: { x: { ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } }, y: { beginAtZero: true, ticks: { color: cssVar('--ink-3'), font: { size: 10 }, callback: v => v + '%' }, grid: { color: cssVar('--line') } } } }),
-  }));
+  });
+  trackChart(chart);
 }
 
 // ================================================================
@@ -112,7 +114,7 @@ function renderLeaders(seasonId, statKey) {
   const ctx = document.getElementById('chart-leaders').getContext('2d');
   const isPct = statKey === 'faceoff_pct';
   const valueText = v => v == null ? '—' : isPct ? v.toFixed(1) + '%' : fmt(v);
-  trackChart(new Chart(ctx, {
+  const chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: rows.map((r, i) => `${i + 1}. ${r.name} · ${r.team_code || ''}`),
@@ -133,7 +135,9 @@ function renderLeaders(seasonId, statKey) {
         y: { ticks: { color: cssVar('--ink-2'), font: { size: 11.5 } }, grid: { display: false } },
       },
     }),
-  }));
+  });
+  chart.a11yDetails = rows.map(r => `${fmt(r.gp)} games played`);
+  trackChart(chart, rows.map(r => ({ href: playerHref(r.player_id) })));
 }
 
 // ================================================================
@@ -381,6 +385,48 @@ function renderAwards(seasonId, mode) {
        ? `Rate stats are per 60 minutes of ice time, restricted to players with ${th.minGp}+ games and ${th.minMin}+ minutes.`
        : 'Equal values share a rank. Awards that are already rates or eligibility-based (fair play %, sniper, hard luck, draw master, iron woman) stay on their own scale in both views.')
     + ' * = played for more than one team this season; stats are combined.';
+}
+
+// A deterministic weekly shuffle keeps the home-page picks consistent for
+// everyone, while rotating through genuine leaders from completed seasons.
+function renderHomeAwards() {
+  const grid = document.getElementById('home-awards');
+  if (!grid) return;
+  const regular = META.seasons
+    .filter(s => /Regular Season/.test(s.name) && AWARDS[s.season_id])
+    .flatMap(s => {
+      const rows = AWARDS[s.season_id];
+      const th = awardsThresholds(rows);
+      return AWARDS_DEFS.flatMap(def => {
+        const { list, formatter } = awardRanking(def, rows, 'total', th);
+        const winner = list[0];
+        return winner && winner.v !== 0 ? [{ def, season: s, winner, formatter }] : [];
+      });
+    });
+  if (!regular.length) {
+    grid.innerHTML = '<p class="note">No historical award data available.</p>';
+    return;
+  }
+  let seed = Math.floor((Date.now() + 3 * 86400000) / 604800000) >>> 0;
+  const random = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  for (let i = regular.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [regular[i], regular[j]] = [regular[j], regular[i]];
+  }
+  grid.innerHTML = regular.slice(0, 5).map(({ def, season, winner, formatter }) => `
+    <article class="aw-card home-award">
+      <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(def.title)}</span></div>
+      <div class="aw-list">
+        <div class="aw-row">
+          <span class="nm">${plLink(winner.r.player_id, winner.r.name)}<span class="tm">${teamDot(winner.r.team_code)}${esc(winner.r.team_code || '')}</span></span>
+          <span class="vl">${esc(formatter(winner.v, winner.r))}</span>
+        </div>
+      </div>
+      <div class="aw-sub">${esc(season.name)}</div>
+    </article>`).join('');
 }
 
 // ---- Rap sheet: most penalties for each infraction ----------------------
@@ -1061,29 +1107,4 @@ function renderAttendance(seasonId) {
     `Attendance is credited to the home team. % of capacity uses home-market games at venues with a listed capacity.`
     + (noAtt ? ` ${noAtt} game${noAtt === 1 ? '' : 's'} with no reported attendance left out.` : '')
     + (noCap ? ` ${noCap} game${noCap === 1 ? '' : 's'} at a venue with no listed capacity.` : '');
-}
-
-// ================================================================
-// TRANSACTIONS
-// ================================================================
-function renderTransactions() {
-  const types = Object.entries(TXN.by_type).slice(0, 10);
-  destroyChart('chart-txn-type');
-  const ctx = document.getElementById('chart-txn-type').getContext('2d');
-  trackChart(new Chart(ctx, {
-    type: 'bar',
-    data: { labels: types.map(t => t[0]), datasets: [{ label: 'Count', data: types.map(t => t[1]), backgroundColor: cssVar('--purple') }] },
-    options: baseOptions({ indexAxis: 'y', plugins: { legend: { display: false } } }),
-  }));
-
-  const list = document.getElementById('txn-list');
-  list.innerHTML = TXN.recent.map(t => {
-    const isAdd = (t.ttype_text || '').toUpperCase() === 'ADD';
-    return `<div class="txn-row">
-      <span class="txn-date">${esc((t.transaction_date||'').slice(0,10))}</span>
-      <span class="txn-tag ${isAdd?'add':'del'}">${esc(t.detail || t.ttype_text || '')}</span>
-      <span>${esc(t.player_name || '')} — ${esc(t.team_name || '')}</span>
-    </div>`;
-  }).join('');
-  collapseRows(list, 8, 'transactions');
 }
