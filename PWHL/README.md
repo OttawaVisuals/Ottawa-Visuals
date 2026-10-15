@@ -20,7 +20,7 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `player.html?id=<player_id>` | One player: role tag, season tiles, game-by-game chart, shot map, shot mix by type, goalie matchups, home/away split, best games, career table, game log |
 | `superlatives.html` | Tongue-in-cheek awards (totals or per 60), the Rap Sheet, the Hall of Sustained Quirk |
 | `travel.html` | Animated, estimated 2025–26 regular-season itineraries for all eight teams, with road, air and airport-drive distances and times |
-| `recap.html` | 75-second replay of each completed regular season through playoffs and the champion finale, with modeled routes, playoff bracket, game highlights, published YouTube view counts, sourced TV audience events, counters and team trends |
+| `recap.html` | 75-second replay of each completed regular season through playoffs and the champion finale, with modeled routes, playoff bracket, game highlights, counters and team trends |
 | `origins.html` | Zoomable player birthplace map with city-level locations and season selector |
 | `methodology.html` | Data sources and methods, the xG model's report card, league shot patterns |
 
@@ -40,7 +40,6 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `scripts/build_models.py` | Fits the expected-goals model on the play-by-play; writes `pwhl_xg.json` (GSAx, team/skater xG, danger map), `pwhl_ratings.json` (player impact ratings), `pwhl_lines.json` (most-used 5v5 trios/pairs) and a `model` block (shot mix, matchups, xG per game) into each player file |
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos, media) |
 | `data/json/` | Committed build output for the pages, including `pwhl_meta.json` |
-| `data/json/pwhl_audience.json` | Curated, sourced game-level YouTube view reports and TV audience disclosures for the season replay; coverage is partial because no complete public per-game audience series is available |
 
 When `pwhl-core.js` changes, bump its `?v=` value on every PWHL HTML page.
 GitHub Pages caches JavaScript, and an unchanged URL can keep the old navigation

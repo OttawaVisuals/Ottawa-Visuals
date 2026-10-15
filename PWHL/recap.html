@@ -14,7 +14,7 @@
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
 <link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
-<link rel="stylesheet" href="pwhl-recap.css?v=recap-20"/>
+<link rel="stylesheet" href="pwhl-recap.css?v=recap-19"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -45,7 +45,6 @@
           <div><span>Attendance</span><strong id="recap-counter-attendance">0</strong></div>
           <div><span>Player PIM</span><strong id="recap-counter-pim">0</strong></div>
           <div><span>OT / SO</span><strong id="recap-counter-extra">0</strong></div>
-          <div class="recap-counter-youtube"><span>YouTube live views*</span><strong id="recap-counter-youtube">—</strong><small id="recap-youtube-note">Published reports only; missing reports are not zero.</small></div>
         </div>
       </div>
     </section>
@@ -68,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div id="recap-event-strip" class="recap-event-strip" aria-label="Game highlights and published audience figures through this date" aria-live="polite" hidden><div id="recap-event-track" class="recap-event-track"></div></div>
+      <div id="recap-event-strip" class="recap-event-strip" aria-label="Game highlights through this date" aria-live="polite" hidden><div id="recap-event-track" class="recap-event-track"></div></div>
       <div class="recap-controls">
         <button type="button" class="tab-btn active" id="recap-play">Pause</button>
         <button type="button" class="tab-btn" id="recap-back" aria-label="Previous game date">←</button>
@@ -80,11 +79,11 @@
       </div>
       <div id="recap-champion-toast" class="recap-event-toast champion" hidden></div>
     </section>
-    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a game date. Regular-season points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; ties share a displayed rank because historical official tie-break snapshots are unavailable. Playoff results are grouped by round and series from the league bracket feed. The finale identifies the champion from the completed final series.</p><p>Game highlights use player game logs and play-by-play: shutouts, hat tricks, short-handed goals and game misconducts. Suspension notices are read from transaction data when present; a game misconduct alone does not establish a suspension.</p><p>YouTube live-view counts include only games with a published figure; a dash means no figure was found, not zero viewers. The counter adds reported per-game counts and does not represent the full audience across TV, streaming and YouTube. TV audience cards keep reach, average audience and peak audience distinct. Figures are linked to their source.</p><p>Travel lines are modeled between regular-season and playoff venues; actual travel dates, transport and itinerary are unknown. The counter assumes a return home after gaps longer than four days, road distance of 1.25× straight-line distance, bus travel up to 400 miles at 80 km/h, and otherwise air at 800 km/h plus three hours for transfers. Attendance sums reported visits rather than unique people.</p></section>
+    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a game date. Regular-season points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; ties share a displayed rank because historical official tie-break snapshots are unavailable. Playoff results are grouped by round and series from the league bracket feed. The finale identifies the champion from the completed final series.</p><p>Game highlights use player game logs and play-by-play: shutouts, hat tricks, short-handed goals and game misconducts. Suspension notices are read from transaction data when present; a game misconduct alone does not establish a suspension.</p><p>Travel lines are modeled between regular-season and playoff venues; actual travel dates, transport and itinerary are unknown. The counter assumes a return home after gaps longer than four days, road distance of 1.25× straight-line distance, bus travel up to 400 miles at 80 km/h, and otherwise air at 800 km/h plus three hours for transfers. Attendance sums reported visits rather than unique people.</p></section>
     </div>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Game and player data: PWHL / HockeyTech · Routes are assumptions</span></footer>
-<script src="pwhl-recap.js?v=recap-21"></script>
+<script src="pwhl-recap.js?v=recap-20"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 // Regular-season replay. Numbers are built by scripts/build_pwhl_recap.py.
 const recapNS = 'http://www.w3.org/2000/svg';
 const recapDuration = 75000;
-let recapData, recapAudience, recapGeography, recapSeason, recapSeasonId, recapDays = [], recapRegularDays = [], recapIndex = -1;
+let recapData, recapGeography, recapSeason, recapSeasonId, recapDays = [], recapRegularDays = [], recapIndex = -1;
 let recapPosition = 0, recapPlaying = false, recapLastFrame = 0, recapFocus = null;
 let recapCurrentPaths = [], recapMarkers = [], recapFrameId = 0;
 let recapRecentPaths = [], recapChartState = {}, recapBounds, recapProjection;
@@ -190,13 +190,6 @@ function recapCounters(index, progress) {
   recapEl('recap-counter-attendance').textContent = Math.round(value('attendance')).toLocaleString();
   recapEl('recap-counter-pim').textContent = Math.round(value('pim')).toLocaleString();
   recapEl('recap-counter-extra').textContent = String(Math.round(value('extra_games')));
-  const dayDate = recapDays[index].date;
-  const reports = (recapAudience?.youtube || []).filter(row => row.season === recapSeasonId && (row.available_date || row.as_of || row.game_date) <= dayDate);
-  const views = reports.reduce((sum,row) => sum + (Number(row.views) || 0), 0);
-  recapEl('recap-counter-youtube').textContent = reports.length ? Math.round(views).toLocaleString() : '—';
-  recapEl('recap-youtube-note').textContent = reports.length
-    ? `${reports.length} published game report${reports.length === 1 ? '' : 's'}; latest through ${reports.map(row => row.as_of).sort().at(-1)}.`
-    : 'No published game-level count yet.';
 }
 function recapBuildChart(key) {
   const svg = recapEl('recap-chart-' + key);
@@ -410,11 +403,6 @@ function recapUpdateEventStrip(index, day) {
   const strip = recapEl('recap-event-strip'), track = recapEl('recap-event-track');
   const events = recapDays.slice(0,index+1).filter(frame => frame.phase !== 'final').flatMap(frame =>
     (frame.games || []).flatMap(game => (game.events || []).map(event => ({...event,date:frame.date,gameId:game.id}))));
-  (recapAudience?.tv || []).filter(row => row.season === recapSeasonId && row.date <= day.date)
-    .forEach(row => events.push({type:'tv-audience',date:row.date,gameId:row.game_id,
-      player:`${(row.reach/1e6).toFixed(1)}M reach incl. pre-game · ${(row.average_audience/1000).toFixed(0)}K avg · ${(row.peak_audience/1e6).toFixed(3)}M peak`,
-      team:row.broadcasters,source:row.source}));
-  events.sort((a,b) => a.date.localeCompare(b.date));
   const icons = {
     'hat-trick':'<svg viewBox="0 0 64 64"><path d="M15 48h35M20 47c-2-5-4-8-4-14 0-5 3-9 8-11l5-14h19l5 14c5 2 8 6 8 11 0 6-3 10-5 14z"/><path d="M27 10h21M35 55l13-17M42 39l10 2"/></svg>',
     shutout:'<svg viewBox="0 0 64 64"><path d="M9 10h46v44H9zM9 25h46M9 40h46M24 10v15M42 10v15M17 25v15M36 25v15M25 40v14M45 40v14"/></svg>',
@@ -422,14 +410,8 @@ function recapUpdateEventStrip(index, day) {
     suspension:'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="23"/><path d="M16 16l32 32"/><path d="M23 27h18M23 37h18"/></svg>',
     'short-handed-goal':'<svg viewBox="0 0 64 64"><path d="M8 12h48v42H8zM20 12v42M32 12v42M44 12v42M8 26h48M8 40h48"/><path d="M8 54V12h48v42"/><circle cx="20" cy="26" r="7"/><circle cx="20" cy="26" r="2.2"/></svg>',
   };
-  const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension','short-handed-goal':'Short-handed goal','tv-audience':'TV audience'};
-  const tvIcon = '<svg viewBox="0 0 64 64"><rect x="8" y="15" width="48" height="35" rx="4"/><path d="m23 27 18 6-18 7zM21 8l11 7L43 8"/></svg>';
-  track.innerHTML = events.map((event,i) => {
-    const content = `<span class="recap-event-icon" aria-hidden="true">${icons[event.type] || (event.type === 'tv-audience' ? tvIcon : '')}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span>`;
-    const cls = `recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}`;
-    const title = `${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}`;
-    return event.source ? `<a class="${cls}" href="${esc(event.source)}" target="_blank" rel="noopener noreferrer" title="Source for ${title}">${content}</a>` : `<div class="${cls}" title="${title}">${content}</div>`;
-  }).join('');
+  const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension','short-handed-goal':'Short-handed goal'};
+  track.innerHTML = events.map((event,i) => `<div class="recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}" title="${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}"><span class="recap-event-icon" aria-hidden="true">${icons[event.type] || ''}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span></div>`).join('');
   strip.hidden = day.phase === 'final' || events.length === 0;
   if (events.length < recapRenderedEventCount) strip.scrollLeft = 0;
   else if (events.length > recapRenderedEventCount) requestAnimationFrame(() => strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'}));
@@ -543,10 +525,9 @@ async function recapToggleFullscreen() {
 Promise.all([
   PWHL.load(['meta']),
   fetch('data/json/pwhl_season_recap.json?v=recap-19').then(r => {if(!r.ok) throw Error(`Recap HTTP ${r.status}`);return r.json()}),
-  fetch('data/json/pwhl_audience.json?v=audience-1').then(r => {if(!r.ok) throw Error(`Audience HTTP ${r.status}`);return r.json()}),
   fetch('data/json/pwhl_movement_geography.json?v=movement-9').then(r => {if(!r.ok) throw Error(`Map HTTP ${r.status}`);return r.json()}),
-]).then(([,data,audience,geography]) => {
-  recapData = data; recapAudience = audience; recapGeography = geography;
+]).then(([,data,geography]) => {
+  recapData = data; recapGeography = geography;
   PWHL.fillHeader();
   const selected = PWHL.seasonSelect(recapEl('recap-season'),Object.keys(recapData.seasons),recapSetSeason);
   recapEl('recap-app').hidden = false;
