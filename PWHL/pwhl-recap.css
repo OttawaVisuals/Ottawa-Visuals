@@ -9,6 +9,21 @@
 .recap-season-label{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;white-space:nowrap}
 .recap-season-label select{min-width:185px}
 .recap-stage,.recap-trends{padding:8px}
+.recap-birthplaces{padding:10px 12px}
+.recap-birth-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px 14px;flex-wrap:wrap;margin-bottom:9px}
+.recap-birth-head h2{font-size:14px;margin:0}
+.recap-birth-head p{font-size:12px;color:var(--ink-2);margin:0}
+.recap-birth-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.recap-birth-grid h3{font-size:12px;margin:0 0 6px}
+.recap-birth-bars{display:grid;gap:5px}
+.recap-birth-row{display:grid;grid-template-columns:minmax(135px,180px) minmax(0,1fr) 34px;align-items:center;gap:8px;font-size:12px;min-width:0;--birth-color:#a28ace}
+.recap-birth-row.canada{--birth-color:var(--accent)}
+.recap-birth-row.us{--birth-color:#6da9db}
+.recap-birth-row.unknown{--birth-color:var(--ink-3)}
+.recap-birth-row>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recap-birth-row strong{font:700 12px var(--font-mono);text-align:right}
+.recap-birth-track{height:9px;background:var(--bg-3);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.recap-birth-track i{display:block;width:0;height:100%;background:var(--birth-color);border-radius:5px;transition:width .35s ease}
 .recap-method{padding:12px}
 .recap-stage-head{display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:32px;padding-bottom:4px}
 .recap-kicker{display:block;font:700 12px var(--font-mono);letter-spacing:.03em;color:var(--accent);margin-bottom:1px}
@@ -81,9 +96,50 @@
 [data-theme="dark"] .recap-map-lake{stroke:#40546a}
 .recap-route{fill:none;stroke-linecap:round;stroke-width:3.4;opacity:.95}
 .recap-route.prior{stroke-width:1.2;opacity:.16}
+.recap-phase{align-self:flex-start;margin-left:auto;padding:5px 9px;border:1px solid var(--line-2);border-radius:999px;background:var(--bg-3);font:700 11px var(--font-mono);letter-spacing:.08em;color:var(--accent)}
+.recap-playoff-board[hidden],.recap-birth-view[hidden]{display:none}
+.recap-bracket{display:grid;gap:5px;max-height:240px;overflow:auto}
+#recap-standings-chart[hidden],#recap-playoff-visual[hidden]{display:none}
+.playoff-graphic-card{fill:var(--bg-2);stroke:var(--line-2);stroke-width:1.2}
+.playoff-graphic-heading{font:700 9px var(--font-mono);letter-spacing:.07em;fill:var(--ink-3)}
+.playoff-graphic-team{font:700 13px Inter,system-ui,sans-serif;fill:var(--ink)}
+.playoff-graphic-wins{font:700 12px var(--font-mono);fill:var(--accent)}
+.playoff-graphic-separator{stroke:var(--line);stroke-width:.8}
+.playoff-graphic-connector{fill:none;stroke:var(--line-2);stroke-width:2}
+.playoff-graphic-note{font:11px Inter,system-ui,sans-serif;fill:var(--ink-3)}
+.recap-series{display:grid;gap:2px;padding:5px 6px;border:1px solid var(--line);border-radius:5px;background:var(--bg-2)}
+.recap-series span{font-size:10px;color:var(--ink-3)}.recap-series strong{font:600 11px var(--font-mono)}
+.recap-birth-tabs{display:flex;gap:6px;margin:0 0 7px}
+#recap-replay-view[hidden],#recap-birth-view[hidden]{display:none}
+#recap-charts[hidden]{display:none}
+#recap-replay-view{display:flex;flex-direction:column;gap:8px}
+#recap-birth-map{display:block;width:100%;max-height:430px;background:var(--bg-3);border:1px solid var(--line);border-radius:8px}
+.birth-grid{stroke:var(--line);stroke-width:1;stroke-dasharray:2 5}
+.birth-land{fill:#aab8a3;fill-opacity:.24;stroke:var(--line-2);stroke-width:1}
+.birth-dot{fill:var(--accent);fill-opacity:.72;stroke:var(--bg-2);stroke-width:1.5}
+.birth-dot-international{fill:#df9a47}
+.birth-count{font:700 10px var(--font-mono);fill:var(--bg);pointer-events:none}
+.recap-event-toast{position:fixed;z-index:30;right:18px;top:18px;max-width:min(420px,calc(100vw - 36px));padding:12px 16px;border:1px solid var(--accent);border-radius:12px;background:var(--bg);box-shadow:0 8px 35px #0005;color:var(--ink);font-weight:700;animation:recap-pop .35s ease-out}
+.recap-event-toast[hidden]{display:none}.recap-event-toast.champion{top:25%;right:50%;transform:translateX(50%);display:flex;align-items:center;gap:14px;padding:22px 28px;font-size:22px;animation:recap-pop .6s ease-out,recap-confetti 1.8s ease-out infinite alternate}
+.recap-event-toast img{width:70px;height:70px;object-fit:contain}
+.recap-event-strip{display:flex;overflow-x:auto;overflow-y:hidden;gap:0;border:1px solid var(--line);border-radius:8px;background:var(--bg-3);scrollbar-width:thin;scroll-behavior:smooth;min-height:0;margin-top:6px}
+.recap-event-strip[hidden]{display:none}
+.recap-event-track{display:flex;gap:7px;min-width:100%;width:max-content;padding:5px}
+.recap-event-box{flex:0 0 220px;display:flex;align-items:center;gap:9px;min-height:46px;padding:5px 9px;border:1px solid currentColor;border-radius:7px;background:var(--bg-2);color:var(--ink);overflow:hidden}
+.recap-event-box .recap-event-icon{font-size:21px;line-height:1;flex:none}
+.recap-event-box>span:last-child{display:grid;gap:2px;min-width:0}
+.recap-event-box strong{font-size:11px}.recap-event-box small{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}
+.recap-event-box.hat-trick{color:#bb8615;background:rgba(239,194,73,.18)}
+.recap-event-box.shutout{color:#3f9a69;background:rgba(68,172,120,.14)}
+.recap-event-box.game-misconduct,.recap-event-box.suspension{color:#cf4d4d;background:rgba(207,77,77,.15)}
+.recap-event-box.is-new{animation:recap-event-in .45s ease-out both}
+@keyframes recap-event-in{from{opacity:0;transform:translateX(-16px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes recap-pop{from{opacity:0;transform:translateY(-12px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes recap-confetti{0%{box-shadow:0 0 0 0 #e2b84c,0 0 0 0 #59a9eb,0 0 0 0 #ef7777}100%{box-shadow:14px 30px 0 -8px #e2b84c,-20px 40px 0 -9px #59a9eb,25px -30px 0 -8px #ef7777,-24px -20px 0 -8px #76c987}}
+@media(prefers-reduced-motion:reduce){.recap-event-toast{animation:none!important}}
 @media(max-height:800px) and (min-width:1001px){.recap-hero p,.recap-hero .eyebrow{display:none}.recap-hero .recap-season-label{margin-left:auto}}
 @media(max-width:960px){.recap-main-grid{grid-template-columns:1fr}.recap-boards{grid-template-columns:minmax(0,1fr) minmax(0,1fr);order:0}}
-@media(max-width:750px){.recap-top-grid{grid-template-columns:1fr}.recap-counters{grid-template-columns:repeat(3,minmax(0,1fr))}.recap-counters>div{display:block}.recap-charts{grid-template-columns:1fr}}
+@media(max-width:750px){.recap-top-grid{grid-template-columns:1fr}.recap-counters{grid-template-columns:repeat(3,minmax(0,1fr))}.recap-counters>div{display:block}.recap-charts,.recap-birth-grid{grid-template-columns:1fr}}
 @media(max-width:580px){.recap-page .report{padding:10px 10px 36px}.recap-hero{align-items:flex-start}.recap-hero p{flex-basis:100%;order:3}.recap-stage-head{display:block}.recap-score{justify-content:flex-start;margin-top:6px}.recap-boards{grid-template-columns:1fr}.recap-map-wrap{overflow-x:auto;aspect-ratio:auto}#recap-map{min-width:620px;height:236px}.recap-map-caption{position:sticky;display:inline-block;left:7px;bottom:7px}.recap-controls .tab-btn{padding:6px 8px}.recap-counters{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #recap-app:fullscreen{background:var(--bg);padding:8px;overflow:auto;display:flex;flex-direction:column;justify-content:center;gap:8px}
 #recap-app:fullscreen .recap-method{display:none}

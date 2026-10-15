@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>PWHL season replay — Ottawa Visuals</title>
-<meta name="description" content="Replay a PWHL regular season in 30 seconds: game-day travel, standings, scoring leaders and team trends."/>
+<meta name="description" content="Replay PWHL regular seasons and playoffs with game-day travel, playoff rounds, birthplace geography and game highlights."/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -14,7 +14,7 @@
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
 <link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
-<link rel="stylesheet" href="pwhl-recap.css?v=recap-8"/>
+<link rel="stylesheet" href="pwhl-recap.css?v=recap-15"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -22,21 +22,28 @@
 <div id="pwhl-header"></div><script>PWHL.header('recap')</script>
 <main class="report">
   <div class="hero recap-hero">
-    <div><span class="eyebrow">PWHL · regular season</span><h1>The season in motion</h1></div>
-    <p>Replay the points race, game-day travel and scoring leaders in about 30 seconds.</p>
+    <div><span class="eyebrow">PWHL · season replay</span><h1>The season in motion</h1></div>
+    <p>Follow the regular-season race, playoffs and championship moments.</p>
     <label class="recap-season-label" for="recap-season">Season <select class="ov-select" id="recap-season"></select></label>
   </div>
   <p id="recap-loading" role="status">Building season replay…</p>
   <div id="recap-app" hidden>
+    <div class="recap-birth-tabs" role="tablist" aria-label="PWHL page views"><button type="button" class="tab-btn active" id="recap-view-replay" role="tab" aria-selected="true">Season replay</button><button type="button" class="tab-btn" id="recap-view-birth" role="tab" aria-selected="false">Player origins map</button></div>
+    <div id="recap-replay-view">
     <section class="card recap-trends" aria-labelledby="recap-trends-title">
       <div class="recap-trends-head"><h2 id="recap-trends-title">The season race</h2><button type="button" class="tab-btn" id="recap-clear" hidden>Show all teams</button></div>
       <div id="recap-team-legend" class="recap-team-legend" aria-label="Highlight a team"></div>
       <div class="recap-top-grid">
-        <div class="recap-charts"><div><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 260" role="img" aria-label="Team standings points through the selected date"></svg></div><div><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 260" role="img" aria-label="Team goal differential through the selected date"></svg></div></div>
+        <div class="recap-charts" id="recap-charts">
+          <div id="recap-standings-chart"><h3>Standings points</h3><svg id="recap-chart-p" viewBox="0 0 500 260" role="img" aria-label="Team standings points through the selected date"></svg></div>
+          <div id="recap-playoff-visual" hidden><h3>Playoff series</h3><svg id="recap-playoff-series" viewBox="0 0 500 260" role="img" aria-label="Playoff series scores as of this date"></svg></div>
+          <div id="recap-chart-gd-wrap"><h3>Goal differential</h3><svg id="recap-chart-gd" viewBox="0 0 500 260" role="img" aria-label="Team goal differential through the selected date"></svg></div>
+        </div>
         <div class="recap-counters" aria-label="Season totals through this game date">
           <div><span>Est. travel</span><strong id="recap-counter-travel">0 h</strong></div>
           <div><span>Game-clock</span><strong id="recap-counter-clock">0 h</strong></div>
           <div><span>Goals</span><strong id="recap-counter-goals">0</strong></div>
+          <div><span>Attendance</span><strong id="recap-counter-attendance">0</strong></div>
           <div><span>Player PIM</span><strong id="recap-counter-pim">0</strong></div>
           <div><span>OT / SO</span><strong id="recap-counter-extra">0</strong></div>
         </div>
@@ -45,6 +52,7 @@
     <section class="card recap-stage" aria-label="Season replay">
       <div class="recap-stage-head">
         <div><span class="recap-kicker" id="recap-counter">DAY 1</span><h2 id="recap-date"></h2></div>
+        <div class="recap-phase" id="recap-phase">REGULAR SEASON</div>
         <div class="recap-score" id="recap-score" aria-live="off"></div>
       </div>
       <div class="recap-main-grid">
@@ -52,13 +60,15 @@
           <div class="recap-map-wrap"><svg id="recap-map" viewBox="0 0 1000 380" role="img" aria-label="Schematic routes and team matchups on this date"></svg><span class="recap-map-caption">Modeled routes · actual travel unknown</span></div>
         </div>
         <div class="recap-boards">
-          <div class="recap-board"><h3>Points table <span id="recap-standings-note">after today</span></h3><table id="recap-standings"><thead><tr><th>#</th><th>Team</th><th>GP</th><th>Pts</th><th>GD</th></tr></thead><tbody></tbody></table><div class="recap-status-note">✓ Clinched · × Eliminated</div></div>
+          <div class="recap-board" id="recap-standings-board"><h3>Points table <span id="recap-standings-note">after today</span></h3><table id="recap-standings"><thead><tr><th>#</th><th>Team</th><th>GP</th><th>Pts</th><th>GD</th></tr></thead><tbody></tbody></table><div class="recap-status-note">✓ Clinched · × Eliminated</div></div>
+          <div class="recap-board" id="recap-playoff-board" hidden><h3>Playoff bracket <span id="recap-round-label"></span></h3><div id="recap-bracket" class="recap-bracket"></div></div>
           <div class="recap-leader-stack">
             <div class="recap-board"><h3>Top five skaters <span>points</span></h3><table id="recap-leaders"><thead><tr><th>#</th><th>Player</th><th>Team</th><th>Pts</th></tr></thead><tbody></tbody></table></div>
             <div class="recap-board"><h3>Top three goalies <span>wins</span></h3><table id="recap-goalies"><thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>W</th><th>SV%</th></tr></thead><tbody></tbody></table></div>
           </div>
         </div>
       </div>
+      <div id="recap-event-strip" class="recap-event-strip" aria-label="Game highlights through this date" aria-live="polite" hidden><div id="recap-event-track" class="recap-event-track"></div></div>
       <div class="recap-controls">
         <button type="button" class="tab-btn active" id="recap-play">Pause</button>
         <button type="button" class="tab-btn" id="recap-back" aria-label="Previous game date">←</button>
@@ -66,13 +76,20 @@
         <button type="button" class="tab-btn" id="recap-fullscreen">Watch full screen</button>
         <label for="recap-scrub">Game date <span id="recap-position"></span></label>
         <input type="range" id="recap-scrub" min="0" value="0" aria-label="Choose game date"/>
-        <label for="recap-speed">Speed</label><select id="recap-speed" class="ov-select"><option value="0.5">0.5×</option><option value="1" selected>1× · 30 sec</option><option value="2">2×</option></select>
+        <label for="recap-speed">Speed</label><select id="recap-speed" class="ov-select"><option value="0.5">0.5×</option><option value="1" selected>1× · 45 sec</option><option value="2">2×</option></select>
       </div>
+      <div id="recap-champion-toast" class="recap-event-toast champion" hidden></div>
     </section>
-    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a date with at least one completed regular-season game. Tables and charts include games through that date. Team points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; reconstructed final points and goal totals are checked against the season standings. Teams tied on points share a displayed rank; historical official tie-break snapshots are unavailable. Scoring leaders sum skater game logs across teams when a player moved, with goals then name used to order point ties. Goalies rank by wins, then minutes played; save percentage is total saves divided by shots faced.</p><p>The <a href="https://www.thepwhl.com/en/2026-complete-guide-to-the-playoffs">top four teams qualify</a>. A team is marked clinched only when at most three others can still match its points, and eliminated only when four others already exceed its maximum possible points. Ties stay unresolved until the final standings. These conservative badges can appear later than official announcements.</p><p>Map positions use one Mercator scale so geography is not stretched. Lines run from a team's previous game venue to its next game venue. After a gap of more than four days, the model assumes a return to its most-used home rink. Routes are schematic and assigned to the <em>game date</em>; actual travel dates, transport and itinerary are unknown. The travel counter adds indicative team hours for these trips and assumed returns: road distance is 1.25× straight-line distance, bus if that is at most 400 miles at 80 km/h; otherwise air at 800 km/h plus three hours for transfers and overhead. Game-clock time sums 60-minute games and recorded goalie minutes in OT/SO games. PIM is the sum of player game-log penalty minutes. OT/SO counts games decided beyond regulation. Playoffs are separate and are not included.</p></section>
+    <section class="card recap-method"><h2>How to read this</h2><p>Each frame is a game date. Regular-season points use 3 for a regulation win, 2 for an overtime/shootout win, and 1 for an overtime/shootout loss; ties share a displayed rank because historical official tie-break snapshots are unavailable. Playoff results are grouped by round and series from the league bracket feed. The finale identifies the champion from the completed final series.</p><p>Game highlights use player game logs and play-by-play: shutouts, hat tricks and game misconducts. Suspension notices are read from transaction data when present; a game misconduct alone does not establish a suspension. Birthplace markers are grouped at the province/state level where available, and otherwise by country; their positions are approximate regional reference points, not exact city coordinates.</p><p>Travel lines are modeled between regular-season and playoff venues; actual travel dates, transport and itinerary are unknown. The counter assumes a return home after gaps longer than four days, road distance of 1.25× straight-line distance, bus travel up to 400 miles at 80 km/h, and otherwise air at 800 km/h plus three hours for transfers. Attendance sums reported visits rather than unique people. Birthplace counts add each player at their first regular-season appearance.</p></section>
+    </div>
+    <section class="card recap-birthplaces" id="recap-birth-view" aria-labelledby="recap-birth-title" hidden>
+      <div class="recap-birth-head"><h2 id="recap-birth-title">Player places of birth</h2><p id="recap-birth-summary"></p></div>
+      <div id="recap-birth-map-wrap"><svg id="recap-birth-map" viewBox="0 0 1000 430" role="img" aria-label="Map showing player birthplaces by region"></svg><div id="recap-birth-legend"></div></div>
+      <div class="recap-birth-grid" id="recap-birth-bars-view"><div><h3>Countries</h3><div id="recap-birth-countries" class="recap-birth-bars"></div></div><div><h3>Season's top provinces and states</h3><div id="recap-birth-regions" class="recap-birth-bars"></div></div></div>
+    </section>
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Game and player data: PWHL / HockeyTech · Routes are assumptions</span></footer>
-<script src="pwhl-recap.js?v=recap-11"></script>
+<script src="pwhl-recap.js?v=recap-15"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `player.html?id=<player_id>` | One player: role tag, season tiles, game-by-game chart, shot map, shot mix by type, goalie matchups, home/away split, best games, career table, game log |
 | `superlatives.html` | Tongue-in-cheek awards (totals or per 60), the Rap Sheet, the Hall of Sustained Quirk |
 | `travel.html` | Animated, estimated 2025–26 regular-season itineraries for all eight teams, with road, air and airport-drive distances and times |
-| `recap.html` | 30-second replay of each completed regular season: modeled game-day routes, points table, playoff status, scoring leaders, running counters and team trends |
+| `recap.html` | 45-second replay of each completed regular season through playoffs and the champion finale, with modeled routes, playoff bracket, game highlights, counters, team trends and a separate player birthplace map |
 | `methodology.html` | Data sources and methods, the xG model's report card, league shot patterns |
 
 ## Layout
@@ -33,7 +33,7 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `pwhl-sections.js` | Render functions for the dashboard sections; each page calls the ones it shows |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
 | `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the `data/json/` files the pages read, including one `players/<id>.json` per player, goalie lines, the rap sheet and current rosters |
-| `scripts/build_pwhl_recap.py` | Reconstructs game-day standings, playoff status, player scoring and running counters; validates season-end team totals and writes `pwhl_season_recap.json` |
+| `scripts/build_pwhl_recap.py` | Reconstructs regular-season standings, playoff bracket snapshots, player scoring, birthplace counts and running counters; validates season-end team totals and writes `pwhl_season_recap.json` |
 | `scripts/build_elo.py` | Team Elo ratings, upcoming-game win chances and 10,000-run playoff simulations; writes `pwhl_elo.json`. The playoff format per league year lives in its `FORMATS` dict, so update it when the league changes format |
 | `scripts/build_models.py` | Fits the expected-goals model on the play-by-play; writes `pwhl_xg.json` (GSAx, team/skater xG, danger map), `pwhl_ratings.json` (player impact ratings), `pwhl_lines.json` (most-used 5v5 trios/pairs) and a `model` block (shot mix, matchups, xG per game) into each player file |
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos, media) |
