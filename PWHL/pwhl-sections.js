@@ -7,19 +7,27 @@
 let currentLeaderStat = 'points';
 let currentAwardsMode = 'total';
 let currentBracketSeasonId = null;
-let currentRatingsGroup = 'all';
 
 function renderOverview() {
-  const gp = Object.values(GAMES).reduce((a, arr) => a + arr.length, 0);
-  const goals = Object.values(GAMES).reduce((a, arr) => a + arr.reduce((s, g) => s + (g.home_score||0) + (g.away_score||0), 0), 0);
-  const totalShots = Object.values(EVENTS.event_counts).length ? (EVENTS.event_counts.shot || 0) + (EVENTS.event_counts.goal || 0) : 0;
+  const games = Object.values(GAMES).flat().filter(g => g.home_score != null && g.away_score != null);
+  const gp = games.length;
+  const goals = games.reduce((s, g) => s + (g.home_score || 0) + (g.away_score || 0), 0);
+  const totals = OVERVIEW.league_totals || {};
   document.getElementById('overview-sub').textContent =
-    `${META.seasons.length} competition phases (regular season, preseason and playoffs) · last updated ${META.generated_at.slice(0,10)}`;
+    `All recorded seasons and competition phases · through ${META.last_game_date || 'unknown'} · data refreshed ${META.generated_at.slice(0,10)}`;
   const stats = [
     [fmt(gp), 'GAMES RECORDED'],
     [fmt(goals), 'TOTAL GOALS'],
-    [fmt(totalShots), 'TOTAL SHOT ATTEMPTS'],
+    [fmt(totals.shots_on_goal), 'SHOTS ON GOAL'],
     [(goals/Math.max(gp,1)).toFixed(2), 'GOALS PER GAME'],
+    [totals.player_seconds == null ? '—' : `${fmt(Math.round(totals.player_seconds / 3600))} h`, 'PLAYER ICE TIME'],
+    [fmt(totals.players), 'PLAYERS WITH GAME LOGS'],
+    [fmt(totals.attendance), 'REPORTED ATTENDANCE'],
+    [fmt(totals.pim), 'PENALTY MINUTES'],
+    [fmt(totals.hat_tricks), 'HAT TRICKS'],
+    [fmt(totals.shutouts), 'GOALIE SHUTOUTS'],
+    [fmt(totals.shg), 'SHORTHANDED GOALS'],
+    [fmt(totals.empty_net_goals), 'EMPTY-NET GOALS'],
   ];
   const row = document.getElementById('overview-stats');
   row.innerHTML = stats.map(([num, lbl]) => `<div class="stat"><div class="num">${num}</div><div class="lbl">${lbl}</div></div>`).join('');
@@ -770,235 +778,6 @@ function renderEloChart() {
     title.innerHTML = `Elo rating over time · ${confs.map(c => `<button class="tab-btn${c === currentEloConf ? ' active' : ''}" data-conf="${esc(c)}" style="padding:2px 8px;margin-left:4px;">${esc(c)}</button>`).join('')}`;
     title.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { currentEloConf = b.dataset.conf; renderEloChart(); }));
   }
-}
-
-// ================================================================
-// EXPECTED GOALS (season-dependent tables + all-season model charts)
-// ================================================================
-function renderXg(seasonId) {
-  const s = XG && XG.by_season[seasonId];
-  destroyChart('chart-gsax');
-  if (!s) {
-    ['gsax-table', 'skater-xg-table'].forEach(id => emptyTable(id, 'No play-by-play for this season.'));
-    return;
-  }
-
-  // Goalies: chart the regulars, table everyone with a meaningful sample.
-  const maxShots = Math.max(1, ...s.goalies.map(g => g.shots));
-  const regulars = s.goalies.filter(g => g.shots >= Math.max(50, maxShots * 0.15));
-  const ctx = document.getElementById('chart-gsax').getContext('2d');
-  trackChart(new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: regulars.map(g => `${g.name} (${g.team_code})`),
-      datasets: [{ label: 'GSAx', data: regulars.map(g => g.gsax),
-        backgroundColor: regulars.map(g => teamColor(g.team_code)), borderRadius: 3 }],
-    },
-    options: baseOptions({ indexAxis: 'y',
-      onClick: (_e, els) => { if (els.length) window.location.href = playerHref(regulars[els[0].index].player_id); },
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: { label: c => `GSAx ${signed2(c.raw)}` } },
-        barLabels: { format: v => signed2(v), size: 10.5 } } }),
-  }));
-  document.getElementById('gsax-table').innerHTML = `
-    <thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>Shots</th><th>GA</th><th>SV%</th><th>xSV%</th><th>GSAx</th></tr></thead>
-    <tbody>${s.goalies.filter(g => g.shots >= 20).map((g, i) => `<tr>
-      <td class="rank-badge">${i+1}</td><td>${plLink(g.player_id, g.name)}</td><td>${teamDot(g.team_code)}${esc(g.team_code)}</td>
-      <td>${fmt(g.shots)}</td><td>${fmt(g.goals_against)}</td>
-      <td>${g.sv_pct != null ? g.sv_pct.toFixed(3) : '—'}</td><td>${g.xsv_pct != null ? g.xsv_pct.toFixed(3) : '—'}</td>
-      <td class="pts-cell">${signedCell(g.gsax)}</td></tr>`).join('')}</tbody>`;
-
-
-
-  document.getElementById('skater-xg-table').innerHTML = `
-    <thead><tr><th>#</th><th>Player</th><th>Shots</th><th>Goals</th><th>xG</th><th>G − xG</th></tr></thead>
-    <tbody>${s.skaters.slice(0, 25).map((p, i) => `<tr>
-      <td class="rank-badge">${i+1}</td><td>${plLink(p.player_id, p.name)}</td><td>${fmt(p.shots)}</td><td>${fmt(p.goals)}</td>
-      <td class="pts-cell">${p.ixg.toFixed(1)}</td><td>${signedCell(p.g_minus_xg)}</td></tr>`).join('')}</tbody>`;
-  collapseRows(document.getElementById('gsax-table'), 10, 'goalies');
-  collapseRows(document.getElementById('skater-xg-table'), 10, 'shooters');
-}
-
-// Team share of expected goals (teams page).
-function renderTeamXg(seasonId) {
-  const s = XG && XG.by_season[seasonId];
-  if (!s) { emptyTable('team-xg-table', 'No play-by-play for this season.'); return; }
-  document.getElementById('team-xg-table').innerHTML = `
-    <thead><tr><th>#</th><th>Team</th><th>xGF</th><th>xGA</th><th>xGF%</th><th>GF</th><th>GA</th></tr></thead>
-    <tbody>${s.teams.map((t, i) => `<tr>
-      <td class="rank-badge">${i+1}</td>
-      <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${teamLogo(seasonId, t.code)}<span>${esc(t.name)}</span></a></td>
-      <td>${t.xgf.toFixed(1)}</td><td>${t.xga.toFixed(1)}</td>
-      <td class="pts-cell">${t.xgf_pct.toFixed(1)}%</td><td>${fmt(t.gf)}</td><td>${fmt(t.ga)}</td></tr>`).join('')}</tbody>`;
-}
-
-function renderXgModelCharts() {
-  if (!XG) {
-    document.getElementById('xg-note').textContent = 'Expected-goals model output not found (run scripts/build_models.py).';
-    return;
-  }
-  drawDangerMap();
-  const m = XG.model;
-  destroyChart('chart-calibration');
-  const ctx = document.getElementById('chart-calibration').getContext('2d');
-  const maxP = Math.max(...m.calibration.map(c => Math.max(c.pred, c.actual))) * 1.1;
-  trackChart(new Chart(ctx, {
-    type: 'scatter',
-    data: { datasets: [
-      { label: 'Held-out shots, grouped into tenths by predicted xG',
-        data: m.calibration.map(c => ({ x: c.pred * 100, y: c.actual * 100 })),
-        backgroundColor: cssVar('--accent'), pointRadius: 5 },
-      { label: 'Perfect calibration', type: 'line', data: [{ x: 0, y: 0 }, { x: maxP * 100, y: maxP * 100 }],
-        borderColor: cssVar('--ink-3'), borderDash: [4, 4], pointRadius: 0, borderWidth: 1 },
-    ] },
-    options: baseOptions({
-      plugins: { tooltip: { callbacks: { label: c => `predicted ${c.raw.x.toFixed(1)}% · actual ${c.raw.y.toFixed(1)}%` } },
-                 legend: { labels: { color: cssVar('--ink-2'), font: { family: 'Inter', size: 11 }, boxWidth: 12, usePointStyle: true } } },
-      scales: {
-        x: { title: { display: true, text: 'Predicted goal %', color: cssVar('--ink-3') }, min: 0, ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
-        y: { title: { display: true, text: 'Actual goal %', color: cssVar('--ink-3') }, min: 0, ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
-      },
-    }),
-  }));
-  const h = m.holdout;
-  document.getElementById('xg-note').textContent =
-    `Model fitted on ${fmt(m.shots)} shots on goal (${fmt(m.goals)} goals). On held-out games: ` +
-    `AUC ${h.auc} (0.5 = coin flip), log loss ${h.log_loss} vs ${h.baseline_log_loss} for a flat league-average guess. ` +
-    `Danger map pools all seasons.`;
-}
-
-function drawDangerMap() {
-  if (!XG) return;
-  const canvas = document.getElementById('danger-canvas');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height, pad = 8;
-  const w = W - pad * 2, h = H - pad * 2;
-  const px = x => pad + x / 100 * w;              // feet from centre ice -> canvas x
-  const py = y => pad + (y + 42.5) / 85 * h;       // feet from centre width -> canvas y
-  ctx.clearRect(0, 0, W, H);
-
-  const dm = XG.danger_map;
-  const cw = w / dm.grid_x, ch = h / dm.grid_y;
-  const rates = dm.cells.map(c => c.xg / c.shots);
-  const maxRate = Math.min(0.35, Math.max(...rates));
-  const rgb = hexToRgbArr(cssVar('--accent'));
-  dm.cells.forEach(c => {
-    const a = Math.min(0.95, Math.pow(Math.min(1, (c.xg / c.shots) / maxRate), 0.8) * 0.95);
-    ctx.fillStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a.toFixed(3)})`;
-    ctx.fillRect(pad + c.bx * cw, pad + c.by * ch, cw + 0.5, ch + 0.5);
-  });
-
-  // Offensive half: boards, blue line, goal line, crease, net, faceoff circles.
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = cssVar('--line-2');
-  ctx.beginPath();
-  const r = 28 / 100 * w;
-  ctx.moveTo(px(0), py(-42.5));
-  ctx.arcTo(px(100), py(-42.5), px(100), py(42.5), r);
-  ctx.arcTo(px(100), py(42.5), px(0), py(42.5), r);
-  ctx.lineTo(px(0), py(42.5));
-  ctx.stroke();
-  ctx.strokeStyle = cssVar('--blue');
-  ctx.beginPath(); ctx.moveTo(px(25), py(-42.5)); ctx.lineTo(px(25), py(42.5)); ctx.stroke();
-  ctx.strokeStyle = cssVar('--red');
-  ctx.beginPath(); ctx.moveTo(px(89), py(-40)); ctx.lineTo(px(89), py(40)); ctx.stroke();
-  ctx.strokeRect(px(89), py(-3), px(93) - px(89), py(3) - py(-3));
-  ctx.beginPath(); ctx.arc(px(89), py(0), 6 / 100 * w, Math.PI / 2, Math.PI * 1.5); ctx.stroke();
-  ctx.strokeStyle = cssVar('--line-2');
-  [-22, 22].forEach(fy => { ctx.beginPath(); ctx.arc(px(69), py(fy), 15 / 100 * w, 0, Math.PI * 2); ctx.stroke(); });
-}
-
-// ================================================================
-// PLAYER IMPACT RATINGS
-// ================================================================
-const RATING_COMPONENTS = {
-  ev_offense:      { label: 'EV offence',      color: '--blue' },
-  ev_defense:      { label: 'EV defence',      color: '--purple' },
-  shot_generation: { label: 'Shot generation', color: '--blue' },
-  playmaking:      { label: 'Playmaking',      color: '--purple' },
-  finishing:       { label: 'Finishing',       color: '--accent' },
-  // Not --amber: the site theme maps it to the same colour as --accent.
-  penalties:       { label: 'Penalties',       color: '--red' },
-  faceoffs:        { label: 'Faceoffs',        color: '--green' },
-};
-
-function buildRatingsTabs() {
-  const wrap = document.getElementById('ratings-tabs');
-  wrap.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
-    wrap.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentRatingsGroup = btn.dataset.group;
-    renderRatings(currentSeasonId, currentRatingsGroup);
-  }));
-}
-
-function renderRatings(seasonId, group) {
-  const s = RATINGS && RATINGS.by_season[seasonId];
-  const note = document.getElementById('ratings-note');
-  destroyChart('chart-ratings');
-  if (!s) {
-    emptyTable('ratings-table', 'No ratings for this season (it needs play-by-play and ice-time data).');
-    note.textContent = '';
-    return;
-  }
-  const ctx = document.getElementById('chart-ratings').getContext('2d');
-  const table = document.getElementById('ratings-table');
-
-  if (group === 'G') {
-    const maxShots = Math.max(1, ...s.goalies.map(g => g.shots));
-    const rows = s.goalies.filter(g => g.shots >= Math.max(30, maxShots * 0.1));
-    const top = rows.slice(0, 15);
-    document.getElementById('ratings-chart-title').textContent = 'Goalies: goals saved above expected';
-    trackChart(new Chart(ctx, {
-      type: 'bar',
-      data: { labels: top.map(g => g.name), datasets: [{ label: 'GSAx', data: top.map(g => g.gsax),
-        backgroundColor: top.map(g => g.gsax >= 0 ? cssVar('--green') : cssVar('--red')) }] },
-      options: baseOptions({ indexAxis: 'y', plugins: { legend: { display: false } } }),
-    }));
-    table.innerHTML = `
-      <thead><tr><th>#</th><th>Goalie</th><th>Team</th><th>Shots</th><th>GSAx</th></tr></thead>
-      <tbody>${rows.map((g, i) => `<tr><td class="rank-badge">${i+1}</td><td>${plLink(g.player_id, g.name)}</td>
-        <td>${teamDot(g.team_code)}${esc(g.team_code)}</td><td>${fmt(g.shots)}</td><td class="pts-cell">${signedCell(g.gsax)}</td></tr>`).join('')}</tbody>`;
-    collapseRows(table, 15, 'goalies');
-    note.textContent = 'Goalie ratings are GSAx from the expected-goals model. Minimum 10% of the season\'s top shot load.';
-    return;
-  }
-
-  const th = awardsThresholds(s.skaters);
-  const rows = s.skaters.filter(r => r.gp >= th.minGp && (group === 'all' || r.pos === group));
-  const keys = Object.keys(RATING_COMPONENTS).filter(k => s.skaters.length && k in s.skaters[0].components);
-  const top = rows.slice(0, 15);
-  document.getElementById('ratings-chart-title').textContent = 'Top 15: where the value comes from (goals)';
-  trackChart(new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: top.map(r => `${r.name} (${r.team_code})`),
-      datasets: keys.map(k => ({ label: RATING_COMPONENTS[k].label, data: top.map(r => r.components[k]),
-        backgroundColor: cssVar(RATING_COMPONENTS[k].color) })),
-    },
-    options: baseOptions({
-      indexAxis: 'y',
-      scales: {
-        x: { stacked: true, ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
-        y: { stacked: true, ticks: { color: cssVar('--ink-3'), font: { size: 10 } }, grid: { color: cssVar('--line') } },
-      },
-    }),
-  }));
-  table.innerHTML = `
-    <thead><tr><th>#</th><th>Player</th><th>Team</th><th>Pos</th><th>GP</th>
-      ${keys.map(k => `<th>${esc(RATING_COMPONENTS[k].label)}</th>`).join('')}<th>Total</th><th>Per 30 GP</th></tr></thead>
-    <tbody>${rows.map((r, i) => `<tr><td class="rank-badge">${i+1}</td><td>${plLink(r.player_id, r.name)}</td>
-      <td>${teamDot(r.team_code)}${esc(r.team_code)}</td><td>${esc(r.pos)}</td><td>${fmt(r.gp)}</td>
-      ${keys.map(k => `<td>${signed2(r.components[k])}</td>`).join('')}
-      <td class="pts-cell">${signedCell(r.total)}</td><td>${signed2(r.per30)}</td></tr>`).join('')}</tbody>`;
-  collapseRows(table, 15, 'players');
-
-  note.textContent = s.model === 'full'
-    ? `Full model: on-ice lists cover ${(s.onice_coverage * 100).toFixed(0)}% of this season's shots, so even-strength `
-      + `offence/defence come from a regression on every skater on the ice. Minimum ${th.minGp} GP. `
-      + `A power-play goal was worth ${s.pp_goals_per_minor} per minor penalty this season.`
-    : `Box-score estimate: the feed has no on-ice lists for this season, so shot generation and playmaking `
-      + `stand in for on-ice impact. Not directly comparable with full-model seasons. Minimum ${th.minGp} GP.`;
 }
 
 function renderAttendance(seasonId) {

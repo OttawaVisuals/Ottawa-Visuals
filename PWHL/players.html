@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Players — Ottawa Visuals</title>
-<meta name="description" content="Every PWHL skater and goalie in one sortable table, with impact ratings and expected goals."/>
+<meta name="description" content="Every PWHL skater and goalie in sortable historical season tables."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=team-shotmaps-1"></script>
-<script src="pwhl-sections.js?v=chart-accessibility-1"></script>
+<script src="pwhl-core.js?v=league-overview-1"></script>
+<script src="pwhl-sections.js?v=league-overview-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -43,6 +43,11 @@
       <div><h2>All players</h2><p>Players with a recorded game in the selected season. Click a column to sort, a name for the player page.</p></div>
       <div class="filters"><select id="season-select" class="ov-select" aria-label="Season"></select></div>
     </div>
+      <form class="player-search" id="player-search" autocomplete="off">
+        <input id="player-search-input" list="player-search-list" placeholder="Find a player…" aria-label="Find a player">
+        <datalist id="player-search-list"></datalist>
+        <button class="tab-btn" type="submit">Open</button>
+      </form>
       <div class="card">
         <div class="card-title">
           <span class="tabs" id="pl-tabs">
@@ -69,55 +74,6 @@
       </div>
     </div>
 
-    <div class="section" id="ratings">
-      <div class="section-head">
-        <div>
-          <h2>Player impact ratings</h2>
-          <p id="ratings-sub">Each skater's value in goals above an average player, split into the
-             pieces it comes from. Follows the season picked above.</p>
-        </div>
-        <div class="tabs" id="ratings-tabs">
-          <button class="tab-btn active" data-group="all">All skaters</button>
-          <button class="tab-btn" data-group="F">Forwards</button>
-          <button class="tab-btn" data-group="D">Defence</button>
-          <button class="tab-btn" data-group="G">Goalies</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title" id="ratings-chart-title">Top 15: where the value comes from</div>
-        <div class="cw-lg"><canvas id="chart-ratings"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Full list</div>
-        <div style="overflow-x:auto;"><table class="tbl" id="ratings-table"></table></div>
-      </div>
-      <p class="note" id="ratings-note"></p>
-    </div>
-
-    <div class="section" id="xg">
-      <div class="section-head">
-        <div>
-          <h2>Expected goals</h2>
-          <p>How likely each shot on goal was to go in. Goalies are rated by <strong>goals saved above
-             expected</strong> (GSAx): positive means they stopped more than an average goalie would have
-             on the same shots. Shooters by goals minus expected goals.</p>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">Goalies: goals saved above expected</div>
-          <div class="cw"><canvas id="chart-gsax"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Goalie detail</div>
-          <div style="overflow-x:auto;"><table class="tbl" id="gsax-table"></table></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">Finishing: goals vs. expected, top shooters by xG</div>
-        <div style="overflow-x:auto;"><table class="tbl" id="skater-xg-table"></table></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -136,17 +92,13 @@ function renderPlayersTable(sid) {
   const team = document.getElementById('pl-team').value;
   const pos = document.getElementById('pl-pos').value;
   document.getElementById('pl-pos').style.display = plKind === 'skaters' ? '' : 'none';
-  const xg = XG && XG.by_season[sid];
-  const rt = RATINGS && RATINGS.by_season[sid];
   const keep = r => (!q || r.name.toLowerCase().includes(q)) && (!team || r.team_code === team);
   const teamCol = { key: 'team', label: 'Team', get: r => r.team_code, fmt: v => v ? `${teamDot(v)}${teamLink(v)}` : '—' };
   const nameCol = { key: 'name', label: 'Player', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) };
   const n0 = v => v == null ? '—' : fmt(v), p1 = v => v == null ? '—' : v.toFixed(1) + '%';
   if (plKind === 'skaters') {
-    const xs = xg ? Object.fromEntries(xg.skaters.map(s => [s.player_id, s])) : {};
-    const rs = rt ? Object.fromEntries(rt.skaters.map(s => [s.player_id, s])) : {};
     const rows = (AWARDS[sid] || []).map(r => Object.assign({}, r, {
-      pg: /D/.test((r.pos || '').toUpperCase()) ? 'D' : 'F', xs: xs[r.player_id], rs: rs[r.player_id] }))
+      pg: /D/.test((r.pos || '').toUpperCase()) ? 'D' : 'F' }))
       .filter(r => keep(r) && (!pos || r.pg === pos));
     const cols = [
       nameCol, teamCol, { key: 'pos', label: 'Pos', get: r => r.pg },
@@ -162,17 +114,13 @@ function renderPlayersTable(sid) {
       { key: 'hits', label: 'Hits', num: 1, get: r => r.hits, fmt: n0 },
       { key: 'blk', label: 'Blk', num: 1, get: r => r.blocks, fmt: n0 },
       { key: 'fo', label: 'FO%', num: 1, title: 'min. 20 faceoffs', get: r => r.fo_attempts >= 20 ? pctOf(r.fo_wins, r.fo_attempts) : null, fmt: p1 },
-      { key: 'xg', label: 'xG', num: 1, get: r => r.xs ? r.xs.ixg : null, fmt: v => v == null ? '—' : v.toFixed(1) },
-      { key: 'gx', label: 'G−xG', num: 1, get: r => r.xs ? r.xs.g_minus_xg : null, fmt: v => v == null ? '—' : signedCell(v) },
-      { key: 'imp', label: 'Impact', num: 1, title: 'goals above an average player', get: r => r.rs ? r.rs.total : null, fmt: v => v == null ? '—' : signedCell(v) },
     ];
-    const core = new Set(['name', 'team', 'gp', 'g', 'a', 'p', 's', 'imp']);
+    const core = new Set(['name', 'team', 'gp', 'g', 'a', 'p', 's']);
     PWHL.sortableTable(table, plView === 'core' ? cols.filter(c => core.has(c.key)) : cols,
       rows, { sortKey: 'p', show: 25, noun: 'skaters' });
-    document.getElementById('players-note').textContent = `${rows.length} skaters. Impact = player impact rating in goals above an average player at the same position (see below).`;
+    document.getElementById('players-note').textContent = `${rows.length} skaters in the selected season.`;
   } else {
-    const gx = xg ? Object.fromEntries(xg.goalies.map(g => [g.player_id, g])) : {};
-    const rows = ((GOALIES && GOALIES[sid]) || []).map(g => Object.assign({}, g, { x: gx[g.player_id] })).filter(keep);
+    const rows = ((GOALIES && GOALIES[sid]) || []).filter(keep);
     const cols = [
       nameCol, teamCol,
       { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
@@ -184,13 +132,11 @@ function renderPlayersTable(sid) {
       { key: 'sv', label: 'SV%', num: 1, get: r => r.sa ? 1 - r.ga / r.sa : null, fmt: v => v == null ? '—' : v.toFixed(3).replace(/^0/, '') },
       { key: 'gaa', label: 'GAA', num: 1, get: r => r.toi ? r.ga * 3600 / r.toi : null, fmt: v => v == null ? '—' : v.toFixed(2) },
       { key: 'so', label: 'SO', num: 1, get: r => r.so, fmt: n0 },
-      { key: 'xsv', label: 'xSV%', num: 1, get: r => r.x ? r.x.xsv_pct : null, fmt: v => v == null ? '—' : v.toFixed(3).replace(/^0/, '') },
-      { key: 'gsax', label: 'GSAx', num: 1, get: r => r.x ? r.x.gsax : null, fmt: v => v == null ? '—' : signedCell(v) },
     ];
-    const core = new Set(['name', 'team', 'gp', 'w', 'sv', 'gaa', 'gsax']);
+    const core = new Set(['name', 'team', 'gp', 'w', 'sv', 'gaa', 'so']);
     PWHL.sortableTable(table, plView === 'core' ? cols.filter(c => core.has(c.key)) : cols,
       rows, { sortKey: 'gp', show: 25, noun: 'goalies' });
-    document.getElementById('players-note').textContent = `${rows.length} goalies. GSAx = goals saved above expected, from the expected-goals model.`;
+    document.getElementById('players-note').textContent = `${rows.length} goalies in the selected season.`;
   }
 }
 function renderPlayersSeason(sid) {
@@ -198,13 +144,11 @@ function renderPlayersSeason(sid) {
   const sel = document.getElementById('pl-team'), cur = sel.value;
   sel.innerHTML = '<option value="">All teams</option>' + teams.map(c => `<option${c === cur ? ' selected' : ''}>${esc(c)}</option>`).join('');
   renderPlayersTable(sid);
-  renderRatings(sid, currentRatingsGroup);
-  renderXg(sid);
 }
-PWHL.load(['meta', 'standings', 'awards', 'xg', 'ratings', 'goalies']).then(() => {
+PWHL.load(['meta', 'standings', 'awards', 'goalies']).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
-  buildRatingsTabs();
+  PWHL.playerSearch(document.getElementById('player-search'));
   PWHL.tabs(document.getElementById('pl-tabs'), 'kind', k => { plKind = k; renderPlayersTable(currentSeasonId); });
   PWHL.tabs(document.getElementById('pl-view-tabs'), 'view', v => { plView = v; renderPlayersTable(currentSeasonId); });
   ['pl-filter', 'pl-team', 'pl-pos'].forEach(id => document.getElementById(id)

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Teams — Ottawa Visuals</title>
-<meta name="description" content="Every PWHL team: records, special teams, expected-goal share and attendance, with a page per team."/>
+<meta name="description" content="Every PWHL team: historical records, goals, special teams and attendance, with a page per team."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=team-shotmaps-1"></script>
-<script src="pwhl-sections.js?v=chart-accessibility-1"></script>
+<script src="pwhl-core.js?v=league-overview-1"></script>
+<script src="pwhl-sections.js?v=league-overview-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -59,10 +59,6 @@
           <div class="cw"><canvas id="chart-special-teams"></canvas></div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-title">Team share of expected goals</div>
-        <div style="overflow-x:auto;"><table class="tbl" id="team-xg-table"></table></div>
-      </div>
     </div>
 
     <div class="section">
@@ -106,16 +102,14 @@
 </footer>
 
 <script>
-// Team cards: record, points, goal difference and xG share, linking to team.html.
+// Team cards: record, points and goals, linking to team.html.
 function renderTeamGrid(sid) {
-  const xg = XG && XG.by_season[sid];
   document.getElementById('team-grid').innerHTML = (STANDINGS[sid] || []).map(t => {
-    const x = xg && xg.teams.find(r => r.code === t.code);
     return `<a class="team-card" href="${teamHref(t.code)}&season=${sid}" style="--tc:${teamColor(t.code)}">
       ${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}
       <div><b>${esc(t.name || t.code)}</b>
         <span>${t.rank ? '#' + t.rank + ' · ' : ''}${fmt(t.pts)} pts · ${t.w + (t.otw || 0) + (t.sow || 0)}-${t.l}-${(t.otl || 0) + (t.sol || 0)}</span>
-        <span>GF ${fmt(t.gf)} · GA ${fmt(t.ga)}${x ? ` · xGF ${x.xgf_pct.toFixed(0)}%` : ''}</span></div>
+        <span>GF ${fmt(t.gf)} · GA ${fmt(t.ga)}</span></div>
     </a>`;
   }).join('');
 }
@@ -123,10 +117,9 @@ function renderTeamsSeason(sid) {
   renderTeamGrid(sid);
   renderGoalsChart(sid);
   renderSpecialTeamsChart(sid);
-  renderTeamXg(sid);
   renderAttendance(sid);
 }
-PWHL.load(['meta', 'standings', 'games', 'xg']).then(() => {
+PWHL.load(['meta', 'standings', 'games']).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   const seasons = META.seasons.map(s => s.season_id).filter(s => STANDINGS[s] && STANDINGS[s].length);

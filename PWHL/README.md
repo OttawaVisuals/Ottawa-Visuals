@@ -2,7 +2,7 @@
 
 **Live:** [`pwhl.html`](pwhl.html) (embedded on the homepage as report *PWHL dashboard*)
 
-Standings, team and player pages, expected goals and superlatives across
+Standings, team and player pages, historical season replays and superlatives across
 every PWHL season, refreshed daily from the league's own stats feed (HockeyTech).
 
 ## Pages
@@ -15,15 +15,15 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | Page | What's on it |
 |---|---|
 | `pwhl.html` | Home: league at a glance, standings, player leaders, playoff bracket, rotating historical awards, links to the rest |
-| `teams.html` | Team cards, goals for/against, special teams, team xG share, attendance |
+| `teams.html` | Team cards, goals for/against, special teams and attendance |
 | `team.html?code=OTT` | One team: historical record tiles, results, top contributors, home/away team and goalie shot maps, player award leaders, most-used lines, roster stats, game log, franchise leaders, current roster |
-| `players.html` | Sortable table of every skater and goalie, impact ratings, expected goals |
+| `players.html` | Player search and sortable tables of every skater and goalie |
 | `player.html?id=<player_id>` | One player: role tag, season tiles, game-by-game chart, shot map, shot mix by type, goalie matchups, home/away split, best games, career table, game log |
 | `superlatives.html` | Tongue-in-cheek awards (totals or per 60), the Rap Sheet, the Hall of Sustained Quirk |
 | `travel.html` | Animated, estimated 2025–26 regular-season itineraries for all eight teams, with road, air and airport-drive distances and times |
 | `recap.html` | 75-second replay of each completed regular season through playoffs and the champion finale, with modeled routes, playoff bracket, game highlights, counters and team trends |
 | `origins.html` | Zoomable player birthplace map with city-level locations and season selector |
-| `methodology.html` | Data sources and methods, the xG model's report card, league shot patterns |
+| `methodology.html` | Data sources, stat definitions, known coverage limits and league shot patterns |
 
 ## Layout
 
@@ -35,10 +35,11 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `pwhl-sections.js` | Render functions for the dashboard sections; each page calls the ones it shows |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
 | `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the `data/json/` files the pages read, including one `players/<id>.json` per player, home/away team shot maps, goalie lines, the rap sheet and current rosters |
+| `scripts/build_pwhl_overview.py` | Builds league-wide completed-game totals for the dashboard home KPIs |
 | `scripts/build_pwhl_recap.py` | Reconstructs regular-season standings, playoff bracket snapshots, game highlights, birthplace counts and running counters; validates season-end team totals and writes `pwhl_season_recap.json` |
 | `scripts/geocode_recap_birthplaces.py` | One-time, cached lookup of player birthplace coordinates; run manually when new birthplace names are added, then rebuild the recap JSON |
 | `scripts/build_elo.py` | Team Elo ratings, upcoming-game win chances and 10,000-run playoff simulations; writes `pwhl_elo.json`. The playoff format per league year lives in its `FORMATS` dict, so update it when the league changes format |
-| `scripts/build_models.py` | Fits the expected-goals model on the play-by-play; writes `pwhl_xg.json` (GSAx, team/skater xG, danger map), `pwhl_ratings.json` (player impact ratings), `pwhl_lines.json` (most-used 5v5 trios/pairs) and a `model` block (shot mix, matchups, xG per game) into each player file |
+| `scripts/build_models.py` | Builds optional experimental model artifacts and most-used 5v5 line summaries; active pages do not use the experimental outputs |
 | `data/*.csv` | Raw pulled data (games, players, standings, rosters, play-by-play, transactions, venues, logos, media) |
 | `data/json/` | Committed build output for the pages, including `pwhl_meta.json` |
 
@@ -69,6 +70,9 @@ Rscript PWHL/scripts/daily_update.R
 ```
 ```bash
 python PWHL/scripts/build_dashboard_json.py
+```
+```bash
+python PWHL/scripts/build_pwhl_overview.py
 ```
 ```bash
 python PWHL/scripts/build_pwhl_recap.py

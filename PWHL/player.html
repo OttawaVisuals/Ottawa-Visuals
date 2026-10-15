@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>PWHL Player — Ottawa Visuals</title>
-<meta name="description" content="PWHL player page: season stats, game log, shot locations and types, goalie matchups and model ratings."/>
+<meta name="description" content="PWHL player page: historical season stats, game logs, shot locations and career totals."/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=team-shotmaps-1"></script>
+<script src="pwhl-core.js?v=league-overview-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -53,30 +53,10 @@
         <div class="cw"><canvas id="chart-log"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title"><span id="shots-title">Shots</span>
-          <span class="tabs" id="shot-tabs">
-            <button class="tab-btn active" data-scope="season">This season</button>
-            <button class="tab-btn" data-scope="career">Career</button>
-          </span></div>
+        <div class="card-title"><span id="shots-title">Shots</span></div>
         <div class="rink-wrap"><canvas id="shot-canvas" width="440" height="374" role="img" aria-describedby="shot-coverage"></canvas></div>
         <div class="legend" id="shot-legend"></div>
         <p class="note" id="shot-coverage"></p>
-      </div>
-    </div>
-
-    <div class="grid-2" id="model-grid">
-      <div class="card">
-        <div class="card-title"><span id="mix-title">Shot mix</span><span class="note" style="margin:0" id="mix-scope"></span></div>
-        <div style="overflow-x:auto;"><table class="tbl" id="mix-table"></table></div>
-        <p class="note" id="mix-note"></p>
-      </div>
-      <div class="card">
-        <div class="card-title"><span id="vs-title">Goalie matchups</span></div>
-        <div class="grid-2" style="gap:14px">
-          <div><div class="aw-sub" id="vs-best-label" style="margin-bottom:4px">Most success against</div><div class="aw-list" id="vs-best"></div></div>
-          <div><div class="aw-sub" id="vs-worst-label" style="margin-bottom:4px">Least success against</div><div class="aw-list" id="vs-worst"></div></div>
-        </div>
-        <p class="note" id="vs-note"></p>
       </div>
     </div>
 
@@ -86,21 +66,9 @@
         <div style="overflow-x:auto;"><table class="tbl" id="split-table"></table></div>
       </div>
       <div class="card">
-        <div class="card-title"><span id="best-title">Best games</span></div>
-        <div class="grid-2" style="gap:14px">
-          <div><div class="aw-sub" id="best-label" style="margin-bottom:4px">Best</div><div class="aw-list" id="best-games"></div></div>
-          <div><div class="aw-sub" id="worst-label" style="margin-bottom:4px">Toughest</div><div class="aw-list" id="worst-games"></div></div>
-        </div>
+        <div class="card-title"><span id="best-title">Top games</span></div>
+        <div class="aw-list" id="best-games"></div>
       </div>
-    </div>
-
-    <div class="section" id="model-section">
-      <div class="section-head">
-        <div><h2>Model view</h2>
-          <p>From the expected-goals model and player impact ratings, same season.</p></div>
-      </div>
-      <div class="stat-grid" id="model-tiles"></div>
-      <p class="note" id="model-note"></p>
     </div>
 
     <div class="section">
@@ -124,20 +92,19 @@
 
 <script>
 let P = null;
-let seasonId = null, shotScope = 'season';
+let seasonId = null;
 
 const signed = v => v == null ? '—' : (v > 0 ? '+' : '') + v;
 const pct1 = (a, b) => b ? (100 * a / b).toFixed(1) + '%' : '—';
 const sv3 = v => v == null ? '—' : v.toFixed(3).replace(/^0/, '');
 const isGoalie = () => P.pos === 'G';
-const posGroup = pos => /D/.test((pos || '').toUpperCase()) ? 'D' : 'F';
 
 // ---- load -----------------------------------------------------------
 const pid = new URLSearchParams(location.search).get('id');
 Promise.all([
   pid && /^\d+$/.test(pid) ? fetch(DATA_BASE + 'players/' + pid + '.json').then(r => { if (!r.ok) throw new Error('no player'); return r.json(); })
       : Promise.reject(new Error('no id')),
-  PWHL.load(['meta', 'xg', 'ratings', 'awards', 'goalies']),
+  PWHL.load(['meta', 'awards', 'goalies']),
 ]).then(([p]) => {
   P = p;
   document.title = `${P.name} — PWHL — Ottawa Visuals`;
@@ -149,7 +116,6 @@ Promise.all([
   seasonId = [fromUrl, saved].find(s => s && sids.includes(s)) || (regular.length ? regular : sids).slice(-1)[0] || null;
   PWHL.fillHeader(seasonTeam(seasonId));
   document.getElementById('app').style.display = 'flex';
-  PWHL.tabs(document.getElementById('shot-tabs'), 'scope', s => { shotScope = s; drawShots(); renderMix(); });
   render();
   PWHL.onTheme(() => { render(); PWHL.fillHeader(seasonTeam(seasonId)); });
 }).catch(PWHL.fail);
@@ -178,40 +144,7 @@ function render() {
   renderCareer();
 }
 
-// ---- header: photo, role tag, bio, season picker ------------------------
-// Role tag: impact rating rank at the player's position this season, plus
-// rank in the team's ice time (skaters) or games started (goalies).
-function roleTag() {
-  const r = RATINGS && RATINGS.by_season[seasonId];
-  const team = seasonTeam(seasonId);
-  if (isGoalie()) {
-    const gs = ((GOALIES && GOALIES[seasonId]) || []).filter(g => g.team_code === team);
-    const me = gs.find(g => g.player_id === P.player_id);
-    if (!me) return null;
-    const teamGp = Math.max(...gs.map(g => g.gp));
-    const share = me.gp / Math.max(1, gs.reduce((a, g) => a + g.gp, 0));
-    const role = me.gp === teamGp && share > 0.5 ? 'Starting goalie' : share > 0.3 ? 'Platoon goalie' : 'Backup goalie';
-    const x = XG && XG.by_season[seasonId];
-    const pool = x ? x.goalies.filter(g => g.shots >= 100).sort((a, b) => b.gsax - a.gsax) : [];
-    const rank = pool.findIndex(g => g.player_id === P.player_id);
-    return `${role} · ${me.gp} GP${rank >= 0 ? ` · #${rank + 1} of ${pool.length} in GSAx` : ''}`;
-  }
-  const me = r && r.skaters.find(s => s.player_id === P.player_id);
-  if (!me) return null;
-  const pool = r.skaters.filter(s => s.pos === me.pos).sort((a, b) => b.total - a.total);
-  const rank = pool.findIndex(s => s.player_id === P.player_id) + 1;
-  const pctile = rank / pool.length;
-  const d = me.pos === 'D';
-  const tier = pctile <= 0.05 ? (d ? 'Elite defender' : 'Elite forward')
-    : pctile <= 0.2 ? (d ? 'Top-pair defender' : 'Top-line forward')
-    : pctile <= 0.5 ? (d ? 'Second-pair defender' : 'Middle-six forward')
-    : (d ? 'Depth defender' : 'Depth forward');
-  // Ice-time rank among teammates at the same position.
-  const mates = ((AWARDS && AWARDS[seasonId]) || []).filter(a => a.team_code === team && posGroup(a.pos) === me.pos && a.gp >= 5)
-    .sort((a, b) => b.toi / b.gp - a.toi / a.gp);
-  const tr = mates.findIndex(a => a.player_id === P.player_id) + 1;
-  return `${tier} · #${rank} of ${pool.length} ${d ? 'D' : 'F'} by impact${tr ? ` · No. ${tr} in ice time on ${team}` : ''}`;
-}
+// ---- header: photo, bio, season picker ------------------------
 
 function renderHead() {
   const team = seasonTeam(seasonId) || P.team;
@@ -224,14 +157,12 @@ function renderHead() {
     ['From', P.hometown], ['Height', P.height], [isGoalie() ? 'Catches' : 'Shoots', P.shoots], ['Nation', P.nationality],
   ].filter(([, v]) => v);
   const sids = seasonsPlayed();
-  const role = roleTag();
   head.innerHTML = `
     ${P.action ? `<div class="p-action" style="background-image:url('${esc(P.action)}')"></div>` : ''}
     ${P.image ? `<img class="p-photo" src="${esc(P.image)}" alt="" onerror="this.remove()">` : ''}
     <div>
       <div class="p-num">${P.number ? '#' + esc(P.number) + ' · ' : ''}${esc(posName)}</div>
       <h1 class="p-name">${esc(P.name)}</h1>
-      ${role ? `<span class="p-role">${esc(role)}</span><br>` : ''}
       <a class="p-team" href="${teamHref(P.team || team)}"><span class="sw"></span>${esc(P.team_name || P.team || '')}</a>
       <div class="p-bio">${bio.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
     </div>
@@ -272,104 +203,11 @@ function renderSeason() {
   document.getElementById('advanced-tiles').innerHTML = lines.length ? tiles.slice(coreCount).map(tileHtml).join('') : '';
   document.getElementById('advanced-stats').style.display = lines.length && tiles.length > coreCount ? '' : 'none';
 
-  renderModel();
   renderLogChart();
   drawShots();
-  renderMix();
-  renderMatchups();
   renderSplits();
   renderBestGames();
   renderGames();
-}
-
-// ---- model tiles ----------------------------------------------------------
-function renderModel() {
-  const sec = document.getElementById('model-section');
-  const x = XG && XG.by_season[seasonId];
-  const r = RATINGS && RATINGS.by_season[seasonId];
-  const tiles = [];
-  let note = '';
-  if (isGoalie()) {
-    const g = x && x.goalies.find(g => g.player_id === P.player_id);
-    if (g) tiles.push([signed2(g.gsax), 'Goals saved above expected'], [g.xga.toFixed(1), 'Expected goals against'],
-                      [sv3(g.sv_pct), 'Save %'], [sv3(g.xsv_pct), 'Expected save %']);
-  } else {
-    const s = x && x.skaters.find(s => s.player_id === P.player_id);
-    if (s) tiles.push([s.ixg.toFixed(1), 'Expected goals (xG)'], [signed2(s.g_minus_xg), 'Goals − xG']);
-    const rt = r && r.skaters.find(s => s.player_id === P.player_id);
-    if (rt) {
-      tiles.push([signed2(rt.total), 'Impact (goals above avg.)'], [signed2(rt.per30), 'Impact per 30 GP']);
-      note = 'Impact pieces: ' + Object.entries(rt.components).map(([k, v]) => `${k.replace('_', ' ')} ${signed2(v)}`).join(', ') + '.';
-    }
-  }
-  sec.style.display = tiles.length ? '' : 'none';
-  document.getElementById('model-tiles').innerHTML = tiles.map(([n, l]) => `<div class="stat"><div class="num">${n}</div><div class="lbl">${esc(l)}</div></div>`).join('');
-  document.getElementById('model-note').textContent = note;
-}
-
-// ---- shot mix by type (model block) ---------------------------------------
-// Season block, or every season added together for the career view.
-function modelSeasons() {
-  const m = P.model && P.model.by_season;
-  if (!m) return [];
-  return shotScope === 'career' ? Object.values(m) : (m[seasonId] ? [m[seasonId]] : []);
-}
-function renderMix() {
-  const blocks = modelSeasons();
-  const agg = {};
-  blocks.forEach(b => b.types.forEach(([type, n, g, xg, dist]) => {
-    const a = agg[type] = agg[type] || { n: 0, g: 0, xg: 0, dsum: 0 };
-    a.n += n; a.g += g; a.xg += xg; a.dsum += dist * n;
-  }));
-  const rows = Object.entries(agg).sort((a, b) => b[1].n - a[1].n);
-  const total = rows.reduce((s, [, a]) => s + a.n, 0);
-  const goalie = isGoalie();
-  document.getElementById('mix-title').textContent = goalie ? 'Shots faced by type' : 'Shot mix by type';
-  document.getElementById('mix-scope').textContent = shotScope === 'career' ? 'career' : seasonName(seasonId);
-  const table = document.getElementById('mix-table');
-  if (!rows.length) { emptyTable(table, 'No model data for this selection.'); document.getElementById('mix-note').textContent = ''; return; }
-  const tc = teamColor(seasonTeam(seasonId));
-  const sum = rows.reduce((s, [, a]) => ({ n: s.n + a.n, g: s.g + a.g, xg: s.xg + a.xg, dsum: s.dsum + a.dsum }), { n: 0, g: 0, xg: 0, dsum: 0 });
-  const line = (label, a, bold) => {
-    const share = total ? 100 * a.n / total : 0;
-    const last = goalie
-      ? `<td>${sv3(a.n ? 1 - a.g / a.n : null)}</td><td>${signedCell(a.xg - a.g)}</td>`
-      : `<td>${a.xg ? (a.g / a.xg).toFixed(2) : '—'}</td><td>${signedCell(a.g - a.xg)}</td>`;
-    return `<tr${bold ? ' style="font-weight:600"' : ''}><td>${esc(label)}</td>
-      <td><span class="xg-bar" style="display:inline-flex;width:60px;vertical-align:middle;margin-right:6px"><span style="width:${share}%;background:${tc}"></span></span>${share.toFixed(0)}%</td>
-      <td>${fmt(a.n)}</td><td>${(a.dsum / a.n).toFixed(0)}</td><td>${a.xg.toFixed(1)}</td><td>${a.g}</td>${last}</tr>`;
-  };
-  table.innerHTML = `<thead><tr><th>Type</th><th>Share</th><th>Shots</th><th>Avg ft</th><th>xG</th><th>${goalie ? 'GA' : 'G'}</th>
-      <th>${goalie ? 'SV%' : 'G/xG'}</th><th>${goalie ? 'GSAx' : 'G−xG'}</th></tr></thead>
-    <tbody>${rows.map(([t, a]) => line(t, a)).join('')}${line('Total', sum, true)}</tbody>`;
-  document.getElementById('mix-note').textContent = `Shots on goal with a goalie in net. "Not recorded" = the feed gave no shot type. `
-    + (goalie ? 'GSAx above zero = stopped more than an average goalie would on those shots.' : 'G/xG above 1 = finished better than the chances suggested.');
-}
-
-// ---- goalie (or shooter) matchups -----------------------------------------
-function renderMatchups() {
-  const goalie = isGoalie();
-  const agg = {};
-  modelSeasons().forEach(b => b.vs.forEach(([id, name, n, g, xg]) => {
-    const a = agg[id] = agg[id] || { id, name, n: 0, g: 0, xg: 0 };
-    a.n += n; a.g += g; a.xg += xg;
-  }));
-  // Score = goals above expected from the shooter's side.
-  const rows = Object.values(agg).filter(a => a.n >= (shotScope === 'career' ? 8 : 4)).map(a => Object.assign(a, { d: a.g - a.xg }));
-  document.getElementById('vs-title').textContent = goalie ? 'Shooter matchups' : 'Goalie matchups';
-  document.getElementById('vs-best-label').textContent = goalie ? 'Stops best' : 'Most success against';
-  document.getElementById('vs-worst-label').textContent = goalie ? 'Toughest shooters' : 'Least success against';
-  const best = rows.slice().sort((a, b) => goalie ? a.d - b.d : b.d - a.d).slice(0, 4);
-  const worst = rows.slice().sort((a, b) => goalie ? b.d - a.d : a.d - b.d).slice(0, 4);
-  const row = a => `<div class="aw-row"><span class="rk"></span>
-      <span class="nm">${plLink(a.id, a.name)}<span class="tm">${a.g}/${a.n} · xG ${a.xg.toFixed(1)}</span></span>
-      <span class="vl">${signedCell(goalie ? a.xg - a.g : a.d)}</span></div>`;
-  const none = '<div class="aw-sub">Not enough shots.</div>';
-  document.getElementById('vs-best').innerHTML = best.length ? best.map(row).join('') : none;
-  document.getElementById('vs-worst').innerHTML = worst.length ? worst.map(row).join('') : none;
-  document.getElementById('vs-note').textContent = goalie
-    ? `Expected goals minus goals on each shooter's shots (positive = the goalie stopped more than expected). Min. ${shotScope === 'career' ? 8 : 4} shots.`
-    : `Goals minus expected goals against each goalie (positive = more goals than the chances suggested). Min. ${shotScope === 'career' ? 8 : 4} shots.`;
 }
 
 // ---- home / away split ---------------------------------------------------
@@ -393,30 +231,17 @@ function renderSplits() {
   }
 }
 
-// ---- best / toughest games -------------------------------------------------
+// ---- top games -------------------------------------------------------------
 function renderBestGames() {
-  const gx = (P.model && P.model.game_xg) || {};
-  const games = P.games.filter(g => g.s === seasonId).map(g => Object.assign({ xg: gx[g.gid] }, g));
-  const row = (g, val) => `<div class="aw-row"><span class="rk"></span>
-      <span class="nm">${esc(shortDate(g.d))} ${g.h ? 'vs' : '@'} ${teamDot(g.opp)}${esc(g.opp)}</span><span class="vl">${val}</span></div>`;
-  let best, worst, bl, wl;
-  if (isGoalie()) {
-    // Goals saved above expected in each game.
-    const scored = games.filter(g => g.xg != null && g.sa).map(g => Object.assign(g, { gsax: g.xg - g.ga }));
-    best = scored.slice().sort((a, b) => b.gsax - a.gsax).slice(0, 3).map(g => row(g, `${g.sv}/${g.sa} · ${signed2(g.gsax)}`));
-    worst = scored.slice().sort((a, b) => a.gsax - b.gsax).slice(0, 3).map(g => row(g, `${g.sv}/${g.sa} · ${signed2(g.gsax)}`));
-    bl = 'Best (saves · GSAx)'; wl = 'Toughest (saves · GSAx)';
-  } else {
-    best = games.slice().sort((a, b) => b.p - a.p || b.g - a.g || (b.xg || 0) - (a.xg || 0)).filter(g => g.p > 0).slice(0, 3)
-      .map(g => row(g, `${g.g}G ${g.a}A`));
-    worst = games.filter(g => g.xg != null).sort((a, b) => b.xg - a.xg).slice(0, 3)
-      .map(g => row(g, `${g.xg.toFixed(2)} xG · ${g.g}G`));
-    bl = 'Most points'; wl = 'Most chances (xG)';
-  }
-  document.getElementById('best-label').textContent = bl;
-  document.getElementById('worst-label').textContent = wl;
-  document.getElementById('best-games').innerHTML = best.length ? best.join('') : '<div class="aw-sub">None yet.</div>';
-  document.getElementById('worst-games').innerHTML = worst.length ? worst.join('') : '<div class="aw-sub">No model data.</div>';
+  const games = P.games.filter(g => g.s === seasonId);
+  const row = g => `<div class="aw-row"><span class="rk"></span>
+    <span class="nm">${esc(shortDate(g.d))} ${g.h ? 'vs' : '@'} ${teamDot(g.opp)}${esc(g.opp)}</span>
+    <span class="vl">${isGoalie() ? `${sv3(g.sa ? g.sv / g.sa : null)} · ${g.sv}/${g.sa}` : `${g.g}G ${g.a}A · ${g.p} PTS`}</span></div>`;
+  const top = isGoalie()
+    ? games.filter(g => g.sa > 0).sort((a, b) => b.sv / b.sa - a.sv / a.sa || b.sa - a.sa).slice(0, 5)
+    : games.filter(g => g.p > 0).sort((a, b) => b.p - a.p || b.g - a.g || b.a - a.a).slice(0, 5);
+  document.getElementById('best-title').textContent = isGoalie() ? 'Top goalie games · save %' : 'Top scoring games';
+  document.getElementById('best-games').innerHTML = top.length ? top.map(row).join('') : '<div class="aw-sub">No recorded games yet.</div>';
 }
 
 // ---- game-by-game chart ----------------------------------------------------
@@ -486,7 +311,7 @@ function drawShots() {
   ctx.strokeStyle = cssVar('--line-2');
   [-22, 22].forEach(fy => { ctx.beginPath(); ctx.arc(px(69), py(fy), 15 / 100 * w, 0, Math.PI * 2); ctx.stroke(); });
 
-  const all = shotScope === 'career' ? P.shots : P.shots.filter(s => s[0] === seasonId);
+  const all = P.shots.filter(s => s[0] === seasonId);
   const inZone = all.filter(s => s[1] >= 0);
   const team = seasonTeam(seasonId);
   const tc = teamColor(team);
@@ -502,7 +327,7 @@ function drawShots() {
     ctx.strokeStyle = cssVar('--bg-2'); ctx.lineWidth = 1.2; ctx.stroke();
   });
   const goals = all.filter(s => s[3]).length;
-  const scope = shotScope === 'career' ? 'career' : 'this season';
+  const scope = 'this season';
   document.getElementById('shots-title').textContent = isGoalie()
     ? `Shots faced, ${scope}: ${fmt(all.length)} (${goals} goals)`
     : `Shots on goal, ${scope}: ${fmt(all.length)} (${goals} goals)`;
@@ -512,16 +337,11 @@ function drawShots() {
     + `<span><i style="background:${goalColor}"></i>${isGoalie() ? 'goal against' : 'goal'}</span>`
     + `<span>attacking → right${off ? ` · ${off} from the other half not shown` : ''}</span>`
     + (all.length ? '' : '<span>no located shots in the play-by-play for this season</span>');
-  const statLines = shotScope === 'career' ? P.seasons : P.seasons.filter(l => l.season_id === seasonId);
+  const statLines = P.seasons.filter(l => l.season_id === seasonId);
   const official = statLines.length ? statLines.reduce((n, l) => n + (isGoalie() ? (l.sa || 0) : (l.shots || 0)), 0) : null;
-  const modelBlocks = modelSeasons();
-  const modelShots = modelBlocks.reduce((n, b) => n + b.types.reduce((sum, type) => sum + type[1], 0), 0);
-  const counts = [official == null ? null : `box-score total ${fmt(official)}`,
-    `located play-by-play ${fmt(all.length)}`,
-    modelBlocks.length ? `goalie-in-net model ${fmt(modelShots)}` : null].filter(Boolean);
+  const counts = [official == null ? null : `box-score total ${fmt(official)}`, `located play-by-play ${fmt(all.length)}`].filter(Boolean);
   document.getElementById('shot-coverage').textContent =
-    `Shot coverage: ${counts.join(' · ')}. The map plots ${fmt(inZone.length)} located shots in the attacking half. `
-    + 'The box score, located events, and goalie-in-net model use different event coverage, so totals can differ.';
+    `Shot coverage: ${counts.join(' · ')}. The map plots ${fmt(inZone.length)} located shots in the attacking half; shots without coordinates are not mapped.`;
   canvas.setAttribute('aria-label', `${P.name}: ${isGoalie() ? 'shots faced' : 'shots on goal'}, ${scope}. ${fmt(inZone.length)} located shots plotted in the attacking half, including ${goals} goals. Other-half shots are omitted.`);
 }
 
@@ -546,24 +366,23 @@ function renderCareer() {
 }
 
 function renderGames() {
-  const gx = (P.model && P.model.game_xg) || {};
   const games = P.games.filter(g => g.s === seasonId).slice().reverse();
   document.getElementById('games-title').textContent = `Game log · ${seasonName(seasonId)} (${games.length} games, most recent first)`;
   const table = document.getElementById('games-table');
   const opp = g => `${g.h ? 'vs' : '@'} ${teamDot(g.opp)}${teamLink(g.opp)}`;
-  const xg = g => gx[g.gid] != null ? gx[g.gid].toFixed(2) : '—';
   if (isGoalie()) {
-    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Dec.</th><th>SA</th><th>Saves</th><th>GA</th><th>SV%</th><th>xGA</th><th>TOI</th></tr></thead>
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>Dec.</th><th>SA</th><th>Saves</th><th>GA</th><th>SV%</th><th>TOI</th></tr></thead>
       <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${esc(g.dec || '—')}</td><td>${g.sa}</td><td>${g.sv}</td><td>${g.ga}</td>
-        <td>${g.sa ? sv3(g.sv / g.sa) : '—'}</td><td>${xg(g)}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+        <td>${g.sa ? sv3(g.sv / g.sa) : '—'}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
   } else {
-    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>S</th><th>xG</th><th>PIM</th><th>Hits</th><th>Blk</th><th>TOI</th></tr></thead>
+    table.innerHTML = `<thead><tr><th>Date</th><th>Opponent</th><th>G</th><th>A</th><th>PTS</th><th>+/−</th><th>S</th><th>PIM</th><th>Hits</th><th>Blk</th><th>TOI</th></tr></thead>
       <tbody>${games.map(g => `<tr><td>${esc(g.d)}</td><td>${opp(g)}</td><td>${g.g}</td><td>${g.a}</td><td><b>${g.p}</b></td><td>${signed(g.pm)}</td>
-        <td>${g.sog}</td><td>${xg(g)}</td><td>${g.pim}</td><td>${g.hits}</td><td>${g.blk}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
+        <td>${g.sog}</td><td>${g.pim}</td><td>${g.hits}</td><td>${g.blk}</td><td>${g.toi ? mmss(g.toi) : '—'}</td></tr>`).join('')}</tbody>`;
   }
   if (!games.length) table.innerHTML = '<tbody><tr><td style="color:var(--ink-3)">No game log for this season.</td></tr></tbody>';
   collapseRows(table, 10, 'games');
 }
+
 </script>
 </body>
 </html>

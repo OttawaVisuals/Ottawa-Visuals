@@ -7,9 +7,9 @@
 const DATA_BASE = 'data/json/';
 // Data globals, filled by PWHL.load(). Pages only fetch what they use.
 let META = null, STANDINGS = null, LEADERS = null, GAMES = null, SHOTMAP = null,
-    EVENTS = null, BRACKET = null, TXN = null, AWARDS = null, XG = null, RATINGS = null,
+    EVENTS = null, BRACKET = null, TXN = null, AWARDS = null,
     ELO = null, GOALIES = null, RAPSHEET = null, ROSTERS = null, LINES = null, PINDEX = null,
-    MOVEMENT = null, TEAM_SHOTS = null;
+    MOVEMENT = null, TEAM_SHOTS = null, OVERVIEW = null;
 const CHARTS = [];
 let currentSeasonId = null;
 
@@ -114,14 +114,15 @@ window.setTheme = setTheme;
 const _DATA_VARS = {
   meta: v => META = v, standings: v => STANDINGS = v, leaders: v => LEADERS = v, games: v => GAMES = v,
   shot_map: v => SHOTMAP = v, events: v => EVENTS = v, bracket: v => BRACKET = v, transactions: v => TXN = v,
-  awards: v => AWARDS = v, xg: v => XG = v, ratings: v => RATINGS = v, elo: v => ELO = v,
+  awards: v => AWARDS = v, elo: v => ELO = v,
   goalies: v => GOALIES = v, rapsheet: v => RAPSHEET = v, rosters: v => ROSTERS = v, lines: v => LINES = v,
   players_index: v => PINDEX = v,
   movement: v => MOVEMENT = v,
   team_shots: v => TEAM_SHOTS = v,
+  overview: v => OVERVIEW = v,
 };
 // Model outputs and other extras may be missing; the core files may not.
-const _OPTIONAL = new Set(['xg', 'ratings', 'elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index', 'team_shots']);
+const _OPTIONAL = new Set(['elo', 'goalies', 'rapsheet', 'rosters', 'lines', 'players_index', 'team_shots']);
 PWHL.load = function (names, versions = {}) {
   return Promise.all(names.map(n => fetch(DATA_BASE + 'pwhl_' + n + '.json'
     + (versions[n] ? '?v=' + encodeURIComponent(versions[n]) : ''))

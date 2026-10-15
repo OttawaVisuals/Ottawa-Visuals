@@ -66,11 +66,12 @@ jobs:
         # so no pip install is needed.
         run: python PWHL/scripts/build_dashboard_json.py
 
-      - name: Build xG model and player ratings
-        # Fits the expected-goals model on the cached play-by-play and writes
-        # pwhl_xg.json / pwhl_ratings.json. Reads the meta/awards JSON from the
-        # step above, so it must run after it. Skips (keeping the last output)
-        # if the PBP cache missed.
+      - name: Build historical home-page totals
+        run: python PWHL/scripts/build_pwhl_overview.py
+
+      - name: Build optional line and model outputs
+        # Reads the meta/awards JSON from the step above. Skips (keeping the
+        # last output) if the play-by-play cache missed.
         run: python PWHL/scripts/build_models.py
 
       - name: Build Elo forecast and playoff odds
