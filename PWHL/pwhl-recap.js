@@ -174,6 +174,15 @@ function recapBuildChart(key) {
   const series = Object.fromEntries(recapSeason.teams.map(code =>
     [code, recapDays.map(day => day.standings.find(row => row.team === code)[key])]
   ));
+  let runningMin = 0, runningMax = 0;
+  const domains = recapDays.map((_, index) => {
+    recapSeason.teams.forEach(code => {
+      runningMin = Math.min(runningMin, series[code][index]);
+      runningMax = Math.max(runningMax, series[code][index]);
+    });
+    return {min:key === 'p' ? 0 : -recapNiceAxis(-runningMin+1),
+            max:recapNiceAxis(runningMax+1)};
+  });
   const gridMin = recapSvg('line',{class:'recap-chart-grid',x1:left,x2:W-right});
   const gridMax = recapSvg('line',{class:'recap-chart-grid',x1:left,x2:W-right});
   const zero = recapSvg('line',{class:'recap-chart-zero',x1:left,x2:W-right});
@@ -194,7 +203,7 @@ function recapBuildChart(key) {
     logo.classList.add('recap-chart-logo');
     svg.append(connector,logo); connectors[code] = connector; logos[code] = logo;
   });
-  recapChartState[key] = {key,W,H,left,right,top,bottom,series,paths,logos,connectors,
+  recapChartState[key] = {key,W,H,left,right,top,bottom,series,domains,paths,logos,connectors,
     gridMin,gridMax,zero,minLabel,maxLabel,endLabel};
 }
 function recapBuildCharts() {
@@ -207,17 +216,18 @@ function recapNiceAxis(value) {
 }
 function recapChartProgress(index, progress) {
   Object.values(recapChartState).forEach(chart => {
-    const {W,H,left,right,top,bottom,series,key} = chart;
-    const currentValues = recapSeason.teams.map(code => series[code].slice(0,index+1));
-    const rawMin = Math.min(0,...currentValues.flat());
-    const rawMax = Math.max(0,...currentValues.flat());
-    const min = key === 'p' ? 0 : -recapNiceAxis(-rawMin+1);
-    const max = recapNiceAxis(rawMax+1);
+    const {W,H,left,right,top,bottom,series,key,domains} = chart;
+    const previousDomain = domains[Math.max(0,index-1)], currentDomain = domains[index];
+    const min = previousDomain.min + (currentDomain.min-previousDomain.min)*progress;
+    const max = previousDomain.max + (currentDomain.max-previousDomain.max)*progress;
     const y = value => top + (max-value) / (max-min) * (H-top-bottom);
     const domain = Math.max(4,index+progress);
     const x = i => left + i / domain * (W-left-right);
     const px = x(index === 0 ? 0 : index-1+progress);
-    const label = value => key === 'gd' && value > 0 ? `+${value}` : String(value);
+    const label = value => {
+      const rounded = Math.round(value);
+      return `${key === 'gd' && rounded > 0 ? '+' : ''}${rounded}`;
+    };
     [[chart.gridMin,min],[chart.gridMax,max]].forEach(([line,value]) => {
       line.setAttribute('y1',y(value).toFixed(1)); line.setAttribute('y2',y(value).toFixed(1));
     });
@@ -321,7 +331,12 @@ function recapTick(now) {
   recapFrameId = requestAnimationFrame(recapTick);
 }
 function recapPlay() {
-  if (recapPlaying) { recapStop(); recapRender(recapIndex,1); return; }
+  if (recapPlaying) {
+    recapStop();
+    recapRender(recapIndex,1);
+    recapPosition = Math.min(recapDays.length,recapIndex+1);
+    return;
+  }
   if (recapIndex >= recapDays.length-1) recapPosition = 0;
   else recapPosition = Math.max(0,recapPosition);
   recapPlaying = true;
@@ -333,7 +348,8 @@ function recapSeek(index) {
   recapStop();
   recapPosition = Math.max(0,Math.min(recapDays.length-1,index));
   recapRender(recapPosition,1);
-  recapEl('recap-play').textContent = recapPosition === recapDays.length-1 ? 'Replay' : 'Play';
+  recapPosition = Math.min(recapDays.length,recapPosition+1);
+  recapEl('recap-play').textContent = recapIndex === recapDays.length-1 ? 'Replay' : 'Play';
 }
 function recapSetSeason(sid) {
   recapStop();
@@ -355,6 +371,7 @@ function recapSetSeason(sid) {
   recapMapBase();
   recapBuildCharts();
   recapRender(0,1);
+  recapPosition = 1;
   recapEl('recap-play').textContent = 'Play';
 }
 async function recapToggleFullscreen() {
@@ -363,6 +380,7 @@ async function recapToggleFullscreen() {
   await recapEl('recap-app').requestFullscreen();
   recapPosition = 0; recapIndex = -1;
   recapRender(0,1);
+  recapPosition = 1;
   recapPlay();
 }
 
