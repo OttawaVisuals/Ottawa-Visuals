@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PWHL team travel — Ottawa Visuals</title>
+<meta name="description" content="Animated, estimated 2025–26 PWHL team itineraries, with bus and air travel separated by a 400-mile road threshold."/>
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="pwhl-teams.js"></script>
+<script src="pwhl-core.js?v=20261014-travel"></script>
+<script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t|| (matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
+<link rel="stylesheet" href="pwhl.css?v=20261011-ux1"/>
+<link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
+<link rel="stylesheet" href="../assets/site-theme.css"/>
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+<div id="pwhl-header"></div><script>PWHL.header('travel')</script>
+<main class="report">
+  <div class="hero">
+    <span class="eyebrow">PWHL · 2025–26 regular season</span>
+    <h1 id="travel-page-title">On the road</h1>
+    <p>Estimated routes for all eight teams. Pick a team, follow its season, then inspect bus rides, airport drives and assumed flights in the table.</p>
+    <div class="travel-team-picker"><label for="travel-team-select">Team</label><select id="travel-team-select" class="ov-select" aria-label="Team to animate"></select></div>
+  </div>
+  <p id="travel-loading" role="status">Loading travel estimate…</p>
+  <div id="travel-app" hidden>
+    <div class="stat-row" id="travel-stats"></div>
+    <section class="card travel-map-card" aria-labelledby="travel-map-title">
+      <div class="travel-head"><div><h2 id="travel-map-title">Season route</h2><p>Play the full route in about 10 seconds at 1× speed, or step through each leg. Lines show endpoints; road distance follows the routed road estimate.</p></div><div class="travel-legend"><span class="bus">Bus</span><span class="air">Flight</span><span class="drive">Airport drive</span></div></div>
+      <div class="travel-map-wrap"><svg id="travel-map" viewBox="0 0 1100 520" role="img" aria-label="Map of selected PWHL team travel across North America"></svg></div>
+      <div class="travel-controls">
+        <button type="button" class="tab-btn" id="travel-prev" aria-label="Previous leg">← Previous</button>
+        <button type="button" class="tab-btn active" id="travel-play">Play</button>
+        <button type="button" class="tab-btn" id="travel-next" aria-label="Next leg">Next →</button>
+        <label class="travel-scrub-label" for="travel-scrub">Leg <span id="travel-position"></span></label>
+        <input id="travel-scrub" type="range" min="0" value="0" aria-label="Choose travel leg"/>
+        <label for="travel-speed">Speed</label><select id="travel-speed" class="ov-select"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select>
+      </div>
+      <div class="travel-current" id="travel-current" aria-live="polite"></div>
+    </section>
+    <section class="card travel-ranking-card" aria-labelledby="travel-ranking-title">
+      <div class="travel-head"><div><h2 id="travel-ranking-title">Compare teams</h2><p>Estimated total distance; select a team to show its route above.</p></div></div>
+      <div id="travel-ranking" class="travel-ranking"></div>
+    </section>
+    <section class="card travel-table-card" aria-labelledby="travel-table-title">
+      <div class="travel-head"><div><h2 id="travel-table-title">Every travel leg</h2><p>Select a row to replay it. Distances and times are modeled, not team records.</p></div></div>
+      <div class="travel-table-wrap"><table class="tbl" id="travel-table"><thead><tr><th>Date</th><th>Route</th><th>Reason</th><th>Mode</th><th>Est. km</th><th>Est. time</th><th>Breakdown</th></tr></thead><tbody></tbody></table></div>
+    </section>
+    <section class="card travel-method" aria-labelledby="travel-method-title">
+      <h2 id="travel-method-title">How this estimate works</h2>
+      <ul>
+        <li>Games and venues: all eight teams' 30 completed <strong>2025–26 regular-season</strong> games in the PWHL/HockeyTech feed. A home-designated game outside its team's home market still requires travel.</li>
+        <li>Each team starts from its most-used home rink. The route follows the next game venue. For gaps over four days while outside its home market, it assumes a return to that rink, then a new departure. Ottawa's December 4 Toronto trip and December 16–23 trip stay separate under this rule.</li>
+        <li><strong>Bus if the modeled road route is 400 miles (644 km) or less; air if longer.</strong> This is a simplified scenario. The <a href="https://assets.contentstack.io/v3/assets/bltebdb4296e05d53db/blt45a7e5bea61daaf7/PWHL-CBA-thpwhlcom.pdf" target="_blank" rel="noopener noreferrer">PWHL agreement, §12.1</a> also has a six-hour rule and exceptions, which this model does not apply.</li>
+        <li>Air legs assume a direct flight between the listed major commercial airports nearest the two rinks, plus drives to and from those airports. They do not verify actual flights or team bookings. Flight distance is great-circle distance. Flight time assumes 800 km/h plus two hours of total airport/flight overhead.</li>
+        <li>Road distance and time use <a href="https://project-osrm.org/docs/v5.22.0/api/" target="_blank" rel="noopener noreferrer">OSRM</a> estimates. Airport coordinates: <a href="https://ourairports.com/data/" target="_blank" rel="noopener noreferrer">OurAirports</a>. Venue coordinates: the site's PWHL venues file. Times exclude border delays, congestion, weather, stops and game-day logistics. The map draws schematic straight or curved lines, not road geometry.</li>
+        <li>Ottawa captain Brianne Jenner described her daughter riding with the team on a <a href="https://www.sportsnet.ca/pwhl/article/q-and-a-brianne-jenner-talks-charge-team-canada-and-whats-ahead/" target="_blank" rel="noopener noreferrer">Toronto trip in 2024–25</a>. That supports bus use on a Toronto trip, but does not confirm travel modes for this season or other teams.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+<footer><span>Ottawa Visuals</span><span>Source: PWHL / HockeyTech · Mode and itinerary estimates</span></footer>
+<script src="pwhl-travel.js?v=travel-4"></script>
+</body>
+</html>

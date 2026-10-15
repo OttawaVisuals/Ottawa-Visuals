@@ -32,6 +32,8 @@ PWHL.PAGES = [
   ['players', 'players.html', 'Players'],
   ['superlatives', 'superlatives.html', 'Superlatives'],
   ['movement', 'movement.html', 'Movement'],
+  ['travel', 'travel.html', 'Travel'],
+  ['recap', 'recap.html', 'Season replay'],
   ['method', 'methodology.html', 'How it works'],
 ];
 
