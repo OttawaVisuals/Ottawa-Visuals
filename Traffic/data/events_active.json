@@ -805,29 +805,6 @@
 },
 "fp": "79f6bfa50a13"
 },
-"28066": {
-"event": {
-"cause": "construction",
-"created": "2026-07-30 15:57:00",
-"cross_street_1": "Roosevelt",
-"cross_street_2": "Edison",
-"direction": null,
-"event_id": "28066",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Princeton closed between Roosevelt and Edison due to construction. Follow the signed detour. Until 12 October.",
-"lanes": "closed",
-"lat": 45.3863,
-"lon": -75.75391,
-"planned_end": "2026-10-12T17:00",
-"planned_start": "2026-08-07T07:00",
-"priority": "MEDIUM",
-"road": "Princeton",
-"source": "city",
-"updated": "2026-09-22 16:04:00"
-},
-"fp": "ace31f74f236"
-},
 "28081": {
 "event": {
 "cause": "construction",
@@ -838,18 +815,18 @@
 "event_id": "28081",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Kenwood closed between Cole and Melbourne due to construction, from August 31st to October 30th. Follow the signed detour. Access for local traffic maintained. ",
+"headline": "Kenwood closed between Cole and Melbourne due to construction, until November 12th. Follow the signed detour. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.387658,
 "lon": -75.755882,
-"planned_end": "2026-10-30T17:00",
+"planned_end": "2026-11-12T17:00",
 "planned_start": "2026-08-28T07:00",
 "priority": "MEDIUM",
 "road": "Kenwood",
 "source": "city",
-"updated": "2026-09-04 08:52:00"
+"updated": "2026-10-14 12:56:00"
 },
-"fp": "ecf0f335706d"
+"fp": "91ad8fd65060"
 },
 "28171": {
 "event": {
@@ -1265,29 +1242,6 @@
 },
 "fp": "ba28efcc5c20"
 },
-"28836": {
-"event": {
-"cause": "construction",
-"created": "2026-09-14 16:28:00",
-"cross_street_1": "CHURCHILL",
-"cross_street_2": "ROOSEVELT",
-"direction": null,
-"event_id": "28836",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "DANFORTH closed between CHURCHILL and ROOSEVELT due to construction. From October 13th to 14th.",
-"lanes": "closed",
-"lat": 45.391527,
-"lon": -75.753433,
-"planned_end": "2026-10-14T17:00",
-"planned_start": "2026-10-09T07:00",
-"priority": "MEDIUM",
-"road": "DANFORTH",
-"source": "city",
-"updated": "2026-10-09 06:56:00"
-},
-"fp": "7e0f1ba81e5d"
-},
 "28863": {
 "event": {
 "cause": "construction",
@@ -1380,28 +1334,28 @@
 },
 "fp": "d4511bc7638d"
 },
-"28911": {
+"28912": {
 "event": {
 "cause": "construction",
-"created": "2026-09-17 12:49:00",
-"cross_street_1": "Lemieux",
-"cross_street_2": "Donald",
+"created": "2026-09-17 12:54:00",
+"cross_street_1": "Gibbard",
+"cross_street_2": "Banner",
 "direction": null,
-"event_id": "28911",
+"event_id": "28912",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "St-Laurent nightly periodic lane reductions in each direction between Lemieux and Donald due to construction, from October 13th to 15th. Flagpersons present. ",
+"headline": "Greenbank nightly periodic lane reductions in each direction between Gibbard and Banner due to construction, from October 16th to 22nd. Flagpersons present.",
 "lanes": "periodic lane reductions in each direction",
-"lat": 45.422357,
-"lon": -75.636159,
-"planned_end": "2026-10-15T06:00",
-"planned_start": "2026-10-10T18:00",
-"priority": "UNKNOWN",
-"road": "St-Laurent",
+"lat": 45.323393,
+"lon": -75.777598,
+"planned_end": "2026-10-22T06:00",
+"planned_start": "2026-10-13T18:00",
+"priority": "LOW",
+"road": "Greenbank",
 "source": "city",
-"updated": "2026-10-10 17:56:00"
+"updated": "2026-10-13 17:56:00"
 },
-"fp": "1cf03b3c5fb4"
+"fp": "3b74a2bd3be6"
 },
 "28913": {
 "event": {
@@ -1426,6 +1380,29 @@
 },
 "fp": "aa96156fdb85"
 },
+"28916": {
+"event": {
+"cause": "construction",
+"created": "2026-09-17 13:17:00",
+"cross_street_1": null,
+"cross_street_2": null,
+"direction": null,
+"event_id": "28916",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Pretoria Bridge closed due to construction, Sunday October 18th from 6:00am to 2:00pm.",
+"lanes": "closed",
+"lat": 45.411278,
+"lon": -75.683934,
+"planned_end": "2026-10-18T14:00",
+"planned_start": "2026-10-15T06:00",
+"priority": "HIGH",
+"road": "Pont Pretoria Bridge",
+"source": "city",
+"updated": "2026-10-15 05:56:00"
+},
+"fp": "921256f3ccc5"
+},
 "28955": {
 "event": {
 "cause": "construction",
@@ -1448,29 +1425,6 @@
 "updated": "2026-09-20 05:56:00"
 },
 "fp": "25200d994134"
-},
-"28992": {
-"event": {
-"cause": "construction",
-"created": "2026-09-21 16:26:00",
-"cross_street_1": "Bank",
-"cross_street_2": null,
-"direction": null,
-"event_id": "28992",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Riverside westbound reduced to 1 lane at Bank due to construction. From Monday, 28 September to Friday, 16 September.",
-"lanes": "reduced to 1 lane",
-"lat": 45.38953,
-"lon": -75.67649,
-"planned_end": "2026-10-16T17:00",
-"planned_start": "2026-09-26T07:00",
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-02 11:01:00"
-},
-"fp": "e32cdc3f2df2"
 },
 "29042": {
 "event": {
@@ -1840,52 +1794,6 @@
 },
 "fp": "40c4cc285c78"
 },
-"29185": {
-"event": {
-"cause": "construction",
-"created": "2026-10-01 15:09:00",
-"cross_street_1": "Viscount",
-"cross_street_2": "Anna",
-"direction": null,
-"event_id": "29185",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Carling off-peak lane reduction in both directions between Viscount and Anna due to construction. From 9:00am to 3pm on Tuesday, 13 October and Wednesday, 14 October 2026. ",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.387994,
-"lon": -75.729563,
-"planned_end": "2026-10-14T15:00",
-"planned_start": "2026-10-11T09:00",
-"priority": "UNKNOWN",
-"road": "Carling",
-"source": "city",
-"updated": "2026-10-11 08:56:00"
-},
-"fp": "3ad4516e262a"
-},
-"29186": {
-"event": {
-"cause": "construction",
-"created": "2026-10-01 15:20:00",
-"cross_street_1": "Carling",
-"cross_street_2": "Anna",
-"direction": null,
-"event_id": "29186",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Merivale northbound off-peak lane reduction between Carling and Anna due to construction. Cycle lane closed south of Merivale. From 9am to 3pm on Tuesday, 13 October and Wednesday, 14 October.",
-"lanes": "off-peak lane reduction",
-"lat": 45.386646,
-"lon": -75.73263,
-"planned_end": "2026-10-14T15:30",
-"planned_start": "2026-10-11T09:00",
-"priority": "UNKNOWN",
-"road": "Merivale ",
-"source": "city",
-"updated": "2026-10-11 08:56:00"
-},
-"fp": "3833783f930d"
-},
 "29206": {
 "event": {
 "cause": "construction",
@@ -1931,29 +1839,6 @@
 "updated": "2026-10-02 13:32:00"
 },
 "fp": "ed51abc09a2c"
-},
-"29209": {
-"event": {
-"cause": "construction",
-"created": "2026-10-02 14:17:00",
-"cross_street_1": "HOBIN / MCCOOEYE",
-"cross_street_2": "NEIL",
-"direction": null,
-"event_id": "29209",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "CARP periodically reduced to 1 lane with alternating traffic between HOBIN / MCCOOEYE and NEIL due to construction. Flagpersons present. 6:00am - 3:00pm, and 6:00pm - 10:00pm, from October 7th to 14th.",
-"lanes": "periodically reduced to 1 lane with alternating traffic",
-"lat": 45.267485,
-"lon": -75.93143,
-"planned_end": "2026-10-14T22:00",
-"planned_start": "2026-10-05T06:00",
-"priority": "MEDIUM",
-"road": "CARP",
-"source": "city",
-"updated": "2026-10-05 05:56:00"
-},
-"fp": "b7d321607bd2"
 },
 "29240": {
 "event": {
@@ -2001,29 +1886,6 @@
 },
 "fp": "88f7a938e6fd"
 },
-"29248": {
-"event": {
-"cause": "construction",
-"created": "2026-10-05 08:36:00",
-"cross_street_1": "STAR TOP",
-"cross_street_2": "MEADOWBROOK",
-"direction": null,
-"event_id": "29248",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "CYRVILLE lane reductions between STAR TOP and MEADOWBROOK due to construction, Monday October 12th",
-"lanes": "lane reductions",
-"lat": 45.420171,
-"lon": -75.617964,
-"planned_end": "2026-10-12T17:00",
-"planned_start": "2026-10-09T07:00",
-"priority": "LOW",
-"road": "CYRVILLE",
-"source": "city",
-"updated": "2026-10-09 06:56:00"
-},
-"fp": "4767dee7e2cc"
-},
 "29257": {
 "event": {
 "cause": "construction",
@@ -2046,121 +1908,6 @@
 "updated": "2026-10-05 12:48:00"
 },
 "fp": "9d3fb8f1fa46"
-},
-"29280": {
-"event": {
-"cause": "construction",
-"created": "2026-10-06 12:19:00",
-"cross_street_1": "Ogilvie",
-"cross_street_2": "417 E/B onramp",
-"direction": null,
-"event_id": "29280",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Aviation southbound closed between Ogilvie and 417 E/B onramp due to construction, from October 12th to 14th between 11:00pm and 4:00am.",
-"lanes": "closed",
-"lat": 45.427979,
-"lon": -75.627008,
-"planned_end": "2026-10-14T04:00",
-"planned_start": "2026-10-09T23:00",
-"priority": "LOW",
-"road": "Aviation",
-"source": "city",
-"updated": "2026-10-09 22:56:00"
-},
-"fp": "aab36da2620d"
-},
-"29281": {
-"event": {
-"cause": "construction",
-"created": "2026-10-06 12:29:00",
-"cross_street_1": "174 W/B",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29281",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "417 E/B onramp nightly closure at 174 W/B due to construction, from October 12th to 14th between 11:00pm and 4:00am.",
-"lanes": "closed",
-"lat": 45.423298,
-"lon": -75.622577,
-"planned_end": "2026-10-14T04:00",
-"planned_start": "2026-10-09T23:00",
-"priority": "LOW",
-"road": "417 E/B onramp",
-"source": "city",
-"updated": "2026-10-09 22:56:00"
-},
-"fp": "2e8ae12a62a0"
-},
-"29282": {
-"event": {
-"cause": "construction",
-"created": "2026-10-06 12:38:00",
-"cross_street_1": "Innes W/B",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29282",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "417 W/B on-ramp nightly closure at Innes W/B due to construction, from October 14th to October 16th between 11:00pm and 4:00am.",
-"lanes": "closed",
-"lat": 45.415179,
-"lon": -75.605968,
-"planned_end": "2026-10-16T04:00",
-"planned_start": "2026-10-11T23:00",
-"priority": "LOW",
-"road": "417 W/B on-ramp",
-"source": "city",
-"updated": "2026-10-11 22:56:00"
-},
-"fp": "1e7496caae6a"
-},
-"29286": {
-"event": {
-"cause": "",
-"created": "2026-10-06 13:48:00",
-"cross_street_1": "AVIATION PKWY (IC 113A)",
-"cross_street_2": "INNES RD (IC 112)",
-"direction": null,
-"event_id": "29286",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from AVIATION PKWY to INNES RD - Nightly Engineering Investigation. 1 Right Lane(s). On ramp 417 EB from Aviation Pkwy and off ramp from 417WB/OR174WB to 417 EB.(Ottawa). 2026-10-12 23:00 to 2026-10-14 05:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.42293,
-"lon": -75.62179,
-"planned_end": "2026-10-14T05:00",
-"planned_start": "2026-10-12T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-06 13:48:00"
-},
-"fp": "989583c384c8"
-},
-"29287": {
-"event": {
-"cause": "",
-"created": "2026-10-06 13:51:00",
-"cross_street_1": "INNES RD (IC 112)",
-"cross_street_2": "CYRVILLE RD E",
-"direction": null,
-"event_id": "29287",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from INNES RD to CYRVILLE RD E - Nightly Engineering Investigation. 1 Right Lane(s). Innes WB On-Ramp (Straight On) will be closed. 2026-10-14 23:00 to 2026-10-16 05:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.41404,
-"lon": -75.61011,
-"planned_end": "2026-10-16T05:00",
-"planned_start": "2026-10-14T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-06 13:51:00"
-},
-"fp": "a882aa16f040"
 },
 "29307": {
 "event": {
@@ -2185,120 +1932,28 @@
 },
 "fp": "e7d9b3473db1"
 },
-"29310": {
+"29323": {
 "event": {
-"cause": "",
-"created": "2026-10-07 14:36:00",
-"cross_street_1": "VANIER PKWY/RIVERSIDE  (IC 117)",
-"cross_street_2": "METCALFE ST (IC 119A)",
+"cause": "construction",
+"created": "2026-10-07 17:59:00",
+"cross_street_1": "Bowesville",
+"cross_street_2": "Bowesville",
 "direction": null,
-"event_id": "29310",
+"event_id": "29323",
 "event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from VANIER PKWY/RIVERSIDE to METCALFE ST - Nightly Construction. 2 Right Lane(s). Vanier Parkway WB , Greenfield WB , Nicholas WB ON RAMPS CLOSED Nicholas St and Mann Ave OFF ramps CLOSED Detailed closure information is as follows: Mon-Thurs: 22:00-05:00 Nearby ramps may be affected. 2026-10-12 22:00 to 2026-10-16 05:00",
-"lanes": "2 Right Lane(s)",
-"lat": 45.41762,
-"lon": -75.65658,
-"planned_end": "2026-10-16T05:00",
-"planned_start": "2026-10-12T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"full_closure": true,
+"headline": "Ficko closed between Bowesville and Bowesville due to construction. Follow the signed detour. From October 19th to the 23rd.",
+"lanes": "closed",
+"lat": 45.281277,
+"lon": -75.629002,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-16T07:00",
+"priority": "MEDIUM",
+"road": "Ficko",
 "source": "city",
-"updated": "2026-10-07 14:36:00"
+"updated": "2026-10-16 06:56:00"
 },
-"fp": "00fd2bac07a1"
-},
-"29311": {
-"event": {
-"cause": "",
-"created": "2026-10-07 14:36:00",
-"cross_street_1": "LEES AVE",
-"cross_street_2": "METCALFE ST (IC 119A)",
-"direction": null,
-"event_id": "29311",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from LEES AVE to METCALFE ST - Nightly Construction. 2 Left Lane(s). Detailed closure information is as follows: Mon-Thurs: 22:00-05:00. 2026-10-12 22:00 to 2026-10-16 05:00",
-"lanes": "2 Left Lane(s)",
-"lat": 45.41722,
-"lon": -75.6691,
-"planned_end": "2026-10-16T05:00",
-"planned_start": "2026-10-12T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-07 14:36:00"
-},
-"fp": "0d5a76f9bc7c"
-},
-"29312": {
-"event": {
-"cause": "",
-"created": "2026-10-07 14:42:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": "LEES AVE",
-"direction": null,
-"event_id": "29312",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from METCALFE ST to LEES AVE - Nightly Construction. 2 Right Lane(s). Isabella Street On-Ramp & Nicholas Street Off-Ramp Detailed closure information is as follows: Mon-Thurs: 22:00-05:00 Nearby ramps may be affected. 2026-10-12 22:00 to 2026-10-16 05:00",
-"lanes": "2 Right Lane(s)",
-"lat": 45.41096,
-"lon": -75.68708,
-"planned_end": "2026-10-16T05:00",
-"planned_start": "2026-10-12T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-07 14:42:00"
-},
-"fp": "0abe91823c89"
-},
-"29313": {
-"event": {
-"cause": "",
-"created": "2026-10-07 14:48:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": "LEES AVE",
-"direction": null,
-"event_id": "29313",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from METCALFE ST to LEES AVE - Nightly Construction. 2 Left Lane(s). Isabella Street On-Ramp Detailed closure information is as follows: Mon-Thurs: 22:00-05:00 Nearby ramps may be affected. 2026-10-12 22:00 to 2026-10-16 05:00",
-"lanes": "2 Left Lane(s)",
-"lat": 45.41096,
-"lon": -75.68708,
-"planned_end": "2026-10-16T05:00",
-"planned_start": "2026-10-12T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-07 14:48:00"
-},
-"fp": "a0607b907f52"
-},
-"29340": {
-"event": {
-"cause": "",
-"created": "2026-10-08 11:18:00",
-"cross_street_1": "INNES RD (IC 112)",
-"cross_street_2": "OTTAWA ROAD 174",
-"direction": null,
-"event_id": "29340",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from INNES RD to OTTAWA ROAD 174 - Continuous Engineering Investigation. 1 Left Lane(s). 2026-10-13 21:00 to 2026-10-14 05:30",
-"lanes": "1 Left Lane(s)",
-"lat": 45.41404,
-"lon": -75.61011,
-"planned_end": "2026-10-14T05:30",
-"planned_start": "2026-10-13T21:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-08 11:18:00"
-},
-"fp": "c5a68ea816ab"
+"fp": "eaccdda40557"
 },
 "29342": {
 "event": {
@@ -2402,18 +2057,18 @@
 "event_id": "29346",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "GLENFIELD closed between STEVENAGE and OVERTON due to construction, until November 6th. Access for local traffic maintained. ",
+"headline": "GLENFIELD closed between STEVENAGE and OVERTON due to construction, until October 30th. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.382687,
 "lon": -75.600231,
-"planned_end": "2026-11-06T17:00",
+"planned_end": "2026-10-30T17:00",
 "planned_start": "2026-10-08T00:00",
 "priority": "LOW",
 "road": "GLENFIELD",
 "source": "city",
-"updated": "2026-10-08 13:04:00"
+"updated": "2026-10-14 12:30:00"
 },
-"fp": "a1813f1e1ff6"
+"fp": "ff39c7fdb264"
 },
 "29347": {
 "event": {
@@ -2483,6 +2138,52 @@
 "updated": "2026-10-08 13:28:00"
 },
 "fp": "d6588c301a9a"
+},
+"29360": {
+"event": {
+"cause": "construction",
+"created": "2026-10-08 17:54:00",
+"cross_street_1": "BARNSDALE",
+"cross_street_2": "MANOTICK MAIN / BANKFIELD",
+"direction": null,
+"event_id": "29360",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "RIDEAU VALLEY closed between BARNSDALE and MANOTICK MAIN / BANKFIELD due to construction. Follow the signed detour. From October 19th to November 1st.",
+"lanes": "closed",
+"lat": 45.243514,
+"lon": -75.705888,
+"planned_end": "2026-11-01T17:00",
+"planned_start": "2026-10-16T07:00",
+"priority": "HIGH",
+"road": "RIDEAU VALLEY",
+"source": "city",
+"updated": "2026-10-16 06:56:00"
+},
+"fp": "5be23d90b1e5"
+},
+"29361": {
+"event": {
+"cause": "construction",
+"created": "2026-10-08 17:56:00",
+"cross_street_1": "BOND",
+"cross_street_2": "RICHMOND",
+"direction": null,
+"event_id": "29361",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "FOREST closed between BOND and RICHMOND due to construction. Follow the signed detour. From October 19th to November 6th.",
+"lanes": "closed",
+"lat": 45.363094,
+"lon": -75.788791,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-16T07:00",
+"priority": "MEDIUM",
+"road": "FOREST",
+"source": "city",
+"updated": "2026-10-16 06:56:00"
+},
+"fp": "758ea424c75f"
 },
 "29362": {
 "event": {
@@ -2852,52 +2553,6 @@
 },
 "fp": "14a03c03bb78"
 },
-"29398": {
-"event": {
-"cause": "",
-"created": "2026-10-09 16:57:00",
-"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
-"cross_street_2": "OTTAWA RD 29 (IC 180)",
-"direction": null,
-"event_id": "29398",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to OTTAWA RD 29 - Continuous Maintenance. 1 Right Lane(s). Detailed closure information is as follows: All days: 09:00-18:00. 2026-10-13 09:00 to 2026-10-13 18:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.42092,
-"lon": -76.37281,
-"planned_end": "2026-10-13T18:00",
-"planned_start": "2026-10-13T09:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-09 16:57:00"
-},
-"fp": "3cacb54f1ed0"
-},
-"29399": {
-"event": {
-"cause": "",
-"created": "2026-10-09 16:57:00",
-"cross_street_1": "TERRY FOX DR (IC 140)",
-"cross_street_2": "PALLADIUM DR (IC 142)",
-"direction": null,
-"event_id": "29399",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from TERRY FOX DR to PALLADIUM DR - Continuous Maintenance. 1 Right Lane(s). Detailed closure information is as follows: All days: 10:00-14:30 Nearby ramps may be affected. 2026-10-14 10:00 to 2026-10-14 14:30",
-"lanes": "1 Right Lane(s)",
-"lat": 45.30556,
-"lon": -75.9117,
-"planned_end": "2026-10-14T14:30",
-"planned_start": "2026-10-14T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-09 16:57:00"
-},
-"fp": "9ff70a84fd10"
-},
 "29400": {
 "event": {
 "cause": "",
@@ -2944,51 +2599,603 @@
 },
 "fp": "73484a08a25b"
 },
-"29412": {
+"29426": {
 "event": {
-"cause": "",
-"created": "2026-10-11 15:03:00",
-"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
-"cross_street_2": "OTTAWA RD 29 (IC 180)",
+"cause": "construction",
+"created": "2026-10-13 10:26:00",
+"cross_street_1": "JEANNE-MANCE, RUE",
+"cross_street_2": "LEVIS, AV DE",
 "direction": null,
-"event_id": "29412",
+"event_id": "29426",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to OTTAWA RD 29 - Daily Maintenance. 1 Right Lane(s). Detailed closure information is as follows: Tues-Wed: 09:00-18:00. 2026-10-13 09:00 to 2026-10-14 18:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.42092,
-"lon": -76.37281,
-"planned_end": "2026-10-14T18:00",
-"planned_start": "2026-10-13T09:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"headline": "OLMSTEAD off-peak lane reduction between JEANNE-MANCE, RUE and LEVIS, AV DE due to construction, from October 6th to November 6th. ",
+"lanes": "off-peak lane reduction",
+"lat": 45.433333,
+"lon": -75.660744,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "OLMSTEAD",
 "source": "city",
-"updated": "2026-10-11 15:03:00"
+"updated": "2026-10-13 10:28:00"
 },
-"fp": "dcb9848b96c0"
+"fp": "c74b4a95e3a7"
 },
-"29413": {
+"29427": {
 "event": {
-"cause": "",
-"created": "2026-10-11 15:06:00",
-"cross_street_1": "TERRY FOX DR (IC 140)",
-"cross_street_2": "PALLADIUM DR (IC 142)",
+"cause": "construction",
+"created": "2026-10-13 10:43:00",
+"cross_street_1": "Beechwood",
+"cross_street_2": "Vaughan",
 "direction": null,
-"event_id": "29413",
+"event_id": "29427",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Highway 417 Westbound from TERRY FOX DR to PALLADIUM DR - Daily Maintenance. 1 Right Lane(s). Detailed closure information is as follows: Wed-Thurs: 10:00-14:30 Nearby ramps may be affected. 2026-10-14 10:00 to 2026-10-15 14:30",
-"lanes": "1 Right Lane(s)",
-"lat": 45.30556,
-"lon": -75.9117,
-"planned_end": "2026-10-15T14:30",
-"planned_start": "2026-10-14T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"headline": "Crichton off-peak lane reduction between Beechwood and Vaughan due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.43838,
+"lon": -75.677751,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "Crichton",
 "source": "city",
-"updated": "2026-10-11 15:06:00"
+"updated": "2026-10-13 10:44:00"
 },
-"fp": "20d81915b159"
+"fp": "cb861c48c660"
+},
+"29429": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 10:53:00",
+"cross_street_1": "LANSDOWNE",
+"cross_street_2": "BIRCH",
+"direction": null,
+"event_id": "29429",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "HEMLOCK off-peak lane reduction between LANSDOWNE and BIRCH due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.447507,
+"lon": -75.668407,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "HEMLOCK",
+"source": "city",
+"updated": "2026-10-13 10:56:00"
+},
+"fp": "5ac7d93b91a7"
+},
+"29430": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 10:57:00",
+"cross_street_1": "TRAINYARDS",
+"cross_street_2": "ST-LAURENT, BOUL",
+"direction": null,
+"event_id": "29430",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BELFAST off-peak lane reductions between TRAINYARDS and ST-LAURENT, BOUL due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.414957,
+"lon": -75.642889,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "MEDIUM",
+"road": "BELFAST",
+"source": "city",
+"updated": "2026-10-13 11:00:00"
+},
+"fp": "927845942f6a"
+},
+"29431": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 11:09:00",
+"cross_street_1": "TRAPPER'S",
+"cross_street_2": "ALBION",
+"direction": null,
+"event_id": "29431",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BRIDLE PATH off-peak lane reductions between TRAPPER'S and ALBION due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.348853,
+"lon": -75.645317,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "BRIDLE PATH",
+"source": "city",
+"updated": "2026-10-13 11:12:00"
+},
+"fp": "541707e9b601"
+},
+"29432": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 11:14:00",
+"cross_street_1": "LONG POINT",
+"cross_street_2": "DEVONWOOD / CEDAR CREEK",
+"direction": null,
+"event_id": "29432",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "FINDLAY CREEK off-peak lane reduction between LONG POINT and DEVONWOOD / CEDAR CREEK due to construction, from October 6th to November 6th.",
+"lanes": "off-peak lane reduction",
+"lat": 45.318399,
+"lon": -75.598838,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-06T00:00",
+"priority": "LOW",
+"road": "FINDLAY CREEK",
+"source": "city",
+"updated": "2026-10-13 11:16:00"
+},
+"fp": "02883bebdb87"
+},
+"29434": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 12:33:00",
+"cross_street_1": "STEVENSON",
+"cross_street_2": "CRERAR",
+"direction": null,
+"event_id": "29434",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "CRERAR closed between STEVENSON and CRERAR due to construction, from October 19th to 30th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.38634,
+"lon": -75.726379,
+"planned_end": "2026-10-30T17:00",
+"planned_start": "2026-10-16T07:00",
+"priority": "MEDIUM",
+"road": "CRERAR",
+"source": "city",
+"updated": "2026-10-16 06:56:00"
+},
+"fp": "aadf35ddcc1a"
+},
+"29437": {
+"event": {
+"cause": "construction",
+"created": "2026-10-13 13:18:00",
+"cross_street_1": "ROOSEVELT",
+"cross_street_2": "MELBOURNE",
+"direction": null,
+"event_id": "29437",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "KENWOOD closed between ROOSEVELT and MELBOURNE due to construction. From 6:00am, October 13th to 7:00pm, October 30th.",
+"lanes": "closed",
+"lat": 45.387948,
+"lon": -75.754913,
+"planned_end": "2026-10-30T19:00",
+"planned_start": "2026-10-13T06:00",
+"priority": "MEDIUM",
+"road": "KENWOOD",
+"source": "city",
+"updated": "2026-10-13 13:20:00"
+},
+"fp": "e18ad7f49dc6"
+},
+"29459": {
+"event": {
+"cause": "construction",
+"created": "2026-10-14 09:28:00",
+"cross_street_1": "Uplands",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29459",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Riverside northbound right lane closed at Uplands due to construction. Expect delays.",
+"lanes": "right lane closed",
+"lat": 45.342064,
+"lon": -75.691044,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Riverside",
+"source": "city",
+"updated": "2026-10-14 09:36:00"
+},
+"fp": "aca181cc3c7c"
+},
+"29466": {
+"event": {
+"cause": "construction",
+"created": "2026-10-14 13:03:00",
+"cross_street_1": "174 W/B On ramp",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29466",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "trim southbound closed at 174 W/B On ramp due to construction, Friday October 16th between 9:30am and 3:00pm.",
+"lanes": "closed",
+"lat": 45.496798,
+"lon": -75.479703,
+"planned_end": "2026-10-16T15:00",
+"planned_start": "2026-10-14T00:00",
+"priority": "HIGH",
+"road": "trim",
+"source": "city",
+"updated": "2026-10-14 13:04:00"
+},
+"fp": "bb48ae926c73"
+},
+"29467": {
+"event": {
+"cause": "construction",
+"created": "2026-10-14 13:15:00",
+"cross_street_1": "174 W/B On-ramp",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29467",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Blair southbound nightly closure at 174 W/B On-ramp due to construction, from October 18th 11:00pm to October 19th 5:00am. Follow the signed detour. ",
+"lanes": "closed",
+"lat": 45.433371,
+"lon": -75.607457,
+"planned_end": "2026-10-19T05:00",
+"planned_start": "2026-10-15T23:00",
+"priority": "HIGH",
+"road": "Blair",
+"source": "city",
+"updated": "2026-10-15 22:56:00"
+},
+"fp": "169c20133032"
+},
+"29468": {
+"event": {
+"cause": "construction",
+"created": "2026-10-14 13:26:00",
+"cross_street_1": "Blair",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29468",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "174 W/B Off-ramp closed at Blair due to construction, Monday October 19th from 3:00am to 5:00am. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.434369,
+"lon": -75.601018,
+"planned_end": "2026-10-19T05:00",
+"planned_start": "2026-10-16T03:00",
+"priority": "HIGH",
+"road": "174 W/B Off-ramp",
+"source": "city",
+"updated": "2026-10-16 02:56:00"
+},
+"fp": "243a5fa364fc"
+},
+"29478": {
+"event": {
+"cause": "construction",
+"created": "2026-10-14 17:33:00",
+"cross_street_1": "Trim S/B",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29478",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "174 westbound On-ramp closed at Trim southbound due to construction. From 9:30am to 3:00pm, October 16th.",
+"lanes": "closed",
+"lat": 45.497529,
+"lon": -75.480509,
+"planned_end": "2026-10-16T15:00",
+"planned_start": "2026-10-16T09:30",
+"priority": "HIGH",
+"road": "174 W/B On-ramp/Bretelle d'acc\u00e8s",
+"source": "city",
+"updated": "2026-10-16 09:28:00"
+},
+"fp": "f4e949690494"
+},
+"29509": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-16 06:44:00",
+"cross_street_1": "Halifax",
+"cross_street_2": "Harding",
+"direction": null,
+"event_id": "29509",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Walkley westbound closed between Halifax and Harding due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.385082,
+"lon": -75.627192,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Walkley",
+"source": "city",
+"updated": "2026-10-16 12:02:00"
+},
+"fp": "ebecebdf14db"
+},
+"29518": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 10:53:00",
+"cross_street_1": "MORISSET",
+"cross_street_2": "MEDFORD",
+"direction": null,
+"event_id": "29518",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CALDWELL off-peak lane reductions between MORISSET and MEDFORD due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.373124,
+"lon": -75.739294,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "LOW",
+"road": "CALDWELL",
+"source": "city",
+"updated": "2026-10-16 10:56:00"
+},
+"fp": "f2db10424c48"
+},
+"29519": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 11:00:00",
+"cross_street_1": "SHILLINGTON",
+"cross_street_2": "EMPEROR",
+"direction": null,
+"event_id": "29519",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "HOLLINGTON off-peak lane reductions between SHILLINGTON and EMPEROR due to construction, from October 15th to November 13th. ",
+"lanes": "off-peak lane reductions",
+"lat": 45.380648,
+"lon": -75.728659,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "LOW",
+"road": "HOLLINGTON",
+"source": "city",
+"updated": "2026-10-16 11:04:00"
+},
+"fp": "1cf0d4fb0fa8"
+},
+"29520": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 11:07:00",
+"cross_street_1": "EUROPA",
+"cross_street_2": "CHESTERTON / COOLSPRING",
+"direction": null,
+"event_id": "29520",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "VIEWMOUNT off-peak lane reductions between EUROPA and CHESTERTON / COOLSPRING due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.347993,
+"lon": -75.717043,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "LOW",
+"road": "VIEWMOUNT",
+"source": "city",
+"updated": "2026-10-16 11:08:00"
+},
+"fp": "3efcb27c78a0"
+},
+"29521": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 11:15:00",
+"cross_street_1": "MEADOWLANDS",
+"cross_street_2": "MULVAGH",
+"direction": null,
+"event_id": "29521",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CHESTERTON off-peak lane reductions between MEADOWLANDS and MULVAGH due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.353455,
+"lon": -75.730364,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "LOW",
+"road": "CHESTERTON",
+"source": "city",
+"updated": "2026-10-16 11:16:00"
+},
+"fp": "a45573972d91"
+},
+"29522": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 11:18:00",
+"cross_street_1": "LENESTER",
+"cross_street_2": "ESTERLAWN",
+"direction": null,
+"event_id": "29522",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "FAIRLAWN off-peak lane reductions between LENESTER and ESTERLAWN due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.366725,
+"lon": -75.769002,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "UNKNOWN",
+"road": "FAIRLAWN",
+"source": "city",
+"updated": "2026-10-16 11:20:00"
+},
+"fp": "131207dd2373"
+},
+"29523": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 11:33:00",
+"cross_street_1": "PARKMOUNT",
+"cross_street_2": "GREENBANK",
+"direction": null,
+"event_id": "29523",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BANNER off-peak lane reductions between PARKMOUNT and GREENBANK due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.331736,
+"lon": -75.78343,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "LOW",
+"road": "BANNER",
+"source": "city",
+"updated": "2026-10-16 11:36:00"
+},
+"fp": "60f03fffb295"
+},
+"29525": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 12:54:00",
+"cross_street_1": "BASELINE",
+"cross_street_2": "MCCOOEY",
+"direction": null,
+"event_id": "29525",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "FISHER off-peak lane reductions between BASELINE and MCCOOEY due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.371648,
+"lon": -75.716499,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "MEDIUM",
+"road": "FISHER",
+"source": "city",
+"updated": "2026-10-16 12:56:00"
+},
+"fp": "25c956c8c0f9"
+},
+"29526": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 12:57:00",
+"cross_street_1": "Bronson",
+"cross_street_2": "Data Centre rd",
+"direction": null,
+"event_id": "29526",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Heron off-peak lane reductions between Bronson and Data Centre rd due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.37726,
+"lon": -75.685015,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "MEDIUM",
+"road": "Heron",
+"source": "city",
+"updated": "2026-10-16 13:00:00"
+},
+"fp": "2b69158cef7a"
+},
+"29527": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 13:01:00",
+"cross_street_1": "ROSEVIEW/BOYCE",
+"cross_street_2": "SCRIVENS",
+"direction": null,
+"event_id": "29527",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CARLING off-peak lane reductions between ROSEVIEW/BOYCE and SCRIVENS due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.355618,
+"lon": -75.803652,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "MEDIUM",
+"road": "CARLING",
+"source": "city",
+"updated": "2026-10-16 13:04:00"
+},
+"fp": "c9bc6c9c8bc6"
+},
+"29528": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 13:05:00",
+"cross_street_1": "cer Hadley cir",
+"cross_street_2": "Roberston",
+"direction": null,
+"event_id": "29528",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Moodie off-peak lane reductions between Hadley cir and Roberston due to construction, from October 15th to November 13th.",
+"lanes": "off-peak lane reductions",
+"lat": 45.32215,
+"lon": -75.833339,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-15T00:00",
+"priority": "MEDIUM",
+"road": "Moodie",
+"source": "city",
+"updated": "2026-10-16 13:08:00"
+},
+"fp": "47bd0efbcb30"
+},
+"29529": {
+"event": {
+"cause": "police operation",
+"created": "2026-10-16 13:27:00",
+"cross_street_1": null,
+"cross_street_2": null,
+"direction": null,
+"event_id": "29529",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bank northbound reduced to 1 lane between Kitchener and Johnston due to police operation. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.364741,
+"lon": -75.65983,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": null,
+"source": "city",
+"updated": "2026-10-16 13:27:00"
+},
+"fp": "45b41e8e9cc4"
+},
+"29530": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 13:30:00",
+"cross_street_1": "ROOSEVELT",
+"cross_street_2": "EDISON",
+"direction": null,
+"event_id": "29530",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "PRINCETON closed between ROOSEVELT and EDISON due to construction, until October 30th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.386296,
+"lon": -75.753931,
+"planned_end": "2026-10-30T17:00",
+"planned_start": "2026-10-16T00:00",
+"priority": "MEDIUM",
+"road": "PRINCETON",
+"source": "city",
+"updated": "2026-10-16 13:32:00"
+},
+"fp": "585e832fe256"
 }
 }
 }
