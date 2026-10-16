@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Ward elections map (Oct 16: 2010–2022 year selector, mayor-race "largest group" and "ward winner" map modes, colour scale fitted to 30–55%, nav links fixed, dark-mode labels, mobile stacking)
 - [x] PWHL mobile map and player comparisons (Oct 16: route following, goalie minimum-games filter and tap-to-inspect scatter points)
 - [x] PWHL usability improvements (Oct 16: historical headers, accent-insensitive search, shareable filters, keyboard sorting and retry messages)
 - [x] PWHL image fallbacks (Oct 16: local league logo for missing or failed player photos and team logos)

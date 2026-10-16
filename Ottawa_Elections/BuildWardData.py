@@ -32,7 +32,8 @@ with open('ward_results.csv', encoding='utf-8-sig') as f:
             'c_reg': c_reg, 'c_votes': c_votes, 'c_win': c_win,
             'm_part': m_part, 'm_win_pct': m_win_pct,
             'c_part': c_part, 'c_win_pct': c_win_pct,
-            'mayor_win_name': row['Mayor_Win_Name'].strip(),
+            # The CSV has a mangled apostrophe in "Larry O'Brien" (2010)
+            'mayor_win_name': row['Mayor_Win_Name'].strip().replace('�', '’'),
             'council_win_name': row['Council_Win_Name'].strip(),
         })
 
@@ -161,6 +162,41 @@ def weighted_part(field, ward_2022, year):
         return None
     return round(weighted_votes / weighted_reg * 100, 1)
 
+# ── 4b. Mayor race split of all registered voters ──────────────────────────────
+# Who was elected city-wide. The CSV only has the ward's top mayoral candidate,
+# so where someone else topped the ward, the elected mayor's votes sit inside
+# "other" and can't be separated.
+MAYOR_ELECTED = {2010: 'Jim Watson', 2014: 'Jim Watson', 2018: 'Jim Watson', 2022: 'Mark Sutcliffe'}
+
+def mayor_race(ward_2022, year):
+    """
+    Split a ward's registered voters three ways for the mayor race, as % of
+    registered: didn't vote / ward's top candidate / everyone else.
+    Multi-source wards are weighted like weighted_part; the top candidate is
+    only kept if every source ward had the same one.
+    """
+    reg = votes = top = 0.0
+    names = set()
+    for src_ward, weight in mapping[ward_2022]['sources'][year]:
+        r = data.get((src_ward, year))
+        if r is None or not r['m_reg'] or r['m_votes'] is None or r['m_win'] is None:
+            continue
+        reg   += r['m_reg']   * weight
+        votes += r['m_votes'] * weight
+        top   += r['m_win']   * weight
+        names.add(r['mayor_win_name'])
+    if reg == 0:
+        return None
+    top_name = names.pop() if len(names) == 1 else None
+    return {
+        'no_vote':      round((reg - votes) / reg * 100, 1),
+        'top':          round(top / reg * 100, 1),
+        'other':        round((votes - top) / reg * 100, 1),
+        'top_share':    round(top / votes * 100, 1) if votes else None,  # % of votes cast
+        'top_name':     top_name,
+        'top_is_mayor': top_name == MAYOR_ELECTED[year],
+    }
+
 # ── 5. Build output JSON ───────────────────────────────────────────────────────
 result = {}
 
@@ -211,6 +247,7 @@ for ward_2022 in range(1, 25):
             'years':       YEARS,
             'mayor':       hist_mayor,
             'councillor':  hist_coun,
+            'mayor_race':  [mayor_race(ward_2022, y) for y in YEARS],
         },
     }
 

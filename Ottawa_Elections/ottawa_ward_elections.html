@@ -68,6 +68,11 @@ html[data-embedded] .topbar{display:none}
 /* Grid */
 .grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px;align-items:stretch}
 .grid-bottom{display:grid;grid-template-columns:5fr 7fr;gap:12px}
+@media (max-width:720px){
+  .grid-top,.grid-bottom{grid-template-columns:1fr}
+  .page-header{flex-direction:column;gap:4px}
+  #panel .panel-empty{min-height:120px}
+}
 
 /* Cards */
 .card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
@@ -85,9 +90,31 @@ html[data-embedded] .topbar{display:none}
 .leg-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;flex:1}
 .leg-lbl{font-size:10px;color:var(--ink-3)}
 
+/* Hatch for "didn't vote" segments: softer on dark surfaces */
+:root{--hatch:#D8D5CE}
+[data-theme="dark"]{--hatch:#3A4152}
+.nv-pill{background:var(--bg-2);color:var(--red);border-radius:3px;padding:0 4px;line-height:13px}
+
 /* Map */
+.map-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:4px 6px 6px}
+.year-seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.year-seg button{font:inherit;font-size:11.5px;font-weight:500;padding:4px 10px;border:0;background:var(--bg-2);color:var(--ink-2);cursor:pointer}
+.year-seg button+button{border-left:1px solid var(--line)}
+.year-seg button:hover{background:var(--bg-3);color:var(--ink)}
+.year-seg button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:600}
+.year-seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.map-mode{font:inherit;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);background:var(--bg-2);border:1px solid var(--line);border-radius:7px;padding:4px 8px;cursor:pointer}
+.map-mode:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.map-note{font-size:12px;color:var(--ink-2);padding:0 6px 4px;line-height:1.45}
+.map-note strong{color:var(--ink)}
+.map-legend{margin:6px 4px 2px;padding:2px 2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;max-width:calc(100% - 28px);font-size:10px;color:var(--ink-3)}
+.map-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:3px;vertical-align:-1px}
+.map-legend .leg-item{margin-right:6px;white-space:nowrap;color:var(--ink-2)}
 .map-wrap{position:relative}
 #map svg{width:100%;display:block}
+#map path.ward{stroke:var(--bg-2);stroke-width:.8;cursor:pointer;transition:fill .35s}
+#map path.ward:hover{stroke:var(--ink-2);stroke-width:1.5}
+#map path.ward.selected{stroke:var(--ink);stroke-width:2}
 #tooltip{position:absolute;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:12px;pointer-events:none;display:none;z-index:20;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
 #tooltip strong{display:block;font-weight:600;font-size:12px;margin-bottom:1px}
 #tooltip .tt-sub{color:var(--ink-2);font-size:11px}
@@ -143,11 +170,11 @@ html[data-embedded] .topbar{display:none}
     <span>Ottawa Visuals<small>data, charted simply</small></span>
   </a>
   <nav>
-    <a href="index.html#reports">Reports</a>
-    <a href="mortgage.html">Mortgage</a>
-    <a href="weather.html">Weather</a>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../mortgage.html">Mortgage</a>
+    <a href="../weather.html">Weather</a>
     <a href="ottawa_ward_elections.html" class="active">Ward elections</a>
-    <a href="index.html#about">About</a>
+    <a href="../index.html#about">About</a>
   </nav>
   <span class="spacer"></span>
   <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
@@ -179,10 +206,10 @@ html[data-embedded] .topbar{display:none}
     </div>
 
     <div class="card" style="display:flex;flex-direction:column">
-      <div class="card-title">City-wide turnout · 2022</div>
+      <div class="card-title" id="kpi-title">Ward turnout · 2022</div>
       <div class="kpi-grid" style="flex:1;margin-top:6px">
         <div class="kpi-item">
-          <div class="kpi-label">Average</div>
+          <div class="kpi-label">Ward average</div>
           <div class="kpi-val" id="kpi-avg">—</div>
         </div>
         <div class="kpi-divider"></div>
@@ -211,14 +238,24 @@ html[data-embedded] .topbar{display:none}
   <div class="grid-bottom">
 
     <div class="card" style="padding:10px;position:relative">
-      <div style="position:absolute;bottom:14px;left:14px;z-index:10;background:color-mix(in srgb,var(--bg-2) 88%,transparent);border:1px solid var(--line);border-radius:6px;padding:5px 8px;display:flex;align-items:center;gap:5px">
-        <span style="font-size:10px;color:var(--ink-3)" id="leg-lo-label"></span>
-        <div class="leg-bar" id="leg-bar" style="width:80px"></div>
-        <span style="font-size:10px;color:var(--ink-3)" id="leg-hi-label"></span>
+      <div class="map-head">
+        <select class="map-mode" id="map-mode" aria-label="What the map shows">
+          <option value="turnout">Turnout by ward</option>
+          <option value="mayor">Mayor race: largest group</option>
+          <option value="winner">Mayor race: ward winner (voters only)</option>
+        </select>
+        <div class="year-seg" id="year-seg" role="group" aria-label="Election year">
+          <button type="button" data-year="2010">2010</button>
+          <button type="button" data-year="2014">2014</button>
+          <button type="button" data-year="2018">2018</button>
+          <button type="button" data-year="2022">2022</button>
+        </div>
       </div>
+      <div class="map-note" id="map-note" hidden></div>
       <div class="map-wrap" id="map">
         <div id="tooltip"></div>
       </div>
+      <div class="map-legend" id="map-legend"></div>
     </div>
 
     <div class="card" id="panel">
@@ -240,28 +277,28 @@ html[data-embedded] .topbar{display:none}
         <!-- Councillor race -->
         <div class="race-block">
           <div class="race-header">
-            <span class="race-label">Councillor race</span>
+            <span class="race-label">Councillor race · 2022</span>
             <span class="race-name" id="p-coun-name">—</span>
           </div>
           <div class="sbar-wrap" id="sbar-coun"></div>
           <div class="sbar-legend">
             <span><i style="background:#0F6E56"></i>Elected</span>
             <span><i style="background:#7FB5A0"></i>Other candidates</span>
-            <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid var(--line-2)"></i>Didn't vote</span>
+            <span><i style="background:repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 2px,transparent 2px,transparent 5px);border:1px solid var(--line-2)"></i>Didn't vote</span>
           </div>
         </div>
 
         <!-- Mayor race -->
         <div class="race-block">
           <div class="race-header">
-            <span class="race-label">Mayor race</span>
+            <span class="race-label" id="p-mayor-label">Mayor race · 2022</span>
             <span class="race-name" id="p-mayor-name">—</span>
           </div>
           <div class="sbar-wrap" id="sbar-mayor"></div>
           <div class="sbar-legend">
             <span><i style="background:#185FA5"></i>Highest vote</span>
             <span><i style="background:#7BA7CC"></i>Other candidates</span>
-            <span><i style="background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px);border:1px solid var(--line-2)"></i>Didn't vote</span>
+            <span><i style="background:repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 2px,transparent 2px,transparent 5px);border:1px solid var(--line-2)"></i>Didn't vote</span>
           </div>
         </div>
 
@@ -283,7 +320,9 @@ html[data-embedded] .topbar{display:none}
   </div>
 
   <div class="footer">
-    Sources: City of Ottawa election results. Wards 7 and 15 have no councillor data for 2010 (not available in source data).
+    Sources: City of Ottawa election results. Turnout is the share of registered voters who voted in the ward's councillor race.
+    All years are drawn on the 2022 ward map; for wards whose boundaries changed in 2022, earlier years describe the old ward (or, for Ward 24, an estimate).
+    Wards 7 and 15 have no councillor data for 2010 (not available in source data).
   </div>
 
 </div>
@@ -292,57 +331,196 @@ html[data-embedded] .topbar{display:none}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const wardData = {"1":{"name":"Orléans East-Cumberland","change_type":"renamed","caveat":null,"mayor":{"participation":38.2,"winner_pct":62.9,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.5,"winner_pct":72.6,"winner_name":"Matthew Luloff"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.4,35.0,40.8,38.2],"councillor":[43.2,37.9,43.1,42.5]}},"2":{"name":"Orléans West-Innes","change_type":"renamed","caveat":null,"mayor":{"participation":42.0,"winner_pct":58.7,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.2,"winner_pct":70.0,"winner_name":"Laura Dudas"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.0,42.5,41.4,42.0],"councillor":[42.2,44.1,43.8,45.2]}},"3":{"name":"Barrhaven West","change_type":"split","caveat":"Barrhaven West was created in 2022 when the old Barrhaven ward (Ward 3) was split: its eastern portion (Chapman Mills and Davidson Heights) became the new Barrhaven East (Ward 24), and Stonebridge was transferred to Riverside South-Findlay Creek (Ward 22). Historical values (2010–2018) reflect the full old Barrhaven ward and therefore cover a larger area than the current Ward 3.","mayor":{"participation":39.2,"winner_pct":61.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.8,"winner_pct":43.2,"winner_name":"David Hill"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,33.5,39.1,39.2],"councillor":[41.5,34.1,42.7,45.8]}},"4":{"name":"Kanata North","change_type":"direct","caveat":null,"mayor":{"participation":39.5,"winner_pct":60.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.5,"winner_pct":74.8,"winner_name":"Cathy Curry"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.3,44.6,43.9,39.5],"councillor":[45.1,45.6,48.2,43.5]}},"5":{"name":"West Carleton-March","change_type":"direct","caveat":null,"mayor":{"participation":44.8,"winner_pct":70.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":27.0,"winner_name":"Clarke Kelly"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.7,45.7,41.1,44.8],"councillor":[45.4,46.4,42.8,46.9]}},"6":{"name":"Stittsville","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":63.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.6,"winner_pct":58.1,"winner_name":"Glen Gower"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.2,43.1,44.4,39.4],"councillor":[45.0,43.7,46.4,45.6]}},"7":{"name":"Bay","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.8,"winner_pct":79.8,"winner_name":"Theresa Kavanagh"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.9,40.7,40.1,40.7],"councillor":[null,41.8,41.6,43.8]}},"8":{"name":"College","change_type":"direct","caveat":null,"mayor":{"participation":43.1,"winner_pct":51.5,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":51.3,"winner_name":"Laine Johnson"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,35.7,41.5,43.1],"councillor":[43.6,37.6,44.8,46.9]}},"9":{"name":"Knoxdale-Merivale","change_type":"direct","caveat":null,"mayor":{"participation":41.2,"winner_pct":57.0,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.5,"winner_pct":38.2,"winner_name":"Sean Devine"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.1,34.5,37.5,41.2],"councillor":[43.4,35.6,40.0,45.5]}},"10":{"name":"Gloucester-Southgate","change_type":"direct","caveat":null,"mayor":{"participation":32.8,"winner_pct":49.3,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":37.5,"winner_pct":40.9,"winner_name":"Jessica Bradley"},"history":{"years":[2010,2014,2018,2022],"mayor":[40.2,35.6,32.6,32.8],"councillor":[40.1,36.6,38.2,37.5]}},"11":{"name":"Beacon Hill-Cyrville","change_type":"direct","caveat":null,"mayor":{"participation":38.1,"winner_pct":50.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":40.8,"winner_pct":79.6,"winner_name":"Tim Tierney"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.7,37.0,37.1,38.1],"councillor":[43.5,37.5,38.1,40.8]}},"12":{"name":"Rideau-Vanier","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":33.7,"winner_pct":57.3,"winner_name":"Catherine McKenney"},"councillor":{"participation":37.2,"winner_pct":35.9,"winner_name":"Stéphanie Plante"},"history":{"years":[2010,2014,2018,2022],"mayor":[38.7,34.6,36.0,33.7],"councillor":[37.7,36.7,37.5,37.2]}},"13":{"name":"Rideau-Rockcliffe","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":36.0,"winner_pct":46.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":39.8,"winner_pct":75.6,"winner_name":"Rawlson King"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.7,38.2,36.2,36.0],"councillor":[41.0,39.0,37.1,39.8]}},"14":{"name":"Somerset","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":73.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":45.2,"winner_pct":58.4,"winner_name":"Ariel Troster"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.6,35.9,35.6,39.4],"councillor":[40.8,39.0,39.1,45.2]}},"15":{"name":"Kitchissippi","change_type":"direct","caveat":null,"mayor":{"participation":49.9,"winner_pct":61.8,"winner_name":"Catherine McKenney"},"councillor":{"participation":53.0,"winner_pct":70.4,"winner_name":"Jeff Leiper"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.8,45.9,47.1,49.9],"councillor":[null,47.6,48.9,53.0]}},"16":{"name":"River","change_type":"direct","caveat":null,"mayor":{"participation":38.0,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":41.1,"winner_pct":70.8,"winner_name":"Riley Brockington"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,34.9,36.8,38.0],"councillor":[41.0,35.0,38.5,41.1]}},"17":{"name":"Capital","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":47.3,"winner_pct":62.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":51.3,"winner_pct":76.8,"winner_name":"Shawn Menard"},"history":{"years":[2010,2014,2018,2022],"mayor":[52.4,36.8,50.1,47.3],"councillor":[51.2,37.3,52.1,51.3]}},"18":{"name":"Alta Vista","change_type":"direct","caveat":null,"mayor":{"participation":40.5,"winner_pct":45.8,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.1,"winner_pct":45.6,"winner_name":"Marty Carr"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,37.3,40.0,40.5],"councillor":[43.6,37.6,41.7,43.1]}},"19":{"name":"Orléans South-Navan","change_type":"renamed","caveat":null,"mayor":{"participation":33.8,"winner_pct":61.1,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.2,"winner_pct":75.4,"winner_name":"Catherine Kitts"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.5,35.0,33.6,33.8],"councillor":[42.4,37.7,38.0,39.2]}},"20":{"name":"Osgoode","change_type":"direct","caveat":null,"mayor":{"participation":44.7,"winner_pct":74.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.2,"winner_pct":40.4,"winner_name":"George Darouze"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.4,44.8,44.8,44.7],"councillor":[44.3,45.4,45.8,46.2]}},"21":{"name":"Rideau-Jock","change_type":"renamed","caveat":null,"mayor":{"participation":46.1,"winner_pct":73.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":48.1,"winner_pct":65.3,"winner_name":"David Brown"},"history":{"years":[2010,2014,2018,2022],"mayor":[49.5,41.7,44.9,46.1],"councillor":[49.4,42.3,46.2,48.1]}},"22":{"name":"Riverside South-Findlay Creek","change_type":"split","caveat":"Riverside South-Findlay Creek (formerly Gloucester-South Nepean) lost territory in 2022: Stonebridge was transferred to Barrhaven West (Ward 3) and Chapman Mills was transferred to the new Barrhaven East (Ward 24). Historical values (2010–2018) reflect the larger former ward area.","mayor":{"participation":40.4,"winner_pct":57.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.9,"winner_pct":66.8,"winner_name":"Steve Desroches"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.2,38.9,42.7,40.4],"councillor":[40.5,39.9,46.1,42.9]}},"23":{"name":"Kanata South","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":57.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":44.0,"winner_pct":33.6,"winner_name":"Allan Hubley"},"history":{"years":[2010,2014,2018,2022],"mayor":[46.1,35.9,39.5,40.7],"councillor":[45.7,35.9,41.4,44.0]}},"24":{"name":"Barrhaven East","change_type":"new","caveat":"Barrhaven East is a new ward created in 2022, carved approximately 60% from the old Barrhaven ward (Ward 3) and 40% from the old Gloucester-South Nepean ward (Ward 22). Historical values (2010–2018) are estimates calculated as a weighted average of those two source wards using those proportions; they do not reflect actual election results for this specific territory.","mayor":{"participation":35.4,"winner_pct":58.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.1,"winner_pct":36.0,"winner_name":"Wilson Lo"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.6,35.4,40.4,35.4],"councillor":[41.2,36.1,43.9,39.1]}}};
+const wardData = {"1":{"name":"Orléans East-Cumberland","change_type":"renamed","caveat":null,"mayor":{"participation":38.2,"winner_pct":62.9,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.5,"winner_pct":72.6,"winner_name":"Matthew Luloff"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.4,35.0,40.8,38.2],"councillor":[43.2,37.9,43.1,42.5],"mayor_race":[{"no_vote":56.6,"top":23.1,"other":20.3,"top_share":53.3,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":65.0,"top":28.2,"other":6.7,"top_share":80.7,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.2,"top":31.4,"other":9.3,"top_share":77.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":61.8,"top":24.1,"other":14.2,"top_share":62.9,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"2":{"name":"Orléans West-Innes","change_type":"renamed","caveat":null,"mayor":{"participation":42.0,"winner_pct":58.7,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.2,"winner_pct":70.0,"winner_name":"Laura Dudas"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.0,42.5,41.4,42.0],"councillor":[42.2,44.1,43.8,45.2],"mayor_race":[{"no_vote":57.0,"top":23.4,"other":19.5,"top_share":54.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":57.5,"top":34.8,"other":7.7,"top_share":81.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":58.6,"top":31.3,"other":10.2,"top_share":75.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":58.0,"top":24.6,"other":17.4,"top_share":58.7,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"3":{"name":"Barrhaven West","change_type":"split","caveat":"Barrhaven West was created in 2022 when the old Barrhaven ward (Ward 3) was split: its eastern portion (Chapman Mills and Davidson Heights) became the new Barrhaven East (Ward 24), and Stonebridge was transferred to Riverside South-Findlay Creek (Ward 22). Historical values (2010–2018) reflect the full old Barrhaven ward and therefore cover a larger area than the current Ward 3.","mayor":{"participation":39.2,"winner_pct":61.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.8,"winner_pct":43.2,"winner_name":"David Hill"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,33.5,39.1,39.2],"councillor":[41.5,34.1,42.7,45.8],"mayor_race":[{"no_vote":58.2,"top":19.8,"other":22.0,"top_share":47.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":66.5,"top":24.8,"other":8.7,"top_share":74.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.9,"top":30.3,"other":8.8,"top_share":77.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.8,"top":24.2,"other":15.0,"top_share":61.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"4":{"name":"Kanata North","change_type":"direct","caveat":null,"mayor":{"participation":39.5,"winner_pct":60.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.5,"winner_pct":74.8,"winner_name":"Cathy Curry"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.3,44.6,43.9,39.5],"councillor":[45.1,45.6,48.2,43.5],"mayor_race":[{"no_vote":54.7,"top":21.6,"other":23.7,"top_share":47.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.4,"top":34.3,"other":10.4,"top_share":76.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":56.1,"top":32.1,"other":11.8,"top_share":73.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.5,"top":23.8,"other":15.7,"top_share":60.4,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"5":{"name":"West Carleton-March","change_type":"direct","caveat":null,"mayor":{"participation":44.8,"winner_pct":70.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":27.0,"winner_name":"Clarke Kelly"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.7,45.7,41.1,44.8],"councillor":[45.4,46.4,42.8,46.9],"mayor_race":[{"no_vote":54.3,"top":17.3,"other":28.4,"top_share":37.9,"top_name":"Larry O’Brien","top_is_mayor":false},{"no_vote":54.3,"top":28.8,"other":16.9,"top_share":63.0,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":58.9,"top":30.0,"other":11.2,"top_share":72.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.2,"top":31.6,"other":13.2,"top_share":70.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"6":{"name":"Stittsville","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":63.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.6,"winner_pct":58.1,"winner_name":"Glen Gower"},"history":{"years":[2010,2014,2018,2022],"mayor":[45.2,43.1,44.4,39.4],"councillor":[45.0,43.7,46.4,45.6],"mayor_race":[{"no_vote":54.8,"top":18.3,"other":26.9,"top_share":40.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":56.9,"top":29.5,"other":13.5,"top_share":68.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.6,"top":32.9,"other":11.5,"top_share":74.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.6,"top":24.9,"other":14.5,"top_share":63.2,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"7":{"name":"Bay","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.8,"winner_pct":79.8,"winner_name":"Theresa Kavanagh"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.9,40.7,40.1,40.7],"councillor":[null,41.8,41.6,43.8],"mayor_race":[{"no_vote":49.1,"top":25.5,"other":25.4,"top_share":50.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.3,"top":31.1,"other":9.7,"top_share":76.3,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.9,"top":27.4,"other":12.7,"top_share":68.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.3,"top":18.6,"other":22.1,"top_share":45.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"8":{"name":"College","change_type":"direct","caveat":null,"mayor":{"participation":43.1,"winner_pct":51.5,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.9,"winner_pct":51.3,"winner_name":"Laine Johnson"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,35.7,41.5,43.1],"councillor":[43.6,37.6,44.8,46.9],"mayor_race":[{"no_vote":55.5,"top":20.8,"other":23.7,"top_share":46.7,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.3,"top":26.6,"other":9.1,"top_share":74.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":58.5,"top":29.6,"other":11.9,"top_share":71.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":56.9,"top":22.2,"other":20.9,"top_share":51.5,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"9":{"name":"Knoxdale-Merivale","change_type":"direct","caveat":null,"mayor":{"participation":41.2,"winner_pct":57.0,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":45.5,"winner_pct":38.2,"winner_name":"Sean Devine"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.1,34.5,37.5,41.2],"councillor":[43.4,35.6,40.0,45.5],"mayor_race":[{"no_vote":55.9,"top":19.9,"other":24.2,"top_share":45.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":65.5,"top":25.4,"other":9.1,"top_share":73.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":62.5,"top":27.5,"other":9.9,"top_share":73.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":58.8,"top":23.5,"other":17.7,"top_share":57.0,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"10":{"name":"Gloucester-Southgate","change_type":"direct","caveat":null,"mayor":{"participation":32.8,"winner_pct":49.3,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":37.5,"winner_pct":40.9,"winner_name":"Jessica Bradley"},"history":{"years":[2010,2014,2018,2022],"mayor":[40.2,35.6,32.6,32.8],"councillor":[40.1,36.6,38.2,37.5],"mayor_race":[{"no_vote":59.8,"top":20.6,"other":19.6,"top_share":51.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.4,"top":27.2,"other":8.4,"top_share":76.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":67.4,"top":22.9,"other":9.7,"top_share":70.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":67.2,"top":16.2,"other":16.6,"top_share":49.3,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"11":{"name":"Beacon Hill-Cyrville","change_type":"direct","caveat":null,"mayor":{"participation":38.1,"winner_pct":50.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":40.8,"winner_pct":79.6,"winner_name":"Tim Tierney"},"history":{"years":[2010,2014,2018,2022],"mayor":[43.7,37.0,37.1,38.1],"councillor":[43.5,37.5,38.1,40.8],"mayor_race":[{"no_vote":56.3,"top":23.1,"other":20.6,"top_share":52.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":63.0,"top":29.3,"other":7.7,"top_share":79.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":62.9,"top":26.1,"other":11.0,"top_share":70.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":61.9,"top":19.2,"other":18.9,"top_share":50.4,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"12":{"name":"Rideau-Vanier","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":33.7,"winner_pct":57.3,"winner_name":"Catherine McKenney"},"councillor":{"participation":37.2,"winner_pct":35.9,"winner_name":"Stéphanie Plante"},"history":{"years":[2010,2014,2018,2022],"mayor":[38.7,34.6,36.0,33.7],"councillor":[37.7,36.7,37.5,37.2],"mayor_race":[{"no_vote":61.3,"top":21.2,"other":17.6,"top_share":54.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":65.4,"top":27.9,"other":6.7,"top_share":80.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.0,"top":16.8,"other":19.2,"top_share":46.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":66.3,"top":19.3,"other":14.4,"top_share":57.3,"top_name":"Catherine McKenney","top_is_mayor":false}]}},"13":{"name":"Rideau-Rockcliffe","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":36.0,"winner_pct":46.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":39.8,"winner_pct":75.6,"winner_name":"Rawlson King"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.7,38.2,36.2,36.0],"councillor":[41.0,39.0,37.1,39.8],"mayor_race":[{"no_vote":58.3,"top":22.8,"other":18.9,"top_share":54.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":61.8,"top":30.9,"other":7.3,"top_share":80.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":63.8,"top":20.1,"other":16.1,"top_share":55.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.0,"top":16.6,"other":19.5,"top_share":46.0,"top_name":"Catherine McKenney","top_is_mayor":false}]}},"14":{"name":"Somerset","change_type":"direct","caveat":null,"mayor":{"participation":39.4,"winner_pct":73.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":45.2,"winner_pct":58.4,"winner_name":"Ariel Troster"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.6,35.9,35.6,39.4],"councillor":[40.8,39.0,39.1,45.2],"mayor_race":[{"no_vote":57.4,"top":22.3,"other":20.3,"top_share":52.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.1,"top":29.6,"other":6.3,"top_share":82.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.4,"top":20.6,"other":15.0,"top_share":57.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.6,"top":28.7,"other":10.7,"top_share":73.0,"top_name":"Catherine McKenney","top_is_mayor":false}]}},"15":{"name":"Kitchissippi","change_type":"direct","caveat":null,"mayor":{"participation":49.9,"winner_pct":61.8,"winner_name":"Catherine McKenney"},"councillor":{"participation":53.0,"winner_pct":70.4,"winner_name":"Jeff Leiper"},"history":{"years":[2010,2014,2018,2022],"mayor":[50.8,45.9,47.1,49.9],"councillor":[null,47.6,48.9,53.0],"mayor_race":[{"no_vote":49.2,"top":25.3,"other":25.5,"top_share":49.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":54.1,"top":38.3,"other":7.6,"top_share":83.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":52.9,"top":29.6,"other":17.6,"top_share":62.7,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":50.1,"top":30.8,"other":19.0,"top_share":61.8,"top_name":"Catherine McKenney","top_is_mayor":false}]}},"16":{"name":"River","change_type":"direct","caveat":null,"mayor":{"participation":38.0,"winner_pct":45.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":41.1,"winner_pct":70.8,"winner_name":"Riley Brockington"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.8,34.9,36.8,38.0],"councillor":[41.0,35.0,38.5,41.1],"mayor_race":[{"no_vote":58.2,"top":21.3,"other":20.5,"top_share":51.0,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":65.1,"top":27.1,"other":7.8,"top_share":77.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":63.2,"top":25.8,"other":11.0,"top_share":70.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":62.0,"top":17.3,"other":20.7,"top_share":45.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"17":{"name":"Capital","change_type":"minor","caveat":"Minor boundary adjustment in 2022. Historical values (2010–2018) reflect the previous boundary and may slightly differ from the current ward area.","mayor":{"participation":47.3,"winner_pct":62.0,"winner_name":"Catherine McKenney"},"councillor":{"participation":51.3,"winner_pct":76.8,"winner_name":"Shawn Menard"},"history":{"years":[2010,2014,2018,2022],"mayor":[52.4,36.8,50.1,47.3],"councillor":[51.2,37.3,52.1,51.3],"mayor_race":[{"no_vote":47.6,"top":25.9,"other":26.5,"top_share":49.5,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":63.2,"top":31.0,"other":5.8,"top_share":84.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":49.9,"top":28.0,"other":22.1,"top_share":55.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":52.7,"top":29.3,"other":18.0,"top_share":62.0,"top_name":"Catherine McKenney","top_is_mayor":false}]}},"18":{"name":"Alta Vista","change_type":"direct","caveat":null,"mayor":{"participation":40.5,"winner_pct":45.8,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":43.1,"winner_pct":45.6,"winner_name":"Marty Carr"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.5,37.3,40.0,40.5],"councillor":[43.6,37.6,41.7,43.1],"mayor_race":[{"no_vote":55.5,"top":22.9,"other":21.6,"top_share":51.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":62.7,"top":29.5,"other":7.8,"top_share":79.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.0,"top":27.6,"other":12.4,"top_share":68.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.5,"top":18.6,"other":22.0,"top_share":45.8,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"19":{"name":"Orléans South-Navan","change_type":"renamed","caveat":null,"mayor":{"participation":33.8,"winner_pct":61.1,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.2,"winner_pct":75.4,"winner_name":"Catherine Kitts"},"history":{"years":[2010,2014,2018,2022],"mayor":[42.5,35.0,33.6,33.8],"councillor":[42.4,37.7,38.0,39.2],"mayor_race":[{"no_vote":57.5,"top":22.2,"other":20.3,"top_share":52.3,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":65.0,"top":27.6,"other":7.5,"top_share":78.7,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":66.4,"top":26.6,"other":7.0,"top_share":79.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":66.2,"top":20.7,"other":13.2,"top_share":61.1,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"20":{"name":"Osgoode","change_type":"direct","caveat":null,"mayor":{"participation":44.7,"winner_pct":74.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":46.2,"winner_pct":40.4,"winner_name":"George Darouze"},"history":{"years":[2010,2014,2018,2022],"mayor":[44.4,44.8,44.8,44.7],"councillor":[44.3,45.4,45.8,46.2],"mayor_race":[{"no_vote":55.6,"top":16.8,"other":27.6,"top_share":37.8,"top_name":"Larry O’Brien","top_is_mayor":false},{"no_vote":55.2,"top":26.8,"other":18.0,"top_share":59.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.2,"top":33.1,"other":11.7,"top_share":73.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.3,"top":33.3,"other":11.5,"top_share":74.4,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"21":{"name":"Rideau-Jock","change_type":"renamed","caveat":null,"mayor":{"participation":46.1,"winner_pct":73.2,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":48.1,"winner_pct":65.3,"winner_name":"David Brown"},"history":{"years":[2010,2014,2018,2022],"mayor":[49.5,41.7,44.9,46.1],"councillor":[49.4,42.3,46.2,48.1],"mayor_race":[{"no_vote":50.5,"top":18.3,"other":31.2,"top_share":37.0,"top_name":"Larry O’Brien","top_is_mayor":false},{"no_vote":58.3,"top":24.4,"other":17.3,"top_share":58.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":55.1,"top":33.0,"other":11.9,"top_share":73.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":53.9,"top":33.8,"other":12.4,"top_share":73.2,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"22":{"name":"Riverside South-Findlay Creek","change_type":"split","caveat":"Riverside South-Findlay Creek (formerly Gloucester-South Nepean) lost territory in 2022: Stonebridge was transferred to Barrhaven West (Ward 3) and Chapman Mills was transferred to the new Barrhaven East (Ward 24). Historical values (2010–2018) reflect the larger former ward area.","mayor":{"participation":40.4,"winner_pct":57.4,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":42.9,"winner_pct":66.8,"winner_name":"Steve Desroches"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.2,38.9,42.7,40.4],"councillor":[40.5,39.9,46.1,42.9],"mayor_race":[{"no_vote":58.8,"top":21.0,"other":20.2,"top_share":51.1,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":61.1,"top":29.2,"other":9.8,"top_share":74.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":57.3,"top":32.9,"other":9.9,"top_share":76.9,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.6,"top":23.2,"other":17.2,"top_share":57.4,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"23":{"name":"Kanata South","change_type":"direct","caveat":null,"mayor":{"participation":40.7,"winner_pct":57.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":44.0,"winner_pct":33.6,"winner_name":"Allan Hubley"},"history":{"years":[2010,2014,2018,2022],"mayor":[46.1,35.9,39.5,40.7],"councillor":[45.7,35.9,41.4,44.0],"mayor_race":[{"no_vote":53.9,"top":21.4,"other":24.7,"top_share":46.3,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.1,"top":26.5,"other":9.4,"top_share":73.8,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":60.5,"top":29.3,"other":10.2,"top_share":74.2,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.3,"top":23.4,"other":17.2,"top_share":57.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}},"24":{"name":"Barrhaven East","change_type":"new","caveat":"Barrhaven East is a new ward created in 2022, carved approximately 60% from the old Barrhaven ward (Ward 3) and 40% from the old Gloucester-South Nepean ward (Ward 22). Historical values (2010–2018) are estimates calculated as a weighted average of those two source wards using those proportions; they do not reflect actual election results for this specific territory.","mayor":{"participation":35.4,"winner_pct":58.6,"winner_name":"Mark Sutcliffe"},"councillor":{"participation":39.1,"winner_pct":36.0,"winner_name":"Wilson Lo"},"history":{"years":[2010,2014,2018,2022],"mayor":[41.6,35.4,40.4,35.4],"councillor":[41.2,36.1,43.9,39.1],"mayor_race":[{"no_vote":58.4,"top":20.2,"other":21.4,"top_share":48.6,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.6,"top":26.3,"other":9.1,"top_share":74.4,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":59.6,"top":31.2,"other":9.2,"top_share":77.3,"top_name":"Jim Watson","top_is_mayor":true},{"no_vote":64.6,"top":20.7,"other":14.7,"top_share":58.6,"top_name":"Mark Sutcliffe","top_is_mayor":true}]}}};
+
+// ── Selected year ──────────────────────────────────────────────────────────────
+const YEARS = [2010, 2014, 2018, 2022];
+let currentYear = 2022;
+try {
+  const y = +new URLSearchParams(location.search).get('year');
+  if (YEARS.includes(y)) currentYear = y;
+} catch (e) {}
+
+// Councillor-race turnout for a ward in a year (null when the source has none).
+function turnoutFor(ward, year) {
+  const d = wardData[ward];
+  if (!d) return null;
+  const v = d.history.councillor[YEARS.indexOf(year)];
+  return v == null ? null : v;
+}
+
+// How a pre-2022 value relates to today's ward, for tooltips.
+function boundaryNote(ward, year) {
+  const t = wardData[ward] && wardData[ward].change_type;
+  if (year === 2022 || !t) return '';
+  if (t === 'new')   return 'estimate: ward created in 2022';
+  if (t === 'split') return 'old, larger ward';
+  if (t === 'minor') return 'previous boundary';
+  return '';
+}
 
 // ── Colour scale ───────────────────────────────────────────────────────────────
+// Fixed across all years so the map can be compared year to year. Ward turnout
+// in 2010–2022 ranges ~32–53%, so the domain is fitted to 30–55% (the old 20–80%
+// range left every ward a similar grey). Colour-blind theme swaps red–green for
+// orange–blue.
+const SCALE_LO = 30, SCALE_HI = 55;
 function makeScale() {
-  // 20% = very low (deep red-orange), 50% = mid (neutral grey-blue), 80% = high (deep teal)
-  // Ottawa sits 37-53%, so most wards will be in the lower-mid range
+  const cb = document.documentElement.getAttribute('data-theme') === 'cb';
   const scale = d3.scaleLinear()
-    .domain([20, 50, 80])
-    .range(['#C0392B', '#8BA0B0', '#1A6B3A'])
+    .domain([SCALE_LO, (SCALE_LO + SCALE_HI) / 2, SCALE_HI])
+    .range(cb ? ['#C1521A', '#C9C4BB', '#1B4F8C'] : ['#C0392B', '#8BA0B0', '#1A6B3A'])
     .clamp(true);
   return { scale };
 }
 
+// ── Map mode: turnout, or the mayor race's largest group ──────────────────────
+const MAP_MODES = ['turnout', 'mayor', 'winner'];
+let mapMode = 'turnout';
+try {
+  const m = new URLSearchParams(location.search).get('map');
+  if (MAP_MODES.includes(m)) mapMode = m;
+} catch (e) {}
+
+// Mayor race groups, as % of all registered voters. The source only has the
+// ward's top candidate; where that wasn't the elected mayor, the mayor's votes
+// are inside "rest" and can't be split out.
+const MAYOR_ELECTED = {2010: 'Jim Watson', 2014: 'Jim Watson', 2018: 'Jim Watson', 2022: 'Mark Sutcliffe'};
+const GROUP_LABEL = {no_vote: "Didn't vote", mayor: 'Elected mayor', other: 'Other candidates'};
+function mayorGroups(ward, year) {
+  const d = wardData[ward];
+  const r = d && d.history.mayor_race[YEARS.indexOf(year)];
+  if (!r) return null;
+  // The top candidate counts as "mayor" only when they won city-wide.
+  const groups = [
+    {key: 'no_vote', pct: r.no_vote},
+    {key: r.top_is_mayor ? 'mayor' : 'other', pct: r.top, name: r.top_name},
+    {key: 'other', pct: r.other, rest: true},
+  ].sort((a, b) => b.pct - a.pct);
+  return {r, groups, lead: groups[0], margin: +(groups[0].pct - groups[1].pct).toFixed(1)};
+}
+
+function groupBase(key) {
+  const cb = document.documentElement.getAttribute('data-theme') === 'cb';
+  if (key === 'no_vote') return cb ? '#C1521A' : '#C0392B';
+  if (key === 'mayor')   return '#185FA5';
+  return cb ? '#CC79A7' : '#6E62C8';
+}
+// Darker = bigger lead over the runner-up (0–40 points).
+function groupFill(key, margin) {
+  const t = 0.2 + 0.8 * Math.min(margin, 40) / 40;
+  return d3.interpolateRgb('#ECE8E1', groupBase(key))(t);
+}
+
+// Voters only: the ward's top mayoral candidate and their share of votes cast.
+function wardWinner(ward, year) {
+  const d = wardData[ward];
+  const r = d && d.history.mayor_race[YEARS.indexOf(year)];
+  if (!r || !r.top_name) return null;
+  return {
+    name: r.top_name,
+    key: r.top_is_mayor ? 'mayor' : 'other',
+    share: r.top_share,
+  };
+}
+// Blue vs orange so the two winners read apart at any shade (Okabe–Ito pair in
+// the colour-blind theme).
+function winnerBase(key) {
+  const cb = document.documentElement.getAttribute('data-theme') === 'cb';
+  if (key === 'mayor') return cb ? '#0072B2' : '#1F5FA8';
+  return cb ? '#E69F00' : '#E07B24';
+}
+// Darker = larger share of the votes cast (30–80%). The pale end stays well
+// away from grey so the hue is still clear in weak wards.
+function winnerFill(w) {
+  const t = 0.45 + 0.55 * Math.max(0, Math.min(w.share - 30, 50)) / 50;
+  return d3.interpolateRgb('#F2EEE8', winnerBase(w.key))(t);
+}
+
+// Wards that existed in that year: Ward 24 only has estimates before 2022.
+function realWards(year) {
+  return Object.keys(wardData).filter(w => !(year < 2022 && wardData[w].change_type === 'new'));
+}
+
 function buildLegend() {
-  const {scale} = makeScale();
-  document.getElementById('leg-lo-label').textContent = '20%';
-  document.getElementById('leg-hi-label').textContent = '80%';
-  const bar = document.getElementById('leg-bar');
-  bar.innerHTML = '';
-  for (let i = 0; i < 20; i++) {
-    const s = document.createElement('div');
-    s.style.cssText = `flex:1;background:${scale(20 + 60 * i / 19)}`;
-    bar.appendChild(s);
+  const el = document.getElementById('map-legend');
+  if (mapMode === 'winner') {
+    const names = new Set(realWards(currentYear).map(w => wardWinner(w, currentYear)).filter(Boolean)
+      .filter(w => w.key === 'other').map(w => w.name));
+    const mayor = MAYOR_ELECTED[currentYear];
+    el.innerHTML = `<span class="leg-item"><i style="background:${winnerBase('mayor')}"></i>${mayor} (elected)</span>` +
+      [...names].map(n => `<span class="leg-item"><i style="background:${winnerBase('other')}"></i>${n}</span>`).join('') +
+      `<span>darker = larger share of votes</span>`;
+  } else if (mapMode === 'turnout') {
+    const {scale} = makeScale();
+    const stops = Array.from({length: 20}, (_, i) =>
+      `<div style="flex:1;background:${scale(SCALE_LO + (SCALE_HI - SCALE_LO) * i / 19)}"></div>`).join('');
+    el.innerHTML = `<span>${SCALE_LO}%</span><div class="leg-bar" style="width:80px">${stops}</div><span>${SCALE_HI}%</span>`;
+  } else {
+    el.innerHTML = ['no_vote', 'mayor', 'other'].map(k =>
+      `<span class="leg-item"><i style="background:${groupBase(k)}"></i>${GROUP_LABEL[k]}</span>`).join('') +
+      `<span>darker = bigger lead</span>`;
   }
 }
 
+// One-line takeaway above the map in mayor mode.
+function buildMapNote() {
+  const note = document.getElementById('map-note');
+  if (mapMode === 'turnout') { note.hidden = true; return; }
+  if (mapMode === 'winner') {
+    const wins = {};
+    let total = 0;
+    realWards(currentYear).forEach(w => {
+      const win = wardWinner(w, currentYear);
+      if (win) { wins[win.name] = (wins[win.name] || 0) + 1; total++; }
+    });
+    const parts = Object.entries(wins).sort((a, b) => b[1] - a[1])
+      .map(([name, c]) => `<strong>${name}</strong> won ${c} of ${total} wards`);
+    note.innerHTML = `${currentYear}, counting only people who voted: ${parts.join('; ')}.`;
+    note.hidden = false;
+    return;
+  }
+  const counts = {no_vote: 0, mayor: 0, other: 0};
+  let n = 0;
+  realWards(currentYear).forEach(w => {
+    const g = mayorGroups(w, currentYear);
+    if (g) { counts[g.lead.key]++; n++; }
+  });
+  const parts = Object.entries(counts).filter(([, c]) => c).map(([k, c]) =>
+    `<strong>${GROUP_LABEL[k]}</strong> was the largest group in ${c} of ${n} wards`);
+  note.innerHTML = `${currentYear} (${MAYOR_ELECTED[currentYear]} elected): ${parts.join('; ')}.`;
+  note.hidden = false;
+}
+
 // ── KPIs ───────────────────────────────────────────────────────────────────────
-(function buildKPIs() {
+// Highest/lowest skip Ward 24 before 2022, whose values are estimates.
+function buildKPIs() {
   const {scale} = makeScale();
-  const entries = Object.entries(wardData);
-  const pcts = entries.map(([,d]) => d.councillor.participation).filter(Boolean);
-  const avg = (pcts.reduce((a,b) => a+b, 0) / pcts.length).toFixed(1);
+  const year = currentYear;
+  document.getElementById('kpi-title').textContent = 'Ward turnout · ' + year;
+  const entries = Object.keys(wardData)
+    .map(w => [w, turnoutFor(w, year)])
+    .filter(([w, v]) => v != null && !(year < 2022 && wardData[w].change_type === 'new'));
+  const avg = (entries.reduce((a, [, v]) => a + v, 0) / entries.length).toFixed(1);
   const avgEl = document.getElementById('kpi-avg');
   avgEl.textContent = avg + '%';
   avgEl.style.color = scale(+avg);
 
-  const hi = entries.reduce((a,b) => a[1].councillor.participation > b[1].councillor.participation ? a : b);
-  const lo = entries.reduce((a,b) => a[1].councillor.participation < b[1].councillor.participation ? a : b);
+  const hi = entries.reduce((a, b) => a[1] >= b[1] ? a : b);
+  const lo = entries.reduce((a, b) => a[1] <= b[1] ? a : b);
+  const label = ([w]) => 'Ward ' + w + ' · ' + wardData[w].name.split('–')[0].trim();
 
   const hiValEl = document.getElementById('kpi-hi-val');
-  hiValEl.textContent  = hi[1].councillor.participation + '%';
-  hiValEl.style.color  = scale(hi[1].councillor.participation);
-  document.getElementById('kpi-hi-name').textContent = 'Ward ' + hi[0] + ' · ' + hi[1].name.split('–')[0].trim();
+  hiValEl.textContent = hi[1] + '%';
+  hiValEl.style.color = scale(hi[1]);
+  document.getElementById('kpi-hi-name').textContent = label(hi);
 
   const loValEl = document.getElementById('kpi-lo-val');
-  loValEl.textContent  = lo[1].councillor.participation + '%';
-  loValEl.style.color  = scale(lo[1].councillor.participation);
-  document.getElementById('kpi-lo-name').textContent = 'Ward ' + lo[0] + ' · ' + lo[1].name.split('–')[0].trim();
-})();
+  loValEl.textContent = lo[1] + '%';
+  loValEl.style.color = scale(lo[1]);
+  document.getElementById('kpi-lo-name').textContent = label(lo);
+}
 
-buildLegend();
 
 // ── Stacked bar helper ─────────────────────────────────────────────────────────
 function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
@@ -355,13 +533,16 @@ function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
 
   const mkLabel = (pct, color, bold) =>
     pct >= 5 ? `<span style="font-size:9px;font-weight:${bold?'800':'700'};color:${color};pointer-events:none">${pct}%</span>` : '';
+  // "Didn't vote" sits on the hatch, so give its label a solid backing to stay legible in both themes.
+  const mkNoVoteLabel = pct =>
+    pct >= 5 ? `<span class="nv-pill" style="font-size:9px;font-weight:800;pointer-events:none">${pct}%</span>` : '';
 
   const refLines = [25, 50, 75].map(p =>
-    `<div style="position:absolute;top:0;bottom:0;left:${p}%;width:${p===50?2:1}px;background:${p===50?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.18)'};pointer-events:none;z-index:2;transform:translateX(-50%)"></div>`
+    `<div style="position:absolute;top:0;bottom:0;left:${p}%;width:${p===50?2:1}px;background:${p===50?'rgba(192,57,43,0.85)':'rgba(127,127,127,0.45)'};pointer-events:none;z-index:2;transform:translateX(-50%)"></div>`
   ).join('');
 
   const refLabels = [25, 50, 75].map(p =>
-    `<span style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${p===50?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.35)'};white-space:nowrap">${p}%</span>`
+    `<span style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${p===50?'rgba(192,57,43,0.85)':'var(--ink-3)'};white-space:nowrap">${p}%</span>`
   ).join('');
 
   const el = document.getElementById(elId);
@@ -371,7 +552,7 @@ function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
     <div style="position:relative;height:14px;border-radius:5px;overflow:hidden;display:flex">
       <div style="width:${wPct}%;background:${winnerColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Winner ${wPct}%">${mkLabel(wPct,'#fff',false)}</div>
       <div style="width:${oPct}%;background:${otherColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Others ${oPct}%">${mkLabel(oPct,'rgba(0,0,0,0.55)',false)}</div>
-      <div style="flex:1;background:repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px);display:flex;align-items:center;justify-content:center" title="Didn't vote ${nPct}%">${mkLabel(nPct,'#C0392B',true)}</div>
+      <div style="flex:1;background:repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 3px,transparent 3px,transparent 7px);display:flex;align-items:center;justify-content:center" title="Didn't vote ${nPct}%">${mkNoVoteLabel(nPct)}</div>
       ${refLines}
     </div>
   `;
@@ -385,11 +566,45 @@ let selectedWard = null;
 
 const GEOJSON_URL = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Ottawa_Elections/Ottawa_Election_Wards_Only.json';
 
+const NO_DATA_FILL = '#9AA1AD';
 function fillColor(ward) {
-  const d = wardData[ward];
-  if (!d) return 'var(--line-2)';
-  const {scale} = makeScale();
-  return d.councillor.participation != null ? scale(d.councillor.participation) : 'var(--line-2)';
+  if (mapMode === 'winner') {
+    const w = wardWinner(ward, currentYear);
+    return w ? winnerFill(w) : NO_DATA_FILL;
+  }
+  if (mapMode === 'mayor') {
+    const g = mayorGroups(ward, currentYear);
+    return g ? groupFill(g.lead.key, g.margin) : NO_DATA_FILL;
+  }
+  const v = turnoutFor(ward, currentYear);
+  return v != null ? makeScale().scale(v) : NO_DATA_FILL;
+}
+
+function tooltipBody(ward) {
+  const note = boundaryNote(ward, currentYear);
+  const suffix = note ? `<br>(${note})` : '';
+  if (mapMode === 'winner') {
+    const w = wardWinner(ward, currentYear);
+    if (!w) return 'No data' + suffix;
+    const restLbl = w.key === 'mayor' ? 'Other candidates' : `Others, incl. ${MAYOR_ELECTED[currentYear]}`;
+    return `${w.name}${w.key === 'mayor' ? ' (elected)' : ''}: ${w.share}%<br>${restLbl}: ${+(100 - w.share).toFixed(1)}%` +
+      `<br><em>% of votes cast</em>${suffix}`;
+  }
+  if (mapMode === 'mayor') {
+    const g = mayorGroups(ward, currentYear);
+    if (!g) return 'No data' + suffix;
+    const r = g.r;
+    const topLbl = r.top_is_mayor ? `${r.top_name} (elected)` : `${r.top_name || 'Top candidate'} (top here)`;
+    const restLbl = r.top_is_mayor ? 'Other candidates' : `Others, incl. ${MAYOR_ELECTED[currentYear]}`;
+    return `Didn't vote: ${r.no_vote}%<br>${topLbl}: ${r.top}%<br>${restLbl}: ${r.other}%` +
+      `<br><em>% of registered voters</em>${suffix}`;
+  }
+  const v = turnoutFor(ward, currentYear);
+  return `Turnout ${currentYear}: ${v != null ? v + '%' : 'no data'}${note ? ' (' + note + ')' : ''}`;
+}
+
+function recolorMap() {
+  d3.selectAll('#map path.ward').attr('fill', d => fillColor(d.properties.Ward));
 }
 
 function buildMap(geojson) {
@@ -405,30 +620,28 @@ function buildMap(geojson) {
     .attr('width', '100%')
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
-  svg.selectAll('path')
+  // Wards live in their own group so raising the selected outline never lifts
+  // it above the number labels.
+  svg.append('g').selectAll('path')
     .data(features).join('path')
     .attr('d', path)
     .attr('fill', d => fillColor(d.properties.Ward))
-    .attr('stroke', '#fff').attr('stroke-width', 0.8)
-    .attr('class', d => 'ward ward-' + d.properties.Ward)
-    .style('cursor', 'pointer')
+    .attr('class', d => 'ward ward-' + d.properties.Ward + (d.properties.Ward === selectedWard ? ' selected' : ''))
     .on('mousemove', function(event, d) {
       const ward = d.properties.Ward;
       const info = wardData[ward];
       if (!info) return;
       const rect = mapDiv.querySelector('svg').getBoundingClientRect();
       tooltip.style.cssText = `display:block;left:${event.clientX - rect.left + 12}px;top:${event.clientY - rect.top - 10}px`;
-      tooltip.innerHTML = `<strong>Ward ${ward} — ${info.name}</strong><span class="tt-sub">Turnout: ${info.councillor.participation}%</span>`;
-      if (ward !== selectedWard) d3.select(this).attr('stroke','#555').attr('stroke-width', 1.5);
+      tooltip.innerHTML = `<strong>Ward ${ward} — ${info.name}</strong><span class="tt-sub">${tooltipBody(ward)}</span>`;
     })
-    .on('mouseleave', function(event, d) {
+    .on('mouseleave', function() {
       tooltip.style.display = 'none';
-      if (d.properties.Ward !== selectedWard) d3.select(this).attr('stroke','#fff').attr('stroke-width', 0.8);
     })
     .on('click', function(event, d) {
       selectedWard = d.properties.Ward;
-      svg.selectAll('path.ward').attr('stroke','#fff').attr('stroke-width', 0.8);
-      d3.select(this).attr('stroke','#333').attr('stroke-width', 2);
+      svg.selectAll('path.ward').classed('selected', false);
+      d3.select(this).classed('selected', true).raise();
       showPanel(d.properties.Ward);
     });
 
@@ -476,15 +689,23 @@ function showPanel(wardNum) {
   document.getElementById('panel-content').style.display = 'block';
 
   document.getElementById('p-name').textContent    = d.name;
-  document.getElementById('p-wardnum').textContent = 'Ward ' + wardNum + ' · 2022';
+  const note = boundaryNote(wardNum, currentYear);
+  document.getElementById('p-wardnum').textContent = 'Ward ' + wardNum + ' · ' + currentYear + (note ? ' · ' + note : '');
   const turnoutEl = document.getElementById('p-turnout');
-  turnoutEl.textContent = d.councillor.participation + '%';
-  turnoutEl.style.color = makeScale().scale(d.councillor.participation);
+  const v = turnoutFor(wardNum, currentYear);
+  turnoutEl.textContent = v != null ? v + '%' : '—';
+  turnoutEl.style.color = v != null ? makeScale().scale(v) : 'var(--ink-3)';
   document.getElementById('p-coun-name').textContent  = d.councillor.winner_name || '—';
-  document.getElementById('p-mayor-name').textContent = d.mayor.winner_name || '—';
-
   renderStackedBar('sbar-coun',  '#0F6E56', d.councillor.participation, d.councillor.winner_pct);
-  renderStackedBar('sbar-mayor', '#185FA5', d.mayor.participation,      d.mayor.winner_pct);
+
+  // Mayor race follows the selected year (the councillor race is 2022 only).
+  const mr = d.history.mayor_race[YEARS.indexOf(currentYear)];
+  document.getElementById('p-mayor-label').textContent = 'Mayor race · ' + currentYear;
+  document.getElementById('p-mayor-name').textContent = mr
+    ? (mr.top_name || '—') + (mr.top_is_mayor ? '' : ' · ' + MAYOR_ELECTED[currentYear] + ' elected')
+    : '—';
+  if (mr) renderStackedBar('sbar-mayor', '#185FA5', 100 - mr.no_vote, mr.top_share);
+  else document.getElementById('sbar-mayor').innerHTML = '';
 
   const cavSec  = document.getElementById('caveats-section');
   const cavList = document.getElementById('caveats-list');
@@ -506,7 +727,10 @@ function showPanel(wardNum) {
         data: d.history.councillor,
         borderColor: '#C0392B',
         backgroundColor: 'rgba(192,57,43,0.06)',
-        tension: 0.3, fill: true, pointRadius: 3, spanGaps: false
+        tension: 0.3, fill: true, spanGaps: false,
+        // Enlarge the point for the year shown on the map.
+        pointRadius: d.history.years.map(y => y === currentYear ? 6 : 3),
+        pointBackgroundColor: '#C0392B'
       }]
     },
     options: {
@@ -545,7 +769,9 @@ function showPanel(wardNum) {
     const noVotePct = +((d.registered - d.votes) / d.registered * 100).toFixed(1);
 
     const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:8px';
+    row.className = 'mayor-row';
+    row.dataset.year = d.year;
+    row.style.cssText = 'display:flex;align-items:center;gap:8px;transition:opacity .25s';
 
     const lbl = document.createElement('div');
     lbl.style.cssText = 'font-size:11px;font-weight:600;color:var(--ink-2);width:30px;flex-shrink:0;text-align:right';
@@ -566,7 +792,8 @@ function showPanel(wardNum) {
       if (pct >= 5) {
         const span = document.createElement('span');
         const isNoVote = title === "Didn't vote";
-        span.style.cssText = `font-size:9px;font-weight:700;color:${isNoVote ? '#C0392B' : textColor};pointer-events:none${isNoVote ? ';font-weight:800' : ''}`;
+        if (isNoVote) span.className = 'nv-pill';
+        span.style.cssText = `font-size:9px;font-weight:700;pointer-events:none${isNoVote ? ';font-weight:800' : ';color:' + textColor}`;
         span.textContent = pct + '%';
         seg.appendChild(span);
       }
@@ -576,7 +803,7 @@ function showPanel(wardNum) {
     track.appendChild(mkSeg(winnerPct, '#185FA5', 'Mayor', '#fff'));
     track.appendChild(mkSeg(othersPct, '#7BA7CC', 'Others', 'rgba(0,0,0,0.55)'));
     const noSeg = mkSeg(noVotePct,
-      'repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 3px,transparent 3px,transparent 7px)',
+      'repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 3px,transparent 3px,transparent 7px)',
       "Didn't vote", '#C0392B', 'flex:1');
     track.appendChild(noSeg);
 
@@ -596,7 +823,7 @@ function showPanel(wardNum) {
   labelRow.style.cssText = 'display:flex;padding-left:38px;margin-bottom:3px;flex-shrink:0';
   const labelTrack = document.createElement('div');
   labelTrack.style.cssText = 'flex:1;position:relative;height:14px';
-  [[25,'rgba(0,0,0,0.35)'],[50,'rgba(192,57,43,0.85)'],[75,'rgba(0,0,0,0.35)']].forEach(([pct,color]) => {
+  [[25,'var(--ink-3)'],[50,'rgba(192,57,43,0.85)'],[75,'var(--ink-3)']].forEach(([pct,color]) => {
     const t = document.createElement('span');
     t.style.cssText = `position:absolute;left:${pct}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${color};white-space:nowrap`;
     t.textContent = pct + '%';
@@ -611,7 +838,7 @@ function showPanel(wardNum) {
   lineOverlay.style.cssText = 'position:absolute;top:17px;bottom:0;left:38px;right:0;pointer-events:none;z-index:3';
   [[25,false],[50,true],[75,false]].forEach(([pct,isMajor]) => {
     const line = document.createElement('div');
-    line.style.cssText = `position:absolute;top:0;bottom:0;left:${pct}%;width:${isMajor?2:1}px;background:${isMajor?'rgba(192,57,43,0.85)':'rgba(0,0,0,0.18)'};transform:translateX(-50%)`;
+    line.style.cssText = `position:absolute;top:0;bottom:0;left:${pct}%;width:${isMajor?2:1}px;background:${isMajor?'rgba(192,57,43,0.85)':'rgba(127,127,127,0.45)'};transform:translateX(-50%)`;
     lineOverlay.appendChild(line);
   });
   chartArea.appendChild(lineOverlay);
@@ -632,9 +859,49 @@ function showPanel(wardNum) {
   };
   leg.appendChild(mkLegItem('#185FA5', 'Mayor'));
   leg.appendChild(mkLegItem('#7BA7CC', 'Other candidates'));
-  leg.appendChild(mkLegItem('repeating-linear-gradient(45deg,#D8D5CE,#D8D5CE 2px,transparent 2px,transparent 5px)', "Didn't vote"));
+  leg.appendChild(mkLegItem('repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 2px,transparent 2px,transparent 5px)', "Didn't vote"));
   container.appendChild(leg);
 })();
+
+// ── Year selector: recolours the map, KPIs and panel; dims other mayor rows ──
+function setYear(year) {
+  currentYear = year;
+  document.querySelectorAll('#year-seg button').forEach(b =>
+    b.setAttribute('aria-pressed', String(+b.dataset.year === year)));
+  document.querySelectorAll('.mayor-row').forEach(r =>
+    r.style.opacity = +r.dataset.year === year ? '1' : '0.45');
+  buildKPIs();
+  buildLegend();
+  buildMapNote();
+  recolorMap();
+  if (selectedWard != null) showPanel(selectedWard);
+  syncUrl();
+}
+
+function setMapMode(mode) {
+  mapMode = mode;
+  document.getElementById('map-mode').value = mode;
+  buildLegend();
+  buildMapNote();
+  recolorMap();
+  syncUrl();
+}
+
+// Keep ?year= and ?map= in the URL so a view can be shared.
+function syncUrl() {
+  try {
+    const url = new URL(location.href);
+    if (currentYear === 2022) url.searchParams.delete('year'); else url.searchParams.set('year', currentYear);
+    if (mapMode === 'turnout') url.searchParams.delete('map'); else url.searchParams.set('map', mapMode);
+    history.replaceState(null, '', url);
+  } catch (e) {}
+}
+
+document.querySelectorAll('#year-seg button').forEach(b =>
+  b.addEventListener('click', () => setYear(+b.dataset.year)));
+document.getElementById('map-mode').addEventListener('change', e => setMapMode(e.target.value));
+document.getElementById('map-mode').value = mapMode;
+setYear(currentYear);
 
 // ── THEME (shared ov-theme key across the site) ──────────────────────────────
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
