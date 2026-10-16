@@ -258,6 +258,11 @@ const AWARDS_DEFS = [
     val: r => 100 * (r.blocked_att || 0) / (r.shots + (r.blocked_att || 0)),
     fmt: (v, r) => `${dec1(v)}% · ${r.blocked_att}/${r.shots + r.blocked_att}`,
     noRate:true, sub: th => `Blocked ÷ (on goal + blocked) · min. ${Math.round(th.minShots * 1.5)} attempts` },
+  { key:'farhome', icon:'far-home-player', title:'The Far-From-Home Player',
+    blurb:'Greatest straight-line distance from birthplace to the player’s team home city.',
+    filter: r => Number.isFinite(r.home_distance_km), val: r => r.home_distance_km,
+    fmt: v => `${int0(v)} km`, noRate:true,
+    sub:'Straight-line city-to-city estimate; players without mapped birthplaces are omitted.' },
 ];
 
 const AWARD_GROUPS = [
@@ -265,6 +270,7 @@ const AWARD_GROUPS = [
   { id:'workload', title:'Workload & on-ice results', keys:['impact_high','impact_low','ironwoman','workhorse'] },
   { id:'physical', title:'Physical play & discipline', keys:['goon','fairplay','hammer','shield','faceoff','shinpad'] },
   { id:'situational', title:'Special situations', keys:['pk','vulture'] },
+  { id:'origins', title:'Origins & distance', keys:['farhome'] },
 ];
 
 // Local SVGs avoid an asynchronous icon swap after page render.
@@ -313,6 +319,7 @@ function awardRowDetail(def, r, useRate) {
     parts.push(`${int0(r.toi / 60)} min played`);
   if (def.key === 'sniper' || def.key === 'hardluck') parts.push(`${int0(r.shots)} shots taken`);
   if (def.key === 'shinpad') parts.push(`${int0(r.shots)} shots on goal`);
+  if (def.key === 'farhome' && r.birthplace) parts.push(r.birthplace);
   return parts.join(' · ');
 }
 
@@ -399,6 +406,14 @@ function renderTeamAwards(seasonId) {
     { key:'top3_salary_share', icon:'top-heavy', title:'The Top-Heavy Team', asc:false, salary:true,
       blurb:'Largest share of listed team salaries going to the top three earners.',
       format:pct, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
+    { key:'nationality_count', icon:'diversity', title:'The Most Diverse Team', asc:false,
+      blurb:'Most countries represented by players on the season roster.',
+      format:v => `${fmt(v)} countries`, detail:r => `${r.nationality_player_count}/${r.roster_count} players with nationality data`,
+      coverage:'Season roster · nationality data' },
+    { key:'home_distance_median_km', icon:'far-home-team', title:'The Far-From-Home Team', asc:false,
+      blurb:'Highest median birthplace-to-home-city distance across the roster.',
+      format:v => `${fmt(v)} km median`, detail:r => `${r.home_distance_player_count}/${r.roster_count} birthplaces mapped`,
+      coverage:'Season roster · straight-line estimate' },
   ];
   grid.innerHTML = defs.map(def => {
     const ranked = rows.filter(r => r[def.key] != null && Number.isFinite(r[def.key]))
@@ -411,7 +426,7 @@ function renderTeamAwards(seasonId) {
         <span class="vl">${esc(def.format(r[def.key]))}</span>
         <span class="aw-row-detail">${esc(def.detail(r))}</span>
       </div>`).join('') : '<div class="aw-sub">Salary guide values are available for 2025–26 only.</div>';
-    const coverage = def.salary ? 'Salary guide · 2025–26' : 'All completed games in selected season';
+    const coverage = def.coverage || (def.salary ? 'Salary guide · 2025–26' : 'All completed games in selected season');
     return `<article class="aw-card team-aw-card">
       <div class="aw-head">${awardIcon(def)}<span class="aw-title">${def.title}</span></div>
       <div class="aw-blurb">${def.blurb}</div>
@@ -419,7 +434,7 @@ function renderTeamAwards(seasonId) {
       <div class="aw-sub">${coverage}</div>
     </article>`;
   }).join('');
-  note.textContent = 'Scoring concentration is the top three players’ combined goals plus assists as a share of team scoring; a smaller share is more balanced. Penalty rates divide logged player and goalie penalty minutes by team games played. Salary comparisons use listed 2025–26 guide salaries only; the guide lists fewer players than the season roster, so these are not complete payroll totals.';
+  note.textContent = 'Scoring concentration is the top three players’ combined goals plus assists as a share of team scoring; a smaller share is more balanced. Penalty rates divide logged player and goalie penalty minutes by team games played. Salary comparisons use listed 2025–26 guide salaries only; the guide lists fewer players than the season roster, so these are not complete payroll totals. Nationality counts use available roster nationality fields; distance awards use great-circle estimates from mapped birthplace cities to each team’s most-used home venue, with unmapped players omitted.';
 }
 
 // A deterministic weekly shuffle keeps the home-page picks consistent for

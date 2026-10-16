@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=award-icons-static-1"></script>
+<script src="pwhl-sections.js?v=geography-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -70,11 +70,10 @@
             Eligibility minimums scale with the season's length — roughly 8 games and 120 minutes
             over a full regular season, proportionally lower for a short playoff run — so a
             three-game call-up with one lucky shift doesn't win everything.</li>
-          <li><strong>Team awards</strong>: scoring balance/top-line awards compare the top three scorers' goals plus assists as a share of team scoring. Fair play and penalty-box awards use logged player and goalie penalty minutes per completed team game.</li>
+          <li><strong>Team awards</strong>: scoring balance/top-line awards compare the top three scorers' goals plus assists as a share of team scoring. Fair play and penalty-box awards use logged player and goalie penalty minutes per completed team game. Diversity counts available roster nationality fields. Distance awards use straight-line estimates from mapped birthplace cities to a team's most-used home venue; team distance uses the roster median.</li>
           <li><strong>Salary awards</strong> use the <a href="https://www.pwhlpa.com/salary-guide?st_source=ai_overview">PWHLPA 2025–26 salary guide</a>. It lists 23–25 player salaries per team, while the season roster data has 26–29 players per team. These comparisons cover listed salaries only and are not complete payroll estimates.</li>
-          <li>Individual player superlatives use skater stat lines; the separate team penalty-rate awards include logged goalie penalties where available.</li>
-          <li>No "hit the post/crossbar" award: the play-by-play feed records shots on goal,
-            blocked shots, and goals, but never missed shots, so iron is invisible in this data.</li>
+          <li>Most individual superlatives use skater stat lines; the birthplace-distance award uses player profile data. Team penalty-rate awards include logged goalie penalties where available.</li>
+          <li>No "hit the post/crossbar" award: the play-by-play feed does not identify post or crossbar contacts, so those shots cannot be counted reliably.</li>
           <li>The shot map, goals-by-period, and event-mix charts are drawn from the full
             play-by-play record across all seasons combined, not filtered to the season selector
             above — a per-season breakdown is a natural next step.</li>

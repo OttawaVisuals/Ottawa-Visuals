@@ -1,10 +1,13 @@
-"""Build historical team-level awards from official game logs and the salary guide."""
+"""Build historical team awards from game logs, rosters, and salary data."""
 
 import csv
 import json
 import math
+import statistics
 from collections import defaultdict
 from pathlib import Path
+
+from pwhl_geography import birthplace_points, great_circle_km, home_venue_points
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -31,6 +34,25 @@ def main():
         season_teams[t["season_id"]][t["team_id"]] = {
             "code": t["team_code"], "name": t["team_city"] or t["team_name"]}
         names_to_codes[t["season_id"]][t["team_name"]] = t["team_code"]
+
+    home_points = home_venue_points(
+        rows("pwhl_teams.csv"), rows("pwhl_game_summaries.csv"), rows("PWHL_Venues.csv"))
+    birthplace_coords = birthplace_points(DATA)
+    player_info = {r["player_id"]: r for r in rows("pwhl_players_info.csv")}
+    roster_people = defaultdict(dict)
+    for r in rows("pwhl_team_rosters.csv"):
+        sid = r.get("season_id", "")
+        team = season_teams[sid].get(r.get("team_id", ""))
+        pid = r.get("player_id", "")
+        if team and pid:
+            info = player_info.get(pid, {})
+            nationality = info.get("nationality", "")
+            if nationality in ("", "NA"):
+                nationality = r.get("birthcntry", "")
+            roster_people[(sid, team["code"])][pid] = {
+                "nationality": (nationality or "").strip(),
+                "birthplace": info.get("birthplace", ""),
+            }
 
     by_season_team = defaultdict(lambda: defaultdict(lambda: {
         "points_by_player": defaultdict(float), "pim": 0.0, "games": 0}))
@@ -91,6 +113,27 @@ def main():
                 "salary_cv": None,
                 "top3_salary_share": None,
             }
+            roster = roster_people.get((sid, code), {})
+            known_nationalities = {
+                p["nationality"] for p in roster.values()
+                if p["nationality"] and p["nationality"].upper() not in {"NA", "N/A", "UNKNOWN"}
+            }
+            home = home_points.get((sid, code))
+            distances = [
+                great_circle_km(birthplace_coords[p["birthplace"]], home["point"])
+                for p in roster.values()
+                if home and p["birthplace"] in birthplace_coords
+            ]
+            entry.update({
+                "nationality_count": len(known_nationalities),
+                "nationality_player_count": sum(
+                    bool(p["nationality"])
+                    and p["nationality"].upper() not in {"NA", "N/A", "UNKNOWN"}
+                    for p in roster.values()
+                ),
+                "home_distance_median_km": round(statistics.median(distances)) if distances else None,
+                "home_distance_player_count": len(distances),
+            })
             vals = salaries[sid].get(code, [])
             if vals:
                 mean = sum(vals) / len(vals)

@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=award-icons-static-1"></script>
+<script src="pwhl-sections.js?v=geography-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -203,7 +203,7 @@ function renderPlayersSeason(sid) {
   sel.innerHTML = '<option value="">All teams</option>' + teams.map(c => `<option value="${esc(c)}"${c === selected ? ' selected' : ''}>${esc(c)}</option>`).join('');
   renderPlayersTable(sid);
 }
-PWHL.load(['meta', 'standings', 'awards', 'goalies']).then(() => {
+PWHL.load(['meta', 'standings', 'awards', 'goalies'], { awards:'geography-awards-1' }).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   PWHL.playerSearch(document.getElementById('player-search'));

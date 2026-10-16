@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=award-icons-static-1"></script>
+<script src="pwhl-sections.js?v=geography-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -134,7 +134,7 @@ let teamSeasons = [];     // seasons with standings for this team
 let selectedGoalieId = null;
 const isD = pos => /D/.test((pos || '').toUpperCase());
 
-PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'lines', 'rosters', 'players_index', 'team_shots'], { team_shots: 'team-shotmaps-1' })
+PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'lines', 'rosters', 'players_index', 'team_shots'], { team_shots: 'team-shotmaps-1', awards:'geography-awards-1' })
   .then(() => {
     // Latest identity for the code (names changed after the inaugural season).
     Object.keys(META.teams_by_season).sort((a, b) => Number(a) - Number(b)).forEach(sid => {

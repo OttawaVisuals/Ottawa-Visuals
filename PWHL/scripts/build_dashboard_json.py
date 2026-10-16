@@ -14,6 +14,9 @@ import os
 import unicodedata
 from collections import defaultdict
 from datetime import datetime, timezone
+from pathlib import Path
+
+from pwhl_geography import birthplace_points, great_circle_km, home_venue_points
 
 DATA_DIR = os.path.join("PWHL", "data")
 OUT_DIR = os.path.join(DATA_DIR, "json")
@@ -216,6 +219,8 @@ def main():
         }
 
     players_info = {p["player_id"]: p for p in read_csv("pwhl_players_info.csv")}
+    home_points = home_venue_points(teams, game_summaries, venues)
+    birthplace_coords = birthplace_points(Path(DATA_DIR))
 
     def player_display_name(pid):
         p = players_info.get(pid)
@@ -320,10 +325,19 @@ def main():
                      if p.get("team_code") and p.get("team_code") != "NA"),
                     (players_info.get(pid) or {}).get("most_recent_team_code", ""),
                 )
+            birthplace = (players_info.get(pid) or {}).get("birthplace", "")
+            birthplace_point = birthplace_coords.get(birthplace)
+            home = home_points.get((sid, team_code), {})
+            home_distance_km = (
+                round(great_circle_km(birthplace_point, home["point"]))
+                if birthplace_point and home else None
+            )
             rows.append({
                 "player_id": pid,
                 "name": player_display_name(pid),
                 "team_code": team_code,
+                "birthplace": birthplace if birthplace not in ("", "NA") else None,
+                "home_distance_km": home_distance_km,
                 "traded": len(parts) > 1,
                 "pos": positions.get(pid, ""),
                 "gp": gp,

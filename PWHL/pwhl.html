@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=award-icons-static-1"></script>
+<script src="pwhl-sections.js?v=geography-awards-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -139,7 +139,7 @@ function renderHomeSeason(sid) {
   renderGoalsChart(sid);
   renderLeaders(sid, currentLeaderStat);
 }
-PWHL.load(['meta', 'standings', 'leaders', 'games', 'bracket', 'awards', 'overview'], { overview:'season-summary-v1' }).then(() => {
+PWHL.load(['meta', 'standings', 'leaders', 'games', 'bracket', 'awards', 'overview'], { overview:'season-summary-v1', awards:'geography-awards-1' }).then(() => {
   PWHL.fillHeader();
   document.getElementById('app').style.display = 'flex';
   currentBracketSeasonId = META.current_playoff_season_id || Object.keys(BRACKET)[0];
