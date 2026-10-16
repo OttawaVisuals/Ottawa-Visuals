@@ -220,13 +220,6 @@ html[data-embedded] .topbar{display:none}
     <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
     <span>Ottawa Visuals<small>data, charted simply</small></span>
   </a>
-  <nav>
-    <a href="../index.html#reports">Reports</a>
-    <a href="../mortgage.html">Mortgage</a>
-    <a href="../weather.html">Weather</a>
-    <a href="ottawa_ward_elections.html" class="active">Ward elections</a>
-    <a href="../index.html#about">About</a>
-  </nav>
   <span class="spacer"></span>
   <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
 </header>
@@ -854,11 +847,14 @@ function showPanel(wardNum) {
 // on the list" = residents − under 18 − registered: mostly non-citizens and
 // unregistered adults. It is approximate, since the list can also include
 // non-resident property owners.
+// Runner-up totals are the final City of Ottawa counts as tabulated on each
+// election's Wikipedia page (their winner totals match votesMayor). "Others" is
+// votes cast minus mayor and runner-up, so it also holds blank/rejected ballots.
 const MAYOR_HISTORY = [
-  {year:2010, registered:607357, votes:269640, votesMayor:131323, pop: 898924, under18:183535},
-  {year:2014, registered:632385, votes:252464, votesMayor:189253, pop: 941129, under18:188499},
-  {year:2018, registered:633946, votes:269772, votesMayor:188960, pop:1008849, under18:198896},
-  {year:2022, registered:722227, votes:316254, votesMayor:161677, pop:1083498, under18:208600},
+  {year:2010, registered:607357, votes:269640, votesMayor:131323, runnerUp: 64862, runnerUpName:'Larry O’Brien',     pop: 898924, under18:183535},
+  {year:2014, registered:632385, votes:252464, votesMayor:189253, runnerUp: 46341, runnerUpName:'Mike Maguire',       pop: 941129, under18:188499},
+  {year:2018, registered:633946, votes:269772, votesMayor:188960, runnerUp: 59156, runnerUpName:'Clive Doucet',       pop:1008849, under18:198896},
+  {year:2022, registered:722227, votes:316254, votesMayor:161677, runnerUp:119235, runnerUpName:'Catherine McKenney', pop:1083498, under18:208600},
 ];
 const HATCH = w => `repeating-linear-gradient(45deg,var(--hatch),var(--hatch) ${w}px,transparent ${w}px,transparent ${w * 2 + 1}px)`;
 let mayorBasis = 'registered';
@@ -870,8 +866,10 @@ function mayorSegments(d) {
   const base = mayorBasis === 'residents' ? d.pop : d.registered;
   const pct = n => +(n / base * 100).toFixed(1);
   const segs = [
-    {label: 'Elected mayor',    pct: pct(d.votesMayor),           bg: '#185FA5', ink: '#fff'},
-    {label: 'Other candidates', pct: pct(d.votes - d.votesMayor), bg: '#7BA7CC', ink: 'rgba(0,0,0,0.55)'},
+    {label: 'Elected mayor', name: MAYOR_ELECTED[d.year], pct: pct(d.votesMayor), bg: '#185FA5', ink: '#fff'},
+    {label: 'Runner-up',     name: d.runnerUpName,        pct: pct(d.runnerUp),   bg: '#5B93C9', ink: '#fff'},
+    {label: 'Others',        name: 'other candidates and blank/rejected ballots',
+                             pct: pct(d.votes - d.votesMayor - d.runnerUp),    bg: '#B4CDE4', ink: 'rgba(0,0,0,0.55)'},
     {label: "Didn't vote",      pct: pct(d.registered - d.votes), bg: HATCH(3), noVote: true},
   ];
   if (mayorBasis === 'residents') {
@@ -915,7 +913,7 @@ function renderMayorHistory() {
       const seg = document.createElement('div');
       // The last segment fills what rounding leaves over.
       seg.style.cssText = `${i === segs.length - 1 ? 'flex:1' : `width:${s.pct}%`};background:${s.bg};display:flex;align-items:center;justify-content:center;transition:width .4s`;
-      seg.title = `${s.label}: ${s.pct}%`;
+      seg.title = `${s.label}${s.name ? ' (' + s.name + ')' : ''}: ${s.pct}%`;
       if (s.pct >= 5) {
         const span = document.createElement('span');
         if (s.noVote) span.className = 'nv-pill';
@@ -992,10 +990,11 @@ function updateMayorHistoryYear() {
   const el = document.getElementById('mayor-callout');
   if (!d || !el) return;
   const fmt = n => n.toLocaleString('en-CA');
-  const share = mayorSegments(d)[0].pct;
-  el.innerHTML = mayorBasis === 'residents'
-    ? `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${share}% of Ottawa residents</strong> (${fmt(d.votesMayor)} of about ${(d.pop / 1e6).toFixed(2)} million).`
-    : `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${share}% of registered voters</strong> (${fmt(d.votesMayor)} of ${fmt(d.registered)}).`;
+  const [mayor, runner] = mayorSegments(d);
+  el.innerHTML = (mayorBasis === 'residents'
+    ? `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${mayor.pct}% of Ottawa residents</strong> (${fmt(d.votesMayor)} of about ${(d.pop / 1e6).toFixed(2)} million).`
+    : `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${mayor.pct}% of registered voters</strong> (${fmt(d.votesMayor)} of ${fmt(d.registered)}).`)
+    + ` Runner-up ${d.runnerUpName}: ${runner.pct}%.`;
 }
 
 function setMayorBasis(basis) {
