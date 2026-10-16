@@ -84,6 +84,11 @@ def write_json(name, obj):
 def main():
     teams = read_csv("pwhl_teams.csv")
     season_catalog = read_csv("pwhl_seasons.csv")
+    preseason_ids = {
+        str(season["season_id"])
+        for season in season_catalog
+        if "preseason" in (season.get("season_name") or "").casefold()
+    }
     team_logos = read_csv("pwhl_team_logos.csv")
     game_summaries = read_csv("pwhl_game_summaries.csv")
     season_ids_rows = read_csv("pwhl_season_game_ids.csv")
@@ -407,6 +412,18 @@ def main():
 
     # ---- Latest rosters (team pages, incl. expansion teams with no games) --
     roster_rows = read_csv("pwhl_team_rosters.csv")
+    roster_photo_by_player = {
+        r.get("player_id"): r.get("player_image")
+        for r in roster_rows
+        if r.get("player_image") not in (None, "", "NA")
+        and "nophoto" not in r.get("player_image", "").casefold()
+    }
+    def player_photo(player_id):
+        image = ((players_info.get(player_id) or {}).get("primary_image")
+                 or roster_photo_by_player.get(player_id))
+        if image in (None, "", "NA") or "nophoto" in image.casefold():
+            return None
+        return image
     if roster_rows:
         latest = max(roster_rows, key=lambda r: int(r["season_id"]))["season_id"]
         rosters = defaultdict(list)
@@ -417,6 +434,7 @@ def main():
             rosters[code].append({
                 "player_id": r.get("player_id"), "name": r.get("name"),
                 "pos": r.get("position"), "number": r.get("tp_jersey_number"),
+                "image": player_photo(r.get("player_id")),
                 "rookie": r.get("rookie") == "1",
             })
         write_json("pwhl_rosters.json", {"season_id": latest, "season": season_names.get(latest),
@@ -460,7 +478,9 @@ def main():
             "away_code": code_by_name.get((sid, g.get("visitor_team")), ""),
             "home_score": to_num(g.get("home_score"), int),
             "away_score": to_num(g.get("visitor_score"), int),
-            "attendance": to_num(g.get("attendance"), int),
+            # Preseason attendance is incomplete or implausible in the feed;
+            # treat the whole phase as unavailable rather than imply a total.
+            "attendance": None if str(sid) in preseason_ids else to_num(g.get("attendance"), int),
             "venue": g.get("venue"),
             "capacity": capacity,
             # No city (e.g. the 2024 preseason's Utica showcase) = neutral site.
@@ -559,7 +579,7 @@ def main():
 
     # ---- Player pages ------------------------------------------------
     write_player_pages(players_info, season_stats, game_logs, pbp, game_summaries,
-                       season_names, code_by_id)
+                       season_names, code_by_id, roster_photo_by_player)
 
     # ---- Playoff bracket ------------------------------------------------
     bracket_by_season = defaultdict(list)
@@ -779,7 +799,7 @@ def write_movement_json(roster_rows, season_catalog, season_stats, teams,
 
 
 def write_player_pages(players_info, season_stats, game_logs, pbp, game_summaries,
-                       season_names, code_by_id):
+                       season_names, code_by_id, roster_photo_by_player):
     """One small JSON per player for player.html?id=... (bio, season lines,
     game log, shot locations) plus pwhl_players_index.json for the search box."""
     season_of_game = {g["game_id"]: g["season_id"] for g in game_summaries}
@@ -920,7 +940,10 @@ def write_player_pages(players_info, season_stats, game_logs, pbp, game_summarie
             obj["model"] = prev["model"]
         with open(os.path.join(PLAYERS_DIR, f"{pid}.json"), "w", encoding="utf-8") as f:
             json.dump(obj, f, separators=(",", ":"), ensure_ascii=False)
-        index.append({"id": pid, "name": name, "pos": pos, "team": team})
+        image = (players_info.get(pid) or {}).get("primary_image") or roster_photo_by_player.get(pid)
+        if image in (None, "", "NA") or "nophoto" in image.casefold():
+            image = None
+        index.append({"id": pid, "name": name, "pos": pos, "team": team, "image": image})
     print(f"  wrote {len(index)} player files to {PLAYERS_DIR}")
     write_json("pwhl_players_index.json", sorted(index, key=lambda p: p["name"]))
 

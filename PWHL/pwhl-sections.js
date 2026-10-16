@@ -13,6 +13,7 @@ function renderOverview() {
   const gp = games.length;
   const goals = games.reduce((s, g) => s + (g.home_score || 0) + (g.away_score || 0), 0);
   const totals = OVERVIEW.league_totals || {};
+  const attendanceFmt = n => n == null ? 'N/A' : fmt(n);
   document.getElementById('overview-sub').textContent =
     `All recorded seasons and competition phases · through ${META.last_game_date || 'unknown'} · data refreshed ${META.generated_at.slice(0,10)}`;
   const stats = [
@@ -22,7 +23,7 @@ function renderOverview() {
     [(goals/Math.max(gp,1)).toFixed(2), 'GOALS PER GAME'],
     [totals.player_seconds == null ? '—' : `${fmt(Math.round(totals.player_seconds / 3600))} h`, 'PLAYER ICE TIME'],
     [fmt(totals.players), 'PLAYERS WITH GAME LOGS'],
-    [fmt(totals.attendance), 'REPORTED ATTENDANCE'],
+    [attendanceFmt(totals.attendance), 'REPORTED ATTENDANCE'],
     [fmt(totals.pim), 'PENALTY MINUTES'],
     [fmt(totals.hat_tricks), 'HAT TRICKS'],
     [fmt(totals.shutouts), 'GOALIE SHUTOUTS'],
@@ -36,7 +37,7 @@ function renderOverview() {
   if (seasonTable) {
     const seasons = OVERVIEW.by_season || {};
     const rows = Object.entries(seasons).sort((a, b) => Number(b[0]) - Number(a[0]));
-    seasonTable.innerHTML = `<thead><tr><th>Season</th><th>Teams</th><th>GP</th><th>Goals</th><th>Shots</th><th>Attendance</th><th>Players</th><th>Player time</th><th>PIM</th><th>Hat tricks</th><th>Shutouts</th><th>SHG</th><th>Empty net</th></tr></thead><tbody>${rows.map(([, s]) => `<tr><td>${esc(s.season)}</td><td>${fmt(s.teams)}</td><td>${fmt(s.games)}</td><td>${fmt(s.goals)}</td><td>${fmt(s.shots_on_goal)}</td><td>${fmt(s.attendance)}</td><td>${fmt(s.players)}</td><td>${fmt(Math.round(s.player_seconds / 3600))} h</td><td>${fmt(s.pim)}</td><td>${fmt(s.hat_tricks)}</td><td>${fmt(s.shutouts)}</td><td>${fmt(s.shg)}</td><td>${fmt(s.empty_net_goals)}</td></tr>`).join('')}</tbody>`;
+    seasonTable.innerHTML = `<thead><tr><th>Season</th><th>Teams</th><th>GP</th><th>Goals</th><th>Shots</th><th>Attendance</th><th>Players</th><th>Player time</th><th>PIM</th><th>Hat tricks</th><th>Shutouts</th><th>SHG</th><th>Empty net</th></tr></thead><tbody>${rows.map(([, s]) => `<tr><td>${esc(s.season)}</td><td>${fmt(s.teams)}</td><td>${fmt(s.games)}</td><td>${fmt(s.goals)}</td><td>${fmt(s.shots_on_goal)}</td><td>${attendanceFmt(s.attendance)}</td><td>${fmt(s.players)}</td><td>${fmt(Math.round(s.player_seconds / 3600))} h</td><td>${fmt(s.pim)}</td><td>${fmt(s.hat_tricks)}</td><td>${fmt(s.shutouts)}</td><td>${fmt(s.shg)}</td><td>${fmt(s.empty_net_goals)}</td></tr>`).join('')}</tbody>`;
   }
 }
 
@@ -842,6 +843,7 @@ function renderEloChart() {
 
 function renderAttendance(seasonId) {
   const all = GAMES[seasonId] || [];
+  const attendanceNA = all.length > 0 && all.every(g => g.attendance == null);
   const games = all.filter(g => g.attendance);
   const home = games.filter(g => !g.takeover), tko = games.filter(g => g.takeover);
   const sum = (arr, f) => arr.reduce((a, g) => a + (f(g) || 0), 0);
@@ -854,10 +856,10 @@ function renderAttendance(seasonId) {
 
   const biggest = games.reduce((b, g) => !b || g.attendance > b.attendance ? g : b, null);
   document.getElementById('attendance-stats').innerHTML = [
-    [fmt(sum(games, g => g.attendance)), `TOTAL ATTENDANCE · ${games.length} GAMES`],
-    [home.length ? fmt(Math.round(sum(home, g => g.attendance) / home.length)) : '—', `AVG HOME-MARKET GAME · ${pctTxt(capPct(home))} FULL`],
-    [tko.length ? fmt(Math.round(sum(tko, g => g.attendance) / tko.length)) : '—', `AVG TAKEOVER / NEUTRAL GAME · ${tko.length} GAMES`],
-    [biggest ? fmt(biggest.attendance) : '—', biggest ? `BIGGEST CROWD · ${city(biggest).toUpperCase()}` : 'BIGGEST CROWD'],
+    [attendanceNA ? 'N/A' : fmt(sum(games, g => g.attendance)), `TOTAL ATTENDANCE · ${games.length} GAMES`],
+    [home.length ? fmt(Math.round(sum(home, g => g.attendance) / home.length)) : attendanceNA ? 'N/A' : '—', `AVG HOME-MARKET GAME · ${pctTxt(capPct(home))} FULL`],
+    [tko.length ? fmt(Math.round(sum(tko, g => g.attendance) / tko.length)) : attendanceNA ? 'N/A' : '—', `AVG TAKEOVER / NEUTRAL GAME · ${tko.length} GAMES`],
+    [biggest ? fmt(biggest.attendance) : attendanceNA ? 'N/A' : '—', biggest ? `BIGGEST CROWD · ${city(biggest).toUpperCase()}` : 'BIGGEST CROWD'],
   ].map(([num, lbl]) => `<div class="stat"><div class="num">${num}</div><div class="lbl">${esc(lbl)}</div></div>`).join('');
 
   // Per team (credited to the home team).
@@ -943,7 +945,7 @@ function renderAttendance(seasonId) {
   const noAtt = all.length - games.length;
   const noCap = games.filter(g => !g.capacity).length;
   document.getElementById('attendance-note').textContent =
-    `Attendance is credited to the home team. % of capacity uses home-market games at venues with a listed capacity.`
+    `Attendance is credited to the home team. Preseason attendance is shown as N/A because the feed is incomplete or implausible. % of capacity uses home-market games at venues with a listed capacity.`
     + (noAtt ? ` ${noAtt} game${noAtt === 1 ? '' : 's'} with no reported attendance left out.` : '')
     + (noCap ? ` ${noCap} game${noCap === 1 ? '' : 's'} at a venue with no listed capacity.` : '');
 }

@@ -228,13 +228,26 @@ function initMovementPage() {
   });
   const select = document.getElementById('movement-team-select');
   select.innerHTML = '<option value="all">All teams</option>' + MOVEMENT.teams.map(team => `<option value="${esc(team.code)}">${esc(team.name)}</option>`).join('');
+  const setTeamParam = code => {
+    const url = new URL(location.href);
+    if (code && code !== 'all') url.searchParams.set('team', code);
+    else url.searchParams.delete('team');
+    history.replaceState(null, '', url);
+    PWHL.fillHeader();
+  };
+  const requestedTeam = (new URLSearchParams(location.search).get('team') || '').toUpperCase();
+  if (MOVEMENT.teams.some(team => team.code === requestedTeam)) {
+    movementSelection = { type:'team', code:requestedTeam };
+    select.value = requestedTeam;
+  }
   document.getElementById('movement-search-list').innerHTML = MOVEMENT.players.filter(p => p.teams.some(m => MOVEMENT_ROLES.has(m.role))).map(p => `<option value="${esc(p.name)}"></option>`).join('');
   select.addEventListener('change', () => {
     movementSelection = select.value === 'all' ? { type:'all' } : { type:'team', code:select.value };
+    setTeamParam(select.value);
     renderMovementPage();
   });
   document.getElementById('movement-show-all').addEventListener('click', () => {
-    movementSelection = { type:'all' }; renderMovementPage();
+    movementSelection = { type:'all' }; setTeamParam('all'); renderMovementPage();
   });
   document.getElementById('movement-most-moved').addEventListener('click', () => {
     movementSelection = { type:'most' }; renderMovementPage();

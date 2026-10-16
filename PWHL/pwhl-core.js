@@ -36,6 +36,9 @@ PWHL.PAGES = [
   ['origins', 'origins.html', 'Player origins'],
   ['method', 'methodology.html', 'How it works'],
 ];
+// These pages already have a meaningful team filter/spotlight. Their logo
+// strip acts as a quick filter; other pages keep the team-page destination.
+PWHL.TEAM_FILTER_PAGES = new Set(['players.html', 'movement.html', 'travel.html']);
 
 // Writes the site top bar, the PWHL section nav, an (initially empty) team
 // logo strip and the "data through" bar into #pwhl-header. Call it from an
@@ -79,8 +82,11 @@ PWHL.fillHeader = function (activeCode) {
   const latest = Object.keys(tb).sort((a, b) => Number(b) - Number(a))[0];
   let teams = (tb[latest] || []).filter(t => t.code !== 'TBD');
   teams = teams.slice().sort((a, b) => a.code.localeCompare(b.code));
+  const page = location.pathname.split('/').pop();
+  const filterPage = PWHL.TEAM_FILTER_PAGES.has(page);
+  const selected = (activeCode || new URLSearchParams(location.search).get('team') || '').toUpperCase();
   document.getElementById('logo-strip').innerHTML = teams.map(t => `
-    <a href="${teamHref(t.code)}" title="${esc(t.name)}" class="${t.code === activeCode ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
+    <a href="${filterPage ? `${page}?team=${encodeURIComponent(t.code)}` : teamHref(t.code)}" title="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" aria-label="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" class="${t.code === selected ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
       ${t.logo ? `<img src="${esc(t.logo)}" alt="${esc(t.code)}" loading="lazy">` : `<span>${esc(t.code)}</span>`}
     </a>`).join('');
   const d = META.last_game_date;

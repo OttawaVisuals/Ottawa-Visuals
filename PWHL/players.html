@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=historical-team-awards-1"></script>
-<script src="pwhl-sections.js?v=historical-team-awards-2"></script>
+<script src="pwhl-core.js?v=team-logo-filter-1"></script>
+<script src="pwhl-sections.js?v=preseason-attendance-na-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=historical-team-awards-1">
+<link rel="stylesheet" href="pwhl.css?v=player-shooting-chart-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -69,6 +69,13 @@
             <button class="tab-btn" data-view="all">All stats</button>
           </span>
         </div>
+        <div class="player-shooting-chart" id="player-shooting-card">
+          <div class="card-title">Shot volume vs. shooting percentage</div>
+          <div class="player-shooting-chart-wrap">
+            <canvas id="player-shooting-chart" role="img" aria-label="Scatter chart comparing shots on goal with shooting percentage for skaters who took at least 50 shots."></canvas>
+          </div>
+          <p class="note" id="player-shooting-note">Each point is a skater. Hover for player stats. Players with fewer than 50 shots are excluded to reduce small-sample noise.</p>
+        </div>
         <div style="overflow-x:auto;"><table class="tbl" id="players-table"></table></div>
         <p class="note" id="players-note"></p>
       </div>
@@ -85,7 +92,66 @@
 <script>
 let plKind = 'skaters';
 let plView = 'core';
+let playerShootingChart = null;
 const pctOf = (a, b) => b ? 100 * a / b : null;
+function renderPlayerShootingChart(rows) {
+  const card = document.getElementById('player-shooting-card');
+  card.hidden = plKind !== 'skaters';
+  if (card.hidden) return;
+
+  const eligible = rows.filter(r => Number(r.shots) >= 50 && Number(r.shots) > 0);
+  const teams = [...new Set(eligible.map(r => r.team_code || '—'))].sort();
+  const datasets = teams.map(team => ({
+    label: team,
+    data: eligible.filter(r => (r.team_code || '—') === team).map(r => ({
+      x: Number(r.shots),
+      y: 100 * Number(r.goals) / Number(r.shots),
+      name: r.name,
+      team,
+      goals: Number(r.goals),
+      shots: Number(r.shots),
+      gp: Number(r.gp)
+    })),
+    backgroundColor: teamColorA(team, 0.78),
+    borderColor: teamColor(team),
+    pointRadius: 5,
+    pointHoverRadius: 7
+  }));
+  document.getElementById('player-shooting-note').textContent = eligible.length
+    ? `${eligible.length} skaters shown · at least 50 shots · filtered with the controls above. Hover for goals, shots, games played, and shooting percentage.`
+    : 'No skaters meet the 50-shot minimum with the current filters.';
+
+  const ctx = document.getElementById('player-shooting-chart').getContext('2d');
+  const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink-2').trim() || '#777';
+  const grid = getComputedStyle(document.documentElement).getPropertyValue('--line').trim() || '#ddd';
+  const config = {
+    type: 'scatter',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'nearest', intersect: true },
+      plugins: {
+        legend: { position: 'bottom', labels: { color: ink, usePointStyle: true, boxWidth: 8, padding: 14 } },
+        tooltip: { callbacks: { label: c => {
+          const p = c.raw;
+          return `${p.name} (${p.team}): ${p.y.toFixed(1)}% · ${p.goals} G / ${p.shots} S · ${p.gp} GP`;
+        } } }
+      },
+      scales: {
+        x: { beginAtZero: true, title: { display: true, text: 'Shots on goal', color: ink }, ticks: { color: ink }, grid: { color: grid } },
+        y: { beginAtZero: true, suggestedMax: 25, title: { display: true, text: 'Shooting percentage', color: ink }, ticks: { color: ink, callback: v => `${v}%` }, grid: { color: grid } }
+      }
+    }
+  };
+  if (playerShootingChart) {
+    playerShootingChart.data = config.data;
+    playerShootingChart.options = config.options;
+    playerShootingChart.update();
+  } else {
+    playerShootingChart = new Chart(ctx, config);
+  }
+}
 function renderPlayersTable(sid) {
   const table = document.getElementById('players-table');
   const q = document.getElementById('pl-filter').value.trim().toLowerCase();
@@ -100,6 +166,7 @@ function renderPlayersTable(sid) {
     const rows = (AWARDS[sid] || []).map(r => Object.assign({}, r, {
       pg: /D/.test((r.pos || '').toUpperCase()) ? 'D' : 'F' }))
       .filter(r => keep(r) && (!pos || r.pg === pos));
+    renderPlayerShootingChart(rows);
     const cols = [
       nameCol, teamCol, { key: 'pos', label: 'Pos', get: r => r.pg },
       { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
@@ -120,6 +187,7 @@ function renderPlayersTable(sid) {
       rows, { sortKey: 'p', show: 25, noun: 'skaters' });
     document.getElementById('players-note').textContent = `${rows.length} skaters in the selected season.`;
   } else {
+    document.getElementById('player-shooting-card').hidden = true;
     const rows = ((GOALIES && GOALIES[sid]) || []).filter(keep);
     const cols = [
       nameCol, teamCol,
@@ -142,7 +210,9 @@ function renderPlayersTable(sid) {
 function renderPlayersSeason(sid) {
   const teams = [...new Set((AWARDS[sid] || []).map(r => r.team_code).filter(c => c && c !== 'NA'))].sort();
   const sel = document.getElementById('pl-team'), cur = sel.value;
-  sel.innerHTML = '<option value="">All teams</option>' + teams.map(c => `<option${c === cur ? ' selected' : ''}>${esc(c)}</option>`).join('');
+  const requested = (new URLSearchParams(location.search).get('team') || '').toUpperCase();
+  const selected = cur || (teams.includes(requested) ? requested : '');
+  sel.innerHTML = '<option value="">All teams</option>' + teams.map(c => `<option value="${esc(c)}"${c === selected ? ' selected' : ''}>${esc(c)}</option>`).join('');
   renderPlayersTable(sid);
 }
 PWHL.load(['meta', 'standings', 'awards', 'goalies']).then(() => {
@@ -153,6 +223,13 @@ PWHL.load(['meta', 'standings', 'awards', 'goalies']).then(() => {
   PWHL.tabs(document.getElementById('pl-view-tabs'), 'view', v => { plView = v; renderPlayersTable(currentSeasonId); });
   ['pl-filter', 'pl-team', 'pl-pos'].forEach(id => document.getElementById(id)
     .addEventListener('input', () => renderPlayersTable(currentSeasonId)));
+  document.getElementById('pl-team').addEventListener('change', event => {
+    const url = new URL(location.href);
+    if (event.target.value) url.searchParams.set('team', event.target.value);
+    else url.searchParams.delete('team');
+    history.replaceState(null, '', url);
+    PWHL.fillHeader();
+  });
   const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);
   PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderPlayersSeason);
   renderPlayersSeason(currentSeasonId);

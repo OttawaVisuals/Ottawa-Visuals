@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=historical-team-awards-1"></script>
-<script src="pwhl-sections.js?v=historical-team-awards-2"></script>
+<script src="pwhl-core.js?v=team-logo-filter-1"></script>
+<script src="pwhl-sections.js?v=preseason-attendance-na-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=historical-team-awards-1">
+<link rel="stylesheet" href="pwhl.css?v=team-awards-photos-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -93,7 +93,7 @@
       </div>
 
       <div class="section" id="team-awards-section">
-        <div class="section-head"><div><h2>Player award leaders</h2><p>Team players ranked in the league’s top five for each superlative this season.</p></div></div>
+        <div class="section-head"><div><h2>Player award leaders</h2><p>Top three eligible players on this team for each superlative, with their league rank. Ties share a rank.</p></div></div>
         <div class="awards-grid" id="team-awards"></div>
       </div>
 
@@ -229,7 +229,7 @@ function renderSeason(sid) {
     [st ? (st.gf - st.ga > 0 ? '+' : '') + (st.gf - st.ga) : '—', 'Goal diff'],
     [st && pct(st.pp_pct) != null ? pct(st.pp_pct).toFixed(1) + '%' : '—', 'Power play'],
     [st && pct(st.pk_pct) != null ? pct(st.pk_pct).toFixed(1) + '%' : '—', 'Penalty kill'],
-    [homeGames.length ? fmt(Math.round(homeGames.reduce((a, g) => a + g.attendance, 0) / homeGames.length)) : '—', 'Avg home crowd'],
+    [homeGames.length ? fmt(Math.round(homeGames.reduce((a, g) => a + g.attendance, 0) / homeGames.length)) : games.length && games.every(g => g.attendance == null) ? 'N/A' : '—', 'Avg home crowd'],
     [capPct != null ? Math.round(capPct) + '%' : '—', 'Home capacity'],
   ];
   document.getElementById('t-tiles').innerHTML = tiles.map(([n, l]) => `<div class="stat"><div class="num">${esc(n)}</div><div class="lbl">${esc(l)}</div></div>`).join('');
@@ -278,9 +278,17 @@ function renderLines(sid) {
   const t = LINES && LINES.by_season[sid] && LINES.by_season[sid][CODE];
   sec.style.display = t ? '' : 'none';
   if (!t) return;
+  const playersById = new Map((PINDEX || []).map(p => [String(p.id), p]));
+  Object.values((ROSTERS && ROSTERS.teams) || {}).flat().forEach(p => {
+    if (!playersById.has(String(p.player_id))) playersById.set(String(p.player_id), { image: p.image });
+  });
+  const member = (id, name) => {
+    const p = playersById.get(String(id));
+    return `<span class="line-player">${p && p.image ? `<img class="player-photo line-photo" src="${esc(p.image)}" alt="" loading="lazy">` : ''}${plLink(id, name)}</span>`;
+  };
   const unit = u => {
     return `<div class="unit-row">
-      <span class="names">${u.ids.map((id, i) => plLink(id, u.names[i])).join('<span class="lbl">·</span>')}</span>
+      <span class="names">${u.ids.map((id, i) => member(id, u.names[i])).join('')}</span>
       <span class="num">${Math.round(u.toi / 60)}<span class="lbl"> min</span></span>
       <span class="num">${u.gf}-${u.ga}<span class="lbl"> GF-GA</span></span>
     </div>`;
@@ -328,7 +336,7 @@ function renderGameLog(sid, games) {
       <td><b style="color:${g.res === 'W' ? 'var(--green)' : g.res === 'O' ? 'var(--amber)' : 'var(--red)'}">${g.res === 'O' ? g.ot + ' L' : g.res}${g.res === 'W' && g.ot ? ' (' + g.ot + ')' : ''}</b></td>
       <td>${g.gf}-${g.ga}</td>
       <td style="text-align:right">${esc((g.venue || '').split('|')[0].trim())}${g.takeover ? ' <span class="txn-tag">takeover</span>' : ''}</td>
-      <td>${g.attendance ? fmt(g.attendance) : '—'}</td></tr>`).join('')}</tbody>`;
+      <td>${g.attendance ? fmt(g.attendance) : 'N/A'}</td></tr>`).join('')}</tbody>`;
   collapseRows(table, 10, 'games');
 }
 
@@ -441,16 +449,25 @@ function renderTeamAwards(sid) {
   }
   const th = awardsThresholds(rows);
   const cards = AWARDS_DEFS.flatMap(def => {
-    const { list, formatter } = awardRanking(def, rows, 'total', th);
-    const teamEntries = list.map((x, i) => ({ ...x, rank: list.findIndex(y => y.v === x.v) + 1 }))
-      .filter(x => x.r.team_code === CODE);
+    let pool = def.filter ? rows.filter(r => def.filter(r, th)) : rows;
+    const scored = pool.map(r => ({ r, v: def.val(r) })).filter(x => Number.isFinite(x.v));
+    const sign = def.asc ? 1 : -1, tie = def.tie || (r => r.toi);
+    scored.sort((a, b) => sign * (a.v - b.v) || sign * (tie(a.r) - tie(b.r)));
+    const ranked = def.asc ? scored : (scored.some(x => x.v !== 0) ? scored.filter(x => x.v !== 0) : scored);
+    const teamEntries = ranked.filter(x => x.r.team_code === CODE).slice(0, 3).map(x => {
+      const ahead = ranked.filter(y => def.asc ? y.v < x.v : y.v > x.v).length;
+      const tied = ranked.some(y => y.v === x.v && y.r.player_id !== x.r.player_id);
+      return { ...x, rank: `${tied ? 'T' : ''}${ahead + 1}` };
+    });
+    const formatter = def.fmt;
     if (!teamEntries.length) return [];
     return [`<article class="aw-card">
       <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(def.title)}</span></div>
-      <div class="aw-list">${teamEntries.map(x => `<div class="aw-row"><span class="rk">${list.some(y => y.v === x.v && y.r.player_id !== x.r.player_id) ? 'T' : ''}${x.rank}</span><span class="nm">${plLink(x.r.player_id, x.r.name)}</span><span class="vl">${esc(formatter(x.v, x.r))}</span></div>`).join('')}</div>
+      <div class="team-award-cols"><span>League rank</span><span>Player</span><span>Result</span></div>
+      <div class="aw-list">${teamEntries.map(x => `<div class="aw-row team-award-row"><span class="rk">${x.rank}</span><span class="nm">${plLink(x.r.player_id, x.r.name)}</span><span class="vl">${esc(formatter(x.v, x.r))}</span></div>`).join('')}</div>
     </article>`];
   });
-  grid.innerHTML = cards.length ? cards.join('') : '<p class="note">No team players rank in the league top five for this season’s superlatives.</p>';
+  grid.innerHTML = cards.length ? cards.join('') : '<p class="note">No eligible team players for this season’s superlatives.</p>';
 }
 
 // ---- Franchise leaders (all regular seasons) ---------------------------
@@ -477,12 +494,14 @@ function renderRoster() {
   const sec = document.getElementById('roster-section');
   const list = ROSTERS && ROSTERS.teams[CODE];
   if (!list || !list.length) { sec.style.display = 'none'; return; }
-  const known = new Set((PINDEX || []).map(p => p.id));
+  const photos = new Map((PINDEX || []).map(p => [String(p.id), p.image]));
+  list.forEach(p => { if (p.image) photos.set(String(p.player_id), p.image); });
   const group = (label, test) => {
     const ps = list.filter(test).sort((a, b) => Number(a.number || 99) - Number(b.number || 99));
-    return ps.length ? `<div><div class="card-title">${label} (${ps.length})</div>${ps.map(p => `<div class="aw-row" style="grid-template-columns:28px 1fr auto">
+    return ps.length ? `<div><div class="card-title">${label} (${ps.length})</div>${ps.map(p => `<div class="aw-row roster-player-row" style="grid-template-columns:28px 34px 1fr auto">
       <span class="rk">${p.number ? '#' + esc(p.number) : ''}</span>
-      <span class="nm">${known.has(p.player_id) ? plLink(p.player_id, p.name) : esc(p.name)}</span>
+      ${photos.get(String(p.player_id)) ? `<img class="player-photo roster-photo" src="${esc(photos.get(String(p.player_id)))}" alt="" loading="lazy">` : '<span></span>'}
+      <span class="nm">${photos.has(String(p.player_id)) ? plLink(p.player_id, p.name) : esc(p.name)}</span>
       <span class="aw-sub">${p.rookie ? 'rookie' : ''}</span></div>`).join('')}</div>` : '';
   };
   document.getElementById('roster-title').textContent = `Roster${ROSTERS.season ? ' · ' + ROSTERS.season : ''}`;

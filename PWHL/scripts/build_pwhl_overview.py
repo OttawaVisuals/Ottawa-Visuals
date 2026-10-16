@@ -29,9 +29,10 @@ def main():
     seen = set()
     players = set()
     season_names = {r["season_id"]: r["season_name"] for r in read_csv("pwhl_seasons.csv")}
+    reliable_attendance = lambda g: "preseason" not in season_names.get(g.get("season_id", ""), "").casefold()
     totals = {
         "games": len(games),
-        "attendance": sum(number(g.get("attendance")) for g in games),
+        "attendance": sum(number(g.get("attendance")) for g in games if reliable_attendance(g)),
         "shots_on_goal": 0,
         "player_seconds": 0,
         "players": 0,
@@ -55,7 +56,8 @@ def main():
         s = by_season[sid]
         s["games"] += 1
         s["goals"] += number(g.get("home_score")) + number(g.get("visitor_score"))
-        s["attendance"] += number(g.get("attendance"))
+        if reliable_attendance(g):
+            s["attendance"] += number(g.get("attendance"))
         for field in ("home_team", "visitor_team"):
             if g.get(field):
                 s["teams"].add(g[field])
@@ -102,6 +104,8 @@ def main():
         s["players"] = len(s["players"])
         s["player_seconds"] = round(s["player_seconds"])
         s["pim"] = round(s["pim"], 2)
+        if "preseason" in s["season"].casefold():
+            s["attendance"] = None
     by_season = dict(sorted(by_season.items(), key=lambda item: int(item[0])))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({"league_totals": totals, "by_season": by_season}, separators=(",", ":")) + "\n", encoding="utf-8")
