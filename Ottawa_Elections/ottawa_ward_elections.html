@@ -88,13 +88,13 @@ html[data-embedded] .topbar{display:none}
 /* KPI card */
 .kpi-grid{display:grid;grid-template-rows:1fr 1px 1fr 1px 1fr;height:100%;gap:0}
 .kpi-item{display:flex;flex-direction:column;justify-content:center;padding:8px 0}
-.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:3px}
+.kpi-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin-bottom:3px}
 .kpi-val{font-size:22px;font-weight:600;color:var(--ink);line-height:1}
 .kpi-sub{font-size:11px;color:var(--ink-2);margin-top:2px}
 .kpi-divider{background:var(--line);height:1px}
 .leg-row{display:flex;align-items:center;gap:6px;padding-top:10px;margin-top:auto}
 .leg-bar{display:flex;height:6px;border-radius:3px;overflow:hidden;flex:1}
-.leg-lbl{font-size:10px;color:var(--ink-3)}
+.leg-lbl{font-size:11px;color:var(--ink-3)}
 
 /* Hatch for "didn't vote" segments: softer on dark surfaces */
 :root{--hatch:#D8D5CE}
@@ -104,6 +104,13 @@ html[data-embedded] .topbar{display:none}
 :root{--nl:#C3C9D2;--u18:#E2E5EA}
 [data-theme="dark"]{--nl:#4B5264;--u18:#363C4B}
 .mh-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.mayor-row .mh-year{font-weight:600;color:var(--ink-3)}
+.mayor-row.cur .mh-year{font-weight:700;color:var(--ink)}
+.mayor-row.cur .mh-track{box-shadow:0 0 0 2px var(--ink)}
+/* Big turnout numbers stay in body ink (map-scale colours fell to 3–4:1);
+   a swatch beside them carries the map colour instead. */
+.kpi-val,#p-turnout{color:var(--ink)}
+.kpi-val::after,#p-turnout::after{content:"";display:inline-block;width:.5em;height:.5em;border-radius:2px;background:var(--swatch,transparent);margin-left:.3em;vertical-align:.12em}
 .mayor-callout{font-size:12px;color:var(--ink-2);margin-top:8px;line-height:1.45}
 .mayor-callout strong{color:var(--ink)}
 
@@ -119,7 +126,7 @@ html[data-embedded] .topbar{display:none}
 .map-mode:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .map-note{font-size:12px;color:var(--ink-2);padding:0 6px 4px;line-height:1.45}
 .map-note strong{color:var(--ink)}
-.map-legend{margin:6px 4px 2px;padding:2px 2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;max-width:calc(100% - 28px);font-size:10px;color:var(--ink-3)}
+.map-legend{margin:6px 4px 2px;padding:2px 2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;max-width:calc(100% - 28px);font-size:11px;color:var(--ink-3)}
 .map-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:3px;vertical-align:-1px}
 .map-legend .leg-item{margin-right:6px;white-space:nowrap;color:var(--ink-2)}
 .map-wrap{position:relative}
@@ -138,7 +145,7 @@ html[data-embedded] .topbar{display:none}
 .wl-scroll{max-height:440px;overflow:auto;margin:0 -6px;padding:0 6px}
 .wl-table{width:100%;border-collapse:collapse;font-size:12px}
 .wl-table th{position:sticky;top:0;z-index:1;background:var(--bg-2);text-align:left;padding:0;border-bottom:1px solid var(--line-2)}
-.wl-table th button{font:inherit;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);background:none;border:0;padding:6px 6px;cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
+.wl-table th button{font:inherit;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);background:none;border:0;padding:6px 6px;cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
 .wl-table th button:hover,.wl-table th[aria-sort] button{color:var(--ink)}
 .wl-table th[aria-sort="ascending"] button::after{content:" ▲";font-size:8px}
 .wl-table th[aria-sort="descending"] button::after{content:" ▼";font-size:8px}
@@ -151,11 +158,11 @@ html[data-embedded] .topbar{display:none}
 .wl-ward i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .wl-ward b{font-weight:600;min-width:16px;text-align:right;color:var(--ink-3)}
 .wl-ward span{overflow:hidden;text-overflow:ellipsis;max-width:170px}
-.wl-ward sup{color:var(--ink-3);font-size:9px}
+.wl-ward sup{color:var(--ink-3);font-size:10.5px}
 .wl-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:6px}
 .wl-up{color:var(--green)} .wl-down{color:var(--red)}
 .wl-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:0}
-.wl-foot{font-size:10.5px;color:var(--ink-3);margin-top:6px;line-height:1.5}
+.wl-foot{font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.5}
 .wl-back{font:inherit;font-size:11px;color:var(--ink-2);background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;cursor:pointer;margin-bottom:10px}
 .wl-back:hover{color:var(--ink);border-color:var(--ink-3)}
 #map path.ward.hl{stroke:var(--ink-2);stroke-width:1.5}
@@ -166,21 +173,21 @@ html[data-embedded] .topbar{display:none}
 .panel-header-left .ward-num{font-size:11px;color:var(--ink-3);margin-bottom:2px}
 .panel-header-left .ward-name{font-size:14px;font-weight:600;color:var(--ink)}
 .panel-header-right .turnout-val{font-size:26px;font-weight:600;line-height:1}
-.panel-header-right .turnout-lbl{font-size:10px;color:var(--ink-3);text-align:right}
+.panel-header-right .turnout-lbl{font-size:11px;color:var(--ink-3);text-align:right}
 
 /* Race block */
 .race-block{margin-bottom:10px}
 .race-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
-.race-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
+.race-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
 .race-name{font-size:12px;font-weight:600;color:var(--ink)}
 
 /* Section */
-.sec-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);margin:10px 0 4px}
+.sec-head{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);margin:10px 0 4px}
 
 /* Stacked bar */
 .sbar-wrap{height:30px;border-radius:5px;overflow:visible;display:block;margin-bottom:4px}
 .sbar-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.sbar-legend span{font-size:10px;color:var(--ink-2);display:flex;align-items:center;gap:3px}
+.sbar-legend span{font-size:11px;color:var(--ink-2);display:flex;align-items:center;gap:3px}
 .sbar-legend span i{display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0}
 
 /* Councillor history */
@@ -191,7 +198,7 @@ html[data-embedded] .topbar{display:none}
 .ch-table td.nm{color:var(--ink);font-weight:500}
 .ch-table td.sh{width:120px;white-space:nowrap;text-align:right}
 .ch-bar{display:inline-block;height:6px;border-radius:3px;background:#0F6E56;vertical-align:middle;margin-left:6px}
-.ch-tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:1px 5px;border-radius:4px;margin-left:6px;white-space:nowrap}
+.ch-tag{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:1px 5px;border-radius:4px;margin-left:6px;white-space:nowrap}
 .ch-tag.new{background:var(--accent-bg);color:var(--accent)}
 .ch-tag.re{background:var(--bg-3);color:var(--ink-3)}
 .ch-sub{display:block;font-size:11px;color:var(--ink-3);font-weight:400}
@@ -211,6 +218,17 @@ html[data-embedded] .topbar{display:none}
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<style>
+/* Accessibility overrides for this page (loaded after the shared theme so they win).
+   The shared light/colour-blind greys measured 3.4–3.8:1 on this page's
+   backgrounds; these reach 4.5:1 (WCAG 1.4.3). ink-2 is darkened too so it stays
+   a step stronger than ink-3. */
+:root[data-theme="light"],:root:not([data-theme]),:root[data-theme="cb"]{--ink-2:#4B5B6E;--ink-3:#5F7085}
+.topbar .brand small{color:rgba(255,255,255,.65)}
+/* Selected toggle: navy on amber (7:1) in every theme, like the site's theme switch;
+   white on amber was 2.2:1 in dark mode. */
+.year-seg button[aria-pressed="true"]{background:var(--amber2);color:#0B2545}
+</style>
 </head>
 <body>
 
@@ -574,7 +592,7 @@ function buildKPIs() {
   const avg = (entries.reduce((a, [, v]) => a + v, 0) / entries.length).toFixed(1);
   const avgEl = document.getElementById('kpi-avg');
   avgEl.textContent = avg + '%';
-  avgEl.style.color = scale(+avg);
+  avgEl.style.setProperty('--swatch', scale(+avg));
 
   const hi = entries.reduce((a, b) => a[1] >= b[1] ? a : b);
   const lo = entries.reduce((a, b) => a[1] <= b[1] ? a : b);
@@ -582,12 +600,12 @@ function buildKPIs() {
 
   const hiValEl = document.getElementById('kpi-hi-val');
   hiValEl.textContent = hi[1] + '%';
-  hiValEl.style.color = scale(hi[1]);
+  hiValEl.style.setProperty('--swatch', scale(hi[1]));
   document.getElementById('kpi-hi-name').textContent = label(hi);
 
   const loValEl = document.getElementById('kpi-lo-val');
   loValEl.textContent = lo[1] + '%';
-  loValEl.style.color = scale(lo[1]);
+  loValEl.style.setProperty('--swatch', scale(lo[1]));
   document.getElementById('kpi-lo-name').textContent = label(lo);
 }
 
@@ -602,24 +620,24 @@ function renderStackedBar(elId, winnerColor, turnoutPct, winnerPctOfVotes) {
   const otherColor = winnerColor === '#0F6E56' ? '#7FB5A0' : '#7BA7CC';
 
   const mkLabel = (pct, color, bold) =>
-    pct >= 5 ? `<span style="font-size:9px;font-weight:${bold?'800':'700'};color:${color};pointer-events:none">${pct}%</span>` : '';
+    pct >= 5 ? `<span style="font-size:10.5px;font-weight:${bold?'800':'700'};color:${color};pointer-events:none">${pct}%</span>` : '';
   // "Didn't vote" sits on the hatch, so give its label a solid backing to stay legible in both themes.
   const mkNoVoteLabel = pct =>
-    pct >= 5 ? `<span class="nv-pill" style="font-size:9px;font-weight:800;pointer-events:none">${pct}%</span>` : '';
+    pct >= 5 ? `<span class="nv-pill" style="font-size:10.5px;font-weight:800;pointer-events:none">${pct}%</span>` : '';
 
   const refLines = [25, 50, 75].map(p =>
     `<div style="position:absolute;top:0;bottom:0;left:${p}%;width:${p===50?2:1}px;background:${p===50?'rgba(192,57,43,0.85)':'rgba(127,127,127,0.45)'};pointer-events:none;z-index:2;transform:translateX(-50%)"></div>`
   ).join('');
 
   const refLabels = [25, 50, 75].map(p =>
-    `<span style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${p===50?'rgba(192,57,43,0.85)':'var(--ink-3)'};white-space:nowrap">${p}%</span>`
+    `<span style="position:absolute;left:${p}%;transform:translateX(-50%);font-size:10.5px;font-weight:600;color:${p===50?'var(--red)':'var(--ink-3)'};white-space:nowrap">${p}%</span>`
   ).join('');
 
   const el = document.getElementById(elId);
   el.style.position = 'relative';
   el.innerHTML = `
-    <div style="position:relative;height:14px;margin-bottom:2px">${refLabels}</div>
-    <div style="position:relative;height:14px;border-radius:5px;overflow:hidden;display:flex">
+    <div style="position:relative;height:15px;margin-bottom:2px">${refLabels}</div>
+    <div style="position:relative;height:17px;border-radius:5px;overflow:hidden;display:flex">
       <div style="width:${wPct}%;background:${winnerColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Winner ${wPct}%">${mkLabel(wPct,'#fff',false)}</div>
       <div style="width:${oPct}%;background:${otherColor};transition:width .4s;display:flex;align-items:center;justify-content:center" title="Others ${oPct}%">${mkLabel(oPct,'rgba(0,0,0,0.55)',false)}</div>
       <div style="flex:1;background:repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 3px,transparent 3px,transparent 7px);display:flex;align-items:center;justify-content:center" title="Didn't vote ${nPct}%">${mkNoVoteLabel(nPct)}</div>
@@ -786,7 +804,7 @@ function showPanel(wardNum) {
   const turnoutEl = document.getElementById('p-turnout');
   const v = turnoutFor(wardNum, currentYear);
   turnoutEl.textContent = v != null ? v + '%' : '—';
-  turnoutEl.style.color = v != null ? makeScale().scale(v) : 'var(--ink-3)';
+  turnoutEl.style.setProperty('--swatch', v != null ? makeScale().scale(v) : 'transparent');
   document.getElementById('p-coun-name').textContent  = d.councillor.winner_name || '—';
   renderStackedBar('sbar-coun',  '#0F6E56', d.councillor.participation, d.councillor.winner_pct);
   renderCouncilHistory(wardNum);
@@ -867,9 +885,9 @@ function mayorSegments(d) {
   const pct = n => +(n / base * 100).toFixed(1);
   const segs = [
     {label: 'Elected mayor', name: MAYOR_ELECTED[d.year], pct: pct(d.votesMayor), bg: '#185FA5', ink: '#fff'},
-    {label: 'Runner-up',     name: d.runnerUpName,        pct: pct(d.runnerUp),   bg: '#5B93C9', ink: '#fff'},
+    {label: 'Runner-up',     name: d.runnerUpName,        pct: pct(d.runnerUp),   bg: '#5B93C9', ink: '#0B2545'},
     {label: 'Others',        name: 'other candidates and blank/rejected ballots',
-                             pct: pct(d.votes - d.votesMayor - d.runnerUp),    bg: '#B4CDE4', ink: 'rgba(0,0,0,0.55)'},
+                             pct: pct(d.votes - d.votesMayor - d.runnerUp),    bg: '#B4CDE4', ink: '#1F2530'},
     {label: "Didn't vote",      pct: pct(d.registered - d.votes), bg: HATCH(3), noVote: true},
   ];
   if (mayorBasis === 'residents') {
@@ -897,15 +915,17 @@ function renderMayorHistory() {
     const row = document.createElement('div');
     row.className = 'mayor-row';
     row.dataset.year = d.year;
-    row.style.cssText = 'display:flex;align-items:center;gap:8px;transition:opacity .25s';
+    row.style.cssText = 'display:flex;align-items:center;gap:8px';
 
     const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-size:11px;font-weight:600;color:var(--ink-2);width:30px;flex-shrink:0;text-align:right';
+    lbl.className = 'mh-year';
+    lbl.style.cssText = 'font-size:11px;width:30px;flex-shrink:0;text-align:right';
     lbl.textContent = d.year;
 
     const trackWrap = document.createElement('div');
     trackWrap.style.cssText = 'flex:1;position:relative;height:28px';
     const track = document.createElement('div');
+    track.className = 'mh-track';
     track.style.cssText = 'width:100%;height:28px;border-radius:4px;overflow:hidden;display:flex;position:relative';
 
     const segs = mayorSegments(d);
@@ -917,7 +937,7 @@ function renderMayorHistory() {
       if (s.pct >= 5) {
         const span = document.createElement('span');
         if (s.noVote) span.className = 'nv-pill';
-        span.style.cssText = `font-size:9px;font-weight:${s.noVote ? 800 : 700};pointer-events:none${s.noVote ? '' : ';color:' + s.ink}`;
+        span.style.cssText = `font-size:11px;font-weight:${s.noVote ? 800 : 700};pointer-events:none${s.noVote ? '' : ';color:' + s.ink}`;
         span.textContent = s.pct + '%';
         seg.appendChild(span);
       }
@@ -938,10 +958,10 @@ function renderMayorHistory() {
   const labelRow = document.createElement('div');
   labelRow.style.cssText = 'display:flex;padding-left:38px;margin-bottom:3px;flex-shrink:0';
   const labelTrack = document.createElement('div');
-  labelTrack.style.cssText = 'flex:1;position:relative;height:14px';
-  [[25,'var(--ink-3)'],[50,'rgba(192,57,43,0.85)'],[75,'var(--ink-3)']].forEach(([pct,color]) => {
+  labelTrack.style.cssText = 'flex:1;position:relative;height:15px';
+  [[25,'var(--ink-3)'],[50,'var(--red)'],[75,'var(--ink-3)']].forEach(([pct,color]) => {
     const t = document.createElement('span');
-    t.style.cssText = `position:absolute;left:${pct}%;transform:translateX(-50%);font-size:9px;font-weight:600;color:${color};white-space:nowrap`;
+    t.style.cssText = `position:absolute;left:${pct}%;transform:translateX(-50%);font-size:10.5px;font-weight:600;color:${color};white-space:nowrap`;
     t.textContent = pct + '%';
     labelTrack.appendChild(t);
   });
@@ -951,7 +971,7 @@ function renderMayorHistory() {
 
   // Continuous vertical lines spanning full bar area
   const lineOverlay = document.createElement('div');
-  lineOverlay.style.cssText = 'position:absolute;top:17px;bottom:0;left:38px;right:0;pointer-events:none;z-index:3';
+  lineOverlay.style.cssText = 'position:absolute;top:18px;bottom:0;left:38px;right:0;pointer-events:none;z-index:3';
   [[25,false],[50,true],[75,false]].forEach(([pct,isMajor]) => {
     const line = document.createElement('div');
     line.style.cssText = `position:absolute;top:0;bottom:0;left:${pct}%;width:${isMajor?2:1}px;background:${isMajor?'rgba(192,57,43,0.85)':'rgba(127,127,127,0.45)'};transform:translateX(-50%)`;
@@ -965,7 +985,7 @@ function renderMayorHistory() {
   leg.style.cssText = 'display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;flex-shrink:0';
   mayorSegments(MAYOR_HISTORY[0]).forEach(s => {
     const item = document.createElement('span');
-    item.style.cssText = 'font-size:10px;color:var(--ink-2);display:flex;align-items:center;gap:3px';
+    item.style.cssText = 'font-size:11px;color:var(--ink-2);display:flex;align-items:center;gap:3px';
     const sw = document.createElement('i');
     sw.style.cssText = `display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0;background:${s.noVote ? HATCH(2) : s.bg};border:${s.noVote ? '1px solid var(--line-2)' : 'none'}`;
     item.appendChild(sw);
@@ -982,10 +1002,11 @@ function renderMayorHistory() {
   updateMayorHistoryYear();
 }
 
-// Dim the other years and restate the selected one in words.
+// Outline the selected year and restate it in words. (Fading the other years
+// pushed their labels below readable contrast, so they stay at full strength.)
 function updateMayorHistoryYear() {
   document.querySelectorAll('.mayor-row').forEach(r =>
-    r.style.opacity = +r.dataset.year === currentYear ? '1' : '0.45');
+    r.classList.toggle('cur', +r.dataset.year === currentYear));
   const d = MAYOR_HISTORY.find(h => h.year === currentYear);
   const el = document.getElementById('mayor-callout');
   if (!d || !el) return;
