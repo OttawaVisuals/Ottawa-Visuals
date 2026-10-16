@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OC Transpo Performance · Ottawa</title>
+<meta name="description" content="OC Transpo ridership, reliability and time-of-day travel, 2019–2025, pulled from the numbers in Transit Committee reports.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    /* Chart series — validated categorical order (dataviz reference palette). */
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --muted:#B9C0CB;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --muted:#454C5C;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+
+  /* ── TOPBAR (site-wide chrome) ── */
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  .icon-btn:hover{color:var(--ink);border-color:var(--ink-2);}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .page-header { max-width:960px; margin:0 auto; padding:24px 16px 0; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:22px; margin:0 0 5px; font-weight:700; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-3); max-width:680px; line-height:1.5; margin:0; font-size:13px; }
+  .layout { display:flex; flex-direction:column; gap:12px; max-width:960px; margin:0 auto; padding:14px 16px 60px; }
+
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px; min-width:0; }
+  .q { font-family:var(--font-mono); font-size:11px; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; margin:0 0 4px; }
+  .section-title { font-size:16px; font-weight:650; margin:0 0 8px; letter-spacing:-0.01em; }
+  .section-note { font-size:13px; color:var(--ink-2); line-height:1.6; margin:0 0 12px; max-width:740px; }
+  .section-note b { color:var(--ink); font-weight:600; }
+  .chart-sub { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); margin:16px 0 8px; }
+  .chart-sub:first-child { margin-top:0; }
+  .chart-wrap { position:relative; width:100%; height:300px; }
+  .chart-wrap.short { height:240px; }
+  .chart-wrap.mini { height:200px; }
+  @media (max-width:640px){ .chart-wrap{height:260px;} .chart-wrap.short{height:220px;} }
+  .note { font-size:12px; color:var(--ink-3); margin-top:10px; padding:8px 12px; border-left:2px solid var(--line-2); line-height:1.55; }
+  .note b { color:var(--ink-2); }
+  .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); margin-bottom:12px; display:none; }
+
+  .stat-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:4px; }
+  @media (max-width:760px){ .stat-row { grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:420px){ .stat-row { grid-template-columns:1fr; } }
+  .stat-box { background:var(--bg-2); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .stat-val { font-size:22px; font-weight:600; color:var(--ink); letter-spacing:-0.01em; }
+  .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px 20px; }
+  @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
+
+  .legend { display:flex; flex-wrap:wrap; gap:6px 14px; margin:4px 0 6px; font-size:12px; color:var(--ink-2); }
+  .legend span { display:flex; align-items:center; gap:6px; }
+  .swatch { width:14px; height:3px; border-radius:2px; flex-shrink:0; }
+  .swatch.box { height:10px; width:10px; }
+  .swatch.dash { background:none !important; border-top:2px dashed; height:0; }
+
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; font-variant-numeric:tabular-nums; }
+  th { text-align:left; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-3); padding:6px 8px; border-bottom:1px solid var(--line-2); white-space:nowrap; background:var(--bg-2); }
+  td { padding:5px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num, th.num { text-align:right; font-family:var(--font-mono); white-space:nowrap; }
+  tr:hover td { background:var(--bg-3); }
+  details { margin-top:10px; }
+  summary { cursor:pointer; font-size:12px; color:var(--ink-2); font-family:var(--font-mono); }
+  summary:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; border-radius:3px; }
+  ul.plain { margin:4px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:var(--ink-2); }
+  ul.plain b { color:var(--ink); }
+
+  footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
+  footer a { color:var(--ink-2); }
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../rto.html">RTO watch</a>
+    <a href="octranspo_kpis.html" class="active">OC Transpo</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="page-header">
+  <p class="eyebrow">Ottawa · OC Transpo · 2019–2026</p>
+  <h1>OC Transpo: fewer riders, flatter peaks, buses still short of target</h1>
+  <p class="sub">Ridership, service reliability and when people ride, using every figure OC Transpo has reported to Transit Committee since 2019. Where a number wasn't published, the chart leaves a gap rather than guessing.</p>
+</div>
+
+<main class="layout">
+  <div class="error-msg" id="err"></div>
+
+  <div class="stat-row" id="hero"></div>
+
+  <!-- 1. RIDERSHIP -->
+  <section class="card">
+    <p class="q">Ridership</p>
+    <h2 class="section-title">Still well below 2019</h2>
+    <p class="section-note" id="rider-note"></p>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">Bus + O-Train trips per month, millions</p>
+        <div class="legend" id="lg-rider-m"></div>
+        <div class="chart-wrap short"><canvas id="c-rider-m" aria-label="Monthly ridership in 2019, 2022 and 2023"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Trips per year, millions</p>
+        <div class="legend" id="lg-rider-y"></div>
+        <div class="chart-wrap short"><canvas id="c-rider-y" aria-label="Annual ridership, 2019 to 2025"></canvas></div>
+      </div>
+    </div>
+    <details><summary>Show the numbers</summary><div class="table-wrap" id="t-rider"></div></details>
+    <p class="note">Linked trips (one trip from origin to destination, however many transfers). Monthly figures are the chart labels from the September 2023 OC Transpo update, rounded to 0.1 million. The <b>2019 and 2022 yearly totals are the sum of those monthly labels</b>. 2023–2025 totals are from the 5-Year Roadmap scorecards. Totals for 2020 and 2021 weren't published in these reports.</p>
+  </section>
+
+  <!-- 2. TIME OF DAY -->
+  <section class="card">
+    <p class="q">When people ride</p>
+    <h2 class="section-title">The morning rush got smaller, midday got bigger</h2>
+    <p class="section-note" id="tod-note"></p>
+    <div class="legend" id="lg-tod"></div>
+    <div class="chart-wrap short"><canvas id="c-tod" aria-label="Share of weekday trips by time of day, winter 2020 versus winter 2026"></canvas></div>
+    <details><summary>Show the numbers</summary><div class="table-wrap" id="t-tod"></div></details>
+    <p class="note">Share of all weekday customer trips in each period, from OC Transpo's June 2026 answer to inquiry OCC-2026-08. Winter 2020 is before the pandemic. These are <b>shares, not counts</b>: total ridership is also lower, so a smaller share means even fewer AM-peak trips.</p>
+  </section>
+
+  <!-- 3. SCORECARD -->
+  <section class="card">
+    <p class="q">Reliability vs targets</p>
+    <h2 class="section-title">Trains are close to target, buses aren't</h2>
+    <p class="section-note" id="score-note"></p>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">Scheduled trips actually run, %</p>
+        <div class="legend" id="lg-s-deliv"></div>
+        <div class="chart-wrap mini"><canvas id="c-s-deliv" aria-label="Trips delivered, bus and O-Train Line 1, 2023 to 2025, against the 99.5% target"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Buses on schedule, %</p>
+        <div class="legend" id="lg-s-ontime"></div>
+        <div class="chart-wrap mini"><canvas id="c-s-ontime" aria-label="Bus punctuality and regularity, 2023 to 2025, against the 85% target"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Buses unavailable for service, % of fleet (lower is better)</p>
+        <div class="legend" id="lg-s-fleet"></div>
+        <div class="chart-wrap mini"><canvas id="c-s-fleet" aria-label="Share of buses unavailable, 2023 to 2025, against the 17.5% target"></canvas></div>
+      </div>
+      <div>
+        <p class="chart-sub">Bus operators available for work, %</p>
+        <div class="legend" id="lg-s-ops"></div>
+        <div class="chart-wrap mini"><canvas id="c-s-ops" aria-label="Bus operator availability, 2023 to 2025, against the 82% target"></canvas></div>
+      </div>
+    </div>
+    <details><summary>Show the numbers</summary><div class="table-wrap" id="t-score"></div></details>
+    <p class="note"><b>Punctuality</b>: share of trips on routes running every 16 minutes or less often that leave major stops between 1 minute early and 5 minutes late. <b>Regularity</b>: on frequent routes, trips that keep their spacing. Targets are from the latest scorecard (May 2026). <span id="ops-conflict"></span></p>
+  </section>
+
+  <!-- 4. MONTH BY MONTH -->
+  <section class="card">
+    <p class="q">Month by month</p>
+    <h2 class="section-title">What the monthly figures show</h2>
+    <p class="section-note">Monthly reliability figures were published as tables for 2020–2021 and as chart labels for August 2022 to August 2023. The two periods use <b>different measures</b> (hours of service vs trips), so they're charted separately, not joined into one line.</p>
+    <div class="grid2">
+      <div>
+        <p class="chart-sub">O-Train Line 1: scheduled service not delivered, %, 2020–2021</p>
+        <div class="chart-wrap short"><canvas id="c-l1" aria-label="O-Train Line 1 service not delivered by month, 2020 to 2021"></canvas></div>
+        <p class="note" id="l1-note"></p>
+      </div>
+      <div>
+        <p class="chart-sub">Scheduled trips run, %, Aug 2022 – Aug 2023</p>
+        <div class="legend" id="lg-deliv-m"></div>
+        <div class="chart-wrap short"><canvas id="c-deliv-m" aria-label="Trips delivered by month, bus and O-Train Line 1, August 2022 to August 2023"></canvas></div>
+        <p class="note" id="deliv-m-note"></p>
+      </div>
+    </div>
+    <p class="chart-sub" style="margin-top:20px">Bus punctuality on weekdays by time of day, %, 2020 – mid-2021</p>
+    <div class="legend" id="lg-otp"></div>
+    <div class="chart-wrap short"><canvas id="c-otp" aria-label="Weekday bus punctuality by time of day, January 2020 to June 2021"></canvas></div>
+    <details><summary>Show the numbers</summary><div class="table-wrap" id="t-month"></div></details>
+    <p class="note" id="otp-note"></p>
+  </section>
+
+  <!-- 5. ABOUT -->
+  <section class="card">
+    <p class="q">About the data</p>
+    <h2 class="section-title">Where these numbers come from</h2>
+    <ul class="plain">
+      <li><b>Sources:</b> OC Transpo performance reports (2020, mid-2021, 2021), the September 2023 OC Transpo update, the 5-Year Roadmap scorecards (2024, 2025, 2026 editions), and inquiry answers to Transit Committee, all from the City's eScribe meeting records.</li>
+      <li><b>Gaps are real:</b> after 2021, OC Transpo's monthly charts are published as images, so their values can't be read. Monthly figures for 2022 onward exist only where a presentation printed the numbers.</li>
+      <li><b>Revisions:</b> when two reports give the same month different values, the later report is used. <span id="n-conflicts"></span> Every figure is listed with its source report and page in <a href="kpi_history/kpi_observations.csv">kpi_observations.csv</a>.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  Sources: City of Ottawa Transit Commission / Transit Committee meeting records (pub-ottawa.escribemeetings.com), 2019–2026. Extraction method, coverage and caveats: <a href="README.md#kpi-history-extracted-from-the-pdfs">OC_Transpo/README.md</a>. Data: <a href="kpi_history/kpi_series.csv">kpi_series.csv</a>.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA_URL = 'kpi_history/kpi_series.csv';
+let ROWS = null, IDX = {};
+const charts = {};
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ── helpers ─────────────────────────────────────────────────────────────────
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const V = (metric, mode, period, bd = '') => { const r = IDX[[metric, mode, bd, period].join('|')]; return r ? +r.value : null; };
+const R = (metric, mode, period, bd = '') => IDX[[metric, mode, bd, period].join('|')];
+const months = (from, to) => { const out = []; let [y, m] = from.split('-').map(Number); const [ty, tm] = to.split('-').map(Number);
+  while (y < ty || (y === ty && m <= tm)) { out.push(`${y}-${String(m).padStart(2, '0')}`); m++; if (m > 12) { m = 1; y++; } } return out; };
+const mLabel = p => `${MON[+p.slice(5) - 1]} ${p.slice(0, 4)}`;
+const fmtM = v => v == null ? '—' : (v / 1e6).toFixed(1) + 'M';
+const pct = (v, d = 1) => v == null ? '—' : (+v).toFixed(d).replace(/\.0$/, '') + '%';
+
+function parseCSV(t) {
+  const rows = []; let row = [], f = '', q = false;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (q) { if (c === '"') { if (t[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ',') { row.push(f); f = ''; }
+    else if (c === '\n') { row.push(f); rows.push(row); row = []; f = ''; }
+    else if (c !== '\r') f += c;
+  }
+  if (f || row.length) { row.push(f); rows.push(row); }
+  const head = rows.shift();
+  return rows.filter(r => r.length === head.length).map(r => Object.fromEntries(head.map((h, i) => [h, r[i]])));
+}
+
+function legend(id, items) {
+  $(id).innerHTML = items.map(([label, color, kind = '']) =>
+    `<span><i class="swatch ${kind}" style="background:${color};border-color:${color}"></i>${label}</span>`).join('');
+}
+
+// Table view twin for a chart: rows = labels, columns = datasets.
+function table(id, labels, cols, fmt) {
+  $(id).innerHTML = `<table><thead><tr><th></th>${cols.map(c => `<th class="num">${c.label}</th>`).join('')}</tr></thead><tbody>` +
+    labels.map((l, i) => `<tr><td>${l}</td>${cols.map(c => `<td class="num">${c.data[i] == null ? '—' : (c.fmt || fmt)(c.data[i])}</td>`).join('')}</tr>`).join('') +
+    '</tbody></table>';
+}
+
+function baseOpts({ yTitle, yTick = v => v, min, max, stacked = false } = {}) {
+  const grid = css('--line'), ink3 = css('--ink-3');
+  return {
+    responsive: true, maintainAspectRatio: false, animation: false,
+    interaction: { mode: 'index', intersect: false },
+    elements: { point: { radius: 0, hoverRadius: 5, hitRadius: 12 }, line: { borderWidth: 2, tension: 0 } },
+    scales: {
+      x: { stacked, grid: { display: false }, border: { color: css('--line-2') },
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 0, autoSkipPadding: 10 } },
+      y: { stacked, min, max, grid: { color: grid }, border: { display: false },
+           title: yTitle ? { display: true, text: yTitle, color: ink3, font: { size: 11 } } : undefined,
+           ticks: { color: ink3, font: { family: 'JetBrains Mono', size: 10 }, callback: yTick, maxTicksLimit: 6 } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: css('--bg-2'), titleColor: css('--ink'), bodyColor: css('--ink-2'),
+        borderColor: css('--line-2'), borderWidth: 1, padding: 10, boxPadding: 4,
+        titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'Inter', size: 12 },
+        filter: i => i.parsed.y != null,
+      }
+    }
+  };
+}
+function make(id, cfg) { if (charts[id]) charts[id].destroy(); charts[id] = new Chart($(id), cfg); return charts[id]; }
+const bar = (label, data, color, extra = {}) => ({ type: 'bar', label, data, backgroundColor: color,
+  borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: 'bottom', borderColor: css('--bg-2'), borderWidth: { left: 1, right: 1 }, ...extra });
+const line = (label, data, color, extra = {}) => ({ type: 'line', label, data, borderColor: color, backgroundColor: color, spanGaps: false, ...extra });
+const dots = (label, data, color) => line(label, data, color, { pointRadius: 4, pointHoverRadius: 6, pointBorderColor: css('--bg-2'), pointBorderWidth: 2 });
+const target = (label, n, value) => line(label, Array(n).fill(value), css('--ink-3'), { borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0 });
+
+// Writes "not published" at the base of empty bar slots.
+const naPlugin = { id: 'na', afterDatasetsDraw(c) {
+  const { ctx, scales: { x, y } } = c; const ds = c.data.datasets[0];
+  ctx.save(); ctx.fillStyle = css('--ink-3'); ctx.font = '10px JetBrains Mono'; ctx.textAlign = 'center';
+  ds.data.forEach((v, i) => { if (v == null) { ctx.fillText('n/a', x.getPixelForValue(i), y.getPixelForValue(0) - 6); } });
+  ctx.restore(); } };
+
+// ── renderers ───────────────────────────────────────────────────────────────
+function yearSum(y) { const vs = months(`${y}-01`, `${y}-12`).map(p => V('ridership', 'system', p)); return vs.every(v => v != null) ? vs.reduce((a, b) => a + b, 0) : null; }
+const annualRiders = y => V('ridership', 'system', String(y)) ?? yearSum(y);
+
+function renderHero() {
+  const r19 = annualRiders(2019), r25 = annualRiders(2025);
+  const am20 = V('weekday_ridership_share', 'system', '2020-winter', 'am_peak'), am26 = V('weekday_ridership_share', 'system', '2026-winter', 'am_peak');
+  const md20 = V('weekday_ridership_share', 'system', '2020-winter', 'midday'), md26 = V('weekday_ridership_share', 'system', '2026-winter', 'midday');
+  const bus25 = V('trips_delivered', 'bus', '2025'), unav25 = V('bus_fleet_unavailable', 'bus', '2025');
+  $('hero').innerHTML = [
+    [`${(r25 / 1e6).toFixed(1)}M`, `trips in 2025, about ${Math.round(r25 / r19 * 100)}% of 2019 (${(r19 / 1e6).toFixed(1)}M).`],
+    [`${am20}% → ${am26}%`, `share of weekday trips in the 6–9 a.m. peak, winter 2020 vs 2026. Midday went ${md20}% → ${md26}%.`],
+    [pct(bus25, 0), `of scheduled bus trips ran in 2025. The target is ${pct(V('trips_delivered', 'bus', 'edition 2026', 'target'))}.`],
+    [pct(unav25), `of buses were unavailable for service in 2025, against a ${pct(V('bus_fleet_unavailable', 'bus', 'edition 2026', 'target'))} target.`],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+}
+
+function renderRidership() {
+  const cY = { 2019: css('--muted'), 2022: css('--s2'), 2023: css('--s1') };
+  const per = y => months(`${y}-01`, `${y}-12`).map(p => { const v = V('ridership', 'system', p); return v == null ? null : v / 1e6; });
+  const ds = [2019, 2022, 2023].map(y => line(String(y), per(y), cY[y], { borderWidth: y === 2019 ? 2 : 2.5 }));
+  legend('lg-rider-m', [['2019', cY[2019]], ['2022', cY[2022]], ['2023 (to July)', cY[2023]]]);
+  const o = baseOpts({ yTick: v => v + 'M', min: 0 });
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}M` };
+  make('c-rider-m', { data: { labels: MON, datasets: ds }, options: o });
+
+  const yrs = [2019, 2020, 2021, 2022, 2023, 2024, 2025], ann = yrs.map(y => { const v = annualRiders(y); return v == null ? null : v / 1e6; });
+  const derived = y => V('ridership', 'system', String(y)) == null;
+  const c1 = css('--s1'), cm = css('--muted');
+  legend('lg-rider-y', [['Reported total', c1, 'box'], ['Sum of monthly figures', cm, 'box']]);
+  const oy = baseOpts({ yTick: v => v + 'M', min: 0 });
+  oy.plugins.tooltip.callbacks = { label: c => c.parsed.y == null ? ' not published' : ` ${c.parsed.y.toFixed(1)}M${derived(yrs[c.dataIndex]) ? ' (sum of monthly figures)' : ''}` };
+  oy.plugins.tooltip.filter = () => true;
+  make('c-rider-y', { data: { labels: yrs.map(String), datasets: [bar('Trips', ann, yrs.map(y => derived(y) ? cm : c1))] }, options: oy, plugins: [naPlugin] });
+
+  table('t-rider', MON, [...ds.map(d => ({ label: d.label, data: d.data })),], v => v.toFixed(1) + 'M');
+  $('t-rider').innerHTML += '<table style="margin-top:12px"><thead><tr><th>Year</th><th class="num">Trips</th><th>Basis</th></tr></thead><tbody>' +
+    yrs.map((y, i) => `<tr><td>${y}</td><td class="num">${ann[i] == null ? '—' : ann[i].toFixed(1) + 'M'}</td><td>${ann[i] == null ? 'not published' : derived(y) ? 'sum of monthly figures' : 'roadmap scorecard'}</td></tr>`).join('') + '</tbody></table>';
+
+  const sumMonths = (y, n) => months(`${y}-01`, `${y}-${String(n).padStart(2, '0')}`).reduce((s, p) => s + V('ridership', 'system', p), 0);
+  const lastM = months('2023-01', '2023-12').filter(p => V('ridership', 'system', p) != null).length;
+  const r19 = annualRiders(2019), r25 = annualRiders(2025);
+  $('rider-note').innerHTML = `OC Transpo carried about <b>${fmtM(r19)}</b> trips in 2019. From January to ${MONTH[lastM - 1]} 2023 it carried <b>${Math.round(sumMonths(2023, lastM) / sumMonths(2019, lastM) * 100)}%</b> of the 2019 level for the same months. ` +
+    `Growth since then has been slow: <b>${fmtM(annualRiders(2023))}</b> in 2023, ${fmtM(annualRiders(2024))} in 2024 and <b>${fmtM(r25)}</b> in 2025, still about <b>${Math.round((1 - r25 / r19) * 100)}% below 2019</b>. ` +
+    `The usual seasonal pattern has survived: the monthly lines rise and fall together, with summer dips and a September rebound.`;
+}
+
+function renderTod() {
+  const B = [['early_am', 'Early a.m.'], ['am_peak', 'a.m. peak'], ['midday', 'Midday'], ['pm_peak', 'p.m. peak'], ['evening', 'Evening'], ['night', 'Night']];
+  const a = B.map(([k]) => V('weekday_ridership_share', 'system', '2020-winter', k)), b = B.map(([k]) => V('weekday_ridership_share', 'system', '2026-winter', k));
+  const cA = css('--muted'), cB = css('--s1');
+  legend('lg-tod', [['Winter 2020 (pre-pandemic)', cA, 'box'], ['Winter 2026', cB, 'box']]);
+  const o = baseOpts({ yTick: v => v + '%', min: 0 });
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${c.parsed.y}% of weekday trips` };
+  make('c-tod', { data: { labels: B.map(x => x[1]), datasets: [bar('Winter 2020', a, cA), bar('Winter 2026', b, cB)] }, options: o });
+  table('t-tod', B.map(x => x[1]), [{ label: 'Winter 2020', data: a }, { label: 'Winter 2026', data: b },
+    { label: 'Change, pts', data: a.map((v, i) => b[i] - v), fmt: v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v) }], v => v + '%');
+  const d = k => { const i = B.findIndex(x => x[0] === k); return b[i] - a[i]; };
+  $('tod-note').innerHTML = `Before the pandemic, <b>${a[1]}%</b> of weekday trips happened in the 6–9 a.m. peak. By winter 2026 it was <b>${b[1]}%</b> (${d('am_peak') < 0 ? '−' : '+'}${Math.abs(d('am_peak'))} points), and the p.m. peak lost ${Math.abs(d('pm_peak'))} points. ` +
+    `Midday gained the most: <b>${a[2]}% → ${b[2]}%</b>. OC Transpo also reports the afternoon peak now starts around 2 p.m. and runs to about 7 p.m. That pattern is consistent with hybrid work: fewer people make a fixed office commute every day.`;
+}
+
+function scoreChart(id, lgId, series, tgt, { min, max, lowerBetter = false } = {}) {
+  const yrs = ['2023', '2024', '2025'];
+  const ds = series.map(([label, metric, mode, color]) => dots(label, yrs.map(y => V(metric, mode, y)), color));
+  const tv = tgt ? V(tgt[0], tgt[1], 'edition 2026', 'target') : null;
+  if (tv != null) ds.push(target(`Target ${tv}%`, yrs.length, tv));
+  legend(lgId, [...series.map(([l, , , c]) => [l, c]), ...(tv != null ? [[`Target ${tv}%${lowerBetter ? ' or lower' : ''}`, css('--ink-3'), 'dash']] : [])]);
+  const o = baseOpts({ yTick: v => v + '%', min, max });
+  o.scales.x.offset = true;
+  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make(id, { type: 'line', data: { labels: yrs, datasets: ds }, options: o });
+  return ds;
+}
+
+function renderScore() {
+  const s1 = css('--s1'), s2 = css('--s2');
+  const a = scoreChart('c-s-deliv', 'lg-s-deliv', [['Bus', 'trips_delivered', 'bus', s1], ['O-Train Line 1', 'trips_delivered', 'line1', s2]], ['trips_delivered', 'bus'], { min: 95, max: 100 });
+  const b = scoreChart('c-s-ontime', 'lg-s-ontime', [['Punctuality (less-frequent routes)', 'punctuality_less_frequent_routes', 'bus', s1], ['Regularity (frequent routes)', 'regularity_frequent_routes', 'bus', s2]], ['punctuality_less_frequent_routes', 'bus'], { min: 60, max: 90 });
+  const c = scoreChart('c-s-fleet', 'lg-s-fleet', [['Buses unavailable', 'bus_fleet_unavailable', 'bus', s1]], ['bus_fleet_unavailable', 'bus'], { min: 0, max: 35, lowerBetter: true });
+  const d = scoreChart('c-s-ops', 'lg-s-ops', [['Operators available', 'bus_operator_availability', 'bus', s1]], ['bus_operator_availability', 'bus'], { min: 60, max: 100 });
+  const cols = [...a, ...b, ...c, ...d].filter(x => !x.label.startsWith('Target'));
+  const names = ['Bus trips run', 'Line 1 trips run', 'Bus punctuality', 'Bus regularity', 'Buses unavailable', 'Operators available'];
+  table('t-score', ['2023', '2024', '2025'], cols.map((x, i) => ({ label: names[i], data: x.data })), v => pct(v));
+
+  const g = (m, mo, y) => V(m, mo, y);
+  $('score-note').innerHTML = `O-Train Line 1 ran <b>${pct(g('trips_delivered', 'line1', '2025'))}</b> of its scheduled trips in 2025, close to the 99.5% target. Buses ran <b>${pct(g('trips_delivered', 'bus', '2025'), 0)}</b>, which on a typical weekday means hundreds of cancelled trips. ` +
+    `Bus punctuality slipped every year, from ${pct(g('punctuality_less_frequent_routes', 'bus', '2023'), 0)} to <b>${pct(g('punctuality_less_frequent_routes', 'bus', '2025'), 0)}</b>, against an 85% goal. ` +
+    `The fleet is a big part of it: <b>${pct(g('bus_fleet_unavailable', 'bus', '2025'))}</b> of buses were unavailable for service in 2025, worse than ${pct(g('bus_fleet_unavailable', 'bus', '2023'), 0)} in 2023, while bus operator availability reached its target.`;
+  const r = R('bus_operator_availability', 'bus', '2024');
+  if (r && r.other_values) $('ops-conflict').textContent = `Operator availability for 2024 is ${pct(r.value, 0)} in both scorecards but ${r.other_values.split(';').map(v => pct(v, 0)).join(', ')} in the September 2025 bus reliability report; the scorecard figure is shown.`;
+}
+
+function renderMonthly() {
+  // Line 1 not delivered, 2020–2021
+  const m1 = months('2020-01', '2021-12'), l1 = m1.map(p => V('service_not_delivered', 'line1', p));
+  const o = baseOpts({ yTick: v => v + '%', min: 0, max: 100 });
+  o.plugins.tooltip.callbacks = { label: c => ` Not delivered: ${pct(c.parsed.y)}` };
+  o.scales.x.ticks.callback = function (v) { const p = m1[v]; return p.endsWith('-01') || p.endsWith('-07') ? mLabel(p).replace(' 20', " '") : ''; };
+  o.scales.x.ticks.autoSkip = false;
+  make('c-l1', { data: { labels: m1.map(mLabel), datasets: [bar('Line 1 not delivered', l1, css('--s1'), { borderRadius: { topLeft: 2, topRight: 2 } })] }, options: o });
+  const worst = m1.filter(p => V('service_not_delivered', 'line1', p) >= 20);
+  $('l1-note').innerHTML = `Line 1 shut down after derailments in August and September 2021 and reopened on November 12, so from ${MONTH[+worst[0].slice(5) - 1]} to ${MONTH[+worst[worst.length - 1].slice(5) - 1]} 2021 it lost ${worst.map(p => pct(V('service_not_delivered', 'line1', p), 0)).join(', ')} of scheduled service, month by month. Early 2020 shows the line's first, unreliable winter (${pct(V('service_not_delivered', 'line1', '2020-01'))} in January). R1 replacement buses ran during closures; they aren't counted here.`;
+
+  // Trips delivered Aug 2022 – Aug 2023
+  const m2 = months('2022-08', '2023-08');
+  const bus = m2.map(p => V('trips_delivered', 'bus', p)), rail = m2.map(p => V('trips_delivered', 'line1', p));
+  const s1 = css('--s1'), s2 = css('--s2');
+  legend('lg-deliv-m', [['Bus', s1], ['O-Train Line 1', s2]]);
+  const o2 = baseOpts({ yTick: v => v + '%', min: 40, max: 100 });
+  o2.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make('c-deliv-m', { data: { labels: m2.map(mLabel), datasets: [dots('Bus', bus, s1), dots('O-Train Line 1', rail, s2)] }, options: o2 });
+  $('deliv-m-note').innerHTML = `Line 1 dropped to <b>${pct(V('trips_delivered', 'line1', '2023-07'))}</b> in July 2023 and ${pct(V('trips_delivered', 'line1', '2023-08'))} in August, when it closed from July 17 to August 8 for wheel-bearing and rail repairs (it ran 99.4% before the closure). It also dipped to ${pct(V('trips_delivered', 'line1', '2023-01'))} in January 2023, during a week of freezing rain. Bus delivery stayed between ${pct(Math.min(...bus))} and ${pct(Math.max(...bus))}.`;
+
+  // Weekday punctuality by period, 2020 – Jun 2021
+  const m3 = months('2020-01', '2021-06');
+  const P = [['weekday_am_peak', 'a.m. peak (6–9)', css('--s1')], ['weekday_pm_peak', 'p.m. peak (3–6)', css('--s2')], ['weekday_off_peak', 'Off-peak', css('--s3')]];
+  const ds = P.map(([bd, label, c]) => line(label, m3.map(p => V('punctuality_less_frequent_routes', 'bus', p, bd)), c));
+  legend('lg-otp', P.map(([, l, c]) => [l, c]));
+  const o3 = baseOpts({ yTick: v => v + '%', min: 60, max: 85 });
+  o3.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make('c-otp', { data: { labels: m3.map(mLabel), datasets: ds }, options: o3 });
+
+  const avg = (bd, from, to) => { const xs = months(from, to).map(p => V('punctuality_less_frequent_routes', 'bus', p, bd)); return xs.reduce((a, b) => a + b, 0) / xs.length; };
+  $('otp-note').innerHTML = `The afternoon rush is consistently the hardest time to stay on schedule: p.m.-peak punctuality averaged <b>${pct(avg('weekday_pm_peak', '2020-01', '2021-06'))}</b> over these 18 months, against ${pct(avg('weekday_am_peak', '2020-01', '2021-06'))} in the morning. ` +
+    `It jumped to <b>${pct(V('punctuality_less_frequent_routes', 'bus', '2020-04', 'weekday_pm_peak'))}</b> in April 2020, when the first lockdown emptied the roads, then fell back as traffic returned. ` +
+    `Since mid-2021 only a few figures have been published: ${pct(V('punctuality_less_frequent_routes', 'bus', '2025-01'), 0)} in January 2025, ${pct(V('punctuality_less_frequent_routes', 'bus', '2025-02'), 0)} in February (two big snowstorms), and ${pct(V('punctuality_less_frequent_routes', 'bus', '2025'), 0)} for 2025 as a whole.`;
+
+  table('t-month', m3.concat(months('2021-07', '2021-12')).map(mLabel), [
+    { label: 'L1 not delivered', data: m3.concat(months('2021-07', '2021-12')).map(p => V('service_not_delivered', 'line1', p)) },
+    ...P.map(([bd, label]) => ({ label: 'Bus on time, ' + label, data: m3.concat(months('2021-07', '2021-12')).map(p => V('punctuality_less_frequent_routes', 'bus', p, bd)) })),
+  ], v => pct(v));
+  $('t-month').innerHTML += '<table style="margin-top:12px">' + `<thead><tr><th></th><th class="num">Bus trips run</th><th class="num">Line 1 trips run</th></tr></thead><tbody>` +
+    m2.map((p, i) => `<tr><td>${mLabel(p)}</td><td class="num">${pct(bus[i])}</td><td class="num">${pct(rail[i])}</td></tr>`).join('') + '</tbody></table>';
+}
+
+function renderAll() {
+  renderHero(); renderRidership(); renderTod(); renderScore(); renderMonthly();
+  const n = ROWS.filter(r => r.other_values).length;
+  $('n-conflicts').textContent = `${n} figures differ between reports (for example, December 2020 open-data API calls were revised from 60.7M to 62.7M).`;
+}
+
+fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(`kpi_series.csv: HTTP ${r.status}`); return r.text(); })
+  .then(t => {
+    ROWS = parseCSV(t);
+    ROWS.forEach(r => { IDX[[r.metric, r.mode, r.breakdown, r.period].join('|')] = r; });
+    renderAll();
+  })
+  .catch(err => { const el = $('err'); el.textContent = `⚠ Could not load data: ${err.message}`; el.style.display = 'block'; console.error(err); });
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+const root = document.documentElement;
+const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+function setToggleIcon(mode){ $('theme-toggle').innerHTML = mode === 'dark' ? MOON : SUN; }
+function setTheme(mode) {
+  root.setAttribute('data-theme', mode);
+  try { localStorage.setItem('ov-theme', mode); } catch(e){}
+  setToggleIcon(mode);
+  if (ROWS) renderAll();
+}
+setToggleIcon(root.getAttribute('data-theme'));
+$('theme-toggle').addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+</script>
+</body>
+</html>
