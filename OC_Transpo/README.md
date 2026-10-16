@@ -4,6 +4,8 @@ Two independent pipelines live here:
 
 1. **eScribe KPI scraper** (below) — one-off/occasional harvest of ridership &
    KPI PDFs from Transit Committee meetings (deep history, 2019+).
+   `scripts/extract_kpis.py` turns those PDFs into a tidy time series in
+   `kpi_history/` — see [KPI history](#kpi-history-extracted-from-the-pdfs).
 2. **GTFS-RT collector + KPI snapshotter** (`scripts/`) — continuous logging on
    the Raspberry Pi, building our own service-reliability dataset for the RTO4
    page. See [RTO4_PLAN.md](../RTO4_PLAN.md) for how it all fits together.
@@ -194,3 +196,79 @@ or use `--all` to grab everything and filter later.
   parallel copies. The resume logic avoids re-downloading.
 - GIS/heavy libraries are not used, so this is light on the Pi (network/IO
   bound). `--extract` is the only CPU-notable step.
+
+---
+
+# KPI history extracted from the PDFs
+
+`scripts/extract_kpis.py` (stdlib only) reads the `.txt` / `.tables.csv`
+extracts in `data/` (local only — run the scraper with `--extract` first) and
+writes the committed history to `kpi_history/`:
+
+| File | What |
+|------|------|
+| `kpi_observations.csv` | Every value found, one row per source × metric × period. The same month often appears in two reports; later editions sometimes revise it. |
+| `kpi_series.csv` | One value per `metric` / `mode` / `breakdown` / `period` — the latest publication wins, except that an older figure agreeing within rounding but printed more precisely is kept (97.8 over a later "98"). `other_values` lists any disagreeing figures. |
+| `extract_log.txt` | Per-document coverage (values found, or why a doc was skipped), specs that matched nothing, every revision/conflict, and a coverage table per series. |
+
+```bash
+python OC_Transpo/scripts/extract_kpis.py
+```
+
+Columns: `metric, mode, breakdown, period, period_type, value, unit,
+meeting_date, source_file, page, method, note`. `period` is `YYYY-MM`
+(month), `YYYY` (year), `YYYY-MM/YYYY-MM` (12-month window), a date range, or
+`YYYY-winter`; scorecard targets use `period_type = target`. `mode` is `bus`,
+`line1`, `line2`, `line2_4`, `otrain`, `system` (train + bus), `para`,
+`info` (customer information channels) or `org` (staffing/governance).
+
+**How it extracts.** The reports change format every couple of years, so each
+document has an explicit spec (`SPECS` in the script): scorecard columns,
+month-by-row tables located by their header text, chart data labels that
+survive in the text layer, a run of labels mapped to consecutive months, or a
+regex for a figure quoted in prose. A spec that matches nothing is logged as
+`NO MATCH`, and an unrecognised numeric scorecard row as `unmapped` — nothing is
+dropped silently. New reports need a new spec entry.
+
+**Sources used (11 of 65 English PDFs; the rest are inquiries, memos, LRT
+compliance audits, marketing — each listed with a reason in the log):**
+- Performance reports for 2020, Jul 2020–Jun 2021 and 2021 — monthly tables
+- Sept 2023 OC Transpo update deck — monthly chart labels
+- 5-Year Roadmap scorecards (2024, 2025, 2026 editions) — annual 2023–2025
+- One-off figures: TTC 06-19 (Oct 2018/2019 ridership), the 2025 bus
+  reliability report, the Mar 2025 deck, OCC-2026-08 (time-of-day shares)
+
+**Coverage (as of the 2026-05 harvest):**
+
+| Series | Monthly | Annual |
+|--------|---------|--------|
+| Ridership, linked trips (`ridership/system`) | 2019, Jan 2022–Jul 2023 (chart labels, ±0.05 M), Oct 2018 | 2023–2025 |
+| Para Transpo trips | 2019, Jan 2022–Jul 2023 (±50) | — |
+| Fare revenue | Jan 2022–Jul 2023 | — |
+| Service availability (% of scheduled *hours*), bus / Line 1 / all | Jan 2020–Jun 2021 (Line 2 Jan–Apr 2020) | 2019–2021 |
+| Trips delivered (% of scheduled *trips*), bus / Line 1 | Aug 2022–Aug 2023 | 2023–2025 (Lines 2/4: 2025) |
+| Service not delivered, Line 1 | Jan 2020–Dec 2021 | — |
+| Service not delivered, bus | Jan 2020–Jun 2021 | — |
+| Excess wait time, frequent bus + Line 1 | Jan 2020–Dec 2021 | 2020, 2021 |
+| Punctuality, less-frequent bus (on time / early / late; weekday by peak) | Jan 2020–Jun 2021, Jan–Mar 2025 | 2023–2025 |
+| Regularity, frequent routes | — | 2024–2025 |
+| Para on-time, complaints | complaints Jan 2020–Dec 2021 | on-time 2019–2025 (gap 2021–22) |
+| Fleet/operators: buses unavailable, operator availability, MDBF | — | 2023–2025 |
+| Customer injury rate | — | 2019–2025 (gap 2021–22) |
+| Weekday ridership share by time of day | winter 2020 vs winter 2026 | — |
+
+**Gaps and caveats.**
+- After 2021 the monthly charts are images with no data labels, so monthly
+  values for 2022 onward exist only where a deck printed them (Sept 2023).
+  Monthly 2020–2021 ridership is chart-only as well. For the recent period, use
+  the Open Ottawa KPI snapshots in `rt_data/kpi_snapshots/` (rolling ~13 months,
+  archived since Jul 2026).
+- *Service availability* (hours delivered, 2020–21 reports) and *trips
+  delivered* (2023+ deck and scorecards) are different measures — kept as
+  separate metrics, don't splice them.
+- Six genuine conflicts are logged. Examples: 2024 bus operator availability is 85% in
+  both scorecards but 88% in the Sept 2025 reliability report; 2020 Line 1
+  availability is 95.6% in the table but 95.2% on the chart in the same report;
+  Dec 2020 API calls were revised from 60.7 M to 62.7 M.
+- Line 1 2021 numbers include the Aug and Sep–Nov derailment closures (Oct
+  2021 = 100% not delivered).
