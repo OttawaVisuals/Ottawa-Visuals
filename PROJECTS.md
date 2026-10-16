@@ -64,7 +64,7 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
    see the outage-detection method below). GitHub-Actions collectors in the same repo
    (PWHL, ASE, weekly refresh) kept committing normally the whole time, ruling out a
    GitHub-wide issue.
-2. `ssh ottawa-pi` timed out (`10.0.0.142:22`) on 2026-09-02 — the box itself was
+2. `ssh` to the Pi timed out on 2026-09-02 — the box itself was
    unreachable, not just slow to push.
 3. Physically checked: **the LEDs were blinking red/green with no fixed pattern** —
    not a coded boot-diagnostic flash, more consistent with an under-voltage condition
@@ -323,13 +323,13 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   not a real bug). Added the missing piece: a "flip threshold" per PCP-held riding (minimum
   vote-transfer share needed for the opposition survivor to overtake PCP's actual vote count,
   solved directly rather than read off the slider), surfaced as a "Most winnable PCP-held seats"
-  ranked list and a per-riding "Strategic voting" callout. Filled in the previously-empty
+  ranked list and a per-riding "Vote-splitting" callout. Filled in the previously-empty
   `Ontario_Election_Methodology.txt`.
 - **Location:** `C:\Ottawa_Visuals\Ontario_Elections`. (`Ontario_Trials` is a different, unrelated
   project — Ontario Court Cases — despite the similar name; the old "+ Ontario_Trials" location
   note here was wrong and has been removed.)
 - **What's left for 100%:** none of it code — just occasional review as Elections Ontario data
-  ages, and the separately-tracked "crazy spending by the Ford government" companion visual is
+  ages, and the separately-tracked Ontario government spending companion visual is
   still just an idea, not scoped.
 
 ### Ontario Court Cases
@@ -475,7 +475,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
    `top_vendors.json` before any of this becomes a public-facing page.
 
 ### Political Spending / Transparency
-- Pierre Poilievre taxpayer expenses; Canadian MP spending transparency; Alberta oil-company profits & capital flows
+- MP expense reports (all parties, House of Commons proactive disclosure); Alberta oil-company profits & capital flows
   (industry-level profits/tax/jobs now live in `OilGas/`; company-level capital flows still open).
 
 ---

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ontario elections — what if the opposition hadn't split the vote?</title>
+<title>Ontario elections — turnout and vote-splitting</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -292,10 +292,11 @@
 
   <header class="top">
     <p class="eyebrow">Ontario elections</p>
-    <h1>What if Ontario's opposition hadn't split the vote?</h1>
+    <h1>How much did vote-splitting shape Ontario's 2025 result?</h1>
     <p class="sub">The 2025 general election district by district: the actual result, the seats won with a true
-      majority, and a model where Liberal, NDP and Green voters back one candidate per riding. Click a district for
-      its own numbers. Turnout since 1981 is further down.</p>
+      majority, and a model where Liberal, NDP and Green votes are combined behind one candidate per riding. It is
+      arithmetic about vote-splitting, not a forecast or a voting recommendation. Click a district for its own
+      numbers. Turnout since 1981 is further down.</p>
     <p class="source mono" id="source"></p>
   </header>
 
@@ -381,7 +382,7 @@
         </div>
 
         <div class="panel-block" id="strategicPanel" hidden>
-          <h4>Strategic voting in this district</h4>
+          <h4>Vote-splitting in this district</h4>
           <div id="strategicPanelBody"></div>
         </div>
 
@@ -420,10 +421,10 @@
   </section>
 
   <section>
-    <div class="sec-label">Most winnable PCP-held seats
+    <div class="sec-label">PCP-held seats most sensitive to vote-splitting
       <details class="info"><summary class="infobtn">?</summary>
-        <div class="info-pop">The ten PCP-held ridings where the opposition survivor could overtake PCP with the least
-          vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the full table below and
+        <div class="info-pop">The ten PCP-held ridings where the leading non-PC candidate would overtake PCP with the
+          smallest vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the full table below and
           doesn't depend on the slider; the bar's tick marks the current slider setting, and a highlighted card means the
           riding flips at that setting. Click a card to open the riding on the map.</div>
       </details>
@@ -501,14 +502,14 @@
         all other parties combined ends up with the most votes under that reallocation. It assumes turnout and every
         other vote stays fixed — a real merger or coordinated campaign would change turnout and candidate behaviour
         in ways this model doesn't capture.</p>
-      <h4>Strategic-candidate analysis (flip threshold)</h4>
+      <h4>Vote-splitting threshold (flip threshold)</h4>
       <p>For every PCP-held riding, the "flip threshold" is the minimum share of the dropped candidates' votes the
         survivor would need to overtake PCP's <em>actual</em> vote count — solved directly rather than read off the
         slider: <span class="mono">pctNeeded = (pcpVotes − survivorVotes) ÷ droppedVotes</span>. A riding shows
         <b>"already ahead"</b> if the survivor already out-polls PCP with zero vote transfer, and
         <b>"not reachable"</b> if there's nothing to consolidate (no dropped votes to transfer) or 100% retention
-        still isn't enough. The "Most winnable PCP-held seats" list ranks every reachable riding by this threshold,
-        lowest first — the ridings where opposition coordination would go furthest. Like the modelled result above,
+        still isn't enough. The "PCP-held seats most sensitive to vote-splitting" list ranks every reachable riding
+        by this threshold, lowest first. Like the modelled result above,
         this holds "Others" and turnout fixed and only asks whether the survivor's coordinated total would exceed
         PCP's, not whether "Others" might still win instead — a limit worth knowing before reading too much into a
         single riding's number.</p>
@@ -982,22 +983,22 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
         stratPanel.hidden = false;
         let body;
         if(c.pctNeeded===null){
-          body = `<p class="caveat" style="margin:0">The opposition survivor here already out-polls PCP with zero
+          body = `<p class="caveat" style="margin:0">The leading non-PC candidate here already out-polls PCP with zero
             vote transfer under this model, though PCP still won on the actual split vote.</p>`;
         } else if(c.pctNeeded===Infinity){
-          body = `<p class="caveat" style="margin:0">Not reachable through vote coordination alone — there are no
-            dropped opposition votes to transfer in this riding.</p>`;
+          body = `<p class="caveat" style="margin:0">Doesn't change hands in this model — there are no other
+            non-PC votes to transfer in this riding.</p>`;
         } else {
           const reachable = c.pctNeeded<=1;
           body = `<div class="winner-badge" style="background:var(--accent-soft)">
               <span class="dot" style="background:${P[c.survivor].color}"></span>
-              <span><span class="wn">Consolidate behind ${P[c.survivor].name}</span><br>
-              <span class="wv">needs &ge;${(c.pctNeeded*100).toFixed(0)}% of the other opposition candidates' votes to overtake PCP</span></span>
+              <span><span class="wn">Combined behind ${P[c.survivor].name}</span><br>
+              <span class="wv">would need &ge;${(c.pctNeeded*100).toFixed(0)}% of the other non-PC candidates' votes to overtake PCP</span></span>
             </div>
             <p class="caveat">${reachable
-              ? `Reachable — at the current ${document.getElementById("coordSlider").value}% slider setting, this riding is `
-                + `${pct>=c.pctNeeded ? '<b>modelled to flip</b>' : 'still short, but within reach with more coordination'}.`
-              : `Not reachable within this model — even 100% retention (a full merger, not just a stand-down) falls short.`}</p>`;
+              ? `Within the model's range — at the current ${document.getElementById("coordSlider").value}% slider setting, this riding `
+                + `${pct>=c.pctNeeded ? '<b>changes hands</b>' : 'stays PCP; a higher transfer share would change it'}.`
+              : `Doesn't change hands in this model — even 100% transfer falls short.`}</p>`;
         }
         document.getElementById("strategicPanelBody").innerHTML = body;
       } else {
@@ -1116,8 +1117,8 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       .slice(0,10);
     const strategicList = document.getElementById("strategicList");
     if(!winnable.length){
-      strategicList.innerHTML = `<p class="caveat" style="margin:0">No PCP-held riding is reachable through this
-        model even at 100% vote-coordination retention.</p>`;
+      strategicList.innerHTML = `<p class="caveat" style="margin:0">No PCP-held riding changes hands in this
+        model, even at 100% vote transfer.</p>`;
     } else {
       // meter: fill = threshold, tick = current slider setting; highlighted when the slider clears it
       strategicList.innerHTML = `<ol class="winlist">`
@@ -1128,13 +1129,13 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
               <span class="rank">${i+1}</span>
               <span class="dn">${c.r.name}</span>
               <span class="thr">${need}%</span>
-              <span class="who"><span class="dot" style="background:${P[c.survivor].color}"></span>Consolidate behind ${P[c.survivor].name}</span>
+              <span class="who"><span class="dot" style="background:${P[c.survivor].color}"></span>Combined behind ${P[c.survivor].name}</span>
               <span class="meter"><span style="width:${need}%"></span><i style="left:calc(${coordSlider.value}% - 1px)"></i></span>
             </button></li>`;
           }).join("")
         + `</ol>
-        <p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the opposition
-          survivor to overtake PCP's actual vote count — see the Methodology section below for exactly how this is
+        <p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the leading
+          non-PC candidate to overtake PCP's actual vote count — see the Methodology section below for exactly how this is
           calculated, and its limits.</p>`;
     }
 

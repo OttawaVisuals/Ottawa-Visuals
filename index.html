@@ -1130,7 +1130,7 @@
       tag: "#traffic",
       // Power BI publish-to-web report, wrapped in its own page
       page: "Traffic/stops.html",
-      why: "Traffic stops seems to have decrease significantly in the last year, while driving in Ottawa only seems to get worse.",
+      why: "This report puts police traffic stops side by side with collision counts, to compare how much enforcement there is with how often people get hurt.",
       method: "Data from the Ottawa Police Service open releases. Some datasets are not updated anymore so most of the information stops at 2025.",
       sources: [
         { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Not updated anymore", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
@@ -1154,7 +1154,7 @@
       readTime: "~ 5 min read",
       tag: "#elections",
       page: "Ottawa_Elections/ottawa_ward_elections.html",
-      why: "Municipal elections have the most impact on our daily life (traffic, public transit, recreation...). Recent voter turnout have been low and votes for the Mayor represent a small share of voters while decision from the City has impacted everyone (Transit failures, traffic worsening, funding for controversial projects...)",
+      why: "City decisions shape daily life: transit, traffic, recreation, housing. Yet turnout in Ottawa's municipal elections has been under 45% in every election since 2010, and the elected mayor has received the votes of 22–30% of registered voters.",
       method: "Results are pulled from Elections Ottawa's official ward results. Wards have changed for the 2022 election (addition of one ward), historical data for some wards have been estimated from previous wards.",
       sources: [
         { name: "Elections Ottawa — Ward results", meta: "per cycle", url: "https://elections.ottawa.ca/" },
@@ -1170,13 +1170,13 @@
     {
       id: "on-elections",
       topic: "Ontario elections",
-      title: "What if Ontario's opposition hadn't split the vote?",
-      lede: "Province-wide voter turnout since 1981, and the February 2025 general election broken down district by district — with a what-if model for opposition vote consolidation.",
+      title: "How much did vote-splitting shape Ontario's 2025 result?",
+      lede: "Province-wide voter turnout since 1981, and the February 2025 general election broken down district by district — with a what-if model that combines Liberal, NDP and Green votes in each riding.",
       date: "Updated Jun 2026",
       readTime: "~ 5 min read",
       tag: "#elections",
       page: "Ontario_Elections/ONelections.html",
-      why: "Ontario's last two elections handed comfortable majorities on historically low turnout. This report shows how few voters that actually represents, and lets you test how much the result depends on a split opposition.",
+      why: "Ontario's last two elections produced majority governments on historically low turnout. This report shows what share of eligible voters that represents, and how much the seat count depends on how the non-PC vote was split.",
       method: "Riding-level vote counts and province-wide turnout come from Elections Ontario's public Explorer export for the Feb 27 2025 general election. A 'true majority' counts only ridings where the winner cleared 50%. The consolidation model reallocates Liberal/NDP/Green votes to whichever of them led each riding, holding turnout fixed — a deliberate simplification.",
       sources: [
         { name: "Elections Ontario — Explorer (2025 general election)", meta: "official results", url: "https://www.elections.on.ca/" },
