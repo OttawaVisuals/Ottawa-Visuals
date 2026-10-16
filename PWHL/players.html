@@ -12,7 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
 <script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=preseason-attendance-na-1"></script>
+<script src="pwhl-sections.js?v=award-icons-static-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=player-shooting-chart-1">
+<link rel="stylesheet" href="pwhl.css?v=award-icons-static-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -62,13 +62,6 @@
             </select>
           </span>
         </div>
-        <div class="table-view-controls">
-          <span>Table columns</span>
-          <span class="tabs" id="pl-view-tabs">
-            <button class="tab-btn active" data-view="core">Core</button>
-            <button class="tab-btn" data-view="all">All stats</button>
-          </span>
-        </div>
         <div class="player-shooting-chart" id="player-shooting-card">
           <div class="card-title">Shot volume vs. shooting percentage</div>
           <div class="player-shooting-chart-wrap">
@@ -91,7 +84,6 @@
 
 <script>
 let plKind = 'skaters';
-let plView = 'core';
 let playerShootingChart = null;
 const pctOf = (a, b) => b ? 100 * a / b : null;
 function renderPlayerShootingChart(rows) {
@@ -182,9 +174,7 @@ function renderPlayersTable(sid) {
       { key: 'blk', label: 'Blk', num: 1, get: r => r.blocks, fmt: n0 },
       { key: 'fo', label: 'FO%', num: 1, title: 'min. 20 faceoffs', get: r => r.fo_attempts >= 20 ? pctOf(r.fo_wins, r.fo_attempts) : null, fmt: p1 },
     ];
-    const core = new Set(['name', 'team', 'gp', 'g', 'a', 'p', 's']);
-    PWHL.sortableTable(table, plView === 'core' ? cols.filter(c => core.has(c.key)) : cols,
-      rows, { sortKey: 'p', show: 25, noun: 'skaters' });
+    PWHL.sortableTable(table, cols, rows, { sortKey: 'p', show: 25, noun: 'skaters' });
     document.getElementById('players-note').textContent = `${rows.length} skaters in the selected season.`;
   } else {
     document.getElementById('player-shooting-card').hidden = true;
@@ -201,9 +191,7 @@ function renderPlayersTable(sid) {
       { key: 'gaa', label: 'GAA', num: 1, get: r => r.toi ? r.ga * 3600 / r.toi : null, fmt: v => v == null ? '—' : v.toFixed(2) },
       { key: 'so', label: 'SO', num: 1, get: r => r.so, fmt: n0 },
     ];
-    const core = new Set(['name', 'team', 'gp', 'w', 'sv', 'gaa', 'so']);
-    PWHL.sortableTable(table, plView === 'core' ? cols.filter(c => core.has(c.key)) : cols,
-      rows, { sortKey: 'gp', show: 25, noun: 'goalies' });
+    PWHL.sortableTable(table, cols, rows, { sortKey: 'gp', show: 25, noun: 'goalies' });
     document.getElementById('players-note').textContent = `${rows.length} goalies in the selected season.`;
   }
 }
@@ -220,7 +208,6 @@ PWHL.load(['meta', 'standings', 'awards', 'goalies']).then(() => {
   document.getElementById('app').style.display = 'flex';
   PWHL.playerSearch(document.getElementById('player-search'));
   PWHL.tabs(document.getElementById('pl-tabs'), 'kind', k => { plKind = k; renderPlayersTable(currentSeasonId); });
-  PWHL.tabs(document.getElementById('pl-view-tabs'), 'view', v => { plView = v; renderPlayersTable(currentSeasonId); });
   ['pl-filter', 'pl-team', 'pl-pos'].forEach(id => document.getElementById(id)
     .addEventListener('input', () => renderPlayersTable(currentSeasonId)));
   document.getElementById('pl-team').addEventListener('change', event => {

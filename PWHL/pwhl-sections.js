@@ -186,73 +186,73 @@ const dec2 = v => v.toFixed(2);
 const signed = v => (v > 0 ? '+' : '') + (Number.isInteger(v) ? v : v.toFixed(2));
 
 const AWARDS_DEFS = [
-  { key:'goon', emoji:'🥊', title:'The Goon',
+  { key:'goon', title:'The Goon',
     blurb:'Most penalty minutes. The box is a second home.',
     val: r => r.pim, fmt: int0, unit:'PIM', rateUnit:'PIM/60' },
-  { key:'fairplay', emoji:'😇', title:'The Fair-Play Award',
+  { key:'fairplay', title:'The Fair-Play Award',
     blurb:'Highest share of games played without taking a single penalty.',
     filter: (r, th) => r.log_gp >= th.minGp, val: r => 100 * r.clean_gp / r.log_gp,
     // Plenty of players finish at 100%; the one who did it over more games ranks first.
     tie: r => r.log_gp * 1e7 + r.toi,
     fmt: (v, r) => `${dec0(v)}% · ${r.clean_gp}/${r.log_gp} GP`,
     noRate:true, sub: th => `Penalty-free games ÷ games played · min. ${th.minGp} GP` },
-  { key:'impact_high', emoji:'📈', title:'Plus/Minus Leader',
+  { key:'impact_high', title:'Plus/Minus Leader',
     blurb:'Highest plus/minus: goals for minus goals against while on the ice.',
     val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
-  { key:'impact_low', emoji:'📉', title:'Rough Nights',
+  { key:'impact_low', title:'Rough Nights',
     blurb:'Worst plus/minus. Often a good player on a bad night shift.',
     asc:true, val: r => r.plus_minus, fmt: signed, rateFmt: signed, unit:'+/−', rateUnit:'+/−/60' },
-  { key:'ironwoman', emoji:'🧱', title:'The Iron Woman',
+  { key:'ironwoman', title:'The Iron Woman',
     blurb:'Most games played — never missed a night.',
     val: r => r.gp, fmt: int0, unit:'GP', noRate:true, tie: r => r.toi },
-  { key:'workhorse', emoji:'🐴', title:'The Workhorse',
+  { key:'workhorse', title:'The Workhorse',
     blurb:'Most total ice time; in rate mode, most minutes per game.',
     val: r => r.toi / 60, fmt: v => int0(v) + ' min',
     rate: r => r.toi / Math.max(r.gp, 1), rateFmt: mmss, rateUnit:'per game' },
-  { key:'hammer', emoji:'💥', title:'The Hammer',
+  { key:'hammer', title:'The Hammer',
     blurb:'Most hits thrown. Finishes every check.',
     val: r => r.hits, fmt: int0, unit:'hits', rateUnit:'hits/60' },
-  { key:'shield', emoji:'🛡️', title:'The Human Shield',
+  { key:'shield', title:'The Human Shield',
     blurb:'Most shots blocked — the willingly-bruised.',
     val: r => r.blocks, fmt: int0, unit:'blocks', rateUnit:'blocks/60' },
-  { key:'trigger', emoji:'🔫', title:'Trigger Finger',
+  { key:'trigger', title:'Trigger Finger',
     blurb:'Most shots on goal. Shoot first, ask later.',
     val: r => r.shots, fmt: int0, unit:'shots', rateUnit:'shots/60' },
-  { key:'sniper', emoji:'🎯', title:'The Sniper',
+  { key:'sniper', title:'The Sniper',
     blurb:'Best shooting percentage among the season\'s volume shooters. Ruthless efficiency.',
     filter: (r, th) => r.shots >= th.minShots, val: r => 100 * r.goals / r.shots,
     fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
-  { key:'hardluck', emoji:'🪫', title:'Hard Luck',
+  { key:'hardluck', title:'Hard Luck',
     blurb:'Lowest shooting percentage among those same volume shooters. The pucks simply will not go in.',
     filter: (r, th) => r.shots >= th.minShots, asc:true, val: r => 100 * r.goals / r.shots,
     fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
-  { key:'value', emoji:'💸', title:'The Point Producer', rateTitle:'Bang For The Buck',
+  { key:'value', title:'The Point Producer', rateTitle:'Bang For The Buck',
     blurb:'Most points scored this season.',
     rateBlurb:'Most points per 60 minutes of ice time.',
     val: r => r.points, fmt: int0, unit:'PTS', rateFmt: dec2, rateUnit:'PTS/60' },
-  { key:'playmaker', emoji:'🎩', title:'The Playmaker',
+  { key:'playmaker', title:'The Playmaker',
     blurb:'Most assists. Would rather set it up than shoot it.',
     val: r => r.assists, fmt: int0, unit:'A', rateFmt: dec2, rateUnit:'A/60' },
-  { key:'closer', emoji:'🔒', title:'The Closer',
+  { key:'closer', title:'The Closer',
     blurb:'Most game-winning goals — shows up when it decides the night.',
     val: r => r.gwg, fmt: int0, unit:'GWG', rateFmt: dec2, rateUnit:'GWG/60' },
-  { key:'icebreaker', emoji:'🧊', title:'The Ice Breaker',
+  { key:'icebreaker', title:'The Ice Breaker',
     blurb:'Most goals that opened the scoring. Sets the tone.',
     val: r => r.first_goals, fmt: int0, unit:'1st goals', rateFmt: dec2, rateUnit:'/60' },
-  { key:'lonewolf', emoji:'🐺', title:'The Lone Wolf',
+  { key:'lonewolf', title:'The Lone Wolf',
     blurb:'Most unassisted goals — did the whole thing herself.',
     val: r => r.unassisted_goals, fmt: int0, unit:'UA goals', rateFmt: dec2, rateUnit:'/60' },
-  { key:'faceoff', emoji:'⚪', title:'The Draw Master',
+  { key:'faceoff', title:'The Draw Master',
     blurb:'Best faceoff percentage among the regular centres.',
     filter: (r, th) => r.fo_attempts >= th.minFaceoffs, val: r => 100 * r.fo_wins / r.fo_attempts,
     fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minFaceoffs} faceoffs` },
-  { key:'pk', emoji:'⚡', title:'Shorthanded Menace',
+  { key:'pk', title:'Shorthanded Menace',
     blurb:'Most goals scored while down a skater.',
     val: r => r.shg, fmt: int0, unit:'SHG', rateFmt: dec2, rateUnit:'SHG/60' },
-  { key:'vulture', emoji:'🦅', title:'The Vulture',
+  { key:'vulture', title:'The Vulture',
     blurb:'Most empty-net goals. The other goalie is on the bench and somebody always happens to be standing there.',
     val: r => r.en_goals || 0, fmt: int0, unit:'EN goals', rateFmt: dec2, rateUnit:'EN goals/60' },
-  { key:'shinpad', emoji:'🦵', title:'The Shin-Pad Shooter',
+  { key:'shinpad', title:'The Shin-Pad Shooter',
     blurb:'Highest share of shot attempts that hit a defender instead of reaching the net.',
     filter: (r, th) => r.shots + (r.blocked_att || 0) >= th.minShots * 1.5,
     val: r => 100 * (r.blocked_att || 0) / (r.shots + (r.blocked_att || 0)),
@@ -267,44 +267,10 @@ const AWARD_GROUPS = [
   { id:'situational', title:'Special situations', keys:['pk','vulture'] },
 ];
 
-// Inline the local SVGs so their colours follow the site's light, dark, and
-// colour-blind themes. A missing icon falls back to its original emoji.
-const AWARD_ICONS = new Map();
-const AWARD_ICON_COLORS = {
-  '#283447': 'var(--ink)',
-  '#9ea8b7': 'var(--ink-3)',
-  '#697a8d': 'var(--ink-2)',
-  '#c9542f': 'var(--accent)',
-  '#c93436': 'var(--red)',
-  '#22885f': 'var(--green)',
-  '#fff': 'var(--bg-2)',
-};
+// Local SVGs avoid an asynchronous icon swap after page render.
 function awardIcon(def, className = 'aw-icon') {
-  const svg = AWARD_ICONS.get(def.key);
-  return svg ? `<span class="${className}" aria-hidden="true">${svg}</span>`
-    : `<span class="aw-emoji" aria-hidden="true">${def.emoji}</span>`;
-}
-function loadAwardIcons() {
-  return Promise.all(AWARDS_DEFS.map(async def => {
-    const filename = def.key.replaceAll('_', '-');
-    try {
-      const response = await fetch(`icon-concepts/${filename}.svg`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const doc = new DOMParser().parseFromString(await response.text(), 'image/svg+xml');
-      const svg = doc.documentElement;
-      if (svg.localName !== 'svg') throw new Error('Invalid SVG');
-      svg.querySelector('title')?.remove();
-      svg.removeAttribute('role');
-      svg.removeAttribute('aria-labelledby');
-      svg.setAttribute('aria-hidden', 'true');
-      svg.setAttribute('focusable', 'false');
-      const themed = svg.outerHTML.replace(/#[0-9a-f]{3,8}\b/gi,
-        color => AWARD_ICON_COLORS[color.toLowerCase()] || color);
-      AWARD_ICONS.set(def.key, themed);
-    } catch (err) {
-      console.warn(`Award icon ${filename} unavailable:`, err);
-    }
-  }));
+  const filename = (def.icon || def.key).replaceAll('_', '-') + '.svg';
+  return `<span class="${className}" aria-hidden="true"><img src="icon-concepts/${filename}" alt=""></span>`;
 }
 
 function awardRanking(def, rows, mode, th) {
@@ -415,22 +381,22 @@ function renderTeamAwards(seasonId) {
   }
   const pct = v => `${(100 * v).toFixed(1)}%`;
   const defs = [
-    { key:'top3_points_share', title:'The Most Balanced', emoji:'⚖️', asc:true,
+    { key:'top3_points_share', icon:'balance', title:'The Most Balanced', asc:true,
       blurb:'Lowest share of team goals and assists credited to the top three scorers.',
       format:pct, detail:r => `${r.scorers} players recorded a point` },
-    { key:'top3_points_share', title:'The Top Line', emoji:'⭐', asc:false,
+    { key:'top3_points_share', icon:'topline', title:'The Top Line', asc:false,
       blurb:'Highest share of team goals and assists credited to the top three scorers; this is not a line-combination stat.',
       format:pct, detail:r => `${r.scorers} players recorded a point` },
-    { key:'pim_per_game', title:'The Fair-Play Team', emoji:'😇', asc:true,
+    { key:'pim_per_game', icon:'fairplay', title:'The Fair-Play Team', asc:true,
       blurb:'Fewest logged player penalty minutes per team game.',
       format:v => `${v.toFixed(2)} PIM/GP`, detail:r => `${fmt(r.pim)} PIM · ${fmt(r.games)} GP` },
-    { key:'pim_per_game', title:'The Penalty-Box Regulars', emoji:'🥊', asc:false,
+    { key:'pim_per_game', icon:'goon', title:'The Penalty-Box Regulars', asc:false,
       blurb:'Most logged player penalty minutes per team game.',
       format:v => `${v.toFixed(2)} PIM/GP`, detail:r => `${fmt(r.pim)} PIM · ${fmt(r.games)} GP` },
-    { key:'salary_cv', title:'The Fair-Pay Team', emoji:'🧾', asc:true, salary:true,
+    { key:'salary_cv', icon:'value', title:'The Fair-Pay Team', asc:true, salary:true,
       blurb:'Smallest salary spread relative to the team average (coefficient of variation).',
       format:v => `${(v * 100).toFixed(1)}% CV`, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
-    { key:'top3_salary_share', title:'The Top-Heavy Team', emoji:'💰', asc:false, salary:true,
+    { key:'top3_salary_share', icon:'top-heavy', title:'The Top-Heavy Team', asc:false, salary:true,
       blurb:'Largest share of listed team salaries going to the top three earners.',
       format:pct, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
   ];
@@ -447,7 +413,7 @@ function renderTeamAwards(seasonId) {
       </div>`).join('') : '<div class="aw-sub">Salary guide values are available for 2025–26 only.</div>';
     const coverage = def.salary ? 'Salary guide · 2025–26' : 'All completed games in selected season';
     return `<article class="aw-card team-aw-card">
-      <div class="aw-head"><span class="aw-emoji" aria-hidden="true">${def.emoji}</span><span class="aw-title">${def.title}</span></div>
+      <div class="aw-head">${awardIcon(def)}<span class="aw-title">${def.title}</span></div>
       <div class="aw-blurb">${def.blurb}</div>
       <div class="aw-list">${body}</div>
       <div class="aw-sub">${coverage}</div>
