@@ -16,13 +16,45 @@ let currentSeasonId = null;
 function cssVar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 function fmt(n){ return n == null || isNaN(n) ? '—' : Number(n).toLocaleString(); }
 function esc(s){ return (s == null ? '' : String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-const plLink = (id, name) => id ? `<a class="pl-link" href="${playerHref(id)}">${esc(name)}</a>` : esc(name);
+const plLink = (id, name, season = currentSeasonId) => id ? `<a class="pl-link" href="${playerHref(id, season)}">${esc(name)}</a>` : esc(name);
 const teamDot = code => `<span class="team-dot" style="background:${teamColor(code)}"></span>`;
-const teamHref = code => 'team.html?code=' + encodeURIComponent(code);
+const teamHref = (code, season = currentSeasonId) => 'team.html?code=' + encodeURIComponent(code) + (season ? '&season=' + encodeURIComponent(season) : '');
 const teamLink = (code, label) => code ? `<a class="pl-link" href="${teamHref(code)}">${esc(label || code)}</a>` : esc(label || '');
 const seasonName = sid => ((META && META.seasons.find(s => s.season_id === sid)) || {}).name || ('Season ' + sid);
 
 const PWHL = {};
+
+PWHL.updateUrl = function (values) {
+  const url = new URL(location.href);
+  Object.entries(values).forEach(([key, value]) => {
+    if (value == null || value === '') url.searchParams.delete(key);
+    else url.searchParams.set(key, value);
+  });
+  history.replaceState(null, '', url);
+};
+PWHL.rememberSeason = function (season) {
+  currentSeasonId = season;
+  try { localStorage.setItem('pwhl-season', season); } catch (e) {}
+  PWHL.updateUrl({ season });
+  document.querySelectorAll('.pwhl-nav a, #logo-strip a').forEach(link => {
+    // Travel has a fixed season and does not use the shared season picker.
+    if (link.getAttribute('href').startsWith('travel.html')) return;
+    const target = new URL(link.href); target.searchParams.set('season', season); link.href = target.href;
+  });
+};
+PWHL.normaliseSearch = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase().replace(/[’']/g, '').replace(/[-–—]/g, ' ').replace(/\s+/g, ' ').trim();
+
+PWHL.showError = function (target, message = "Couldn't load this page. Check your connection and try again.") {
+  if (!target) return;
+  target.hidden = false;
+  target.style.display = 'block';
+  target.setAttribute('role', 'alert');
+  target.innerHTML = `<span>${esc(message)}</span> <button type="button" class="tab-btn" data-pwhl-retry>Try again</button>`;
+};
+document.addEventListener('click', event => {
+  if (event.target.closest('[data-pwhl-retry]')) location.reload();
+});
 
 // Keep image placeholders local so unavailable upstream media never leaves gaps.
 PWHL.IMAGE_FALLBACK = 'assets/pwhl-logo.svg';
@@ -109,9 +141,14 @@ PWHL.fillHeader = function (activeCode) {
   teams = teams.slice().sort((a, b) => a.code.localeCompare(b.code));
   const page = location.pathname.split('/').pop();
   const filterPage = PWHL.TEAM_FILTER_PAGES.has(page);
+  const filterHref = code => {
+    const url = new URL(location.href);
+    url.searchParams.set('team', code);
+    return esc(page + url.search);
+  };
   const selected = (activeCode || new URLSearchParams(location.search).get('team') || '').toUpperCase();
   document.getElementById('logo-strip').innerHTML = teams.map(t => `
-    <a href="${filterPage ? `${page}?team=${encodeURIComponent(t.code)}` : teamHref(t.code)}" title="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" aria-label="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" class="${t.code === selected ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
+    <a href="${filterPage ? filterHref(t.code) : teamHref(t.code)}" title="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" aria-label="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" class="${t.code === selected ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
       ${PWHL.image(t.logo, '', t.code)}
     </a>`).join('');
   const d = META.last_game_date;
@@ -160,12 +197,17 @@ PWHL.load = function (names, versions = {}) {
     + (versions[n] ? '?v=' + encodeURIComponent(versions[n]) : ''))
     .then(r => { if (!r.ok) throw new Error(n + ': HTTP ' + r.status); return r.json(); })
     .then(v => _DATA_VARS[n](v))
-    .catch(err => { if (_OPTIONAL.has(n)) { _DATA_VARS[n](null); } else { throw err; } })));
+    .catch(err => { if (_OPTIONAL.has(n)) { _DATA_VARS[n](null); } else { throw err; } }))).then(() => {
+      const loading = document.getElementById('page-loading');
+      if (loading) loading.hidden = true;
+    });
 };
 PWHL.fail = function (err) {
   console.error(err);
   const e = document.getElementById('load-error');
-  if (e) e.style.display = 'block';
+  const loading = document.getElementById('page-loading');
+  if (loading) loading.hidden = true;
+  PWHL.showError(e, e && e.textContent.trim() || undefined);
 };
 
 // --------------------------------------------------------- season picker
@@ -183,10 +225,9 @@ PWHL.seasonSelect = function (selectEl, seasonIds, onChange) {
     .map(s => `<option value="${s}">${esc(seasonName(s))}</option>`).join('');
   currentSeasonId = PWHL.initialSeason(seasonIds);
   selectEl.value = currentSeasonId;
+  if (currentSeasonId) PWHL.rememberSeason(currentSeasonId);
   selectEl.addEventListener('change', () => {
-    currentSeasonId = selectEl.value;
-    try { localStorage.setItem('pwhl-season', currentSeasonId); } catch (e) {}
-    const u = new URL(location.href); u.searchParams.set('season', currentSeasonId); history.replaceState(null, '', u);
+    PWHL.rememberSeason(selectEl.value);
     onChange(currentSeasonId);
   });
   return currentSeasonId;
@@ -198,24 +239,43 @@ PWHL.statSeasons = () => META.seasons.map(s => s.season_id)
 // --------------------------------------------------------- player search
 PWHL.playerSearch = function (form) {
   const input = form.querySelector('input');
-  const list = form.querySelector('datalist');
-  let byLabel = {};
-  fetch(DATA_BASE + 'pwhl_players_index.json').then(r => r.ok ? r.json() : []).then(rows => {
-    PINDEX = rows;
-    list.innerHTML = rows.map(p => {
-      const label = `${p.name} (${p.team || '—'}${p.pos ? ', ' + p.pos : ''})`;
-      byLabel[label.toLowerCase()] = p.id;
-      byLabel[p.name.toLowerCase()] = byLabel[p.name.toLowerCase()] || p.id;
-      return `<option value="${esc(label)}"></option>`;
-    }).join('');
-  }).catch(() => { form.style.display = 'none'; });
+  input.removeAttribute('list');
+  form.querySelector('datalist')?.remove();
+  const results = document.createElement('div'), status = document.createElement('p');
+  results.className = 'player-search-results';
+  status.className = 'player-search-status';
+  status.id = `${input.id}-status`;
+  status.setAttribute('role', 'status');
+  input.setAttribute('aria-describedby', status.id);
+  form.append(status, results);
+  let rows = [], ready = false;
+  const matches = () => {
+    const q = PWHL.normaliseSearch(input.value);
+    return q ? rows.filter(p => PWHL.normaliseSearch(p.name).includes(q)) : [];
+  };
+  const renderMatches = () => {
+    if (!ready) return;
+    const found = matches();
+    status.textContent = !input.value.trim() ? '' : !found.length ? 'No matching players. Try another name.'
+      : `${found.length} matching player${found.length === 1 ? '' : 's'}.${found.length > 10 ? ' Showing the first 10; narrow your search.' : ' Choose a player below.'}`;
+    results.innerHTML = found.length ? `<ul>${found.slice(0, 10).map(p => `<li><a href="${esc(playerHref(p.id))}">${esc(p.name)} <small>${esc([p.team ? 'Latest roster: ' + p.team : '', p.pos].filter(Boolean).join(' · '))}</small></a></li>`).join('')}</ul>` : '';
+  };
+  status.textContent = 'Loading player search…';
+  fetch(DATA_BASE + 'pwhl_players_index.json').then(r => { if (!r.ok) throw new Error('Player search unavailable'); return r.json(); }).then(data => {
+    PINDEX = rows = data;
+    ready = true;
+    renderMatches();
+  }).catch(() => { status.textContent = ''; PWHL.showError(results, 'Player search could not load. Try again.'); });
+  input.addEventListener('input', renderMatches);
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const q = input.value.trim().toLowerCase();
-    const id = byLabel[q] || (Object.entries(byLabel).find(([k]) => k.includes(q)) || [])[1];
-    if (q && id) window.location.href = playerHref(id);
+    if (!ready) return;
+    const found = matches();
+    if (found.length === 1) window.location.href = playerHref(found[0].id);
+    else { renderMatches(); results.querySelector('a')?.focus(); }
   });
-  input.addEventListener('change', () => { if (byLabel[input.value.trim().toLowerCase()]) form.requestSubmit(); });
+  // Season changes affect the result links even when the query stays the same.
+  form.refreshMatches = renderMatches;
 };
 
 // --------------------------------------------------------- chart helpers
@@ -347,13 +407,18 @@ PWHL.sortableTable = function (table, columns, rows, opts = {}) {
       if (vb == null) return -1;
       return (typeof va === 'string' ? va.localeCompare(vb) : va - vb) * dir;
     });
-    table.innerHTML = `<thead><tr><th>#</th>${columns.map(c => `<th data-k="${c.key}" class="sortable${c.key === sortKey ? ' sorted' : ''}" title="${esc(c.title || '')}">${esc(c.label)}${c.key === sortKey ? (dir < 0 ? ' ▾' : ' ▴') : ''}</th>`).join('')}</tr></thead>
-      <tbody>${sorted.map((r, i) => `<tr><td class="rank-badge">${i + 1}</td>${columns.map(c => `<td${c.key === sortKey ? ' class="pts-cell"' : ''}>${c.fmt ? c.fmt(c.get(r), r) : esc(c.get(r))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    table.innerHTML = `<thead><tr><th scope="col">#</th>${columns.map(c => `<th scope="col" data-k="${c.key}" class="sortable${c.key === sortKey ? ' sorted' : ''}"${c.key === sortKey ? ` aria-sort="${dir < 0 ? 'descending' : 'ascending'}"` : ''}><button type="button" class="table-sort" title="${esc(c.title || '')}" aria-label="Sort by ${esc(c.label)}${c.title ? ': ' + esc(c.title) : ''}">${esc(c.label)}<span aria-hidden="true">${c.key === sortKey ? (dir < 0 ? ' ▾' : ' ▴') : ''}</span></button></th>`).join('')}</tr></thead>
+      <tbody>${sorted.map((r, i) => `<tr><td class="rank-badge">${i + 1}</td>${columns.map(c => `<td${c.key === sortKey ? ' class="pts-cell"' : ''}>${c.fmt ? c.fmt(c.get(r), r) : esc(c.get(r))}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${columns.length + 1}">No results for these filters.</td></tr>`}</tbody>`;
     table.querySelectorAll('th[data-k]').forEach(th => th.addEventListener('click', () => {
       const k = th.dataset.k;
       const c = columns.find(c => c.key === k);
+      const restoreFocus = th.contains(document.activeElement);
       dir = k === sortKey ? -dir : (c.num ? -1 : 1);
       sortKey = k; draw();
+      if (restoreFocus) [...table.querySelectorAll('th[data-k]')].find(el => el.dataset.k === k)?.querySelector('button').focus({preventScroll:true});
+      let status = table.parentElement.querySelector('.table-sort-status');
+      if (!status) { status = document.createElement('p'); status.className = 'table-sort-status visually-hidden'; status.setAttribute('role', 'status'); table.before(status); }
+      status.textContent = `Sorted by ${c.label}, ${dir < 0 ? 'descending' : 'ascending'}.`;
     }));
     collapseRows(table, opts.show || 25, opts.noun || 'rows');
   };

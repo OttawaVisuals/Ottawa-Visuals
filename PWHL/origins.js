@@ -55,12 +55,12 @@ Promise.all([
   tileLayer.on('tileerror',() => {
     const status = document.getElementById('origins-status');
     status.hidden = false;
-    status.textContent = 'Map tiles could not load. Check your internet connection.';
+    PWHL.showError(status, 'Map tiles could not load. Check your connection and try again.');
   });
   originsMarkers = L.layerGroup().addTo(originsMap);
   originsRender(selected);
   PWHL.onTheme(() => PWHL.fillHeader());
 }).catch(err => {
   console.error(err);
-  document.getElementById('origins-summary').textContent = 'Could not load birthplace data.';
+  PWHL.showError(document.getElementById('origins-summary'), 'Could not load birthplace data. Check your connection and try again.');
 });

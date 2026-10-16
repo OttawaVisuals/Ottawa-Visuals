@@ -330,5 +330,5 @@ Promise.all([
   PWHL.onTheme(() => travelRenderRanking());
 }).catch(error => {
   console.error(error);
-  document.getElementById('travel-loading').textContent = 'Could not load the travel estimate. Try refreshing this page.';
+  PWHL.showError(document.getElementById('travel-loading') || document.getElementById('travel-current'), 'Could not load the travel estimate. Check your connection and try again.');
 });

@@ -471,7 +471,7 @@ function renderHomeAwards() {
       <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(def.title)}</span></div>
       <div class="aw-list">
         <div class="aw-row">
-          <span class="nm">${plLink(winner.r.player_id, winner.r.name)}<span class="tm">${teamDot(winner.r.team_code)}${esc(winner.r.team_code || '')}</span></span>
+          <span class="nm">${plLink(winner.r.player_id, winner.r.name, season.season_id)}<span class="tm">${teamDot(winner.r.team_code)}${esc(winner.r.team_code || '')}</span></span>
           <span class="vl">${esc(formatter(winner.v, winner.r))}</span>
         </div>
       </div>
@@ -517,7 +517,7 @@ function renderHall() {
   wrap.innerHTML = hall.length ? hall.map(w => `
     <div class="aw-row hall-row">
       ${awardIcon(w.def, 'aw-hall-icon')}
-      <span class="nm">${plLink(w.r.player_id, w.r.name)}<span class="tm">${teamDot(w.r.team_code)}${esc(w.r.team_code || '')}</span></span>
+      <span class="nm">${plLink(w.r.player_id, w.r.name, w.seasons[w.seasons.length - 1])}<span class="tm">${teamDot(w.r.team_code)}${esc(w.r.team_code || '')}</span></span>
       <span class="vl">${esc(w.def.title)} · ${w.seasons.map(s => esc(seasonName(s).replace(' Regular Season', ''))).join(', ')}</span>
     </div>`).join('') : '<p class="note">Nobody has won the same award outright twice yet.</p>';
   document.getElementById('hall-note').textContent =

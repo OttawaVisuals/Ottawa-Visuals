@@ -50,6 +50,20 @@ When `pwhl-core.js` changes, bump its `?v=` value on every PWHL HTML page.
 GitHub Pages caches JavaScript, and an unchanged URL can keep the old navigation
 visible after a deployment.
 
+## Season links and player search
+
+Season selections are written to `?season=` as well as localStorage. Player and
+team links carry that season; the player header labels selected-season teams
+separately from the latest roster. The players directory also preserves name
+filter (`q`), team (`team`), position (`pos`), and goalie view (`kind=goalies`) in
+its URL. Search ignores accents and common apostrophe/hyphen differences and
+shows selectable matches instead of choosing the first partial match.
+
+Shared sortable tables use native buttons with `aria-sort`, retain keyboard
+focus after sorting, and announce direction changes. Page load failures offer
+a plain-language message and a retry button; technical details stay in the
+console.
+
 ## Award icons
 
 The award SVGs in `icon-concepts/` share a 96 × 64 canvas and use theme-aware

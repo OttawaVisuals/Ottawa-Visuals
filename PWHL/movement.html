@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=image-fallback-1"></script>
+<script src="pwhl-teams.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=usability-1"></script>
 <script src="pwhl-movement-network.js?v=movement-team-filter-1"></script>
 <script src="pwhl-movement-map.js?v=movement-11"></script>
 <script>
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=image-fallback-1"/>
+<link rel="stylesheet" href="pwhl.css?v=usability-1"/>
 <link rel="stylesheet" href="pwhl-movement.css?v=movement-11"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
@@ -35,7 +35,7 @@
     <h1>Player movement</h1>
     <p>Each dot is a player who played or signed for a PWHL team. Each line is one player moving between teams.</p>
   </div>
-  <div id="load-error">Couldn't load the movement data. Try refreshing the page.</div>
+  <div id="load-error">Could not load this page. Check your connection and try again.</div>
   <p id="movement-loading" role="status">Loading roster history…</p>
   <div id="app" style="display:none;flex-direction:column;gap:18px;">
     <div class="stat-row" id="movement-stats"></div>
@@ -114,7 +114,7 @@ PWHL.load(['meta', 'movement'], { movement:'movement-3' }).then(() => {
     .then(initMovementMap)
     .catch(error => {
       console.error(error);
-      document.querySelectorAll('.movement-map-figure').forEach(box => { box.textContent = 'Map geography unavailable. Try refreshing the page.'; });
+      document.querySelectorAll('.movement-map-figure').forEach(box => PWHL.showError(box, 'Could not load the map. Check your connection and try again.'));
     });
   PWHL.onTheme(() => { renderMovementPage(); fillMovementHeader(); });
 }).catch(err => {

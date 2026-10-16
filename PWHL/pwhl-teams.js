@@ -134,4 +134,7 @@ function collapseRows(table, n, noun) {
   sync();
 }
 
-function playerHref(id) { return 'player.html?id=' + encodeURIComponent(id); }
+function playerHref(id, season) {
+  const sid = season === undefined && typeof currentSeasonId !== 'undefined' ? currentSeasonId : season;
+  return 'player.html?id=' + encodeURIComponent(id) + (sid ? '&season=' + encodeURIComponent(sid) : '');
+}

@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=image-fallback-1"></script>
+<script src="pwhl-teams.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=usability-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=image-fallback-1">
+<link rel="stylesheet" href="pwhl.css?v=usability-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -31,8 +31,8 @@
 
 <div class="report">
   <a class="back" href="players.html">← All players</a>
-  <div id="load-error">Couldn't load this player. Check the link (it needs <code>?id=</code> and a
-    player id), or find the player from the Players page.</div>
+  <p id="page-loading" role="status">Loading PWHL data…</p>
+  <div id="load-error">Could not load this player. Choose a player from the Players page, or try again.</div>
 
   <div id="app" style="display:none;flex-direction:column;gap:24px;">
     <div class="p-head" id="p-head"></div>
@@ -114,6 +114,7 @@ Promise.all([
   const fromUrl = new URLSearchParams(location.search).get('season');
   let saved = null; try { saved = localStorage.getItem('pwhl-season'); } catch (e) {}
   seasonId = [fromUrl, saved].find(s => s && sids.includes(s)) || (regular.length ? regular : sids).slice(-1)[0] || null;
+  if (seasonId) PWHL.rememberSeason(seasonId);
   PWHL.fillHeader(seasonTeam(seasonId));
   document.getElementById('app').style.display = 'flex';
   render();
@@ -139,6 +140,7 @@ function sumLines(lines) {
 }
 
 function render() {
+  document.querySelector('.back').href = 'players.html?season=' + encodeURIComponent(seasonId);
   renderHead();
   renderSeason();
   renderCareer();
@@ -148,6 +150,9 @@ function render() {
 
 function renderHead() {
   const team = seasonTeam(seasonId) || P.team;
+  const seasonTeams = [...new Set(P.seasons.filter(l => l.season_id === seasonId).map(l => l.team).filter(Boolean))];
+  if (!seasonTeams.length) P.games.filter(g => g.s === seasonId && g.team).forEach(g => { if (!seasonTeams.includes(g.team)) seasonTeams.push(g.team); });
+  const teamName = code => ((META.teams_by_season || {})[seasonId] || []).find(t => t.code === code)?.name || code;
   const head = document.getElementById('p-head');
   head.style.setProperty('--tc', teamColor(team));
   const age = P.dob ? Math.floor((Date.now() - new Date(P.dob + 'T00:00:00')) / 31557600000) : null;
@@ -163,7 +168,8 @@ function renderHead() {
     <div>
       <div class="p-num">${P.number ? '#' + esc(P.number) + ' · ' : ''}${esc(posName)}</div>
       <h1 class="p-name">${esc(P.name)}</h1>
-      <a class="p-team" href="${teamHref(P.team || team)}"><span class="sw"></span>${esc(P.team_name || P.team || '')}</a>
+      <div class="p-team"><b>Selected season:</b> ${seasonTeams.length ? seasonTeams.map(code => teamLink(code, teamName(code))).join(' · ') : 'Team unavailable'}</div>
+      ${P.team ? `<div class="p-bio"><span><b>Latest roster</b><a class="pl-link" href="${teamHref(P.team, null)}">${esc(P.team_name || P.team)}</a></span></div>` : ''}
       <div class="p-bio">${bio.map(([k, v]) => `<span><b>${k}</b>${esc(v)}</span>`).join('')}</div>
     </div>
     <div class="p-controls">
@@ -173,7 +179,7 @@ function renderHead() {
     </div>`;
   document.getElementById('season-select').addEventListener('change', e => {
     seasonId = e.target.value;
-    try { localStorage.setItem('pwhl-season', seasonId); } catch (er) {}
+    PWHL.rememberSeason(seasonId);
     render(); PWHL.fillHeader(seasonTeam(seasonId));
   });
 }
@@ -361,7 +367,7 @@ function renderCareer() {
         pct1(l.goals, l.shots), l.hits, l.blocks, l.foa ? pct1(l.fow, l.foa) : '—', l.toi && l.gp ? mmss(l.toi / l.gp) : '—'])).join('')}</tbody>`;
   }
   table.querySelectorAll('tbody tr').forEach(tr => tr.addEventListener('click', () => {
-    seasonId = tr.dataset.sid; render(); PWHL.fillHeader(seasonTeam(seasonId)); window.scrollTo({ top: 0, behavior: 'smooth' });
+    seasonId = tr.dataset.sid; PWHL.rememberSeason(seasonId); render(); PWHL.fillHeader(seasonTeam(seasonId)); window.scrollTo({ top: 0, behavior: 'smooth' });
   }));
 }
 

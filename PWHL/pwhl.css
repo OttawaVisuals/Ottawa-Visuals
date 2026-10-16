@@ -117,8 +117,17 @@ a.pl-link{color:inherit;border-bottom:1px dotted var(--line-2);}
 a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .more-btn{margin-top:8px;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-2);background:var(--bg-3);border:1px solid var(--line);border-radius:6px;padding:4px 10px;}
 .more-btn:hover{color:var(--accent);border-color:var(--accent);}
-.player-search{display:flex;gap:8px;align-items:center;margin-top:6px;}
-.player-search input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);width:min(320px,100%);}
+.player-search{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px;}
+.player-search-status,.player-search-results{flex-basis:100%;font-size:12px;color:var(--ink-2);}
+.player-search-status:empty,.player-search-results:empty{display:none;}
+.player-search-results ul{list-style:none;padding:0;margin:0;display:grid;gap:4px;max-width:520px;}
+.player-search-results a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg-2);color:var(--ink);}
+.player-search-results a:hover,.player-search-results a:focus-visible{border-color:var(--accent);background:var(--accent-bg);}
+.player-search-results small{color:var(--ink-2);margin-left:5px;}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
+.table-sort{border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:4px 0;cursor:pointer;}
+.table-sort:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+.player-search input{background:var(--bg-2);border:1px solid var(--line-2);border-radius:7px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);width:min(320px,100%);flex:0 1 320px;min-width:0;}
 /* ── AWARDS ────────────────────────────────────────────────────── */
 .superlatives-page #awards > .section-head h2{font-size:26px;letter-spacing:-.02em;text-transform:none;color:var(--ink);}
 .superlatives-page .superlatives-data-note{margin-top:9px;color:var(--ink-2);font-size:12px;line-height:1.45;}
@@ -306,7 +315,7 @@ a.team-cell:hover span{color:var(--accent);}
 .p-num{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-transform:uppercase;}
 .p-name{font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;margin:2px 0 4px;}
 .p-role{display:inline-block;font-size:11.5px;font-weight:600;color:var(--tc);background:color-mix(in srgb,var(--tc) 12%,transparent);border-radius:999px;padding:2px 9px;margin:2px 0 4px;}
-.p-team{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;}
+.p-team{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap;font-weight:600;font-size:13px;}
 .p-team .sw{width:12px;height:12px;border-radius:3px;background:var(--tc);}
 .p-bio{display:flex;gap:6px 16px;flex-wrap:wrap;color:var(--ink-2);font-size:12.5px;margin-top:6px;}
 .p-bio b{font-family:var(--font-mono);font-weight:400;font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.04em;margin-right:4px;}

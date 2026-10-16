@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=image-fallback-1"></script>
-<script src="pwhl-sections.js?v=image-fallback-1"></script>
+<script src="pwhl-teams.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=usability-1"></script>
+<script src="pwhl-sections.js?v=usability-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=image-fallback-1">
+<link rel="stylesheet" href="pwhl.css?v=usability-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -37,9 +37,8 @@
     <h1>PWHL Dashboard</h1>
     <p>League-wide stats, standings, leaders, and playoff results across every recorded PWHL season.</p>
   </div>
-  <div id="load-error">Couldn't load the PWHL data files. Try refreshing, or check that
-    <code>data/json/</code> is reachable from this page (run
-    <code>python PWHL/scripts/build_dashboard_json.py</code> after the daily update).</div>
+  <p id="page-loading" role="status">Loading PWHL data…</p>
+  <div id="load-error">Could not load this page. Check your connection and try again.</div>
 
   <div id="app" style="display:none;flex-direction:column;gap:30px;">
     <div class="section">

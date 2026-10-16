@@ -524,5 +524,5 @@ Promise.all([
   PWHL.onTheme(() => PWHL.fillHeader());
 }).catch(err => {
   console.error(err);
-  recapEl('recap-loading').textContent = 'Could not load the season replay. Refresh the page or rebuild the recap data.';
+  PWHL.showError(recapEl('recap-loading'), 'Could not load the season replay. Check your connection and try again.');
 });

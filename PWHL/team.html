@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=image-fallback-1"></script>
-<script src="pwhl-sections.js?v=image-fallback-1"></script>
+<script src="pwhl-teams.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=usability-1"></script>
+<script src="pwhl-sections.js?v=usability-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=image-fallback-1">
+<link rel="stylesheet" href="pwhl.css?v=usability-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -32,8 +32,8 @@
 
 <div class="report">
   <a class="back" href="teams.html">← All teams</a>
-  <div id="load-error">Couldn't load this team. Check the link (it needs <code>?code=</code> and a
-    team code such as <code>OTT</code>), or pick a team from the logos above.</div>
+  <p id="page-loading" role="status">Loading PWHL data…</p>
+  <div id="load-error">Could not load this team. Choose a team from the Teams page, or try again.</div>
 
   <div id="app" style="display:none;flex-direction:column;gap:26px;">
     <div class="p-head" id="t-head"></div>
@@ -147,11 +147,13 @@ PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'lines', 'rosters'
     teamSeasons = META.seasons.map(s => s.season_id).filter(s => (STANDINGS[s] || []).some(t => t.code === CODE));
     document.getElementById('app').style.display = 'flex';
     if (teamSeasons.length) currentSeasonId = PWHL.initialSeason(teamSeasons);
+    if (currentSeasonId) PWHL.rememberSeason(currentSeasonId);
     render();
     PWHL.onTheme(() => { render(); PWHL.fillHeader(CODE); });
   }).catch(PWHL.fail);
 
 function render() {
+  document.querySelector('.back').href = 'teams.html' + (currentSeasonId ? '?season=' + encodeURIComponent(currentSeasonId) : '');
   renderHead();
   const hasSeason = teamSeasons.length > 0;
   document.getElementById('season-sections').style.display = hasSeason ? 'flex' : 'none';
@@ -173,8 +175,8 @@ function renderSeasonArchive() {
       .sort((a, b) => (b.points || 0) - (a.points || 0))[0];
     const record = st ? `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}` : '—';
     const goals = st ? `${fmt(st.gf)}–${fmt(st.ga)}` : '—';
-    const scorer = leader ? `${plLink(leader.player_id, leader.name)} <span class="tm">${leader.points} P</span>` : '—';
-    return `<tr><th scope="row"><a href="${teamHref(CODE)}&season=${encodeURIComponent(sid)}">${esc(seasonName(sid))}</a></th><td>#${st && st.rank || '—'}</td><td>${record}</td><td>${st ? fmt(st.pts) : '—'}</td><td>${goals}</td><td>${scorer}</td></tr>`;
+    const scorer = leader ? `${plLink(leader.player_id, leader.name, sid)} <span class="tm">${leader.points} P</span>` : '—';
+    return `<tr><th scope="row"><a href="${teamHref(CODE, sid)}">${esc(seasonName(sid))}</a></th><td>#${st && st.rank || '—'}</td><td>${record}</td><td>${st ? fmt(st.pts) : '—'}</td><td>${goals}</td><td>${scorer}</td></tr>`;
   }).join('')}</tbody>`;
 }
 
@@ -196,9 +198,7 @@ function renderHead() {
     </select></div>` : ''}`;
   const sel = document.getElementById('season-select');
   if (sel) sel.addEventListener('change', () => {
-    currentSeasonId = sel.value;
-    try { localStorage.setItem('pwhl-season', currentSeasonId); } catch (e) {}
-    const u = new URL(location.href); u.searchParams.set('season', currentSeasonId); history.replaceState(null, '', u);
+    PWHL.rememberSeason(sel.value);
     render();
   });
 }
