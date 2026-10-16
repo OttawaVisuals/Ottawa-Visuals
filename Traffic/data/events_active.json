@@ -1886,29 +1886,6 @@
 },
 "fp": "88f7a938e6fd"
 },
-"29257": {
-"event": {
-"cause": "construction",
-"created": "2026-10-05 12:46:00",
-"cross_street_1": "Laurier",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29257",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Queen Elizabeth dr ramp eastbound closed at Laurier due to construction, from October 5th to 16th. Follow the signed detour. ",
-"lanes": "closed",
-"lat": 45.422031,
-"lon": -75.6904,
-"planned_end": "2026-10-16T15:00",
-"planned_start": "2026-10-05T07:00",
-"priority": "MEDIUM",
-"road": "bretellle prom Queen Elizabeth dr ramp",
-"source": "city",
-"updated": "2026-10-05 12:48:00"
-},
-"fp": "9d3fb8f1fa46"
-},
 "29307": {
 "event": {
 "cause": "construction",
@@ -2783,29 +2760,6 @@
 },
 "fp": "aca181cc3c7c"
 },
-"29466": {
-"event": {
-"cause": "construction",
-"created": "2026-10-14 13:03:00",
-"cross_street_1": "174 W/B On ramp",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29466",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "trim southbound closed at 174 W/B On ramp due to construction, Friday October 16th between 9:30am and 3:00pm.",
-"lanes": "closed",
-"lat": 45.496798,
-"lon": -75.479703,
-"planned_end": "2026-10-16T15:00",
-"planned_start": "2026-10-14T00:00",
-"priority": "HIGH",
-"road": "trim",
-"source": "city",
-"updated": "2026-10-14 13:04:00"
-},
-"fp": "bb48ae926c73"
-},
 "29467": {
 "event": {
 "cause": "construction",
@@ -2851,29 +2805,6 @@
 "updated": "2026-10-16 02:56:00"
 },
 "fp": "243a5fa364fc"
-},
-"29478": {
-"event": {
-"cause": "construction",
-"created": "2026-10-14 17:33:00",
-"cross_street_1": "Trim S/B",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29478",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "174 westbound On-ramp closed at Trim southbound due to construction. From 9:30am to 3:00pm, October 16th.",
-"lanes": "closed",
-"lat": 45.497529,
-"lon": -75.480509,
-"planned_end": "2026-10-16T15:00",
-"planned_start": "2026-10-16T09:30",
-"priority": "HIGH",
-"road": "174 W/B On-ramp/Bretelle d'acc\u00e8s",
-"source": "city",
-"updated": "2026-10-16 09:28:00"
-},
-"fp": "f4e949690494"
 },
 "29518": {
 "event": {
@@ -3127,6 +3058,75 @@
 "updated": "2026-10-16 13:32:00"
 },
 "fp": "585e832fe256"
+},
+"29533": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-16 14:53:00",
+"cross_street_1": "Carling",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29533",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Grandview northbound reduced to 1 lane at Carling due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.354741,
+"lon": -75.849935,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Grandview",
+"source": "city",
+"updated": "2026-10-16 14:53:00"
+},
+"fp": "afd3a19b4a20"
+},
+"29534": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-16 14:53:00",
+"cross_street_1": "Grandview",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29534",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Carling westbound reduced to 1 lane at Grandview due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.354458,
+"lon": -75.849639,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Carling",
+"source": "city",
+"updated": "2026-10-16 14:53:00"
+},
+"fp": "1afcebfd5db7"
+},
+"29538": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-16 15:34:00",
+"cross_street_1": "Hazeldean",
+"cross_street_2": "Abbeyhill",
+"direction": null,
+"event_id": "29538",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Eagleson southbound reduced to 1 lane between Hazeldean and Abbeyhill due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.302433,
+"lon": -75.875802,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Eagleson",
+"source": "city",
+"updated": "2026-10-16 15:34:00"
+},
+"fp": "aafc88d23bdd"
 }
 }
 }
