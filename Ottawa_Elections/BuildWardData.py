@@ -197,6 +197,26 @@ def mayor_race(ward_2022, year):
         'top_is_mayor': top_name == MAYOR_ELECTED[year],
     }
 
+# ── 4c. Councillor winners ─────────────────────────────────────────────────────
+def councillor_race(ward_2022, year):
+    """
+    Who won the councillor race, with their share of votes cast.
+    Single-source wards: {'name', 'share'} (None if the source has no winner,
+    e.g. 2010 wards 7 and 15). A ward that didn't exist yet (Ward 24 before
+    2022) instead lists the councillors of the old wards it was carved from.
+    """
+    sources = mapping[ward_2022]['sources'][year]
+
+    def one(src_ward):
+        r = data.get((src_ward, year))
+        if r is None or not r['council_win_name'] or not r['c_votes']:
+            return None
+        return {'name': r['council_win_name'], 'share': r['c_win_pct']}
+
+    if len(sources) == 1:
+        return one(sources[0][0])
+    return {'from': [dict(ward=w, **(one(w) or {'name': None, 'share': None})) for w, _ in sources]}
+
 # ── 5. Build output JSON ───────────────────────────────────────────────────────
 result = {}
 
@@ -248,6 +268,7 @@ for ward_2022 in range(1, 25):
             'mayor':       hist_mayor,
             'councillor':  hist_coun,
             'mayor_race':  [mayor_race(ward_2022, y) for y in YEARS],
+            'councillor_race': [councillor_race(ward_2022, y) for y in YEARS],
         },
     }
 
