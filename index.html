@@ -1098,6 +1098,29 @@
     },
 
     {
+      id: "octranspo",
+      topic: "Transit",
+      title: "OC Transpo: fewer riders, flatter peaks, buses still short of target",
+      lede: "OC Transpo ridership, reliability and when people ride, 2019–2026, using every figure OC Transpo has reported to Transit Committee, with gaps left empty where nothing was published.",
+      date: "Updated Oct 2026",
+      readTime: "~ 4 min read",
+      tag: "#transit",
+      page: "OC_Transpo/octranspo_kpis.html",
+      why: "OC Transpo publishes no long-run history of its own performance. The numbers exist, but they're scattered across committee reports and slide decks.",
+      method: "Figures pulled from 11 Transit Committee reports and decks (2019–2026) by a script with one explicit spec per document. Each value keeps its source report and page, revisions between reports are logged, and hours-based and trip-based reliability measures are never spliced together.",
+      sources: [
+        { name: "City of Ottawa Transit Commission / Transit Committee records", meta: "eScribe, 2019–2026", url: "https://pub-ottawa.escribemeetings.com" },
+        { name: "Method + data — OC_Transpo/README.md", meta: "GitHub", url: "OC_Transpo/README.md#kpi-history-extracted-from-the-pdfs" },
+      ],
+      takeaways: [
+        ["72%", "of 2019 ridership in 2025 (70.6M vs about 97.5M trips)"],
+        ["26% → 23%", "share of weekday trips in the 6–9 a.m. peak, winter 2020 vs 2026; midday 29% → 34%"],
+        ["28.6%", "of buses unavailable for service in 2025, against a 17.5% target"],
+      ],
+      thumb: "line",
+    },
+
+    {
       id: "traffic",
       topic: "Traffic & roads",
       title: "How Ottawa really moves",

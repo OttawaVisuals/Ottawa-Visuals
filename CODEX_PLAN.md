@@ -38,7 +38,7 @@ TODAY (override): none
 ## Week 2 (Oct 22–28): new pages from data in hand
 - [ ] Day 1: **RESET 2** — GovContracts stacked-bar page + category filter (strongest model)
 - [ ] Day 2: review/fix GovContracts page
-- [ ] Day 3: OC Transpo KPI extraction from PDFs into a time series (strongest model)
+- [x] Day 3: OC Transpo KPI extraction from PDFs into a time series (strongest model) (done Oct 16 in Claude Code, plus the page `OC_Transpo/octranspo_kpis.html`)
 - [ ] Day 4: review the extracted series
 - [ ] Day 5: Geothermal "Ottawa Case Study" page (Energy repo)
 - [ ] Day 6–7: buffer / catch-up

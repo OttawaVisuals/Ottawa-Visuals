@@ -23,7 +23,7 @@ any bookmarked or shared links.
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |
 | [`Energy/`](Energy/README.md) | Geothermal feasibility (companion to the separate Energy repo) |
 | [`Traffic/`](Traffic/README.md) | TomTom commute-time, parking and road-event collectors (feed RTO Watch), plus weekly City/Police road datasets behind [`roads.html`](Traffic/roads.html) and the road-safety page |
-| [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector, feeds RTO Watch |
+| [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector (feeds RTO Watch), plus KPI history 2019–2026 extracted from Transit Committee reports ([`octranspo_kpis.html`](OC_Transpo/octranspo_kpis.html)) |
 | [`RTO4/`](RTO4/README.md) | External datasets behind RTO Watch (311, IESO, volumes, GHG) |
 | [`CityHall_Index/`](CityHall_Index/README.md) | eScribe committee/council meeting indexer |
 | [`Tax/`](Tax/README.md) | Taxing the top: top income-tax rate since 1920 vs top-1% share, who grew in high- vs low-tax eras, donations by neighbourhood income ([`tax.html`](Tax/tax.html)) |

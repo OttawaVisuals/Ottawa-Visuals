@@ -215,6 +215,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#tax">🧾 Tax</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
       <a href="#ontario-costs">💸 Ontario Costs</a>
+      <a href="#octranspo">🚌 OC Transpo KPIs</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
       <a href="#todo">🗺️ What's left</a>
@@ -269,9 +270,9 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   </div>
 
   <div class="tiles">
-    <div class="tile"><div class="n">10</div><div class="l">✅ tools live</div></div>
+    <div class="tile"><div class="n">11</div><div class="l">✅ tools live</div></div>
     <div class="tile"><div class="n">4</div><div class="l">🔨 in progress</div></div>
-    <div class="tile"><div class="n">8</div><div class="l">🆕 planned / scoped</div></div>
+    <div class="tile"><div class="n">7</div><div class="l">🆕 planned / scoped</div></div>
     <div class="tile"><div class="n" id="assump-count">—</div><div class="l">⚠️ assumptions to verify</div></div>
     <div class="tile"><div class="n" id="assump-done">0</div><div class="l">✓ verified by you</div></div>
   </div>
@@ -286,6 +287,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛢️ Oil &amp; Gas</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">60%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">💸 Ontario Costs</span><div class="track"><div class="fill f-done" style="width:70%"></div></div><span class="pct">70%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 OC Transpo KPIs</span><div class="track"><div class="fill f-done" style="width:65%"></div></div><span class="pct">65%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85% · multi-page</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
@@ -489,7 +491,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <li><input type="checkbox" data-key="rto-unavailable"><div class="a-body">
         <span class="tag choice">judgment call</span><b>When a KPI can't be computed, the visual must show "unavailable," never 0%.</b>
         <p>A missing collector run, a gap in the raw-archive window, or a route with no matched delay observations is not the same as zero cancellations or perfect on-time performance — silently rendering it as 0% would make real outages and coverage gaps invisible. Decided ahead of building the RTO visual so it's built in from the start rather than patched in later.</p>
-        <div class="where">Design note for the not-yet-built OC Transpo ridership + service KPIs visual (see PROJECTS.md).</div>
+        <div class="where">Applied in OC_Transpo/octranspo_kpis.html (built 2026-10-16): unpublished years show "n/a" and missing months are left as gaps. Still applies to the RTO Watch transit section.</div>
       </div></li>
     </ul>
   </div>
@@ -1012,6 +1014,55 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   </div>
 </section>
 
+<!-- ══════════════════ OC TRANSPO KPIs ══════════════════ -->
+<section id="octranspo" class="card">
+  <div class="proj-head">
+    <h2>🚌 OC Transpo KPIs</h2>
+    <span class="chip done">✅ Live</span>
+    <a class="live-link" href="OC_Transpo/octranspo_kpis.html" target="_blank">open the page ↗</a>
+  </div>
+  <p><b>In one sentence:</b> OC Transpo ridership, reliability against its own targets, and when people ride,
+  2019–2026, from every figure OC Transpo reported to Transit Committee.</p>
+
+  <h3>Where the data comes from</h3>
+  <div class="srcs">
+    <div class="src">OC Transpo performance reports, 2020 – 2021<small>monthly tables: service availability, excess wait, punctuality, Line 1 service not delivered</small></div>
+    <div class="src">OC Transpo update deck, Sept 2023<small>monthly chart labels: ridership, Para trips, fare revenue, trips delivered</small></div>
+    <div class="src">5-Year Roadmap scorecards, 2024 – 2026 editions<small>annual 2023–2025 KPIs and targets</small></div>
+    <div class="src">Inquiry answers (TTC 06-19, OCC-2026-08) + 2025 bus reliability report<small>one-off figures, incl. weekday time-of-day shares</small></div>
+  </div>
+
+  <h3>How it was built</h3>
+  <div class="pipe">
+    <div class="step"><b>1 · Harvest</b><span>oc_transpo_kpi_scraper.py → OC_Transpo/data/ (109 PDFs + text/table extracts, gitignored)</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>2 · Extract</b><span>scripts/extract_kpis.py, one spec per document → kpi_history/*.csv + extract_log.txt</span></div>
+    <div class="arr">→</div>
+    <div class="step"><b>3 · One web page</b><span>octranspo_kpis.html reads kpi_series.csv</span></div>
+  </div>
+
+  <div class="assump-box">
+    <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
+    <ul class="assump">
+      <li><input type="checkbox" data-key="octranspo-latest-wins"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>When reports disagree, the later report wins (unless the older one is the same figure, more precisely).</b>
+        <p>6 points conflict, e.g. 2024 bus operator availability is 85% in both scorecards but 88% in the Sept 2025 reliability report. All are listed in extract_log.txt.</p>
+        <div class="where">OC_Transpo/scripts/extract_kpis.py pick(); OC_Transpo/kpi_history/extract_log.txt.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="octranspo-sums"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>2019 and 2022 yearly ridership are sums of monthly chart labels rounded to 0.1M.</b>
+        <p>No annual total was published for those years in these reports; the page marks them as derived (grey bars).</p>
+        <div class="where">OC_Transpo/octranspo_kpis.html annualRiders().</div>
+      </div></li>
+      <li><input type="checkbox" data-key="octranspo-images"><div class="a-body">
+        <span class="tag data">source limit</span><b>After 2021 the monthly charts are images, so most 2022+ monthly values can't be read.</b>
+        <p>Monthly data exists for 2020–21 and Aug 2022–Aug 2023 only; everything else is annual.</p>
+        <div class="where">OC_Transpo/README.md, "KPI history" coverage table.</div>
+      </div></li>
+    </ul>
+  </div>
+</section>
+
 <!-- ══════════════════ ROAD SAFETY / VEHICLES ══════════════════ -->
 <section id="road-safety" class="card">
   <div class="proj-head">
@@ -1216,7 +1267,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <p class="small muted">From <a href="PROJECTS.md">PROJECTS.md</a>'s planned/scoped and backlog lists.</p>
   <table class="remain">
     <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
-    <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b></td><td>The scraper in <code>OC_Transpo/</code> already harvests the PDFs; the visual itself hasn't been designed yet.</td><td>1–2 sessions</td></tr>
+    <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b> ✅</td><td>Done 2026-10-16: <a href="OC_Transpo/octranspo_kpis.html">octranspo_kpis.html</a>, built from <code>OC_Transpo/kpi_history/</code> (numbers extracted from the harvested PDFs). See the <a href="#octranspo">OC Transpo KPIs</a> section.</td><td>done</td></tr>
     <tr><td>2</td><td><b>Ottawa City Finances / Budget Dashboard</b></td><td>Municipal spending; ties into the property-tax / quality-of-life narrative. eScribe index (<code>CityHall_Index/</code>) is a candidate input.</td><td>2–3 sessions</td></tr>
     <tr><td>3</td><td><b>Ontario Court Cases visual</b></td><td>Extraction/structuring is ~30% done; the visual on top hasn't started.</td><td>2 sessions</td></tr>
     <tr><td>4</td><td><b>Ottawa Real Estate Dashboard</b></td><td>Weekly-refreshed real-estate trends — prototyped in chat, not yet built.</td><td>2 sessions</td></tr>
