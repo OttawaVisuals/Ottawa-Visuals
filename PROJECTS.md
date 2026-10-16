@@ -20,8 +20,8 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 | TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-10-16 17:56 UTC | ✅ resumed on Cloudflare → `collect.yml`. Gap 2026-10-12 10:05 → 10-16 17:56 UTC is permanent |
 | OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-10-16 18:01 UTC | ✅ resumed (first sample: 632 trips tracked, 69 cancelled). Gap 2026-10-12 09:35 → 10-16 18:00 UTC is permanent |
 | OC Transpo KPI snapshots | weekly (Mon) | files from 2026-07-11 | ✅ nothing lost: the current Open Ottawa files are byte-identical to Jul 11 (checked 2026-10-16). Job moved off the Pi to `.github/workflows/kpi_snapshots.yml` |
-| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified | 🔴 Pi-only. `collect.yml` doesn't archive raw JSON (no `OCTRANSPO_RAW_DIR` on Actions), so offline on-time computation loses its input after 2026-10-12 |
-| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified | 🔴 Pi-only cron, not moved to Actions |
+| Bus on-time (replaces the Pi's raw GTFS-RT archive) | every transit sample | 2026-10-16 19:11 UTC | ✅ computed live in `collect.yml` since 2026-10-16: predicted departure at each bus's next timepoint vs the timetable. Raw archive retired. Calibration vs OC Transpo's KPI pending (see below) |
+| Static timetable (replaces the Pi's weekly GTFS download) | when OC Transpo publishes | index built 2026-10-16 (feed S1000523) | ✅ `build_schedule_index.py` runs in `collect.yml` whenever the zip's ETag changes; kept in the Actions cache, not archived |
 | Disk (`/dev/mmcblk0p2`) | — | 76% used, 3.3 GB free (2026-09-03) | ❓ stale; only matters if the Pi comes back |
 
 **Incident 2026-10-12 → (open), checked 2026-10-16 after `git pull`:**
@@ -42,8 +42,16 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
    `npx wrangler login`, `npx wrangler deploy`, `npx wrangler secret put GITHUB_TOKEN`
    in `cloudflare-worker/` → test with Actions → *Collect Ottawa Data* → Run workflow.
    Readings from 2026-10-12 onward can't be backfilled; the gap is permanent.
-5. Still Pi-only with no Actions replacement: the raw GTFS-RT archive and the weekly
-   static GTFS download. Decide whether to keep the Pi for those or move them.
+5. ~~Still Pi-only: the raw GTFS-RT archive and the weekly static GTFS download.~~
+   Replaced 2026-10-16 (the Pi stopped on its own, so it's retired): `collect.yml`
+   computes bus on-time live against a cached timetable index and commits only the
+   summaries; `transit_daily.json` keeps daily on-time figures permanently.
+   **Calibration open:** first samples read below OC Transpo's KPI. Every-stop
+   measurement gave 58–64% on time for less-frequent routes (18:31–19:01 UTC) vs
+   their ~70–74%; switching to timepoint departures (their method) gave 60.1% vs
+   55.6% every-stop in the same 15:11 PM-peak sample. Their PM peak historically runs
+   ~6 pts below all-day, so compare a full weekday's `punctuality_pct` before
+   concluding there's a systematic gap.
 6. **Resolved 2026-10-16:** the owner created the PAT, added `OCTRANSPO_API_KEY` and
    deployed the Worker. The first dispatched run (17:55 UTC) succeeded and pushed
    `traffic: readings 2026-10-16 17:56 UTC`; transit was self-gated off-peak on that run,

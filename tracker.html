@@ -247,8 +247,10 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         needs the account owner (PAT, secret, <code>wrangler deploy</code>); readings since Oct 12 can't be backfilled.</li>
       <li>✅ <b>OC Transpo KPI snapshots</b> — nothing lost: the Open Ottawa files are byte-identical to the
         Jul 11 snapshots (checked Oct 16). The weekly job moved off the Pi to <code>kpi_snapshots.yml</code>.</li>
-      <li>⚠️ <b>Still Pi-only:</b> the raw GTFS-RT archive (needed for offline on-time) and the weekly static GTFS
-        download have no Actions replacement yet. See <a href="PROJECTS.md">PROJECTS.md</a>.</li>
+      <li>✅ <b>Bus on-time, computed live</b> — since 2026-10-16 <code>collect.yml</code> compares each running bus's
+        predicted timepoint departure with the timetable (cached index, rebuilt when OC Transpo publishes a new one), so the
+        Pi's raw archive and weekly timetable download are no longer needed. ⚠️ First samples read ~60% on time for
+        less-frequent routes vs OC Transpo's ~70–74%; a full weekday is needed before calling it a real gap.</li>
     </ul>
     <p class="small" style="margin:.6rem 0 .2rem"><b>Previous incident (2026-08-03 → 09-03, resolved; checked 2026-09-03):</b></p>
     <ul style="margin:.2rem 0 0 1.1rem;padding:0">
