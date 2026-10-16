@@ -847,14 +847,21 @@
  {
   "date": "2026-10-16",
   "weekday": 4,
-  "n": 1,
+  "n": 5,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 470.0,
-  "buses_max": 470,
-  "speed_mean_kmh": 15.5,
-  "cancelled_mean": 69.0,
-  "cancelled_max": 69,
-  "cancelled_pct_mean": 10.92
+  "buses_mean": 511.0,
+  "buses_max": 556,
+  "speed_mean_kmh": 15.1,
+  "cancelled_mean": 68.8,
+  "cancelled_max": 71,
+  "cancelled_pct_mean": 9.59,
+  "delays_observed": 1019,
+  "bus_ontime_pct": 63.9,
+  "bus_early_pct": 18.9,
+  "bus_late_pct": 17.2,
+  "punctuality_pct": 61.2,
+  "punctuality_pct_am_peak": null,
+  "punctuality_pct_pm_peak": null
  }
 ]
