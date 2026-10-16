@@ -1061,7 +1061,7 @@
 <!-- =================================================================
      DATA + LOGIC
      =================================================================
-     Edit REPORTS to add/remove reports. Each report has:
+     Edit ALL_REPORTS to add/remove reports. Each report has:
        id        — short slug; old #report-<id> links redirect to the page
        topic     — short topic label shown on the tile
        title     — main headline
@@ -1076,11 +1076,14 @@
        takeaways — array of [ "BIG VALUE", "explanation" ]; the first one
                    is shown on the tile (optional)
        thumb     — visual style for the card thumbnail: "bars" | "line" | "donut"
+       hidden    — true keeps the report off the home page until it has had a
+                   full review (its page still exists; old #report- links work)
      ================================================================= -->
 <script>
-  const REPORTS = [
+  const ALL_REPORTS = [
     {
       id: "rto",
+      hidden: true,
       topic: "Return to office",
       title: "Ottawa RTO Watch",
       lede: "What the federal four-day return-to-office mandate did to Ottawa: commute times, OC Transpo service, downtown parking, 311 complaints and electricity load, logged continuously.",
@@ -1099,6 +1102,7 @@
 
     {
       id: "octranspo",
+      hidden: true,
       topic: "Transit",
       title: "OC Transpo: fewer riders, flatter peaks, buses still short of target",
       lede: "OC Transpo ridership, reliability and when people ride, 2019–2026, using every figure OC Transpo has reported to Transit Committee, with gaps left empty where nothing was published.",
@@ -1239,6 +1243,7 @@
 
     {
       id: "tax",
+      hidden: true,
       topic: "Tax & inequality",
       title: "Taxing the top: what a century of Canadian data shows",
       lede: "Canada's top income-tax rate since 1920 against the top 1%'s share of income, who got richer in the high-tax and low-tax eras, and which neighbourhoods fund federal politics.",
@@ -1265,6 +1270,7 @@
 
     {
       id: "oilgas",
+      hidden: true,
       topic: "Energy & industry",
       title: "Oil & gas: record profits, fewer jobs",
       lede: "What Canada's oil and gas producers earned since 2002, what they paid out in dividends and corporate income tax, and how many people they employ, in inflation-adjusted dollars.",
@@ -1290,6 +1296,7 @@
 
     {
       id: "ontario-costs",
+      hidden: true,
       topic: "Ontario government",
       title: "Ontario's costly decisions, by the watchdogs' numbers",
       lede: "Twelve Ontario decisions the Auditor General or the Financial Accountability Office priced or criticized, from eHealth and the gas plants to Ontario Place, the early Beer Store deal and record ad spending, each with what the number actually measures.",
@@ -1404,9 +1411,11 @@
     if (typeof applyTheme === "function") applyTheme(next);
   });
 
+  const REPORTS = ALL_REPORTS.filter(r => !r.hidden);
+
   // ——— RENDER ——————————————————————————————————————————————————————
   // Old shared links (#report-<id>) go straight to that report's page.
-  const deep = REPORTS.find(r => "#report-" + r.id === location.hash);
+  const deep = ALL_REPORTS.find(r => "#report-" + r.id === location.hash);
   if (deep) location.replace(deep.page);
 
   const cards = document.getElementById("cards");
