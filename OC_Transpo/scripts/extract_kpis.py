@@ -24,7 +24,14 @@ explicit per-document specs rather than guessing:
   * narrative   -- single figures quoted in report prose (regex must match)
 Charts drawn as images (most monthly charts after 2021) can't be recovered.
 
-Stdlib only. Run from anywhere:  python OC_Transpo/scripts/extract_kpis.py
+Recent months come from the Open Ottawa KPI spreadsheets that snapshot_kpis.py
+archives in rt_data/kpi_snapshots/ (rolling ~13-month windows, committed). Each
+dated snapshot counts as its own source, so overlapping snapshots that revise a
+month show up in the log like any other revision. Their measures were checked
+against the scorecards: 2025 monthly averages reproduce the annual figures.
+
+Stdlib only, plus openpyxl for the snapshots (skipped with a log line if it's
+missing). Run from anywhere:  python OC_Transpo/scripts/extract_kpis.py
 """
 import csv
 import io
@@ -35,6 +42,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
+SNAPSHOTS = ROOT / "rt_data" / "kpi_snapshots"
 OUT = ROOT / "kpi_history"
 
 MONTHS = {m: i for i, m in enumerate(
@@ -44,7 +52,7 @@ MONTHS.update({k[:3]: v for k, v in list(MONTHS.items())})
 
 FIELDS = ["metric", "mode", "breakdown", "period", "period_type", "value", "unit",
           "meeting_date", "source_file", "page", "method", "note"]
-METHOD_RANK = {"monthly": 0, "scorecard": 0, "chart_rows": 1, "sequence": 1, "narrative": 2}
+METHOD_RANK = {"monthly": 0, "scorecard": 0, "snapshot": 0, "chart_rows": 1, "sequence": 1, "narrative": 2}
 
 
 # --------------------------------------------------------------------------- docs
@@ -332,6 +340,65 @@ def narrative(doc, spec, log):
     return []
 
 
+# Open Ottawa "service & ridership KPIs" workbook: sheet -> [(column, metric, mode, unit, scale)].
+# Ridership is published in millions and Para ridership in thousands.
+SNAPSHOT_SHEETS = {
+    "01_otp_conventional": [("regularity", "regularity_frequent_routes", "bus", "%", 1),
+                            ("punctuality", "punctuality_less_frequent_routes", "bus", "%", 1)],
+    "02_otp_para_transpo": [("overall", "para_on_time", "para", "%", 1)],
+    "03_ridership": [("ridership", "ridership", "system", "linked trips", 1e6)],
+    "04_ridership_paratranspo": [("paratranspo-ridership", "para_trips", "para", "trips", 1e3)],
+    "05_otrain_service_delivery": [("o-train-line-1", "trips_delivered", "line1", "%", 1),
+                                   ("o-train-line-2-4", "trips_delivered", "line2_4", "%", 1)],
+    "06_bus_service_delivery": [("bus_service_delivery", "trips_delivered", "bus", "%", 1)],
+}
+
+
+def snapshots(log):
+    """Monthly rows from every dated service_ridership_kpis_*.xlsx snapshot."""
+    files = sorted(SNAPSHOTS.glob("service_ridership_kpis_*.xlsx"))
+    if not files:
+        log.append("[MISSING] no service_ridership_kpis snapshots in rt_data/kpi_snapshots/")
+        return []
+    try:
+        import openpyxl
+    except ImportError:
+        log.append("[skip] KPI snapshots: openpyxl not installed (pip install openpyxl)")
+        return []
+    out = []
+    for f in files:
+        snap_date = re.search(r"(\d{4}-\d{2}-\d{2})", f.name).group(1)
+        doc = type("Snap", (), {"meeting_date": snap_date, "key": f"rt_data/kpi_snapshots/{f.stem}"})
+        wb = openpyxl.load_workbook(f, read_only=True, data_only=True)
+        found, sub = 0, []
+        for sheet, cols in SNAPSHOT_SHEETS.items():
+            if sheet not in wb.sheetnames:
+                sub.append(f"  NO MATCH: sheet {sheet}")
+                continue
+            rows = list(wb[sheet].iter_rows(values_only=True))
+            head = [str(h).strip() if h is not None else "" for h in rows[0]]
+            for col, metric, mode, unit, scale in cols:
+                if col not in head:
+                    sub.append(f"  NO MATCH: {sheet} column '{col}'")
+                    continue
+                j = head.index(col)
+                for r in rows[1:]:
+                    m = re.fullmatch(r"([A-Za-z]{3}) (\d{2})", str(r[0] or "").strip())
+                    if not m or m.group(1).lower() not in MONTHS or r[j] in (None, "", "-"):
+                        continue
+                    v, note, prec = parse_value(str(r[j]))
+                    if v is None:
+                        continue
+                    period = f"20{m.group(2)}-{MONTHS[m.group(1).lower()]:02d}"
+                    out.append(rec(doc, sheet, "snapshot", metric, mode, "", period, "month",
+                                   int(round(v * scale)) if scale != 1 else v, unit, note, prec * scale))
+                    found += 1
+        wb.close()
+        log.append(f"[{found:4d}] {doc.key}.xlsx (Open Ottawa snapshot)")
+        log.extend(sub)
+    return out
+
+
 EXTRACTORS = {"scorecard": scorecard, "monthly": monthly, "chart_rows": chart_rows,
               "sequence": sequence, "narrative": narrative}
 
@@ -572,6 +639,7 @@ def main():
         log.extend(sub)
         obs += found
     log.append(f"[skip] {french} French-language duplicates")
+    obs += snapshots(log)
 
     for (metric, mode, bd, period), new_period in POST_COPIES:
         for o in [o for o in obs if (o["metric"], o["mode"], o["breakdown"], o["period"]) == (metric, mode, bd, period)

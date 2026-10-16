@@ -201,9 +201,10 @@ or use `--all` to grab everything and filter later.
 
 # KPI history extracted from the PDFs
 
-`scripts/extract_kpis.py` (stdlib only) reads the `.txt` / `.tables.csv`
-extracts in `data/` (local only — run the scraper with `--extract` first) and
-writes the committed history to `kpi_history/`:
+`scripts/extract_kpis.py` reads the `.txt` / `.tables.csv` extracts in
+`data/` (local only — run the scraper with `--extract` first) plus the committed
+Open Ottawa KPI snapshots in `rt_data/kpi_snapshots/` (needs `openpyxl`; skipped
+with a log line without it), and writes the committed history to `kpi_history/`:
 
 | File | What |
 |------|------|
@@ -237,32 +238,42 @@ compliance audits, marketing — each listed with a reason in the log):**
 - 5-Year Roadmap scorecards (2024, 2025, 2026 editions) — annual 2023–2025
 - One-off figures: TTC 06-19 (Oct 2018/2019 ridership), the 2025 bus
   reliability report, the Mar 2025 deck, OCC-2026-08 (time-of-day shares)
+- Open Ottawa "service & ridership KPIs" spreadsheet snapshots
+  (`service_ridership_kpis_*.xlsx`) — monthly, Apr 2025 onward. Each dated
+  snapshot is its own source, so a later snapshot that revises a month is
+  logged like any other revision. Checked before use: averaging their 2025
+  months reproduces the scorecard's 2025 figures (bus delivery 97.4 vs 97,
+  Line 1 99.1 vs 99.1, regularity 82 vs 82, Para on-time 94 vs 94).
 
-**Coverage (as of the 2026-05 harvest):**
+**Coverage (2026-05 harvest + 2026-07-11 snapshot):**
 
 | Series | Monthly | Annual |
 |--------|---------|--------|
-| Ridership, linked trips (`ridership/system`) | 2019, Jan 2022–Jul 2023 (chart labels, ±0.05 M), Oct 2018 | 2023–2025 |
-| Para Transpo trips | 2019, Jan 2022–Jul 2023 (±50) | — |
+| Ridership, linked trips (`ridership/system`) | 2019, Jan 2022–Jul 2023, Apr 2025–Apr 2026 (all ±0.05 M), Oct 2018 | 2023–2025 |
+| Para Transpo trips | 2019, Jan 2022–Jul 2023 (±50), Apr 2025–Apr 2026 | — |
 | Fare revenue | Jan 2022–Jul 2023 | — |
 | Service availability (% of scheduled *hours*), bus / Line 1 / all | Jan 2020–Jun 2021 (Line 2 Jan–Apr 2020) | 2019–2021 |
-| Trips delivered (% of scheduled *trips*), bus / Line 1 | Aug 2022–Aug 2023 | 2023–2025 (Lines 2/4: 2025) |
+| Trips delivered (% of scheduled *trips*), bus / Line 1 / Lines 2–4 | Aug 2022–Aug 2023 (bus, Line 1), Apr 2025–Apr 2026 (all three) | 2023–2025 (Lines 2/4: 2025) |
 | Service not delivered, Line 1 | Jan 2020–Dec 2021 | — |
 | Service not delivered, bus | Jan 2020–Jun 2021 | — |
 | Excess wait time, frequent bus + Line 1 | Jan 2020–Dec 2021 | 2020, 2021 |
-| Punctuality, less-frequent bus (on time / early / late; weekday by peak) | Jan 2020–Jun 2021, Jan–Mar 2025 | 2023–2025 |
-| Regularity, frequent routes | — | 2024–2025 |
-| Para on-time, complaints | complaints Jan 2020–Dec 2021 | on-time 2019–2025 (gap 2021–22) |
+| Punctuality, less-frequent bus (on time / early / late; weekday by peak) | Jan 2020–Jun 2021, Jan 2025–Apr 2026 | 2023–2025 |
+| Regularity, frequent routes | Apr 2025–Apr 2026 | 2024–2025 |
+| Para on-time, complaints | complaints Jan 2020–Dec 2021; on-time Apr 2025–Apr 2026 | on-time 2019–2025 (gap 2021–22) |
 | Fleet/operators: buses unavailable, operator availability, MDBF | — | 2023–2025 |
 | Customer injury rate | — | 2019–2025 (gap 2021–22) |
 | Weekday ridership share by time of day | winter 2020 vs winter 2026 | — |
 
 **Gaps and caveats.**
 - After 2021 the monthly charts are images with no data labels, so monthly
-  values for 2022 onward exist only where a deck printed them (Sept 2023).
-  Monthly 2020–2021 ridership is chart-only as well. For the recent period, use
-  the Open Ottawa KPI snapshots in `rt_data/kpi_snapshots/` (rolling ~13 months,
-  archived since Jul 2026).
+  values between Aug 2023 and Mar 2025 are missing, and monthly 2020–2021
+  ridership is chart-only as well. From Apr 2025 the Open Ottawa snapshots fill
+  in; they're rolling ~13-month windows, so each new snapshot extends the series
+  only if the Pi's weekly job keeps archiving them.
+- Line 1 delivery in the 2026-07-11 snapshot drops to 87.8 / 67.2 / 61.8% in
+  Jan–Mar 2026, while the same file's summary text still says "12-month
+  average 98.5%" (it also cites "March 2025", so that text looks stale). The
+  monthly values are kept as published and flagged as provisional on the page.
 - *Service availability* (hours delivered, 2020–21 reports) and *trips
   delivered* (2023+ deck and scorecards) are different measures — kept as
   separate metrics, don't splice them.

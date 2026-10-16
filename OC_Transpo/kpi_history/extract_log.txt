@@ -66,6 +66,7 @@
 [skip] 2026-05-14_Transit Committee/English Report - Annual Update  Transit Services 5-Year Roadmap: cover report for the scorecard (Document 1 has the numbers)
 [  12] 2026-06-11_Transit Committee/OCC-2026-08 - Inquiry - Plante - OC Transpo (BIL)
 [skip] 44 French-language duplicates
+[ 104] rt_data/kpi_snapshots/service_ridership_kpis_2026-07-11.xlsx (Open Ottawa snapshot)
 
 == Revisions / conflicts between sources (kept value = kpi_series.csv) ==
   bus_operator_availability/bus/2024/year: kept 85.0 -- 85.0 (2025-04-10 p4 scorecard); 88.0 (2025-09-11 p10 narrative); 85.0 (2026-05-14 p4 scorecard)
@@ -143,14 +144,15 @@
   para_complaints_per_1000_trips       para     -                          month   24  2020-01 .. 2021-12
   para_complaints_per_1000_trips       para     -                          year     3  2023 .. 2025
   para_complaints_per_1000_trips       para     target                     target   3  edition 2024 .. edition 2026
+  para_on_time                         para     -                          month   13  2025-04 .. 2026-04
   para_on_time                         para     -                          year     5  2019 .. 2025
   para_on_time                         para     target                     target   3  edition 2024 .. edition 2026
   para_online_booking_share            para     -                          year     3  2023 .. 2025
   para_online_booking_share            para     target                     target   3  edition 2024 .. edition 2026
-  para_trips                           para     -                          month   31  2019-01 .. 2023-07
+  para_trips                           para     -                          month   44  2019-01 .. 2026-04
   preventable_collisions               bus      -                          year     3  2023 .. 2025
   preventable_collisions               bus      target                     target   3  edition 2024 .. edition 2026
-  punctuality_less_frequent_routes     bus      -                          month   21  2020-01 .. 2025-03
+  punctuality_less_frequent_routes     bus      -                          month   34  2020-01 .. 2026-04
   punctuality_less_frequent_routes     bus      -                          year     3  2023 .. 2025
   punctuality_less_frequent_routes     bus      early                      month   18  2020-01 .. 2021-06
   punctuality_less_frequent_routes     bus      late                       month   18  2020-01 .. 2021-06
@@ -167,10 +169,11 @@
   punctuality_less_frequent_routes     bus      weekday_pm_peak            12mo     1  2020-07/2021-06 .. 2020-07/2021-06
   punctuality_less_frequent_routes     bus      weekday_pm_peak            month   18  2020-01 .. 2021-06
   punctuality_less_frequent_routes     bus      weekday_pm_peak            year     1  2020 .. 2020
+  regularity_frequent_routes           bus      -                          month   13  2025-04 .. 2026-04
   regularity_frequent_routes           bus      -                          year     2  2024 .. 2025
   regularity_frequent_routes           bus      target                     target   2  edition 2025 .. edition 2026
   ridership                            line2_4  -                          month    1  2025-01 .. 2025-01
-  ridership                            system   -                          month   32  2018-10 .. 2023-07
+  ridership                            system   -                          month   45  2018-10 .. 2026-04
   ridership                            system   -                          year     3  2023 .. 2025
   ridership_change                     system   -                          range    1  2023-07/2025-06 .. 2023-07/2025-06
   ridership_change_vs_prior_year       system   -                          year     1  2020 .. 2020
@@ -197,12 +200,13 @@
   staff_retention                      org      -                          year     3  2023 .. 2025
   staff_retention                      org      target                     target   3  edition 2024 .. edition 2026
   survey_review_meetings               org      -                          year     3  2023 .. 2025
-  trips_delivered                      bus      -                          month   13  2022-08 .. 2023-08
+  trips_delivered                      bus      -                          month   26  2022-08 .. 2026-04
   trips_delivered                      bus      -                          year     3  2023 .. 2025
   trips_delivered                      bus      target                     target   3  edition 2024 .. edition 2026
-  trips_delivered                      line1    -                          month   13  2022-08 .. 2023-08
+  trips_delivered                      line1    -                          month   26  2022-08 .. 2026-04
   trips_delivered                      line1    -                          year     3  2023 .. 2025
   trips_delivered                      line1    target                     target   3  edition 2024 .. edition 2026
+  trips_delivered                      line2_4  -                          month   13  2025-04 .. 2026-04
   trips_delivered                      line2_4  -                          year     1  2025 .. 2025
   tsb_reportable_occurrences           otrain   -                          year     3  2023 .. 2025
   tsb_reportable_occurrences           otrain   target                     target   3  edition 2024 .. edition 2026

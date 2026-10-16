@@ -146,9 +146,9 @@
     <p class="section-note" id="rider-note"></p>
     <div class="grid2">
       <div>
-        <p class="chart-sub">Bus + O-Train trips per month, millions</p>
+        <p class="chart-sub">Trips each month, as % of the same month in 2019</p>
         <div class="legend" id="lg-rider-m"></div>
-        <div class="chart-wrap short"><canvas id="c-rider-m" aria-label="Monthly ridership in 2019, 2022 and 2023"></canvas></div>
+        <div class="chart-wrap short"><canvas id="c-rider-m" aria-label="Monthly ridership as a percentage of the same month in 2019, January 2022 to April 2026"></canvas></div>
       </div>
       <div>
         <p class="chart-sub">Trips per year, millions</p>
@@ -157,7 +157,7 @@
       </div>
     </div>
     <details><summary>Show the numbers</summary><div class="table-wrap" id="t-rider"></div></details>
-    <p class="note">Linked trips (one trip from origin to destination, however many transfers). Monthly figures are the chart labels from the September 2023 OC Transpo update, rounded to 0.1 million. The <b>2019 and 2022 yearly totals are the sum of those monthly labels</b>. 2023–2025 totals are from the 5-Year Roadmap scorecards. Totals for 2020 and 2021 weren't published in these reports.</p>
+    <p class="note">Linked trips (one trip from origin to destination, however many transfers). Monthly figures for 2019 and January 2022 – July 2023 are chart labels from the September 2023 OC Transpo update; April 2025 onward is from OC Transpo's KPI file on Open Ottawa. Both are rounded to 0.1 million, so each monthly % is good to about ±1 point. The gap in between wasn't published in a readable form. The <b>2019 and 2022 yearly totals are the sum of the monthly labels</b>; 2023–2025 totals are from the 5-Year Roadmap scorecards. Totals for 2020 and 2021 weren't published in these reports.</p>
   </section>
 
   <!-- 2. TIME OF DAY -->
@@ -206,18 +206,22 @@
   <section class="card">
     <p class="q">Month by month</p>
     <h2 class="section-title">What the monthly figures show</h2>
-    <p class="section-note">Monthly reliability figures were published as tables for 2020–2021 and as chart labels for August 2022 to August 2023. The two periods use <b>different measures</b> (hours of service vs trips), so they're charted separately, not joined into one line.</p>
-    <div class="grid2">
+    <p class="section-note">Monthly reliability figures were published as tables for 2020–2021, as chart labels for August 2022 to August 2023, and in OC Transpo's KPI file on Open Ottawa from April 2025. The 2020–21 tables measure <b>hours</b> of service and the later figures measure <b>trips</b>, so they're charted separately, not joined into one line.</p>
+    <p class="chart-sub">Scheduled trips actually run, %, Aug 2022 – <span class="last-month"></span></p>
+    <div class="legend" id="lg-deliv-m"></div>
+    <div class="chart-wrap"><canvas id="c-deliv-m" aria-label="Trips delivered by month for bus, O-Train Line 1 and Lines 2 and 4, August 2022 onward"></canvas></div>
+    <p class="note" id="deliv-m-note"></p>
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <p class="chart-sub">Buses on schedule, monthly, %, since Jan 2025</p>
+        <div class="legend" id="lg-ontime-m"></div>
+        <div class="chart-wrap short"><canvas id="c-ontime-m" aria-label="Bus punctuality and regularity by month since April 2025, against the 85% target"></canvas></div>
+        <p class="note" id="ontime-m-note"></p>
+      </div>
       <div>
         <p class="chart-sub">O-Train Line 1: scheduled service not delivered, %, 2020–2021</p>
         <div class="chart-wrap short"><canvas id="c-l1" aria-label="O-Train Line 1 service not delivered by month, 2020 to 2021"></canvas></div>
         <p class="note" id="l1-note"></p>
-      </div>
-      <div>
-        <p class="chart-sub">Scheduled trips run, %, Aug 2022 – Aug 2023</p>
-        <div class="legend" id="lg-deliv-m"></div>
-        <div class="chart-wrap short"><canvas id="c-deliv-m" aria-label="Trips delivered by month, bus and O-Train Line 1, August 2022 to August 2023"></canvas></div>
-        <p class="note" id="deliv-m-note"></p>
       </div>
     </div>
     <p class="chart-sub" style="margin-top:20px">Bus punctuality on weekdays by time of day, %, 2020 – mid-2021</p>
@@ -308,7 +312,7 @@ function baseOpts({ yTitle, yTick = v => v, min, max, stacked = false } = {}) {
         backgroundColor: css('--bg-2'), titleColor: css('--ink'), bodyColor: css('--ink-2'),
         borderColor: css('--line-2'), borderWidth: 1, padding: 10, boxPadding: 4,
         titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'Inter', size: 12 },
-        filter: i => i.parsed.y != null,
+        filter: i => i.parsed.y != null && !i.dataset.isTarget,
       }
     }
   };
@@ -318,7 +322,7 @@ const bar = (label, data, color, extra = {}) => ({ type: 'bar', label, data, bac
   borderRadius: { topLeft: 4, topRight: 4 }, borderSkipped: 'bottom', borderColor: css('--bg-2'), borderWidth: { left: 1, right: 1 }, ...extra });
 const line = (label, data, color, extra = {}) => ({ type: 'line', label, data, borderColor: color, backgroundColor: color, spanGaps: false, ...extra });
 const dots = (label, data, color) => line(label, data, color, { pointRadius: 4, pointHoverRadius: 6, pointBorderColor: css('--bg-2'), pointBorderWidth: 2 });
-const target = (label, n, value) => line(label, Array(n).fill(value), css('--ink-3'), { borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0 });
+const target = (label, n, value) => line(label, Array(n).fill(value), css('--ink-3'), { borderDash: [5, 4], borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 0, isTarget: true });
 
 // Writes "not published" at the base of empty bar slots.
 const naPlugin = { id: 'na', afterDatasetsDraw(c) {
@@ -344,34 +348,49 @@ function renderHero() {
   ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
 }
 
+// Latest month with a value for a series.
+const lastP = (metric, mode, bd = '') => ROWS.filter(r => r.metric === metric && r.mode === mode && r.breakdown === bd && r.period_type === 'month').map(r => r.period).sort().pop();
+const yearTicks = labels => function (v) { const p = labels[v]; return p.endsWith('-01') ? p.slice(0, 4) : ''; };
+
 function renderRidership() {
-  const cY = { 2019: css('--muted'), 2022: css('--s2'), 2023: css('--s1') };
-  const per = y => months(`${y}-01`, `${y}-12`).map(p => { const v = V('ridership', 'system', p); return v == null ? null : v / 1e6; });
-  const ds = [2019, 2022, 2023].map(y => line(String(y), per(y), cY[y], { borderWidth: y === 2019 ? 2 : 2.5 }));
-  legend('lg-rider-m', [['2019', cY[2019]], ['2022', cY[2022]], ['2023 (to July)', cY[2023]]]);
-  const o = baseOpts({ yTick: v => v + 'M', min: 0 });
-  o.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}M` };
-  make('c-rider-m', { data: { labels: MON, datasets: ds }, options: o });
+  const last = lastP('ridership', 'system');
+  const mr = months('2022-01', last);
+  const of19 = p => { const v = V('ridership', 'system', p), b = V('ridership', 'system', `2019-${p.slice(5)}`); return v == null || !b ? null : v / b * 100; };
+  const share = mr.map(of19), c1 = css('--s1');
+  legend('lg-rider-m', [['% of same month in 2019', c1], ['2019 level', css('--ink-3'), 'dash']]);
+  const o = baseOpts({ yTick: v => v + '%', min: 0, max: 100 });
+  o.scales.y.ticks.stepSize = 25;
+  o.scales.x.ticks.callback = yearTicks(mr); o.scales.x.ticks.autoSkip = false;
+  o.plugins.tooltip.callbacks = { label: c => ` ${fmtM(V('ridership', 'system', mr[c.dataIndex]))} trips, ${Math.round(c.parsed.y)}% of ${mLabel(mr[c.dataIndex]).slice(0, 3)} 2019` };
+  make('c-rider-m', { data: { labels: mr.map(mLabel), datasets: [line('% of 2019', share, c1), target('2019 level', mr.length, 100)] }, options: o });
 
   const yrs = [2019, 2020, 2021, 2022, 2023, 2024, 2025], ann = yrs.map(y => { const v = annualRiders(y); return v == null ? null : v / 1e6; });
   const derived = y => V('ridership', 'system', String(y)) == null;
-  const c1 = css('--s1'), cm = css('--muted');
+  const cm = css('--muted');
   legend('lg-rider-y', [['Reported total', c1, 'box'], ['Sum of monthly figures', cm, 'box']]);
   const oy = baseOpts({ yTick: v => v + 'M', min: 0 });
   oy.plugins.tooltip.callbacks = { label: c => c.parsed.y == null ? ' not published' : ` ${c.parsed.y.toFixed(1)}M${derived(yrs[c.dataIndex]) ? ' (sum of monthly figures)' : ''}` };
   oy.plugins.tooltip.filter = () => true;
   make('c-rider-y', { data: { labels: yrs.map(String), datasets: [bar('Trips', ann, yrs.map(y => derived(y) ? cm : c1))] }, options: oy, plugins: [naPlugin] });
 
-  table('t-rider', MON, [...ds.map(d => ({ label: d.label, data: d.data })),], v => v.toFixed(1) + 'M');
+  const known = mr.filter(p => V('ridership', 'system', p) != null);
+  table('t-rider', known.map(mLabel), [
+    { label: 'Trips', data: known.map(p => V('ridership', 'system', p)), fmt: fmtM },
+    { label: 'Same month 2019', data: known.map(p => V('ridership', 'system', `2019-${p.slice(5)}`)), fmt: fmtM },
+    { label: '% of 2019', data: known.map(of19), fmt: v => Math.round(v) + '%' }], v => v);
   $('t-rider').innerHTML += '<table style="margin-top:12px"><thead><tr><th>Year</th><th class="num">Trips</th><th>Basis</th></tr></thead><tbody>' +
     yrs.map((y, i) => `<tr><td>${y}</td><td class="num">${ann[i] == null ? '—' : ann[i].toFixed(1) + 'M'}</td><td>${ann[i] == null ? 'not published' : derived(y) ? 'sum of monthly figures' : 'roadmap scorecard'}</td></tr>`).join('') + '</tbody></table>';
 
-  const sumMonths = (y, n) => months(`${y}-01`, `${y}-${String(n).padStart(2, '0')}`).reduce((s, p) => s + V('ridership', 'system', p), 0);
-  const lastM = months('2023-01', '2023-12').filter(p => V('ridership', 'system', p) != null).length;
+  // Recovery over a run of months = their trips / the same months in 2019.
+  const ratio = ps => ps.reduce((s, p) => s + V('ridership', 'system', p), 0) / ps.reduce((s, p) => s + V('ridership', 'system', `2019-${p.slice(5)}`), 0) * 100;
   const r19 = annualRiders(2019), r25 = annualRiders(2025);
-  $('rider-note').innerHTML = `OC Transpo carried about <b>${fmtM(r19)}</b> trips in 2019. From January to ${MONTH[lastM - 1]} 2023 it carried <b>${Math.round(sumMonths(2023, lastM) / sumMonths(2019, lastM) * 100)}%</b> of the 2019 level for the same months. ` +
-    `Growth since then has been slow: <b>${fmtM(annualRiders(2023))}</b> in 2023, ${fmtM(annualRiders(2024))} in 2024 and <b>${fmtM(r25)}</b> in 2025, still about <b>${Math.round((1 - r25 / r19) * 100)}% below 2019</b>. ` +
-    `The usual seasonal pattern has survived: the monthly lines rise and fall together, with summer dips and a September rebound.`;
+  const last12 = months('2000-01', last).slice(-12);
+  const sum12 = last12.reduce((s, p) => s + V('ridership', 'system', p), 0);
+  const byShare = last12.slice().sort((a, b) => of19(b) - of19(a)), bestP = byShare[0], worstP = byShare[byShare.length - 1];
+  const best = mLabel(bestP).replace(/^(\w+)/, m => MONTH[MON.indexOf(m)]), worst = mLabel(worstP).replace(/^(\w+)/, m => MONTH[MON.indexOf(m)]);
+  $('rider-note').innerHTML = `OC Transpo carried about <b>${fmtM(r19)}</b> trips in 2019. In 2022 it ran at <b>${Math.round(ratio(months('2022-01', '2022-12')))}%</b> of that level, and from January to July 2023 at ${Math.round(ratio(months('2023-01', '2023-07')))}%. ` +
+    `Since then the climb has been slow: <b>${fmtM(annualRiders(2023))}</b> in 2023, ${fmtM(annualRiders(2024))} in 2024 and <b>${fmtM(r25)}</b> in 2025. ` +
+    `In the 12 months to ${MONTH[+last.slice(5) - 1]} ${last.slice(0, 4)} it carried <b>${fmtM(sum12)}</b>, <b>${Math.round(ratio(last12))}%</b> of 2019 for the same months. ${best} came closest to 2019 (${Math.round(of19(bestP))}%) and ${worst} was furthest behind (${Math.round(of19(worstP))}%).`;
 }
 
 function renderTod() {
@@ -431,15 +450,36 @@ function renderMonthly() {
   const worst = m1.filter(p => V('service_not_delivered', 'line1', p) >= 20);
   $('l1-note').innerHTML = `Line 1 shut down after derailments in August and September 2021 and reopened on November 12, so from ${MONTH[+worst[0].slice(5) - 1]} to ${MONTH[+worst[worst.length - 1].slice(5) - 1]} 2021 it lost ${worst.map(p => pct(V('service_not_delivered', 'line1', p), 0)).join(', ')} of scheduled service, month by month. Early 2020 shows the line's first, unreliable winter (${pct(V('service_not_delivered', 'line1', '2020-01'))} in January). R1 replacement buses ran during closures; they aren't counted here.`;
 
-  // Trips delivered Aug 2022 – Aug 2023
-  const m2 = months('2022-08', '2023-08');
-  const bus = m2.map(p => V('trips_delivered', 'bus', p)), rail = m2.map(p => V('trips_delivered', 'line1', p));
-  const s1 = css('--s1'), s2 = css('--s2');
-  legend('lg-deliv-m', [['Bus', s1], ['O-Train Line 1', s2]]);
+  // Trips delivered, Aug 2022 onward (gap where nothing readable was published)
+  const lastD = lastP('trips_delivered', 'bus');
+  document.querySelectorAll('.last-month').forEach(e => e.textContent = mLabel(lastD));
+  const m2 = months('2022-08', lastD);
+  const bus = m2.map(p => V('trips_delivered', 'bus', p)), rail = m2.map(p => V('trips_delivered', 'line1', p)), l24 = m2.map(p => V('trips_delivered', 'line2_4', p));
+  const s1 = css('--s1'), s2 = css('--s2'), s3 = css('--s3');
+  legend('lg-deliv-m', [['Bus', s1], ['O-Train Line 1', s2], ['O-Train Lines 2 & 4', s3], ['Target 99.5%', css('--ink-3'), 'dash']]);
   const o2 = baseOpts({ yTick: v => v + '%', min: 40, max: 100 });
+  o2.scales.x.ticks.callback = yearTicks(m2); o2.scales.x.ticks.autoSkip = false;
   o2.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
-  make('c-deliv-m', { data: { labels: m2.map(mLabel), datasets: [dots('Bus', bus, s1), dots('O-Train Line 1', rail, s2)] }, options: o2 });
-  $('deliv-m-note').innerHTML = `Line 1 dropped to <b>${pct(V('trips_delivered', 'line1', '2023-07'))}</b> in July 2023 and ${pct(V('trips_delivered', 'line1', '2023-08'))} in August, when it closed from July 17 to August 8 for wheel-bearing and rail repairs (it ran 99.4% before the closure). It also dipped to ${pct(V('trips_delivered', 'line1', '2023-01'))} in January 2023, during a week of freezing rain. Bus delivery stayed between ${pct(Math.min(...bus))} and ${pct(Math.max(...bus))}.`;
+  make('c-deliv-m', { data: { labels: m2.map(mLabel), datasets: [line('Bus', bus, s1), line('O-Train Line 1', rail, s2), line('O-Train Lines 2 & 4', l24, s3), target('Target', m2.length, 99.5)] }, options: o2 });
+  const since = months('2025-04', lastD), rng = (mode) => { const xs = since.map(p => V('trips_delivered', mode, p)).filter(v => v != null); return `${pct(Math.min(...xs))}–${pct(Math.max(...xs))}`; };
+  const l1dips = since.filter(p => V('trips_delivered', 'line1', p) < 95);
+  $('deliv-m-note').innerHTML = `Line 1 dropped to <b>${pct(V('trips_delivered', 'line1', '2023-07'))}</b> in July 2023 and ${pct(V('trips_delivered', 'line1', '2023-08'))} in August, when it closed from July 17 to August 8 for wheel-bearing and rail repairs (it ran 99.4% before the closure). ` +
+    `Since April 2025 buses have run ${rng('bus')} of scheduled trips and Lines 2 & 4 ${rng('line2_4')}, never reaching the 99.5% target. ` +
+    (l1dips.length ? `Line 1 was close to target through 2025, then fell to <b>${l1dips.map(p => pct(V('trips_delivered', 'line1', p))).join(', ')}</b> in ${l1dips.map(p => MONTH[+p.slice(5) - 1]).join(', ')} ${l1dips[0].slice(0, 4)}. OC Transpo's KPI file doesn't give a reason, and the 12-month summary printed in the same file (98.5%) doesn't match these months, so treat them as provisional.` : '');
+
+  // Punctuality + regularity, monthly since 2025
+  const m4 = months('2025-01', lastP('punctuality_less_frequent_routes', 'bus'));
+  const pu = m4.map(p => V('punctuality_less_frequent_routes', 'bus', p)), rg = m4.map(p => V('regularity_frequent_routes', 'bus', p));
+  legend('lg-ontime-m', [['Punctuality (less-frequent routes)', s1], ['Regularity (frequent routes)', s2], ['Target 85%', css('--ink-3'), 'dash']]);
+  const o4 = baseOpts({ yTick: v => v + '%', min: 60, max: 90 });
+  o4.plugins.tooltip.callbacks = { label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make('c-ontime-m', { data: { labels: m4.map(mLabel), datasets: [dots('Punctuality', pu, s1), dots('Regularity', rg, s2), target('Target', m4.length, 85)] }, options: o4 });
+  const puK = pu.filter(v => v != null), rgK = rg.filter(v => v != null);
+  const hits = (xs, ps) => ps.filter((p, i) => xs[i] != null && xs[i] >= 85);
+  const rgHits = hits(rg, m4), puHits = hits(pu, m4);
+  const hitText = (n, ps) => n ? `${ps.length} month${ps.length > 1 ? 's' : ''} (${ps.map(mLabel).join(', ')})` : 'no month';
+  $('ontime-m-note').innerHTML = `Punctuality ranged <b>${pct(Math.min(...puK))}–${pct(Math.max(...puK))}</b> and ${puHits.length ? 'met the 85% target in ' + hitText(puHits.length, puHits) : 'never met the 85% target'}. ` +
+    `Regularity ranged ${pct(Math.min(...rgK))}–${pct(Math.max(...rgK))} and ${rgHits.length ? 'reached the target in ' + hitText(rgHits.length, rgHits) : 'never reached the target'}. January–March 2025 punctuality comes from the September 2025 bus reliability report; regularity starts in April 2025.`;
 
   // Weekday punctuality by period, 2020 – Jun 2021
   const m3 = months('2020-01', '2021-06');
@@ -451,16 +491,20 @@ function renderMonthly() {
   make('c-otp', { data: { labels: m3.map(mLabel), datasets: ds }, options: o3 });
 
   const avg = (bd, from, to) => { const xs = months(from, to).map(p => V('punctuality_less_frequent_routes', 'bus', p, bd)); return xs.reduce((a, b) => a + b, 0) / xs.length; };
+  const avgAll = ps => { const xs = ps.map(p => V('punctuality_less_frequent_routes', 'bus', p)).filter(v => v != null); return xs.reduce((a, b) => a + b, 0) / xs.length; };
   $('otp-note').innerHTML = `The afternoon rush is consistently the hardest time to stay on schedule: p.m.-peak punctuality averaged <b>${pct(avg('weekday_pm_peak', '2020-01', '2021-06'))}</b> over these 18 months, against ${pct(avg('weekday_am_peak', '2020-01', '2021-06'))} in the morning. ` +
     `It jumped to <b>${pct(V('punctuality_less_frequent_routes', 'bus', '2020-04', 'weekday_pm_peak'))}</b> in April 2020, when the first lockdown emptied the roads, then fell back as traffic returned. ` +
-    `Since mid-2021 only a few figures have been published: ${pct(V('punctuality_less_frequent_routes', 'bus', '2025-01'), 0)} in January 2025, ${pct(V('punctuality_less_frequent_routes', 'bus', '2025-02'), 0)} in February (two big snowstorms), and ${pct(V('punctuality_less_frequent_routes', 'bus', '2025'), 0)} for 2025 as a whole.`;
+    `For comparison, all-day punctuality averaged ${pct(avgAll(months('2020-01', '2021-06')))} over these months and ${pct(avgAll(months('2025-04', m4[m4.length - 1])))} from April 2025 on (chart above).`;
 
   table('t-month', m3.concat(months('2021-07', '2021-12')).map(mLabel), [
     { label: 'L1 not delivered', data: m3.concat(months('2021-07', '2021-12')).map(p => V('service_not_delivered', 'line1', p)) },
     ...P.map(([bd, label]) => ({ label: 'Bus on time, ' + label, data: m3.concat(months('2021-07', '2021-12')).map(p => V('punctuality_less_frequent_routes', 'bus', p, bd)) })),
   ], v => pct(v));
-  $('t-month').innerHTML += '<table style="margin-top:12px">' + `<thead><tr><th></th><th class="num">Bus trips run</th><th class="num">Line 1 trips run</th></tr></thead><tbody>` +
-    m2.map((p, i) => `<tr><td>${mLabel(p)}</td><td class="num">${pct(bus[i])}</td><td class="num">${pct(rail[i])}</td></tr>`).join('') + '</tbody></table>';
+  const shown = m2.map((p, i) => i).filter(i => bus[i] != null || rail[i] != null);
+  $('t-month').innerHTML += '<table style="margin-top:12px">' + `<thead><tr><th></th><th class="num">Bus trips run</th><th class="num">Line 1 trips run</th><th class="num">Lines 2 & 4 trips run</th></tr></thead><tbody>` +
+    shown.map(i => `<tr><td>${mLabel(m2[i])}</td><td class="num">${pct(bus[i])}</td><td class="num">${pct(rail[i])}</td><td class="num">${pct(l24[i])}</td></tr>`).join('') + '</tbody></table>';
+  $('t-month').innerHTML += '<table style="margin-top:12px">' + `<thead><tr><th></th><th class="num">Bus punctuality</th><th class="num">Bus regularity</th></tr></thead><tbody>` +
+    m4.map((p, i) => `<tr><td>${mLabel(p)}</td><td class="num">${pct(pu[i])}</td><td class="num">${pct(rg[i])}</td></tr>`).join('') + '</tbody></table>';
 }
 
 function renderAll() {
