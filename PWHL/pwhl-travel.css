@@ -15,6 +15,10 @@
 .travel-line-swatch{width:40px;height:12px;flex:none;}
 .travel-legend .bus .travel-icon{color:var(--travel-bus);}.travel-legend .air .travel-icon{color:var(--travel-air);}.travel-legend .drive .travel-icon{color:var(--travel-drive);}
 .travel-map-wrap{border:1px solid var(--line);background:var(--bg-3);border-radius:8px;overflow-x:auto;}
+.travel-map-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.travel-map-help{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:11px;color:var(--ink-2);}
+.travel-map-help[hidden]{display:none;}
+.travel-map-help .tab-btn{flex:none;padding:5px 8px;}
 #travel-map{display:block;width:100%;height:auto;min-width:740px;}
 .travel-land{fill:#e5eaf0;stroke:#c9d2df;stroke-width:1;}
 .travel-border{fill:none;stroke:#bec9d7;stroke-width:.8;}

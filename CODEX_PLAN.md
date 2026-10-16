@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] PWHL mobile map and player comparisons (Oct 16: route following, goalie minimum-games filter and tap-to-inspect scatter points)
 - [x] PWHL usability improvements (Oct 16: historical headers, accent-insensitive search, shareable filters, keyboard sorting and retry messages)
 - [x] PWHL image fallbacks (Oct 16: local league logo for missing or failed player photos and team logos)
 - [x] PWHL travel graphics (Oct 16: transport icons, distinct route patterns and theme colours)

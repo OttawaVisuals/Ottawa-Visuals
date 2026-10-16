@@ -4,6 +4,21 @@ let travelAllData, travelData, travelGeography, travelTeamCode;
 let travelPaths = [], travelMarker;
 const TRAVEL_DURATION_MS = 10000;
 let travelIndex = 0, travelProgress = 0, travelPlaying = false, travelLastFrame = 0, travelRunId = 0;
+let travelFollowing = true;
+
+function travelSetFollowing(value) {
+  travelFollowing = value;
+  const button = document.getElementById('travel-follow');
+  button.setAttribute('aria-pressed', String(value));
+  button.textContent = value ? 'Following route' : 'Follow route';
+}
+function travelFollowPoint(point) {
+  const wrap = document.querySelector('.travel-map-wrap');
+  if (!travelFollowing || wrap.scrollWidth <= wrap.clientWidth) return;
+  const map = document.getElementById('travel-map');
+  const x = point.x * map.clientWidth / map.viewBox.baseVal.width;
+  wrap.scrollLeft = Math.max(0, Math.min(wrap.scrollWidth - wrap.clientWidth, x - wrap.clientWidth / 2));
+}
 
 const TRAVEL_ICONS = {
   bus:'<rect x="4" y="4" width="16" height="14" rx="3"/><path d="M4 11h16M12 4v7M7 18v2M17 18v2M7 15h1M16 15h1"/>',
@@ -190,6 +205,7 @@ function travelRenderRanking() {
 
 function travelSetTeam(code) {
   if (!travelAllData.teams[code]) return;
+  travelSetFollowing(true);
   travelPlaying = false;
   travelRunId++;
   travelLastFrame = 0;
@@ -246,9 +262,11 @@ function travelFrame() {
   const p = markerPath.getPointAtLength(markerDistance);
   travelMarker.setAttribute('cx',p.x.toFixed(1));
   travelMarker.setAttribute('cy',p.y.toFixed(1));
+  travelFollowPoint(p);
 }
 
 function travelSeek(index) {
+  travelSetFollowing(true);
   travelPlaying = false;
   travelRunId++;
   travelIndex = Math.max(0,Math.min(travelData.legs.length-1,index));
@@ -279,6 +297,18 @@ function travelTick(timestamp, runId) {
 }
 
 function travelControls() {
+  const wrap = document.querySelector('.travel-map-wrap');
+  const explore = () => travelSetFollowing(false);
+  wrap.addEventListener('pointerdown', explore, {passive:true});
+  wrap.addEventListener('wheel', explore, {passive:true});
+  wrap.addEventListener('keydown', event => {
+    if (['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) explore();
+  });
+  document.getElementById('travel-follow').addEventListener('click', () => { travelSetFollowing(true); travelFrame(); });
+  new ResizeObserver(() => {
+    document.getElementById('travel-map-help').hidden = wrap.scrollWidth <= wrap.clientWidth;
+    if (travelData) travelFrame();
+  }).observe(wrap);
   document.getElementById('travel-team-select').addEventListener('change',event => travelSetTeam(event.target.value));
   document.getElementById('travel-ranking').addEventListener('click',event => {
     const button = event.target.closest('button[data-team]');

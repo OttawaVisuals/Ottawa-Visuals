@@ -124,6 +124,11 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .player-search-results a{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg-2);color:var(--ink);}
 .player-search-results a:hover,.player-search-results a:focus-visible{border-color:var(--accent);background:var(--accent-bg);}
 .player-search-results small{color:var(--ink-2);margin-left:5px;}
+.filters #goalie-min-filter{display:inline-flex;align-items:center;gap:5px;font-size:11px;text-transform:none;}
+.filters #goalie-min-filter[hidden]{display:none;}
+#pl-min-gp{width:64px;}
+.player-shooting-selection:not(:empty){display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:10px 12px;margin-top:8px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg-3);font-size:12px;color:var(--ink);}
+.player-shooting-selection span{color:var(--ink-2);}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;}
 .table-sort{border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:4px 0;cursor:pointer;}
 .table-sort:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}

@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=usability-1">
+<link rel="stylesheet" href="pwhl.css?v=mobile-comparisons-1">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
@@ -58,6 +58,7 @@
             <select id="pl-pos" class="ov-select" aria-label="Position">
               <option value="">All positions</option><option value="F">Forwards</option><option value="D">Defence</option>
             </select>
+            <label id="goalie-min-filter" hidden>Minimum games <input id="pl-min-gp" type="number" min="0" max="100" step="1" value="5" aria-describedby="goalie-min-note"></label>
           </span>
         </div>
         <div class="player-shooting-chart" id="player-shooting-card">
@@ -65,8 +66,10 @@
           <div class="player-shooting-chart-wrap">
             <canvas id="player-shooting-chart" role="img" aria-label="Scatter chart comparing shots on goal with shooting percentage for skaters who took at least 50 shots."></canvas>
           </div>
-          <p class="note" id="player-shooting-note">Each point is a skater. Hover for player stats. Players with fewer than 50 shots are excluded to reduce small-sample noise.</p>
+          <p class="note" id="player-shooting-note">Each point is a skater. Tap or click a point for player stats. Players with fewer than 50 shots are excluded to reduce small-sample noise.</p>
+          <div class="player-shooting-selection" id="player-shooting-selection" role="status" aria-live="polite"></div>
         </div>
+        <p class="note" id="goalie-min-note" hidden>Small-sample filter, not an official league qualification. Set minimum games to 0 to include all goalies.</p>
         <div style="overflow-x:auto;"><table class="tbl" id="players-table"></table></div>
         <p class="note" id="players-note"></p>
       </div>
@@ -84,6 +87,17 @@
 const playerFilters = new URLSearchParams(location.search);
 let plKind = playerFilters.get('kind') === 'goalies' ? 'goalies' : 'skaters';
 let playerShootingChart = null;
+let selectedShootingPlayer = null;
+function goalieMinimumGames() {
+  return Math.max(0, Math.min(100, Math.floor(Number(document.getElementById('pl-min-gp').value) || 0)));
+}
+function renderShootingSelection() {
+  const panel = document.getElementById('player-shooting-selection');
+  const available = playerShootingChart ? playerShootingChart.data.datasets.flatMap(d => d.data) : [];
+  const p = available.find(p => p.id === selectedShootingPlayer);
+  if (!p) { selectedShootingPlayer = null; panel.replaceChildren(); return; }
+  panel.innerHTML = `<strong>${esc(p.name)} (${esc(p.team)})</strong><span>${p.goals} goals / ${p.shots} shots · ${p.y.toFixed(1)}% shooting · ${p.gp} games</span><a class="pl-link" href="${esc(playerHref(p.id))}">Open player profile</a>`;
+}
 const pctOf = (a, b) => b ? 100 * a / b : null;
 function renderPlayerShootingChart(rows) {
   const card = document.getElementById('player-shooting-card');
@@ -98,6 +112,7 @@ function renderPlayerShootingChart(rows) {
       x: Number(r.shots),
       y: 100 * Number(r.goals) / Number(r.shots),
       name: r.name,
+      id: String(r.player_id),
       team,
       goals: Number(r.goals),
       shots: Number(r.shots),
@@ -106,10 +121,11 @@ function renderPlayerShootingChart(rows) {
     backgroundColor: teamColorA(team, 0.78),
     borderColor: teamColor(team),
     pointRadius: 5,
-    pointHoverRadius: 7
+    pointHoverRadius: 7,
+    pointHitRadius: 10
   }));
   document.getElementById('player-shooting-note').textContent = eligible.length
-    ? `${eligible.length} skaters shown · at least 50 shots · filtered with the controls above. Hover for goals, shots, games played, and shooting percentage.`
+    ? `${eligible.length} skaters shown · at least 50 shots · filtered with the controls above. Tap or click a point for stats and a profile link; hover also shows stats.`
     : 'No skaters meet the 50-shot minimum with the current filters.';
 
   const ctx = document.getElementById('player-shooting-chart').getContext('2d');
@@ -122,6 +138,12 @@ function renderPlayerShootingChart(rows) {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: 'nearest', intersect: true },
+      onClick: (_event, elements, chart) => {
+        if (!elements.length) { selectedShootingPlayer = null; renderShootingSelection(); return; }
+        const hit = elements[0];
+        selectedShootingPlayer = chart.data.datasets[hit.datasetIndex].data[hit.index].id;
+        renderShootingSelection();
+      },
       plugins: {
         legend: { position: 'bottom', labels: { color: ink, usePointStyle: true, boxWidth: 8, padding: 14 } },
         tooltip: { callbacks: { label: c => {
@@ -142,6 +164,7 @@ function renderPlayerShootingChart(rows) {
   } else {
     playerShootingChart = new Chart(ctx, config);
   }
+  renderShootingSelection();
 }
 function renderPlayersTable(sid) {
   const table = document.getElementById('players-table');
@@ -149,6 +172,8 @@ function renderPlayersTable(sid) {
   const team = document.getElementById('pl-team').value;
   const pos = document.getElementById('pl-pos').value;
   document.getElementById('pl-pos').style.display = plKind === 'skaters' ? '' : 'none';
+  document.getElementById('goalie-min-filter').hidden = plKind !== 'goalies';
+  document.getElementById('goalie-min-note').hidden = plKind !== 'goalies';
   const keep = r => (!q || PWHL.normaliseSearch(r.name).includes(q)) && (!team || r.team_code === team);
   const teamCol = { key: 'team', label: 'Team', get: r => r.team_code, fmt: v => v ? `${teamDot(v)}${teamLink(v)}` : '—' };
   const nameCol = { key: 'name', label: 'Player', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) };
@@ -177,7 +202,9 @@ function renderPlayersTable(sid) {
     document.getElementById('players-note').textContent = `${rows.length} skaters in the selected season.`;
   } else {
     document.getElementById('player-shooting-card').hidden = true;
-    const rows = ((GOALIES && GOALIES[sid]) || []).filter(keep);
+    const matches = ((GOALIES && GOALIES[sid]) || []).filter(keep);
+    const minGames = goalieMinimumGames();
+    const rows = matches.filter(r => Number(r.gp) >= minGames);
     const cols = [
       nameCol, teamCol,
       { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
@@ -191,7 +218,7 @@ function renderPlayersTable(sid) {
       { key: 'so', label: 'SO', num: 1, get: r => r.so, fmt: n0 },
     ];
     PWHL.sortableTable(table, cols, rows, { sortKey: 'gp', show: 25, noun: 'goalies' });
-    document.getElementById('players-note').textContent = `${rows.length} goalies in the selected season.`;
+    document.getElementById('players-note').textContent = `${rows.length} goalies shown · minimum ${minGames} games · ${matches.length - rows.length} excluded by the games filter.`;
   }
 }
 function renderPlayersSeason(sid) {
@@ -207,7 +234,8 @@ function renderPlayersSeason(sid) {
 }
 function syncPlayerFilters() {
   PWHL.updateUrl({q:document.getElementById('pl-filter').value.trim(), team:document.getElementById('pl-team').value,
-    pos:document.getElementById('pl-pos').value, kind:plKind === 'goalies' ? 'goalies' : null});
+    pos:document.getElementById('pl-pos').value, kind:plKind === 'goalies' ? 'goalies' : null,
+    min_gp:plKind === 'goalies' ? goalieMinimumGames() : null});
   PWHL.fillHeader();
 }
 PWHL.load(['meta', 'standings', 'awards', 'goalies'], { awards:'geography-awards-1' }).then(() => {
@@ -216,10 +244,13 @@ PWHL.load(['meta', 'standings', 'awards', 'goalies'], { awards:'geography-awards
   PWHL.playerSearch(document.getElementById('player-search'));
   document.getElementById('pl-filter').value = playerFilters.get('q') || '';
   document.getElementById('pl-pos').value = ['F','D'].includes(playerFilters.get('pos')) ? playerFilters.get('pos') : '';
+  const requestedMin = playerFilters.get('min_gp');
+  document.getElementById('pl-min-gp').value = requestedMin !== null && /^\d+$/.test(requestedMin) ? Math.min(100, Number(requestedMin)) : 5;
   document.querySelectorAll('#pl-tabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.kind === plKind));
   PWHL.tabs(document.getElementById('pl-tabs'), 'kind', k => { plKind = k; renderPlayersTable(currentSeasonId); syncPlayerFilters(); });
-  ['pl-filter', 'pl-team', 'pl-pos'].forEach(id => document.getElementById(id)
+  ['pl-filter', 'pl-team', 'pl-pos', 'pl-min-gp'].forEach(id => document.getElementById(id)
     .addEventListener('input', () => { renderPlayersTable(currentSeasonId); syncPlayerFilters(); }));
+  document.getElementById('pl-min-gp').addEventListener('change', event => { event.target.value = goalieMinimumGames(); });
   const seasons = META.seasons.map(s => s.season_id).filter(s => AWARDS[s]);
   PWHL.seasonSelect(document.getElementById('season-select'), seasons, renderPlayersSeason);
   renderPlayersSeason(currentSeasonId);

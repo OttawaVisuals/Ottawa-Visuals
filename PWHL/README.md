@@ -58,6 +58,11 @@ separately from the latest roster. The players directory also preserves name
 filter (`q`), team (`team`), position (`pos`), and goalie view (`kind=goalies`) in
 its URL. Search ignores accents and common apostrophe/hyphen differences and
 shows selectable matches instead of choosing the first partial match.
+Goalie comparisons also save `min_gp`: the default is five games, adjustable
+from zero (all goalies) to 100. This is a reader-controlled small-sample filter,
+not an official league qualification. The page states the applied threshold
+and exclusions. Tapping or clicking a shooting-scatter point shows its stats
+and a profile link for the selected season; filtering removes stale selections.
 
 Shared sortable tables use native buttons with `aria-sort`, retain keyboard
 focus after sorting, and announce direction changes. Page load failures offer
@@ -76,6 +81,10 @@ sprite version in `awardIcon()` and the `pwhl-sections.js?v=` value on its HTML
 consumers. Point Producer, its rate variant, and Fair Pay use distinct icons.
 
 ## Team travel estimates
+
+On narrow screens the map centres on the current route marker. Manual panning
+pauses following; the Follow route button, a new team, or selecting another leg
+recentres it. A swipe/keyboard hint appears when the map is wider than its panel.
 
 `python PWHL/scripts/build_pwhl_travel.py` rebuilds the static travel JSON from
 season 8 game summaries and venue coordinates. Airport positions are a selected

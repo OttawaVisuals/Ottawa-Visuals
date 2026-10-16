@@ -12,8 +12,8 @@
 <script src="pwhl-teams.js?v=usability-1"></script>
 <script src="pwhl-core.js?v=usability-1"></script>
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t|| (matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
-<link rel="stylesheet" href="pwhl.css?v=usability-1"/>
-<link rel="stylesheet" href="pwhl-travel.css?v=travel-icons-5"/>
+<link rel="stylesheet" href="pwhl.css?v=mobile-comparisons-1"/>
+<link rel="stylesheet" href="pwhl-travel.css?v=mobile-comparisons-1"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -31,7 +31,8 @@
     <div class="stat-row" id="travel-stats"></div>
     <section class="card travel-map-card" aria-labelledby="travel-map-title">
       <div class="travel-head"><div><h2 id="travel-map-title">Season route</h2><p>Play the full route in about 10 seconds at 1× speed, or step through each leg. Lines show endpoints; road distance follows the routed road estimate.</p></div><div class="travel-legend" id="travel-legend" aria-label="Route styles: solid for bus, dashed for flight, dotted for airport drive"><span>Bus · solid</span><span>Flight · dashed</span><span>Airport drive · dotted</span></div></div>
-      <div class="travel-map-wrap"><svg id="travel-map" viewBox="0 0 1100 520" role="img" aria-label="Map of selected PWHL team travel across North America"></svg></div>
+      <div class="travel-map-wrap" tabindex="0" role="region" aria-label="Travel map" aria-describedby="travel-map-hint"><svg id="travel-map" viewBox="0 0 1100 520" role="img" aria-label="Map of selected PWHL team travel across North America"></svg></div>
+      <div class="travel-map-help" id="travel-map-help" hidden><p id="travel-map-hint">Swipe sideways or use arrow keys to explore. Select Follow route to return to the current leg.</p><button type="button" class="tab-btn" id="travel-follow" aria-pressed="true">Following route</button></div>
       <div class="travel-controls">
         <button type="button" class="tab-btn" id="travel-prev" aria-label="Previous leg">← Previous</button>
         <button type="button" class="tab-btn active" id="travel-play">Play</button>
@@ -64,6 +65,6 @@
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Source: PWHL / HockeyTech · Mode and itinerary estimates</span></footer>
-<script src="pwhl-travel.js?v=usability-1"></script>
+<script src="pwhl-travel.js?v=mobile-comparisons-1"></script>
 </body>
 </html>
