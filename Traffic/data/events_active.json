@@ -2553,29 +2553,6 @@
 },
 "fp": "14a03c03bb78"
 },
-"29400": {
-"event": {
-"cause": "",
-"created": "2026-10-09 17:03:00",
-"cross_street_1": "HWY 7 (IC 145)",
-"cross_street_2": "HWY 7 (IC 145)",
-"direction": null,
-"event_id": "29400",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from Highway 7 to Highway 7 - Daily Maintenance. 1 Alternating Lane. Detailed closure information is as follows: Thurs-Fri: 10:00-14:30. 2026-10-15 10:00 to 2026-10-16 14:30",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.27704,
-"lon": -75.96443,
-"planned_end": "2026-10-16T14:30",
-"planned_start": "2026-10-15T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-09 17:03:00"
-},
-"fp": "058913433d3f"
-},
 "29405": {
 "event": {
 "cause": "construction",
@@ -2898,29 +2875,6 @@
 },
 "fp": "f4e949690494"
 },
-"29509": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-16 06:44:00",
-"cross_street_1": "Halifax",
-"cross_street_2": "Harding",
-"direction": null,
-"event_id": "29509",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Walkley westbound closed between Halifax and Harding due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.385082,
-"lon": -75.627192,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Walkley",
-"source": "city",
-"updated": "2026-10-16 12:02:00"
-},
-"fp": "ebecebdf14db"
-},
 "29518": {
 "event": {
 "cause": "construction",
@@ -3150,29 +3104,6 @@
 "updated": "2026-10-16 13:08:00"
 },
 "fp": "47bd0efbcb30"
-},
-"29529": {
-"event": {
-"cause": "police operation",
-"created": "2026-10-16 13:27:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "29529",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Bank northbound reduced to 1 lane between Kitchener and Johnston due to police operation. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.364741,
-"lon": -75.65983,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": null,
-"source": "city",
-"updated": "2026-10-16 13:27:00"
-},
-"fp": "45b41e8e9cc4"
 },
 "29530": {
 "event": {
