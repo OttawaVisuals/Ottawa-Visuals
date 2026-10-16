@@ -24,8 +24,11 @@ triggered every 5 min by the Cloudflare Worker in `cloudflare-worker/`.
 **Feed reality (verified live 2026-07-11):** the beta feed sets *no* delay
 fields — TripUpdates carry absolute predicted arrival times per stop instead.
 So the poller computes delays itself (since 2026-10-16): for every running bus,
-delay = predicted arrival at its next stop − that stop's scheduled time, looked
-up in a timetable index that `scripts/build_schedule_index.py` builds from the
+delay = predicted departure from its next *timepoint* − the scheduled time
+there. Timepoints are the major stops OC Transpo measures punctuality at, and
+buses wait at them if early; measuring at every stop instead read ~60% on time
+vs their ~70% (both tails wider), so the every-stop figure is only logged for
+comparison. Schedules come from a timetable index that `scripts/build_schedule_index.py` builds from the
 static GTFS (`collect.yml` rebuilds it when the published zip's ETag changes and
 keeps it in the Actions cache; it's never committed). Buses that haven't left
 their first stop, and trips missing from the timetable, are skipped; each run

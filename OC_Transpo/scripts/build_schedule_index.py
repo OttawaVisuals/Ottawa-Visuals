@@ -8,10 +8,13 @@ static GTFS's stop_times.txt (~200 MB unzipped, ~4M rows) -- too slow to parse
 on every 5-minute collector run. This script parses it once into a small
 SQLite file that the poller queries for just the ~600 trips in each sample.
 
-  trips(trip_id, route_id, headway_s, seqs, secs)
-    seqs / secs : stop_sequence and scheduled arrival (seconds after the
+  trips(trip_id, route_id, headway_s, seqs, secs, tps)
+    seqs / secs : stop_sequence and scheduled departure (seconds after the
                   service day's "noon minus 12h", GTFS convention; can exceed
                   24 h) as packed int32 arrays, in stop order.
+    tps         : 1 where the stop is a timepoint (the "major stops" OC
+                  Transpo measures punctuality at), packed int8. If a feed
+                  leaves the timepoint column blank, every stop counts.
     headway_s   : scheduled gap to the previous trip on the same route,
                   direction and first stop, on the first date the trip runs
                   (gap to the next trip for the first trip of the day). OC
@@ -76,22 +79,27 @@ def build(zip_path: Path, out: Path, etag: str = ""):
     # stop_times: one pass, packed per trip. Rows are grouped by trip in this
     # feed, but don't rely on it -- accumulate in dicts of arrays.
     seqs, times, first_stop = defaultdict(lambda: array("i")), defaultdict(lambda: array("i")), {}
+    tps = defaultdict(lambda: array("b"))
     with z.open("stop_times.txt") as fh:
         r = csv.reader(io.TextIOWrapper(fh, encoding="utf-8-sig"))
         head = next(r)
         i_trip, i_arr, i_dep = head.index("trip_id"), head.index("arrival_time"), head.index("departure_time")
         i_stop, i_seq = head.index("stop_id"), head.index("stop_sequence")
+        i_tp = head.index("timepoint") if "timepoint" in head else None
         for row in r:
             t = row[i_trip]
-            hms = row[i_arr] or row[i_dep]
+            hms = row[i_dep] or row[i_arr]
             if not hms:
                 continue  # untimed stop (allowed by GTFS); skip
             seqs[t].append(int(row[i_seq]))
             times[t].append(secs(hms))
+            tps[t].append(0 if i_tp is not None and row[i_tp] == "0" else 1)
     for t in seqs:  # sort each trip by stop_sequence (normally already sorted)
         if any(a > b for a, b in zip(seqs[t], seqs[t][1:])):
-            pairs = sorted(zip(seqs[t], times[t]))
-            seqs[t], times[t] = array("i", (p[0] for p in pairs)), array("i", (p[1] for p in pairs))
+            trip_rows = sorted(zip(seqs[t], times[t], tps[t]))
+            seqs[t] = array("i", (p[0] for p in trip_rows))
+            times[t] = array("i", (p[1] for p in trip_rows))
+            tps[t] = array("b", (p[2] for p in trip_rows))
         first_stop[t] = times[t][0] if times[t] else None
 
     # Headways: for each date the feed covers, group that day's trips by
@@ -131,12 +139,12 @@ def build(zip_path: Path, out: Path, etag: str = ""):
     tmp.unlink(missing_ok=True)
     db = sqlite3.connect(tmp)
     db.executescript("""
-        CREATE TABLE trips (trip_id TEXT PRIMARY KEY, route_id TEXT, headway_s INTEGER, seqs BLOB, secs BLOB);
+        CREATE TABLE trips (trip_id TEXT PRIMARY KEY, route_id TEXT, headway_s INTEGER, seqs BLOB, secs BLOB, tps BLOB);
         CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
     """)
-    db.executemany("INSERT INTO trips VALUES (?,?,?,?,?)",
+    db.executemany("INSERT INTO trips VALUES (?,?,?,?,?,?)",
                    ((tid, trips[tid]["route_id"] if tid in trips else "", headway.get(tid),
-                     seqs[tid].tobytes(), times[tid].tobytes()) for tid in seqs))
+                     seqs[tid].tobytes(), times[tid].tobytes(), tps[tid].tobytes()) for tid in seqs))
     meta = {"feed_version": info.get("feed_version", ""), "feed_start_date": info.get("feed_start_date", ""),
             "feed_end_date": info.get("feed_end_date", ""), "etag": etag,
             "built_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}

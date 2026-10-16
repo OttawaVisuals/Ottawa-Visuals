@@ -14,8 +14,11 @@ FEED REALITY (checked live 2026-07-11): OC Transpo sets NO delay fields —
 StopTimeUpdates carry absolute predicted arrival times (Arrival.Time) only.
 So delays are computed HERE against the static timetable: when
 OCTRANSPO_SCHEDULE_DB points at the index built by build_schedule_index.py,
-each running trip's delay = predicted arrival at its next stop (a near-term
-prediction, so close to the real arrival) minus that stop's scheduled time.
+each running trip's delay = predicted departure from its next TIMEPOINT minus
+the scheduled time there. Timepoints are the "major stops" OC Transpo measures
+punctuality at; buses wait there if early, so measuring at every stop instead
+reads both earlier and later than OC Transpo (checked live 2026-10-16: ~60% vs
+their ~70% on time). The every-stop figure is still printed in the run log.
 Trips that haven't left their first stop yet (their "prediction" is usually
 just the schedule) or that don't match the timetable are left out of the
 delay stats, and the run prints how many matched. Without the index the delay/on-time columns stay empty.
@@ -23,9 +26,9 @@ delay stats, and the run prints how many matched. Without the index the delay/on
 Extra trip groups split buses the way OC Transpo reports reliability:
 "bus_frequent" (scheduled every 15 min or better: OC Transpo measures these
 by regularity) and "bus_less_frequent" (the rest: measured by punctuality,
-which is what pct_ontime approximates). Our figure is measured at the next
-stop of every running bus, not at OC Transpo's timepoints, so it's a close
-proxy rather than their exact KPI.
+which is what pct_ontime approximates). It's a close proxy, not their exact
+KPI: we sample every running bus at the moment of polling and use OC
+Transpo's own near-term prediction for the next timepoint.
 
 On-time buckets (when delays exist) follow OC Transpo's own punctuality
 definition for less-frequent routes: early = more than 1 min early
@@ -78,7 +81,7 @@ GROUPS = ("all", "bus", "otrain", "unknown")
 # Trip summaries add OC Transpo's frequency split for buses matched to the timetable.
 TRIP_GROUPS = GROUPS + ("bus_frequent", "bus_less_frequent")
 FREQUENT_MAX_HEADWAY_S = 15 * 60   # "every 15 minutes or more frequently"
-NEXT_STOP_MAX_AHEAD_S = 3600       # sanity cap: a next-stop prediction over an hour out is a bad record
+NEXT_STOP_MAX_AHEAD_S = 900        # next timepoint must be within 15 min (prediction gets vaguer further out)
 # O-Train lines are routes 1/2/4 today (3 reserved for the west extension).
 OTRAIN_ROUTES = {"1", "2", "3", "4"}
 
@@ -204,14 +207,16 @@ class Schedule:
         self.version = dict(self.db.execute("SELECT key, value FROM meta")).get("feed_version", "?")
 
     def trip(self, trip_id):
-        row = self.db.execute("SELECT route_id, headway_s, seqs, secs FROM trips WHERE trip_id = ?",
+        row = self.db.execute("SELECT route_id, headway_s, seqs, secs, tps FROM trips WHERE trip_id = ?",
                               (str(trip_id),)).fetchone()
         if not row:
             return None
-        seqs, secs = array("i"), array("i")
+        seqs, secs, tps = array("i"), array("i"), array("b")
         seqs.frombytes(row[2])
         secs.frombytes(row[3])
-        return {"route_id": row[0], "headway_s": row[1], "seqs": seqs, "secs": secs}
+        tps.frombytes(row[4] or b"")
+        return {"route_id": row[0], "headway_s": row[1], "seqs": seqs, "secs": secs,
+                "tps": tps if len(tps) == len(seqs) else array("b", [1] * len(seqs))}
 
 
 def load_schedule():
@@ -230,9 +235,10 @@ def service_day_start(day) -> float:
     return (datetime(day.year, day.month, day.day, 12, tzinfo=TZ) - timedelta(hours=12)).timestamp()
 
 
-def schedule_delay_s(tu, sched, now_ts):
-    """(delay seconds, status) for one running trip from predicted vs scheduled
-    time at its next stop. status is "ok" or why it was skipped."""
+def schedule_delay_s(tu, sched, now_ts, timepoints=True):
+    """(delay seconds, status) for one running trip: predicted departure from
+    its next timepoint (or next stop, timepoints=False) minus scheduled.
+    status is "ok" or why it was skipped."""
     trip = g(tu, "trip", default={})
     rec = sched.trip(g(trip, "tripId"))
     if not rec:
@@ -240,8 +246,9 @@ def schedule_delay_s(tu, sched, now_ts):
     stus = g(tu, "stopTimeUpdate", default=[]) or []
     if isinstance(stus, dict):
         stus = [stus]
+    started = None
     for stu in stus:
-        t = g(g(stu, "arrival"), "time") or g(g(stu, "departure"), "time")
+        t = g(g(stu, "departure"), "time") or g(g(stu, "arrival"), "time")
         try:
             t = int(t)
         except (TypeError, ValueError):
@@ -256,10 +263,12 @@ def schedule_delay_s(tu, sched, now_ts):
         # Next stop is the first stop: the bus hasn't left yet, and its
         # prediction is usually just the schedule, so it would inflate on-time.
         # Distance alone isn't used, because that would drop very late buses.
-        if i == 0:
-            return None, "not_started"
-        if t > now_ts + NEXT_STOP_MAX_AHEAD_S:
-            return None, "far"
+        if started is None:
+            started = i > 0
+            if not started:
+                return None, "not_started"
+        if timepoints and not rec["tps"][i]:
+            continue  # look on to the next timepoint
         start_date = str(g(trip, "startDate") or "")
         if len(start_date) == 8 and start_date.isdigit():
             days = [datetime.strptime(start_date, "%Y%m%d").date()]
@@ -269,8 +278,23 @@ def schedule_delay_s(tu, sched, now_ts):
         delay = min((t - (service_day_start(d) + rec["secs"][i]) for d in days), key=abs)
         if abs(delay) > 3 * 3600:
             return None, "implausible"
+        # How far off the timepoint is: by whichever clock is sooner, so a late
+        # bus (scheduled time near) and an early one (predicted time near) are
+        # both kept. A cap on the prediction alone would drop the late ones.
+        if min(t, t - delay) > now_ts + NEXT_STOP_MAX_AHEAD_S:
+            return None, "far"
         return int(delay), "ok"
-    return None, "no_prediction"
+    return None, "no_timepoint" if started else "no_prediction"
+
+
+def match_counts(stats):
+    return {k: v for k, v in stats.items() if not k.startswith("_")}
+
+
+def every_stop_pct(ds):
+    if not ds:
+        return "?"
+    return round(100 * sum(1 for d in ds if ONTIME_EARLY_S <= d <= ONTIME_LATE_S) / len(ds), 1)
 
 
 def frequency_group(rec):
@@ -316,6 +340,10 @@ def summarize_trips(feed, sched=None, stats=None):
                 d, status = schedule_delay_s(tu, sched, now_ts)
                 if stats is not None:
                     stats[status] = stats.get(status, 0) + 1
+                    if grp == "bus":  # every-stop figure, log only (for comparison)
+                        d_any, _ = schedule_delay_s(tu, sched, now_ts, timepoints=False)
+                        if d_any is not None:
+                            stats.setdefault("_every_stop", []).append(d_any)
             if d is not None:
                 for target in targets:
                     per_group[target]["delays"].append(d)
@@ -456,7 +484,8 @@ def main():
           f"ontime%={all_row_t.get('pct_ontime', '?')} "
           f"punctuality(less-frequent)%={lf_row.get('pct_ontime', '?')} "
           f"vehicles={all_row_v.get('vehicles', '?')} "
-          + (f"schedule={sched.version} delay-match={otp_stats}" if sched else "schedule=none")
+          + (f"schedule={sched.version} delay-match={match_counts(otp_stats)} "
+             f"every-stop-ontime%={every_stop_pct(otp_stats.get('_every_stop'))}" if sched else "schedule=none")
           + (f" ERRORS: {'; '.join(errors)}" if errors else ""))
     return 0
 
