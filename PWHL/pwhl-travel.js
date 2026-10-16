@@ -5,6 +5,23 @@ let travelPaths = [], travelMarker;
 const TRAVEL_DURATION_MS = 10000;
 let travelIndex = 0, travelProgress = 0, travelPlaying = false, travelLastFrame = 0, travelRunId = 0;
 
+const TRAVEL_ICONS = {
+  bus:'<rect x="4" y="4" width="16" height="14" rx="3"/><path d="M4 11h16M12 4v7M7 18v2M17 18v2M7 15h1M16 15h1"/>',
+  air:'<path d="m21 3-7 18-3-8-8-3 18-7ZM11 13l10-10"/>',
+  drive:'<path d="m4 11 2-6h12l2 6M3 11h18v7H3ZM6 18v2M18 18v2M7 14h1M16 14h1"/>',
+};
+function travelIcon(mode) {
+  return `<svg class="travel-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${TRAVEL_ICONS[mode]}</svg>`;
+}
+function travelModeIcons(mode) {
+  return mode === 'air' ? travelIcon('air') + travelIcon('drive') : travelIcon('bus');
+}
+function travelRenderLegend() {
+  const modes = [['bus','Bus'],['air','Flight'],['drive','Airport drive']];
+  document.getElementById('travel-legend').innerHTML = modes.map(([mode,label]) =>
+    `<span class="travel-legend-item ${mode}">${travelIcon(mode)}${label}<svg class="travel-line-swatch" viewBox="0 0 40 12" aria-hidden="true" focusable="false"><path class="travel-route ${mode}" d="M3 6h34"/></svg></span>`).join('');
+}
+
 function travelProject([lon, lat]) {
   const west = -126, east = -60, north = 55, south = 31;
   const mercator = value => Math.log(Math.tan(Math.PI / 4 + value * Math.PI / 360));
@@ -98,14 +115,23 @@ function travelRenderMap(geography) {
   svg.replaceChildren();
   travelPaths = [];
   travelBaseMap(svg, geography);
+  const reveals = travelSvgNode('defs');
+  svg.append(reveals);
   const routes = travelSvgNode('g');
   svg.append(routes);
   travelData.legs.forEach((leg, legIndex) => leg.segments.forEach((segment, segmentIndex) => {
+    const d = travelSegmentPath(segment), maskId = `travel-reveal-${legIndex}-${segmentIndex}`;
+    // Reveal the route through a separate solid stroke so its mode pattern
+    // stays intact throughout playback, seeking and replay.
+    const mask = travelSvgNode('mask', {id:maskId,maskUnits:'userSpaceOnUse',x:0,y:0,width:1100,height:520});
+    const reveal = travelSvgNode('path', {d,fill:'none',stroke:'white','stroke-width':12,'stroke-linecap':'round'});
+    mask.append(reveal);
+    reveals.append(mask);
     const path = travelSvgNode('path', {
-      class:`travel-route ${segment.mode} future`, d:travelSegmentPath(segment)
+      class:`travel-route ${segment.mode} future`, d, mask:`url(#${maskId})`
     });
     routes.append(path);
-    travelPaths.push({path, length:path.getTotalLength(), legIndex, segmentIndex});
+    travelPaths.push({path, reveal, length:path.getTotalLength(), legIndex, segmentIndex});
   }));
   travelPlaces(svg);
   travelMarker = travelSvgNode('circle',{class:'travel-marker',r:6});
@@ -131,13 +157,13 @@ function travelRenderSummary() {
   const totals = travelData.totals;
   const stats = [
     [travelNumber(totals.km)+' km','ESTIMATED TOTAL'],
-    [travelNumber(totals.bus_km)+' km','BUS / ROAD'],
-    [travelNumber(totals.air_km)+' km','FLIGHT DISTANCE'],
-    [travelNumber(totals.airport_drive_km)+' km','AIRPORT DRIVES'],
+    [travelNumber(totals.bus_km)+' km','BUS / ROAD','bus'],
+    [travelNumber(totals.air_km)+' km','FLIGHT DISTANCE','air'],
+    [travelNumber(totals.airport_drive_km)+' km','AIRPORT DRIVES','drive'],
     [travelHours(totals.hours),'ESTIMATED TRAVEL TIME'],
   ];
-  document.getElementById('travel-stats').innerHTML = stats.map(([value,label]) =>
-    `<div class="stat"><div class="num">${esc(value)}</div><div class="lbl">${esc(label)}</div></div>`).join('');
+  document.getElementById('travel-stats').innerHTML = stats.map(([value,label,mode]) =>
+    `<div class="stat"><div class="num">${esc(value)}</div><div class="lbl">${mode ? travelIcon(mode) : ''}${esc(label)}</div></div>`).join('');
   const tbody = document.querySelector('#travel-table tbody');
   tbody.innerHTML = travelData.legs.map((leg,i) => {
     const detail = leg.mode === 'air'
@@ -146,7 +172,7 @@ function travelRenderSummary() {
     return `<tr data-index="${i}" tabindex="0" aria-label="Select leg ${i+1}: ${esc(leg.from_city)} to ${esc(leg.to_city)}">
       <td>${esc(travelDate(leg.date))}</td><td>${esc(travelRoute(leg))}</td>
       <td>${leg.reason === 'Game' ? 'Game' : 'Return home'}</td>
-      <td><span class="travel-mode ${leg.mode}">${leg.mode === 'bus' ? 'Bus' : 'Air + drives'}</span></td>
+      <td><span class="travel-mode ${leg.mode}">${travelModeIcons(leg.mode)}${leg.mode === 'bus' ? 'Bus' : 'Air + drives'}</span></td>
       <td>${travelNumber(leg.km)}</td><td>${travelHours(leg.hours)}</td><td>${esc(detail)}</td></tr>`;
   }).join('');
   document.getElementById('travel-scrub').max = String(travelData.legs.length - 1);
@@ -188,7 +214,7 @@ function travelRenderInfo() {
   const leg = travelData.legs[travelIndex];
   document.getElementById('travel-position').textContent = `${travelIndex+1} / ${travelData.legs.length}`;
   document.getElementById('travel-scrub').value = String(travelIndex);
-  document.getElementById('travel-current').innerHTML = `<div><strong>${esc(travelRoute(leg))}</strong> · ${esc(travelDate(leg.date))} · ${leg.reason === 'Game' ? 'Game travel' : 'Assumed return home'}</div><span>${leg.mode === 'bus' ? 'Bus' : 'Flight + airport drives'} · ${travelNumber(leg.km)} km · ${travelHours(leg.hours)}</span>`;
+  document.getElementById('travel-current').innerHTML = `<div><strong>${esc(travelRoute(leg))}</strong> · ${esc(travelDate(leg.date))} · ${leg.reason === 'Game' ? 'Game travel' : 'Assumed return home'}</div><span class="travel-current-detail">${travelModeIcons(leg.mode)}${leg.mode === 'bus' ? 'Bus' : 'Flight + airport drives'} · ${travelNumber(leg.km)} km · ${travelHours(leg.hours)}</span>`;
   document.querySelectorAll('#travel-table tbody tr').forEach((row,i) => row.classList.toggle('active',i === travelIndex));
   document.getElementById('travel-play').textContent = travelPlaying ? 'Pause' :
     travelIndex === travelData.legs.length-1 && travelProgress >= 1 ? 'Replay' : 'Play';
@@ -197,9 +223,9 @@ function travelRenderInfo() {
 function travelFrame() {
   const segmentCount = travelData.legs[travelIndex].segments.length;
   let markerPath = null, markerDistance = 0;
-  travelPaths.forEach(({path,length,legIndex,segmentIndex}) => {
+  travelPaths.forEach(({path,reveal,length,legIndex,segmentIndex}) => {
     path.classList.remove('past','now','future');
-    path.style.strokeDasharray = '';
+    reveal.style.strokeDasharray = '';
     if (legIndex < travelIndex) path.classList.add('past');
     else if (legIndex > travelIndex) path.classList.add('future');
     else {
@@ -207,7 +233,7 @@ function travelFrame() {
       if (fraction <= 0) path.classList.add('future');
       else {
         path.classList.add('now');
-        if (fraction < 1) path.style.strokeDasharray = `${length*fraction} ${length+1}`;
+        if (fraction < 1) reveal.style.strokeDasharray = `${length*fraction} ${length+1}`;
       }
       if (fraction >= 0 && fraction <= 1) { markerPath = path; markerDistance = length * fraction; }
       if (travelProgress === 1 && segmentIndex === segmentCount-1) { markerPath = path; markerDistance = length; }
@@ -298,6 +324,7 @@ Promise.all([
   select.innerHTML = Object.entries(data.teams).sort((a,b) => a[1].team.localeCompare(b[1].team))
     .map(([code,team]) => `<option value="${code}">${esc(team.team)}</option>`).join('');
   travelControls();
+  travelRenderLegend();
   const requested = new URLSearchParams(location.search).get('team')?.toUpperCase();
   travelSetTeam(data.teams[requested] ? requested : 'OTT');
   PWHL.onTheme(() => travelRenderRanking());
