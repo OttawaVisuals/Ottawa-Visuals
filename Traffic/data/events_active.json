@@ -3061,7 +3061,7 @@
 },
 "29533": {
 "event": {
-"cause": "a collision",
+"cause": "traffic signals not working",
 "created": "2026-10-16 14:53:00",
 "cross_street_1": "Carling",
 "cross_street_2": null,
@@ -3069,8 +3069,8 @@
 "event_id": "29533",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Grandview northbound reduced to 1 lane at Carling due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane",
+"headline": "Grandview traffic disruptions at Carling due to traffic signals not working. Police are directing traffic. Duration is unknown.",
+"lanes": "traffic disruptions",
 "lat": 45.354741,
 "lon": -75.849935,
 "planned_end": null,
@@ -3078,9 +3078,9 @@
 "priority": "HIGH",
 "road": "Grandview",
 "source": "city",
-"updated": "2026-10-16 14:53:00"
+"updated": "2026-10-16 15:46:00"
 },
-"fp": "afd3a19b4a20"
+"fp": "b2265df6bb98"
 },
 "29534": {
 "event": {
@@ -3105,28 +3105,28 @@
 },
 "fp": "1afcebfd5db7"
 },
-"29538": {
+"29540": {
 "event": {
-"cause": "a collision",
-"created": "2026-10-16 15:34:00",
-"cross_street_1": "Hazeldean",
-"cross_street_2": "Abbeyhill",
+"cause": "traffic signals not working",
+"created": "2026-10-16 16:17:00",
+"cross_street_1": "Beatrice",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29538",
+"event_id": "29540",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Eagleson southbound reduced to 1 lane between Hazeldean and Abbeyhill due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.302433,
-"lon": -75.875802,
+"headline": "Strandherd traffic disruptions at Beatrice due to traffic signals not working. Duration is unknown.",
+"lanes": "traffic disruptions",
+"lat": 45.275207,
+"lon": -75.726001,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Eagleson",
+"road": "Strandherd",
 "source": "city",
-"updated": "2026-10-16 15:34:00"
+"updated": "2026-10-16 16:17:00"
 },
-"fp": "aafc88d23bdd"
+"fp": "fa816c07b1c4"
 }
 }
 }
