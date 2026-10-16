@@ -68,10 +68,16 @@ html[data-embedded] .topbar{display:none}
 /* Grid */
 .grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px;align-items:stretch}
 .grid-bottom{display:grid;grid-template-columns:5fr 7fr;gap:12px}
+.grid-bottom>.card{min-width:0}  /* let the ward list scroll instead of widening the page */
 @media (max-width:720px){
   .grid-top,.grid-bottom{grid-template-columns:1fr}
   .page-header{flex-direction:column;gap:4px}
-  #panel .panel-empty{min-height:120px}
+  #ward-list .wl-scroll{max-height:none}
+  #ward-list .wl-bar{display:none}
+  #ward-list .wl-ward span{max-width:84px}
+  #ward-list .wl-table th button{white-space:normal}
+  #ward-list .wl-table td{font-size:11px}
+  #ward-list .wl-table td,#ward-list .wl-table th button{padding-left:4px;padding-right:4px}
 }
 
 /* Cards */
@@ -121,6 +127,32 @@ html[data-embedded] .topbar{display:none}
 
 /* Panel */
 .panel-empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:var(--ink-3);font-size:12px;text-align:center;line-height:1.8}
+
+/* Ward list (shown in the panel until a ward is picked) */
+.wl-scroll{max-height:440px;overflow:auto;margin:0 -6px;padding:0 6px}
+.wl-table{width:100%;border-collapse:collapse;font-size:12px}
+.wl-table th{position:sticky;top:0;z-index:1;background:var(--bg-2);text-align:left;padding:0;border-bottom:1px solid var(--line-2)}
+.wl-table th button{font:inherit;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);background:none;border:0;padding:6px 6px;cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
+.wl-table th button:hover,.wl-table th[aria-sort] button{color:var(--ink)}
+.wl-table th[aria-sort="ascending"] button::after{content:" ▲";font-size:8px}
+.wl-table th[aria-sort="descending"] button::after{content:" ▼";font-size:8px}
+.wl-table th.num,.wl-table td.num{text-align:right}
+.wl-table td{padding:5px 6px;border-bottom:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.wl-table tbody tr{cursor:pointer}
+.wl-table tbody tr:hover,.wl-table tbody tr.hl{background:var(--bg-3)}
+.wl-table tbody tr:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.wl-ward{display:flex;align-items:center;gap:7px;color:var(--ink)}
+.wl-ward i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.wl-ward b{font-weight:600;min-width:16px;text-align:right;color:var(--ink-3)}
+.wl-ward span{overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.wl-ward sup{color:var(--ink-3);font-size:9px}
+.wl-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:6px}
+.wl-up{color:var(--green)} .wl-down{color:var(--red)}
+.wl-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:0}
+.wl-foot{font-size:10.5px;color:var(--ink-3);margin-top:6px;line-height:1.5}
+.wl-back{font:inherit;font-size:11px;color:var(--ink-2);background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;cursor:pointer;margin-bottom:10px}
+.wl-back:hover{color:var(--ink);border-color:var(--ink-3)}
+#map path.ward.hl{stroke:var(--ink-2);stroke-width:1.5}
 #panel-content{display:none}
 
 /* Panel header row */
@@ -259,8 +291,24 @@ html[data-embedded] .topbar{display:none}
     </div>
 
     <div class="card" id="panel">
-      <div class="panel-empty">Click a ward on the map<br>to see its details</div>
+      <div id="ward-list">
+        <div class="card-title" id="wl-title">All wards</div>
+        <div class="card-sub">Click a heading to sort · pick a ward (here or on the map) for details</div>
+        <div class="wl-scroll">
+          <table class="wl-table">
+            <thead><tr>
+              <th data-key="ward"><button type="button">Ward</button></th>
+              <th data-key="turnout" class="num"><button type="button">Turnout</button></th>
+              <th data-key="change" class="num"><button type="button" id="wl-change-h">Change</button></th>
+              <th data-key="mayor"><button type="button">Mayor race, top here</button></th>
+            </tr></thead>
+            <tbody id="wl-body"></tbody>
+          </table>
+        </div>
+        <div class="wl-foot" id="wl-foot"></div>
+      </div>
       <div id="panel-content">
+        <button type="button" class="wl-back" id="p-back">&larr; All wards</button>
 
         <!-- Header row: ward info left, turnout right -->
         <div class="panel-header-row">
@@ -638,12 +686,7 @@ function buildMap(geojson) {
     .on('mouseleave', function() {
       tooltip.style.display = 'none';
     })
-    .on('click', function(event, d) {
-      selectedWard = d.properties.Ward;
-      svg.selectAll('path.ward').classed('selected', false);
-      d3.select(this).classed('selected', true).raise();
-      showPanel(d.properties.Ward);
-    });
+    .on('click', (event, d) => selectWard(d.properties.Ward));
 
   const labelGroup = svg.append('g');
   features.forEach(d => {
@@ -685,7 +728,7 @@ function showPanel(wardNum) {
   const d = wardData[wardNum];
   if (!d) return;
 
-  document.querySelector('.panel-empty').style.display = 'none';
+  document.getElementById('ward-list').style.display = 'none';
   document.getElementById('panel-content').style.display = 'block';
 
   document.getElementById('p-name').textContent    = d.name;
@@ -874,6 +917,7 @@ function setYear(year) {
   buildLegend();
   buildMapNote();
   recolorMap();
+  renderWardList();
   if (selectedWard != null) showPanel(selectedWard);
   syncUrl();
 }
@@ -884,8 +928,110 @@ function setMapMode(mode) {
   buildLegend();
   buildMapNote();
   recolorMap();
+  renderWardList();
   syncUrl();
 }
+
+// ── Ward list: sortable table for the selected year ──────────────────────────
+const wlSort = {key: 'ward', dir: 1};   // dir: 1 ascending, -1 descending
+
+function wardRows(year) {
+  const prev = YEARS[YEARS.indexOf(year) - 1];
+  return Object.keys(wardData).map(w => {
+    const t = turnoutFor(w, year);
+    const p = prev ? turnoutFor(w, prev) : null;
+    return {
+      ward: +w, name: wardData[w].name, turnout: t,
+      change: t != null && p != null ? +(t - p).toFixed(1) : null,
+      win: wardWinner(w, year), note: boundaryNote(w, year),
+    };
+  });
+}
+
+function renderWardList() {
+  const year = currentYear;
+  const prev = YEARS[YEARS.indexOf(year) - 1];
+  document.getElementById('wl-title').textContent = 'All wards · ' + year;
+  document.getElementById('wl-change-h').textContent = prev ? 'vs ' + prev : 'Change';
+  document.querySelectorAll('.wl-table th').forEach(th => {
+    if (th.dataset.key === wlSort.key) th.setAttribute('aria-sort', wlSort.dir > 0 ? 'ascending' : 'descending');
+    else th.removeAttribute('aria-sort');
+  });
+
+  const val = r => wlSort.key === 'mayor' ? (r.win ? r.win.share : null) : r[wlSort.key];
+  // Missing values always sink to the bottom, whichever way the sort runs.
+  const rows = wardRows(year).sort((a, b) => {
+    const va = val(a), vb = val(b);
+    if (va == null && vb == null) return a.ward - b.ward;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    return (va - vb) * wlSort.dir || a.ward - b.ward;
+  });
+
+  const {scale} = makeScale();
+  document.getElementById('wl-body').innerHTML = rows.map(r => {
+    const turnout = r.turnout != null
+      ? `${r.turnout.toFixed(1)}%<span class="wl-bar" style="width:${Math.round(r.turnout * 0.6)}px;background:${scale(r.turnout)}"></span>`
+      : '<span title="No councillor data for this year">—</span>';
+    const change = r.change == null ? '—'
+      : `<span class="${r.change > 0 ? 'wl-up' : r.change < 0 ? 'wl-down' : ''}">${r.change > 0 ? '+' : ''}${r.change.toFixed(1)}</span>`;
+    const mayor = r.win
+      ? `<span class="wl-dot" style="background:${winnerBase(r.win.key)}"></span>${r.win.name.split(' ').slice(-1)[0]} ${r.win.share.toFixed(1)}%`
+      : '—';
+    const mark = r.note ? `<sup title="${r.note}">*</sup>` : '';
+    return `<tr data-ward="${r.ward}" tabindex="0" aria-label="Ward ${r.ward} ${r.name}">
+      <td><div class="wl-ward"><i style="background:${fillColor(r.ward)}"></i><b>${r.ward}</b><span>${r.name}</span>${mark}</div></td>
+      <td class="num">${turnout}</td><td class="num">${change}</td><td>${mayor}</td></tr>`;
+  }).join('');
+
+  const marked = rows.filter(r => r.note).map(r => r.ward).sort((a, b) => a - b);
+  document.getElementById('wl-foot').textContent =
+    'Turnout = councillor race; "Mayor race" = top candidate\'s share of votes cast.' +
+    (marked.length ? ` * Wards ${marked.join(', ')}: boundaries changed in 2022 (hover * for detail).` : '');
+}
+
+function selectWard(ward) {
+  selectedWard = ward;
+  d3.selectAll('#map path.ward').classed('selected', false).classed('hl', false);
+  d3.select('#map path.ward-' + ward).classed('selected', true).raise();
+  showPanel(ward);
+}
+
+function backToList() {
+  selectedWard = null;
+  d3.selectAll('#map path.ward').classed('selected', false);
+  document.getElementById('panel-content').style.display = 'none';
+  document.getElementById('ward-list').style.display = '';
+  document.getElementById('caveats-section').style.display = 'none';
+  renderWardList();
+}
+
+(function wireWardList() {
+  document.querySelectorAll('.wl-table th button').forEach(btn => btn.addEventListener('click', () => {
+    const key = btn.parentElement.dataset.key;
+    // First click: ward number ascending, numbers highest-first.
+    wlSort.dir = wlSort.key === key ? -wlSort.dir : (key === 'ward' ? 1 : -1);
+    wlSort.key = key;
+    renderWardList();
+  }));
+  const body = document.getElementById('wl-body');
+  body.addEventListener('click', e => {
+    const tr = e.target.closest('tr[data-ward]');
+    if (tr) selectWard(+tr.dataset.ward);
+  });
+  body.addEventListener('keydown', e => {
+    const tr = e.target.closest('tr[data-ward]');
+    if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectWard(+tr.dataset.ward); }
+  });
+  // Hovering a row outlines its ward on the map.
+  body.addEventListener('mouseover', e => {
+    const tr = e.target.closest('tr[data-ward]');
+    d3.selectAll('#map path.ward').classed('hl', false);
+    if (tr) d3.select('#map path.ward-' + tr.dataset.ward).classed('hl', true);
+  });
+  body.addEventListener('mouseleave', () => d3.selectAll('#map path.ward').classed('hl', false));
+  document.getElementById('p-back').addEventListener('click', backToList);
+})();
 
 // Keep ?year= and ?map= in the URL so a view can be shared.
 function syncUrl() {

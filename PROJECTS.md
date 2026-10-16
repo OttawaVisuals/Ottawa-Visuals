@@ -227,7 +227,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ### Ottawa Ward Elections
 - **Progress:** ~90% (live, iterating) · Interactive ward-level election map/visual.
 - Ongoing work on ward redistribution impact + Deneb custom visual with ward labels/leader lines.
-- 2026-10-16 (pre-election): map gained a 2010/2014/2018/2022 year selector (`?year=` in the URL), a "Mayor race: largest group" map mode (`?map=mayor`; didn't-vote / elected mayor / other candidates as % of registered voters; "Didn't vote" is the largest group in every ward in all four elections), a "ward winner (voters only)" mode (`?map=winner`; e.g. 2022: Sutcliffe 19 wards, McKenney 5), a turnout colour scale fitted to 30–55%, working nav links, dark-mode labels and a mobile layout. Open ideas: councillor history per ward, sortable ward list.
+- 2026-10-16 (pre-election): map gained a 2010/2014/2018/2022 year selector (`?year=` in the URL), a "Mayor race: largest group" map mode (`?map=mayor`; didn't-vote / elected mayor / other candidates as % of registered voters; "Didn't vote" is the largest group in every ward in all four elections), a "ward winner (voters only)" mode (`?map=winner`; e.g. 2022: Sutcliffe 19 wards, McKenney 5), a turnout colour scale fitted to 30–55%, working nav links, dark-mode labels and a mobile layout. A sortable ward list (turnout, change vs previous election, top mayoral candidate) fills the side panel until a ward is picked. Open idea: councillor history per ward.
 - **Page:** `/ottawa_ward_elections`
 
 ### Ottawa Mortgage / Housing Affordability Tool
