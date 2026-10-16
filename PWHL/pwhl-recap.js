@@ -66,12 +66,8 @@ function recapLogoBadge(code, size = 24) {
   const half = size / 2;
   g.append(recapSvg('circle', {r:half,fill:'var(--bg-2)',stroke:teamColor(code),'stroke-width':2}));
   const url = recapTeamLogoUrl(code);
-  if (url) g.append(recapSvg('image', {href:url,x:-half+2,y:-half+2,width:size-4,height:size-4,
+  g.append(PWHL.svgImage(url, {x:-half+2,y:-half+2,width:size-4,height:size-4,
     preserveAspectRatio:'xMidYMid meet'}));
-  else {
-    const label = recapSvg('text', {class:'recap-logo-fallback','text-anchor':'middle',y:3});
-    label.textContent = code; g.append(label);
-  }
   const title = recapSvg('title'); title.textContent = code; g.append(title);
   return g;
 }
@@ -377,8 +373,7 @@ function recapRenderPlayoffVisual(series) {
         x:x+3,y:yy-16,width:w-6,height:33,rx:4,fill:teamColor(row.team)}));
       if (row.team) {
         const logo = recapTeamLogoUrl(row.team);
-        if (logo) svg.append(recapSvg('image',{href:logo,x:x+8,y:yy-10,width:20,height:20}));
-        else svg.append(recapSvg('circle',{cx:x+18,cy:yy,r:7,fill:teamColor(row.team)}));
+        svg.append(PWHL.svgImage(logo,{x:x+8,y:yy-10,width:20,height:20}));
       }
       const name = recapSvg('text',{class:`playoff-graphic-team${row.team ? '' : ' pending'}`,
         x:x+33,y:yy+4});
@@ -487,7 +482,7 @@ function recapSetSeason(sid) {
   recapSetProjection();
   recapEl('recap-scrub').max = String(recapDays.length-1);
   recapEl('recap-team-legend').innerHTML = recapSeason.teams.map(code =>
-    `<button type="button" data-team="${esc(code)}" style="--team:${teamColor(code)}" aria-label="Highlight ${esc(recapTeamCity(code))}" aria-pressed="false"><img src="${esc(recapTeamLogoUrl(code))}" alt=""/><span>${esc(recapTeamCity(code))}</span></button>`).join('');
+    `<button type="button" data-team="${esc(code)}" style="--team:${teamColor(code)}" aria-label="Highlight ${esc(recapTeamCity(code))}" aria-pressed="false">${PWHL.image(recapTeamLogoUrl(code))}<span>${esc(recapTeamCity(code))}</span></button>`).join('');
   recapEl('recap-team-legend').querySelectorAll('button').forEach(button =>
     button.addEventListener('click',() => recapSetFocus(button.dataset.team)));
   recapMapBase();

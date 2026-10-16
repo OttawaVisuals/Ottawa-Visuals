@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=team-logo-filter-1"></script>
-<script src="pwhl-sections.js?v=awards-redraw-1"></script>
+<script src="pwhl-core.js?v=image-fallback-1"></script>
+<script src="pwhl-sections.js?v=image-fallback-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -21,7 +21,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=awards-redraw-1">
+<link rel="stylesheet" href="pwhl.css?v=image-fallback-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -185,7 +185,7 @@ function renderHead() {
   const facts = [];
   if (st) facts.push(['Record', `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}`], ['Points', `${st.pts} (#${st.rank})`], ['Goals', `${st.gf} for · ${st.ga} against`]);
   head.innerHTML = `
-    ${TEAM.logo ? `<img class="t-logo" src="${esc(TEAM.logo)}" alt="">` : ''}
+    ${PWHL.image(TEAM.logo, 't-logo', '', false)}
     <div>
       <div class="p-num">PWHL</div>
       <h1 class="p-name">${esc(TEAM.name)}</h1>
@@ -284,7 +284,7 @@ function renderLines(sid) {
   });
   const member = (id, name) => {
     const p = playersById.get(String(id));
-    return `<span class="line-player">${p && p.image ? `<img class="player-photo line-photo" src="${esc(p.image)}" alt="" loading="lazy">` : ''}${plLink(id, name)}</span>`;
+    return `<span class="line-player">${PWHL.image(p && p.image, 'player-photo line-photo')}${plLink(id, name)}</span>`;
   };
   const unit = u => {
     return `<div class="unit-row">
@@ -500,7 +500,7 @@ function renderRoster() {
     const ps = list.filter(test).sort((a, b) => Number(a.number || 99) - Number(b.number || 99));
     return ps.length ? `<div><div class="card-title">${label} (${ps.length})</div>${ps.map(p => `<div class="aw-row roster-player-row" style="grid-template-columns:28px 34px 1fr auto">
       <span class="rk">${p.number ? '#' + esc(p.number) : ''}</span>
-      ${photos.get(String(p.player_id)) ? `<img class="player-photo roster-photo" src="${esc(photos.get(String(p.player_id)))}" alt="" loading="lazy">` : '<span></span>'}
+      ${PWHL.image(photos.get(String(p.player_id)), 'player-photo roster-photo')}
       <span class="nm">${photos.has(String(p.player_id)) ? plLink(p.player_id, p.name) : esc(p.name)}</span>
       <span class="aw-sub">${p.rookie ? 'rookie' : ''}</span></div>`).join('')}</div>` : '';
   };

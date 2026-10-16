@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] PWHL image fallbacks (Oct 16: local league logo for missing or failed player photos and team logos)
 - [x] PWHL travel graphics (Oct 16: transport icons, distinct route patterns and theme colours)
 - [x] PWHL recap icon refresh (Oct 16: five event icons, matching award style and theme colours)
 - [x] PWHL award SVG refresh (Oct 16: full icon set, clearer metric symbols and theme-aware colours)

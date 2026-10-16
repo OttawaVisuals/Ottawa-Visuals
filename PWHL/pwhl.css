@@ -344,6 +344,7 @@ a.team-cell:hover span{color:var(--accent);}
 .roster-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
 @media (max-width:800px){ .roster-cols{grid-template-columns:1fr;} }
 .player-photo{width:30px;height:30px;object-fit:cover;border-radius:50%;border:1px solid var(--line);background:var(--bg-3);flex:none;}
+img.pwhl-image-fallback{object-fit:contain;background:#33058D;}
 .line-player{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
 .line-photo{width:28px;height:28px;}
 .team-award-cols,.team-award-row{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:8px;align-items:center;}

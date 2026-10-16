@@ -24,6 +24,31 @@ const seasonName = sid => ((META && META.seasons.find(s => s.season_id === sid))
 
 const PWHL = {};
 
+// Keep image placeholders local so unavailable upstream media never leaves gaps.
+PWHL.IMAGE_FALLBACK = 'assets/pwhl-logo.svg';
+PWHL.image = function (url, className = '', alt = '', lazy = true) {
+  const missing = !url;
+  return `<img data-pwhl-image${missing ? ' data-pwhl-fallback="true"' : ''} class="${esc(className)}${missing ? ' pwhl-image-fallback' : ''}" src="${esc(url || PWHL.IMAGE_FALLBACK)}" alt="${esc(alt)}"${lazy ? ' loading="lazy"' : ''}>`;
+};
+PWHL.svgImage = function (url, attributes = {}) {
+  const image = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+  Object.entries(attributes).forEach(([key, value]) => image.setAttribute(key, value));
+  image.setAttribute('data-pwhl-image', '');
+  image.setAttribute('href', url || PWHL.IMAGE_FALLBACK);
+  if (!url) image.setAttribute('data-pwhl-fallback', 'true');
+  return image;
+};
+// Image error events do not bubble; capture also covers dynamically rendered SVGs.
+document.addEventListener('error', event => {
+  const image = event.target;
+  if (!(image instanceof Element) || !image.hasAttribute('data-pwhl-image')
+      || image.hasAttribute('data-pwhl-fallback')) return;
+  image.setAttribute('data-pwhl-fallback', 'true');
+  image.classList.add('pwhl-image-fallback');
+  image.removeAttribute('srcset');
+  image.setAttribute(image.localName === 'image' ? 'href' : 'src', PWHL.IMAGE_FALLBACK);
+}, true);
+
 // ---------------------------------------------------------------- header
 PWHL.PAGES = [
   ['home', 'pwhl.html', 'Home'],
@@ -87,7 +112,7 @@ PWHL.fillHeader = function (activeCode) {
   const selected = (activeCode || new URLSearchParams(location.search).get('team') || '').toUpperCase();
   document.getElementById('logo-strip').innerHTML = teams.map(t => `
     <a href="${filterPage ? `${page}?team=${encodeURIComponent(t.code)}` : teamHref(t.code)}" title="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" aria-label="${filterPage ? `Filter this page to ${esc(t.name)}` : esc(t.name)}" class="${t.code === selected ? 'active' : ''}" style="--tc:${teamColor(t.code)}">
-      ${t.logo ? `<img src="${esc(t.logo)}" alt="${esc(t.code)}" loading="lazy">` : `<span>${esc(t.code)}</span>`}
+      ${PWHL.image(t.logo, '', t.code)}
     </a>`).join('');
   const d = META.last_game_date;
   const nice = d ? new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { day: 'numeric', month: 'short', year: 'numeric' }) : null;
@@ -308,7 +333,7 @@ function emptyTable(id, msg) {
 }
 function teamLogo(seasonId, code) {
   const t = ((META.teams_by_season || {})[seasonId] || []).find(t => t.code === code);
-  return t && t.logo ? `<img src="${esc(t.logo)}" alt="">` : '';
+  return PWHL.image(t && t.logo);
 }
 // Click-to-sort for a table built from `rows`: columns = [{key, label, get, fmt, num}].
 PWHL.sortableTable = function (table, columns, rows, opts = {}) {

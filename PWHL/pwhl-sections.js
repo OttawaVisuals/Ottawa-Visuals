@@ -52,7 +52,7 @@ function renderStandingsTable(seasonId) {
       ${teams.map(t => `
         <tr>
           <td class="rank-badge">${t.rank ?? '—'}</td>
-          <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<span>${esc(t.name || t.code)}</span></a></td>
+          <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${PWHL.image(t.logo)}<span>${esc(t.name || t.code)}</span></a></td>
           <td>${fmt(t.gp)}</td><td>${fmt(t.w)}</td><td>${fmt(t.l)}</td>
           <td>${fmt((t.otl||0))}</td><td>${fmt((t.sol||0))}</td>
           <td class="pts-cell">${fmt(t.pts)}</td><td>${fmt(t.gf)}</td><td>${fmt(t.ga)}</td>
@@ -703,7 +703,7 @@ function renderForecast() {
         <thead><tr><th>#</th><th>Team</th><th>Elo</th>${cols.map(c => `<th>${c[1]}</th>`).join('')}</tr></thead>
         <tbody>${teams.map((t, i) => `<tr>
           <td class="rank-badge">${i + 1}</td>
-          <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${t.logo ? `<img src="${esc(t.logo)}" alt="">` : ''}<span>${esc(t.name)}</span></a></td>
+          <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${PWHL.image(t.logo)}<span>${esc(t.name)}</span></a></td>
           <td>${Math.round(t.elo)}</td>
           ${cols.map(([k]) => `<td class="pct-cell${k === 'playoffs' ? ' pts-cell' : ''}">${k === 'pts' || k === 'rank' ? (t[k] != null ? t[k].toFixed(1) : '—') : pctFmt(t[k])}</td>`).join('')}
         </tr>`).join('')}</tbody>

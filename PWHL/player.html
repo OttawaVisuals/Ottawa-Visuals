@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js"></script>
-<script src="pwhl-core.js?v=team-logo-filter-1"></script>
+<script src="pwhl-core.js?v=image-fallback-1"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -20,7 +20,7 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=awards-redraw-1">
+<link rel="stylesheet" href="pwhl.css?v=image-fallback-1">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -159,7 +159,7 @@ function renderHead() {
   const sids = seasonsPlayed();
   head.innerHTML = `
     ${P.action ? `<div class="p-action" style="background-image:url('${esc(P.action)}')"></div>` : ''}
-    ${P.image ? `<img class="p-photo" src="${esc(P.image)}" alt="" onerror="this.remove()">` : ''}
+    ${PWHL.image(P.image, 'p-photo', '', false)}
     <div>
       <div class="p-num">${P.number ? '#' + esc(P.number) + ' · ' : ''}${esc(posName)}</div>
       <h1 class="p-name">${esc(P.name)}</h1>
