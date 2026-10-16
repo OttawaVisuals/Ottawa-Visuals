@@ -108,8 +108,12 @@
 .recap-event-strip[hidden]{display:none}
 .recap-event-track{display:flex;gap:7px;min-width:100%;width:max-content;padding:5px}
 .recap-event-box{flex:0 0 220px;display:flex;align-items:center;gap:9px;min-height:46px;padding:5px 9px;border:1px solid currentColor;border-radius:7px;background:var(--bg-2);color:var(--ink);overflow:hidden}
-.recap-event-box .recap-event-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;color:var(--ink)}
-.recap-event-icon svg{display:block;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.recap-event-box .recap-event-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;color:var(--ink);--recap-icon-accent:#C9542F}
+[data-theme="dark"] .recap-event-icon{--recap-icon-accent:#E06B45}
+[data-theme="cb"] .recap-event-icon{--recap-icon-accent:var(--accent)}
+.recap-event-icon svg{display:block;width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.recap-event-icon .recap-icon-accent{color:var(--recap-icon-accent);stroke:currentColor}
+.recap-event-icon .recap-icon-accent[stroke="none"]{stroke:none}
 .recap-event-box>span:last-child{display:grid;gap:2px;min-width:0}
 .recap-event-box strong{font-size:11px}.recap-event-box small{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink-2)}
 .recap-event-box.hat-trick{color:#bb8615;background:rgba(239,194,73,.18)}

@@ -413,11 +413,11 @@ function recapUpdateEventStrip(index, day) {
   const events = recapDays.slice(0,index+1).flatMap(frame =>
     (frame.games || []).flatMap(game => (game.events || []).map(event => ({...event,date:frame.date,gameId:game.id}))));
   const icons = {
-    'hat-trick':'<svg viewBox="0 0 64 64"><path d="M15 48h35M20 47c-2-5-4-8-4-14 0-5 3-9 8-11l5-14h19l5 14c5 2 8 6 8 11 0 6-3 10-5 14z"/><path d="M27 10h21M35 55l13-17M42 39l10 2"/></svg>',
-    shutout:'<svg viewBox="0 0 64 64"><path d="M9 10h46v44H9zM9 25h46M9 40h46M24 10v15M42 10v15M17 25v15M36 25v15M25 40v14M45 40v14"/></svg>',
-    'game-misconduct':'<svg viewBox="0 0 64 64"><path d="M7 40c0-13 9-23 22-23h9v7h8c8 0 12 4 12 11v7h-8c-8 0-14 4-20 11-5 6-13 7-19 3-3-3-4-9-4-16zM38 24h18v18h-8"/><circle cx="23" cy="40" r="9"/><path d="M28 17v-6h12v6M25 8l-4-5m18 5 4-5"/></svg>',
-    suspension:'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="23"/><path d="M16 16l32 32"/><path d="M23 27h18M23 37h18"/></svg>',
-    'short-handed-goal':'<svg viewBox="0 0 64 64"><path d="M8 12h48v42H8zM20 12v42M32 12v42M44 12v42M8 26h48M8 40h48"/><path d="M8 54V12h48v42"/><circle cx="20" cy="26" r="7"/><circle cx="20" cy="26" r="2.2"/></svg>',
+    'hat-trick':'<svg viewBox="0 0 64 64" focusable="false"><path d="m15 34 5-24h24l5 24M7 34h50M18 25h28"/><g class="recap-icon-accent" fill="currentColor" stroke="none"><path d="M7 48c0-5 14-5 14 0v5c0 5-14 5-14 0ZM25 48c0-5 14-5 14 0v5c0 5-14 5-14 0ZM43 48c0-5 14-5 14 0v5c0 5-14 5-14 0Z"/></g></svg>',
+    shutout:'<svg viewBox="0 0 64 64" focusable="false"><path d="M12 8h18l6 10-3 23-12 13L9 41 6 18Z"/><path d="M11 21h20M13 31h16M17 19v13M25 19v13M17 41h8"/><ellipse class="recap-icon-accent" cx="50" cy="38" rx="9" ry="15"/></svg>',
+    'game-misconduct':'<svg viewBox="0 0 64 64" focusable="false"><path d="M34 33h10v11H33a13 13 0 1 1-12-18h5v7Z"/><circle cx="20" cy="40" r="5"/><path d="M20 26v-7h9v7"/><path class="recap-icon-accent" d="M36 17h21m-7-7 7 7-7 7M58 7v20"/></svg>',
+    suspension:'<svg viewBox="0 0 64 64" focusable="false"><rect x="9" y="13" width="46" height="43" rx="4"/><path d="M9 25h46M21 7v12M43 7v12"/><g class="recap-icon-accent"><circle cx="32" cy="40" r="10"/><path d="m25 33 14 14"/></g></svg>',
+    'short-handed-goal':'<svg viewBox="0 0 64 64" focusable="false"><path d="M19 10 7 28h16M19 10v27M55 10H42v12h6c12 0 12 15 0 15h-6"/><path class="recap-icon-accent" d="m27 21 6 11 6-11M11 51h21m-6-6 7 6-7 6"/><path d="M41 49c0-5 16-5 16 0v5c0 5-16 5-16 0Z" fill="currentColor" stroke="none"/></svg>',
   };
   const labels = {'hat-trick':'Hat trick',shutout:'Shutout','game-misconduct':'Misconduct',suspension:'Suspension','short-handed-goal':'Short-handed goal'};
   track.innerHTML = events.map((event,i) => `<div class="recap-event-box ${esc(event.type)}${i >= recapRenderedEventCount ? ' is-new' : ''}" title="${esc(event.player)} · game ${esc(event.gameId || '—')} · ${esc(event.date)}"><span class="recap-event-icon" aria-hidden="true">${icons[event.type] || ''}</span><span><strong>${esc(labels[event.type] || event.type)}</strong><small>${esc(event.player)}${event.team ? ` · ${esc(event.team)}` : ''}</small></span></div>`).join('');

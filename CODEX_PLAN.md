@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] PWHL recap icon refresh (Oct 16: five event icons, matching award style and theme colours)
 - [x] PWHL award SVG refresh (Oct 16: full icon set, clearer metric symbols and theme-aware colours)
 - [x] PWHL page work with Codex (Oct 15: historical overview, season summaries and team awards)
 
