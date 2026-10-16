@@ -13,12 +13,12 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-10-16 (🔴 traffic + transit collectors down since 2026-10-12)
+## Pipeline status — checked 2026-10-16 (✅ collectors resumed 2026-10-16 18:01 UTC after a 4.3-day gap)
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | **2026-10-12 10:05 UTC** | 🔴 down ~4.3 days. Pi stopped; its Cloudflare → `collect.yml` replacement has never run |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | **2026-10-12 09:35 UTC** | 🔴 same, plus the `OCTRANSPO_API_KEY` repo secret `collect.yml` needs doesn't exist yet |
+| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-10-16 17:56 UTC | ✅ resumed on Cloudflare → `collect.yml`. Gap 2026-10-12 10:05 → 10-16 17:56 UTC is permanent |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-10-16 18:01 UTC | ✅ resumed (first sample: 632 trips tracked, 69 cancelled). Gap 2026-10-12 09:35 → 10-16 18:00 UTC is permanent |
 | OC Transpo KPI snapshots | weekly (Mon) | files from 2026-07-11 | ✅ nothing lost: the current Open Ottawa files are byte-identical to Jul 11 (checked 2026-10-16). Job moved off the Pi to `.github/workflows/kpi_snapshots.yml` |
 | GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified | 🔴 Pi-only. `collect.yml` doesn't archive raw JSON (no `OCTRANSPO_RAW_DIR` on Actions), so offline on-time computation loses its input after 2026-10-12 |
 | Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified | 🔴 Pi-only cron, not moved to Actions |
@@ -44,6 +44,11 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
    Readings from 2026-10-12 onward can't be backfilled; the gap is permanent.
 5. Still Pi-only with no Actions replacement: the raw GTFS-RT archive and the weekly
    static GTFS download. Decide whether to keep the Pi for those or move them.
+6. **Resolved 2026-10-16:** the owner created the PAT, added `OCTRANSPO_API_KEY` and
+   deployed the Worker. The first dispatched run (17:55 UTC) succeeded and pushed
+   `traffic: readings 2026-10-16 17:56 UTC`; transit was self-gated off-peak on that run,
+   then the 18:00 UTC run pushed `transit: readings 2026-10-16 18:01 UTC`. Heartbeat
+   issue #1 closes itself on its next daily run once it sees the fresh commits.
 
 **Previous incident timeline (2026-08-03 → 2026-09-03, ~1 month):**
 1. `traffic:`/`transit:` commits (Pi cron only) stopped dead at **2026-08-03

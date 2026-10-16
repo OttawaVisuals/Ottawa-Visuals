@@ -231,17 +231,17 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <b>TL;DR:</b> Five tools are live on the homepage, plus five more live but not (yet) featured
     there. Four projects are actively being built. Two collector pipelines (TomTom commutes,
     OC Transpo GTFS-RT) log data no public source keeps history for. They ran on a Raspberry Pi
-    until 2026-10-12 and are moving to a Cloudflare-triggered GitHub Action, which isn't running yet (see below). Every assumption or judgment call behind these tools is listed below with a
+    until 2026-10-12 and now run as a Cloudflare-triggered GitHub Action (since 2026-10-16). Every assumption or judgment call behind these tools is listed below with a
     checkbox, the alternatives that existed, and a concrete way to verify it yourself. Your ticks
     are saved on this computer only.
   </div>
 
-  <div class="tldr" style="border-left:4px solid #d64545">
-    <b>Collector status (checked 2026-10-16 — 🔴 traffic + transit collectors down since 2026-10-12):</b>
+  <div class="tldr" style="border-left:4px solid #e6a700">
+    <b>Collector status (checked 2026-10-16 — ✅ resumed 18:01 UTC after a 4.3-day gap):</b>
     <ul style="margin:.5rem 0 0 1.1rem;padding:0">
-      <li>🔴 <b>TomTom traffic</b> — last reading <code>2026-10-12 10:05 UTC</code>; heartbeat issue #1 open since Oct 15.</li>
-      <li>🔴 <b>OC Transpo GTFS-RT</b> — last reading <code>2026-10-12 09:35 UTC</code>.</li>
-      <li>🔴 <b>Why:</b> the Pi stopped on Oct 12, and its replacement (Cloudflare Worker → <code>collect.yml</code>,
+      <li>✅ <b>TomTom traffic</b> — resumed, first reading <code>2026-10-16 17:56 UTC</code>. Gap from <code>2026-10-12 10:05 UTC</code> is permanent.</li>
+      <li>✅ <b>OC Transpo GTFS-RT</b> — resumed, first reading <code>2026-10-16 18:01 UTC</code> (632 trips tracked, 69 cancelled). Gap from <code>2026-10-12 09:35 UTC</code>.</li>
+      <li>✅ <b>Fixed the same day:</b> the Worker setup is finished (token, <code>OCTRANSPO_API_KEY</code> secret, <code>wrangler deploy</code>), and <code>collect.yml</code> now runs every 5 min. <b>What had happened:</b> the Pi stopped on Oct 12, and its replacement (Cloudflare Worker → <code>collect.yml</code>,
         committed Oct 14) has <b>never run once</b>. The Worker setup in <code>cloudflare-worker/README.md</code>
         isn't finished: no deploy or token, and the <code>OCTRANSPO_API_KEY</code> repo secret is missing. Fixing it
         needs the account owner (PAT, secret, <code>wrangler deploy</code>); readings since Oct 12 can't be backfilled.</li>
