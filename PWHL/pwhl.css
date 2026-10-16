@@ -134,7 +134,10 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .aw-card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px 13px;display:flex;flex-direction:column;gap:8px;}
 .aw-head{display:flex;align-items:center;gap:10px;min-height:40px;}
 .aw-icon{width:62px;height:40px;flex:none;display:grid;place-items:center;}
-.aw-icon img{display:block;width:100%;height:100%;object-fit:contain;}
+.aw-icon,.aw-hall-icon{color:var(--ink);--award-accent:#C9542F;--award-muted:var(--ink-3);--award-post:#C93436;--award-cutout:var(--bg-2);}
+[data-theme="dark"] .aw-icon,[data-theme="dark"] .aw-hall-icon{--award-accent:#E06B45;--award-post:#F06A68;}
+[data-theme="cb"] .aw-icon,[data-theme="cb"] .aw-hall-icon{--award-accent:var(--accent);--award-post:var(--blue);}
+.aw-icon svg{display:block;width:100%;height:100%;}
 .aw-title{font-weight:700;font-size:13px;letter-spacing:-0.01em;}
 .aw-blurb{font-size:11.5px;color:var(--ink-3);line-height:1.45;}
 .superlatives-page .aw-blurb{font-size:12.5px;}
@@ -153,7 +156,7 @@ a.pl-link:hover{color:var(--accent);border-bottom-color:var(--accent);}
 .superlatives-page .aw-sub,.superlatives-page .note{font-size:11px;}
 .aw-tie-note{font-size:11px;line-height:1.35;color:var(--ink-2);}
 .aw-hall-icon{width:28px;height:24px;display:grid;place-items:center;}
-.aw-hall-icon img{display:block;width:100%;height:100%;object-fit:contain;}
+.aw-hall-icon svg{display:block;width:100%;height:100%;}
 /* ── SHOT MAP ──────────────────────────────────────────────────── */
 .rink-wrap{display:flex;justify-content:center;}
 .rink-wrap canvas{max-width:100%;height:auto;}

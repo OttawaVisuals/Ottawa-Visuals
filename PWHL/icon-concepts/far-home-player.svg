@@ -1,8 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="22" cy="18" r="7" stroke="#283447" stroke-width="3"/>
-  <path d="M9 49c1-10 6-16 13-16s12 6 13 16" stroke="#283447" stroke-width="3"/>
-  <path d="M41 34h25m-8-8 9 8-9 8" stroke="#c9542f" stroke-width="3.5"/>
-  <path d="M71 49c0-9 7-16 15-16s0 13 0 16H71Z" stroke="#697a8d" stroke-width="3"/>
-  <circle cx="81" cy="23" r="7" stroke="#697a8d" stroke-width="3"/>
-  <path d="M38 52h35" stroke="#22885f" stroke-width="2.5" stroke-dasharray="3 4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">Far From Home: birthplace pin and team home separated by a distance marker</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <path d="M26 25c0 10-13 22-13 22S0 35 0 25a13 13 0 0 1 26 0Z" transform="translate(10 -2)"/><circle cx="23" cy="23" r="4" stroke="var(--award-accent, #C9542F)"/><path d="m62 31 12-11 12 11v21H62Z"/><path d="M71 52V41h7v11"/><path d="M28 52h28M28 48v8M56 48v8" stroke="var(--award-accent, #C9542F)"/><path d="M40 25h12" stroke="var(--award-muted, #8B98AA)" stroke-dasharray="2 5"/>
 </svg>

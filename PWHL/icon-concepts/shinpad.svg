@@ -1,11 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 64" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
-  <title id="title">The Shin-Pad Shooter: a stick shot hits a defender's shin pad</title>
-  <path d="M8 10l17 37c2 4 5 5 9 5h12" stroke="#283447" stroke-width="4"/>
-  <path d="M35 52h14" stroke="#283447" stroke-width="4"/>
-  <ellipse cx="58" cy="42" rx="6" ry="2.5" fill="#283447"/>
-  <path d="M52 42v3c0 1.4 2.5 2.5 6 2.5s6-1.1 6-2.5v-3" fill="#283447"/>
-  <path d="M76 13h17l-2 31-7 5-9-5z" fill="#fff" stroke="#283447" stroke-width="3.2"/>
-  <path d="M79 21h11M79 28h10M78 35h11" stroke="#9EA8B7" stroke-width="2"/>
-  <path d="M82 49l-4 7h23l4-4-14-5" fill="#fff" stroke="#283447" stroke-width="3"/>
-  <path d="M73 36l-6 3 5 3-2 6 6-4 5 3-2-7 5-3-7-1-2-6z" fill="#C9542F"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">The Shin-Pad Shooter: an incoming puck hits a shin guard</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <path d="m10 12 14 34c2 4 5 6 10 6h10" stroke-width="4"/><ellipse cx="49" cy="41" rx="6" ry="3" fill="currentColor" stroke="none"/><path d="M43 41v4c0 4 12 4 12 0v-4" fill="currentColor" stroke="none"/><path d="M71 13h15l-2 28-8 6-9-6ZM75 47l-5 8h19l3-4-10-6"/><path d="M73 24h10M72 33h10" stroke="var(--award-muted, #8B98AA)" stroke-width="2"/><path d="m62 31 2 7 7 2-7 3-2 7-3-7-7-3 7-2Z" fill="var(--award-accent, #C9542F)" stroke="none"/>
 </svg>

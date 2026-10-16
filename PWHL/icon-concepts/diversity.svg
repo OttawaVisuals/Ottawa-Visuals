@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <circle cx="48" cy="31" r="22" stroke="#283447" stroke-width="3"/>
-  <path d="M26 31h44M48 9c8 7 12 14 12 22S56 46 48 53M48 9c-8 7-12 14-12 22s4 15 12 22" stroke="#697a8d" stroke-width="2.5"/>
-  <path d="M30 19h36M30 43h36" stroke="#22885f" stroke-width="2.5"/>
-  <circle cx="48" cy="31" r="4" fill="#c9542f" stroke="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">Most Diverse Team: countries represented around a globe</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <circle cx="48" cy="32" r="23"/><ellipse cx="48" cy="32" rx="11" ry="23" stroke="var(--award-muted, #8B98AA)"/><path d="M26 32h44" stroke="var(--award-muted, #8B98AA)"/><circle cx="30" cy="18" r="4" fill="var(--award-accent, #C9542F)" stroke="none"/><circle cx="69" cy="22" r="4" fill="var(--award-accent, #C9542F)" stroke="none"/><circle cx="52" cy="54" r="4" fill="var(--award-accent, #C9542F)" stroke="none"/>
 </svg>

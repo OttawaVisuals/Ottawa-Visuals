@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M15 50h66M24 43l8-11 8 11M48 43l8-17 8 17M72 43l7-9 7 9" stroke="#697a8d" stroke-width="3"/>
-  <circle cx="32" cy="24" r="6" fill="#283447"/><circle cx="56" cy="19" r="6" fill="#c9542f"/><circle cx="79" cy="24" r="6" fill="#22885f"/>
-  <path d="M24 43h16M48 43h16M72 43h14" stroke="#283447" stroke-width="3"/>
-  <path d="m42 54 5 5 10-11" stroke="#22885f" stroke-width="3.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">The Top Line: three leading scorers above the rest of the roster</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <path d="M23 12h50M23 12v5M73 12v5" stroke="var(--award-accent, #C9542F)"/><circle cx="28" cy="28" r="6"/><circle cx="48" cy="28" r="6"/><circle cx="68" cy="28" r="6"/><path d="M19 44c0-11 18-11 18 0M39 44c0-11 18-11 18 0M59 44c0-11 18-11 18 0"/><g stroke="var(--award-muted, #8B98AA)" stroke-width="3"><path d="M17 55h6M31 55h6M45 55h6M59 55h6M73 55h6"/></g>
 </svg>

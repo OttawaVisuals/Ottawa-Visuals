@@ -226,7 +226,7 @@ const AWARDS_DEFS = [
     blurb:'Lowest shooting percentage among those same volume shooters. The pucks simply will not go in.',
     filter: (r, th) => r.shots >= th.minShots, asc:true, val: r => 100 * r.goals / r.shots,
     fmt: v => dec1(v) + '%', noRate:true, sub: th => `Min. ${th.minShots} shots` },
-  { key:'value', title:'The Point Producer', rateTitle:'Bang For The Buck',
+  { key:'value', icon:'point-producer', rateIcon:'value', title:'The Point Producer', rateTitle:'Bang For The Buck',
     blurb:'Most points scored this season.',
     rateBlurb:'Most points per 60 minutes of ice time.',
     val: r => r.points, fmt: int0, unit:'PTS', rateFmt: dec2, rateUnit:'PTS/60' },
@@ -273,10 +273,10 @@ const AWARD_GROUPS = [
   { id:'origins', title:'Origins & distance', keys:['farhome'] },
 ];
 
-// Local SVGs avoid an asynchronous icon swap after page render.
-function awardIcon(def, className = 'aw-icon') {
-  const filename = (def.icon || def.key).replaceAll('_', '-') + '.svg';
-  return `<span class="${className}" aria-hidden="true"><img src="icon-concepts/${filename}" alt=""></span>`;
+// External symbols inherit the selected page theme, including manual toggles.
+function awardIcon(def, className = 'aw-icon', useRate = false) {
+  const icon = ((useRate && def.rateIcon) || def.icon || def.key).replaceAll('_', '-');
+  return `<span class="${className}" aria-hidden="true"><svg viewBox="0 0 96 64" focusable="false"><use href="icon-concepts/awards.svg?v=awards-redraw-1#${icon}"></use></svg></span>`;
 }
 
 function awardRanking(def, rows, mode, th) {
@@ -357,7 +357,7 @@ function renderAwards(seasonId, mode) {
       : '<div class="aw-sub">Not enough qualifying players.</div>';
     return [def.key, `
       <div class="aw-card">
-        <div class="aw-head">${awardIcon(def)}<span class="aw-title">${esc(useRate && def.rateTitle ? def.rateTitle : def.title)}</span></div>
+        <div class="aw-head">${awardIcon(def, 'aw-icon', useRate)}<span class="aw-title">${esc(useRate && def.rateTitle ? def.rateTitle : def.title)}</span></div>
         <div class="aw-blurb">${esc(useRate && def.rateBlurb ? def.rateBlurb : def.blurb)}</div>
         <div class="aw-list">${body}</div>
         <div class="aw-sub">${esc(unit ? unit + (sub ? ' · ' + sub : '') : sub)}</div>
@@ -400,7 +400,7 @@ function renderTeamAwards(seasonId) {
     { key:'pim_per_game', icon:'goon', title:'The Penalty-Box Regulars', asc:false,
       blurb:'Most logged player penalty minutes per team game.',
       format:v => `${v.toFixed(2)} PIM/GP`, detail:r => `${fmt(r.pim)} PIM · ${fmt(r.games)} GP` },
-    { key:'salary_cv', icon:'value', title:'The Fair-Pay Team', asc:true, salary:true,
+    { key:'salary_cv', icon:'fair-pay', title:'The Fair-Pay Team', asc:true, salary:true,
       blurb:'Smallest salary spread relative to the team average (coefficient of variation).',
       format:v => `${(v * 100).toFixed(1)}% CV`, detail:r => `${r.salary_count}/${r.roster_count} rostered players listed` },
     { key:'top3_salary_share', icon:'top-heavy', title:'The Top-Heavy Team', asc:false, salary:true,

@@ -1,9 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
-  <title id="title">The Draw Master: two hockey sticks contest a puck inside a faceoff circle</title>
-  <circle cx="48" cy="34" r="22" stroke="#9EA8B7" stroke-width="2.2"/>
-  <path d="M48 12v8M48 48v8M26 34h7M63 34h7" stroke="#9EA8B7" stroke-width="1.7"/>
-  <path d="M9 9l25 21c2 2 5 2 8 2h3" stroke="#283447" stroke-width="3.5"/>
-  <path d="M87 9L62 30c-2 2-5 2-8 2h-3" stroke="#283447" stroke-width="3.5"/>
-  <ellipse cx="48" cy="39" rx="5.5" ry="2.5" fill="#C9542F"/>
-  <path d="M42.5 39v2.5c0 1.5 2.5 2.5 5.5 2.5s5.5-1 5.5-2.5V39" fill="#C9542F"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">The Draw Master: two sticks contest a faceoff puck</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <circle cx="48" cy="34" r="22" stroke="var(--award-muted, #8B98AA)" stroke-width="2.5"/><path d="M12 10 35 31h8M84 10 61 31h-8" stroke-width="4.5"/><ellipse cx="48" cy="40" rx="7" ry="3" fill="currentColor" stroke="none"/><path d="M41 40v4c0 4 14 4 14 0v-4" fill="currentColor" stroke="none"/><path d="M48 12v7M48 50v6" stroke="var(--award-accent, #C9542F)"/>
 </svg>

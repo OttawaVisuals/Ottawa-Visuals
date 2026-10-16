@@ -50,6 +50,17 @@ When `pwhl-core.js` changes, bump its `?v=` value on every PWHL HTML page.
 GitHub Pages caches JavaScript, and an unchanged URL can keep the old navigation
 visible after a deployment.
 
+## Award icons
+
+The award SVGs in `icon-concepts/` share a 96 × 64 canvas and use theme-aware
+outlines, orange accents and simplified shapes for the 62 × 40 card and 28 × 24
+Hall displays. Edit the individual SVGs, then run
+`python PWHL/scripts/build_award_sprite.py` to refresh `icon-concepts/awards.svg`.
+The dashboard uses that sprite so colours follow the selected page theme;
+standalone SVGs follow the operating system theme. After editing icons, bump the
+sprite version in `awardIcon()` and the `pwhl-sections.js?v=` value on its HTML
+consumers. Point Producer, its rate variant, and Fair Pay use distinct icons.
+
 ## Team travel estimates
 
 `python PWHL/scripts/build_pwhl_travel.py` rebuilds the static travel JSON from

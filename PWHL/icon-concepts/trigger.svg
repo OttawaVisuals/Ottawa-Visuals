@@ -1,10 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 64" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
-  <title id="title">Trigger Finger: hockey stick striking a puck into a fast shot</title>
-  <path d="M13 10l20 38c2 4 5 6 10 6h12" stroke="#283447" stroke-width="4.5"/>
-  <path d="M43 54h17" stroke="#283447" stroke-width="4.5"/>
-  <path d="M55 47l5-5M59 52l7-1M53 41l1-7" stroke="#C9542F" stroke-width="2.8"/>
-  <path d="M62 28h9M58 35h12M61 42h8" stroke="#9EA8B7" stroke-width="2.6"/>
-  <path d="M73 31c0-4 4-6 10-6s10 2 10 6v8c0 4-4 6-10 6s-10-2-10-6z" fill="#283447"/>
-  <ellipse cx="83" cy="31" rx="10" ry="5" fill="#fff" stroke="#283447" stroke-width="2.5"/>
-  <path d="M75 38h16" stroke="#fff" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="title">
+  <title id="title">Trigger Finger: a stick fires a fast, flat puck</title>
+  <style>:root{color:#283447;--award-cutout:#fff}@media(prefers-color-scheme:dark){:root{color:#EEF1F7;--award-accent:#E06B45;--award-muted:#9EA8B7;--award-post:#F06A68;--award-cutout:#161A23}}</style>
+  <path d="m13 10 17 37c2 4 5 6 10 6h14" stroke-width="4.5"/><path d="M48 34h18M43 41h23M53 48h13" stroke="var(--award-muted, #8B98AA)" stroke-width="2.5"/><ellipse cx="78" cy="39" rx="9" ry="3" fill="currentColor" stroke="none"/><path d="M69 39v4c0 4 18 4 18 0v-4" fill="currentColor" stroke="none"/><path d="m46 24 4 5M58 22l-1 6" stroke="var(--award-accent, #C9542F)"/>
 </svg>
