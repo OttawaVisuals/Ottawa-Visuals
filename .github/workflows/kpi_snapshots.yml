@@ -1,0 +1,38 @@
+name: Snapshot OC Transpo KPI Spreadsheets
+
+# Archives the four Open Ottawa OC Transpo KPI spreadsheets (rolling ~13-month
+# windows, so history drops off unless we keep dated copies). This used to be a
+# Monday cron on the Raspberry Pi; it moved here when the Pi was retired.
+# snapshot_kpis.py only writes a new dated .xlsx when the content changed, so
+# most weeks this commits nothing. Weekly schedules fire reliably on this
+# account (sub-hourly ones don't).
+on:
+  schedule:
+    - cron: '30 9 * * 1'  # Mondays 09:30 UTC (staggered: real-estate 09:00, ASE 10:00, StatCan 11:00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Snapshot KPI spreadsheets
+        run: python OC_Transpo/scripts/snapshot_kpis.py
+
+      - name: Commit new snapshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add OC_Transpo/rt_data/kpi_snapshots/
+          git diff --staged --quiet || git commit -m "OC Transpo KPI snapshot $(date -u +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push

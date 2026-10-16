@@ -27,7 +27,7 @@ TODAY (override): none
 - [x] Create `AGENTS.md` ("Read CLAUDE.md and follow it.")
 
 ## Week 1 (Oct 15–21): RTO Watch + collectors
-- [ ] Day 1: Claude Code checks Cloudflare cron + `collect.yml`; update `PROJECTS.md` + `tracker.html` together
+- [x] Day 1: Claude Code checks Cloudflare cron + `collect.yml`; update `PROJECTS.md` + `tracker.html` together (done Oct 16: collectors down since Oct 12; `collect.yml` has never run because the Worker setup is unfinished; owner steps in PROJECTS.md)
 - [ ] Day 2: **RESET 1** — Codex builds RTO Watch before/after charts (strongest model)
 - [ ] Day 3: finish/review the charts
 - [ ] Day 4: Tax polish (mid model)

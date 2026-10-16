@@ -230,15 +230,28 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="tldr">
     <b>TL;DR:</b> Five tools are live on the homepage, plus five more live but not (yet) featured
     there. Four projects are actively being built. Two collector pipelines (TomTom commutes,
-    OC Transpo GTFS-RT) run unattended on a Raspberry Pi, logging data no public source keeps
-    history for. Every assumption or judgment call behind these tools is listed below with a
+    OC Transpo GTFS-RT) log data no public source keeps history for. They ran on a Raspberry Pi
+    until 2026-10-12 and are moving to a Cloudflare-triggered GitHub Action, which isn't running yet (see below). Every assumption or judgment call behind these tools is listed below with a
     checkbox, the alternatives that existed, and a concrete way to verify it yourself. Your ticks
     are saved on this computer only.
   </div>
 
-  <div class="tldr" style="border-left:4px solid #e6a700">
-    <b>Collector status (checked 2026-09-03 — pipeline recovered; one thing unexplained):</b>
+  <div class="tldr" style="border-left:4px solid #d64545">
+    <b>Collector status (checked 2026-10-16 — 🔴 traffic + transit collectors down since 2026-10-12):</b>
     <ul style="margin:.5rem 0 0 1.1rem;padding:0">
+      <li>🔴 <b>TomTom traffic</b> — last reading <code>2026-10-12 10:05 UTC</code>; heartbeat issue #1 open since Oct 15.</li>
+      <li>🔴 <b>OC Transpo GTFS-RT</b> — last reading <code>2026-10-12 09:35 UTC</code>.</li>
+      <li>🔴 <b>Why:</b> the Pi stopped on Oct 12, and its replacement (Cloudflare Worker → <code>collect.yml</code>,
+        committed Oct 14) has <b>never run once</b>. The Worker setup in <code>cloudflare-worker/README.md</code>
+        isn't finished: no deploy or token, and the <code>OCTRANSPO_API_KEY</code> repo secret is missing. Fixing it
+        needs the account owner (PAT, secret, <code>wrangler deploy</code>); readings since Oct 12 can't be backfilled.</li>
+      <li>✅ <b>OC Transpo KPI snapshots</b> — nothing lost: the Open Ottawa files are byte-identical to the
+        Jul 11 snapshots (checked Oct 16). The weekly job moved off the Pi to <code>kpi_snapshots.yml</code>.</li>
+      <li>⚠️ <b>Still Pi-only:</b> the raw GTFS-RT archive (needed for offline on-time) and the weekly static GTFS
+        download have no Actions replacement yet. See <a href="PROJECTS.md">PROJECTS.md</a>.</li>
+    </ul>
+    <p class="small" style="margin:.6rem 0 .2rem"><b>Previous incident (2026-08-03 → 09-03, resolved; checked 2026-09-03):</b></p>
+    <ul style="margin:.2rem 0 0 1.1rem;padding:0">
       <li>✅ <b>TomTom traffic</b> — current, last reading <code>2026-09-03 01:05 UTC</code>. A month-long
         gap (Aug 3 → Sep 2) is now fully backfilled with no missing hours.</li>
       <li>✅ <b>OC Transpo GTFS-RT</b> — current, last reading <code>2026-09-03 01:35 UTC</code>. Same

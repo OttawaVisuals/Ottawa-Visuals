@@ -13,18 +13,39 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-09-03 (resolved; one thing left unexplained)
+## Pipeline status — checked 2026-10-16 (🔴 traffic + transit collectors down since 2026-10-12)
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
-| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-09-03 01:05 UTC | ✅ current, backlog fully recovered |
-| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-09-03 01:35 UTC | ✅ current, backlog fully recovered |
-| OC Transpo KPI snapshots | weekly (Mon) | not re-verified this pass | ❓ Pi reachable by its owner now, but not re-checked from here |
-| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified this pass | ❓ not re-checked this pass |
-| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified this pass | ❓ not re-checked this pass |
-| Disk (`/dev/mmcblk0p2`) | — | **76% used, 3.3 GB free** (checked 2026-09-03, `df -h` on the Pi) | ✅ essentially unchanged from 73%/3.7 GB free on 2026-07-26 |
+| TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | **2026-10-12 10:05 UTC** | 🔴 down ~4.3 days. Pi stopped; its Cloudflare → `collect.yml` replacement has never run |
+| OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | **2026-10-12 09:35 UTC** | 🔴 same, plus the `OCTRANSPO_API_KEY` repo secret `collect.yml` needs doesn't exist yet |
+| OC Transpo KPI snapshots | weekly (Mon) | files from 2026-07-11 | ✅ nothing lost: the current Open Ottawa files are byte-identical to Jul 11 (checked 2026-10-16). Job moved off the Pi to `.github/workflows/kpi_snapshots.yml` |
+| GTFS-RT raw archive (Pi, outside repo) | every sample | not re-verified | 🔴 Pi-only. `collect.yml` doesn't archive raw JSON (no `OCTRANSPO_RAW_DIR` on Actions), so offline on-time computation loses its input after 2026-10-12 |
+| Static GTFS snapshots (Pi, outside repo) | weekly (Tue) | not re-verified | 🔴 Pi-only cron, not moved to Actions |
+| Disk (`/dev/mmcblk0p2`) | — | 76% used, 3.3 GB free (2026-09-03) | ❓ stale; only matters if the Pi comes back |
 
-**Incident timeline (2026-08-03 → 2026-09-03, ~1 month):**
+**Incident 2026-10-12 → (open), checked 2026-10-16 after `git pull`:**
+1. The last `traffic: readings` / `transit: readings` commits on origin/main are
+   2026-10-12 10:05 / 09:35 UTC. The heartbeat workflow opened issue #1 on
+   2026-10-15 and has re-flagged it daily since. Other Actions (PWHL daily, Pages)
+   kept running, so this isn't GitHub-wide.
+2. The Pi stopped **before** the replacement was committed (`Add Cloudflare cron +
+   collect.yml to replace Pi collectors`, 2026-10-14 21:44 local). Whether it was
+   switched off on purpose or failed again isn't known from here.
+3. `collect.yml` is active but has **zero runs ever**. The Worker code
+   (`cloudflare-worker/worker.js`, `*/5` cron, `workflow_dispatch` on `main`) looks
+   right, so the setup in `cloudflare-worker/README.md` was never finished: the Worker
+   isn't deployed, or it has no valid `GITHUB_TOKEN`. Repo secrets also lack
+   `OCTRANSPO_API_KEY` (only `TOMTOM_API_KEY` exists).
+4. **To fix (needs the account owner):** create the fine-grained PAT (Actions: read
+   and write, this repo only) → add the `OCTRANSPO_API_KEY` repo secret →
+   `npx wrangler login`, `npx wrangler deploy`, `npx wrangler secret put GITHUB_TOKEN`
+   in `cloudflare-worker/` → test with Actions → *Collect Ottawa Data* → Run workflow.
+   Readings from 2026-10-12 onward can't be backfilled; the gap is permanent.
+5. Still Pi-only with no Actions replacement: the raw GTFS-RT archive and the weekly
+   static GTFS download. Decide whether to keep the Pi for those or move them.
+
+**Previous incident timeline (2026-08-03 → 2026-09-03, ~1 month):**
 1. `traffic:`/`transit:` commits (Pi cron only) stopped dead at **2026-08-03
    15:05/15:35 UTC**, confirmed from GitHub commit history (pulled first, then diffed —
    see the outage-detection method below). GitHub-Actions collectors in the same repo
