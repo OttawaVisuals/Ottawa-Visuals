@@ -11,11 +11,21 @@ own. Two endpoints on the Nextrip public API (free key, JSON via ?format=json):
     vehicle count, distinct routes, and speed stats per group.
 
 FEED REALITY (checked live 2026-07-11): OC Transpo sets NO delay fields —
-StopTimeUpdates carry absolute predicted arrival times (Arrival.Time) only,
-so the delay/on-time columns will be empty unless the beta feed changes.
-On-time performance is computed OFFLINE from the raw archive (predicted times
-vs the static GTFS schedule) — which is why OCTRANSPO_RAW_DIR should be set on
-the Pi. The live headline metrics are cancellations and active fleet size.
+StopTimeUpdates carry absolute predicted arrival times (Arrival.Time) only.
+So delays are computed HERE against the static timetable: when
+OCTRANSPO_SCHEDULE_DB points at the index built by build_schedule_index.py,
+each running trip's delay = predicted arrival at its next stop (a near-term
+prediction, so close to the real arrival) minus that stop's scheduled time.
+Trips that haven't left their first stop yet (their "prediction" is usually
+just the schedule) or that don't match the timetable are left out of the
+delay stats, and the run prints how many matched. Without the index the delay/on-time columns stay empty.
+
+Extra trip groups split buses the way OC Transpo reports reliability:
+"bus_frequent" (scheduled every 15 min or better: OC Transpo measures these
+by regularity) and "bus_less_frequent" (the rest: measured by punctuality,
+which is what pct_ontime approximates). Our figure is measured at the next
+stop of every running bus, not at OC Transpo's timepoints, so it's a close
+proxy rather than their exact KPI.
 
 On-time buckets (when delays exist) follow OC Transpo's own punctuality
 definition for less-frequent routes: early = more than 1 min early
@@ -27,11 +37,9 @@ Sampling cadence is decided *here*, not by the cron (cron fires every 5 min):
   - everything else:                                      every 15 min
 Pass --force to bypass the gate.
 
-Archives the raw JSON payloads (gzipped) when OCTRANSPO_RAW_DIR is set —
-point it at a directory OUTSIDE the git repo (e.g. ~/gtfsrt_raw). Measured
-2026-07-11: TripUpdates ~90 KB gz + VehiclePositions ~10 KB gz per sample
-=> ~15 MB/day, ~5.5 GB/year at this cadence. Strongly recommended: the raw
-TripUpdates are what makes offline on-time-performance computation possible.
+Optionally archives the raw JSON payloads (gzipped) when OCTRANSPO_RAW_DIR
+is set — ~15 MB/day, so OUTSIDE the git repo. Not needed for on-time any more
+(computed live, see above); collect.yml doesn't set it.
 
 Stdlib only. Requires env var OCTRANSPO_API_KEY (register at
 https://nextrip-public-api.developer.azure-api.net/).
@@ -42,11 +50,13 @@ import csv
 import gzip
 import json
 import os
+import sqlite3
 import statistics
 import sys
 import time
 import urllib.request
-from datetime import datetime
+from array import array
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -65,6 +75,10 @@ VP_URL = f"{API_BASE}/gtfs-rt-vp/beta/v1/VehiclePositions?format=json"
 # "unknown" = entity carries no route id (e.g. ~20% of vehicle positions —
 # likely deadheading / out-of-service vehicles; a handful of trip updates).
 GROUPS = ("all", "bus", "otrain", "unknown")
+# Trip summaries add OC Transpo's frequency split for buses matched to the timetable.
+TRIP_GROUPS = GROUPS + ("bus_frequent", "bus_less_frequent")
+FREQUENT_MAX_HEADWAY_S = 15 * 60   # "every 15 minutes or more frequently"
+NEXT_STOP_MAX_AHEAD_S = 3600       # sanity cap: a next-stop prediction over an hour out is a bad record
 # O-Train lines are routes 1/2/4 today (3 reserved for the west extension).
 OTRAIN_ROUTES = {"1", "2", "3", "4"}
 
@@ -182,6 +196,88 @@ def trip_delay_s(tu):
         return None
 
 
+class Schedule:
+    """Read-only view of the timetable index (build_schedule_index.py)."""
+
+    def __init__(self, path):
+        self.db = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        self.version = dict(self.db.execute("SELECT key, value FROM meta")).get("feed_version", "?")
+
+    def trip(self, trip_id):
+        row = self.db.execute("SELECT route_id, headway_s, seqs, secs FROM trips WHERE trip_id = ?",
+                              (str(trip_id),)).fetchone()
+        if not row:
+            return None
+        seqs, secs = array("i"), array("i")
+        seqs.frombytes(row[2])
+        secs.frombytes(row[3])
+        return {"route_id": row[0], "headway_s": row[1], "seqs": seqs, "secs": secs}
+
+
+def load_schedule():
+    path = os.environ.get("OCTRANSPO_SCHEDULE_DB")
+    if not path or not Path(path).exists():
+        return None
+    try:
+        return Schedule(path)
+    except sqlite3.Error as exc:
+        print(f"warning: schedule index unreadable ({exc}); delays left empty", file=sys.stderr)
+        return None
+
+
+def service_day_start(day) -> float:
+    """GTFS times count from "noon minus 12h" of the service day (right across DST)."""
+    return (datetime(day.year, day.month, day.day, 12, tzinfo=TZ) - timedelta(hours=12)).timestamp()
+
+
+def schedule_delay_s(tu, sched, now_ts):
+    """(delay seconds, status) for one running trip from predicted vs scheduled
+    time at its next stop. status is "ok" or why it was skipped."""
+    trip = g(tu, "trip", default={})
+    rec = sched.trip(g(trip, "tripId"))
+    if not rec:
+        return None, "no_match"
+    stus = g(tu, "stopTimeUpdate", default=[]) or []
+    if isinstance(stus, dict):
+        stus = [stus]
+    for stu in stus:
+        t = g(g(stu, "arrival"), "time") or g(g(stu, "departure"), "time")
+        try:
+            t = int(t)
+        except (TypeError, ValueError):
+            continue
+        if t < now_ts - 120:
+            continue  # already passed
+        seq = g(stu, "stopSequence")
+        try:
+            i = rec["seqs"].index(int(seq))
+        except (TypeError, ValueError):
+            return None, "no_stop"
+        # Next stop is the first stop: the bus hasn't left yet, and its
+        # prediction is usually just the schedule, so it would inflate on-time.
+        # Distance alone isn't used, because that would drop very late buses.
+        if i == 0:
+            return None, "not_started"
+        if t > now_ts + NEXT_STOP_MAX_AHEAD_S:
+            return None, "far"
+        start_date = str(g(trip, "startDate") or "")
+        if len(start_date) == 8 and start_date.isdigit():
+            days = [datetime.strptime(start_date, "%Y%m%d").date()]
+        else:  # infer: the service day that puts the scheduled time nearest the prediction
+            today = datetime.fromtimestamp(now_ts, TZ).date()
+            days = [today - timedelta(days=1), today, today + timedelta(days=1)]
+        delay = min((t - (service_day_start(d) + rec["secs"][i]) for d in days), key=abs)
+        if abs(delay) > 3 * 3600:
+            return None, "implausible"
+        return int(delay), "ok"
+    return None, "no_prediction"
+
+
+def frequency_group(rec):
+    h = rec["headway_s"] if rec else None
+    return "bus_frequent" if h is not None and h <= FREQUENT_MAX_HEADWAY_S else "bus_less_frequent"
+
+
 def blank_row(fields, group, error=""):
     row = {f: "" for f in fields if f not in ("timestamp_utc", "timestamp_local")}
     row["group"] = group
@@ -189,9 +285,14 @@ def blank_row(fields, group, error=""):
     return row
 
 
-def summarize_trips(feed):
+def summarize_trips(feed, sched=None, stats=None):
     entities = g(feed, "entity", default=[]) or []
-    per_group = {grp: {"tracked": 0, "canceled": 0, "delays": []} for grp in GROUPS}
+    per_group = {grp: {"tracked": 0, "canceled": 0, "delays": []} for grp in TRIP_GROUPS}
+    now_ts = g(g(feed, "header"), "timestamp")
+    try:
+        now_ts = int(now_ts)
+    except (TypeError, ValueError):
+        now_ts = int(time.time())
     for ent in entities:
         tu = g(ent, "tripUpdate")
         if not tu:
@@ -199,19 +300,28 @@ def summarize_trips(feed):
         trip = g(tu, "trip", default={})
         grp = route_group(g(trip, "routeId"))
         canceled = is_canceled(g(trip, "scheduleRelationship"))
-        for target in ("all", grp):
+        targets = ["all", grp]
+        if grp == "bus" and sched:
+            rec = sched.trip(g(trip, "tripId"))
+            if rec:
+                targets.append(frequency_group(rec))
+        for target in targets:
             b = per_group[target]
             b["tracked"] += 1
             if canceled:
                 b["canceled"] += 1
         if not canceled:
             d = trip_delay_s(tu)
+            if d is None and sched:
+                d, status = schedule_delay_s(tu, sched, now_ts)
+                if stats is not None:
+                    stats[status] = stats.get(status, 0) + 1
             if d is not None:
-                per_group["all"]["delays"].append(d)
-                per_group[grp]["delays"].append(d)
+                for target in targets:
+                    per_group[target]["delays"].append(d)
 
     rows = []
-    for grp in GROUPS:
+    for grp in TRIP_GROUPS:
         b = per_group[grp]
         row = blank_row(TRIP_FIELDS, grp)
         row.update(trips_tracked=b["tracked"], trips_canceled=b["canceled"],
@@ -304,6 +414,8 @@ def main():
         "timestamp_local": now_local.strftime("%Y-%m-%dT%H:%M:%S%z"),
     }
     raw_dir = os.environ.get("OCTRANSPO_RAW_DIR")
+    sched = load_schedule()
+    otp_stats = {}
 
     trip_rows, vp_rows = None, None
     errors = []
@@ -314,7 +426,7 @@ def main():
             print("TripUpdates first entity:", json.dumps(ents[0], indent=2)[:2000] if ents else "(empty)")
         if raw_dir:
             archive_raw(Path(raw_dir), "tripupdates", feed, now_utc)
-        trip_rows = summarize_trips(feed)
+        trip_rows = summarize_trips(feed, sched, otp_stats)
     except Exception as exc:  # noqa: BLE001
         errors.append(f"TripUpdates: {exc}")
         trip_rows = [blank_row(TRIP_FIELDS, "all", str(exc)[:200])]
@@ -335,13 +447,16 @@ def main():
     append_rows(VP_LOG, VP_FIELDS, vp_rows, stamps)
 
     all_row_t = next((r for r in trip_rows if r["group"] == "all"), trip_rows[0])
+    lf_row = next((r for r in trip_rows if r["group"] == "bus_less_frequent"), {})
     all_row_v = next((r for r in vp_rows if r["group"] == "all"), vp_rows[0])
     label = "PEAK" if in_peak(now_local) else "off-peak"
     print(f"{stamps['timestamp_local']} [{label}] "
           f"trips={all_row_t.get('trips_tracked', '?')} "
           f"canceled={all_row_t.get('trips_canceled', '?')} "
           f"ontime%={all_row_t.get('pct_ontime', '?')} "
-          f"vehicles={all_row_v.get('vehicles', '?')}"
+          f"punctuality(less-frequent)%={lf_row.get('pct_ontime', '?')} "
+          f"vehicles={all_row_v.get('vehicles', '?')} "
+          + (f"schedule={sched.version} delay-match={otp_stats}" if sched else "schedule=none")
           + (f" ERRORS: {'; '.join(errors)}" if errors else ""))
     return 0
 

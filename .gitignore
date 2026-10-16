@@ -66,3 +66,6 @@ OilGas/data/raw/
 
 # Cloudflare wrangler local cache (account id, temp bundles)
 cloudflare-worker/.wrangler/
+
+# OC Transpo timetable index (built in Actions, kept in the Actions cache)
+OC_Transpo/schedule_cache/

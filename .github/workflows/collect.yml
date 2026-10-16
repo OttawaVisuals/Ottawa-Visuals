@@ -55,11 +55,46 @@ jobs:
           key: collect-spool-none
           restore-keys: collect-spool-
 
+      # Timetable index for on-time computation (poll_gtfsrt.py compares predicted
+      # arrivals with the schedule). Keyed on the published zip's ETag, so it is
+      # rebuilt (~30 s) only when OC Transpo publishes a new timetable. Kept in
+      # the Actions cache, never committed. Any failure here just leaves the
+      # delay columns empty for that run.
+      - name: Timetable version
+        id: gtfs
+        continue-on-error: true
+        run: |
+          etag=$(curl -sfI --max-time 20 "https://oct-gtfs-emasagcnfmcgeham.z01.azurefd.net/public-access/GTFSExport.zip" \
+                 | tr -d '\r' | awk 'tolower($1)=="etag:"{print $2}' | tr -cd 'A-Za-z0-9')
+          echo "etag=${etag:-unknown-$(date -u +%G-W%V)}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore timetable index
+        id: sched
+        continue-on-error: true
+        uses: actions/cache/restore@v4
+        with:
+          path: OC_Transpo/schedule_cache/schedule_index.sqlite
+          key: gtfs-index-${{ steps.gtfs.outputs.etag }}
+
+      - name: Build timetable index
+        if: steps.sched.outputs.cache-hit != 'true'
+        continue-on-error: true
+        run: python OC_Transpo/scripts/build_schedule_index.py --etag "${{ steps.gtfs.outputs.etag }}"
+
+      - name: Save timetable index
+        if: steps.sched.outputs.cache-hit != 'true' && hashFiles('OC_Transpo/schedule_cache/schedule_index.sqlite') != ''
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: OC_Transpo/schedule_cache/schedule_index.sqlite
+          key: gtfs-index-${{ steps.gtfs.outputs.etag }}
+
       - name: Poll
         env:
           TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
           OCTRANSPO_API_KEY: ${{ secrets.OCTRANSPO_API_KEY }}
           ONTARIO_511_KEY: ${{ secrets.ONTARIO_511_KEY }}
+          OCTRANSPO_SCHEDULE_DB: OC_Transpo/schedule_cache/schedule_index.sqlite
         run: |
           python Traffic/scripts/poll_traffic.py
           python Traffic/scripts/poll_parking.py || echo "poll_parking failed (non-fatal)"

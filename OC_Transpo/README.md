@@ -10,22 +10,35 @@ Two independent pipelines live here:
    the Raspberry Pi, building our own service-reliability dataset for the RTO4
    page. See [RTO4_PLAN.md](../RTO4_PLAN.md) for how it all fits together.
 
-## GTFS-RT collector (Raspberry Pi)
+## GTFS-RT collector (GitHub Actions since 2026-10-16; Raspberry Pi before)
 
 OC Transpo keeps no public history of on-time performance; `scripts/poll_gtfsrt.py`
 logs it ourselves from the official GTFS-Realtime feeds (TripUpdates +
 VehiclePositions, JSON). Per sample it appends summary rows (cancellations,
-active vehicles, speed stats, delay stats when available — split
-all/bus/otrain/unknown) to `rt_data/*.csv`, which are committed. Cadence is
-self-gated: weekday peaks every 5 min, off-peak every 15 min, 01:00–05:00 hourly.
+active vehicles, speed stats, delay and on-time stats — split
+all/bus/otrain/unknown, plus bus_frequent/bus_less_frequent) to `rt_data/*.csv`,
+which are committed. Cadence is self-gated: weekday peaks every 5 min, off-peak
+every 15 min, 01:00–05:00 hourly. It runs from `.github/workflows/collect.yml`,
+triggered every 5 min by the Cloudflare Worker in `cloudflare-worker/`.
 
 **Feed reality (verified live 2026-07-11):** the beta feed sets *no* delay
 fields — TripUpdates carry absolute predicted arrival times per stop instead.
-So the live CSV metrics are **cancellations** (~5% of trips the day we checked)
-and fleet activity; true on-time performance gets computed offline from the
-raw archive (predicted arrival times vs the static GTFS schedule). That makes
-the raw archive (`OCTRANSPO_RAW_DIR`) effectively required, not optional:
-~15 MB/day gzipped, ~5.5 GB/year. The JSON is protobuf-net style with
+So the poller computes delays itself (since 2026-10-16): for every running bus,
+delay = predicted arrival at its next stop − that stop's scheduled time, looked
+up in a timetable index that `scripts/build_schedule_index.py` builds from the
+static GTFS (`collect.yml` rebuilds it when the published zip's ETag changes and
+keeps it in the Actions cache; it's never committed). Buses that haven't left
+their first stop, and trips missing from the timetable, are skipped; each run
+logs how many matched. On-time buckets follow OC Transpo's punctuality rule
+(−1 to +5 min). `bus_less_frequent` (scheduled less often than every 15 min) is
+the group comparable to OC Transpo's punctuality KPI; it's measured at each
+bus's next stop rather than at their timepoints, so it's a close proxy, not
+their exact figure. `scripts/build_history_transit.py` rolls the samples into
+daily on-time figures in `rt_data/history/transit_daily.json`, which is the
+permanent record. Individual bus records are never stored.
+
+The raw-JSON archive (`OCTRANSPO_RAW_DIR`, ~15 MB/day) is now optional and not
+used on Actions. The JSON is protobuf-net style with
 `Has<Field>` companion flags (`"Delay": 0, "HasDelay": false` = unset) — the
 parser respects them. Also: the feed is **bus-only** (no route 1/2/4 entities
 observed) — O-Train reliability comes from the official KPI spreadsheets
