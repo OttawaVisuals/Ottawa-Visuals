@@ -1153,7 +1153,14 @@ function renderWardList() {
       ? `<span class="wl-dot" style="background:${winnerBase(r.win.key)}"></span>${r.win.name.split(' ').slice(-1)[0]} ${r.win.share.toFixed(1)}%`
       : '—';
     const mark = r.note ? `<sup title="${r.note}">*</sup>` : '';
-    return `<tr data-ward="${r.ward}" tabindex="0" aria-label="Ward ${r.ward} ${r.name}">
+    // A focused row is read by its label alone, so the label carries the row's data.
+    const spoken = `Ward ${r.ward} ${r.name}${r.note ? ' (' + r.note + ')' : ''}: ` +
+      `turnout ${r.turnout != null ? r.turnout.toFixed(1) + '%' : 'no data'}` +
+      (prev ? ', ' + (r.change == null ? `no comparison with ${prev}`
+        : r.change === 0 ? `no change since ${prev}`
+        : `${r.change > 0 ? 'up' : 'down'} ${Math.abs(r.change).toFixed(1)} points since ${prev}`) : '') +
+      `, mayor race top candidate ${r.win ? `${r.win.name}, ${r.win.share.toFixed(1)}% of votes cast` : 'no data'}`;
+    return `<tr data-ward="${r.ward}" tabindex="0" aria-label="${spoken}">
       <td><div class="wl-ward"><i style="background:${fillColor(r.ward)}"></i><b>${r.ward}</b><span>${r.name}</span>${mark}</div></td>
       <td class="num">${turnout}</td><td class="num">${change}</td><td>${mayor}</td></tr>`;
   }).join('');
