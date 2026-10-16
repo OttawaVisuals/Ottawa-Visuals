@@ -100,6 +100,12 @@ html[data-embedded] .topbar{display:none}
 :root{--hatch:#D8D5CE}
 [data-theme="dark"]{--hatch:#3A4152}
 .nv-pill{background:var(--bg-2);color:var(--red);border-radius:3px;padding:0 4px;line-height:13px}
+/* Residents who aren't on the voters' list (mayor chart, "All residents") */
+:root{--nl:#C3C9D2;--u18:#E2E5EA}
+[data-theme="dark"]{--nl:#4B5264;--u18:#363C4B}
+.mh-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.mayor-callout{font-size:12px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+.mayor-callout strong{color:var(--ink)}
 
 /* Map */
 .map-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:4px 6px 6px}
@@ -245,8 +251,14 @@ html[data-embedded] .topbar{display:none}
   <div class="grid-top">
 
     <div class="card" style="display:flex;flex-direction:column">
-      <div class="card-title">Ottawa mayor race — historical context</div>
-      <div class="card-sub">% of all registered voters · 2010–2022</div>
+      <div class="mh-head">
+        <div class="card-title" style="margin:0">Ottawa mayor race — historical context</div>
+        <div class="year-seg" id="basis-seg" role="group" aria-label="Share of">
+          <button type="button" data-basis="registered">Registered voters</button>
+          <button type="button" data-basis="residents">All residents</button>
+        </div>
+      </div>
+      <div class="card-sub" id="mayor-hist-sub">% of all registered voters · 2010–2022</div>
       <div id="ottawa-hist-chart-wrap" style="flex:1;display:flex;flex-direction:column;justify-content:space-between"></div>
     </div>
 
@@ -313,7 +325,7 @@ html[data-embedded] .topbar{display:none}
               <th data-key="ward"><button type="button">Ward</button></th>
               <th data-key="turnout" class="num"><button type="button">Turnout</button></th>
               <th data-key="change" class="num"><button type="button" id="wl-change-h">Change</button></th>
-              <th data-key="mayor"><button type="button">Mayor race, top here</button></th>
+              <th data-key="mayor"><button type="button" title="Mayor race: the candidate who came first in this ward, and their share of votes cast">Mayor, top here</button></th>
             </tr></thead>
             <tbody id="wl-body"></tbody>
           </table>
@@ -836,13 +848,45 @@ function showPanel(wardNum) {
 }
 
 // ── Ottawa historical mayor chart — horizontal stacked bars ────────────────────
-(function() {
-  const data = [
-    {year:2010, registered:607357, votes:269640, votesMayor:131323},
-    {year:2014, registered:632385, votes:252464, votesMayor:189253},
-    {year:2018, registered:633946, votes:269772, votesMayor:188960},
-    {year:2022, registered:722227, votes:316254, votesMayor:161677},
+// Two bases: registered voters (the voters' list) or all residents. Population
+// and under-18 counts are Statistics Canada July 1 estimates for the City of
+// Ottawa in each election year (tables 17-10-0155 and 17-10-0152). "Adults not
+// on the list" = residents − under 18 − registered: mostly non-citizens and
+// unregistered adults. It is approximate, since the list can also include
+// non-resident property owners.
+const MAYOR_HISTORY = [
+  {year:2010, registered:607357, votes:269640, votesMayor:131323, pop: 898924, under18:183535},
+  {year:2014, registered:632385, votes:252464, votesMayor:189253, pop: 941129, under18:188499},
+  {year:2018, registered:633946, votes:269772, votesMayor:188960, pop:1008849, under18:198896},
+  {year:2022, registered:722227, votes:316254, votesMayor:161677, pop:1083498, under18:208600},
+];
+const HATCH = w => `repeating-linear-gradient(45deg,var(--hatch),var(--hatch) ${w}px,transparent ${w}px,transparent ${w * 2 + 1}px)`;
+let mayorBasis = 'registered';
+try {
+  if (new URLSearchParams(location.search).get('basis') === 'residents') mayorBasis = 'residents';
+} catch (e) {}
+
+function mayorSegments(d) {
+  const base = mayorBasis === 'residents' ? d.pop : d.registered;
+  const pct = n => +(n / base * 100).toFixed(1);
+  const segs = [
+    {label: 'Elected mayor',    pct: pct(d.votesMayor),           bg: '#185FA5', ink: '#fff'},
+    {label: 'Other candidates', pct: pct(d.votes - d.votesMayor), bg: '#7BA7CC', ink: 'rgba(0,0,0,0.55)'},
+    {label: "Didn't vote",      pct: pct(d.registered - d.votes), bg: HATCH(3), noVote: true},
   ];
+  if (mayorBasis === 'residents') {
+    segs.push({label: 'Adults not on the voters’ list', pct: pct(d.pop - d.under18 - d.registered), bg: 'var(--nl)', ink: 'var(--ink-2)'});
+    segs.push({label: 'Under 18', pct: pct(d.under18), bg: 'var(--u18)', ink: 'var(--ink-2)'});
+  }
+  return segs;
+}
+
+function renderMayorHistory() {
+  document.querySelectorAll('#basis-seg button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.basis === mayorBasis)));
+  document.getElementById('mayor-hist-sub').textContent = mayorBasis === 'residents'
+    ? '% of all residents (Statistics Canada estimate) · 2010–2022'
+    : '% of all registered voters · 2010–2022';
 
   const container = document.getElementById('ottawa-hist-chart-wrap');
   container.innerHTML = '';
@@ -851,11 +895,7 @@ function showPanel(wardNum) {
   const rows = document.createElement('div');
   rows.style.cssText = 'flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:0';
 
-  data.forEach(d => {
-    const winnerPct = +(d.votesMayor / d.registered * 100).toFixed(1);
-    const othersPct = +((d.votes - d.votesMayor) / d.registered * 100).toFixed(1);
-    const noVotePct = +((d.registered - d.votes) / d.registered * 100).toFixed(1);
-
+  MAYOR_HISTORY.forEach(d => {
     const row = document.createElement('div');
     row.className = 'mayor-row';
     row.dataset.year = d.year;
@@ -865,38 +905,28 @@ function showPanel(wardNum) {
     lbl.style.cssText = 'font-size:11px;font-weight:600;color:var(--ink-2);width:30px;flex-shrink:0;text-align:right';
     lbl.textContent = d.year;
 
-    // Outer wrapper: position:relative so ref lines can be placed over the track
     const trackWrap = document.createElement('div');
     trackWrap.style.cssText = 'flex:1;position:relative;height:28px';
-
     const track = document.createElement('div');
     track.style.cssText = 'width:100%;height:28px;border-radius:4px;overflow:hidden;display:flex;position:relative';
 
-    // Helper: creates a segment with an optional inline label
-    const mkSeg = (pct, color, title, textColor, widthStyle) => {
+    const segs = mayorSegments(d);
+    segs.forEach((s, i) => {
       const seg = document.createElement('div');
-      seg.style.cssText = `${widthStyle || `width:${pct}%`};background:${color};display:flex;align-items:center;justify-content:center;transition:width .4s`;
-      seg.title = `${title}: ${pct}%`;
-      if (pct >= 5) {
+      // The last segment fills what rounding leaves over.
+      seg.style.cssText = `${i === segs.length - 1 ? 'flex:1' : `width:${s.pct}%`};background:${s.bg};display:flex;align-items:center;justify-content:center;transition:width .4s`;
+      seg.title = `${s.label}: ${s.pct}%`;
+      if (s.pct >= 5) {
         const span = document.createElement('span');
-        const isNoVote = title === "Didn't vote";
-        if (isNoVote) span.className = 'nv-pill';
-        span.style.cssText = `font-size:9px;font-weight:700;pointer-events:none${isNoVote ? ';font-weight:800' : ';color:' + textColor}`;
-        span.textContent = pct + '%';
+        if (s.noVote) span.className = 'nv-pill';
+        span.style.cssText = `font-size:9px;font-weight:${s.noVote ? 800 : 700};pointer-events:none${s.noVote ? '' : ';color:' + s.ink}`;
+        span.textContent = s.pct + '%';
         seg.appendChild(span);
       }
-      return seg;
-    };
-
-    track.appendChild(mkSeg(winnerPct, '#185FA5', 'Mayor', '#fff'));
-    track.appendChild(mkSeg(othersPct, '#7BA7CC', 'Others', 'rgba(0,0,0,0.55)'));
-    const noSeg = mkSeg(noVotePct,
-      'repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 3px,transparent 3px,transparent 7px)',
-      "Didn't vote", '#C0392B', 'flex:1');
-    track.appendChild(noSeg);
+      track.appendChild(seg);
+    });
 
     trackWrap.appendChild(track);
-
     row.appendChild(lbl);
     row.appendChild(trackWrap);
     rows.appendChild(row);
@@ -930,34 +960,56 @@ function showPanel(wardNum) {
     lineOverlay.appendChild(line);
   });
   chartArea.appendChild(lineOverlay);
-
   container.appendChild(chartArea);
 
   // Legend pinned at bottom
   const leg = document.createElement('div');
   leg.style.cssText = 'display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;flex-shrink:0';
-  const mkLegItem = (bg, label) => {
+  mayorSegments(MAYOR_HISTORY[0]).forEach(s => {
     const item = document.createElement('span');
     item.style.cssText = 'font-size:10px;color:var(--ink-2);display:flex;align-items:center;gap:3px';
     const sw = document.createElement('i');
-    sw.style.cssText = `display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0;background:${bg};border:${bg.includes('gradient') ? '1px solid var(--line-2)' : 'none'}`;
+    sw.style.cssText = `display:inline-block;width:9px;height:9px;border-radius:2px;flex-shrink:0;background:${s.noVote ? HATCH(2) : s.bg};border:${s.noVote ? '1px solid var(--line-2)' : 'none'}`;
     item.appendChild(sw);
-    item.appendChild(document.createTextNode(label));
-    return item;
-  };
-  leg.appendChild(mkLegItem('#185FA5', 'Mayor'));
-  leg.appendChild(mkLegItem('#7BA7CC', 'Other candidates'));
-  leg.appendChild(mkLegItem('repeating-linear-gradient(45deg,var(--hatch),var(--hatch) 2px,transparent 2px,transparent 5px)', "Didn't vote"));
+    item.appendChild(document.createTextNode(s.label));
+    leg.appendChild(item);
+  });
   container.appendChild(leg);
-})();
+
+  // One-line takeaway for the selected year
+  const callout = document.createElement('div');
+  callout.className = 'mayor-callout';
+  callout.id = 'mayor-callout';
+  container.appendChild(callout);
+  updateMayorHistoryYear();
+}
+
+// Dim the other years and restate the selected one in words.
+function updateMayorHistoryYear() {
+  document.querySelectorAll('.mayor-row').forEach(r =>
+    r.style.opacity = +r.dataset.year === currentYear ? '1' : '0.45');
+  const d = MAYOR_HISTORY.find(h => h.year === currentYear);
+  const el = document.getElementById('mayor-callout');
+  if (!d || !el) return;
+  const fmt = n => n.toLocaleString('en-CA');
+  const share = mayorSegments(d)[0].pct;
+  el.innerHTML = mayorBasis === 'residents'
+    ? `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${share}% of Ottawa residents</strong> (${fmt(d.votesMayor)} of about ${(d.pop / 1e6).toFixed(2)} million).`
+    : `${currentYear}: ${MAYOR_ELECTED[currentYear]} was elected with the votes of <strong>${share}% of registered voters</strong> (${fmt(d.votesMayor)} of ${fmt(d.registered)}).`;
+}
+
+function setMayorBasis(basis) {
+  mayorBasis = basis;
+  renderMayorHistory();
+  syncUrl();
+}
 
 // ── Year selector: recolours the map, KPIs and panel; dims other mayor rows ──
 function setYear(year) {
   currentYear = year;
   document.querySelectorAll('#year-seg button').forEach(b =>
     b.setAttribute('aria-pressed', String(+b.dataset.year === year)));
-  document.querySelectorAll('.mayor-row').forEach(r =>
-    r.style.opacity = +r.dataset.year === year ? '1' : '0.45');
+  updateMayorHistoryYear();
   buildKPIs();
   buildLegend();
   buildMapNote();
@@ -1084,6 +1136,7 @@ function syncUrl() {
     const url = new URL(location.href);
     if (currentYear === 2022) url.searchParams.delete('year'); else url.searchParams.set('year', currentYear);
     if (mapMode === 'turnout') url.searchParams.delete('map'); else url.searchParams.set('map', mapMode);
+    if (mayorBasis === 'registered') url.searchParams.delete('basis'); else url.searchParams.set('basis', mayorBasis);
     history.replaceState(null, '', url);
   } catch (e) {}
 }
@@ -1092,6 +1145,9 @@ document.querySelectorAll('#year-seg button').forEach(b =>
   b.addEventListener('click', () => setYear(+b.dataset.year)));
 document.getElementById('map-mode').addEventListener('change', e => setMapMode(e.target.value));
 document.getElementById('map-mode').value = mapMode;
+document.querySelectorAll('#basis-seg button').forEach(b =>
+  b.addEventListener('click', () => setMayorBasis(b.dataset.basis)));
+renderMayorHistory();
 setYear(currentYear);
 
 // ── THEME (shared ov-theme key across the site) ──────────────────────────────

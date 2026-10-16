@@ -26,5 +26,7 @@ Run from inside `Ottawa_Elections/` (reads `ward_results.csv` by relative path).
 
 ## Notes
 
+The mayor chart's "All residents" view uses Statistics Canada July 1 population estimates for the City of Ottawa (table 17-10-0155) and its under-18 counts (table 17-10-0152, Ottawa census division), hard-coded in `MAYOR_HISTORY` in the page.
+
 Wards changed for the 2022 election (one ward added); historical results for
 some wards have been estimated from their pre-2022 predecessors.
