@@ -554,6 +554,7 @@ function makeScale() {
 // ── Map mode: ballot turnout, valid-vote participation, partial mayor results ──
 const MAP_MODES = ['turnout', 'participation', 'winner'];
 let mapMode = 'turnout';
+let autoParticipation = false;   // true when setYear switched modes, not the reader
 try {
   const m = new URLSearchParams(location.search).get('map');
   if (MAP_MODES.includes(m)) mapMode = m;
@@ -1117,9 +1118,14 @@ function announce(msg) {
 // ── Year selector: recolours the map, KPIs and panel; dims other mayor rows ──
 function setYear(year) {
   currentYear = year;
+  // Ballot counts start in 2018: fall back to participation, and undo that
+  // fallback (but not a reader's own choice) when they return to 2018+.
   if (year < 2018 && mapMode === 'turnout') {
-    mapMode = 'participation'; document.getElementById('map-mode').value = mapMode;
+    mapMode = 'participation'; autoParticipation = true;
+  } else if (year >= 2018 && autoParticipation) {
+    mapMode = 'turnout'; autoParticipation = false;
   }
+  document.getElementById('map-mode').value = mapMode;
   document.querySelectorAll('#year-seg button').forEach(b =>
     b.setAttribute('aria-pressed', String(+b.dataset.year === year)));
   updateMayorHistoryYear();
@@ -1138,6 +1144,7 @@ function setYear(year) {
 
 function setMapMode(mode) {
   mapMode = mode;
+  autoParticipation = false;
   document.getElementById('map-mode').value = mode;
   buildKPIs();
   buildLegend();
@@ -1291,7 +1298,7 @@ function syncUrl() {
   try {
     const url = new URL(location.href);
     if (currentYear === 2022) url.searchParams.delete('year'); else url.searchParams.set('year', currentYear);
-    if (mapMode === 'turnout') url.searchParams.delete('map'); else url.searchParams.set('map', mapMode);
+    if (mapMode === 'turnout' || autoParticipation) url.searchParams.delete('map'); else url.searchParams.set('map', mapMode);
     if (selectedWard == null) url.searchParams.delete('ward'); else url.searchParams.set('ward', selectedWard);
     url.searchParams.delete('basis');
     history.replaceState(null, '', url);
