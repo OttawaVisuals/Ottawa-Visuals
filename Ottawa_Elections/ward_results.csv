@@ -1,118 +1,94 @@
-﻿ward,name,Sector,Shape__Area,year,Mayor_Registered,Mayor_Votes,Mayor_Winner,Mayor_Win_Name,Council_Registered,Council_Votes,Council_Winner,Council_Win_Name
-1,Orléans East-Cumberland,Suburban,110545085.2,2022,"38,618","14,769","9,296",Mark Sutcliffe,"38,618","16,426","11,918","Matthew Luloff
- "
-2,Orléans West-Innes,Suburban,63777859.96,2022,"37,347","15,684","9,203",Mark Sutcliffe,"37,347","16,889","11,821","Laura Dudas
- "
-3,Barrhaven West,Suburban,56118523.54,2022,"31,446","12,322","7,595",Mark Sutcliffe,"31,446","14,406","6,230","David Hill
- "
-4,Kanata North,Suburban,52995709.75,2022,"27,108","10,709","6,463",Mark Sutcliffe,"27,108","11,803","8,827","Cathy Curry
- "
-5,West Carleton-March,Rural,1550245091,2022,"20,113","9,015","6,362",Mark Sutcliffe,"20,113","9,441","2,549","Clarke Kelly
- "
-6,Stittsville,Suburban,51806761.89,2022,"29,298","11,543","7,297",Mark Sutcliffe,"29,298","13,357","7,758","Glen Gower
- "
-7,Bay,Urban,132819473.5,2022,"35,473","14,435","6,582",Mark Sutcliffe,"35,473","15,527","12,398","Theresa Kavanagh
- "
-8,College,Urban,92936792.02,2022,"36,958","15,917","8,204",Mark Sutcliffe,"36,958","17,333","8,899","Laine Johnson
- "
-9,Knoxdale-Merivale,Urban,95616904.8,2022,"27,650","11,392","6,489",Mark Sutcliffe,"27,650","12,594","4,812","Sean Devine
- "
-10,Gloucester-Southgate,Urban,161233561,2022,"32,139","10,538","5,197",Mark Sutcliffe,"32,139","12,059","4,927","Jessica Bradley
- "
-11,Beacon Hill-Cyrville,Urban,39161245.79,2022,"23,452","8,937","4,501",Mark Sutcliffe,"23,452","9,567","7,617","Tim Tierney
- "
-12,Rideau-Vanier,Urban,18306865.53,2022,"34,574","11,660","6,676",Catherine McKenney,"34,574","12,854","4,621","Stéphanie Plante
- "
-13,Rideau-Rockcliffe,Urban,37946874.57,2022,"28,220","10,171","4,679",Catherine McKenney,"28,220","11,226","8,491","Rawlson King
- "
-14,Somerset,Urban,13126980.11,2022,"32,787","12,917","9,423",Catherine McKenney,"32,787","14,832","8,663","Ariel Troster
- "
-15,Kitchissippi,Urban,23509516.66,2022,"29,621","14,769","9,128",Catherine McKenney,"29,621","15,693","11,045","Jeff Leiper
- "
-16,River,Urban,48377463.66,2022,"33,024","12,559","5,723",Mark Sutcliffe,"33,024","13,560","9,595","Riley Brockington
- "
-17,Capital,Urban,22194763.65,2022,"28,834","13,628","8,448",Catherine McKenney,"28,834","14,784","11,358","Shawn Menard
- "
-18,Alta Vista,Urban,40856945.77,2022,"31,008","12,566","5,757",Mark Sutcliffe,"31,008","13,360","6,088","Marty Carr
- "
-19,Orléans South-Navan,Suburban,399247111.9,2022,"32,023","10,828","6,616",Mark Sutcliffe,"32,023","12,558","9,466","Catherine Kitts
- "
-20,Osgoode,Rural,1245240405,2022,"23,354","10,447","7,771",Mark Sutcliffe,"23,354","10,780","4,353","George Darouze
- "
-21,Rideau-Jock,Rural,1461228177,2022,"21,966","10,132","7,414",Mark Sutcliffe,"21,966","10,561","6,898","David Brown
- "
-22,Riverside South-Findlay Creek,Suburban,69465003.27,2022,"19,822","8,008","4,595",Mark Sutcliffe,"19,822","8,508","5,684","Steve Desroches
- "
-23,Kanata South,Suburban,33844909.84,2022,"36,085","14,672","8,452",Mark Sutcliffe,"36,085","15,892","5,334","Allan Hubley
- "
-24,Barrhaven East,Suburban,27843675.51,2022,"31,307","11,076","6,487",Mark Sutcliffe,"31,307","12,244","4,403","Wilson Lo
- "
-1,,,,2018,"35,622","14,521","11,203",Jim Watson,"35,622","15,368","3,622",Matthew Luloff
-2,,,,2018,"29,635","12,272","9,261",Jim Watson,"29,635","12,970","5,325",Laura Dudas
-3,,,,2018,"36,389","14,229","11,044",Jim Watson,"36,389","15,542","11,489",Jan Harder
-4,,,,2018,"23,666","10,387","7,606",Jim Watson,"23,666","11,410","5,298",Jenna Sudds
-5,,,,2018,"18,123","7,452","5,429",Jim Watson,"18,123","7,756","5,099",Eli El-Chantiry
-6,,,,2018,"21,937","9,736","7,215",Jim Watson,"21,937","10,172","5,877",Glen Gower
-7,,,,2018,"28,967","11,613","7,946",Jim Watson,"28,967","12,059","6,509",Theresa Kavanagh
-8,,,,2018,"34,010","14,101","10,068",Jim Watson,"34,010","15,238","7,079",Rick Chiarelli
-9,,,,2018,"25,582","9,592","7,047",Jim Watson,"25,582","10,240","6,369",Keith Egli
-10,,,,2018,"29,111","9,496","6,665",Jim Watson,"29,111","11,119","6,179",Diane Deans
-11,,,,2018,"22,181","8,229","5,799",Jim Watson,"22,181","8,443","6,730",Tim Tierney
-12,,,,2018,"28,970","10,440","4,869",Jim Watson,"28,970","10,875","7,302",Mathieu Fleury
-13,,,,2018,"25,460","9,229","5,120",Jim Watson,"25,460","9,458","7,334",Tobi Nussbaum
-14,,,,2018,"26,320","9,381","5,424",Jim Watson,"26,320","10,290","7,754",Catherine McKenney
-15,,,,2018,"29,481","13,897","8,719",Jim Watson,"29,481","14,409","12,068",Jeff Leiper
-16,,,,2018,"29,762","10,966","7,682",Jim Watson,"29,762","11,472","6,122",Riley Brockington
-17,,,,2018,"24,617","12,331","6,890",Jim Watson,"24,617","12,834","3,575",Shawn Menard
-18,,,,2018,"28,642","11,460","7,898",Jim Watson,"28,642","11,953","3,866",Jean Cloutier
-19,,,,2018,"33,518","11,262","8,916",Jim Watson,"33,518","12,736","11,230",Stephen Blais
-20,,,,2018,"18,581","8,319","6,149",Jim Watson,"18,581","8,518","4,653",George Darouze
-21,,,,2018,"19,810","8,900","6,547",Jim Watson,"19,810","9,153","5,080",Scott Moffatt
-22,,,,2018,"30,568","13,059","10,043",Jim Watson,"30,568","14,090","5,960",Carol Anne Meehan
-23,,,,2018,"32,994","13,043","9,678",Jim Watson,"32,994","13,667","6,183",Allan Hubley
-1,,,,2014,"37,298","13,053","10,536",Jim Watson,"37,298","14,127","10,662",Bob Monette
-2,,,,2014,"29,521","12,558","10,279",Jim Watson,"29,521","13,008","4,294",Jody Mitic
-3,,,,2014,"33,767","11,314","8,379",Jim Watson,"33,767","11,504","8,686",Jan Harder
-4,,,,2014,"22,548","10,063","7,726",Jim Watson,"22,548","10,281","4,751",Marianne Wilkinson
-5,,,,2014,"18,236","8,329","5,251",Jim Watson,"18,236","8,455","4,808",Eli El-Chantiry
-6,,,,2014,"19,470","8,382","5,745",Jim Watson,"19,470","8,504","5,182",Shad Qadri
-7,,,,2014,"29,394","11,977","9,140",Jim Watson,"29,394","12,300","5,750",Mark Taylor
-8,,,,2014,"36,226","12,923","9,627",Jim Watson,"36,226","13,639","9,601",Rick Chiarelli
-9,,,,2014,"27,354","9,443","6,946",Jim Watson,"27,354","9,735","7,128",Keith Egli
-10,,,,2014,"30,359","10,800","8,259",Jim Watson,"30,359","11,109","6,251",Diane Deans
-11,,,,2014,"23,238","8,605","6,815",Jim Watson,"23,238","8,722","7,162",Tim Tierney
-12,,,,2014,"29,194","10,090","8,136",Jim Watson,"29,194","10,721","5,526",Mathieu Fleury
-13,,,,2014,"26,339","10,068","8,138",Jim Watson,"26,339","10,270","4,846",Tobi Nussbaum
-14,,,,2014,"25,533","9,168","7,563",Jim Watson,"25,533","9,960","3,997",Catherine McKenney
-15,,,,2014,"28,685","13,166","10,979",Jim Watson,"28,685","13,651","7,557",Jeff Leiper
-16,,,,2014,"31,359","10,932","8,501",Jim Watson,"31,359","10,986","3,997",Riley Brockington
-17,,,,2014,"24,975","9,202","7,743",Jim Watson,"24,975","9,316","7,206",David Chernushenko
-18,,,,2014,"29,758","11,085","8,766",Jim Watson,"29,758","11,179","5,295",Jean Cloutier
-19,,,,2014,"32,105","11,239","8,845",Jim Watson,"32,105","12,105","9,446",Stephen Blais
-20,,,,2014,"18,656","8,351","5,002",Jim Watson,"18,656","8,465","1,783",George Darouze
-21,,,,2014,"19,524","8,144","4,771",Jim Watson,"19,524","8,251","5,137",Scott Moffatt
-22,,,,2014,"26,907","10,476","7,848",Jim Watson,"26,907","10,726","4,138",Michael Qaqish
-23,,,,2014,"31,909","11,445","8,444",Jim Watson,"31,909","11,466","9,710",Allan Hubley
-1,,,,2010,"37,563","16,308","8,685",Jim Watson,"37,563","16,215","9,728",Bob Monette
-2,,,,2010,"28,797","12,369","6,746",Jim Watson,"28,797","12,156","8,497",Rainer Bloess
-3,,,,2010,"29,996","12,528","5,943",Jim Watson,"29,996","12,462","8,263",Jan Harder
-4,,,,2010,"20,951","9,481","4,516",Jim Watson,"20,951","9,450","4,742",Marianne Wilkinson
-5,,,,2010,"17,739","8,102","3,072",Larry O’Brien,"17,739","8,061","6,239",Eli El-Chantiry
-6,,,,2010,"17,470","7,899","3,195",Jim Watson,"17,470","7,856","7,185",Shad Qadri
-7,,,,2010,"28,528","14,527","7,285",Jim Watson,"28,528",,,
-8,,,,2010,"36,845","16,410","7,668",Jim Watson,"36,845","16,067","10,531",Rick Chiarelli
-9,,,,2010,"27,844","12,269","5,540",Jim Watson,"27,844","12,093","3,954",Keith Egli
-10,,,,2010,"29,698","11,932","6,107",Jim Watson,"29,698","11,910","5,774",Diane Deans
-11,,,,2010,"23,726","10,369","5,484",Jim Watson,"23,726","10,313","5,088",Tim Tierney
-12,,,,2010,"27,343","10,585","5,784",Jim Watson,"27,343","10,304","4,708",Mathieu Fleury
-13,,,,2010,"25,689","10,716","5,850",Jim Watson,"25,689","10,534","2,722",Peter Clark
-14,,,,2010,"23,157","9,860","5,164",Jim Watson,"23,157","9,445","6,282",Diane Holmes
-15,,,,2010,"27,798","14,111","7,034",Jim Watson,"27,798",,,
-16,,,,2010,"30,699","12,830","6,539",Jim Watson,"30,699","12,588","7,496",Maria McRae
-17,,,,2010,"25,229","13,218","6,543",Jim Watson,"25,229","12,905","5,335",David Chernushenko
-18,,,,2010,"29,117","12,960","6,666",Jim Watson,"29,117","12,697","7,553",Peter Hume
-19,,,,2010,"28,651","12,184","6,371",Jim Watson,"28,651","12,144","6,358",Stephen Blais
-20,,,,2010,"18,095","8,037","3,039",Larry O’Brien,"18,095","8,018","5,393",Doug Thompson
-21,,,,2010,"19,398","9,606","3,556",Larry O’Brien,"19,398","9,589","5,048",Scott Moffatt
-22,,,,2010,"22,615","9,321","4,759",Jim Watson,"22,615","9,150","7,723",Steve Desroches
-23,,,,2010,"30,409","14,018","6,495",Jim Watson,"30,409","13,901","6,783",Allan Hubley
+ward,name,year,Mayor_Registered,Mayor_Votes,Mayor_Ballots_Cast,Mayor_Winner,Mayor_Win_Name,Mayor_Coverage,Mayor_Certification,Mayor_Source,Council_Registered,Council_Votes,Council_Ballots_Cast,Council_Winner,Council_Win_Name,Council_Coverage,Council_Certification,Council_Source
+1,Orléans East-Cumberland,2010,37563,16308,,8685,Jim Watson,city_published_2010_ward,not_certified,Ward-1!A24,37563,16215,,9728,Bob Monette,city_published_2010_ward,not_certified,Ward-1!A49
+2,Orléans West-Innes,2010,28797,12369,,6746,Jim Watson,city_published_2010_ward,not_certified,Ward-2!A21,28797,12156,,8497,Rainer Bloess,city_published_2010_ward,not_certified,Ward-2!A44
+3,Barrhaven West,2010,29996,12528,,5943,Jim Watson,city_published_2010_ward,not_certified,Ward-3!A18,29996,12462,,8263,Jan Harder,city_published_2010_ward,not_certified,Ward-3!A37
+4,Kanata North,2010,20951,9481,,4516,Jim Watson,city_published_2010_ward,not_certified,Ward-4!A19,20951,9450,,4742,Marianne Wilkinson,city_published_2010_ward,not_certified,Ward-4!A39
+5,West Carleton-March,2010,17739,8102,,3072,Larry O’Brien,city_published_2010_ward,not_certified,Ward-5!A16,17739,8061,,6239,Eli El-Chantiry,city_published_2010_ward,not_certified,Ward-5!A33
+6,Stittsville,2010,17470,7899,,3195,Jim Watson,city_published_2010_ward,not_certified,Ward-6!A14,17470,7856,,7185,Shad Qadri,city_published_2010_ward,not_certified,Ward-6!A29
+7,Bay,2010,28528,14527,,7285,Jim Watson,city_published_2010_ward,not_certified,Ward-7!A52,,,,,,,,
+8,College,2010,36845,16410,,7668,Jim Watson,city_published_2010_ward,not_certified,Ward-8!A42,36845,16067,,10531,Rick Chiarelli,city_published_2010_ward,not_certified,Ward-8!A85
+9,Knoxdale-Merivale,2010,27844,12269,,5540,Jim Watson,city_published_2010_ward,not_certified,Ward-9!A24,27844,12093,,3954,Keith Egli,city_published_2010_ward,not_certified,Ward-9!A49
+10,Gloucester-Southgate,2010,29698,11932,,6107,Jim Watson,city_published_2010_ward,not_certified,Ward-10!A26,29698,11910,,5774,Diane Deans,city_published_2010_ward,not_certified,Ward-10!A53
+11,Beacon Hill-Cyrville,2010,23726,10369,,5484,Jim Watson,city_published_2010_ward,not_certified,Ward-11!A24,23726,10313,,5088,Tim Tierney,city_published_2010_ward,not_certified,Ward-11!A49
+12,Rideau-Vanier,2010,27343,10585,,5784,Jim Watson,city_published_2010_ward,not_certified,Ward-12!A43,27343,10304,,4708,Mathieu Fleury,city_published_2010_ward,not_certified,Ward-12!A87
+13,Rideau-Rockcliffe,2010,25689,10716,,5850,Jim Watson,city_published_2010_ward,not_certified,Ward-13!A42,25689,10534,,2722,Peter Clark,city_published_2010_ward,not_certified,Ward-13!A85
+14,Somerset,2010,23157,9860,,5164,Jim Watson,city_published_2010_ward,not_certified,Ward-14!A36,23157,9445,,6282,Diane Holmes,city_published_2010_ward,not_certified,Ward-14!A73
+15,Kitchissippi,2010,27798,14111,,7034,Jim Watson,city_published_2010_ward,not_certified,Ward-15!A32,,,,,,,,
+16,River,2010,30699,12830,,6539,Jim Watson,city_published_2010_ward,not_certified,Ward-16!A28,30699,12588,,7496,Maria McRae,city_published_2010_ward,not_certified,Ward-16!A57
+17,Capital,2010,25229,13218,,6543,Jim Watson,city_published_2010_ward,not_certified,Ward-17!A31,25229,12905,,5335,David Chernushenko,city_published_2010_ward,not_certified,Ward-17!A63
+18,Alta Vista,2010,29117,12960,,6666,Jim Watson,city_published_2010_ward,not_certified,Ward-18!A42,29117,12697,,7553,Peter Hume,city_published_2010_ward,not_certified,Ward-18!A85
+19,Orléans South-Navan,2010,28651,12184,,6371,Jim Watson,city_published_2010_ward,not_certified,Ward-19!A27,28651,12144,,6358,Stephen Blais,city_published_2010_ward,not_certified,Ward-19!A55
+20,Osgoode,2010,18095,8037,,3039,Larry O’Brien,city_published_2010_ward,not_certified,Ward-20!A19,18095,8018,,5393,Doug Thompson,city_published_2010_ward,not_certified,Ward-20!A39
+21,Rideau-Jock,2010,19398,9606,,3556,Larry O’Brien,city_published_2010_ward,not_certified,Ward-21!A23,19398,9589,,5048,Scott Moffatt,city_published_2010_ward,not_certified,Ward-21!A47
+22,Riverside South-Findlay Creek,2010,22615,9321,,4759,Jim Watson,city_published_2010_ward,not_certified,Ward-22!A21,22615,9150,,7723,Steve Desroches,city_published_2010_ward,not_certified,Ward-22!A43
+23,Kanata South,2010,30409,14018,,6495,Jim Watson,city_published_2010_ward,not_certified,Ward-23!A23,30409,13901,,6783,Allan Hubley,city_published_2010_ward,not_certified,Ward-23!A47
+1,Orléans East-Cumberland,2014,37298,13053,13197,10536,Jim Watson,ward_coded_polls_only,official,mayor!rows 7-26,37298,14127,,10662,Bob Monette,full_ward,official,Ward 1!A36
+2,Orléans West-Innes,2014,29521,12558,12705,10279,Jim Watson,ward_coded_polls_only,official,mayor!rows 28-45,29521,13008,,4294,Jody Mitic,full_ward,official,Ward 2!A34
+3,Barrhaven West,2014,33767,11314,11377,8379,Jim Watson,ward_coded_polls_only,official,mayor!rows 47-61,33767,11504,,8686,Jan Harder,full_ward,official,Ward 3!A31
+4,Kanata North,2014,22578,10063,10199,7726,Jim Watson,ward_coded_polls_only,official,mayor!rows 63-79,22578,10281,,4751,Marianne Wilkinson,full_ward,official,Ward 4!A33
+5,West Carleton-March,2014,18236,8329,8402,5251,Jim Watson,ward_coded_polls_only,official,mayor!rows 81-92,18236,8455,,4808,Eli El-Chantiry,full_ward,official,Ward 5!A28
+6,Stittsville,2014,19470,8382,8452,5745,Jim Watson,ward_coded_polls_only,official,mayor!rows 94-104,19470,8504,,5182,Shad Qadri,full_ward,official,Ward 6!A27
+7,Bay,2014,29394,11977,12183,9140,Jim Watson,ward_coded_polls_only,official,mayor!rows 106-153,29394,12300,,5750,Mark Taylor,full_ward,official,Ward 7!A64
+8,College,2014,36226,12923,13052,9627,Jim Watson,ward_coded_polls_only,official,mayor!rows 155-191,36226,13639,,9601,Rick Chiarelli,full_ward,official,Ward 8!A53
+9,Knoxdale-Merivale,2014,27354,9443,9512,6946,Jim Watson,ward_coded_polls_only,official,mayor!rows 193-212,27354,9735,,7128,Keith Egli,full_ward,official,Ward 9!A36
+10,Gloucester-Southgate,2014,30359,10800,11094,8259,Jim Watson,ward_coded_polls_only,official,mayor!rows 214-234,30359,11109,,6251,Diane Deans,full_ward,official,Ward 10!A37
+11,Beacon Hill-Cyrville,2014,23238,8605,8709,6815,Jim Watson,ward_coded_polls_only,official,mayor!rows 236-255,23238,8722,,7162,Tim Tierney,full_ward,official,Ward 11!A36
+12,Rideau-Vanier,2014,29194,10090,10509,8136,Jim Watson,ward_coded_polls_only,official,mayor!rows 257-292,29194,10721,,5526,Mathieu Fleury,full_ward,official,Ward 12!A52
+13,Rideau-Rockcliffe,2014,26339,10068,10312,8138,Jim Watson,ward_coded_polls_only,official,mayor!rows 294-332,26339,10270,,4846,Tobi Nussbaum,full_ward,official,Ward 13!A55
+14,Somerset,2014,25533,9168,9507,7563,Jim Watson,ward_coded_polls_only,official,mayor!rows 334-363,25533,9960,,3997,Catherine McKenney,full_ward,official,Ward 14!A46
+15,Kitchissippi,2014,28685,13166,13534,10979,Jim Watson,ward_coded_polls_only,official,mayor!rows 365-394,28685,13651,,7557,Jeff Leiper,full_ward,official,Ward 15!A46
+16,River,2014,31359,10932,11122,8501,Jim Watson,ward_coded_polls_only,official,mayor!rows 396-423,31359,10986,,3997,Riley Brockington,full_ward,official,Ward 16!A44
+17,Capital,2014,24975,9202,9457,7743,Jim Watson,ward_coded_polls_only,official,mayor!rows 425-450,24975,9316,,7206,David Chernushenko,full_ward,official,Ward 17!A42
+18,Alta Vista,2014,29758,11085,11343,8766,Jim Watson,ward_coded_polls_only,official,mayor!rows 452-488,29758,11179,,5295,Jean Cloutier,full_ward,official,Ward 18!A53
+19,Orléans South-Navan,2014,32105,11239,11332,8845,Jim Watson,ward_coded_polls_only,official,mayor!rows 490-512,32105,12105,,9446,Stephen Blais,full_ward,official,Ward 19!A39
+20,Osgoode,2014,18656,8351,8459,5002,Jim Watson,ward_coded_polls_only,official,mayor!rows 514-529,18656,8465,,1783,George Darouze,full_ward,official,Ward 20!A32
+21,Rideau-Jock,2014,19524,8144,8218,4771,Jim Watson,ward_coded_polls_only,official,mayor!rows 531-550,19524,8251,,5137,Scott Moffatt,full_ward,official,Ward 21!A36
+22,Riverside South-Findlay Creek,2014,26907,10476,10621,7848,Jim Watson,ward_coded_polls_only,official,mayor!rows 552-569,26907,10726,,4138,Michael Qaqish,full_ward,official,Ward 22!A34
+23,Kanata South,2014,31909,11445,11535,8444,Jim Watson,ward_coded_polls_only,official,mayor!rows 571-589,31909,11466,,9710,Allan Hubley,full_ward,official,Ward 23!A35
+1,Orléans East-Cumberland,2018,35622,14402,14521,11203,Jim Watson,ward_coded_polls_only,official,Mayor!rows 7-27,35622,15247,15368,3622,Matthew Luloff,full_ward,official,Ward 1!A52
+2,Orléans West-Innes,2018,29635,12129,12272,9261,Jim Watson,ward_coded_polls_only,official,Mayor!rows 28-47,29635,12871,12970,5325,Laura Dudas,full_ward,official,Ward 2!A51
+3,Barrhaven West,2018,36389,14102,14229,11044,Jim Watson,ward_coded_polls_only,official,Mayor!rows 48-66,36389,15469,15542,11489,Jan Harder,full_ward,official,Ward 3!A50
+4,Kanata North,2018,23666,10222,10387,7606,Jim Watson,ward_coded_polls_only,official,Mayor!rows 67-87,23666,11350,11410,5298,Jenna Sudds,full_ward,official,Ward 4!A52
+5,West Carleton-March,2018,18123,7389,7452,5429,Jim Watson,ward_coded_polls_only,official,Mayor!rows 88-99,18123,7737,7756,5099,Eli El-Chantiry,full_ward,official,Ward 5!A43
+6,Stittsville,2018,21937,9624,9736,7215,Jim Watson,ward_coded_polls_only,official,Mayor!rows 100-112,21937,10157,10172,5877,Glen Gower,full_ward,official,Ward 6!A44
+7,Bay,2018,28967,11410,11613,7946,Jim Watson,ward_coded_polls_only,official,Mayor!rows 113-161,28967,11798,12059,6509,Theresa Kavanagh,full_ward,official,Ward 7!A80
+8,College,2018,34010,13887,14101,10068,Jim Watson,ward_coded_polls_only,official,Mayor!rows 162-198,34010,15129,15238,7079,Rick Chiarelli,full_ward,official,Ward 8!A68
+9,Knoxdale-Merivale,2018,25582,9507,9592,7047,Jim Watson,ward_coded_polls_only,official,Mayor!rows 199-221,25582,10091,10240,6369,Keith Egli,full_ward,official,Ward 9!A54
+10,Gloucester-Southgate,2018,29111,9263,9496,6665,Jim Watson,ward_coded_polls_only,official,Mayor!rows 222-242,29111,11019,11119,6179,Diane Deans,full_ward,official,Ward 10!A52
+11,Beacon Hill-Cyrville,2018,22181,8106,8229,5799,Jim Watson,ward_coded_polls_only,official,Mayor!rows 243-262,22181,8274,8443,6730,Tim Tierney,full_ward,official,Ward 11!A51
+12,Rideau-Vanier,2018,28970,10153,10440,4869,Jim Watson,ward_coded_polls_only,official,Mayor!rows 263-305,28970,10725,10875,7302,Mathieu Fleury,full_ward,official,Ward 12!A74
+13,Rideau-Rockcliffe,2018,25460,9144,9229,5120,Jim Watson,ward_coded_polls_only,official,Mayor!rows 306-348,25460,9108,9458,7334,Tobi Nussbaum,full_ward,official,Ward 13!A74
+14,Somerset,2018,26320,9175,9381,5424,Jim Watson,ward_coded_polls_only,official,Mayor!rows 349-388,26320,10115,10290,7754,Catherine McKenney,full_ward,official,Ward 14!A71
+15,Kitchissippi,2018,29481,13721,13897,8719,Jim Watson,ward_coded_polls_only,official,Mayor!rows 389-426,29481,14151,14409,12068,Jeff Leiper,full_ward,official,Ward 15!A69
+16,River,2018,29762,10797,10966,7682,Jim Watson,ward_coded_polls_only,official,Mayor!rows 427-457,29762,11234,11472,6122,Riley Brockington,full_ward,official,Ward 16!A62
+17,Capital,2018,24617,12126,12331,6890,Jim Watson,ward_coded_polls_only,official,Mayor!rows 458-490,24617,12714,12834,3575,Shawn Menard,full_ward,official,Ward 17!A64
+18,Alta Vista,2018,28642,11306,11460,7898,Jim Watson,ward_coded_polls_only,official,Mayor!rows 491-528,28642,11783,11953,3866,Jean Cloutier,full_ward,official,Ward 18!A69
+19,Orléans South-Navan,2018,33518,11189,11262,8916,Jim Watson,ward_coded_polls_only,official,Mayor!rows 529-552,33518,12607,12736,11230,Stephen Blais,full_ward,official,Ward 19!A55
+20,Osgoode,2018,18581,8164,8319,6149,Jim Watson,ward_coded_polls_only,official,Mayor!rows 553-567,18581,8482,8518,4653,George Darouze,full_ward,official,Ward 20!A46
+21,Rideau-Jock,2018,19810,8778,8900,6547,Jim Watson,ward_coded_polls_only,official,Mayor!rows 568-588,19810,9103,9153,5080,Scott Moffatt,full_ward,official,Ward 21!A52
+22,Riverside South-Findlay Creek,2018,30568,12867,13059,10043,Jim Watson,ward_coded_polls_only,official,Mayor!rows 589-604,30568,14008,14090,5960,Carol Anne Meehan,full_ward,official,Ward 22!A47
+23,Kanata South,2018,32994,12910,13043,9678,Jim Watson,ward_coded_polls_only,official,Mayor!rows 605-624,32994,13581,13667,6183,Allan Hubley,full_ward,official,Ward 23!A51
+1,Orléans East-Cumberland,2022,38618,14718,14769,9296,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 6-29,38618,16069,16426,11918,Matthew Luloff,full_ward,official,Ward_quartier_1!A71
+2,Orléans West-Innes,2022,37347,15635,15684,9203,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 30-54,37347,16550,16889,11821,Laura Dudas,full_ward,official,Ward_quartier_2!A72
+3,Barrhaven West,2022,31446,12237,12322,7595,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 55-69,31446,14168,14406,6230,David Hill,full_ward,official,Ward_quartier_3!A62
+4,Kanata North,2022,27108,10690,10709,6463,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 70-89,27108,11501,11803,8827,Cathy Curry,full_ward,official,Ward_quartier_4!A67
+5,West Carleton-March,2022,20113,8987,9015,6362,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 90-102,20113,9305,9441,2549,Clarke Kelly,full_ward,official,Ward_quartier_5!A60
+6,Stittsville,2022,29298,11494,11543,7297,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 103-118,29298,13222,13357,7758,Glen Gower,full_ward,official,Ward_quartier_6!A63
+7,Bay,2022,35473,14378,14435,6582,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 119-176,35473,14976,15527,12398,Theresa Kavanagh,full_ward,official,Ward_quartier_7!A105
+8,College,2022,36958,15834,15917,8204,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 177-215,36958,16906,17333,8899,Laine Johnson,full_ward,official,Ward_quartier_8!A86
+9,Knoxdale-Merivale,2022,27650,11339,11392,6489,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 216-238,27650,12276,12594,4812,Sean Devine,full_ward,official,Ward_quartier_9!A70
+10,Gloucester-Southgate,2022,32139,10448,10538,5197,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 239-261,32139,11663,12059,4927,Jessica Bradley,full_ward,official,Ward_quartier_10!A70
+11,Beacon Hill-Cyrville,2022,23452,8878,8937,4501,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 262-282,23452,9293,9567,7617,Tim Tierney,full_ward,official,Ward_quartier_11!A68
+12,Rideau-Vanier,2022,34574,11551,11660,6676,Catherine McKenney,ward_coded_polls_only,official,Mayor_Maire!rows 283-331,34574,12440,12854,4621,Stéphanie Plante,full_ward,official,Ward_quartier_12!A96
+13,Rideau-Rockcliffe,2022,28220,10131,10171,4679,Catherine McKenney,ward_coded_polls_only,official,Mayor_Maire!rows 332-374,28220,10593,11226,8491,Rawlson King,full_ward,official,Ward_quartier_13!A90
+14,Somerset,2022,32787,12858,12917,9423,Catherine McKenney,ward_coded_polls_only,official,Mayor_Maire!rows 375-411,32787,14137,14832,8663,Ariel Troster,full_ward,official,Ward_quartier_14!A84
+15,Kitchissippi,2022,29621,14732,14769,9128,Catherine McKenney,ward_coded_polls_only,official,Mayor_Maire!rows 412-441,29621,15345,15693,11045,Jeff Leiper,full_ward,official,Ward_quartier_15!A77
+16,River,2022,33024,12495,12559,5723,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 442-469,33024,13130,13560,9595,Riley Brockington,full_ward,official,Ward_quartier_16!A75
+17,Capital,2022,28834,13578,13628,8448,Catherine McKenney,ward_coded_polls_only,official,Mayor_Maire!rows 470-502,28834,14412,14784,11358,Shawn Menard,full_ward,official,Ward_quartier_17!A80
+18,Alta Vista,2022,31008,12526,12566,5757,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 503-539,31008,12919,13360,6088,Marty Carr,full_ward,official,Ward_quartier_18!A84
+19,Orléans South-Navan,2022,32023,10775,10828,6616,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 540-557,32023,12378,12558,9466,Catherine Kitts,full_ward,official,Ward_quartier_19!A65
+20,Osgoode,2022,23354,10405,10447,7771,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 558-581,23354,10667,10780,4353,George Darouze,full_ward,official,Ward_quartier_20!A71
+21,Rideau-Jock,2022,21966,10103,10132,7414,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 582-602,21966,10353,10561,6898,David Brown,full_ward,official,Ward_quartier_21!A68
+22,Riverside South-Findlay Creek,2022,19822,7975,8008,4595,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 603-612,19822,8378,8508,5684,Steve Desroches,full_ward,official,Ward_quartier_22!A57
+23,Kanata South,2022,36085,14598,14672,8452,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 613-631,36085,15755,15892,5334,Allan Hubley,full_ward,official,Ward_quartier_23!A66
+24,Barrhaven East,2022,31307,11013,11076,6487,Mark Sutcliffe,ward_coded_polls_only,official,Mayor_Maire!rows 632-647,31307,11958,12244,4403,Wilson Lo,full_ward,official,Ward_quartier_24!A63

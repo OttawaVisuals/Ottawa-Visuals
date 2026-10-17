@@ -1,291 +1,112 @@
-import csv, json, sys
-from collections import defaultdict
+"""Build page data and CSV exports from reconciled City workbook extracts.
 
-def parse_num(s):
-    """Parse numbers like '38,618' or '14,769' to int. Returns None if empty."""
-    if not s or s.strip() == '':
-        return None
-    return int(s.strip().replace(',', ''))
+Run ReconcileSources.py first to refresh the extracts. Run this file from any cwd.
+"""
+import csv
+import json
+import re
+from pathlib import Path
 
-# ── 1. Load ward_results.csv ──────────────────────────────────────────────────
-rows = []
-with open('ward_results.csv', encoding='utf-8-sig') as f:
-    for row in csv.DictReader(f):
-        ward = int(row['ward'])
-        year = int(row['year'])
-        m_reg   = parse_num(row['Mayor_Registered'])
-        m_votes = parse_num(row['Mayor_Votes'])
-        m_win   = parse_num(row['Mayor_Winner'])
-        c_reg   = parse_num(row['Council_Registered'])
-        c_votes = parse_num(row['Council_Votes'])
-        c_win   = parse_num(row['Council_Winner'])
-
-        m_part = round(m_votes / m_reg * 100, 1) if m_reg and m_votes else None
-        m_win_pct = round(m_win / m_votes * 100, 1) if m_votes and m_win else None
-        c_part = round(c_votes / c_reg * 100, 1) if c_reg and c_votes else None
-        c_win_pct = round(c_win / c_votes * 100, 1) if c_votes and c_win else None
-
-        rows.append({
-            'ward': ward, 'year': year,
-            'name': row['name'].strip() if row['name'].strip() else None,
-            'm_reg': m_reg, 'm_votes': m_votes, 'm_win': m_win,
-            'c_reg': c_reg, 'c_votes': c_votes, 'c_win': c_win,
-            'm_part': m_part, 'm_win_pct': m_win_pct,
-            'c_part': c_part, 'c_win_pct': c_win_pct,
-            # The CSV has a mangled apostrophe in "Larry O'Brien" (2010)
-            'mayor_win_name': row['Mayor_Win_Name'].strip().replace('�', '’'),
-            'council_win_name': row['Council_Win_Name'].strip(),
-        })
-
-# Index by (ward, year)
-data = {(r['ward'], r['year']): r for r in rows}
-
-# ── 2. Ward name from 2022 row ─────────────────────────────────────────────────
-ward_names = {r['ward']: r['name'] for r in rows if r['year'] == 2022}
-
-# ── 3. Ward mapping ────────────────────────────────────────────────────────────
-# change_type: direct | renamed | minor | split | new
-# For 'new' and 'split': source_wards lists the old ward(s) used for history
-# weight: used for weighted averaging (must sum to 1.0 across sources for same ward+year)
-
+ROOT = Path(__file__).resolve().parent
 YEARS = [2010, 2014, 2018, 2022]
 
-mapping = {
-    1:  {'change': 'renamed', 'sources': {y: [(1, 1.0)] for y in YEARS}},
-    2:  {'change': 'renamed', 'sources': {y: [(2, 1.0)] for y in YEARS}},
-    3:  {'change': 'split',   'sources': {
-            2010: [(3, 1.0)], 2014: [(3, 1.0)], 2018: [(3, 1.0)], 2022: [(3, 1.0)]}},
-    4:  {'change': 'direct',  'sources': {y: [(4, 1.0)] for y in YEARS}},
-    5:  {'change': 'direct',  'sources': {y: [(5, 1.0)] for y in YEARS}},
-    6:  {'change': 'direct',  'sources': {y: [(6, 1.0)] for y in YEARS}},
-    7:  {'change': 'direct',  'sources': {y: [(7, 1.0)] for y in YEARS}},
-    8:  {'change': 'direct',  'sources': {y: [(8, 1.0)] for y in YEARS}},
-    9:  {'change': 'direct',  'sources': {y: [(9, 1.0)] for y in YEARS}},
-    10: {'change': 'direct',  'sources': {y: [(10, 1.0)] for y in YEARS}},
-    11: {'change': 'direct',  'sources': {y: [(11, 1.0)] for y in YEARS}},
-    12: {'change': 'minor',   'sources': {y: [(12, 1.0)] for y in YEARS}},
-    13: {'change': 'minor',   'sources': {y: [(13, 1.0)] for y in YEARS}},
-    14: {'change': 'direct',  'sources': {y: [(14, 1.0)] for y in YEARS}},
-    15: {'change': 'direct',  'sources': {y: [(15, 1.0)] for y in YEARS}},
-    16: {'change': 'direct',  'sources': {y: [(16, 1.0)] for y in YEARS}},
-    17: {'change': 'minor',   'sources': {y: [(17, 1.0)] for y in YEARS}},
-    18: {'change': 'direct',  'sources': {y: [(18, 1.0)] for y in YEARS}},
-    19: {'change': 'renamed', 'sources': {y: [(19, 1.0)] for y in YEARS}},
-    20: {'change': 'direct',  'sources': {y: [(20, 1.0)] for y in YEARS}},
-    21: {'change': 'renamed', 'sources': {y: [(21, 1.0)] for y in YEARS}},
-    22: {'change': 'split',   'sources': {
-            2010: [(22, 1.0)], 2014: [(22, 1.0)], 2018: [(22, 1.0)], 2022: [(22, 1.0)]}},
-    23: {'change': 'direct',  'sources': {y: [(23, 1.0)] for y in YEARS}},
-    # Ward 24: new ward carved mostly from old W3 (~60%) and old W22 (~40%)
-    # Weighted by approximate registered voter contribution based on 2022 population split
-    24: {'change': 'new',     'sources': {
-            2010: [(3, 0.60), (22, 0.40)],
-            2014: [(3, 0.60), (22, 0.40)],
-            2018: [(3, 0.60), (22, 0.40)],
-            2022: [(24, 1.0)]}},
-}
 
-# Caveat text per change type
-CAVEAT_TEXT = {
-    'direct':  None,
-    'renamed': None,
-    'minor': (
-        "Minor boundary adjustment in 2022. Historical values (2010–2018) reflect "
-        "the previous boundary and may slightly differ from the current ward area."
-    ),
-    'split': None,  # set per ward below
-    'new':  None,   # set per ward below
-}
+def pct(numerator, denominator):
+    return round(numerator / denominator * 100, 1) if numerator is not None and denominator else None
 
-SPLIT_CAVEAT = {
-    3: (
-        "Barrhaven West was created in 2022 when the old Barrhaven ward (Ward 3) "
-        "was split: its eastern portion (Chapman Mills and Davidson Heights) became "
-        "the new Barrhaven East (Ward 24), and Stonebridge was transferred to "
-        "Riverside South-Findlay Creek (Ward 22). Historical values (2010–2018) "
-        "reflect the full old Barrhaven ward and therefore cover a larger area than "
-        "the current Ward 3."
-    ),
-    22: (
-        "Riverside South-Findlay Creek (formerly Gloucester-South Nepean) lost "
-        "territory in 2022: Stonebridge was transferred to Barrhaven West (Ward 3) "
-        "and Chapman Mills was transferred to the new Barrhaven East (Ward 24). "
-        "Historical values (2010–2018) reflect the larger former ward area."
-    ),
-}
 
-NEW_CAVEAT = {
-    24: (
-        "Barrhaven East is a new ward created in 2022, carved approximately 60% "
-        "from the old Barrhaven ward (Ward 3) and 40% from the old "
-        "Gloucester-South Nepean ward (Ward 22). Historical values (2010–2018) are "
-        "estimates calculated as a weighted average of those two source wards "
-        "using those proportions; they do not reflect actual election results for "
-        "this specific territory."
-    ),
-}
+def main():
+    source = json.loads((ROOT/'reconciliation/source_results.json').read_text(encoding='utf8'))
+    races = {(r['year'], r['ward'], r['office']): r for r in source['races']}
+    # Names identify the 2022 map, not a claim about historical boundaries.
+    with (ROOT/'reconciliation/legacy_ward_results.csv').open(encoding='utf-8-sig',newline='') as f:
+        legacy = list(csv.DictReader(f))
+    names = {int(r['ward']):r['name'].strip() for r in legacy if int(r['year']) == 2022}
+    city = []
+    elected = {}
+    for r in source['citywide']:
+        ranking = sorted(r['candidates'].items(), key=lambda v:v[1], reverse=True)
+        winner, runner = ranking[:2]
+        elected[r['year']] = winner[0]
+        city.append({'year':r['year'], 'registered':r['registered'], 'votes':r['ballots'],
+                     'validVotes':r['valid_votes'], 'votesMayor':winner[1], 'winnerName':winner[0],
+                     'runnerUp':runner[1], 'runnerUpName':runner[0],
+                     'turnout':pct(r['ballots'],r['registered']), 'certification':r['certification'],
+                     'unallocatedMayorBallots':next((a['ballots'] for a in source['races']
+                         if a['year']==r['year'] and a['ward']==99 and a['office']=='mayor'),0)})
 
-# ── 4. Weighted average of participation across source wards ───────────────────
-def weighted_part(field, ward_2022, year):
-    """
-    Compute weighted average participation for a ward+year.
-    field: 'm_part' or 'c_part'
-    Returns (value_or_None, [source_descriptions])
-    """
-    sources = mapping[ward_2022]['sources'][year]
-    total_reg = 0
-    total_votes = 0
-    reg_field = 'm_reg' if field == 'm_part' else 'c_reg'
-    votes_field = 'm_votes' if field == 'm_part' else 'c_votes'
-
-    # For single-source, just pass through raw values
-    if len(sources) == 1:
-        src_ward, _ = sources[0]
-        r = data.get((src_ward, year))
+    def council(ward, year):
+        r = races.get((year,ward,'councillor'))
         if r is None:
             return None
-        return r[field]
+        winner, count = max(r['candidates'].items(),key=lambda v:v[1])
+        conflicts = [i for i in source['source_issues'] if i['year']==year and i['ward']==ward and i['office']=='councillor']
+        return {'name':winner, 'share':pct(count,r['valid_votes']), 'source_conflict':bool(conflicts),
+                'participation':pct(r['ballots'],r['registered']),
+                'valid_participation':pct(r['valid_votes'],r['registered']),
+                'registered':r['registered'], 'ballots':r['ballots'], 'valid_votes':r['valid_votes'],
+                'winner_votes':count, 'certification':r['certification']}
 
-    # Multi-source: weighted average by registered voters * weight
-    weighted_votes = 0
-    weighted_reg = 0
-    any_data = False
-    for src_ward, weight in sources:
-        r = data.get((src_ward, year))
-        if r is None or r[reg_field] is None:
-            continue
-        any_data = True
-        weighted_reg   += r[reg_field]   * weight
-        weighted_votes += (r[votes_field] or 0) * weight
-
-    if not any_data or weighted_reg == 0:
-        return None
-    return round(weighted_votes / weighted_reg * 100, 1)
-
-# ── 4b. Mayor race split of all registered voters ──────────────────────────────
-# Who was elected city-wide. The CSV only has the ward's top mayoral candidate,
-# so where someone else topped the ward, the elected mayor's votes sit inside
-# "other" and can't be separated.
-MAYOR_ELECTED = {2010: 'Jim Watson', 2014: 'Jim Watson', 2018: 'Jim Watson', 2022: 'Mark Sutcliffe'}
-
-def mayor_race(ward_2022, year):
-    """
-    Split a ward's registered voters three ways for the mayor race, as % of
-    registered: didn't vote / ward's top candidate / everyone else.
-    Multi-source wards are weighted like weighted_part; the top candidate is
-    only kept if every source ward had the same one.
-    """
-    reg = votes = top = 0.0
-    names = set()
-    for src_ward, weight in mapping[ward_2022]['sources'][year]:
-        r = data.get((src_ward, year))
-        if r is None or not r['m_reg'] or r['m_votes'] is None or r['m_win'] is None:
-            continue
-        reg   += r['m_reg']   * weight
-        votes += r['m_votes'] * weight
-        top   += r['m_win']   * weight
-        names.add(r['mayor_win_name'])
-    if reg == 0:
-        return None
-    top_name = names.pop() if len(names) == 1 else None
-    return {
-        'no_vote':      round((reg - votes) / reg * 100, 1),
-        'top':          round(top / reg * 100, 1),
-        'other':        round((votes - top) / reg * 100, 1),
-        'top_share':    round(top / votes * 100, 1) if votes else None,  # % of votes cast
-        'top_name':     top_name,
-        'top_is_mayor': top_name == MAYOR_ELECTED[year],
-    }
-
-# ── 4c. Councillor winners ─────────────────────────────────────────────────────
-def councillor_race(ward_2022, year):
-    """
-    Who won the councillor race, with their share of votes cast.
-    Single-source wards: {'name', 'share'} (None if the source has no winner,
-    e.g. 2010 wards 7 and 15). A ward that didn't exist yet (Ward 24 before
-    2022) instead lists the councillors of the old wards it was carved from.
-    """
-    sources = mapping[ward_2022]['sources'][year]
-
-    def one(src_ward):
-        r = data.get((src_ward, year))
-        if r is None or not r['council_win_name'] or not r['c_votes']:
+    def mayor(ward, year):
+        r = races.get((year,ward,'mayor'))
+        if r is None:
             return None
-        return {'name': r['council_win_name'], 'share': r['c_win_pct']}
+        name, count = max(r['candidates'].items(),key=lambda v:v[1])
+        return {'top_name':name, 'top_share':pct(count,r['valid_votes']),
+                'top_is_mayor':name==elected[year], 'valid_votes':r['valid_votes'],
+                'top_votes':count, 'ballots':r['ballots'], 'coverage':r['coverage'],
+                'certification':r['certification']}
 
-    if len(sources) == 1:
-        return one(sources[0][0])
-    return {'from': [dict(ward=w, **(one(w) or {'name': None, 'share': None})) for w, _ in sources]}
-
-# ── 5. Build output JSON ───────────────────────────────────────────────────────
-result = {}
-
-for ward_2022 in range(1, 25):
-    m = mapping[ward_2022]
-    change = m['change']
-
-    # 2022 actuals
-    r2022 = data.get((ward_2022, 2022))
-    if r2022 is None:
-        print(f"WARNING: no 2022 data for ward {ward_2022}", file=sys.stderr)
-        continue
-
-    # History
-    hist_mayor = []
-    hist_coun  = []
+    data = {}
+    for ward in range(1,25):
+        councils = [council(ward,y) for y in YEARS]
+        mayors = [mayor(ward,y) for y in YEARS]
+        last_c, last_m = councils[-1], mayors[-1]
+        caveat = ('Ward 24 was created in 2022. There are no pre-2022 results for this ward; '
+                  'the previous 60/40 estimates have been removed.') if ward==24 else (
+                  'Historical entries describe the original election-year ward number, not the 2022 territory. '
+                  'The 2022 map is a locator only for earlier years. No comparison across the 2022 boundary review is shown.')
+        data[str(ward)] = {'name':names[ward], 'change_type':'new' if ward==24 else 'historical',
+                          'caveat':caveat,
+                          'mayor':{'participation':None, 'winner_pct':last_m['top_share'], 'winner_name':last_m['top_name']},
+                          'councillor':dict(last_c, winner_pct=last_c['share'], winner_name=last_c['name']),
+                          'history':{'years':YEARS,
+                              'mayor':[None]*4,
+                              'councillor':[r['participation'] if r else None for r in councils],
+                              'councillor_valid':[r['valid_participation'] if r else None for r in councils],
+                              'mayor_race':mayors, 'councillor_race':councils}}
+    (ROOT/'ward_data.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    (ROOT/'mayor_history.json').write_text(json.dumps(city,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+    rows=[]
     for y in YEARS:
-        hist_mayor.append(weighted_part('m_part', ward_2022, y))
-        hist_coun.append(weighted_part('c_part',  ward_2022, y))
+        for ward in range(1,25 if y==2022 else 24):
+            row={'ward':ward,'name':names[ward],'year':y}
+            for office,prefix in [('mayor','Mayor'),('councillor','Council')]:
+                r = races.get((y,ward,office))
+                if r:
+                    name,count=max(r['candidates'].items(),key=lambda v:v[1])
+                    row.update({prefix+'_Registered':r['registered'],prefix+'_Votes':r['valid_votes'],
+                                prefix+'_Ballots_Cast':r['ballots'],prefix+'_Winner':count,
+                                prefix+'_Win_Name':name,prefix+'_Coverage':r['coverage'],
+                                prefix+'_Certification':r['certification'],prefix+'_Source':r['source_total']})
+            rows.append(row)
+    with (ROOT/'ward_results.csv').open('w',encoding='utf8',newline='') as f:
+        writer=csv.DictWriter(f,fieldnames=list(rows[0]))
+        writer.writeheader(); writer.writerows(rows)
+    with (ROOT/'Ottawa_Summary.csv').open('w',encoding='utf8',newline='') as f:
+        writer=csv.writer(f,delimiter='\t')
+        writer.writerow(['Year','Registered','BallotsCast','ValidMayorVotes','MayorWinnerVotes','RunnerUpVotes','Certification'])
+        for r in city:
+            writer.writerow([r['year'],r['registered'],r['votes'],r['validVotes'],r['votesMayor'],r['runnerUp'],r['certification']])
+    page=ROOT/'ottawa_ward_elections.html'
+    html=page.read_text(encoding='utf8')
+    html,n = re.subn(r'const wardData = .*?;\n',lambda _: 'const wardData = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\n',html,count=1)
+    assert n==1
+    html,n=re.subn(r'const MAYOR_HISTORY = \[.*?\n\];',lambda _: 'const MAYOR_HISTORY = '+json.dumps(city,ensure_ascii=False,indent=2)+';',html,count=1,flags=re.S)
+    assert n==1
+    page.write_text(html,encoding='utf8')
+    print('Built 24 ward records, 93 ward-year CSV rows, 4 citywide mayor records, and embedded page data.')
 
-    # Caveat
-    if change in ('direct', 'renamed'):
-        caveat = None
-    elif change == 'minor':
-        caveat = CAVEAT_TEXT['minor']
-    elif change == 'split':
-        caveat = SPLIT_CAVEAT.get(ward_2022)
-    elif change == 'new':
-        caveat = NEW_CAVEAT.get(ward_2022)
-    else:
-        caveat = None
 
-    result[str(ward_2022)] = {
-        'name': ward_names.get(ward_2022, f'Ward {ward_2022}'),
-        'change_type': change,
-        'caveat': caveat,
-        'mayor': {
-            'participation': r2022['m_part'],
-            'winner_pct':    r2022['m_win_pct'],
-            'winner_name':   r2022['mayor_win_name'],
-        },
-        'councillor': {
-            'participation': r2022['c_part'],
-            'winner_pct':    r2022['c_win_pct'],
-            'winner_name':   r2022['council_win_name'],
-        },
-        'history': {
-            'years':       YEARS,
-            'mayor':       hist_mayor,
-            'councillor':  hist_coun,
-            'mayor_race':  [mayor_race(ward_2022, y) for y in YEARS],
-            'councillor_race': [councillor_race(ward_2022, y) for y in YEARS],
-        },
-    }
-
-with open('ward_data.json', 'w', encoding='utf-8') as f:
-    json.dump(result, f, indent=2, ensure_ascii=False)
-
-print(f"Done — {len(result)} wards written to ward_data.json")
-
-# Print a summary to verify
-print("\nSample output (Ward 3 and Ward 24):")
-for w in ['3', '24']:
-    d = result[w]
-    print(f"\nWard {w} — {d['name']}")
-    print(f"  change_type: {d['change_type']}")
-    print(f"  mayor 2022: {d['mayor']['participation']}% ({d['mayor']['winner_name']})")
-    print(f"  councillor 2022: {d['councillor']['participation']}%")
-    print(f"  mayor history: {d['history']['mayor']}")
-    print(f"  councillor history: {d['history']['councillor']}")
-    if d['caveat']:
-        print(f"  caveat: {d['caveat'][:80]}...")
+if __name__=='__main__':
+    main()
