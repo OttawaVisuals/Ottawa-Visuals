@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Election methodology section (Oct 17: simple collapsible sources, formulas, special-vote coverage and historical data gaps, matching the retrofit page's approach)
 - [x] Ottawa election source reconciliation (Oct 17: 93 ward-years, four City workbooks, field audit and reproducible import; valid votes separated from ballots, special mayor votes preserved, Ward 4 registration corrected, unsupported estimates removed, remaining source gaps documented)
 - [x] Ward elections map (Oct 16: 2010–2022 year selector, mayor-race "largest group" and "ward winner" map modes, sortable ward list, councillor history per ward, mayor chart as % of all residents, colour scale fitted to 30–55%, nav links fixed, dark-mode labels, mobile stacking)
 - [x] PWHL mobile map and player comparisons (Oct 16: route following, goalie minimum-games filter and tap-to-inspect scatter points)

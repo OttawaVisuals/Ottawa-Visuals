@@ -220,6 +220,17 @@ h2.ward-name{margin-bottom:0}
 
 /* Footer */
 .footer{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.6}
+/* Native disclosure keeps the methodology compact and keyboard accessible. */
+.methodology{margin-top:16px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px}
+.methodology summary{padding:14px 16px;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.methodology summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.methodology .method-body{padding:0 16px 16px;font-size:13px;line-height:1.65;color:var(--ink-2)}
+.methodology h3{font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink);margin:16px 0 5px}
+.methodology h3:first-child{margin-top:0}
+.methodology p+p{margin-top:7px}
+.methodology ul{margin:6px 0;padding-left:20px}
+.methodology li+li{margin-top:5px}
+.methodology a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
@@ -418,22 +429,48 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
     <div id="caveats-list"></div>
   </div>
 
-  <div class="footer" style="line-height:1.6">
-    <strong>Definitions:</strong> Ballot turnout = ballots cast ÷ registered voters (available for wards in 2018 and 2022).
-    Valid council vote participation = valid councillor votes ÷ registered voters; it excludes blank and overvoted contests and is not ballot turnout.
-    Candidate shares use valid votes for that race. Citywide mayor bars separate valid candidate votes from everyone with no valid mayor vote recorded, including non-voters and blank/overvoted contests.<br>
-    <strong>Coverage:</strong> Mayor results by ward exclude citywide special polls in 2014, 2018 and 2022. They show poll leaders, not complete home-ward winners.
-    Earlier years use original ward numbers on the 2022 locator map. Cross-2022 changes are withheld because boundaries were not harmonized. Ward 24 has no pre-2022 result.<br>
-    <strong>Sources:</strong>
-    <a href="https://open.ottawa.ca/documents/a777b47502a246f79f51daa41c7a542d" style="text-decoration:underline">2010 City download (not certified)</a> ·
-    <a href="https://open.ottawa.ca/documents/1281bd2bdd26477397aad7f2b71d6c0a" style="text-decoration:underline">2014 official</a> ·
-    <a href="https://open.ottawa.ca/documents/8cb37c0751dc4ce2ae5d92fb5d85cd0a" style="text-decoration:underline">2018 official</a> ·
-    <a href="https://open.ottawa.ca/documents/ec1423ac43254bff8692fabd5d47772b" style="text-decoration:underline">2022 official</a>.<br>
-    Reconciled October 17, 2026. Wards 7 and 15 lack 2010 council results in the City download.
-    The population-based view is withheld pending verification of its population estimates.
-    <a href="SOURCE_RECONCILIATION.md" style="text-decoration:underline">Full reconciliation and limitations</a> ·
-    <a href="ward_results.csv" style="text-decoration:underline">Ward data CSV</a>.
-  </div>
+  <section class="methodology" aria-label="Methodology">
+    <details id="methodology">
+      <summary>How this data was built — methodology</summary>
+      <div class="method-body">
+        <h3>1. Data sources</h3>
+        <p>City of Ottawa election workbooks:
+          <a href="https://open.ottawa.ca/documents/a777b47502a246f79f51daa41c7a542d">2010</a>,
+          <a href="https://open.ottawa.ca/documents/1281bd2bdd26477397aad7f2b71d6c0a">2014</a>,
+          <a href="https://open.ottawa.ca/documents/8cb37c0751dc4ce2ae5d92fb5d85cd0a">2018</a> and
+          <a href="https://open.ottawa.ca/documents/ec1423ac43254bff8692fabd5d47772b">2022</a>.
+          We add up polling-place results and check them against the published totals.
+          The 2014–2022 workbooks are official results; the City labels its 2010 download as not certified.</p>
+
+        <h3>2. How the numbers are calculated</h3>
+        <p>Each percentage is the fraction below multiplied by 100. <strong>Valid votes</strong> are votes counted for a candidate; blank or overvoted contests are excluded.</p>
+        <ul>
+          <li><strong>Ballot turnout:</strong> ballots cast ÷ registered voters.</li>
+          <li><strong>Valid council vote participation:</strong> valid councillor votes ÷ registered voters. This is different from ballot turnout.</li>
+          <li><strong>Candidate share:</strong> candidate votes ÷ all valid votes in the same race and polls.</li>
+          <li><strong>Mayor history bars:</strong> each candidate group's votes ÷ registered voters citywide. The remainder includes non-voters and ballots without a valid mayor vote.</li>
+        </ul>
+        <p><strong>Ward average</strong> gives each ward equal weight and excludes missing values; it is not citywide turnout.
+          Changes are percentage points: 45% minus 40% is +5 points. Displayed figures are rounded.</p>
+
+        <h3>3. Why citywide mayor totals differ from ward totals</h3>
+        <p>In 2014, 2018 and 2022, special advance mayor votes are reported under citywide polling codes. The 2022 file also reports special mail-in votes this way.
+          We include them in city totals, but cannot assign them to home wards.
+          The mayor map therefore shows <strong>leaders in ward-coded polls</strong>, not complete ward winners.
+          Regular advance votes with ward codes are included. Special voters are never counted as non-voters.</p>
+
+        <h3>4. Gaps and comparisons</h3>
+        <p>Full ward ballot counts are available for 2018 and 2022. For earlier years, use valid council vote participation instead.
+          Wards 7 and 15 lack 2010 council results; a conflicting 2010 Ward 6 candidate total is flagged in its history.</p>
+        <p>The map uses <a href="https://ottawa.ca/en/city-hall/public-engagement/projects/ottawa-ward-boundary-review-2020">2022 ward boundaries</a>.
+          Older values describe the original election-year wards. We withhold 2018–2022 ward changes because the boundaries have not been matched.
+          Ward 24 did not exist before 2022; its earlier values are left blank.</p>
+        <p><a href="ward_results.csv">Download the ward data (CSV)</a> ·
+          <a href="https://github.com/OttawaVisuals/Ottawa-Visuals/blob/main/Ottawa_Elections/SOURCE_RECONCILIATION.md">Full source audit and limitations</a></p>
+      </div>
+    </details>
+  </section>
+  <div class="footer">Sources and calculations checked October 17, 2026.</div>
 
 </main>
 
