@@ -33,6 +33,7 @@ The importer caches original workbooks and metadata under the system temporary d
 
 ## Reading the page
 
+- **Find and share:** search by ward name or number at the top (accents optional). Ward selection, year and map mode are preserved in the URL. On phones the list shows full ward names and the selected metric; tap a ward for candidate details and history.
 - **Ballot turnout** is ballots cast / registered voters. Full ward figures are available in 2018 and 2022.
 - **Valid council vote participation** is valid council votes / registered voters. It supports the older years but must not be called ballot turnout.
 - **Candidate shares** use valid candidate votes for the same race and coverage.

@@ -74,9 +74,8 @@ html[data-embedded] .topbar{display:none}
   .page-header{flex-direction:column;gap:4px}
   #ward-list .wl-scroll{max-height:none}
   #ward-list .wl-bar{display:none}
-  #ward-list .wl-ward span{max-width:84px}
   #ward-list .wl-table th button{white-space:normal}
-  #ward-list .wl-table td{font-size:11px}
+  #ward-list .wl-table td{font-size:13px}
   #ward-list .wl-table td,#ward-list .wl-table th button{padding-left:4px;padding-right:4px}
 }
 
@@ -162,7 +161,32 @@ h2.ward-name{margin-bottom:0}
 .wl-ward{display:flex;align-items:center;gap:7px;color:var(--ink)}
 .wl-ward i{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .wl-ward b{font-weight:600;min-width:16px;text-align:right;color:var(--ink-3)}
-.wl-ward span{overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.wl-ward span{white-space:normal;overflow-wrap:anywhere;text-align:left}
+.wl-open{font:inherit;display:flex;align-items:center;gap:7px;width:100%;min-height:36px;text-align:left;color:inherit;border:0;background:transparent;cursor:pointer;padding:3px 0}
+.wl-open:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.wl-table td{white-space:normal}
+.wl-table td.num{font-variant-numeric:tabular-nums}
+.wl-coverage{display:block;font-size:10px;line-height:1.35;font-weight:400;text-transform:none;letter-spacing:normal;color:var(--ink-2);padding:0 6px 6px;max-width:155px}
+.wl-missing{font-size:11px;color:var(--ink-2);line-height:1.35;display:inline-block}
+.ward-finder{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.ward-finder label{font-size:13px;font-weight:600}
+.ward-finder input{font:inherit;font-size:14px;min-height:42px;flex:1;min-width:180px;max-width:430px;background:var(--bg-2);color:var(--ink);border:1px solid var(--line-2);border-radius:6px;padding:8px 10px}
+.ward-finder button{font:inherit;font-size:13px;min-height:42px;padding:8px 14px;background:var(--amber2);color:#0B2545;border:1px solid var(--line-2);border-radius:6px;cursor:pointer}
+.ward-finder input:focus-visible,.ward-finder button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ward-finder .finder-message{flex-basis:100%;font-size:12px;color:var(--ink-2)}
+#panel{scroll-margin-top:64px}
+#p-turnout.is-unavailable{font-size:14px;max-width:180px;line-height:1.4}
+@media(max-width:720px){
+  .ward-finder label{flex-basis:100%}
+  .ward-finder input{min-width:0;max-width:none}
+  #ward-list .wl-table th:nth-child(n+3),#ward-list .wl-table td:nth-child(n+3){display:none}
+  #ward-list .wl-table{table-layout:fixed}
+  #ward-list .wl-table th:first-child{width:64%}
+  #ward-list .wl-table th button{font-size:10px;min-height:40px}
+  #ward-list .wl-open{min-height:48px}
+  #ward-list .wl-ward{gap:5px}
+  #ward-list .wl-ward span{max-width:none;overflow:visible;text-overflow:clip;white-space:normal}
+}
 .wl-ward sup{color:var(--ink-3);font-size:10.5px}
 .wl-bar{display:inline-block;height:6px;border-radius:3px;vertical-align:middle;margin-left:6px}
 .wl-up{color:var(--green)} .wl-down{color:var(--red)}
@@ -277,8 +301,16 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
 
   <div class="page-header">
     <h1>Ottawa Municipal Elections — Ward Participation</h1>
-    <p>2010–2022 · click a ward to explore · City of Ottawa workbooks</p>
+    <p>2010–2022 · explore a ward · City of Ottawa workbooks</p>
   </div>
+
+  <form class="ward-finder" id="ward-finder">
+    <label for="ward-search">Choose your ward</label>
+    <input id="ward-search" type="search" list="ward-options" placeholder="Ward name or number" autocomplete="off" aria-describedby="ward-finder-message">
+    <datalist id="ward-options"></datalist>
+    <button type="submit">View ward</button>
+    <span class="finder-message" id="ward-finder-message" role="status">Type a name or number, or choose a suggestion.</span>
+  </form>
 
   <!-- TOP ROW: historical chart (left) + KPIs (right) -->
   <div class="grid-top">
@@ -329,7 +361,7 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
         <select class="map-mode" id="map-mode" aria-label="What the map shows">
           <option value="turnout">Ballot turnout by ward</option>
           <option value="participation">Valid council votes / registered</option>
-          <option value="winner">Mayor: leader in ward-coded polls</option>
+          <option value="winner">Mayor: poll leader (partial results)</option>
         </select>
         <div class="year-seg" id="year-seg" role="group" aria-label="Election year">
           <button type="button" data-year="2010">2010</button>
@@ -349,14 +381,14 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
     <div class="card" id="panel">
       <div id="ward-list">
         <h2 class="card-title" id="wl-title" tabindex="-1">All wards</h2>
-        <div class="card-sub">Click a heading to sort · pick a ward (here or on the map) for details</div>
+        <div class="card-sub">Sort by a heading · tap a ward for candidate details and history</div>
         <div class="wl-scroll">
           <table class="wl-table">
             <thead><tr>
               <th data-key="ward"><button type="button">Ward</button></th>
               <th data-key="turnout" class="num"><button type="button" id="wl-metric-h">Turnout</button></th>
               <th data-key="change" class="num"><button type="button" id="wl-change-h">Change</button></th>
-              <th data-key="mayor"><button type="button" title="Leading mayoral candidate in ward-coded polls only. Citywide special votes cannot be assigned to a home ward.">Mayor, poll leader</button></th>
+              <th data-key="mayor"><button type="button">Mayor poll leader</button><span class="wl-coverage" id="wl-mayor-coverage">Excludes citywide special polls</span></th>
             </tr></thead>
             <tbody id="wl-body"></tbody>
           </table>
@@ -650,6 +682,10 @@ const mapDiv     = document.getElementById('map');
 const tooltip    = document.getElementById('tooltip');
 let histChart    = null;
 let selectedWard = null;
+try {
+  const ward = Number(new URLSearchParams(location.search).get('ward'));
+  if (Number.isInteger(ward) && Object.hasOwn(wardData, ward)) selectedWard = ward;
+} catch (e) {}
 
 const GEOJSON_URL = 'https://raw.githubusercontent.com/OttawaVisuals/Ottawa-Visuals/main/Ottawa_Elections/Ottawa_Election_Wards_Only.json';
 
@@ -801,7 +837,8 @@ function showPanel(wardNum) {
   const turnoutEl = document.getElementById('p-turnout');
   const v = turnoutFor(wardNum, currentYear);
   document.getElementById('p-metric-label').textContent = metricLabel();
-  turnoutEl.textContent = v != null ? v + '%' : '—';
+  turnoutEl.textContent = v != null ? v + '%' : missingReason(wardNum, currentYear);
+  turnoutEl.classList.toggle('is-unavailable', v == null);
   turnoutEl.style.setProperty('--swatch', v != null ? makeScale().scale(v) : 'transparent');
   const cr = d.history.councillor_race[YEARS.indexOf(currentYear)];
   document.getElementById('p-coun-label').textContent = 'Councillor race · ' + currentYear;
@@ -1116,15 +1153,28 @@ function setMapMode(mode) {
 // ── Ward list: sortable table for the selected year ──────────────────────────
 const wlSort = {key: 'ward', dir: 1};   // dir: 1 ascending, -1 descending
 
+function missingReason(ward, year) {
+  if (+ward === 24 && year < 2022) return 'Ward did not exist';
+  const race = wardData[ward].history.councillor_race[YEARS.indexOf(year)];
+  if (!race) return 'Data unavailable';
+  return mapMode === 'participation' ? 'Data unavailable' : 'Ballot count unavailable';
+}
+
 function wardRows(year) {
   const prev = YEARS[YEARS.indexOf(year) - 1];
   return Object.keys(wardData).map(w => {
     const t = turnoutFor(w, year);
     const p = prev ? turnoutFor(w, prev) : null;
+    let reason = '';
+    if (+w === 24) reason = year < 2022 ? 'Ward did not exist' : 'New ward';
+    else if (!prev) reason = 'First year shown';
+    else if (year === 2022) reason = 'Not comparable';
+    else if (t == null) reason = missingReason(w, year);
+    else if (p == null) reason = missingReason(w, prev);
     return {
-      ward: +w, name: wardData[w].name, turnout: t,
-      change: year !== 2022 && t != null && p != null ? +(t - p).toFixed(1) : null,
-      win: wardWinner(w, year), note: boundaryNote(w, year),
+      ward:+w, name:wardData[w].name, turnout:t,
+      change:reason ? null : +(t-p).toFixed(1), changeReason:reason,
+      win:wardWinner(w, year), note:boundaryNote(w, year),
     };
   });
 }
@@ -1135,6 +1185,7 @@ function renderWardList() {
   document.getElementById('wl-title').textContent = 'All wards · ' + year;
   document.getElementById('wl-metric-h').textContent = mapMode === 'participation' ? 'Valid votes / registered' : 'Ballot turnout';
   document.getElementById('wl-change-h').textContent = prev ? 'vs ' + prev : 'Change';
+  document.getElementById('wl-mayor-coverage').textContent = year === 2010 ? 'City download, not certified' : 'Excludes citywide special polls';
   document.querySelectorAll('.wl-table th').forEach(th => {
     if (th.dataset.key === wlSort.key) th.setAttribute('aria-sort', wlSort.dir > 0 ? 'ascending' : 'descending');
     else th.removeAttribute('aria-sort');
@@ -1153,40 +1204,41 @@ function renderWardList() {
   const {scale} = makeScale();
   document.getElementById('wl-body').innerHTML = rows.map(r => {
     const turnout = r.turnout != null
-      ? `${r.turnout.toFixed(1)}%<span class="wl-bar" style="width:${Math.round(r.turnout * 0.6)}px;background:${scale(r.turnout)}"></span>`
-      : '<span title="No councillor data for this year">—</span>';
-    const change = r.change == null ? (year === 2022 ? '<span title="Boundary review: no harmonized comparison">n/a*</span>' : '—')
-      : `<span class="${r.change > 0 ? 'wl-up' : r.change < 0 ? 'wl-down' : ''}">${r.change > 0 ? '+' : ''}${r.change.toFixed(1)}</span>`;
+      ? `${r.turnout.toFixed(1)}%<span class="wl-bar" style="width:${Math.round(r.turnout*0.6)}px;background:${scale(r.turnout)}"></span>`
+      : `<span class="wl-missing">${missingReason(r.ward,year)}</span>`;
+    const change = r.change == null ? `<span class="wl-missing">${r.changeReason}</span>`
+      : `<span class="${r.change > 0 ? 'wl-up' : r.change < 0 ? 'wl-down' : ''}">${r.change > 0 ? '+' : ''}${r.change.toFixed(1)} pp</span>`;
     const mayor = r.win
       ? `<span class="wl-dot" style="background:${winnerBase(r.win.key)}"></span>${r.win.name.split(' ').slice(-1)[0]} ${r.win.share.toFixed(1)}%`
-      : '—';
-    const mark = r.note ? `<sup title="${r.note}">*</sup>` : '';
-    // A focused row is read by its label alone, so the label carries the row's data.
-    const spoken = `Ward ${r.ward} ${r.name}${r.note ? ' (' + r.note + ')' : ''}: ` +
-      `${metricLabel()} ${r.turnout != null ? r.turnout.toFixed(1) + '%' : 'no data'}` +
-      (prev ? ', ' + (r.change == null ? `no comparison with ${prev}`
-        : r.change === 0 ? `no change since ${prev}`
-        : `${r.change > 0 ? 'up' : 'down'} ${Math.abs(r.change).toFixed(1)} points since ${prev}`) : '') +
-      `, mayor race top candidate ${r.win ? `${r.win.name}, ${r.win.share.toFixed(1)}% of valid votes in ward-coded polls` : 'no data'}`;
-    return `<tr data-ward="${r.ward}" tabindex="0" aria-label="${spoken}">
-      <td><div class="wl-ward"><i style="background:${fillColor(r.ward)}"></i><b>${r.ward}</b><span>${r.name}</span>${mark}</div></td>
+      : '<span class="wl-missing">Ward did not exist</span>';
+    return `<tr data-ward="${r.ward}">
+      <td><div class="wl-ward"><button class="wl-open" type="button" aria-label="View Ward ${r.ward}: ${r.name}"><i style="background:${fillColor(r.ward)}" aria-hidden="true"></i><b>${r.ward}</b><span>${r.name}</span></button></div></td>
       <td class="num">${turnout}</td><td class="num">${change}</td><td>${mayor}</td></tr>`;
   }).join('');
 
-  const marked = rows.filter(r => r.note).map(r => r.ward).sort((a, b) => a - b);
   document.getElementById('wl-foot').textContent =
     metricLabel() + (mapMode === 'participation' ? ' = valid council votes / registered.' : ' = ballots cast / registered.') +
     ' Mayor shares: valid votes in ward-coded polls only; citywide special polls excluded after 2010.' +
-    (year === 2022 ? ' * No comparison across the 2022 boundary review.' : ' * Original ward numbers shown on a 2022 locator map; Ward 24 did not exist.');
+    (year === 2022 ? ' Not comparable: historical boundaries have not been matched to 2022. Ward 24 is new.' : ' Earlier values describe original ward numbers on a 2022 locator map.');
 }
 
 function selectWard(ward, moveFocus) {
-  selectedWard = ward;
+  if (!Object.hasOwn(wardData, ward)) return;
+  selectedWard = +ward;
   d3.selectAll('#map path.ward').classed('selected', false).classed('hl', false);
   d3.select('#map path.ward-' + ward).classed('selected', true).raise();
   showPanel(ward);
-  if (moveFocus) document.getElementById('p-name').focus();
+  document.getElementById('ward-search').value = `Ward ${ward} — ${wardData[ward].name}`;
+  document.getElementById('ward-finder-message').textContent = 'Type a name or number, or choose a suggestion.';
+  document.getElementById('ward-search').removeAttribute('aria-invalid');
+  syncUrl();
+  if (moveFocus || window.matchMedia('(max-width:720px)').matches) focusWardPanel();
   else announce(`Ward ${ward}, ${wardData[ward].name}: details shown beside the map.`);
+}
+
+function focusWardPanel() {
+  document.getElementById('p-name').focus({preventScroll:true});
+  document.getElementById('panel').scrollIntoView({block:'start'});
 }
 
 function backToList(moveFocus) {
@@ -1197,9 +1249,11 @@ function backToList(moveFocus) {
   document.getElementById('ward-list').style.display = '';
   document.getElementById('caveats-section').style.display = 'none';
   renderWardList();
+  document.getElementById('ward-search').value = '';
+  syncUrl();
   if (moveFocus) {
     // Return to the row that was open, or to the list heading.
-    const row = was != null && document.querySelector(`#wl-body tr[data-ward="${was}"]`);
+    const row = was != null && document.querySelector(`#wl-body tr[data-ward="${was}"] .wl-open`);
     (row || document.getElementById('wl-title')).focus();
   }
 }
@@ -1217,10 +1271,6 @@ function backToList(moveFocus) {
     const tr = e.target.closest('tr[data-ward]');
     if (tr) selectWard(+tr.dataset.ward, true);
   });
-  body.addEventListener('keydown', e => {
-    const tr = e.target.closest('tr[data-ward]');
-    if (tr && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectWard(+tr.dataset.ward, true); }
-  });
   // Hovering a row outlines its ward on the map.
   body.addEventListener('mouseover', e => {
     const tr = e.target.closest('tr[data-ward]');
@@ -1231,21 +1281,48 @@ function backToList(moveFocus) {
   document.getElementById('p-back').addEventListener('click', () => backToList(true));
   document.getElementById('map-hint-btn').addEventListener('click', () => {
     if (selectedWard != null) backToList(false);
-    const first = document.querySelector('#wl-body tr[data-ward]');
+    const first = document.querySelector('#wl-body .wl-open');
     (first || document.getElementById('wl-title')).focus();
   });
 })();
 
-// Keep ?year= and ?map= in the URL so a view can be shared.
+// Preserve year, map and ward selection when a view is shared or reloaded.
 function syncUrl() {
   try {
     const url = new URL(location.href);
     if (currentYear === 2022) url.searchParams.delete('year'); else url.searchParams.set('year', currentYear);
     if (mapMode === 'turnout') url.searchParams.delete('map'); else url.searchParams.set('map', mapMode);
+    if (selectedWard == null) url.searchParams.delete('ward'); else url.searchParams.set('ward', selectedWard);
     url.searchParams.delete('basis');
     history.replaceState(null, '', url);
   } catch (e) {}
 }
+
+// Native suggestions plus a submit fallback for names typed without accents.
+function wardSearchKey(value) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[—–-]/g,' ').replace(/\s+/g,' ').trim();
+}
+const wardOptions = Object.keys(wardData).map(ward => ({ward:+ward,label:`Ward ${ward} — ${wardData[ward].name}`}));
+document.getElementById('ward-options').innerHTML = wardOptions.map(o => `<option value="${o.label}"></option>`).join('');
+document.getElementById('ward-finder').addEventListener('submit', event => {
+  event.preventDefault();
+  const input = document.getElementById('ward-search');
+  const key = wardSearchKey(input.value);
+  const number = key.match(/^(?:ward )?(\d+)$/);
+  const exact = wardOptions.filter(o => wardSearchKey(o.label) === key || wardSearchKey(wardData[o.ward].name) === key);
+  const matches = number ? wardOptions.filter(o => o.ward === +number[1])
+    : exact.length ? exact : key ? wardOptions.filter(o => wardSearchKey(o.label).includes(key)) : [];
+  if (matches.length === 1) { selectWard(matches[0].ward, true); return; }
+  input.setAttribute('aria-invalid','true');
+  document.getElementById('ward-finder-message').textContent = matches.length > 1
+    ? 'Several wards match. Enter a ward number or choose its full name from the suggestions.'
+    : 'No matching ward. Enter a number from 1 to 24 or a ward name.';
+  input.focus();
+});
+document.getElementById('ward-search').addEventListener('input', () => {
+  document.getElementById('ward-search').removeAttribute('aria-invalid');
+  document.getElementById('ward-finder-message').textContent = 'Type a name or number, or choose a suggestion.';
+});
 
 document.querySelectorAll('#year-seg button').forEach(b =>
   b.addEventListener('click', () => setYear(+b.dataset.year)));
@@ -1253,6 +1330,10 @@ document.getElementById('map-mode').addEventListener('change', e => setMapMode(e
 document.getElementById('map-mode').value = mapMode;
 renderMayorHistory();
 setYear(currentYear);
+if (selectedWard != null) {
+  document.getElementById('ward-search').value = `Ward ${selectedWard} — ${wardData[selectedWard].name}`;
+  focusWardPanel();
+}
 announceReady = true;
 
 // ── THEME (shared ov-theme key across the site) ──────────────────────────────
