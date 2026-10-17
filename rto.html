@@ -168,6 +168,7 @@
   .axis text { fill: var(--text-muted); font-size: 10px; }
   .marker line { stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 4 3; }
   .marker text { fill: var(--text-primary); font-size: 10px; font-weight: 600; }
+  .zero line { stroke: var(--text-muted); stroke-width: 1; }
   .tip { position: fixed; pointer-events:none; background: var(--text-primary); color: var(--plane); font-size: 0.76rem; padding: 6px 9px; border-radius: 6px; opacity: 0; transition: opacity .1s; white-space: pre; z-index: 1000; }
 
   /* Timeline */
@@ -207,6 +208,31 @@
   .err { color: var(--critical); }
   .muted { color: var(--text-muted); }
   .pending { font-size: 0.84rem; color: var(--text-muted); padding: 10px 0; }
+
+  /* Before/after dot plot — HTML rows, not SVG, so labels stay readable on a phone. */
+  .db { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+  .db-row { display: grid; grid-template-columns: 190px 1fr 150px; align-items: center; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--hairline); }
+  .db-row.axis-row { border-bottom: none; padding: 0; }
+  .db-lbl { font-size: 0.84rem; font-weight: 600; }
+  .db-lbl small { display: block; font-weight: 400; color: var(--text-muted); font-size: 0.74rem; }
+  .db-track { position: relative; height: 22px; }
+  .db-track .zl { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--text-muted); }
+  .db-track .link { position: absolute; top: 10px; height: 2px; background: var(--hairline); }
+  .db-track .dot { position: absolute; top: 4px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid; }
+  .db-track .dot.before { border-color: var(--text-muted); background: var(--surface-1); }
+  .db-track .dot.phase  { border-color: var(--series-4); background: var(--series-4); }
+  .db-track .dot.full   { border-color: var(--series-1); background: var(--series-1); }
+  .db-val { font-size: 0.78rem; color: var(--text-secondary); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  .db-val b { color: var(--text-primary); font-weight: 650; }
+  .db-axis { position: relative; height: 16px; font-size: 10px; color: var(--text-muted); }
+  .db-axis span { position: absolute; transform: translateX(-50%); }
+  .legend-dot { display:inline-block; width:10px; height:10px; border-radius:50%; border:2px solid; vertical-align:-1px; }
+  @media (max-width: 600px){
+    .db-row { grid-template-columns: 1fr auto; row-gap: 4px; }
+    .db-row .db-track { grid-column: 1 / -1; grid-row: 2; }
+    .db-row.axis-row .db-lbl, .db-row.axis-row .db-val { display: none; }
+    .db-row.axis-row .db-axis { grid-column: 1 / -1; }
+  }
 </style>
 <!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
 <link rel="stylesheet" href="assets/site-theme.css">
@@ -379,9 +405,40 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <span class="note">311 · IESO · bicycle counters</span></div>
     <p class="lede">Three independent series that should move if a few hundred thousand
       commuting patterns change. Unlike our own collection, two of these have real history —
-      so they can be read against 2025 as well as against Jul 6.</p>
+      so they can be read against 2025 as well as against Jul 6. The first two charts do exactly
+      that: they compare each week of 2026 with the same week a year earlier, so summer holidays
+      and seasons cancel out and what remains is the change.</p>
 
     <div class="kpis" id="cityKpis"></div>
+
+    <div class="chart-card" id="baCard" style="display:none">
+      <div class="spark-head">
+        <h2>Before and after, against the same weeks a year earlier</h2>
+        <span class="note muted" id="baNote"></span>
+      </div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="border-color:var(--text-muted);background:var(--surface-1)"></span>12 weeks before RTO4</span>
+        <span><span class="legend-dot" style="border-color:var(--series-4);background:var(--series-4)"></span>Phase-in, Jul 6 – Sep 13</span>
+        <span><span class="legend-dot" style="border-color:var(--series-1);background:var(--series-1)"></span>Full RTO4, week of Sep 14 on</span>
+      </div>
+      <div class="db" id="baRows"></div>
+      <p class="cap" id="baCap"></p>
+    </div>
+
+    <div class="chart-card" id="yoyCard" style="display:none">
+      <div class="spark-head">
+        <h2>Change vs the same weeks of the prior year, 4-week rolling</h2>
+        <span class="note muted" id="yoyNote"></span>
+      </div>
+      <div class="chart-legend" id="yoyLegend"></div>
+      <svg class="chart" id="yoyChart" viewBox="0 0 780 300" aria-label="Year-over-year percent change in 311 requests and weekday electricity ratio, 4-week rolling"></svg>
+      <p class="cap">Each point compares four weeks of 2026 with the same four weeks one year
+        earlier (364 days back, so weekdays line up). Above zero means more than last year. A step at
+        the RTO4 line that holds afterwards is what a mandate effect would look like. A one-week
+        spike usually means a holiday fell in a different week (Canada Day, Labour Day). The chart
+        starts in mid-April because winter storms swing road and parking complaints by as much
+        as ±100% from one year to the next, which would hide everything after them.</p>
+    </div>
 
     <div class="chart-card" id="s311Card" style="display:none">
       <div class="spark-head">
@@ -732,6 +789,15 @@ function lineChart(svg, opts){
     out += `<text x="${X(t).toFixed(1)}" y="${H-padB+16}" text-anchor="middle">${lbl}</text>`;
   }
   out += `</g>`;
+
+  // zero reference, for charts of change (year-over-year %)
+  if (opts.zeroLine){
+    const r = range[leftKey];
+    if (r.lo < 0 && r.hi > 0){
+      const y0 = Y(0, leftKey);
+      out += `<g class="zero"><line x1="${padL}" y1="${y0.toFixed(1)}" x2="${W-padR}" y2="${y0.toFixed(1)}"/></g>`;
+    }
+  }
 
   // policy markers
   for (const m of (opts.markers||[])){
@@ -1220,6 +1286,128 @@ async function renderBikes(){
   return d;
 }
 
+/* Before/after against the same weeks a year earlier. "Six weeks before vs six
+   weeks after Jul 6" mixes RTO4 with the start of summer; comparing each 2026
+   week with the same week of the prior year cancels the season, so what is left
+   is the year-over-year change, read before vs after the mandate. */
+const BA_BEFORE_START = "2026-04-13";   // 12 full weeks before RTO4
+const BA_FULL_START   = "2026-09-14";   // the week containing Sep 15
+const isoMinusDays = (iso, n) => { const d = new Date(iso+"T12:00:00"); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
+const signedPct = v => v==null ? "—" : Math.abs(v) < 0.5 ? "0%" : (v>0?"+":"−")+Math.abs(v).toFixed(0)+"%";
+
+// Sum a weekly value over `weeks` and over the matching prior-year weeks.
+function yoyWindow(weeks, nowOf, prevOf){
+  let a = 0, b = 0, n = 0;
+  for (const w of weeks){
+    const x = nowOf(w), y = prevOf(w);
+    if (x==null || y==null || !y) continue;
+    a += x; b += y; n++;
+  }
+  return n ? { pct: (a/b-1)*100, n } : null;
+}
+
+function beforeAfterMetrics(s311, ieso){
+  const metrics = [];
+  if (s311){
+    const W = Object.fromEntries(s311.weeks.map(w => [w.week, w]));
+    const weeks = s311.weeks.map(w => w.week).filter(w => w >= "2026-01-01");
+    const wards = (s311.downtown_wards||[]).join(", ");
+    const defs = [
+      ["downtown_total", "311, central wards",          `all request types · wards ${wards}`, "var(--series-1)"],
+      ["roads",          "311, roads & transportation", "city-wide",                          "var(--series-2)"],
+      ["parking",        "311, parking enforcement",    "city-wide",                          "var(--series-3)"],
+      ["total",          "311, all requests",           "city-wide",                          null],
+    ];
+    for (const [k, label, sub, color] of defs)
+      metrics.push({ label, sub, color, weeks, vs: "2025",
+        now:  w => W[w]?.[k] ?? null,
+        prev: w => W[isoMinusDays(w, 364)]?.[k] ?? null });
+  }
+  if (ieso){
+    const I = Object.fromEntries(ieso.weeks.map(w => [w.week, w]));
+    const weeks = ieso.weeks.map(w => w.week).filter(w => w >= "2026-01-01");
+    metrics.push({ label:"Weekday ÷ weekend electricity", sub:"Ottawa zone, office hours · vs 2023–25 average",
+      color:"var(--series-4)", weeks, vs:"2023–25",
+      now:  w => I[w]?.ratio ?? null,
+      prev: w => {
+        const back = [364, 728, 1092].map(n => I[isoMinusDays(w, n)]?.ratio).filter(v => v!=null);
+        return back.length ? back.reduce((a,b)=>a+b,0)/back.length : null;
+      } });
+  }
+  for (const m of metrics){
+    m.before = yoyWindow(m.weeks.filter(w => w >= BA_BEFORE_START && w < RTO4), m.now, m.prev);
+    m.phase  = yoyWindow(m.weeks.filter(w => w >= RTO4 && w < BA_FULL_START), m.now, m.prev);
+    m.full   = yoyWindow(m.weeks.filter(w => w >= BA_FULL_START), m.now, m.prev);
+    m.rolling = [];
+    for (let i = 3; i < m.weeks.length; i++){
+      const r = yoyWindow(m.weeks.slice(i-3, i+1), m.now, m.prev);
+      if (r && r.n === 4) m.rolling.push({ x: m.weeks[i], y: r.pct });
+    }
+  }
+  return metrics;
+}
+
+function renderBeforeAfter(s311, ieso){
+  const metrics = beforeAfterMetrics(s311, ieso).filter(m => m.before && (m.phase || m.full));
+  if (!metrics.length) return;
+
+  // Dot plot: one row per series, three windows on a shared, zero-centred % axis.
+  const vals = metrics.flatMap(m => [m.before, m.phase, m.full]).filter(Boolean).map(r => Math.abs(r.pct));
+  const D = Math.max(10, Math.ceil(Math.max(...vals)/10)*10);
+  const pos = v => ((v + D) / (2*D) * 100).toFixed(2);
+  const dot = (cls, r, m, name) => r ? `<span class="dot ${cls}" style="left:${pos(r.pct)}%" `+
+    `data-tip="${m.label} · ${name}: ${signedPct(r.pct)} vs ${m.vs} (${r.n} weeks)"></span>` : "";
+  const rows = metrics.map(m => {
+    const pts = [m.before, m.phase, m.full].filter(Boolean).map(r => r.pct);
+    const lo = Math.min(...pts), hi = Math.max(...pts);
+    return `<div class="db-row">
+      <div class="db-lbl">${m.label}<small>${m.sub}</small></div>
+      <div class="db-track">
+        <span class="zl" style="left:${pos(0)}%"></span>
+        <span class="link" style="left:${pos(lo)}%;width:${(+pos(hi) - +pos(lo)).toFixed(2)}%"></span>
+        ${dot("before", m.before, m, "before RTO4")}${dot("phase", m.phase, m, "phase-in")}${dot("full", m.full, m, "full RTO4")}
+      </div>
+      <div class="db-val">${signedPct(m.before?.pct)} · ${signedPct(m.phase?.pct)} · <b>${signedPct(m.full?.pct)}</b></div>
+    </div>`;
+  }).join("");
+  const ticks = [-D, -D/2, 0, D/2, D];
+  const axis = `<div class="db-row axis-row"><div class="db-lbl"></div>
+    <div class="db-axis">${ticks.map(t => `<span style="left:${pos(t)}%">${signedPct(t)}</span>`).join("")}</div>
+    <div class="db-val">before · phase-in · <b>full</b></div></div>`;
+  document.getElementById("baRows").innerHTML = rows + axis;
+
+  const f = metrics[0];
+  const last = f.weeks[f.weeks.length-1];
+  document.getElementById("baNote").textContent =
+    `% change vs the same weeks a year earlier · through week of ${shortDate(last)}`;
+  const dt = metrics.find(m => m.label.includes("central wards"));
+  document.getElementById("baCap").innerHTML =
+    (dt ? `In the 12 weeks before RTO4, 311 requests from the central wards ran
+      <b>${signedPct(dt.before.pct)}</b> against the same weeks of 2025. During the phase-in they ran
+      <b>${signedPct(dt.phase?.pct)}</b>, and since full RTO4 <b>${signedPct(dt.full?.pct)}</b>. ` : "") +
+    `Read the <em>gap</em> between the hollow dot and the filled ones, not the dots themselves —
+     a series that was already up on last year before Jul 6 has not changed because of RTO4.
+     311 counts are complaints people choose to file, so a shift here fits a change in who is
+     where on weekdays, but does not prove it. The full-RTO4 window is only
+     ${f.full?.n ?? 0} weeks long; expect it to move as weeks are added.`;
+  document.getElementById("baCard").style.display = "block";
+
+  // Rolling trend: same comparison, week by week, so the step (or its absence) is visible.
+  const series = metrics.filter(m => m.color && m.rolling.length).map(m => ({
+    label: m.label, color: m.color, dash: m.label.startsWith("Weekday") ? "4 3" : null,
+    fmt: v => signedPct(v)+` vs ${m.vs}`, points: m.rolling.filter(p => p.x >= BA_BEFORE_START),
+  }));
+  legendFor("yoyLegend", series);
+  if (lineChart(document.getElementById("yoyChart"),
+                { series, zeroLine: true,
+                  markers:[{date:RTO4,label:"RTO4"},{date:RTO4_FULL,label:"Sep 15"}],
+                  yFmt: v => (v>0?"+":"")+v.toFixed(0)+"%",
+                  tipDate: w => "4 weeks to week of "+shortDate(w) })){
+    document.getElementById("yoyCard").style.display = "block";
+    document.getElementById("yoyNote").textContent = "2026 vs prior year · 4-week rolling";
+  }
+}
+
 function renderCityKpis(s311, ieso, bikes){
   const tiles = [];
   const pct = (a,b) => (a==null||b==null||!b) ? null : (a-b)/b*100;
@@ -1393,6 +1581,7 @@ async function meanCorridorKm(){
 async function renderCity(){
   const [s311, ieso, bikes] = await Promise.all([render311(), renderIESO(), renderBikes()]);
   renderCityKpis(s311, ieso, bikes);
+  renderBeforeAfter(s311, ieso);
 }
 
 function renderLive(){ renderRoads(); renderTransit(); renderParking(); }

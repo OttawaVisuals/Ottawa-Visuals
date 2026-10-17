@@ -32,7 +32,7 @@ TODAY (override): none
 
 ## Week 1 (Oct 15–21): RTO Watch + collectors
 - [x] Day 1: Claude Code checks Cloudflare cron + `collect.yml`; update `PROJECTS.md` + `tracker.html` together (done Oct 16: collectors down since Oct 12; `collect.yml` has never run because the Worker setup is unfinished; owner steps in PROJECTS.md)
-- [ ] Day 2: **RESET 1** — Codex builds RTO Watch before/after charts (strongest model)
+- [x] Day 2: **RESET 1** — Codex builds RTO Watch before/after charts (strongest model) (done Oct 17 in Claude Code: 311 + electricity vs same weeks of 2025, dot plot + rolling line in section 5; reset not used)
 - [ ] Day 3: finish/review the charts
 - [ ] Day 4: Tax polish (mid model)
 - [ ] Day 5: Ontario Costs: swap the 2 news-relayed FAO figures (mid model)

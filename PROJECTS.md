@@ -296,9 +296,15 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   councillor; a public page (e.g. "what did council decide about X").
 
 ### RTO4 Impact Page — "Ottawa RTO Watch"
-- **Progress:** ~35% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
-  former `Traffic/traffic.html`, which now redirects). Historical before/after charts come
-  as the daily rollups accumulate.
+- **Progress:** ~45% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
+  former `Traffic/traffic.html`, which now redirects).
+- **Before/after charts (2026-10-17):** section 5 now compares 311 (central wards, roads,
+  parking, all) and the IESO weekday÷weekend ratio with the *same weeks a year earlier*, in
+  three windows: 12 weeks before RTO4, phase-in (Jul 6–Sep 13), full RTO4 (week of Sep 14 on).
+  Dot plot + 4-week rolling line, computed in the page from `RTO4/data/` (refreshed the same
+  day). First read: central-ward 311 went +1% → −9% (phase-in) → −1% (full); city-wide roads
+  and parking stayed ~+12–20% throughout; electricity ratio flat. Still missing: commute and
+  transit before/after (needs the TomTom MOVE backfill, and KPI months after Apr 2026).
 - **Collectors healthy (2026-07-26)** — see the pipeline status table above.
 - Commutes (TomTom, collecting since Jul 2026) + transit (own GTFS-RT logging on the Pi +
   official KPI snapshots + eScribe history) + TBS NCR headcounts, 311, bike counters, IESO load.
