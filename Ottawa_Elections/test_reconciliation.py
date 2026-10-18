@@ -37,6 +37,18 @@ class ReconciliationTests(unittest.TestCase):
             for r in mayor:
                 self.assertEqual(r['coverage'],'unallocated_citywide_polls' if r['ward']==99 else 'ward_coded_polls_only')
 
+    def test_ward_special_poll_voters_reconcile(self):
+        # Council ballots - ward-coded mayor ballots = the ward's special-poll voters.
+        for year,special in [(2018,15857),(2022,27560)]:
+            gaps=[self.races[(year,w,'councillor')]['ballots']-self.races[(year,w,'mayor')]['ballots']
+                  for w in range(1,25 if year==2022 else 24)]
+            self.assertTrue(all(g>=0 for g in gaps))
+            self.assertEqual(sum(gaps),special)
+        for ward in self.wards.values():
+            for c,m in zip(ward['history']['councillor_race'],ward['history']['mayor_race']):
+                if c and m:
+                    self.assertEqual(c['registered'],m['registered'])
+
     def test_denominator_and_registered_typo(self):
         r=self.races[(2022,1,'councillor')]
         self.assertEqual((r['registered'],r['ballots'],r['valid_votes'],r['candidates']['Matthew Luloff']),

@@ -53,7 +53,7 @@ def main():
             return None
         name, count = max(r['candidates'].items(),key=lambda v:v[1])
         return {'top_name':name, 'top_share':pct(count,r['valid_votes']),
-                'top_is_mayor':name==elected[year], 'valid_votes':r['valid_votes'],
+                'top_is_mayor':name==elected[year], 'registered':r['registered'], 'valid_votes':r['valid_votes'],
                 'top_votes':count, 'ballots':r['ballots'], 'coverage':r['coverage'],
                 'certification':r['certification']}
 

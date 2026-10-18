@@ -62,6 +62,7 @@ The revised page:
 - Labels ward mayor results as **leaders in ward-coded polls**, with percentages of valid votes in those polls.
 - Does not claim those are complete home-ward winners.
 - Removes the “largest group / didn't vote” mayor map. The incomplete ward mayor counts cannot establish abstention.
+  - *October 18, 2026 addition:* abstention can be established from the **council** sheets, which count every voter in the ward. For 2018/2022 the ward panel shows non-voters as registered − council ballots, and this ward's special-poll voters as council ballots − ward-coded mayor ballots. Those per-ward differences are never negative and sum exactly to the unallocated 99 buckets (15,857 and 27,560). Their mayor choices remain unallocated. 2010/2014 bars keep non-voters combined with blank ballots or special-poll voters. The ward-level map was not restored.
 - Does not estimate or proportionally allocate the missing mayor votes.
 
 ## Denominators and the councillor data
