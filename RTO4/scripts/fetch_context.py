@@ -50,7 +50,9 @@ MIDBLOCK_LAYERS = {
     "Transportation_Midblock_Volume_2023": ("Year", "All_Motorized_Vehicles_AADT_24_"),
     "Midblock_Volume_2022_w_lat_long": ("Year", "All_Motorized_Vehicles_AADT_24_"),
 }
-COVID_LAYER = "COVID_19_Traffic_Volume_Monitoring_at_Intersections"
+# The City renamed the old "Collisions" service (2017-2024, 2023 missing).
+COLLISIONS_SERVICE = "Traffic_Collisions_by_Location_2017-2024_(excluding_2023)"
+COVID_LAYER ="COVID_19_Traffic_Volume_Monitoring_at_Intersections"
 
 
 def to_num(v):
@@ -124,7 +126,8 @@ def collisions():
                           '"outStatisticFieldName":"injuries"}]'),
         "f": "json",
     }
-    url = f"{ARCGIS}/Collisions/FeatureServer/0/query?" + urllib.parse.urlencode(params)
+    url = (f"{ARCGIS}/{urllib.parse.quote(COLLISIONS_SERVICE)}/FeatureServer/0/query?"
+           + urllib.parse.urlencode(params))
     d = fetch_json(url)
     if "error" in d:
         print(f"  collisions: skipped ({d['error'].get('message')})")
