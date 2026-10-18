@@ -61,7 +61,7 @@ reason to trust or distrust each chart.
 | 311 service requests | daily → weekly | 2025 + 2026 | **Yes** — the only external series with a genuine same-week 2025 control |
 | IESO Ottawa-zone demand | hourly → weekly | 2003+ (we pull 2023+) | **Yes**, weakly — whole zone and weather-dominated, so read the weekday÷weekend ratio, not MW |
 | Bicycle counters | daily → weekly | 2010–**Mar 2026** | **No** — coverage ends before Jul 6, and only ADAWE still reports in 2026 |
-| Intersection / midblock volumes | annual | 2018, 2022, 2023, 2024 | **No** — no 2025 or 2026 edition published |
+| Intersection / midblock volumes | annual | 2018, 2022, 2023, 2024, 2025 | **No** — 2025 is pre-RTO4; no 2026 edition published |
 | COVID-19 intersection monitoring | monthly, % of normal | 2020–22, closed | **No** — included as the yardstick for what a real step change looks like |
 | Collisions | annual | 2017–2024, **2023 missing** | **No** — context only |
 | GHG inventory | annual, city-wide | 2012–2024 | **No** — latest year predates RTO4 by 18 months |

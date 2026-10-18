@@ -479,7 +479,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <span class="note">Open Ottawa · annual</span></div>
     <p class="lede">The City surveys traffic volumes at hundreds of intersections and midblock
       segments. This is the authoritative measure of how much traffic Ottawa carries — and it is
-      published <b>annually</b>, latest edition 2024. It establishes the level RTO4 landed on;
+      published <b>annually</b>, latest edition 2025 (counts taken during 2025, before RTO4). It establishes the level RTO4 started from;
       it cannot yet show RTO4 itself.</p>
 
     <div class="chart-card" id="volCard" style="display:none">
@@ -487,6 +487,11 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <div class="scroller"><table class="data" id="volTable"></table></div>
       <p class="cap">AADT of all motorized vehicles across surveyed intersections. The site list
         changes between editions, so <b>median per site</b> is the comparable column — not the total.</p>
+      <p class="cap"><b>* 2025 is not comparable with earlier editions.</b> The City changed the
+        file: counts are 8- or 12-hour studies expanded to 24 hours (the earlier editions
+        report AADT), fewer sites have a usable figure (532 vs 703 in 2024), and the pedestrian and
+        bike columns are raw study-period totals, so they are left blank. The lower 2025 median
+        is not evidence of a drop in traffic.</p>
     </div>
 
     <div class="chart-card" id="covidCard" style="display:none">
@@ -591,7 +596,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
           continuous counter, with the cross-year total deliberately not charted because the
           reporting counter set shrinks each year.</dd>
         <dt>Intersection &amp; midblock volumes · annual</dt>
-        <dd>Latest edition 2024; no 2025 or 2026 edition exists yet. <b>Cannot speak to RTO4.</b>
+        <dd>Latest edition 2025 (vehicles only; its pedestrian and bike totals aren't 24-hour figures); no 2026 edition exists yet. <b>Cannot speak to RTO4.</b>
           Field names differ between vintages, so editions are mapped individually. Compare
           median-per-site, never totals — the surveyed site list changes every edition.</dd>
         <dt>COVID-19 intersection monitoring · 2020–22, closed series</dt>
@@ -1449,7 +1454,7 @@ async function renderCounts(){
   if (years.length){
     const rows = years.map(y => {
       const v = iv[y].vehicles || {}, p = iv[y].peds || {}, b = iv[y].bikes || {};
-      return `<tr><td>${y}</td><td>${fmt(v.sites)}</td><td>${fmt(v.median)}</td>`+
+      return `<tr><td>${y}${y === "2025" ? "*" : ""}</td><td>${fmt(v.sites)}</td><td>${fmt(v.median)}</td>`+
              `<td>${fmt(v.mean)}</td><td>${fmt(p.median)}</td><td>${fmt(b.median)}</td></tr>`;
     }).join("");
     document.getElementById("volTable").innerHTML =

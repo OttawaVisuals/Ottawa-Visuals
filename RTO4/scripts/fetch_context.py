@@ -31,11 +31,16 @@ INTERSECTION_LAYERS = {
     2022: ("Intersection_Volume_2022_w_lat_long", "long"),
     2023: ("Transportation_Intersection_Volume_2023", "long"),
     2024: ("Transportation_Intersection_Volumes_2024", "truncated"),
+    2025: ("Transportation_Intersection_Volume_2025", "adjusted"),
 }
 FIELD_MAPS = {
     "truncated": {"vehicles": "All_Motori", "peds": "Pedestrian", "bikes": "Bicycles_N"},
     "long": {"vehicles": "All_Motorized_Vehicles_AADT_24_",
              "peds": "Pedestrians_Not_Factored", "bikes": "Bicycles_Not_Factored"},
+    # 2025: vehicles only. AADT_Calculated is a ratio (mean ~1), and the
+    # pedestrian/cyclist totals are raw counts over the study duration, not
+    # 24h-expanded, so they are not comparable with earlier years.
+    "adjusted": {"vehicles": "Total_Adjusted_Volume__24h_"},
 }
 
 # Same story for midblock: 2024 has AADT_Year + Volume, 2023 has Year +
@@ -188,8 +193,9 @@ def covid_monitoring():
 def main():
     write_json("context_annual.json", {
         "note": ("All series here are annual (or monthly for the 2020 COVID set). "
-                 "No 2025 or 2026 edition of the volume counts is published yet, so "
-                 "these establish the pre-RTO4 level and cannot show RTO4 itself."),
+                 "The latest volume edition is 2025 (counts dated Jan-Dec 2025); no 2026 "
+                 "edition is published yet, so these establish the pre-RTO4 level and "
+                 "cannot show RTO4 itself."),
         "intersection_volumes": intersections(),
         "midblock_volumes": midblocks(),
         "collisions": collisions(),

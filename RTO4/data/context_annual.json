@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-07-25T12:27:54Z",
- "note": "All series here are annual (or monthly for the 2020 COVID set). No 2025 or 2026 edition of the volume counts is published yet, so these establish the pre-RTO4 level and cannot show RTO4 itself.",
+ "generated_utc": "2026-10-18T19:14:55Z",
+ "note": "All series here are annual (or monthly for the 2020 COVID set). The latest volume edition is 2025 (counts dated Jan-Dec 2025); no 2026 edition is published yet, so these establish the pre-RTO4 level and cannot show RTO4 itself.",
  "intersection_volumes": {
   "2018": {
    "vehicles": {
@@ -80,6 +80,14 @@
     "total": 39821,
     "mean": 61,
     "median": 29
+   }
+  },
+  "2025": {
+   "vehicles": {
+    "sites": 532,
+    "total": 6630469,
+    "mean": 12463,
+    "median": 9113
    }
   }
  },

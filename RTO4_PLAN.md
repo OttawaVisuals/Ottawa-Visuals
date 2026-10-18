@@ -114,7 +114,7 @@ niche is genuinely open. Closest finds:
 - **Bicycle counters cannot show RTO4.** Coverage ends Mar 31, 2026 and only the
   Adàwe counters still report in 2026, so the cross-year total is not comparable.
   Charted as a pre-RTO4 baseline with the limit stated on the page.
-- **Volume counts and GHG cannot show RTO4 either** — annual, latest edition 2024.
+- **Volume counts and GHG cannot show RTO4 either** — annual, latest edition 2025 (pre-RTO4).
   Kept as context, explicitly labelled.
 - **Park & Ride occupancy does not exist** in the feed (capacity only), which
   removes what would have been an excellent commuter indicator.
@@ -207,5 +207,5 @@ niche is genuinely open. Closest finds:
    vacancy from brokerage reports (manual).
 6. Run the eScribe scraper for 2026 meetings to refresh the deep history (feeds
    step 4's "before" side).
-7. Re-run `refresh_all.py context` once a 2025 or 2026 volume edition appears —
+7. Re-run `refresh_all.py context` once a 2026 volume edition appears (2025 pulled 2026-10-18) —
    that is the moment the City's own counts can finally speak to RTO4.
