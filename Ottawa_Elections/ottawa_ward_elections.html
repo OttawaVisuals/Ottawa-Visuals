@@ -148,6 +148,7 @@ h2.ward-name{margin-bottom:0}
 /* Ward list (shown in the panel until a ward is picked) */
 .wl-scroll{max-height:440px;overflow:auto;margin:0 -6px;padding:0 6px}
 .wl-table{width:100%;border-collapse:collapse;font-size:12px}
+.wl-table.no-change th:nth-child(3),.wl-table.no-change td:nth-child(3){display:none}
 .wl-table th{position:sticky;top:0;z-index:1;background:var(--bg-2);text-align:left;padding:0;border-bottom:1px solid var(--line-2)}
 .wl-table th button{font:inherit;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);background:none;border:0;padding:6px 6px;cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
 .wl-table th button:hover,.wl-table th[aria-sort] button{color:var(--ink)}
@@ -1192,6 +1193,11 @@ function renderWardList() {
   document.getElementById('wl-title').textContent = 'All wards · ' + year;
   document.getElementById('wl-metric-h').textContent = mapMode === 'participation' ? 'Valid votes / registered' : 'Ballot turnout';
   document.getElementById('wl-change-h').textContent = prev ? 'vs ' + prev : 'Change';
+  // No earlier year (2010) or no matched boundaries (2022): drop the column
+  // rather than fill every row with the same "why not".
+  const showChange = !!prev && year !== 2022;
+  document.querySelector('.wl-table').classList.toggle('no-change', !showChange);
+  if (!showChange && wlSort.key === 'change') { wlSort.key = 'ward'; wlSort.dir = 1; }
   document.getElementById('wl-mayor-coverage').textContent = year === 2010 ? 'City download, not certified' : 'Excludes citywide special polls';
   document.querySelectorAll('.wl-table th').forEach(th => {
     if (th.dataset.key === wlSort.key) th.setAttribute('aria-sort', wlSort.dir > 0 ? 'ascending' : 'descending');
@@ -1224,9 +1230,10 @@ function renderWardList() {
   }).join('');
 
   document.getElementById('wl-foot').textContent =
+    (year === 2022 ? 'Ward boundaries were redrawn for 2022, so changes since 2018 aren’t shown. Ward 24 is new. ' : '') +
     metricLabel() + (mapMode === 'participation' ? ' = valid council votes / registered.' : ' = ballots cast / registered.') +
     ' Mayor shares: valid votes in ward-coded polls only; citywide special polls excluded after 2010.' +
-    (year === 2022 ? ' Not comparable: historical boundaries have not been matched to 2022. Ward 24 is new.' : ' Earlier values describe original ward numbers on a 2022 locator map.');
+    (year === 2022 ? '' : ' Earlier values describe original ward numbers on a 2022 locator map.');
 }
 
 function selectWard(ward, moveFocus) {
