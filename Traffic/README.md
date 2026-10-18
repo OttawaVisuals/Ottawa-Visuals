@@ -1,5 +1,61 @@
 # Ottawa Traffic Collection
 
+## Traffic stops report (no Power BI)
+
+[`stops.html`](stops.html) is a static Chart.js + Leaflet report with five sections:
+police stops, driver demographics, collisions, speed cameras and red-light cameras.
+Filter scopes are stated beside the controls. Each chart has a data table;
+filtered CSV downloads and URL filters are supported. The police location map
+is explicitly **all years and outcomes**: its rollup does not retain those dimensions.
+
+**Official sources checked October 18, 2026:**
+
+| Series | Coverage verified | Notes |
+|---|---|---|
+| Police traffic stops | 2014–2024 | No newer stop records found in the public layer/catalogue. All four outcomes retained. `Final` is not assumed to mean “no action”. |
+| Detailed City collisions | 2017–2022, 2024 | No 2023 records or newer detailed layer found. Missing 2023 is a gap, not zero. |
+| Speed-camera violations | July 2020–November 2025 | Enforcement ended November 14, 2025; November is a shortened month. |
+| Red-light violations | January 2015–August 2026 | 2026 is incomplete. The collector discovers new year services. |
+| Former speed-camera site monitoring | Dated observations through September 2026 | Pre-installation/active/removed stages and undated baselines retained. Not ticket counts or a causal estimate. |
+| OPS collision summaries | 2025 year-end; 2026 through September 19 | Same-period comparisons from the same publication, never appended to the City series. |
+
+The OPS summaries linked in the report were visually transcribed and checked
+against the published images on October 18. Figures describe **incidents**, not
+people killed/injured; severity covers officer-attended collisions. Their 2026
+tickets/warnings measure is not the stop-record count. These snapshots are pinned,
+not automatically OCR-updated; the audit records newer available OPS publications.
+
+Reproduce after the regular City/Police fetch and Geo_ID build:
+
+```text
+python Traffic/scripts/fetch_city_traffic.py --only cameras,speed_monitoring
+python Traffic/scripts/build_stops_report.py --refresh
+```
+
+The weekly workflow runs these after the existing fetch and join. `--refresh`
+checks both public catalogues, reconciles live annual stop/collision totals to
+local files, and aggregates monthly stops from official occurrence dates. A cached
+rebuild uses `python Traffic/scripts/build_stops_report.py`.
+
+Outputs: `data/police/traffic_stops_monthly.csv`,
+`data/city/ase_removal_monitoring.csv`, and `data/derived/stops_report/` (one report,
+a timestamped source audit, and collision locations loaded only for the selected year).
+No Power BI, server or API key is needed to view the report. Fonts, Chart.js,
+Leaflet and basemap tiles use external CDNs; tables remain usable if Chart.js
+fails. Serve over HTTP for previews; `fetch` cannot load a `file://` page.
+
+Checks: annual/monthly/area/driver police totals reconcile; camera site-months are
+unique. OPS hour is encoded HH00 (`1400` becomes hour 14); missing 2014 hours stay
+in an Unknown bar. Demographic shares include unknowns and have no population or
+driving-exposure adjustment. Camera averages divide by **reporting** sites/approaches,
+including numeric zeroes; unpublished months remain missing. Individual speed
+readings are not averaged across sites because exposure weights are unavailable.
+
+Detailed collision wards use the existing Geo_ID join to 2022–2026 boundaries;
+unmatched records remain a category. Police location counts under three are rolled
+into `(other)` by the existing collector and are not mapped. Parties involved
+are recorded road users/vehicles, not injuries; blank party counts are omitted.
+
 TomTom's live map has no history, so this pipeline **builds its own** by polling
 TomTom APIs on a schedule and appending every reading to CSV. A few weeks of runs
 gives a real time series for the commute / RTO / quality-of-life narrative.

@@ -1129,20 +1129,20 @@
       topic: "Traffic & roads",
       title: "How Ottawa really moves",
       lede: "Collision counts, intersection hot-spots and traffic stops.",
-      date: "Updated Mar 2026",
+      date: "Updated Oct 2026",
       readTime: "~ 4 min read",
       tag: "#traffic",
-      // Power BI publish-to-web report, wrapped in its own page
+      // Native charts/maps; reproducible weekly source checks
       page: "Traffic/stops.html",
       why: "This report puts police traffic stops side by side with collision counts, to compare how much enforcement there is with how often people get hurt.",
-      method: "Data from the Ottawa Police Service open releases. Some datasets are not updated anymore so most of the information stops at 2025.",
+      method: "Official sources checked Oct 18, 2026: stops through 2024, detailed collisions through 2024 (2023 absent), speed-camera tickets through Nov 2025, red-light tickets through Aug 2026. Newer OPS summaries and speed monitoring are shown separately.",
       sources: [
-        { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Not updated anymore", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
-        { name: "City of Ottawa — Collisions", meta: "Not updated anymore", url: "https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore?location=22.762461%2C-77.249436%2C0" },
-        { name: "City of Ottawa — Automated Speed Enforcement & Red Light Camera Violations", meta: "yearly", url: "https://open.ottawa.ca/search" },
+        { name: "Ottawa Police Service - Traffic Stops Open Data", meta: "Through 2024", url: "https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore?location=45.318919%2C-75.717301%2C9" },
+        { name: "City of Ottawa — Collisions", meta: "Through 2024", url: "https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore?location=22.762461%2C-77.249436%2C0" },
+        { name: "City of Ottawa — Automated Speed Enforcement & Red Light Camera Violations", meta: "Monthly, coverage varies", url: "https://open.ottawa.ca/search" },
       ],
       takeaways: [
-        ["60%", "less people charged at traffic stops (2024 vs 2014)"],
+        ["60%", "fewer stops resulting in a charge (2024 vs 2014)"],
         ["43,416", "speed limit violations in March 2024"],
         ["6,507", "red light violations in July 2023"],
       ],

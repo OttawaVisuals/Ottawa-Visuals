@@ -29,6 +29,12 @@ jobs:
         if: always()
         run: python Traffic/scripts/build_stories.py
 
+      - name: Check sources and rebuild traffic stops report
+        if: always()
+        run: |
+          python Traffic/scripts/build_stops_report.py --refresh
+          python Traffic/scripts/test_stops_report.py
+
       - name: Commit if changed
         if: always()  # keep whatever did refresh
         run: |

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Ottawa Really Moves · Traffic stops</title>
-<meta name="description" content="Ottawa collision counts, intersection hot-spots, traffic stops and camera violations, as an interactive Power BI report.">
+<meta name="description" content="Explore Ottawa police traffic stops, driver demographics, collisions and camera violations, with sources and clear data coverage.">
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -17,120 +17,70 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<style>
-  :root {
-    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-    --font-body:"Inter",system-ui,sans-serif;
-  }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
-
-  /* ── TOPBAR (site-wide chrome; colours come from assets/site-theme.css) ── */
-  .topbar{position:sticky;top:0;z-index:1000;height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;text-decoration:none;}
-  .brand-logo{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;overflow:hidden;border:1px solid;}
-  .brand-logo img{width:110%;height:110%;object-fit:cover;}
-  .topbar nav{display:flex;gap:2px;}
-  .topbar nav a{padding:5px 9px;font-size:12.5px;border-radius:6px;text-decoration:none;}
-  .topbar .spacer{flex:1;}
-  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
-
-  .page-header { max-width:1120px; margin:0 auto; padding:24px 16px 0; }
-  .eyebrow { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; margin:0 0 6px; }
-  h1 { font-size:30px; margin:0 0 6px; }
-  .sub { color:var(--ink-2); max-width:680px; line-height:1.55; margin:0; font-size:14px; }
-  .layout { display:flex; flex-direction:column; gap:14px; max-width:1120px; margin:0 auto; padding:16px 16px 60px; }
-
-  /* Power BI publish-to-web is designed at 16:9 */
-  .embed { position:relative; width:100%; aspect-ratio:16/9; background:var(--bg-2); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  .embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
-  @media (max-width:640px){ .embed { aspect-ratio:3/4; } }
-  .embed-bar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-family:var(--font-mono); font-size:11.5px; color:var(--ink-3); }
-  .embed-bar a { color:var(--ink-2); }
-
-  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-width:0; }
-  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-  @media (max-width:760px){ .grid3 { grid-template-columns:1fr; } }
-  .k { font-size:28px; color:var(--ink); }
-  .lbl { font-size:13px; color:var(--ink-2); margin-top:4px; line-height:1.45; }
-  h2 { font-size:17px; margin:0 0 8px; }
-  p { font-size:14px; color:var(--ink-2); line-height:1.6; margin:0; }
-  ul.src { list-style:none; margin:0; padding:0; }
-  ul.src li { display:flex; gap:10px; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px; }
-  ul.src li:last-child { border-bottom:0; }
-  ul.src .meta { font-family:var(--font-mono); font-size:11px; color:var(--ink-3); white-space:nowrap; }
-  ul.src a { color:var(--ink); }
-  footer { max-width:1120px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; line-height:1.6; }
-</style>
-<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="stops.css">
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script defer src="stops.js"></script>
 </head>
 <body>
-
+<a class="skip" href="#main">Skip to report</a>
 <header class="topbar">
-  <a href="../index.html" class="brand">
-    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
-    <span>Ottawa Visuals<small>data, charted simply</small></span>
-  </a>
-  <nav>
-    <a href="../index.html#reports">Reports</a>
-    <a href="../rto.html">RTO watch</a>
-    <a href="stops.html" class="active">Traffic stops</a>
-    <a href="roads.html">Roads</a>
-  </nav>
-  <span class="spacer"></span>
-  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+  <a href="../index.html" class="brand"><span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span><span>Ottawa Visuals<small>data, charted simply</small></span></a>
+  <nav aria-label="Site"><a href="../index.html#reports">Reports</a><a href="stops.html" class="active" aria-current="page">Traffic stops</a><a href="roads.html">Roads</a></nav>
+  <span class="spacer"></span><button id="theme-toggle" aria-label="Toggle theme"></button>
 </header>
-
-<div class="page-header">
-  <p class="eyebrow">Traffic &amp; roads · Power BI report</p>
-  <h1>How Ottawa really moves</h1>
-  <p class="sub">Collision counts, intersection hot-spots, police traffic stops and camera violations. Traffic stops have dropped sharply in recent years, while driving in Ottawa only seems to get worse.</p>
-</div>
-
-<main class="layout">
-  <div class="embed">
-    <iframe title="How Ottawa really moves — Power BI report" allowfullscreen
-      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-      src="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9"></iframe>
-  </div>
-  <div class="embed-bar">
-    <span>Embedded Power BI report · use the tabs at the bottom of the report to switch pages</span>
-    <a href="https://app.powerbi.com/view?r=eyJrIjoiNWQ3NTFlZDctNGExNC00NGUzLWJjNmItODQ1MmI5MTM0NjY2IiwidCI6ImU2MzBkYjI4LWRjOGUtNDhiNi1iOTU4LWMxMWVjZTNlNTdjYiJ9" target="_blank" rel="noopener">⛶ open fullscreen</a>
-  </div>
-
-  <div class="grid3">
-    <div class="card"><div class="k stat-val">60%</div><div class="lbl">fewer people charged at traffic stops (2024 vs 2014)</div></div>
-    <div class="card"><div class="k stat-val">43,416</div><div class="lbl">speed-limit violations in March 2024</div></div>
-    <div class="card"><div class="k stat-val">6,507</div><div class="lbl">red-light violations in July 2023</div></div>
-  </div>
-
-  <div class="grid3">
-    <section class="card">
-      <h2>Why it matters</h2>
-      <p>Enforcement has fallen while complaints about Ottawa driving have not. The neighbourhood-level comparison of stops against injury crashes lives on the <a href="roads.html">Roads page</a>.</p>
-    </section>
-    <section class="card">
-      <h2>Method &amp; caveats</h2>
-      <p>Data from the Ottawa Police Service and City of Ottawa open releases. Some datasets are no longer updated, so most series stop at 2024–2025.</p>
-    </section>
-    <section class="card">
-      <h2>Data sources</h2>
-      <ul class="src">
-        <li><a href="https://data.ottawapolice.ca/datasets/76a54b7f7ef44ab1b78dd96f3061c7cb_0/explore" target="_blank" rel="noopener">Ottawa Police — traffic stops</a><span class="meta">no longer updated</span></li>
-        <li><a href="https://open.ottawa.ca/datasets/146fb790d2ce4357b8f9651b797dd7d3_0/explore" target="_blank" rel="noopener">City of Ottawa — collisions</a><span class="meta">no longer updated</span></li>
-        <li><a href="https://open.ottawa.ca/search" target="_blank" rel="noopener">City of Ottawa — speed &amp; red-light cameras</a><span class="meta">yearly</span></li>
+<main id="main" class="layout">
+  <header class="page-header">
+    <p class="eyebrow">Traffic &amp; roads · Ottawa</p>
+    <h1>How Ottawa <em>really moves</em></h1>
+    <p class="sub">Police stops, collisions and camera enforcement. Explore the records, see what changed, and check how far each source goes.</p>
+    <p class="coverage" id="coverage">Loading official data coverage…</p>
+  </header>
+  <div class="notice" id="update-note">Different sources cover different periods. Detailed records and newer OPS summaries are shown separately.</div>
+  <nav class="report-nav" aria-label="Report sections">
+    <button type="button" data-section="stops" aria-pressed="true">Traffic stops</button>
+    <button type="button" data-section="drivers" aria-pressed="false">Driver demographics</button>
+    <button type="button" data-section="collisions" aria-pressed="false">Collisions</button>
+    <button type="button" data-section="speed" aria-pressed="false">Speed cameras</button>
+    <button type="button" data-section="redlight" aria-pressed="false">Red-light cameras</button>
+  </nav>
+  <div id="load-status" role="status">Loading report…</div>
+  <section id="report" aria-labelledby="section-title" hidden>
+    <div class="section-head"><div><p class="eyebrow" id="section-kicker"></p><h2 id="section-title" tabindex="-1"></h2></div><button type="button" id="download">Download filtered CSV</button></div>
+    <p class="sub" id="section-description"></p>
+    <div class="filters" id="filters"></div>
+    <p class="scope" id="filter-scope"></p>
+    <div class="stats" id="stats" aria-live="polite"></div>
+    <div id="panels"></div>
+  </section>
+  <section class="card methodology" aria-labelledby="method-title">
+    <h2 id="method-title">Sources &amp; method</h2>
+    <p id="checked">Source checks are loading.</p>
+    <details><summary>Coverage, definitions and missing data</summary>
+      <div class="table-wrap"><table><caption>Coverage of the data used on this page</caption><thead><tr><th scope="col">Source</th><th scope="col">Available here</th><th scope="col">Limit</th></tr></thead><tbody id="source-rows"></tbody></table></div>
+      <ul>
+        <li>Police stops are records, not unique drivers. “Charged” counts stops that resulted in a charge, not the number of charges. “Final” stays under its source label: it is not assumed to mean no action. Data-quality records remain visible.</li>
+        <li>Annual, monthly, area and demographic police tables describe the same stops. They are checked against one another, never added together.</li>
+        <li>Demographic percentages divide a category’s stop count by all stops in the selected period and outcome, including unknown categories. These are recorded police categories, not population-adjusted stop rates or evidence of individual behaviour.</li>
+        <li>Collision charts count collision records by severity. Fatal collisions differ from people killed. Parties involved counts recorded vehicles or road users, not injuries. Blank party counts are not included in the sums.</li>
+        <li>Ward assignment for detailed collisions uses the existing Geo_ID join to 2022–2026 ward boundaries. Unmatched records remain an explicit category. Police neighbourhoods are source categories, not wards.</li>
+        <li>Camera totals count reported violations, not unique drivers. A camera can monitor one approach. “Per reporting camera” divides that month’s violations by camera approaches/sites with a published numeric value, including zero; it is not a traffic-volume rate.</li>
+        <li>A missing camera-month stays missing. It may reflect no published value or a camera not yet operating. Latest calendar years can be incomplete. Growing camera networks and changing traffic volumes affect totals.</li>
+        <li>OPS summaries use a separate reporting system and publication cutoff. They are kept out of the detailed City time series. The 2026 comparison uses the same September 19 cutoff in both years.</li>
+        <li>Speed-camera enforcement ended November 14, 2025. November is a shortened operating month. Red-light cameras were not affected. <a href="https://ottawa.ca/en/city-hall/city-news/newsroom/changes-coming-automated-speed-enforcement">City announcement</a>.</li>
       </ul>
-    </section>
-  </div>
+    </details>
+    <details><summary>Download the source tables &amp; reproduce the report</summary>
+      <p>Data is served from this repository. The weekly workflow refreshes the source CSVs, checks the public catalogues and rebuilds the report. The “checked” date means a successful source check, not the latest event date.</p>
+      <p class="downloads"><a href="data/police/traffic_stops_by_time.csv" download>Police annual/day/hour totals</a><a href="data/police/traffic_stops_monthly.csv" download>Police monthly totals</a><a href="data/police/traffic_stops_by_driver.csv" download>Driver categories</a><a href="data/police/traffic_stops_by_area.csv" download>Police areas</a><a href="data/police/traffic_stops_by_location.csv" download>All police locations</a><a href="data/city/ase_violations.csv" download>Speed-camera violations</a><a href="data/city/red_light_violations.csv" download>Red-light violations</a><a href="data/city/ase_removal_monitoring.csv" download>Monitoring after removal</a><a href="data/derived/stops_report/sources.json" download>Source audit</a><a href="scripts/build_stops_report.py">Rebuild script</a></p>
+      <p>Local rebuild: <code>python Traffic/scripts/build_stops_report.py --refresh</code>. See <a href="README.md">Traffic methodology</a> for collection and matching details.</p>
+    </details>
+  </section>
+  <noscript><p class="notice">JavaScript is needed for the interactive report. Use the source-table download links above to inspect the data.</p></noscript>
 </main>
-
-<footer>Ottawa Visuals · <a href="../index.html#reports">all reports</a> · Method and code: <a href="README.md">Traffic/README.md</a></footer>
-
-<script>
-// Hidden fallback button for the shared theme switch (no charts to redraw here).
-function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
-</script>
+<footer>Ottawa Visuals · <a href="../index.html#reports">all reports</a> · <a href="roads.html">Roads: risk vs enforcement</a> · <a href="README.md">Method and code</a></footer>
 </body>
 </html>

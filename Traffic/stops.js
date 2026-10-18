@@ -1,0 +1,339 @@
+/* Static report: only local JSON at runtime; no Power BI or ArcGIS queries. */
+'use strict';
+const BASE = 'data/derived/stops_report/';
+const $ = id => document.getElementById(id);
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = value => value == null ? '—' : Number(value).toLocaleString('en-CA', {maximumFractionDigits:1});
+const sum = values => values.reduce((a, b) => a + b, 0);
+const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
+const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
+const params = new URLSearchParams(location.search);
+const sections = ['stops','drivers','collisions','speed','redlight'];
+let section = sections.includes(params.get('section')) ? params.get('section') : 'stops';
+const initialSection = section;
+let data, audit, charts = [], maps = [], exports = [], generation = 0;
+const settings = {}, collisionCache = new Map();
+const css = token => getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+function colours() { return [css('--accent-2'), css('--amber'), css('--green'), css('--ink-3'), css('--purple'), css('--red'), '#56B4E9', '#CC79A7', '#009E73', '#8A6D3B']; }
+const all = (year, selected) => selected === 'all' || Number(year) === Number(selected);
+const matchesOutcome = (outcome, selected) => selected === 'all' || outcome === selected;
+function aggregate(rows, key, value) {
+  const result = new Map();
+  rows.forEach(row => { const k = key(row); result.set(k, (result.get(k) || 0) + value(row)); });
+  return result;
+}
+function select(id, label, options, value) {
+  return `<label for="${id}">${label}<select id="${id}">${options.map(([v,t]) => `<option value="${esc(v)}" ${String(v) === String(value) ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></label>`;
+}
+function yearsOptions(years, withAll = true) {
+  return [...(withAll ? [['all','All years']] : []), ...[...years].sort((a,b)=>b-a).map(y=>[String(y),String(y)])];
+}
+function stat(value, label) { return `<div class="stat"><div class="stat-val">${value}</div><div class="stat-label">${label}</div></div>`; }
+function panel(id, title, note, wide = false, tall = false) {
+  return `<article class="card ${wide ? 'wide' : ''}"><h3>${title}</h3><p class="note">${note}</p><div class="chart-box ${tall ? 'tall' : ''}"><canvas id="${id}" role="img" aria-label="${esc(title)}; values in the data table below"></canvas></div><div id="${id}-data"></div></article>`;
+}
+function mapPanel(title, note, tableTitle = 'Most recorded locations') {
+  return `<article class="card wide"><h3>${title}</h3><p class="note">${note}</p><div id="map" class="map" role="region" aria-label="${esc(title)}"></div><p class="map-note">Larger circles indicate more records; sizes are capped for readability. Select a point for its count. The location table provides a text alternative.</p><div class="table-wrap" id="locations"><p>${tableTitle}</p></div></article>`;
+}
+function table(headers, rows, caption = '') {
+  return `<table>${caption ? `<caption>${esc(caption)}</caption>` : ''}<thead><tr>${headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((c,i)=>`<td class="${i ? 'num' : ''}">${esc(typeof c === 'number' && i ? fmt(c) : c ?? '—')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function chart(id, type, labels, series, opts = {}) {
+  const rows = labels.map((label, i) => [label, ...series.map(s=>s.data[i] ?? null)]);
+  $(`${id}-data`).innerHTML = `<details class="chart-data" ${typeof Chart === 'undefined' ? 'open' : ''}><summary>View chart data</summary><div class="table-wrap">${table(['Period / category',...series.map(s=>s.label)],rows)}</div></details>`;
+  if (typeof Chart === 'undefined') {
+    $(id).parentNode.innerHTML = '<p class="empty">Chart library unavailable. All values remain available in the table below.</p>';
+    return;
+  }
+  const palette = colours();
+  const datasets = series.map((s, i)=>({
+    borderColor:palette[i % palette.length], backgroundColor:palette[i % palette.length], borderWidth:type === 'line' ? 2 : 0,
+    pointRadius:labels.length > 30 ? 0 : 2, pointHitRadius:10, spanGaps:false,
+    borderDash:type === 'line' && i ? [i*3, 2] : [], ...s,
+  }));
+  const config = {
+    type, data:{labels,datasets}, options:{responsive:true,maintainAspectRatio:false,animation:false,
+      indexAxis:opts.horizontal ? 'y' : 'x',
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:series.length > 1,position:'bottom',labels:{color:css('--ink-2'),boxWidth:10,padding:13}},
+        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.raw)}${opts.percent ? '%' : ''}`}}},
+      scales:{x:{stacked:!!opts.stacked,grid:{display:!!opts.horizontal,color:css('--line')},ticks:{color:css('--ink-2'),maxTicksLimit:opts.horizontal ? 12 : 11,autoSkip:true},...(opts.horizontal ? {beginAtZero:true} : {})},
+        y:{stacked:!!opts.stacked,beginAtZero:true,...(opts.percent && !opts.horizontal ? {max:100} : {}),grid:{color:css('--line'),display:!opts.horizontal},ticks:{color:css('--ink-2'),precision:opts.percent ? 1 : 0,...(opts.percent ? {callback:v=>`${v}%`} : {})}}}},
+  };
+  charts.push(new Chart($(id), config));
+}
+function mapPoints(points, period) {
+  // points: {name,lat,lon,n,detail}; no source HTML is inserted unescaped.
+  const sorted = [...points].sort((a,b)=>b.n-a.n);
+  $('locations').innerHTML = table(['Location','Records'], sorted.slice(0,15).map(p=>[p.name,p.n]), `Top 15 locations · ${period}`);
+  if (!points.length) { $('map').innerHTML = '<p class="empty">No mapped records for this selection.</p>'; return; }
+  if (typeof L === 'undefined') { $('map').innerHTML = '<p class="empty">Map library unavailable. Use the location table below.</p>'; return; }
+  const map = L.map('map', {scrollWheelZoom:false,preferCanvas:true}).setView([45.33,-75.76],10);
+  maps.push(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19,
+  }).addTo(map).on('tileerror',()=>{ if (!$('map-tile-error')) $('map').insertAdjacentHTML('afterend','<p class="note" id="map-tile-error">Basemap could not load. Points and the location table remain available.</p>'); });
+  points.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:Math.min(23,2+Math.sqrt(p.n)*.35),weight:1,color:css('--accent-2'),fillColor:css('--accent-2'),fillOpacity:.42})
+    .bindPopup(`<strong>${esc(p.name)}</strong><br>${fmt(p.n)} records · ${esc(period)}${p.detail ? '<br>'+esc(p.detail) : ''}`).addTo(map));
+  // Keep the Ottawa view: erroneous source coordinates must not zoom the map out.
+  if (points.length === 1) map.setView([points[0].lat,points[0].lon],13);
+}
+function saveState() {
+  const next = new URLSearchParams({section,...settings[section]});
+  history.replaceState(null,'',`${location.pathname}?${next}${location.hash}`);
+}
+function initState(name) {
+  if (settings[name]) return settings[name];
+  const initial = name === 'collisions' ? {year:String(Math.max(...data.collisions.map(r=>r.year))),ward:'all'} : name === 'speed' || name === 'redlight' ? {year:String(Math.max(...data[name].months.map(r=>r[0]))),site:'all',metric:'total',...(name==='speed'?{monitor:''}:{})} : {year:'all',outcome:'all'};
+  if (name === initialSection) Object.keys(initial).forEach(k=>{if(params.has(k)) initial[k] = params.get(k);});
+  const years = name === 'collisions' ? [...new Set(data.collisions.map(r=>r.year))] : data.police.years;
+  if (name === 'stops' || name === 'drivers' || name === 'collisions') {
+    if (!yearsOptions(years,name !== 'collisions').some(([v])=>v === initial.year)) initial.year = name === 'collisions' ? String(Math.max(...years)) : 'all';
+    if (initial.outcome && !['all',...outcomes].includes(initial.outcome)) initial.outcome = 'all';
+  } else {
+    const years = [...new Set(data[name].months.map(r=>r[0]))];
+    if (!yearsOptions(years).some(([v])=>v === initial.year)) initial.year = String(Math.max(...years));
+    if (initial.site !== 'all' && !data[name].sites.some((_,i)=>String(i) === initial.site)) initial.site = 'all';
+    if (!['total','per-camera'].includes(initial.metric)) initial.metric = 'total';
+  }
+  settings[name] = initial;
+  return initial;
+}
+function policeFilters(state) {
+  $('filters').innerHTML = select('year','Stop year',yearsOptions(data.police.years),state.year)+select('outcome','Recorded outcome',[['all','All outcomes'],...outcomes.map(x=>[x,outcomeLabel(x)])],state.outcome);
+}
+function policeChartRows(rows, state, yearIndex, outcomeIndex) {
+  return rows.filter(r=>all(r[yearIndex],state.year)&&matchesOutcome(r[outcomeIndex],state.outcome));
+}
+function renderStops(state) {
+  const p = data.police;
+  const firstYear=p.years[0], lastYear=p.years.at(-1), period=`${firstYear}–${lastYear}`;
+  policeFilters(state);
+  $('section-kicker').textContent = '01 · Police enforcement';
+  $('section-title').textContent = 'Fewer stops. What were the outcomes?';
+  $('section-description').textContent = `Follow traffic-stop records from ${firstYear} to ${lastYear}, with every source outcome retained.`;
+  $('filter-scope').textContent = 'Year and outcome filter the summary, monthly chart, weekday chart and neighbourhoods. The annual chart keeps all years for context. The location map is all years and all outcomes.';
+  const selected = policeChartRows(p.annual,state,0,1), n = sum(selected.map(r=>r[2]));
+  const allSelectedYear = p.annual.filter(r=>all(r[0],state.year));
+  const charged = sum(allSelectedYear.filter(r=>r[1]==='Charged').map(r=>r[2]));
+  const denominator = sum(allSelectedYear.map(r=>r[2]));
+  const first = sum(p.annual.filter(r=>r[0]===firstYear&&r[1]==='Charged').map(r=>r[2]));
+  const last = sum(p.annual.filter(r=>r[0]===lastYear&&r[1]==='Charged').map(r=>r[2]));
+  $('stats').innerHTML = stat(fmt(n),`Stop records · ${state.year === 'all' ? period : state.year} · ${esc(state.outcome==='all'?'all outcomes':outcomeLabel(state.outcome))}`)+stat(fmt(denominator ? charged/denominator*100 : null)+'%','Charged share of all outcomes in selected year(s)')+stat(`${fmt((last/first-1)*100)}%`,`Change in stops resulting in a charge · ${lastYear} vs ${firstYear}`);
+  $('panels').innerHTML = '<div class="grid">'+panel('annual','Traffic stops by year','All years for context. Counts by recorded outcome; not a count of tickets.',true)+panel('monthly','Traffic stops by month','Selected year(s) and outcome. Gaps remain missing; no smoothing.',true)+panel('weekday','Day of the week','Selected year(s) and outcome. Totals, not a daily average.')+panel('areas','Neighbourhoods with the most stops','Top 12 source neighbourhoods in the selection. Counts are not adjusted for traffic or population.',false,true)+mapPanel('Where stops were recorded',`All years (${period}), all outcomes. Small locations with fewer than 3 stops are grouped out of the map. ${fmt(p.unmapped_stops)} records have no mapped point. This map does not respond to the filters above.`)+'</div>';
+  const activeOutcomes = outcomes.filter(o=>matchesOutcome(o,state.outcome));
+  chart('annual','bar',p.years,activeOutcomes.map(o=>({label:outcomeLabel(o),data:p.years.map(y=>sum(p.annual.filter(r=>r[0]===y&&r[1]===o).map(r=>r[2])))})),{stacked:true});
+  const months = [...new Set(p.monthly.filter(r=>all(r[0],state.year)).map(r=>`${r[0]}-${String(r[1]).padStart(2,'0')}`))].sort();
+  chart('monthly','line',months,activeOutcomes.map(o=>({label:outcomeLabel(o),data:months.map(m=>{
+    const rows = p.monthly.filter(r=>`${r[0]}-${String(r[1]).padStart(2,'0')}`===m&&r[2]===o);
+    return rows.length ? sum(rows.map(r=>r[3])) : null;
+  })})));
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const week = policeChartRows(p.weekdays,state,0,2);
+  chart('weekday','bar',days,[{label:'Stops',data:days.map(d=>sum(week.filter(r=>r[1]===d).map(r=>r[3])))}]);
+  const area = [...aggregate(policeChartRows(p.areas,state,0,2),r=>r[1],r=>r[3])].sort((a,b)=>b[1]-a[1]).slice(0,12);
+  chart('areas','bar',area.map(r=>r[0]),[{label:'Stops',data:area.map(r=>r[1])}],{horizontal:true});
+  mapPoints(p.locations.map(r=>({name:r[0],lat:r[1],lon:r[2],n:r[3],detail:`${fmt(r[4])} resulted in a charge`})), period);
+  exports = [['year','month','recorded_outcome','stop_records'],...policeChartRows(p.monthly,state,0,2)];
+}
+function renderDrivers(state) {
+  policeFilters(state);
+  $('section-kicker').textContent = '02 · Driver demographics';
+  $('section-title').textContent = 'Who appears in the stop records?';
+  $('section-description').textContent = 'Recorded race, age and gender categories. A person can appear more than once, and unknown values remain in the denominator.';
+  $('filter-scope').textContent = 'Filters affect the summary and category charts. The race-share trend retains all years, filtered by outcome. No population or driving-exposure denominator is available here.';
+  const rows = policeChartRows(data.police.drivers,state,0,4);
+  const total = sum(rows.map(r=>r[5]));
+  const unknown = sum(rows.filter(r=>/unknown|data quality/i.test(r[3])).map(r=>r[5]));
+  $('stats').innerHTML = stat(fmt(total),'Stop records in the selection')+stat(`${fmt(total ? unknown/total*100 : null)}%`,'Recorded race unknown / data quality')+stat(state.year === 'all' ? `${data.police.years[0]}–${data.police.years.at(-1)}` : state.year,'Selected stop year(s)');
+  $('panels').innerHTML = '<div class="notice">These are shares of recorded stops, not the chance that a member of a demographic group will be stopped. Population composition, driving exposure and missing data are not controlled for.</div><div class="grid">'+panel('race','Recorded race','Counts in the selected year(s) and outcome.',false,true)+panel('race-trend','Race share over time','All years, selected outcome. Percent of all stop records each year, including unknown values.',false,true)+panel('age','Recorded age range','Counts in the selected year(s) and outcome.')+panel('gender','Recorded gender','Source categories: M, F and D (data quality). Missing values are Unknown.')+panel('hourly','Hour of the day','Selected year(s) and outcome. Source hour, 24-hour clock; missing hours are shown separately. Counts, not hourly rates.',true)+'</div>';
+  const groups = i=>[...aggregate(rows,r=>r[i],r=>r[5])].sort((a,b)=>b[1]-a[1]);
+  for (const [id,i] of [['race',3],['age',1],['gender',2]]) {
+    const g = groups(i);
+    if (id==='age') g.sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}));
+    chart(id,'bar',g.map(r=>r[0]),[{label:'Stop records',data:g.map(r=>r[1])}],{horizontal:true});
+  }
+  const trend = data.police.drivers.filter(r=>matchesOutcome(r[4],state.outcome));
+  const races = [...new Set(trend.map(r=>r[3]))].sort();
+  chart('race-trend','bar',data.police.years,races.map(race=>({label:race,data:data.police.years.map(y=>{
+    const yr = trend.filter(r=>r[0]===y), total=sum(yr.map(r=>r[5]));
+    return total ? sum(yr.filter(r=>r[3]===race).map(r=>r[5]))/total*100 : null;
+  })})),{stacked:true,percent:true});
+  const hours=Array.from({length:24},(_,i)=>String(i));
+  const byHour=policeChartRows(data.police.hourly,state,0,2);
+  chart('hourly','bar',[...hours.map(h=>h.padStart(2,'0')+':00'),'Unknown'],[{label:'Stop records',data:[...hours,'Unknown'].map(h=>sum(byHour.filter(r=>r[1]===h).map(r=>r[3])))}]);
+  exports = [['year','age_range','recorded_gender','recorded_race','recorded_outcome','stop_records'],...rows];
+}
+function snapshots() {
+  return `<article class="card wide"><p class="eyebrow">Newer data · separate OPS publications</p><h3>Beyond the detailed records</h3><p class="note">These summaries use different definitions from the City’s detailed collision files. They are not added to the charts below.</p>${[...data.snapshots].reverse().map(s=>`<div class="snapshot"><h3>${esc(s.label)}</h3><p class="note">${esc(s.period)} · <a href="${esc(s.source)}" target="_blank" rel="noopener">Official OPS summary</a></p><div class="stats">${Object.entries(s.metrics).slice(0,3).map(([label, v])=>stat(fmt(v[1]),`${esc(label)} · ${esc(s.labels[1])}<br>${fmt(v[0])} in ${esc(s.labels[0])}`)).join('')}</div><p class="note">${esc(s.note)}</p><details class="chart-data"><summary>View all published comparison values</summary><div class="table-wrap">${table(['Measure',...s.labels],Object.entries(s.metrics).map(([k,v])=>[k,...v]))}</div></details></div>`).join('')}</article>`;
+}
+async function renderCollisions(state, token) {
+  const years = [...new Set(data.collisions.map(r=>r.year))].sort();
+  const wards = [...new Set(data.collisions.map(r=>r.ward))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  if (state.ward !== 'all' && !wards.includes(state.ward)) state.ward='all';
+  $('filters').innerHTML = select('year','Detailed record year',yearsOptions(years,false),state.year)+select('ward','Ward (2022–2026 boundaries)',[['all','All wards'],...wards.map(w=>[w,w])],state.ward);
+  $('section-kicker').textContent = '03 · Reported collisions';
+  $('section-title').textContent = 'Where collisions happen, and who is involved';
+  $('section-description').textContent = 'Detailed City records cover 2017–2022 and 2024. Newer OPS summaries are shown separately below.';
+  $('filter-scope').textContent = 'Year and ward affect the detailed summary, severity, impact types, parties and map. The trend retains all years for the selected ward. The OPS summaries are citywide and do not respond to these filters.';
+  const wardRows = data.collisions.filter(r=>state.ward === 'all'||r.ward === state.ward);
+  const selected = wardRows.filter(r=>r.year===Number(state.year));
+  const total = sum(selected.map(r=>r.total));
+  const severity = aggregate(selected.flatMap(r=>Object.entries(r.severity)),r=>r[0],r=>r[1]);
+  const fatal = severity.get('Fatal injury')||0, injury = severity.get('Non-fatal injury')||0;
+  $('stats').innerHTML = stat(fmt(total),`Collision records · ${esc(state.year)} · selected ward(s)`)+stat(fmt(injury),'Non-fatal injury collisions')+stat(fmt(fatal),'Fatal collisions · not people killed');
+  $('panels').innerHTML = '<div class="grid">'+snapshots()+panel('collision-trend','Detailed collision records over time','Selected ward(s). 2023 is missing at source; the gap is not zero.',true)+panel('fatal-trend','Fatal collisions by year','Selected ward(s), all available detailed years. Counts collisions, not people killed.')+panel('injury-trend','Non-fatal injury collisions by year','Selected ward(s), all available detailed years. Counts collisions, not injured people.')+panel('severity','Collision severity','Collision records classified by their most severe outcome.')+panel('impact','How collisions occurred','Top 10 recorded impact types.',false,true)+panel('parties','Parties involved','Sum of recorded vehicles and road users. These categories can overlap; motorcycles may also be included in vehicles. Blank fields are omitted.',true)+mapPanel('Collision locations',`${esc(state.year)} · ${esc(state.ward==='all'?'all wards':state.ward)}. Counts at reported coordinates, not a measure of road risk or traffic exposure.`)+'</div>';
+  const range = Array.from({length:Math.max(...years)-Math.min(...years)+1},(_,i)=>Math.min(...years)+i);
+  chart('collision-trend','line',range,[{label:'Collision records',data:range.map(y=>years.includes(y) ? sum(wardRows.filter(r=>r.year===y).map(r=>r.total)) : null)}]);
+  for(const [id,kind] of [['fatal-trend','Fatal injury'],['injury-trend','Non-fatal injury']]) {
+    chart(id,'line',range,[{label:kind==='Fatal injury'?'Fatal collisions':'Non-fatal injury collisions',data:range.map(y=>years.includes(y)?sum(wardRows.filter(r=>r.year===y).map(r=>r.severity[kind]||0)):null)}]);
+  }
+  const severityRows = [...severity].sort((a,b)=>b[1]-a[1]);
+  chart('severity','bar',severityRows.map(r=>r[0]),[{label:'Collisions',data:severityRows.map(r=>r[1])}],{horizontal:true});
+  const impact = [...aggregate(selected.flatMap(r=>Object.entries(r.impact)),r=>r[0],r=>r[1])].sort((a,b)=>b[1]-a[1]).slice(0,10);
+  chart('impact','bar',impact.map(r=>r[0]),[{label:'Collisions',data:impact.map(r=>r[1])}],{horizontal:true});
+  const participants = ['vehicles','pedestrians','bicycles','motorcycles'];
+  chart('parties','bar',['Vehicles','Pedestrians','Bicycles','Motorcycles'],[{label:'Recorded parties',data:participants.map(k=>sum(selected.map(r=>r.participants[k]||0)))}]);
+  $('locations').innerHTML = '<p class="note">Loading selected year’s locations…</p>';
+  exports = [['year','ward','collision_records','non_fatal_injury_collisions','fatal_collisions'],...selected.map(r=>[r.year,r.ward,r.total,r.severity['Non-fatal injury']||0,r.severity['Fatal injury']||0])];
+  try {
+    if (!collisionCache.has(state.year)) collisionCache.set(state.year,loadJSON(`collisions-${state.year}.json`).catch(e=>{collisionCache.delete(state.year);throw e;}));
+    const points = (await collisionCache.get(state.year)).filter(r=>state.ward==='all'||r[3]===state.ward);
+    if (token !== generation) return;
+    mapPoints(points.map(r=>({name:r[0],lat:r[1],lon:r[2],n:r[4],detail:r[3]})),state.year);
+  } catch(e) {
+    if (token === generation) $('map').innerHTML = '<p class="empty">Location data could not load. Change the year to retry. Summary charts remain available.</p>';
+  }
+}
+function cameraPeriod(rows) {
+  if (!rows.length) return 'No reported months';
+  const months = [...new Set(rows.map(r=>`${r[0]}-${String(r[1]).padStart(2,'0')}`))].sort();
+  return `${months[0]} to ${months.at(-1)}`;
+}
+function renderCameras(state) {
+  const speed = section==='speed', c = data[section];
+  const years = [...new Set(c.months.map(r=>r[0]))].sort();
+  const options = c.sites.map((s,i)=>[String(i),`${speed ? s.id+' · ' : ''}${s.name}${s.direction ? ' · '+s.direction : ''}`]).sort((a,b)=>a[1].localeCompare(b[1]));
+  $('filters').innerHTML = select('year','Violation year',yearsOptions(years),state.year)+select('site',speed?'Camera site':'Camera approach',[['all','All locations'],...options],state.site)+select('metric','Monthly chart measure',[['total','Total violations'],['per-camera','Per reporting camera']],state.metric);
+  $('section-kicker').textContent = speed ? '04 · Speed cameras' : '05 · Red-light cameras';
+  $('section-title').textContent = speed ? 'Speed-camera violations, through the program’s end' : 'Red-light violations at monitored approaches';
+  $('section-description').textContent = speed ? 'Monthly automated speed enforcement records through November 2025. Enforcement ended November 14, 2025.' : 'Monthly recorded violations, including the available 2026 months. More cameras can increase the total even if driver behaviour is unchanged.';
+  $('filter-scope').textContent = 'Year and location affect the summary, monthly chart and map. The annual chart retains all years for the selected location. “Per reporting camera” changes the monthly chart only. Missing months are not treated as zero.';
+  const atSite = c.months.filter(r=>state.site==='all'||String(r[2])===state.site);
+  const rows = atSite.filter(r=>all(r[0],state.year));
+  const total = sum(rows.map(r=>r[3])), reporters = new Set(rows.map(r=>r[2])).size;
+  $('stats').innerHTML = stat(fmt(total),'Reported violations · selected year(s) and location')+stat(fmt(reporters),speed?'Sites with at least one published month':'Approaches with at least one published month')+stat(rows.length ? cameraPeriod(rows).split(' to ').at(-1) : '—','Latest published month in this selection');
+  const caveat = speed ? '<div class="notice">The speed-camera program ended November 14, 2025. November covers a shortened operating period. There is no 2026 ticket series to extend. <a href="https://ottawa.ca/en/city-hall/city-news/newsroom/changes-coming-automated-speed-enforcement">City announcement</a>.</div>' : `<div class="notice">Published months in this selection: ${esc(cameraPeriod(rows))}. Each line follows only months with a reported value; an incomplete year is not comparable to a full-year total.</div>`;
+  $('panels').innerHTML = caveat+'<div class="grid">'+panel('camera-monthly','Monthly violations',`${state.metric==='total'?'Total violations':'Violations per reporting camera approach/site (including reported zeroes)'}. Each year is a separate line. Missing months stay blank.`,true)+panel('camera-annual','Annual totals and coverage','All years for the selected location. Month coverage is shown in the labels. Latest periods can be partial.',true)+(speed?panel('speed-stats','Recorded speeds and compliance','Select a single camera site to see its average speed, 85th-percentile speed and compliance. No traffic-volume weighting is available.',true):'')+mapPanel(speed?'Speed-camera sites':'Red-light-camera approaches',`${esc(state.year==='all'?'All available years':state.year)} · selected location(s). Counts reflect enforcement and camera coverage, not all driving violations.`)+'</div>';
+  chart('camera-monthly','line',monthNames,years.filter(y=>all(y,state.year)).map(y=>({label:String(y),data:monthNames.map((_,i)=>{
+    const month = rows.filter(r=>r[0]===y&&r[1]===i+1);
+    return month.length ? sum(month.map(r=>r[3]))/(state.metric==='per-camera'?month.length:1) : null;
+  })})));
+  const annualLabels = years.map(y=>{
+    const reported = [...new Set(atSite.filter(r=>r[0]===y).map(r=>r[1]))].sort((a,b)=>a-b);
+    return `${y} · ${reported.length}/12 months`;
+  });
+  chart('camera-annual','bar',annualLabels,[{label:'Violations',data:years.map(y=>{const yr=atSite.filter(r=>r[0]===y);return yr.length?sum(yr.map(r=>r[3])):null;})}]);
+  if (speed) {
+    if (state.site==='all') {
+      $('speed-stats').parentNode.innerHTML = '<p class="empty">Choose one camera site above to inspect speed and compliance data. An unweighted citywide average could be misleading.</p>';
+    } else {
+      const site = c.sites[Number(state.site)], readings = data.speeds.filter(r=>r[0]===site.id&&all(r[1].slice(0,4),state.year)).sort((a,b)=>a[1].localeCompare(b[1]));
+      if (!readings.length) $('speed-stats').parentNode.innerHTML = '<p class="empty">No published speed readings for this site and year selection.</p>';
+      else {
+        // Keep speed and percentage in separate series/units. The percentage is
+        // available in the data table, not drawn on a misleading km/h axis.
+        chart('speed-stats','line',readings.map(r=>r[1].slice(0,7)),[{label:'Average speed (km/h)',data:readings.map(r=>r[2])},{label:'85th percentile (km/h)',data:readings.map(r=>r[3])}]);
+        $('speed-stats-data').insertAdjacentHTML('beforeend',`<details class="chart-data"><summary>View speed-limit compliance (%)</summary><div class="table-wrap">${table(['Month','Compliance (%)'],readings.map(r=>[r[1].slice(0,7),r[4]]))}</div></details>`);
+      }
+    }
+  }
+  const points = [...aggregate(rows,r=>r[2],r=>r[3])].map(([i,n])=>({...c.sites[i],n})).filter(s=>s.lat!=null&&s.lon!=null).map(s=>({...s,name:s.name+(s.direction?' · '+s.direction:'')}));
+  mapPoints(points,cameraPeriod(rows));
+  if (speed) renderMonitoring(state);
+  exports = [['year','month','site_or_approach','location','direction','violations'],...rows.map(r=>[r[0],r[1],c.sites[r[2]].id,c.sites[r[2]].name,c.sites[r[2]].direction,r[3]])];
+}
+function renderMonitoring(state) {
+  const observations=data.monitoring;
+  const sites=[...new Map(observations.map(r=>[r.site_id,r.location])).entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+  if (!sites.some(([id])=>id===state.monitor)) state.monitor=sites[0][0];
+  const rows=observations.filter(r=>r.site_id===state.monitor);
+  const dated=rows.filter(r=>r.month).sort((a,b)=>a.month.localeCompare(b.month));
+  $('panels').insertAdjacentHTML('beforeend',`<section class="card"><p class="eyebrow">New data · after camera removal</p><h3>What happened to speeds at former camera sites?</h3><p class="note">Separate City monitoring observations through ${esc([...observations].filter(r=>r.month).map(r=>r.month).sort().at(-1))}. These are sampled speeds, not violations. The site selector below is independent of the ticket filters above. Sparse observations do not establish that removal caused a change.</p><div class="filters">${select('monitor','Monitoring site',sites.map(([id,name])=>[id,id+' · '+name]),state.monitor)}</div><div class="grid">${panel('monitor-speed','Speed observations','Average and 85th-percentile speed in km/h. Dates are month precision; the labels retain the published program stage.')}${panel('monitor-compliance','Speed-limit compliance','Percent of observed vehicles complying with the speed limit. Observations, not a continuous monitoring series.')}</div><details class="chart-data"><summary>View all observations, including undated baselines</summary><div class="table-wrap">${table(['Month','Stage','Average km/h','85th percentile km/h','Compliance %','High-end speeders %'],rows.map(r=>[r.month||'Undated',r.stage,r.avg_speed,r.pct85_speed,r.pct_compliance,r.pct_high_end_speeders]))}</div></details><p class="note"><a href="https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement%20Camera%20Removal">Official monitoring dataset</a> · <a href="data/city/ase_removal_monitoring.csv" download>Download all monitoring observations</a></p></section>`);
+  const labels=dated.map(r=>`${r.month} · ${r.stage}`);
+  chart('monitor-speed','line',labels,[{label:'Average (km/h)',data:dated.map(r=>r.avg_speed),showLine:false,pointRadius:3},{label:'85th percentile (km/h)',data:dated.map(r=>r.pct85_speed),showLine:false,pointRadius:3}]);
+  chart('monitor-compliance','bar',labels,[{label:'Compliance (%)',data:dated.map(r=>r.pct_compliance)}],{percent:true});
+}
+async function render() {
+  const token = ++generation;
+  charts.forEach(c=>c.destroy()); charts=[];
+  maps.forEach(m=>m.remove()); maps=[];
+  $('report').hidden=false;
+  document.querySelectorAll('[data-section]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.section===section)));
+  const state=initState(section);
+  let mapTask;
+  if (section==='stops') renderStops(state);
+  else if (section==='drivers') renderDrivers(state);
+  else if (section==='collisions') mapTask=renderCollisions(state,token);
+  else renderCameras(state);
+  if (token !== generation) return;
+  document.querySelectorAll('#filters select, #monitor').forEach(input=>input.addEventListener('change',()=>{
+    state[input.id]=input.value;
+    const id=input.id;
+    saveState(); render().then(()=>$(id)?.focus({preventScroll:true})).catch(reportError);
+  }));
+  saveState();
+  if(mapTask) await mapTask;
+}
+function reportError(error) {
+  $('load-status').hidden=false;
+  $('load-status').className='error';
+  $('load-status').replaceChildren(document.createTextNode(`Report could not load: ${error.message}. `));
+  const retry=document.createElement('button'); retry.type='button'; retry.textContent='Retry'; retry.onclick=()=>location.reload();
+  $('load-status').append(retry);
+}
+async function loadJSON(file) {
+  const response=await fetch(BASE+file);
+  if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+  return response.json();
+}
+window.setTheme=function(mode) {
+  document.documentElement.setAttribute('data-theme',mode);
+  try {localStorage.setItem('ov-theme',mode);} catch(e) { /* optional storage */ }
+  if(data) render().catch(reportError);
+};
+document.querySelectorAll('[data-section]').forEach(button=>button.addEventListener('click',()=>{
+  if(!data) return;
+  section=button.dataset.section;
+  render().then(()=>$('section-title').focus({preventScroll:true})).catch(reportError);
+}));
+$('download').addEventListener('click',()=>{
+  // Keep source text from being interpreted as a spreadsheet formula.
+  const csv=exports.map(row=>row.map(value=>{
+    let text=String(value??'');
+    if(typeof value==='string' && /^[=+@\-\t\r]/.test(text)) text="'"+text;
+    return '"'+text.replace(/"/g,'""')+'"';
+  }).join(',')).join('\r\n');
+  const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download=`ottawa-${section}-${settings[section].year}.csv`;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+Promise.all([loadJSON('report.json'),loadJSON('sources.json')]).then(async result=>{
+  [data,audit]=result;
+  $('coverage').textContent=`Stops: ${data.police.years[0]}–${data.police.years.at(-1)} · Detailed collisions: 2017–2024, excluding 2023 · Speed cameras: through Nov 2025 · Red-light cameras: through ${cameraPeriod(data.redlight.months).split(' to ').at(-1)}`;
+  $('update-note').innerHTML='Newer OPS summaries are available: <strong>2025 year-end</strong> and <strong>2026 through September 19</strong>. See the Collisions section. Detailed police-stop records still end in 2024.';
+  $('checked').textContent=`Official catalogues and detailed record totals checked ${audit.checked_utc.slice(0,10)}. Report rebuilt ${data.built_utc.slice(0,10)}.`;
+  const sourceRows=[
+    ['Ottawa Police — traffic stops',audit.police.url,'2014–2024','No 2025 or 2026 stop records in the checked public layer.'],
+    ['City — detailed collisions',audit.collisions.url,'2017–2022, 2024','2023 absent. No 2025/2026 detailed layer found in the checked catalogue.'],
+    ['City — speed-camera violations','https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement',cameraPeriod(data.speed.months),'Program ended November 14, 2025.'],
+    ['City — red-light violations','https://open.ottawa.ca/search?q=Red%20Light%20Camera',cameraPeriod(data.redlight.months),'Latest year is incomplete. Some sites have fewer months.'],
+    ['City — monitoring after ASE removal','https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement%20Camera%20Removal','Dated observations through '+data.monitoring.filter(r=>r.month).map(r=>r.month).sort().at(-1),'Separate speed samples, not ticket counts. Undated baselines retained in the table.'],
+    ['OPS — 2025 year-end summary',data.snapshots[0].source,'2025 vs 2024','Incidents, not people; separate reporting definitions.'],
+    ['OPS — 2026 YTD summary',data.snapshots[1].source,'Through September 19 in both years','Partial year; citywide totals only.'],
+  ];
+  $('source-rows').innerHTML=sourceRows.map(r=>`<tr><td><a href="${esc(r[1])}" target="_blank" rel="noopener">${esc(r[0])}</a></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('');
+  $('load-status').hidden=true;
+  await render();
+}).catch(reportError);

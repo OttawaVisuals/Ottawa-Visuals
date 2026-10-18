@@ -120,9 +120,11 @@ def query_stats(base, service, group_by, stats, where="1=1"):
             "resultOffset": offset, "resultRecordCount": 2000,
         })
         rows += [f["attributes"] for f in d["features"]]
-        if len(d["features"]) < 2000:
+        if not d.get("exceededTransferLimit") and len(d["features"]) < 2000:
             break
-        offset += 2000
+        if not d["features"]:
+            raise RuntimeError("Empty statistics page with exceededTransferLimit")
+        offset += len(d["features"])
     return rows
 
 
@@ -383,6 +385,17 @@ def monthly_long(layer, year, loc_key, extra, upper):
 
 
 def fetch_cameras():
+    # New years are separate services. Discover them instead of silently stopping
+    # at the last year hard-coded when this collector was written.
+    for service in get_json(CITY, {}).get("services", []):
+        name = service["name"]
+        for pattern, layers in [
+            (r"Red_Light_Camera_Violations_(\d{4})$", RLC_LAYERS),
+            (r"Automated_Speed_Enforcement_Camera_Violations_(\d{4})$", ASE_LAYERS),
+        ]:
+            match = re.fullmatch(pattern, name)
+            if match:
+                layers[int(match[1])] = name
     fields = ["year", "month", "location", "camera_facing", "install_year",
               "lat", "lon", "violations"]
     out = []
@@ -398,7 +411,11 @@ def fetch_cameras():
     for year, layer in ASE_LAYERS.items():
         for r in monthly_long(layer, year, "Location",
                               {"install_year": "Camera_Install_Year"}, upper=False):
-            r["site_id"], _, r["location"] = r["location"].partition(" - ")
+            # Older releases sometimes omit the space after the hyphen (E025).
+            match = re.fullmatch(r"(E\d+)\s*-\s*(.+)", r["location"])
+            if not match:
+                raise ValueError(f"Unrecognized ASE location: {r['location']}")
+            r["site_id"], r["location"] = match.groups()
             out.append(r)
     write_csv(CITY_OUT / "ase_violations.csv", fields, out)
 
@@ -438,6 +455,28 @@ def fetch_covid():
                 "lat": rnd(a.get("LAT")), "lon": rnd(a.get("LONG")),
             })
     write_csv(CITY_OUT / "covid_volumes.csv", fields, out)
+
+
+SPEED_MONITORING = "Automated_Speed_Enforcement_Camera_Removal_–_Monitoring_Speed_Data"
+
+
+def fetch_speed_monitoring():
+    """Separate pre-install / active / removed observations, not ticket counts.
+
+    Source dates are YY-Mon (month precision), with undated N/A baselines.
+    Keep the raw date and stage; do not invent a date for those baselines.
+    """
+    rows = []
+    for a in query_all(CITY, SPEED_MONITORING):
+        raw = (a.get("Date_of_Data_Collection") or "").strip()
+        month = datetime.strptime(raw, "%y-%b").strftime("%Y-%m") if raw not in ("", "N/A") else None
+        site, _, location = (a.get("Location") or "").strip().partition(" - ")
+        rows.append(dict(site_id=site, location=location.strip(), stage=(a.get("Data_Type") or "").strip(),
+                         month=month, source_date=raw, avg_speed=num(a.get("AvgSpeed")),
+                         pct85_speed=num(a.get("Pct85th")), pct_compliance=num(a.get("PctCompliance")),
+                         pct_high_end_speeders=num(a.get("PctHighEndSpeeders"))))
+    write_csv(CITY_OUT / "ase_removal_monitoring.csv", ["site_id", "location", "stage", "month", "source_date",
+              "avg_speed", "pct85_speed", "pct_compliance", "pct_high_end_speeders"], rows)
 
 
 def counter_id(header):
@@ -541,6 +580,7 @@ JOBS = {
     "collisions": fetch_collisions,
     "volumes": fetch_volumes,
     "cameras": fetch_cameras,
+    "speed_monitoring": fetch_speed_monitoring,
     "covid": fetch_covid,
     "bike_counters": fetch_bike_counters,
     "police": fetch_police,

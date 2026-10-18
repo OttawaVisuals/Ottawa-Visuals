@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Traffic report without Power BI (Oct 18: five native sections, charts/maps/filters/downloads; official source audit, monthly police extraction, red-light data through Aug 2026, separate OPS 2025/2026 summaries and speed monitoring through Sep 2026; weekly rebuild)
 - [x] Election navigation improvements (Oct 17: searchable ward picker, full mobile ward names with two-column list, visible partial-mayor coverage, explicit missing/comparison reasons and shareable ward/year/map URLs)
 - [x] Election methodology section (Oct 17: simple collapsible sources, formulas, special-vote coverage and historical data gaps, matching the retrofit page's approach)
 - [x] Ottawa election source reconciliation (Oct 17: 93 ward-years, four City workbooks, field audit and reproducible import; valid votes separated from ballots, special mayor votes preserved, Ward 4 registration corrected, unsupported estimates removed, remaining source gaps documented)

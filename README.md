@@ -53,10 +53,10 @@ standalone root-level tools not (yet) tied to a specific data folder.
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
   `tracker.html`, `rto.html` and `dataset_prospector.html` keep their own token names but load it too.
 
-## Power BI
-Power BI → File → **Publish to web** → paste the `app.powerbi.com/view?...` URL
-into the report page's `<iframe>` (see `Traffic/stops.html`), then add a `REPORTS` tile
-in `index.html` pointing at that page.
+## Traffic report
+[`Traffic/stops.html`](Traffic/stops.html) uses native charts and maps, with no
+Power BI dependency. Source coverage, reproducible preparation and weekly refresh
+are documented in [`Traffic/README.md`](Traffic/README.md).
 
 ## Notes
 - Static site (no server).

@@ -152,9 +152,10 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ## ✅ Live
 
 ### Ottawa Traffic Stops, Red Lights & Speed Violations
-- **Progress:** ~100% · Power BI dashboard (featured on home page + Dashboards page).
-- OPS traffic stops by result type (charged / warning / no action).
-- **Data:** Ottawa Police data portal. · **Page:** `Traffic/stops.html` (Power BI embed; `/#report-traffic` redirects there)
+- **Progress:** ~100% · Native HTML report rebuilt Oct 18, 2026; Power BI removed.
+- Five sections: stops/outcomes, demographics, collisions, speed cameras, red-light cameras; filters, maps, chart tables and CSV downloads.
+- **Sources checked Oct 18:** stops through 2024; detailed collisions through 2024 (2023 absent); speed-camera tickets through Nov 2025; red-light tickets through Aug 2026; separate speed monitoring through Sep 2026. OPS 2025 year-end and Sep 19 2026 YTD summaries are kept separate with their definitions.
+- Weekly source audit/rebuild; manually verified OPS snapshots stay pinned until reviewed. **Page:** `Traffic/stops.html` (`/#report-traffic` redirects there). **Method:** `Traffic/README.md`.
 
 ### Ottawa Roads — risk vs enforcement
 - **Progress:** ~85% (live Oct 2026) · `Traffic/roads.html`, also a home-page report (`#report-roads`).
