@@ -1193,9 +1193,10 @@ function renderWardList() {
   document.getElementById('wl-title').textContent = 'All wards · ' + year;
   document.getElementById('wl-metric-h').textContent = mapMode === 'participation' ? 'Valid votes / registered' : 'Ballot turnout';
   document.getElementById('wl-change-h').textContent = prev ? 'vs ' + prev : 'Change';
-  // No earlier year (2010) or no matched boundaries (2022): drop the column
-  // rather than fill every row with the same "why not".
-  const showChange = !!prev && year !== 2022;
+  // No earlier year (2010), no matched boundaries (2022) or no earlier ballot
+  // counts (2018 vs 2014): drop the column rather than repeat one "why not".
+  const baseRows = wardRows(year);
+  const showChange = baseRows.some(r => r.change != null);
   document.querySelector('.wl-table').classList.toggle('no-change', !showChange);
   if (!showChange && wlSort.key === 'change') { wlSort.key = 'ward'; wlSort.dir = 1; }
   document.getElementById('wl-mayor-coverage').textContent = year === 2010 ? 'City download, not certified' : 'Excludes citywide special polls';
@@ -1206,7 +1207,7 @@ function renderWardList() {
 
   const val = r => wlSort.key === 'mayor' ? (r.win ? r.win.share : null) : r[wlSort.key];
   // Missing values always sink to the bottom, whichever way the sort runs.
-  const rows = wardRows(year).sort((a, b) => {
+  const rows = baseRows.sort((a, b) => {
     const va = val(a), vb = val(b);
     if (va == null && vb == null) return a.ward - b.ward;
     if (va == null) return 1;
@@ -1230,7 +1231,8 @@ function renderWardList() {
   }).join('');
 
   document.getElementById('wl-foot').textContent =
-    (year === 2022 ? 'Ward boundaries were redrawn for 2022, so changes since 2018 aren’t shown. Ward 24 is new. ' : '') +
+    (year === 2022 ? 'Ward boundaries were redrawn for 2022, so changes since 2018 aren’t shown. Ward 24 is new. '
+      : !showChange && prev ? `No ward ballot counts for ${prev}: choose “Valid council votes / registered” above the map to compare with ${prev}. ` : '') +
     metricLabel() + (mapMode === 'participation' ? ' = valid council votes / registered.' : ' = ballots cast / registered.') +
     ' Mayor shares: valid votes in ward-coded polls only; citywide special polls excluded after 2010.' +
     (year === 2022 ? '' : ' Earlier values describe original ward numbers on a 2022 locator map.');
