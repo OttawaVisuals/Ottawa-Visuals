@@ -15,6 +15,7 @@ Join on `meeting_id` (and `item_number` where present).
 | `motions.csv` | motion | item_number, motion_index, **result** (Carried/Lost/…), motion_text |
 | `votes.csv` | recorded vote tally | item_number, motion_index, **vote** (For/Against), **count**, **voters** (names) |
 | `attachments.csv` | PDF attachment | item_number, filename, document_id, url |
+| `votes_by_member.csv` | member vote (made by `split_votes.py`) | date, committee, motion result, vote, **member** ("G. Gower"), name_as_written |
 | `item_text.csv` | agenda item | item_number, source_page, n_chars, **text**: everything the meeting page shows for the item (report summary, recommendations incl. amendments, motions, moved/seconded, directions to staff, minutes notes), one line per paragraph |
 
 This turns years of meetings into a database you can query: what was discussed,

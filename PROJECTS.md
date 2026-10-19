@@ -294,8 +294,8 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   Scheduled on the desktop PC (Windows Task Scheduler, "OttawaVisuals CityHall weekly",
   Sundays 09:00, catches up at next start if missed; set up 2026-10-09). Not on the Pi: the
   index is gitignored, so it lives where search and the PDFs are. Log: `data/weekly_update.log`.
-- **Still to do:** split `votes.voters` into one row per
-  councillor (then a votes view on the page); add it to the home-page `REPORTS`; PDF full text stays local-only.
+- **Votes split (2026-10-19):** `split_votes.py` → `data/votes_by_member.csv` (6,188 member votes, one row each; names normalised to "initial. surname"; every tally's stated count matches the names parsed). Run by `weekly_update.py`.
+- **Still to do:** a votes view on the page (who dissents, split votes by councillor); add it to the home-page `REPORTS`; PDF full text stays local-only.
 
 ### RTO4 Impact Page — "Ottawa RTO Watch"
 - **Progress:** ~45% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
