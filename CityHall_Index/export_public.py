@@ -14,6 +14,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from split_votes import member_key, split_names  # noqa: E402
+from topics import TOPICS, is_routine, result_bucket, topic_of  # noqa: E402
 DATA, OUT = HERE / "data", HERE / "public"
 csv.field_size_limit(sys.maxsize)
 
@@ -56,6 +57,49 @@ def export_votes(meetings):
           f"({(OUT / 'votes.json').stat().st_size / 1e6:.2f} MB)")
 
 
+PAIR = re.compile(r"Moved\s*by\s*([^\n]+?)\s*\n?\s*Seconded\s*by\s*([^\n]+)")
+
+
+def clean_name(raw):
+    return member_key(raw.strip().lstrip(":").strip())
+
+
+def export_motions():
+    """public/motions.json: every substantive motion (topic + result bucket) and
+    every mover/seconder pair on a substantive item."""
+    items = {(r["meeting_id"], r["item_number"]): r for r in rows("agenda_items")}
+    recs, seen_items = [], set()
+    for m in rows("motions"):
+        it = items.get((m["meeting_id"], m["item_number"]))
+        if not it or is_routine(it["title"]) or PROCEDURAL.match(it["title"].strip()):
+            continue
+        title = re.sub(r"\s+", " ", it["title"]).strip()
+        recs.append([it["date"], it["committee"], topic_of(title, it["committee"]), result_bucket(m["result"]),
+                     title[:140], it["report_number"], m["meeting_id"]])
+        seen_items.add((m["meeting_id"], m["item_number"]))
+    recs.sort(key=lambda r: r[0], reverse=True)
+    pairs = []
+    for t in rows("item_text"):
+        k = (t["meeting_id"], t["item_number"])
+        it = items.get(k)
+        if not it or is_routine(it["title"]) or PROCEDURAL.match(it["title"].strip()):
+            continue
+        title = re.sub(r"\s+", " ", it["title"]).strip()
+        for mo, se in PAIR.findall(t["text"]):
+            pairs.append([it["date"], it["committee"], topic_of(title, it["committee"]),
+                          result_bucket(it["disposition"]), title[:140], it["report_number"],
+                          clean_name(mo), clean_name(se), t["meeting_id"]])
+    pairs.sort(key=lambda r: r[0], reverse=True)
+    payload = {"topics": TOPICS, "buckets": ["Carried", "Lost", "Received", "Withdrawn", "Deferred", "Other", "No result recorded"],
+               "base": "https://pub-ottawa.escribemeetings.com/Meeting.aspx?Id=",
+               "motion_cols": ["date", "committee", "topic", "result", "title", "report", "meeting"],
+               "mover_cols": ["date", "committee", "topic", "result", "title", "report", "mover", "seconder", "meeting"],
+               "motions": recs, "movers": pairs}
+    (OUT / "motions.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"{len(recs)} substantive motions, {len(pairs)} mover/seconder pairs -> public/motions.json "
+          f"({(OUT / 'motions.json').stat().st_size / 1e6:.2f} MB)")
+
+
 def main():
     meetings = {m["meeting_id"]: m for m in rows("meetings")}
     first_motion = {}
@@ -90,6 +134,7 @@ def main():
     print(f"{len(out)} of ~23.8k items -> public/items.json "
           f"({(OUT / 'items.json').stat().st_size / 1e6:.1f} MB), {len(committees)} committees")
     export_votes(meetings)
+    export_motions()
 
 
 if __name__ == "__main__":

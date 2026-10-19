@@ -164,6 +164,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   in 2025, rest of the city 105%).
 - **Data:** weekly City + Police pull → Geo_ID join → `stories.json` (see `Traffic/README.md`).
   The same pull also feeds the rebuilt road-safety cards (photo-radar on/off, red-light trade-off).
+- **Outcomes + movers tabs (2026-10-19):** `public/motions.json` (7.8k substantive motions tagged by topic via `topics.py`: title keywords, then the committee; ~1/3 of Council motions stay "Other"; 975 mover/seconder pairs parsed from `item_text`). Topics are keyword guesses and routine motions are excluded by title pattern.
 - **Still to do:** the "why was the commute bad?" section, once ~4 weeks of `events_log.csv`
   (Pi, since 2026-10-08) overlap the TomTom readings.
 

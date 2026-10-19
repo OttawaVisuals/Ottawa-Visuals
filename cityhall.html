@@ -75,7 +75,8 @@
   .more[hidden] { display:none; }
   .note { margin-top:28px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
   .error-msg { color:var(--no); }
-  .tabs { display:flex; gap:4px; margin:0 0 16px; border-bottom:1px solid var(--line); }
+  .tabs { display:flex; gap:4px; margin:0 0 16px; border-bottom:1px solid var(--line); overflow-x:auto; }
+  .tab { white-space:nowrap; }
   .tab { font:inherit; font-size:14px; padding:9px 14px; background:none; border:0; border-bottom:2px solid transparent; color:var(--ink-2); cursor:pointer; margin-bottom:-1px; }
   .tab[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
   [hidden] { display:none !important; }
@@ -118,6 +119,8 @@
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search decisions</button>
     <button class="tab" role="tab" id="tab-votes" aria-selected="false" aria-controls="panel-votes">Recorded votes</button>
+    <button class="tab" role="tab" id="tab-outcomes" aria-selected="false" aria-controls="panel-outcomes">Outcomes by topic</button>
+    <button class="tab" role="tab" id="tab-movers" aria-selected="false" aria-controls="panel-movers">Who moves motions</button>
   </div>
 
   <div id="panel-search" role="tabpanel" aria-labelledby="tab-search">
@@ -177,6 +180,40 @@
     <p class="status" id="vstatus" aria-live="polite"></p>
     <div id="vresults"></div>
     <button class="more" id="vmore" hidden>Show more</button>
+  </div>
+
+  <div id="panel-outcomes" role="tabpanel" aria-labelledby="tab-outcomes" hidden>
+    <p class="callout"><b>Read this first.</b> Every motion in the minutes has a result, except the ones where the minutes don't state one (shown as "No result recorded"). Routine motions (adopting minutes, adjourning, three readings of by-laws, introducing and adopting reports) are left out. <b>Topics are a best guess</b> from title keywords and, outside City Council, the committee that handled the item; "Other" holds what the rules couldn't place. "Received" means the report was received for information, with no decision.</p>
+    <section class="controls" aria-label="Outcome filters">
+      <div><label for="ocommittee">Body</label><select id="ocommittee"></select></div>
+      <div><label for="oyear">Year</label><select id="oyear"><option value="">All</option></select></div>
+    </section>
+    <div class="error-msg" id="oerr" role="alert"></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Topic (click to list)</th><th>Motions</th><th>Carried</th><th>Lost</th><th>Received</th><th>No result</th><th>Lost share</th></tr></thead>
+      <tbody id="otable"></tbody>
+    </table></div>
+    <p class="status" id="ostatus" aria-live="polite"></p>
+    <div id="oresults"></div>
+    <button class="more" id="omore" hidden>Show more</button>
+  </div>
+
+  <div id="panel-movers" role="tabpanel" aria-labelledby="tab-movers" hidden>
+    <p class="callout"><b>Read this first.</b> Minutes record who <em>moved</em> and who <em>seconded</em> each motion. Moving a motion is not the same as writing it: a councillor's own motion is usually moved by its author, but many staff-report recommendations are moved by whoever the Chair calls on. Routine motions are left out. Only motions where the minutes carry a "Moved by / Seconded by" line are counted (nearly all at City Council), so this is a fraction of all motions.</p>
+    <section class="controls" aria-label="Mover filters">
+      <div><label for="mcommittee">Body</label><select id="mcommittee"></select></div>
+      <div><label for="myear">Year</label><select id="myear"><option value="">All</option></select></div>
+      <div><label for="mtopic">Topic</label><select id="mtopic"><option value="">All</option></select></div>
+    </section>
+    <div class="error-msg" id="merr" role="alert"></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Member (click to list)</th><th>Moved</th><th>Seconded</th><th>Total</th></tr></thead>
+      <tbody id="mtable"></tbody>
+    </table></div>
+    <p class="status" id="mpairs"></p>
+    <p class="status" id="mstatus" aria-live="polite"></p>
+    <div id="mresults"></div>
+    <button class="more" id="mmore" hidden>Show more</button>
   </div>
 
   <p class="note">Source: City of Ottawa eScribe meeting portal (pub-ottawa.escribemeetings.com), indexed weekly. Agenda items are listed individually from about mid-2022; earlier meetings were published without item structure and are not in this search. Routine procedural items (call to order, roll call, adjournment and similar) are left out. Decisions are as recorded in the published minutes. This is a finding aid: the eScribe page is the record.</p>
@@ -256,14 +293,86 @@ function more() {
 
 // ---- Recorded votes ----
 let V = null, vhits = [], vshown = 0, vmember = '', vterms = [];
-const tabs = { search: ['tab-search', 'panel-search'], votes: ['tab-votes', 'panel-votes'] };
+const tabs = { search: ['tab-search', 'panel-search'], votes: ['tab-votes', 'panel-votes'],
+  outcomes: ['tab-outcomes', 'panel-outcomes'], movers: ['tab-movers', 'panel-movers'] };
 function showTab(name) {
   for (const k in tabs) { $(tabs[k][0]).setAttribute('aria-selected', String(k === name)); $(tabs[k][1]).hidden = k !== name; }
-  try { history.replaceState(null, '', name === 'votes' ? '#votes' : location.pathname + location.search); } catch (e) {}
+  try { history.replaceState(null, '', name === 'search' ? location.pathname + location.search : '#' + name); } catch (e) {}
   if (name === 'votes' && !V) loadVotes();
+  if ((name === 'outcomes' || name === 'movers') && !M) loadMotions();
 }
-$('tab-search').addEventListener('click', () => showTab('search'));
-$('tab-votes').addEventListener('click', () => showTab('votes'));
+for (const k in tabs) $(tabs[k][0]).addEventListener('click', () => showTab(k));
+
+// ---- Outcomes by topic + who moves motions (both read motions.json) ----
+let M = null, otopic = '', ohits = [], oshown = 0, mmember = '', mhits = [], mshown = 0;
+const chipCls = r => r === 'Carried' ? 'ok' : r === 'Lost' || r === 'Withdrawn' ? 'no' : '';
+function loadMotions() {
+  fetch('CityHall_Index/public/motions.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    M = d;
+    const cnt = {}; d.motions.forEach(r => cnt[r[1]] = (cnt[r[1]] || 0) + 1);
+    const pc = {}; d.movers.forEach(r => pc[r[1]] = (pc[r[1]] || 0) + 1);
+    const bodies = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]);
+    bodies.forEach(b => $('ocommittee').add(new Option(b + ' (' + cnt[b] + ')', b)));
+    Object.keys(pc).sort((a, b) => pc[b] - pc[a]).forEach(b => $('mcommittee').add(new Option(b + ' (' + pc[b] + ')', b)));
+    $('ocommittee').add(new Option('All bodies', ''), 0);
+    $('ocommittee').value = 'City Council'; $('mcommittee').value = 'City Council';
+    const years = [...new Set(d.motions.map(r => r[0].slice(0, 4)))].sort().reverse();
+    years.forEach(y => { $('oyear').add(new Option(y, y)); $('myear').add(new Option(y, y)); });
+    d.topics.forEach(t => $('mtopic').add(new Option(t, t)));
+    orun(); mrun();
+  }).catch(e => { $('oerr').textContent = $('merr').textContent = 'Could not load the data (' + e.message + ').'; });
+}
+
+function orun() {
+  const com = $('ocommittee').value, yr = $('oyear').value;
+  const base = M.motions.filter(r => (!com || r[1] === com) && (!yr || r[0].startsWith(yr)));
+  const t = {}; M.topics.forEach(x => t[x] = { n: 0, Carried: 0, Lost: 0, Received: 0, none: 0 });
+  base.forEach(r => { const o = t[r[2]]; o.n++; if (r[3] === 'Carried' || r[3] === 'Lost' || r[3] === 'Received') o[r[3]]++; else if (r[3] === 'No result recorded') o.none++; });
+  const rows = M.topics.filter(x => t[x].n).sort((a, b) => t[b].n - t[a].n);
+  $('otable').innerHTML = rows.map(x => { const o = t[x], dec = o.Carried + o.Lost;
+    return '<tr data-t="' + esc(x) + '"' + (x === otopic ? ' class="sel"' : '') + '><td>' + esc(x) + '</td><td>' + o.n + '</td><td>' + o.Carried + '</td><td>' + o.Lost + '</td><td>' + o.Received + '</td><td>' + o.none +
+      '</td><td>' + (dec ? Math.round(100 * o.Lost / dec) + '%<span class="bar" style="width:' + Math.round(60 * o.Lost / dec * 4) + 'px"></span>' : '–') + '</td></tr>'; }).join('') ||
+    '<tr><td colspan="7">No motions for this selection.</td></tr>';
+  ohits = base.filter(r => !otopic || r[2] === otopic); oshown = 0; $('oresults').innerHTML = ''; omore();
+}
+function omore() {
+  const slice = ohits.slice(oshown, oshown + PAGE); oshown += slice.length;
+  $('oresults').insertAdjacentHTML('beforeend', slice.map(r => '<article class="hit"><h3>' + esc(r[4]) + '</h3><div class="meta"><span class="mono">' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span>' +
+    (r[5] ? '<span class="mono">' + esc(r[5]) + '</span>' : '') + '<span class="chip ' + chipCls(r[3]) + '">' + esc(r[3]) + '</span><span>' + esc(r[2]) + '</span>' +
+    '<a class="src" href="' + esc(M.base + r[6]) + '" target="_blank" rel="noopener">Official record ↗</a></div></article>').join(''));
+  $('ostatus').textContent = ohits.length ? ohits.length + ' motion' + (ohits.length === 1 ? '' : 's') + (otopic ? ' on ' + otopic : ' (all topics)') : 'No motions match.';
+  $('omore').hidden = oshown >= ohits.length;
+}
+$('otable').addEventListener('click', e => { const tr = e.target.closest('tr[data-t]'); if (!tr) return; otopic = otopic === tr.dataset.t ? '' : tr.dataset.t; orun(); });
+['ocommittee', 'oyear'].forEach(k => $(k).addEventListener('change', () => { otopic = ''; orun(); }));
+$('omore').addEventListener('click', omore);
+
+function mrun() {
+  const com = $('mcommittee').value, yr = $('myear').value, top = $('mtopic').value;
+  const base = M.movers.filter(r => (!com || r[1] === com) && (!yr || r[0].startsWith(yr)) && (!top || r[2] === top));
+  const m = {}, pairs = {};
+  const row = n => m[n] || (m[n] = { n, mv: 0, sc: 0 });
+  base.forEach(r => { row(r[6]).mv++; row(r[7]).sc++; const k = r[6] + ' → ' + r[7]; pairs[k] = (pairs[k] || 0) + 1; });
+  const list = Object.values(m).sort((a, b) => (b.mv + b.sc) - (a.mv + a.sc) || a.n.localeCompare(b.n));
+  $('mtable').innerHTML = list.map(r => '<tr data-m="' + esc(r.n) + '"' + (r.n === mmember ? ' class="sel"' : '') + '><td>' + esc(r.n) + '</td><td>' + r.mv + '</td><td>' + r.sc + '</td><td>' + (r.mv + r.sc) + '</td></tr>').join('') ||
+    '<tr><td colspan="4">No motions for this selection.</td></tr>';
+  const top5 = Object.entries(pairs).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  $('mpairs').textContent = top5.length ? 'Most frequent mover → seconder pairs: ' + top5.map(p => p[0] + ' (' + p[1] + ')').join(', ') : '';
+  mhits = base.filter(r => !mmember || r[6] === mmember || r[7] === mmember); mshown = 0; $('mresults').innerHTML = ''; mmore();
+}
+function mmore() {
+  const slice = mhits.slice(mshown, mshown + PAGE); mshown += slice.length;
+  const nm = n => n === mmember ? '<span class="sel">' + esc(n) + '</span>' : esc(n);
+  $('mresults').insertAdjacentHTML('beforeend', slice.map(r => '<article class="hit"><h3>' + esc(r[4]) + '</h3><div class="meta"><span class="mono">' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span>' +
+    (r[5] ? '<span class="mono">' + esc(r[5]) + '</span>' : '') + '<span class="chip ' + chipCls(r[3]) + '">' + esc(r[3]) + '</span><span>' + esc(r[2]) + '</span>' +
+    '<a class="src" href="' + esc(M.base + r[8]) + '" target="_blank" rel="noopener">Official record ↗</a></div>' +
+    '<p class="names"><b>Moved</b>' + nm(r[6]) + '</p><p class="names"><b>Seconded</b>' + nm(r[7]) + '</p></article>').join(''));
+  $('mstatus').textContent = mhits.length ? mhits.length + ' motion' + (mhits.length === 1 ? '' : 's') + (mmember ? ' involving ' + mmember : '') : 'No motions match.';
+  $('mmore').hidden = mshown >= mhits.length;
+}
+$('mtable').addEventListener('click', e => { const tr = e.target.closest('tr[data-m]'); if (!tr) return; mmember = mmember === tr.dataset.m ? '' : tr.dataset.m; mrun(); });
+['mcommittee', 'myear', 'mtopic'].forEach(k => $(k).addEventListener('change', () => { mmember = ''; mrun(); }));
+$('mmore').addEventListener('click', mmore);
 
 function loadVotes() {
   fetch('CityHall_Index/public/votes.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
@@ -325,7 +434,7 @@ $('vtable').addEventListener('click', e => {
 ['vcommittee', 'vyear', 'vclose'].forEach(k => $(k).addEventListener('change', () => { vmember = ''; vrun(); }));
 let vtm; $('vq').addEventListener('input', () => { clearTimeout(vtm); vtm = setTimeout(vrun, 150); });
 $('vmore').addEventListener('click', vmore);
-if (location.hash === '#votes') showTab('votes');
+{ const h = location.hash.slice(1); if (tabs[h] && h !== 'search') showTab(h); }
 
 let tm; $('q').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(run, 150); });
 ['committee', 'year', 'result', 'sortdate'].forEach(k => $(k).addEventListener('change', run));
