@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What did council decide?</title>
+<meta name="description" content="Search every City of Ottawa council and committee agenda item since 2021: what was on the agenda, what was decided, and a link to the official record.">
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#6B7588;
+    --accent:#C9542F; --accent-2:#2F6FB4; --ok:#2E7D4F; --no:#B3402A; --mark:#FFE9A8;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#8A91A5;
+    --accent:#E06B45; --accent-2:#5B9BE0; --ok:#5CBF86; --no:#E8806B; --mark:#5A4A12;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-0.02em; margin:0 0 10px; }
+  .sub { color:var(--ink-2); max-width:70ch; line-height:1.55; margin:0 0 20px; }
+  .controls { display:grid; grid-template-columns:1fr; gap:10px; background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  @media (min-width:720px){ .controls{ grid-template-columns:2fr 1.2fr 1fr 1fr; } .controls .wide{ grid-column:1/-1; } }
+  label { display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+  input, select { width:100%; font:inherit; font-size:15px; color:var(--ink); background:var(--bg); border:1px solid var(--line-2); border-radius:8px; padding:9px 10px; }
+  input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+  .check { display:flex; gap:8px; align-items:center; }
+  .check input { width:auto; }
+  .check label { margin:0; text-transform:none; letter-spacing:0; font-family:inherit; font-size:13.5px; color:var(--ink-2); }
+  .status { margin:16px 0 8px; color:var(--ink-2); font-size:14px; }
+  .hit { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
+  .hit h3 { margin:0 0 6px; font-size:16px; line-height:1.35; font-weight:600; }
+  .meta { display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; font-size:12.5px; color:var(--ink-3); }
+  .meta .mono { font-family:var(--font-mono); }
+  .chip { font-family:var(--font-mono); font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line-2); color:var(--ink-2); }
+  .chip.ok { color:var(--ok); border-color:var(--ok); }
+  .chip.no { color:var(--no); border-color:var(--no); }
+  .motion { margin:8px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink-2); }
+  .hit a.src { color:var(--accent-2); text-decoration:none; font-size:12.5px; }
+  .hit a.src:hover { text-decoration:underline; }
+  mark { background:var(--mark); color:inherit; border-radius:2px; padding:0 1px; }
+  .more { display:block; margin:14px auto; font:inherit; font-size:14px; padding:9px 18px; border-radius:8px; border:1px solid var(--line-2); background:var(--bg-2); color:var(--ink); cursor:pointer; }
+  .more[hidden] { display:none; }
+  .note { margin-top:28px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
+  .error-msg { color:var(--no); }
+</style>
+<link rel="stylesheet" href="assets/site-theme.css">
+<script src="assets/site-theme.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="cityhall.html" class="active">City Hall</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">City Hall · council &amp; committees · <span id="span">2022–2026</span></p>
+  <h1>What did council decide?</h1>
+  <p class="sub">Search every agenda item from Ottawa City Council and its committees. Each result shows the decision recorded in the minutes and links to the official eScribe meeting page, where the reports and votes live.</p>
+
+  <section class="controls" aria-label="Search">
+    <div class="wide">
+      <label for="q">Search titles, report numbers and motions</label>
+      <input id="q" type="search" placeholder="e.g. watermain, Lansdowne, ACS2024, light rail" autocomplete="off">
+    </div>
+    <div>
+      <label for="committee">Body</label>
+      <select id="committee"><option value="">All</option></select>
+    </div>
+    <div>
+      <label for="year">Year</label>
+      <select id="year"><option value="">All</option></select>
+    </div>
+    <div>
+      <label for="result">Result</label>
+      <select id="result">
+        <option value="">Any</option>
+        <option value="carried">Carried</option>
+        <option value="lost">Lost</option>
+        <option value="received">Received</option>
+      </select>
+    </div>
+    <div class="check"><input type="checkbox" id="sortdate"><label for="sortdate">Newest first (instead of best match)</label></div>
+  </section>
+
+  <div class="error-msg" id="err" role="alert"></div>
+  <p class="status" id="status" aria-live="polite">Loading…</p>
+  <div id="results"></div>
+  <button class="more" id="more" hidden>Show more</button>
+
+  <p class="note">Source: City of Ottawa eScribe meeting portal (pub-ottawa.escribemeetings.com), indexed weekly. Agenda items are listed individually from about mid-2022; earlier meetings were published without item structure and are not in this search. Routine procedural items (call to order, roll call, adjournment and similar) are left out. Decisions are as recorded in the published minutes. This is a finding aid: the eScribe page is the record.</p>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const PAGE = 40;
+let D, rows = [], shown = 0, hits = [], terms = [];
+
+fetch('CityHall_Index/public/items.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+  D = d;
+  rows = d.items.map(r => ({ r, t: norm(r[3]), x: norm(r[4] + ' ' + r[6]) }));
+  d.committees.forEach(c => $('committee').add(new Option(c, c)));
+  const years = [...new Set(d.items.map(r => r[0].slice(0, 4)))].sort().reverse();
+  years.forEach(y => $('year').add(new Option(y, y)));
+  $('span').textContent = years[years.length - 1] + '–' + years[0];
+  const p = new URLSearchParams(location.search);
+  $('q').value = p.get('q') || '';
+  ['committee', 'year', 'result'].forEach(k => { if (p.get(k)) $(k).value = p.get(k); });
+  $('sortdate').checked = p.get('sort') === 'date';
+  run();
+}).catch(e => { $('status').textContent = ''; $('err').textContent = 'Could not load the index (' + e.message + ').'; });
+
+function run() {
+  terms = norm($('q').value).split(/\s+/).filter(Boolean);
+  const com = $('committee').value, yr = $('year').value, res = $('result').value;
+  const out = [];
+  for (const o of rows) {
+    const r = o.r;
+    if (com && r[1] !== com) continue;
+    if (yr && !r[0].startsWith(yr)) continue;
+    if (res && !norm(r[5] || '').startsWith(res)) continue;
+    let score = 0, ok = true;
+    for (const t of terms) {
+      const inT = o.t.includes(t), inX = o.x.includes(t);
+      if (!inT && !inX) { ok = false; break; }
+      score += inT ? 3 : 1;
+    }
+    if (ok) out.push([score, r]);
+  }
+  const byDate = $('sortdate').checked || !terms.length;
+  out.sort((a, b) => (byDate ? 0 : b[0] - a[0]) || (a[1][0] < b[1][0] ? 1 : a[1][0] > b[1][0] ? -1 : 0));
+  hits = out.map(x => x[1]); shown = 0; $('results').innerHTML = '';
+  more();
+  const p = new URLSearchParams();
+  if ($('q').value) p.set('q', $('q').value);
+  ['committee', 'year', 'result'].forEach(k => { if ($(k).value) p.set(k, $(k).value); });
+  if ($('sortdate').checked) p.set('sort', 'date');
+  history.replaceState(null, '', p.toString() ? '?' + p : location.pathname);
+}
+
+function hl(s) {
+  let h = esc(s);
+  for (const t of terms) h = h.replace(new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
+  return h;
+}
+
+function more() {
+  const slice = hits.slice(shown, shown + PAGE); shown += slice.length;
+  $('results').insertAdjacentHTML('beforeend', slice.map(r => {
+    const d = r[5] || '', cls = /^carried/i.test(d) ? 'ok' : /^lost|^withdrawn/i.test(d) ? 'no' : '';
+    return '<article class="hit"><h3>' + hl(r[3]) + '</h3><div class="meta">' +
+      '<span class="mono">' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span>' +
+      (r[4] ? '<span class="mono">' + hl(r[4]) + '</span>' : '') +
+      (d ? '<span class="chip ' + cls + '">' + esc(d) + '</span>' : '') +
+      '<a class="src" href="' + esc(D.base + r[7]) + '" target="_blank" rel="noopener">Official record ↗</a></div>' +
+      (r[6] ? '<p class="motion">' + hl(r[6]) + '</p>' : '') + '</article>';
+  }).join(''));
+  $('status').textContent = hits.length
+    ? hits.length.toLocaleString() + ' item' + (hits.length === 1 ? '' : 's') + (terms.length ? '' : ' (newest first)')
+    : 'No matches. Try fewer or shorter words.';
+  $('more').hidden = shown >= hits.length;
+}
+
+let tm; $('q').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(run, 150); });
+['committee', 'year', 'result', 'sortdate'].forEach(k => $(k).addEventListener('change', run));
+$('more').addEventListener('click', more);
+</script>
+</body>
+</html>

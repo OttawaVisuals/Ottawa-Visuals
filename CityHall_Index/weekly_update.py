@@ -12,6 +12,7 @@ Steps:
        new meetings get indexed; meetings indexed before their minutes were
        posted (or since replaced on the calendar) are re-indexed or dropped
   2. search.py --rebuild
+  3. export_public.py  (slim public/items.json for ../cityhall.html; commit it by hand)
 
 The indexer's own lock (data/indexer.lock) stops this from running on top of
 another indexer run, e.g. a long backfill; the week is then logged as skipped.
@@ -70,6 +71,8 @@ def main(argv=None):
                            "--refresh-days", str(args.days), "--delay", str(args.delay)], log)
         if rc == 0:
             rc = run("search index", ["search.py", "--rebuild", "--data", str(out)], log)
+        if rc == 0 and out == DATA:
+            rc = run("public export", ["export_public.py"], log)
         status = {0: "done", LOCKED: "skipped: another indexer run in progress"}.get(rc, "FAILED")
         log.write(f"{datetime.now():%Y-%m-%d %H:%M:%S}  {status}\n")
     return rc
