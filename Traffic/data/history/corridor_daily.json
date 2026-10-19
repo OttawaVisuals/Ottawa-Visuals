@@ -6282,84 +6282,84 @@
   "weekday": 0,
   "corridors": {
    "barrhaven|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1695,
     "pm_peak_s": null,
     "overnight_s": 1415,
     "min_s": 1398,
-    "max_s": 1573,
-    "n": 27
+    "max_s": 1750,
+    "n": 38
    },
    "barrhaven|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1897,
     "pm_peak_s": null,
     "overnight_s": 1371,
     "min_s": 1353,
-    "max_s": 1681,
-    "n": 27
+    "max_s": 2164,
+    "n": 38
    },
    "gatineau|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 860,
     "pm_peak_s": null,
     "overnight_s": 721,
     "min_s": 716,
-    "max_s": 796,
-    "n": 27
+    "max_s": 893,
+    "n": 38
    },
    "gatineau|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1062,
     "pm_peak_s": null,
     "overnight_s": 829,
     "min_s": 822,
-    "max_s": 961,
-    "n": 27
+    "max_s": 1101,
+    "n": 38
    },
    "kanata|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1059,
     "pm_peak_s": null,
     "overnight_s": 983,
     "min_s": 977,
-    "max_s": 1017,
-    "n": 27
+    "max_s": 1086,
+    "n": 38
    },
    "kanata|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1699,
     "pm_peak_s": null,
     "overnight_s": 1076,
     "min_s": 1066,
-    "max_s": 1498,
-    "n": 27
+    "max_s": 1937,
+    "n": 38
    },
    "orleans|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1142,
     "pm_peak_s": null,
     "overnight_s": 1064,
     "min_s": 1052,
-    "max_s": 1090,
-    "n": 27
+    "max_s": 1169,
+    "n": 38
    },
    "orleans|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1652,
     "pm_peak_s": null,
     "overnight_s": 1035,
     "min_s": 1025,
-    "max_s": 1316,
-    "n": 27
+    "max_s": 1821,
+    "n": 38
    },
    "riverside|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1594,
     "pm_peak_s": null,
     "overnight_s": 1269,
     "min_s": 1247,
-    "max_s": 1422,
-    "n": 27
+    "max_s": 1651,
+    "n": 38
    },
    "riverside|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1684,
     "pm_peak_s": null,
     "overnight_s": 1196,
     "min_s": 1174,
-    "max_s": 1406,
-    "n": 27
+    "max_s": 1904,
+    "n": 38
    }
   }
  }
