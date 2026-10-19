@@ -3128,51 +3128,28 @@
 },
 "fp": "f2ab50acd950"
 },
-"29557": {
+"29560": {
 "event": {
-"cause": "police operation",
-"created": "2026-10-18 11:36:00",
-"cross_street_1": "Chapman Mills",
-"cross_street_2": "Albion Falls",
+"cause": "construction",
+"created": "2026-10-19 08:37:00",
+"cross_street_1": "MONK",
+"cross_street_2": "OAKLAND",
 "direction": null,
-"event_id": "29557",
-"event_type": "INCIDENT",
+"event_id": "29560",
+"event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Moonbeam closed between Chapman Mills and Albion Falls due to police operation. Police are directing traffic. Duration is unknown. Access for local traffic maintained.",
+"headline": "WILTON closed between MONK and OAKLAND due to construction, from October 19th to November 6th. Access for local traffic maintained.",
 "lanes": "closed",
-"lat": 45.261224,
-"lon": -75.751992,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "Moonbeam",
+"lat": 45.397448,
+"lon": -75.686077,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-19T00:00",
+"priority": "LOW",
+"road": "WILTON",
 "source": "city",
-"updated": "2026-10-18 11:36:00"
+"updated": "2026-10-19 08:40:00"
 },
-"fp": "df6cfd1047dd"
-},
-"29558": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-19 07:09:00",
-"cross_street_1": "Belfast",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29558",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St-Laurent southbound right lane closed at Belfast due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.411839,
-"lon": -75.630462,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St-Laurent",
-"source": "city",
-"updated": "2026-10-19 07:09:00"
-},
-"fp": "3a3fbc4c7686"
+"fp": "f878948d9b78"
 }
 }
 }
