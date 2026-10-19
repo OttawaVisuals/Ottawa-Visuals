@@ -3151,28 +3151,51 @@
 },
 "fp": "f878948d9b78"
 },
-"29574": {
+"29575": {
 "event": {
 "cause": "a disabled vehicle",
-"created": "2026-10-19 16:20:00",
-"cross_street_1": "Iris",
+"created": "2026-10-19 16:39:00",
+"cross_street_1": "Island Park",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29574",
+"event_id": "29575",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Greenbank southbound reduced to 1 lane at Iris due to a disabled vehicle. Police are directing traffic.",
-"lanes": "reduced to 1 lane",
-"lat": 45.348352,
-"lon": -75.789137,
+"headline": "Kichi Z\u012bb\u012b M\u012bkan eastbound lane reduction at Island Park due to a disabled vehicle. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.402103,
+"lon": -75.752841,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Greenbank",
+"road": "Kichi Z\u012bb\u012b M\u012bkan",
 "source": "city",
-"updated": "2026-10-19 16:20:00"
+"updated": "2026-10-19 16:39:00"
 },
-"fp": "d2b61ab1d4ce"
+"fp": "51c07e2d2e2e"
+},
+"29576": {
+"event": {
+"cause": "",
+"created": "2026-10-19 17:27:00",
+"cross_street_1": "BRONSON AVE (IC 121A)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29576",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Westbound at BRONSON AVE - Collision. left shoulder and 2 left lanes closed. ",
+"lanes": "left shoulder and 2 left lanes closed",
+"lat": 45.40489,
+"lon": -75.70192,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-19 17:27:00"
+},
+"fp": "00d326974ebc"
 }
 }
 }
