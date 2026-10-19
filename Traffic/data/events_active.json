@@ -3174,6 +3174,29 @@
 },
 "fp": "51c07e2d2e2e"
 },
+"29579": {
+"event": {
+"cause": "construction",
+"created": "2026-10-19 18:01:00",
+"cross_street_1": "Blair",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29579",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 174 westbound Off-Ramp closed at Blair due to construction. From 7:00pm, October 19th to 5:00am, October 20th.",
+"lanes": "closed",
+"lat": 45.434557,
+"lon": -75.600606,
+"planned_end": "2026-10-20T05:00",
+"planned_start": "2026-10-19T19:00",
+"priority": "HIGH",
+"road": "174 Off-Ramp/bretelle de sortie",
+"source": "city",
+"updated": "2026-10-19 18:56:00"
+},
+"fp": "014e67d36b66"
+},
 "29580": {
 "event": {
 "cause": "traffic signals not working",
@@ -3196,6 +3219,29 @@
 "updated": "2026-10-19 18:04:00"
 },
 "fp": "52ad677aeafb"
+},
+"29582": {
+"event": {
+"cause": "construction",
+"created": "2026-10-19 18:13:00",
+"cross_street_1": "Blair",
+"cross_street_2": "417",
+"direction": null,
+"event_id": "29582",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 westbound reduced to 1 lane between Blair and 417 due to construction. From 7:00pm to 11:00pm, October 19th.",
+"lanes": "reduced to 1 lane",
+"lat": 45.434445,
+"lon": -75.600725,
+"planned_end": "2026-10-19T23:00",
+"planned_start": "2026-10-19T19:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-19 18:56:00"
+},
+"fp": "d88c528de543"
 }
 }
 }
