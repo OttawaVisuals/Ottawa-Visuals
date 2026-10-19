@@ -468,7 +468,8 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   $6.97B competitive vs. $110M non-competitive vs. $6.9M ACAN) — worth checking whether that
   holds *per category* (Architectural/Engineering likely skew more sole-sourced than Furniture)
   before this becomes a chart.
-- **Not yet built:** the page. Presentation idea floated but not built: stacked bar per year
+- **Page built (2026-10-19):** `govcontracts.html` (management consulting 2017–2025, records, top departments, office-furniture yardstick). IT consulting left out: the 2021 switch from GSIN to UNSPSC codes broke the series (details in `GovContracts/README.md`). Not yet linked from the home page.
+- **Not yet built (original idea):** the page. Presentation idea floated but not built: stacked bar per year
   (segments = procurement type) with a category filter, ideally paired with a 100%-stacked
   version to isolate the competitive-share trend from raw dollar growth, plus small multiples
   per category. See "Next steps" below.

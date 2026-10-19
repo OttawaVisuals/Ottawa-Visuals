@@ -29,7 +29,7 @@ any bookmarked or shared links.
 | [`Tax/`](Tax/README.md) | Taxing the top: top income-tax rate since 1920 vs top-1% share, who grew in high- vs low-tax eras, donations by neighbourhood income ([`tax.html`](Tax/tax.html)) |
 | [`Ontario_Costs/`](Ontario_Costs/README.md) | Ontario decisions the Auditor General / FAO costed or criticized, 2009–2024, each with what the figure measures ([`ontario_costs.html`](Ontario_Costs/ontario_costs.html)) |
 | [`OilGas/`](OilGas/README.md) | Canada's oil & gas industry since 2002: profits, dividends, corporate income tax and jobs, in 2025 dollars ([`oilgas.html`](OilGas/oilgas.html)) |
-| [`GovContracts/`](GovContracts/README.md) | Federal Proactive Disclosure contracts — consulting spend / in-house duplication (exploration) |
+| [`GovContracts/`](GovContracts/README.md) | Federal Proactive Disclosure contracts — management-consulting spend ([`govcontracts.html`](govcontracts.html)) |
 
 [`rto.html`](rto.html) — **Ottawa RTO Watch**, the return-to-office page — sits at
 the root because it draws on three folders at once: `Traffic/` and `OC_Transpo/`

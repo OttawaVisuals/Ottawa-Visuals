@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Federal consulting contracts</title>
+<meta name="description" content="Federal management-consulting contracts over $10,000, 2017–2025, from the Proactive Disclosure of Contracts data: spend by year, number of contracts, biggest departments, and what the data can't show.">
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#6B7588;
+    --accent:#C9542F; --accent-2:#2F6FB4;
+    --s1:#C9542F; --s2:#2F6FB4; --grid:#E3E7ED;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#8A91A5;
+    --accent:#E06B45; --accent-2:#5B9BE0;
+    --s1:#E06B45; --s2:#4A86CC; --grid:#262B38;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-0.02em; margin:0 0 10px; }
+  h2 { font-size:20px; letter-spacing:-0.01em; margin:0 0 6px; }
+  .sub { color:var(--ink-2); max-width:70ch; line-height:1.55; margin:0 0 20px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:0 0 18px; }
+  .stat { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat .v { font-size:28px; font-weight:700; letter-spacing:-0.02em; }
+  .stat .l { font-size:12.5px; color:var(--ink-2); line-height:1.4; margin-top:2px; }
+  .card { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:18px; margin:0 0 14px; }
+  .card p { color:var(--ink-2); font-size:14px; line-height:1.55; margin:0 0 10px; max-width:75ch; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin:6px 0 4px; }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+  svg.chart { width:100%; height:auto; display:block; overflow:visible; }
+  svg text { font-family:var(--font-body); fill:var(--ink-3); font-size:11px; }
+  .hit { fill:transparent; }
+  .hit:hover { fill:var(--ink); fill-opacity:0.05; }
+  #tip { position:fixed; z-index:2000; pointer-events:none; background:var(--bg-2); border:1px solid var(--line-2); border-radius:8px; padding:8px 10px; font-size:12.5px; line-height:1.5; color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.18); display:none; max-width:260px; }
+  #tip b { font-weight:600; }
+  details { margin-top:8px; font-size:13px; color:var(--ink-2); }
+  summary { cursor:pointer; }
+  table { border-collapse:collapse; width:100%; font-size:13px; margin-top:8px; }
+  th, td { padding:6px 10px; text-align:right; border-bottom:1px solid var(--line); }
+  th:first-child, td:first-child { text-align:left; }
+  th { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); font-weight:500; }
+  .tblwrap { overflow-x:auto; }
+  .callout { border-left:3px solid var(--accent-2); background:var(--bg-3); border-radius:6px; padding:12px 14px; font-size:13.5px; line-height:1.55; color:var(--ink-2); margin:0 0 14px; }
+  .note { margin-top:24px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
+  .error-msg { color:#B3402A; }
+  a { color:var(--accent-2); }
+</style>
+<link rel="stylesheet" href="assets/site-theme.css">
+<script src="assets/site-theme.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="govcontracts.html" class="active">Federal contracts</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">Federal contracts · management consulting · <span id="span">2017–2025</span></p>
+  <h1>What Ottawa's federal government pays management consultants</h1>
+  <p class="sub">Every federal contract over $10,000 is published. This page counts the ones coded as management and business consulting: how much, how many, and which departments. It describes spending. It does not show whether any of it was needed or duplicated in-house work.</p>
+
+  <div class="error-msg" id="err" role="alert"></div>
+  <div class="stats" id="stats"></div>
+
+  <section class="card">
+    <h2>Spend by year</h2>
+    <p>Contract value by the year on the contract. Two bands because federal procurement moved from one coding system (GSIN) to another (UNSPSC) from about 2021. Counting only the old codes made consulting look like it collapsed after 2021. Counting both is what makes the line continuous.</p>
+    <div class="legend"><span><i style="background:var(--s1)"></i>Old codes (GSIN)</span><span><i style="background:var(--s2)"></i>New codes (UNSPSC 8010)</span></div>
+    <svg class="chart" id="c-spend" viewBox="0 0 700 280" role="img" aria-label="Stacked bars of management consulting contract value by year, 2017 to 2025"></svg>
+    <details><summary>Show as table</summary><div class="tblwrap"><table id="t-spend"></table></div></details>
+  </section>
+
+  <section class="card">
+    <h2>Fewer, larger contracts</h2>
+    <p>Number of disclosure records per year, both coding systems together. Average value per record is in the table.</p>
+    <svg class="chart" id="c-count" viewBox="0 0 700 220" role="img" aria-label="Bars of management consulting contract records per year, 2017 to 2025"></svg>
+    <details><summary>Show as table</summary><div class="tblwrap"><table id="t-count"></table></div></details>
+  </section>
+
+  <section class="card">
+    <h2>Departments with the most management-consulting spend</h2>
+    <p>Total across all years in the data. A few very large contracts can dominate a department's total.</p>
+    <div class="tblwrap"><table id="t-dept"></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Office furniture, for comparison</h2>
+    <p>Contract value for office furniture and furnishings, classed by the contract's own accounting description. This category has stayed between about $70M and $140M a year, and its record count has barely moved, so it works as a yardstick: the same data, a category the coding change doesn't distort.</p>
+    <svg class="chart" id="c-furn" viewBox="0 0 700 220" role="img" aria-label="Bars of office furniture contract value by year, 2017 to 2025"></svg>
+    <details><summary>Show as table</summary><div class="tblwrap"><table id="t-furn"></table></div></details>
+  </section>
+
+  <p class="callout"><b>What this can't show.</b> (1) <b>IT consulting:</b> we left it out. The old IT codes are a narrow slice of IT work and the new UNSPSC IT family is much broader, so no series spans the 2021 change honestly. (2) <b>2026</b> is left out because the data only reaches June 2026 and recent months are filled in late. (3) <b>Contracts under $10,000</b> are published only as department totals. (4) <b>Counts are disclosure records</b>, and amendments can appear as their own records, so they're not the same as the number of distinct contracts. (5) <b>Coding is by the department.</b> A contract coded as management consulting may not be what a reader would call consulting, and some consulting is coded elsewhere. (6) Nothing here links spending to return-to-office decisions. The 2026 data doesn't yet reach the July mandate.</p>
+
+  <p class="note">Source: Government of Canada, <a href="https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b">Proactive Disclosure of Contracts</a> (contracts over $10,000), downloaded 2026-10-19; reliable through <span id="rel">June 2026</span>. Management consulting = a hand-checked list of GSIN codes plus UNSPSC codes beginning 8010 (management advisory services). Year is the contract date; value is the disclosed contract value. Method, codes and the checks behind them: <a href="https://github.com/OttawaVisuals/Ottawa-Visuals/blob/main/GovContracts/README.md">GovContracts/README.md</a>.</p>
+</main>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = v => v <= 0 ? '$0' : v >= 1e9 ? '$' + (v / 1e9).toFixed(2) + 'B' : v >= 1e7 ? '$' + Math.round(v / 1e6) + 'M' : v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + Math.round(v / 1e3) + 'K';
+const tip = $('tip');
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.display = 'block';
+  const w = tip.offsetWidth, x = Math.min(e.clientX + 14, window.innerWidth - w - 8);
+  tip.style.left = Math.max(8, x) + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+}
+const hideTip = () => { tip.style.display = 'none'; };
+
+// Bars: series = [{name, color, values}], stacked, with a 2px surface gap between segments.
+function bars(svgId, years, series, fmt, label) {
+  const svg = $(svgId), W = 700, H = +svg.getAttribute('viewBox').split(' ')[3];
+  const L = 48, R = 8, T = 10, B = 26, pw = W - L - R, ph = H - T - B;
+  const totals = years.map((_, i) => series.reduce((s, x) => s + x.values[i], 0));
+  const max = Math.max(...totals) * 1.08;
+  const ticks = 4, step = niceStep(max / ticks);
+  let g = '';
+  for (let v = 0; v <= max; v += step) {
+    const y = T + ph - ph * v / max;
+    g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y + '" y2="' + y + '" stroke="var(--grid)" stroke-width="1"/><text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end">' + fmt(v) + '</text>';
+  }
+  const bw = pw / years.length;
+  years.forEach((yr, i) => {
+    let y0 = T + ph;
+    series.forEach(s => {
+      const h = ph * s.values[i] / max; if (h <= 0) return;
+      g += '<rect x="' + (L + i * bw + bw * 0.18) + '" y="' + (y0 - h) + '" width="' + (bw * 0.64) + '" height="' + h + '" rx="3" fill="' + s.color + '" stroke="var(--bg-2)" stroke-width="2"/>';
+      y0 -= h;
+    });
+    g += '<text x="' + (L + i * bw + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle">' + yr + '</text>';
+    g += '<rect class="hit" data-i="' + i + '" x="' + (L + i * bw) + '" y="' + T + '" width="' + bw + '" height="' + ph + '"/>';
+  });
+  svg.innerHTML = g;
+  svg.querySelectorAll('.hit').forEach(r => {
+    const i = +r.dataset.i;
+    const rows = series.map(s => '<div><span style="color:' + s.color + '">■</span> ' + esc(s.name) + ': ' + fmt(s.values[i], true) + '</div>').join('');
+    const tot = series.length > 1 ? '<div>Total: <b>' + fmt(totals[i], true) + '</b></div>' : '';
+    r.addEventListener('mousemove', e => showTip(e, '<b>' + years[i] + '</b>' + (label ? ' · ' + label : '') + rows + tot));
+    r.addEventListener('mouseleave', hideTip);
+  });
+}
+function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
+function table(id, head, rows) {
+  $(id).innerHTML = '<thead><tr>' + head.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+    rows.map(r => '<tr>' + r.map(c => '<td>' + esc(c) + '</td>').join('') + '</tr>').join('') + '</tbody>';
+}
+
+fetch('GovContracts/data/page.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+  const Y = d.years, n = Y.length;
+  const spend = Y.map((_, i) => d.mgmt_gsin.spend[i] + d.mgmt_unspsc.spend[i]);
+  const count = Y.map((_, i) => d.mgmt_gsin.count[i] + d.mgmt_unspsc.count[i]);
+  const total = spend.reduce((a, b) => a + b, 0), tcount = count.reduce((a, b) => a + b, 0);
+  const avg = i => spend[i] / count[i];
+  $('span').textContent = Y[0] + '–' + Y[n - 1];
+  $('stats').innerHTML = [
+    [money(total), 'management-consulting contract value, ' + Y[0] + '–' + Y[n - 1]],
+    [tcount.toLocaleString(), 'disclosure records over those years'],
+    [money(avg(0)) + ' → ' + money(avg(n - 1)), 'average value per record, ' + Y[0] + ' vs ' + Y[n - 1]]
+  ].map(s => '<div class="stat"><div class="v">' + esc(s[0]) + '</div><div class="l">' + esc(s[1]) + '</div></div>').join('');
+
+  bars('c-spend', Y, [{ name: 'Old codes (GSIN)', color: 'var(--s1)', values: d.mgmt_gsin.spend }, { name: 'New codes (UNSPSC 8010)', color: 'var(--s2)', values: d.mgmt_unspsc.spend }], (v, full) => money(v));
+  table('t-spend', ['Year', 'Old codes', 'New codes', 'Total'], Y.map((y, i) => [y, money(d.mgmt_gsin.spend[i]), money(d.mgmt_unspsc.spend[i]), money(spend[i])]));
+  bars('c-count', Y, [{ name: 'Records', color: 'var(--s2)', values: count }], v => Math.round(v).toLocaleString(), 'records');
+  table('t-count', ['Year', 'Records', 'Total value', 'Average per record'], Y.map((y, i) => [y, count[i].toLocaleString(), money(spend[i]), money(avg(i))]));
+  bars('c-furn', Y, [{ name: 'Office furniture', color: 'var(--s2)', values: d.furniture.spend }], (v, full) => money(v), 'office furniture');
+  table('t-furn', ['Year', 'Contract value', 'Records'], Y.map((y, i) => [y, money(d.furniture.spend[i]), d.furniture.count[i].toLocaleString()]));
+  table('t-dept', ['Department', 'Management-consulting value'], d.departments.map(x => [x.name, money(x.spend)]));
+  const [yy, mm] = d.last_reliable_month.split('-');
+  $('rel').textContent = ['January','February','March','April','May','June','July','August','September','October','November','December'][+mm - 1] + ' ' + yy;
+}).catch(e => { $('err').textContent = 'Could not load the data (' + e.message + ').'; });
+</script>
+</body>
+</html>

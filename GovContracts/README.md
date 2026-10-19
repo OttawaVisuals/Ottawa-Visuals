@@ -264,9 +264,33 @@ description_en axis) is well supported by structured data. The specific
 but because **the data doesn't reach the mandate date yet** (see coverage
 finding above). This is a "come back next quarter" gap, not a dead end.
 
-**Not yet checked:** GSIN vs UNSPSC coverage split by year for the
-commodity_code axis — moot for now since the description_en axis is the
-primary one, but worth revisiting if commodity_code is ever leaned on again.
+### Coding change in 2021 (checked 2026-10-19 on the 2026-10-19 download)
+
+`commodity_code` is blank on ~0% of rows from 2017 on (the 35% blank figure
+above is mostly pre-2017), but the *scheme* changes: 8-digit UNSPSC codes are
+1% of rows in 2020, 12% in 2022, 36% in 2025, 43% in 2026. The GSIN whitelist
+can't see them, so the consulting series fell after 2021 for a coding reason
+(management consulting records: 1,329 in 2021 → 188 in 2025 GSIN-only).
+
+- **Fix for management consulting:** `UNSPSC_PREFIXES` in `build_aggregates.py`
+  maps `8010*` (management advisory services) into the same category, kept as
+  a separate `... [UNSPSC]` row so the two schemes stay visible. Combined
+  series is continuous across the switch (spend $898M 2020 → $574M 2021 →
+  $705M 2022; records 1,280 → 1,682 → 1,548). Records still fall to 529 by
+  2025 while spend stays high (fewer, larger contracts); not explained.
+- **IT consulting can't be fixed this way:** UNSPSC `8111*` is far broader than
+  the narrow GSIN `D302AA*` codes (e.g. 2019: $34M GSIN vs $265M UNSPSC) and
+  UNSPSC was already in use in 2017–2020 at low share, so any splice or
+  UNSPSC-only series would track the adoption of the new scheme, not the
+  spending. The page leaves IT out.
+- 4-digit numeric codes (~16–20% of rows, stable) are goods/construction
+  families (7030 software licences, 7110 office furniture, 5131 roads), not
+  services. Note `7110` office furniture is not captured by the N7110 prefix.
+- `data/` was refreshed from the 2026-10-19 download for the consulting,
+  office-footprint (description_en) and coverage files. `rto_candidates.json`
+  and `top_vendors.json` were left as they were (older data, built with the GSIN
+  label table). `page.json` is built from these by `scripts/build_page_data.py`
+  for [`govcontracts.html`](../govcontracts.html).
 
 ## Next steps to pick this back up
 

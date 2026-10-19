@@ -175,10 +175,26 @@ def load_gsin(gsin_csv):
     return lookup
 
 
+# From about 2021 federal procurement moved from GSIN to UNSPSC codes (8 digits);
+# by 2025 they are ~36% of rows. The GSIN whitelist above can't see them, so the
+# consulting series fell after 2021 for a coding reason. These prefixes map the
+# UNSPSC families that correspond to the same work:
+#   8010xxxx  Management advisory services
+#   8111xxxx  Information technology services
+# Scope check (see README "Coding change in 2021"): UNSPSC 8111 is broader than
+# the narrow GSIN D302AA* codes, so IT is reported both ways on the page.
+UNSPSC_PREFIXES = {
+    "8010": "Management & business consulting [UNSPSC]",
+    "8111": "IT / informatics consulting [UNSPSC]",
+}
+
+
 def categorize(commodity_code: str) -> str | None:
     if not commodity_code:
         return None
     code = commodity_code.strip().upper()
+    if len(code) == 8 and code.isdigit():
+        return UNSPSC_PREFIXES.get(code[:4])
     if code in CONSULTING_CODES:
         return CONSULTING_CODES[code]
     if code in OFFICE_FOOTPRINT_CODES:
