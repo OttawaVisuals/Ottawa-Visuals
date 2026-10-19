@@ -3151,51 +3151,28 @@
 },
 "fp": "f878948d9b78"
 },
-"29568": {
+"29570": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-19 12:21:00",
-"cross_street_1": "Plaza Riverside South",
+"created": "2026-10-19 13:55:00",
+"cross_street_1": "Clyde",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29568",
+"event_id": "29570",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "River Rd southbound lane reduction at Plaza Riverside South due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.27082,
-"lon": -75.699162,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Ch River Rd",
-"source": "city",
-"updated": "2026-10-19 12:21:00"
-},
-"fp": "679bc6771d8a"
-},
-"29569": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-19 12:53:00",
-"cross_street_1": "Majestic",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29569",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Woodroffe northbound left-turn lane closed at Majestic due to a collision.",
-"lanes": "left-turn lane closed",
-"lat": 45.331623,
-"lon": -75.750765,
+"headline": "Baseline westbound reduced to 1 lane at Clyde due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.361281,
+"lon": -75.740201,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Woodroffe",
+"road": "Baseline",
 "source": "city",
-"updated": "2026-10-19 12:53:00"
+"updated": "2026-10-19 13:55:00"
 },
-"fp": "dc11398c002e"
+"fp": "1d1be409a77a"
 }
 }
 }
