@@ -12,6 +12,8 @@ from collections import Counter
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from split_votes import member_key, split_names  # noqa: E402
 DATA, OUT = HERE / "data", HERE / "public"
 csv.field_size_limit(sys.maxsize)
 
@@ -25,6 +27,33 @@ PROCEDURAL = re.compile(
 def rows(name):
     with open(DATA / f"{name}.csv", encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
+
+
+def export_votes(meetings):
+    """public/votes.json: one record per motion with a recorded (named) vote."""
+    items = {(r["meeting_id"], r["item_number"]): r for r in rows("agenda_items")}
+    results = {(r["meeting_id"], r["item_number"], r["motion_index"]): r for r in rows("motions")}
+    by = {}
+    for v in rows("votes"):
+        k = (v["meeting_id"], v["item_number"], v["motion_index"])
+        by.setdefault(k, {}).setdefault(v["vote"], []).extend(member_key(n) for n in split_names(v["voters"]))
+    out = []
+    for k, sides in by.items():
+        it, mo = items.get(k[:2]), results.get(k)
+        if not it or not mo:
+            continue
+        text = re.sub(r"\s+", " ", mo["motion_text"]).strip()
+        if len(text) > 300:
+            text = text[:297].rsplit(" ", 1)[0] + "…"
+        out.append([it["date"], it["committee"], re.sub(r"\s+", " ", it["title"]).strip(), it["report_number"],
+                    mo["result"].strip(), text, sides.get("For", []), sides.get("Against", []),
+                    [[m, t] for t in sides if t not in ("For", "Against") for m in sides[t]], k[0]])
+    out.sort(key=lambda r: r[0], reverse=True)
+    payload = {"cols": ["date", "committee", "title", "report", "result", "motion", "for", "against", "other", "meeting"],
+               "base": "https://pub-ottawa.escribemeetings.com/Meeting.aspx?Id=", "votes": out}
+    (OUT / "votes.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"{len(out)} recorded-vote motions -> public/votes.json "
+          f"({(OUT / 'votes.json').stat().st_size / 1e6:.2f} MB)")
 
 
 def main():
@@ -60,6 +89,7 @@ def main():
     (OUT / "items.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"{len(out)} of ~23.8k items -> public/items.json "
           f"({(OUT / 'items.json').stat().st_size / 1e6:.1f} MB), {len(committees)} committees")
+    export_votes(meetings)
 
 
 if __name__ == "__main__":

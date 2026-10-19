@@ -295,7 +295,8 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   Sundays 09:00, catches up at next start if missed; set up 2026-10-09). Not on the Pi: the
   index is gitignored, so it lives where search and the PDFs are. Log: `data/weekly_update.log`.
 - **Votes split (2026-10-19):** `split_votes.py` → `data/votes_by_member.csv` (6,188 member votes, one row each; names normalised to "initial. surname"; every tally's stated count matches the names parsed). Run by `weekly_update.py`.
-- **Still to do:** a votes view on the page (who dissents, split votes by councillor); add it to the home-page `REPORTS`; PDF full text stays local-only.
+- **Votes view (2026-10-19):** "Recorded votes" tab on `cityhall.html` (`public/votes.json`, 349 motions with named votes; 189 at Council): per-member table with how often each was on the losing side, click to filter, closest votes first. Callout explains that names are recorded only for contested motions.
+- **Still to do:** add it to the home-page `REPORTS`; PDF full text stays local-only.
 
 ### RTO4 Impact Page — "Ottawa RTO Watch"
 - **Progress:** ~45% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;

@@ -75,6 +75,23 @@
   .more[hidden] { display:none; }
   .note { margin-top:28px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
   .error-msg { color:var(--no); }
+  .tabs { display:flex; gap:4px; margin:0 0 16px; border-bottom:1px solid var(--line); }
+  .tab { font:inherit; font-size:14px; padding:9px 14px; background:none; border:0; border-bottom:2px solid transparent; color:var(--ink-2); cursor:pointer; margin-bottom:-1px; }
+  .tab[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
+  [hidden] { display:none !important; }
+  .callout { background:var(--bg-2); border:1px solid var(--line); border-left:3px solid var(--accent-2); border-radius:8px; padding:12px 14px; font-size:13.5px; line-height:1.55; color:var(--ink-2); margin:0 0 14px; }
+  .tblwrap { overflow-x:auto; background:var(--bg-2); border:1px solid var(--line); border-radius:10px; margin:14px 0; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th, td { padding:8px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child, td:first-child { text-align:left; }
+  th { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); font-weight:500; }
+  tbody tr { cursor:pointer; } tbody tr:hover { background:var(--bg-3); }
+  tbody tr.sel { background:var(--bg-3); font-weight:600; }
+  tr:last-child td { border-bottom:0; }
+  .bar { display:inline-block; height:8px; border-radius:4px; background:var(--accent); vertical-align:middle; margin-left:8px; }
+  .names { font-size:12.5px; line-height:1.55; color:var(--ink-2); margin:8px 0 0; }
+  .names b { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); font-weight:500; margin-right:6px; }
+  .names .sel { background:var(--mark); border-radius:3px; padding:0 3px; }
 </style>
 <link rel="stylesheet" href="assets/site-theme.css">
 <script src="assets/site-theme.js"></script>
@@ -98,6 +115,12 @@
   <h1>What did council decide?</h1>
   <p class="sub">Search every agenda item from Ottawa City Council and its committees. Each result shows the decision recorded in the minutes and links to the official eScribe meeting page, where the reports and votes live.</p>
 
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search decisions</button>
+    <button class="tab" role="tab" id="tab-votes" aria-selected="false" aria-controls="panel-votes">Recorded votes</button>
+  </div>
+
+  <div id="panel-search" role="tabpanel" aria-labelledby="tab-search">
   <section class="controls" aria-label="Search">
     <div class="wide">
       <label for="q">Search titles, report numbers and motions</label>
@@ -127,6 +150,34 @@
   <p class="status" id="status" aria-live="polite">Loading…</p>
   <div id="results"></div>
   <button class="more" id="more" hidden>Show more</button>
+  </div>
+
+  <div id="panel-votes" role="tabpanel" aria-labelledby="tab-votes" hidden>
+    <p class="callout"><b>Read this first.</b> The minutes name who voted which way for only a small share of motions: about 350 of roughly 9,400 since 2022 (about 190 at City Council). Most motions are recorded as just "Carried", with no names, and nearly all of the named votes had at least one member against. So this is how members voted on the <em>contested</em> motions, not their full voting record. "On the losing side" means the member voted with the smaller group; tied votes are not counted. Absences and declared conflicts are not counted as votes.</p>
+    <section class="controls" aria-label="Vote filters">
+      <div>
+        <label for="vcommittee">Body</label>
+        <select id="vcommittee"></select>
+      </div>
+      <div>
+        <label for="vyear">Year</label>
+        <select id="vyear"><option value="">All</option></select>
+      </div>
+      <div class="wide">
+        <label for="vq">Search votes (title, report number, motion, member)</label>
+        <input id="vq" type="search" placeholder="e.g. zoning, Lansdowne, Gower" autocomplete="off">
+      </div>
+      <div class="check"><input type="checkbox" id="vclose"><label for="vclose">Closest votes first (instead of newest)</label></div>
+    </section>
+    <div class="error-msg" id="verr" role="alert"></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Member (click to filter)</th><th>Recorded votes</th><th>For</th><th>Against</th><th>On the losing side</th></tr></thead>
+      <tbody id="vtable"></tbody>
+    </table></div>
+    <p class="status" id="vstatus" aria-live="polite"></p>
+    <div id="vresults"></div>
+    <button class="more" id="vmore" hidden>Show more</button>
+  </div>
 
   <p class="note">Source: City of Ottawa eScribe meeting portal (pub-ottawa.escribemeetings.com), indexed weekly. Agenda items are listed individually from about mid-2022; earlier meetings were published without item structure and are not in this search. Routine procedural items (call to order, roll call, adjournment and similar) are left out. Decisions are as recorded in the published minutes. This is a finding aid: the eScribe page is the record.</p>
 </main>
@@ -202,6 +253,79 @@ function more() {
     : 'No matches. Try fewer or shorter words.';
   $('more').hidden = shown >= hits.length;
 }
+
+// ---- Recorded votes ----
+let V = null, vhits = [], vshown = 0, vmember = '', vterms = [];
+const tabs = { search: ['tab-search', 'panel-search'], votes: ['tab-votes', 'panel-votes'] };
+function showTab(name) {
+  for (const k in tabs) { $(tabs[k][0]).setAttribute('aria-selected', String(k === name)); $(tabs[k][1]).hidden = k !== name; }
+  try { history.replaceState(null, '', name === 'votes' ? '#votes' : location.pathname + location.search); } catch (e) {}
+  if (name === 'votes' && !V) loadVotes();
+}
+$('tab-search').addEventListener('click', () => showTab('search'));
+$('tab-votes').addEventListener('click', () => showTab('votes'));
+
+function loadVotes() {
+  fetch('CityHall_Index/public/votes.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    V = d;
+    const cnt = {}; d.votes.forEach(v => cnt[v[1]] = (cnt[v[1]] || 0) + 1);
+    const bodies = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]);
+    $('vcommittee').add(new Option('All bodies (' + d.votes.length + ')', ''));
+    bodies.forEach(b => $('vcommittee').add(new Option(b + ' (' + cnt[b] + ')', b)));
+    $('vcommittee').value = 'City Council';
+    [...new Set(d.votes.map(v => v[0].slice(0, 4)))].sort().reverse().forEach(y => $('vyear').add(new Option(y, y)));
+    vrun();
+  }).catch(e => { $('verr').textContent = 'Could not load the votes (' + e.message + ').'; });
+}
+
+function vrun() {
+  const com = $('vcommittee').value, yr = $('vyear').value;
+  vterms = norm($('vq').value).split(/\s+/).filter(Boolean);
+  const base = V.votes.filter(v => (!com || v[1] === com) && (!yr || v[0].startsWith(yr)));
+  // member table comes from the body/year selection, before the text and member filters
+  const m = {};
+  const row = n => m[n] || (m[n] = { n, votes: 0, f: 0, a: 0, lose: 0, decided: 0 });
+  base.forEach(v => {
+    const f = v[6].length, a = v[7].length;
+    v[6].forEach(n => { const r = row(n); r.votes++; r.f++; if (f !== a) { r.decided++; if (f < a) r.lose++; } });
+    v[7].forEach(n => { const r = row(n); r.votes++; r.a++; if (f !== a) { r.decided++; if (a < f) r.lose++; } });
+  });
+  const list = Object.values(m).sort((x, y) => y.votes - x.votes || x.n.localeCompare(y.n));
+  $('vtable').innerHTML = list.map(r => '<tr data-m="' + esc(r.n) + '"' + (r.n === vmember ? ' class="sel"' : '') + '><td>' + esc(r.n) + '</td><td>' + r.votes +
+    '</td><td>' + r.f + '</td><td>' + r.a + '</td><td>' + r.lose + (r.decided ? ' (' + Math.round(100 * r.lose / r.decided) + '%)<span class="bar" style="width:' + Math.round(60 * r.lose / r.decided) + 'px"></span>' : '') + '</td></tr>').join('') ||
+    '<tr><td colspan="5">No recorded votes for this selection.</td></tr>';
+  let out = base.filter(v => !vmember || v[6].includes(vmember) || v[7].includes(vmember));
+  if (vterms.length) out = out.filter(v => { const h = norm(v[2] + ' ' + v[3] + ' ' + v[5] + ' ' + v[6].join(' ') + ' ' + v[7].join(' ')); return vterms.every(t => h.includes(t)); });
+  if ($('vclose').checked) out = out.slice().sort((x, y) => Math.abs(x[6].length - x[7].length) - Math.abs(y[6].length - y[7].length) || (x[0] < y[0] ? 1 : -1));
+  vhits = out; vshown = 0; $('vresults').innerHTML = ''; vmore();
+}
+
+function vmore() {
+  const slice = vhits.slice(vshown, vshown + PAGE); vshown += slice.length;
+  const nm = arr => arr.length ? arr.map(n => n === vmember ? '<span class="sel">' + esc(n) + '</span>' : esc(n)).join(', ') : 'none';
+  $('vresults').insertAdjacentHTML('beforeend', slice.map(v => {
+    const cls = /^carried/i.test(v[4]) ? 'ok' : /^lost|^withdrawn/i.test(v[4]) ? 'no' : '';
+    return '<article class="hit"><h3>' + esc(v[2]) + '</h3><div class="meta"><span class="mono">' + esc(v[0]) + '</span><span>' + esc(v[1]) + '</span>' +
+      (v[3] ? '<span class="mono">' + esc(v[3]) + '</span>' : '') +
+      '<span class="chip ' + cls + '">' + esc(v[4] || 'Result not recorded') + '</span>' +
+      '<span class="mono">' + v[6].length + ' for · ' + v[7].length + ' against</span>' +
+      '<a class="src" href="' + esc(V.base + v[9]) + '" target="_blank" rel="noopener">Official record ↗</a></div>' +
+      (v[5] ? '<p class="motion">' + esc(v[5]) + '</p>' : '') +
+      '<p class="names"><b>For</b>' + nm(v[6]) + '</p><p class="names"><b>Against</b>' + nm(v[7]) + '</p>' +
+      (v[8].length ? '<p class="names"><b>Other</b>' + v[8].map(o => esc(o[0] + ' (' + o[1] + ')')).join(', ') + '</p>' : '') + '</article>';
+  }).join(''));
+  $('vstatus').textContent = vhits.length ? vhits.length + ' recorded vote' + (vhits.length === 1 ? '' : 's') + (vmember ? ' involving ' + vmember : '') : 'No recorded votes match.';
+  $('vmore').hidden = vshown >= vhits.length;
+}
+
+$('vtable').addEventListener('click', e => {
+  const tr = e.target.closest('tr[data-m]'); if (!tr) return;
+  vmember = vmember === tr.dataset.m ? '' : tr.dataset.m; vrun();
+});
+['vcommittee', 'vyear', 'vclose'].forEach(k => $(k).addEventListener('change', () => { vmember = ''; vrun(); }));
+let vtm; $('vq').addEventListener('input', () => { clearTimeout(vtm); vtm = setTimeout(vrun, 150); });
+$('vmore').addEventListener('click', vmore);
+if (location.hash === '#votes') showTab('votes');
 
 let tm; $('q').addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(run, 150); });
 ['committee', 'year', 'result', 'sortdate'].forEach(k => $(k).addEventListener('change', run));
