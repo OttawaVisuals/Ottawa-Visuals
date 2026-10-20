@@ -3036,29 +3036,6 @@
 },
 "fp": "ce93290daa6f"
 },
-"29550": {
-"event": {
-"cause": "",
-"created": "2026-10-16 20:57:00",
-"cross_street_1": "ST. LAURENT BLVD (IC 115)",
-"cross_street_2": "AVIATION PKWY (IC 113A)",
-"direction": null,
-"event_id": "29550",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from ST. LAURENT BLVD to AVIATION PKWY - Continuous Construction. 1 Left Lane(s). 2026-10-19 23:00 to 2026-10-20 05:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.42029,
-"lon": -75.63509,
-"planned_end": "2026-10-20T05:00",
-"planned_start": "2026-10-19T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-16 20:57:00"
-},
-"fp": "d561bff52a3f"
-},
 "29551": {
 "event": {
 "cause": "",
@@ -3174,52 +3151,6 @@
 },
 "fp": "51c07e2d2e2e"
 },
-"29578": {
-"event": {
-"cause": "construction",
-"created": "2026-10-19 17:51:00",
-"cross_street_1": "Blair",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29578",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "(LRT) 174 eastbound Off-Ramp closed at Blair due to construction. From 11:00pm, 19/10/26 to 5:00am, 20/10/26",
-"lanes": "closed",
-"lat": 45.431908,
-"lon": -75.605211,
-"planned_end": "2026-10-20T05:00",
-"planned_start": "2026-10-19T23:00",
-"priority": "HIGH",
-"road": "174 Off-Ramp/bretelle de sortie",
-"source": "city",
-"updated": "2026-10-19 22:56:00"
-},
-"fp": "015ae1a0c2a8"
-},
-"29579": {
-"event": {
-"cause": "construction",
-"created": "2026-10-19 18:01:00",
-"cross_street_1": "Blair",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29579",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "(LRT) 174 westbound Off-Ramp closed at Blair due to construction. From 7:00pm, October 19th to 5:00am, October 20th.",
-"lanes": "closed",
-"lat": 45.434557,
-"lon": -75.600606,
-"planned_end": "2026-10-20T05:00",
-"planned_start": "2026-10-19T19:00",
-"priority": "HIGH",
-"road": "174 Off-Ramp/bretelle de sortie",
-"source": "city",
-"updated": "2026-10-19 18:56:00"
-},
-"fp": "014e67d36b66"
-},
 "29580": {
 "event": {
 "cause": "traffic signals not working",
@@ -3242,29 +3173,6 @@
 "updated": "2026-10-19 18:04:00"
 },
 "fp": "52ad677aeafb"
-},
-"29581": {
-"event": {
-"cause": "construction",
-"created": "2026-10-19 18:09:00",
-"cross_street_1": "Blair",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29581",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "(LRT) 174 westbound On-ramp closed at Blair due to construction. From 11:00pm, 19/10/26 to 5:00am, 20/10/26",
-"lanes": "closed",
-"lat": 45.43325,
-"lon": -75.607454,
-"planned_end": "2026-10-20T05:00",
-"planned_start": "2026-10-19T23:00",
-"priority": "HIGH",
-"road": "174 W/B On-ramp/Bretelle d'acc\u00e8s",
-"source": "city",
-"updated": "2026-10-19 22:56:00"
-},
-"fp": "c1769b47ad67"
 },
 "29584": {
 "event": {
