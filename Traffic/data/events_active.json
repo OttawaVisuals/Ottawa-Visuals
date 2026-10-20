@@ -3243,29 +3243,6 @@
 },
 "fp": "d812b86d3a85"
 },
-"29602": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-20 15:40:00",
-"cross_street_1": "Shoreline",
-"cross_street_2": "Canyon Walk",
-"direction": null,
-"event_id": "29602",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Earl Armstrong eastbound closed between Shoreline and Canyon Walk due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.274672,
-"lon": -75.6838,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Earl Armstrong",
-"source": "city",
-"updated": "2026-10-20 15:40:00"
-},
-"fp": "d6aecb47b76b"
-},
 "29603": {
 "event": {
 "cause": "a collision",
@@ -3289,28 +3266,28 @@
 },
 "fp": "a2fbd9cc2997"
 },
-"29604": {
+"29606": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-20 17:01:00",
-"cross_street_1": "Bayshore",
-"cross_street_2": "Holly Acres",
+"created": "2026-10-20 17:32:00",
+"cross_street_1": "Moodie",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29604",
+"event_id": "29606",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Carling westbound reduced to 1 lane between Bayshore and Holly Acres due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.352387,
-"lon": -75.811405,
+"full_closure": true,
+"headline": "Robertson westbound reduced to 1 lane at Moodie. \nRobertson eastbound reduced to 1 lane at Moodie. \nRobertson westbound left-turn lanes closed at Moodie.\nMoodie southbound left-turn lanes closed at Robertson.\nMoodie northbound closed at Robertson.\n\nFirefighters are directing traffic. Duration is unknown. Avoid area.",
+"lanes": "closed",
+"lat": 45.322031,
+"lon": -75.833472,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Carling",
+"priority": "HIGH",
+"road": "Robertson",
 "source": "city",
-"updated": "2026-10-20 17:01:00"
+"updated": "2026-10-20 17:33:00"
 },
-"fp": "56c8722f5e70"
+"fp": "688392ecd1bf"
 }
 }
 }
