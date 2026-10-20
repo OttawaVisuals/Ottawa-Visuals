@@ -3220,28 +3220,74 @@
 },
 "fp": "f1a85f7ce372"
 },
-"29588": {
+"29590": {
 "event": {
-"cause": "",
-"created": "2026-10-20 07:54:00",
-"cross_street_1": "EAGLESON RD (IC 138)/MARCH RD (CR 49)",
-"cross_street_2": null,
+"cause": "a collision",
+"created": "2026-10-20 08:25:00",
+"cross_street_1": "Sinclair",
+"cross_street_2": "Shefford",
 "direction": null,
-"event_id": "29588",
+"event_id": "29590",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Eastbound at EAGLESON RD /MARCH RD - Collision. 1 centre lane closed. ",
-"lanes": "1 centre lane closed",
-"lat": 45.32015,
-"lon": -75.88608,
+"headline": "Montr\u00e9al Rd eastbound lane reduction between Sinclair and Shefford due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.449555,
+"lon": -75.589212,
 "planned_end": null,
 "planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "MEDIUM",
+"road": "Ch Montr\u00e9al Rd",
 "source": "city",
-"updated": "2026-10-20 07:54:00"
+"updated": "2026-10-20 08:25:00"
 },
-"fp": "2e015ddd52b9"
+"fp": "2375844e29ee"
+},
+"29591": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-20 08:35:00",
+"cross_street_1": "Gatineau",
+"cross_street_2": "Ottawa",
+"direction": null,
+"event_id": "29591",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Macdonald-Cartier Bridge southbound right lane closed between Gatineau and Ottawa due to a disabled vehicle.",
+"lanes": "right lane closed",
+"lat": 45.436871,
+"lon": -75.702561,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Pont Macdonald-Cartier Bridge",
+"source": "city",
+"updated": "2026-10-20 08:35:00"
+},
+"fp": "01eb526f6fb2"
+},
+"29592": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-20 08:56:00",
+"cross_street_1": "Cedarview",
+"cross_street_2": "Greenbank",
+"direction": null,
+"event_id": "29592",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hunt Club eastbound right lane closed between Cedarview and Greenbank due to a collision. Expect delays.",
+"lanes": "right lane closed",
+"lat": 45.316384,
+"lon": -75.79348,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Hunt Club",
+"source": "city",
+"updated": "2026-10-20 08:56:00"
+},
+"fp": "dc89bc8841d6"
 }
 }
 }
