@@ -3202,23 +3202,46 @@
 "cause": "police operation",
 "created": "2026-10-20 06:18:00",
 "cross_street_1": "Heron",
-"cross_street_2": "Bronson",
+"cross_street_2": "ch Data Center rd",
 "direction": null,
 "event_id": "29587",
 "event_type": "INCIDENT",
 "full_closure": true,
-"headline": "Riverside northbound closed between Heron and Bronson due to police operation.",
+"headline": "Riverside northbound closed between Heron and Data Center rd due to police operation. Police are directing traffic. Avoid area.",
 "lanes": "closed",
 "lat": 45.377711,
 "lon": -75.691509,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
+"priority": "HIGH",
 "road": "Riverside",
 "source": "city",
-"updated": "2026-10-20 06:18:00"
+"updated": "2026-10-20 08:06:00"
 },
-"fp": "f0d0cc75f844"
+"fp": "f1a85f7ce372"
+},
+"29588": {
+"event": {
+"cause": "",
+"created": "2026-10-20 07:54:00",
+"cross_street_1": "EAGLESON RD (IC 138)/MARCH RD (CR 49)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29588",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at EAGLESON RD /MARCH RD - Collision. 1 centre lane closed. ",
+"lanes": "1 centre lane closed",
+"lat": 45.32015,
+"lon": -75.88608,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-20 07:54:00"
+},
+"fp": "2e015ddd52b9"
 }
 }
 }
