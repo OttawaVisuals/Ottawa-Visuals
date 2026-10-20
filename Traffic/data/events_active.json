@@ -3197,29 +3197,6 @@
 },
 "fp": "7c338dc4b88d"
 },
-"29587": {
-"event": {
-"cause": "police operation",
-"created": "2026-10-20 06:18:00",
-"cross_street_1": "Heron",
-"cross_street_2": "ch Data Center rd",
-"direction": null,
-"event_id": "29587",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Riverside northbound closed between Heron and Data Center rd due to police operation. Police are directing traffic. Avoid area.",
-"lanes": "closed",
-"lat": 45.377711,
-"lon": -75.691509,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-20 08:06:00"
-},
-"fp": "f1a85f7ce372"
-},
 "29592": {
 "event": {
 "cause": "a collision",
@@ -3265,6 +3242,29 @@
 "updated": "2026-10-20 09:44:00"
 },
 "fp": "c899f8a9d0a3"
+},
+"29596": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-20 10:05:00",
+"cross_street_1": "Clegg",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29596",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Colonel By lane reductions in both directions at Clegg due to a collision.",
+"lanes": "lane reductions in both directions",
+"lat": 45.404679,
+"lon": -75.680302,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Colonel By",
+"source": "city",
+"updated": "2026-10-20 10:05:00"
+},
+"fp": "05dcbb31513a"
 }
 }
 }
