@@ -13,14 +13,14 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-10-16 (✅ collectors resumed 2026-10-16 18:01 UTC after a 4.3-day gap)
+## Pipeline status — checked 2026-10-16 (✅ collectors resumed 2026-10-16 18:01 UTC after a 4.3-day gap; `collect.yml` re-confirmed running every 5 min 2026-10-20)
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
 | TomTom traffic (`Traffic/`) | adaptive, ~hourly–15min | 2026-10-16 17:56 UTC | ✅ resumed on Cloudflare → `collect.yml`. Gap 2026-10-12 10:05 → 10-16 17:56 UTC is permanent |
 | OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-10-16 18:01 UTC | ✅ resumed (first sample: 632 trips tracked, 69 cancelled). Gap 2026-10-12 09:35 → 10-16 18:00 UTC is permanent |
 | OC Transpo KPI snapshots | weekly (Mon) | files from 2026-07-11 | ✅ nothing lost: the current Open Ottawa files are byte-identical to Jul 11 (checked 2026-10-16). Job moved off the Pi to `.github/workflows/kpi_snapshots.yml` |
-| Bus on-time (replaces the Pi's raw GTFS-RT archive) | every transit sample | 2026-10-16 19:11 UTC | ✅ computed live in `collect.yml` since 2026-10-16: predicted departure at each bus's next timepoint vs the timetable. Raw archive retired. Calibration vs OC Transpo's KPI pending (see below) |
+| Bus on-time (replaces the Pi's raw GTFS-RT archive) | every transit sample | 2026-10-16 19:11 UTC | ✅ computed live in `collect.yml` since 2026-10-16: predicted departure at each bus's next timepoint vs the timetable. Raw archive retired. Calibrated 2026-10-20: reads ~11 pts below OC Transpo's KPI, about half of it a method artefact (see item 5) |
 | Static timetable (replaces the Pi's weekly GTFS download) | when OC Transpo publishes | index built 2026-10-16 (feed S1000523) | ✅ `build_schedule_index.py` runs in `collect.yml` whenever the zip's ETag changes; kept in the Actions cache, not archived |
 | Disk (`/dev/mmcblk0p2`) | — | 76% used, 3.3 GB free (2026-09-03) | ❓ stale; only matters if the Pi comes back |
 
@@ -52,6 +52,33 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
    55.6% every-stop in the same 15:11 PM-peak sample. Their PM peak historically runs
    ~6 pts below all-day, so compare a full weekday's `punctuality_pct` before
    concluding there's a systematic gap.
+   **Calibration checked 2026-10-20 (after `git pull`), on Mon 2026-10-19, a full
+   weekday (139 samples):** less-frequent punctuality **59.0%** all day (early 20.0 /
+   late 21.0), AM peak 59.4% (15.7 / 25.0), PM peak 48.0% (19.6 / 32.4). OC Transpo's
+   KPI: 69.5% for Oct 2025, ~71% Oct 2025–Apr 2026; 2020–21 averaged 76.0% with 14.1%
+   early / 9.9% late, AM peak ≈ all-day (+1) and PM peak ~5 pts below. Our shape matches
+   (AM ≈ all-day) but the PM dip is twice as deep (−11). **Verdict: mixed — the early half
+   of the gap is a method artefact, the late half is unexplained (possibly real).**
+   - *Early side = artefact.* Over 78 collect.yml runs (Mon PM peak + Tue AM peak) the
+     every-stop and timepoint on-time figures differ by **+0.2 / 0.0 pts on average**
+     (range −5 to +7 per run; the Oct 16 "60.1 vs 55.6" was one noisy sample). If the
+     feed's predictions modelled buses waiting at timepoints, the timepoint figure would
+     show fewer early buses. They don't, so ~20% early (vs their ~14%) includes buses
+     that will hold and leave on time. Counting every early timepoint departure as on
+     time gives an upper bound of 79.0% all day (AM 75.1, PM 67.6); the truth is inside
+     59–79%, and the KPI's ~70% sits in that range.
+   - *Late side = unexplained.* 21% late vs ~15% implied by the KPI (100 − 71 − 14) and
+     32% in the PM peak. Sampling running buses weights slow (late) segments a little more
+     than a per-departure KPI does; that is worth maybe 1–2 pts, not 6.
+   - *Skips don't explain it.* Per run, `not_started` is ~50% of uncancelled trips (mostly
+     trips that haven't begun; excluding a bus still at its terminal biases us *up*),
+     `no_timepoint` 17–18% of started buses, `far` 1–3%. The every-stop figure includes
+     the `no_timepoint` buses and still matches, so dropping them doesn't move the result.
+   - **Proposed fix, NOT applied (awaits approval):** log a hold-adjusted figure
+     (`hold-adjusted-punctuality(less-frequent)%`, early at a non-final timepoint → on
+     time) in the run log next to every-stop, leaving the CSV columns unchanged. A week of
+     both figures would show where the real number sits between them. Patch + synthetic
+     test (6 trips, checks headline rows unchanged) passed locally on 2026-10-20.
 6. **Resolved 2026-10-16:** the owner created the PAT, added `OCTRANSPO_API_KEY` and
    deployed the Worker. The first dispatched run (17:55 UTC) succeeded and pushed
    `traffic: readings 2026-10-16 17:56 UTC`; transit was self-gated off-peak on that run,
