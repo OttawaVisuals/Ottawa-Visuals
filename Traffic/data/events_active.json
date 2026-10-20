@@ -3242,52 +3242,6 @@
 "updated": "2026-10-20 13:32:00"
 },
 "fp": "d812b86d3a85"
-},
-"29603": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-20 16:18:00",
-"cross_street_1": "Trainyards",
-"cross_street_2": "Neighbourhood",
-"direction": null,
-"event_id": "29603",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Industrial reduced to 1 lane in each direction between Trainyards and Neighbourhood due to a collision. Firefighters are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.411789,
-"lon": -75.647953,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Industrial",
-"source": "city",
-"updated": "2026-10-20 16:18:00"
-},
-"fp": "a2fbd9cc2997"
-},
-"29606": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-20 17:32:00",
-"cross_street_1": "Moodie",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29606",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Robertson westbound reduced to 1 lane at Moodie. \nRobertson eastbound reduced to 1 lane at Moodie. \nRobertson westbound left-turn lanes closed at Moodie.\nMoodie southbound left-turn lanes closed at Robertson.\nMoodie northbound closed at Robertson.\n\nFirefighters are directing traffic. Duration is unknown. Avoid area.",
-"lanes": "closed",
-"lat": 45.322031,
-"lon": -75.833472,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Robertson",
-"source": "city",
-"updated": "2026-10-20 17:33:00"
-},
-"fp": "688392ecd1bf"
 }
 }
 }
