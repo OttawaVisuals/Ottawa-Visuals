@@ -3265,6 +3265,52 @@
 "updated": "2026-10-20 15:40:00"
 },
 "fp": "d6aecb47b76b"
+},
+"29603": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-20 16:18:00",
+"cross_street_1": "Trainyards",
+"cross_street_2": "Neighbourhood",
+"direction": null,
+"event_id": "29603",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Industrial reduced to 1 lane in each direction between Trainyards and Neighbourhood due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.411789,
+"lon": -75.647953,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Industrial",
+"source": "city",
+"updated": "2026-10-20 16:18:00"
+},
+"fp": "a2fbd9cc2997"
+},
+"29604": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-20 17:01:00",
+"cross_street_1": "Bayshore",
+"cross_street_2": "Holly Acres",
+"direction": null,
+"event_id": "29604",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Carling westbound reduced to 1 lane between Bayshore and Holly Acres due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.352387,
+"lon": -75.811405,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Carling",
+"source": "city",
+"updated": "2026-10-20 17:01:00"
+},
+"fp": "56c8722f5e70"
 }
 }
 }
