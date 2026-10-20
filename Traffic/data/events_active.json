@@ -828,6 +828,29 @@
 },
 "fp": "91ad8fd65060"
 },
+"28085": {
+"event": {
+"cause": "construction",
+"created": "2026-07-31 10:10:00",
+"cross_street_1": "Metcalfe",
+"cross_street_2": "Elgin",
+"direction": null,
+"event_id": "28085",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Nepean closed between Metcalfe and Elgin due to construction, from October 23rd to 25th. Follow the signed detour. ",
+"lanes": "closed",
+"lat": 45.41901,
+"lon": -75.693963,
+"planned_end": "2026-10-25T17:00",
+"planned_start": "2026-10-20T07:00",
+"priority": "LOW",
+"road": "Nepean",
+"source": "city",
+"updated": "2026-10-20 06:56:00"
+},
+"fp": "b47ab74d913a"
+},
 "28171": {
 "event": {
 "cause": "construction",
@@ -3128,52 +3151,6 @@
 },
 "fp": "f878948d9b78"
 },
-"29575": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-10-19 16:39:00",
-"cross_street_1": "Island Park",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29575",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Kichi Z\u012bb\u012b M\u012bkan eastbound lane reduction at Island Park due to a disabled vehicle. Duration is unknown.",
-"lanes": "lane reduction",
-"lat": 45.402103,
-"lon": -75.752841,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Kichi Z\u012bb\u012b M\u012bkan",
-"source": "city",
-"updated": "2026-10-19 16:39:00"
-},
-"fp": "51c07e2d2e2e"
-},
-"29580": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-10-19 18:04:00",
-"cross_street_1": "Westboro Beach",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29580",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Kichi Z\u012bb\u012b M\u012bkan traffic disruptions at Westboro Beach due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.395677,
-"lon": -75.760469,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Kichi Z\u012bb\u012b M\u012bkan",
-"source": "city",
-"updated": "2026-10-19 18:04:00"
-},
-"fp": "52ad677aeafb"
-},
 "29584": {
 "event": {
 "cause": "",
@@ -3219,6 +3196,29 @@
 "updated": "2026-10-20 00:36:00"
 },
 "fp": "7c338dc4b88d"
+},
+"29587": {
+"event": {
+"cause": "police operation",
+"created": "2026-10-20 06:18:00",
+"cross_street_1": "Heron",
+"cross_street_2": "Bronson",
+"direction": null,
+"event_id": "29587",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Riverside northbound closed between Heron and Bronson due to police operation.",
+"lanes": "closed",
+"lat": 45.377711,
+"lon": -75.691509,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Riverside",
+"source": "city",
+"updated": "2026-10-20 06:18:00"
+},
+"fp": "f0d0cc75f844"
 }
 }
 }
