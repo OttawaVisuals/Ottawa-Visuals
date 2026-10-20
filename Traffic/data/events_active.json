@@ -3220,52 +3220,6 @@
 },
 "fp": "f1a85f7ce372"
 },
-"29590": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-20 08:25:00",
-"cross_street_1": "Sinclair",
-"cross_street_2": "Shefford",
-"direction": null,
-"event_id": "29590",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Montr\u00e9al Rd eastbound lane reduction between Sinclair and Shefford due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.449555,
-"lon": -75.589212,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Ch Montr\u00e9al Rd",
-"source": "city",
-"updated": "2026-10-20 08:25:00"
-},
-"fp": "2375844e29ee"
-},
-"29591": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-10-20 08:35:00",
-"cross_street_1": "Gatineau",
-"cross_street_2": "Ottawa",
-"direction": null,
-"event_id": "29591",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Macdonald-Cartier Bridge southbound right lane closed between Gatineau and Ottawa due to a disabled vehicle.",
-"lanes": "right lane closed",
-"lat": 45.436871,
-"lon": -75.702561,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Pont Macdonald-Cartier Bridge",
-"source": "city",
-"updated": "2026-10-20 08:35:00"
-},
-"fp": "01eb526f6fb2"
-},
 "29592": {
 "event": {
 "cause": "a collision",
@@ -3276,18 +3230,41 @@
 "event_id": "29592",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Hunt Club eastbound right lane closed between Cedarview and Greenbank due to a collision. Expect delays.",
-"lanes": "right lane closed",
+"headline": "Hunt Club westbound reduced to 1 lane between Cedarview and Greenbank due to a collision. Expect delays.",
+"lanes": "reduced to 1 lane",
 "lat": 45.316384,
 "lon": -75.79348,
 "planned_end": null,
 "planned_start": null,
-"priority": "HIGH",
+"priority": "LOW",
 "road": "Hunt Club",
 "source": "city",
-"updated": "2026-10-20 08:56:00"
+"updated": "2026-10-20 09:59:00"
 },
-"fp": "dc89bc8841d6"
+"fp": "166d80cc5b33"
+},
+"29595": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-20 09:44:00",
+"cross_street_1": "Raven",
+"cross_street_2": "Riverside",
+"direction": null,
+"event_id": "29595",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bronson southbound reduced to 1 lane between Raven and Riverside due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.383176,
+"lon": -75.68868,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Bronson",
+"source": "city",
+"updated": "2026-10-20 09:44:00"
+},
+"fp": "c899f8a9d0a3"
 }
 }
 }
