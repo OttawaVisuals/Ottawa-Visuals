@@ -3197,28 +3197,28 @@
 },
 "fp": "7c338dc4b88d"
 },
-"29598": {
+"29599": {
 "event": {
-"cause": "a collision",
-"created": "2026-10-20 11:51:00",
-"cross_street_1": "Russell",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-10-20 12:57:00",
+"cross_street_1": "P\u00e8res-Blancs",
+"cross_street_2": "Perrier",
 "direction": null,
-"event_id": "29598",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Walkley lane reductions in both directions at Russell due to a collision.",
-"lanes": "lane reductions in both directions",
-"lat": 45.392881,
-"lon": -75.607579,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Walkley",
+"event_id": "29599",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Lavergne closed between P\u00e8res-Blancs and Perrier due to construction, from October 19th to 23rd. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.442068,
+"lon": -75.662822,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-19T00:00",
+"priority": "LOW",
+"road": "Lavergne",
 "source": "city",
-"updated": "2026-10-20 11:51:00"
+"updated": "2026-10-20 13:00:00"
 },
-"fp": "903060a1067c"
+"fp": "7eaddc1a36dd"
 }
 }
 }
