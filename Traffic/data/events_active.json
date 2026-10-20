@@ -3174,28 +3174,28 @@
 },
 "fp": "51c07e2d2e2e"
 },
-"29577": {
+"29578": {
 "event": {
 "cause": "construction",
-"created": "2026-10-19 17:48:00",
-"cross_street_1": "417",
-"cross_street_2": "Blair",
+"created": "2026-10-19 17:51:00",
+"cross_street_1": "Blair",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29577",
+"event_id": "29578",
 "event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound reduced to 1 lane between 417 and Blair due to construction. From 8:00pm to 11:00pm, October 19th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.422171,
-"lon": -75.624372,
-"planned_end": "2026-10-19T23:00",
-"planned_start": "2026-10-19T20:00",
+"full_closure": true,
+"headline": "(LRT) 174 eastbound Off-Ramp closed at Blair due to construction. From 11:00pm, 19/10/26 to 5:00am, 20/10/26",
+"lanes": "closed",
+"lat": 45.431908,
+"lon": -75.605211,
+"planned_end": "2026-10-20T05:00",
+"planned_start": "2026-10-19T23:00",
 "priority": "HIGH",
-"road": "174",
+"road": "174 Off-Ramp/bretelle de sortie",
 "source": "city",
-"updated": "2026-10-19 19:56:00"
+"updated": "2026-10-19 22:56:00"
 },
-"fp": "d8994db2b56e"
+"fp": "015ae1a0c2a8"
 },
 "29579": {
 "event": {
@@ -3243,51 +3243,28 @@
 },
 "fp": "52ad677aeafb"
 },
-"29582": {
+"29581": {
 "event": {
 "cause": "construction",
-"created": "2026-10-19 18:13:00",
+"created": "2026-10-19 18:09:00",
 "cross_street_1": "Blair",
-"cross_street_2": "417",
-"direction": null,
-"event_id": "29582",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 westbound reduced to 1 lane between Blair and 417 due to construction. From 7:00pm to 11:00pm, October 19th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.434445,
-"lon": -75.600725,
-"planned_end": "2026-10-19T23:00",
-"planned_start": "2026-10-19T19:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-19 18:56:00"
-},
-"fp": "d88c528de543"
-},
-"29583": {
-"event": {
-"cause": "",
-"created": "2026-10-19 21:03:00",
-"cross_street_1": "OTTAWA ROAD 174",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29583",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Highway 417 Eastbound at OTTAWA ROAD 174 - Collision. left shoulder and 2 left lanes closed. ",
-"lanes": "left shoulder and 2 left lanes closed",
-"lat": 45.421047,
-"lon": -75.614115,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"event_id": "29581",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 174 westbound On-ramp closed at Blair due to construction. From 11:00pm, 19/10/26 to 5:00am, 20/10/26",
+"lanes": "closed",
+"lat": 45.43325,
+"lon": -75.607454,
+"planned_end": "2026-10-20T05:00",
+"planned_start": "2026-10-19T23:00",
+"priority": "HIGH",
+"road": "174 W/B On-ramp/Bretelle d'acc\u00e8s",
 "source": "city",
-"updated": "2026-10-19 21:03:00"
+"updated": "2026-10-19 22:56:00"
 },
-"fp": "40a25bb0e860"
+"fp": "c1769b47ad67"
 }
 }
 }
