@@ -3265,6 +3265,52 @@
 "updated": "2026-10-19 22:56:00"
 },
 "fp": "c1769b47ad67"
+},
+"29584": {
+"event": {
+"cause": "",
+"created": "2026-10-20 00:18:00",
+"cross_street_1": "METCALFE ST (IC 119A)",
+"cross_street_2": "LEES AVE",
+"direction": null,
+"event_id": "29584",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from METCALFE ST to LEES AVE - Nightly Construction. 2 Right Lane(s). Traffic will encounter a double right lane closures, Metcalfe On ramp closure and Nicholas / Lee's Offramp closures. Detailed closure information is as follows: All days: 22:00-05:00 Nearby ramps may be affected. 2026-10-18 22:00 to 2026-10-23 05:00",
+"lanes": "2 Right Lane(s)",
+"lat": 45.41096,
+"lon": -75.68708,
+"planned_end": "2026-10-23T05:00",
+"planned_start": "2026-10-18T22:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-20 00:18:00"
+},
+"fp": "32ad635be315"
+},
+"29585": {
+"event": {
+"cause": "",
+"created": "2026-10-20 00:18:00",
+"cross_street_1": "NICHOLAS ST (IC 118)/MANN AVE",
+"cross_street_2": "METCALFE ST (IC 119A)",
+"direction": null,
+"event_id": "29585",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from NICHOLAS ST /MANN AVE to METCALFE ST - Nightly Construction. 2 Left Lane(s). Traffic will encounter a double left lane closures. 2026-10-18 22:00 to 2026-10-23 05:00",
+"lanes": "2 Left Lane(s)",
+"lat": 45.41639,
+"lon": -75.6738,
+"planned_end": "2026-10-23T05:00",
+"planned_start": "2026-10-18T22:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-20 00:18:00"
+},
+"fp": "e97679871a70"
 }
 }
 }
