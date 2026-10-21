@@ -2898,6 +2898,29 @@
 },
 "fp": "585e832fe256"
 },
+"29542": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 18:14:00",
+"cross_street_1": "HUNT LINE",
+"cross_street_2": "KINBURN SIDE",
+"direction": null,
+"event_id": "29542",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "FARMVIEW closed between HUNT LINE and KINBURN SIDE due to construction. From October 21st to 28th.",
+"lanes": "closed",
+"lat": 45.395748,
+"lon": -76.241853,
+"planned_end": "2026-10-28T17:00",
+"planned_start": "2026-10-21T07:00",
+"priority": "LOW",
+"road": "FARMVIEW",
+"source": "city",
+"updated": "2026-10-21 06:56:00"
+},
+"fp": "9a88ed3f04de"
+},
 "29543": {
 "event": {
 "cause": "",
@@ -3242,6 +3265,29 @@
 "updated": "2026-10-20 13:32:00"
 },
 "fp": "d812b86d3a85"
+},
+"29608": {
+"event": {
+"cause": "construction",
+"created": "2026-10-21 06:39:00",
+"cross_street_1": "DALHOUSIE",
+"cross_street_2": "CUMBERLAND",
+"direction": null,
+"event_id": "29608",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "YORK closed between DALHOUSIE and CUMBERLAND due to construction, from October 19th to 30th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.428854,
+"lon": -75.691118,
+"planned_end": "2026-10-30T17:00",
+"planned_start": "2026-10-19T00:00",
+"priority": "HIGH",
+"road": "YORK",
+"source": "city",
+"updated": "2026-10-21 06:40:00"
+},
+"fp": "fae81a52faff"
 }
 }
 }
