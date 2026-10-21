@@ -74,6 +74,28 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
      trips that haven't begun; excluding a bus still at its terminal biases us *up*),
      `no_timepoint` 17–18% of started buses, `far` 1–3%. The every-stop figure includes
      the `no_timepoint` buses and still matches, so dropping them doesn't move the result.
+   **Rechecked 2026-10-21 (after `git pull`) on two full weekdays, Mon Oct 19 and Tue
+   Oct 20 (139 samples each), less-frequent routes:**
+
+   | Day | All-day | AM peak | PM peak | PM − all-day |
+   |---|---|---|---|---|
+   | Mon Oct 19 | 59.0% (early 19.3 / late 23.6) | 59.4% (15.7 / 25.0) | 48.0% (19.6 / 32.4) | −11.0 |
+   | Tue Oct 20 | 57.6% (early 16.5 / late 29.1) | 54.8% (13.0 / 32.2) | 41.4% (13.0 / 45.6) | −16.2 |
+
+   (Punctuality is the weighted `transit_daily.json` figure; the early/late split is
+   delay-weighted from `trip_updates_summary.csv`, so its all-day on-time differs by a
+   point or two.) **The gap persists across full weekdays and the Tue PM dip is deeper
+   (−16 vs OC Transpo's ~−5), and it sits entirely in the late share** (early *falls*
+   to 13% in the PM, close to their 14%). **Confirms the 2026-10-20 verdict**: early
+   side = artefact, late side unexplained. Wed Oct 21 AM so far (partial, 47 samples) reads
+   66.6% all-day / 62.0% AM, so the late share varies a lot by day; it may track real
+   conditions, so don't read a single day as the answer. Code review of
+   `poll_gtfsrt.py`: the late threshold (> +300 s) and early threshold (< −60 s) match
+   OC Transpo's definition, and the timepoint matching drops passed stops and
+   uses `startDate` correctly, so no clear bug. Open candidate, **not applied, awaits
+   approval:** the prediction is up to 15 min ahead (`NEXT_STOP_MAX_AHEAD_S`) and may carry
+   lateness the bus would recover at a layover, so also log the late share by look-ahead
+   bucket and by route (log-only) to test that.
    - **Proposed fix, NOT applied (awaits approval):** log a hold-adjusted figure
      (`hold-adjusted-punctuality(less-frequent)%`, early at a non-final timepoint → on
      time) in the run log next to every-stop, leaving the CSV columns unchanged. A week of

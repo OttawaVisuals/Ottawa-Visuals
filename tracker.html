@@ -256,7 +256,10 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         PM peak 48.0%) vs OC Transpo's ~70% (Oct 2025: 69.5%). Verdict: <b>mixed</b>. The early side is a method artefact
         (the feed's predictions don't model buses waiting at timepoints; every-stop and timepoint figures agree within 0.2 pts
         over 78 runs), so the true figure sits between 59% and 79%. The extra late buses (21% vs ~15%) are unexplained and may be real.
-        A log-only "hold-adjusted" figure is proposed in <code>poll_gtfsrt.py</code>, not yet applied.</li>
+        A log-only "hold-adjusted" figure is proposed in <code>poll_gtfsrt.py</code>, not yet applied.
+        <b>Rechecked 2026-10-21</b> on full weekdays Oct 19 and Oct 20: all-day 59.0% / 57.6%, PM peak 48.0% / 41.4%
+        (late share 32% / 46% in the PM), so the PM dip (&minus;11 / &minus;16 pts vs OC Transpo's ~&minus;5) persists and
+        sits in the late share; the verdict is unchanged. Wed Oct 21 AM reads better (62%), so day-to-day variation is large.</li>
     </ul>
     <p class="small" style="margin:.6rem 0 .2rem"><b>Previous incident (2026-08-03 → 09-03, resolved; checked 2026-09-03):</b></p>
     <ul style="margin:.2rem 0 0 1.1rem;padding:0">
