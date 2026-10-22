@@ -3289,6 +3289,52 @@
 },
 "fp": "183317fd7b34"
 },
+"29631": {
+"event": {
+"cause": "",
+"created": "2026-10-22 15:06:00",
+"cross_street_1": "METCALFE ST (IC 119A)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29631",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at METCALFE ST - Disabled Vehicle. right lane and right shoulder closed. ",
+"lanes": "right lane and right shoulder closed",
+"lat": 45.41076,
+"lon": -75.68728,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-22 15:06:00"
+},
+"fp": "c593d54eeb00"
+},
+"29632": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-22 15:35:00",
+"cross_street_1": "Main",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29632",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hazeldean eastbound reduced to 1 lane at Main due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.272806,
+"lon": -75.92866,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Hazeldean",
+"source": "city",
+"updated": "2026-10-22 15:35:00"
+},
+"fp": "8f2d99e2ed0b"
+},
 "7973": {
 "event": {
 "cause": "",
