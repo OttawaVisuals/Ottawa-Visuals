@@ -3243,29 +3243,6 @@
 },
 "fp": "c7208e1e9e94"
 },
-"29624": {
-"event": {
-"cause": "construction",
-"created": "2026-10-22 10:25:00",
-"cross_street_1": "BY WARD MARKET",
-"cross_street_2": "SUSSEX",
-"direction": null,
-"event_id": "29624",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "GEORGE lane reductions between BY WARD MARKET and SUSSEX due to construction, Thursday October 22nd.",
-"lanes": "lane reductions",
-"lat": 45.42698,
-"lon": -75.692107,
-"planned_end": "2026-10-22T17:00",
-"planned_start": "2026-10-22T00:00",
-"priority": "MEDIUM",
-"road": "GEORGE",
-"source": "city",
-"updated": "2026-10-22 10:28:00"
-},
-"fp": "7db40b1bf703"
-},
 "29627": {
 "event": {
 "cause": "construction",
@@ -3289,28 +3266,97 @@
 },
 "fp": "183317fd7b34"
 },
-"29632": {
+"29637": {
+"event": {
+"cause": "",
+"created": "2026-10-22 16:48:00",
+"cross_street_1": "GALETTA SIDE RD/CR 22",
+"cross_street_2": "GALETTA SIDE RD/CR 22",
+"direction": null,
+"event_id": "29637",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from GALETTA SIDE RD/CR 22 to GALETTA SIDE RD/CR 22 - Daily Construction. 1 Left Lane(s). 2026-10-26 07:00 to 2026-11-02 17:00",
+"lanes": "1 Left Lane(s)",
+"lat": 45.40349,
+"lon": -76.28879,
+"planned_end": "2026-11-02T17:00",
+"planned_start": "2026-10-26T07:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-22 16:48:00"
+},
+"fp": "9e1fb0bd06cd"
+},
+"29639": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-22 15:35:00",
-"cross_street_1": "Main",
+"created": "2026-10-22 17:05:00",
+"cross_street_1": "Holly Acres",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29632",
+"event_id": "29639",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Hazeldean eastbound reduced to 1 lane at Main due to a collision. Duration is unknown.",
+"headline": "Richmond southbound reduced to 1 lane at Holly Acres due to a collision. Police are directing traffic. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.272806,
-"lon": -75.92866,
+"lat": 45.342235,
+"lon": -75.807901,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Richmond",
+"source": "city",
+"updated": "2026-10-22 17:05:00"
+},
+"fp": "7cfda9f23403"
+},
+"29641": {
+"event": {
+"cause": "a structural fire",
+"created": "2026-10-22 17:23:00",
+"cross_street_1": "Kent",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29641",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Albert westbound reduced to 1 lane at Kent due to a structural fire. Duration is unknown. Avoid area and use other routes.",
+"lanes": "reduced to 1 lane",
+"lat": 45.419125,
+"lon": -75.702169,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Albert",
+"source": "city",
+"updated": "2026-10-22 17:23:00"
+},
+"fp": "53c684d0fdfc"
+},
+"29642": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-22 17:30:00",
+"cross_street_1": "Robert Grant",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29642",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hazeldean westbound reduced to 1 lane at Robert Grant due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.285798,
+"lon": -75.907682,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
 "road": "Hazeldean",
 "source": "city",
-"updated": "2026-10-22 15:35:00"
+"updated": "2026-10-22 17:30:00"
 },
-"fp": "8f2d99e2ed0b"
+"fp": "52ca44d893d8"
 },
 "7973": {
 "event": {
