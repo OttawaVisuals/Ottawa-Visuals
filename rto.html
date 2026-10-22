@@ -507,9 +507,10 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         that RTO4 moves one day a week, not a whole workforce.</p>
     </div>
 
+    <!-- Collisions chart moved to the road-safety report (Traffic/stops.html) on 2026-10-22;
+         one computed sentence keeps the RTO point here. -->
     <div class="chart-card" id="collisionCard" style="display:none">
-      <div class="spark-head"><h2>Reported collisions by year</h2></div>
-      <svg class="chart" id="collisionChart" viewBox="0 0 780 240" aria-label="Reported collisions by year"></svg>
+      <div class="spark-head"><h2>Reported collisions</h2></div>
       <p class="cap" id="collisionCap"></p>
     </div>
   </section>
@@ -860,36 +861,6 @@ function lineChart(svg, opts){
     tip.style.left=(ev.clientX+14)+"px"; tip.style.top=(ev.clientY-10)+"px"; tip.style.opacity=1;
   };
   svg.onmouseleave = () => tip.style.opacity=0;
-  return true;
-}
-
-/* Simple categorical bar chart for annual series (no time axis). */
-function barChart(svg, rows, opts={}){
-  const W = svg.viewBox.baseVal.width || 780, H = svg.viewBox.baseVal.height || 240;
-  const padL = 52, padR = 12, padT = 14, padB = 30;
-  const vals = rows.map(r=>r.value).filter(v=>v!=null);
-  if (!vals.length){ svg.innerHTML=""; return false; }
-  const hi = Math.max(...vals) * 1.08;
-  const bw = (W-padL-padR)/rows.length;
-  const Y = v => H-padB - (v/hi)*(H-padT-padB);
-  let out = `<g class="grid">`;
-  for (let i=0;i<=4;i++){ const y=padT+i*(H-padT-padB)/4; out+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}"/>`; }
-  out += `</g><g class="axis">`;
-  for (let i=0;i<=4;i++){
-    const y=padT+i*(H-padT-padB)/4;
-    out += `<text x="${padL-6}" y="${y+3}" text-anchor="end">${opts.yFmt?opts.yFmt(hi-i*hi/4):fmt(hi-i*hi/4)}</text>`;
-  }
-  rows.forEach((r,i)=>{
-    out += `<text x="${(padL+bw*(i+0.5)).toFixed(1)}" y="${H-padB+16}" text-anchor="middle">${r.label}</text>`;
-  });
-  out += `</g>`;
-  rows.forEach((r,i)=>{
-    if (r.value==null) return;
-    const x = padL+bw*i+bw*0.18, w = bw*0.64, y = Y(r.value);
-    out += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${(H-padB-y).toFixed(1)}" `+
-           `fill="${r.color||"var(--series-1)"}" opacity="0.85" data-tip="${r.label} · ${opts.tipFmt?opts.tipFmt(r.value):fmt(r.value)}"/>`;
-  });
-  svg.innerHTML = out;
   return true;
 }
 
@@ -1479,25 +1450,17 @@ async function renderCounts(){
       document.getElementById("covidCard").style.display = "block";
   }
 
+  // Pre-pandemic year vs the lowest pandemic year, as the yardstick for RTO4.
   const col = d.collisions || {};
-  const cyears = Object.keys(col).sort();
-  if (cyears.length){
-    const all = cyears.map(Number);
-    const span = [];
-    for (let y = Math.min(...all); y <= Math.max(...all); y++) span.push(String(y));
-    const rows = span.map(y => ({
-      label: y, value: col[y]?.collisions ?? null,
-      color: col[y] ? "var(--series-1)" : "var(--hairline)",
-    }));
-    if (barChart(document.getElementById("collisionChart"), rows, { tipFmt: v=>fmt(v)+" collisions" })){
-      document.getElementById("collisionCard").style.display = "block";
-      const missing = span.filter(y => !col[y]);
-      document.getElementById("collisionCap").innerHTML =
-        `Reported collisions per year.${missing.length?` <b>${missing.join(", ")} ${missing.length>1?"are":"is"} absent from the source dataset</b>, not zero.`:""}
-         The 2020–21 drop is the pandemic, and it dwarfs anything RTO4 is likely to do. Injury
-         totals are published too but the 2024 figure falls far below its neighbours, which
-         points at incomplete coding — so injuries are not charted here.`;
-    }
+  const pre = col["2019"]?.collisions, low = ["2020","2021"].map(y => col[y]?.collisions).filter(Boolean);
+  if (pre && low.length){
+    const min = Math.min(...low), minYear = ["2020","2021"].find(y => col[y]?.collisions === min);
+    document.getElementById("collisionCap").innerHTML =
+      `Reported collisions fell from <b>${fmt(pre)}</b> in 2019 to <b>${fmt(min)}</b> in ${minYear}
+       (${Math.round((1 - min/pre)*100)}% fewer) when the pandemic emptied the roads. That drop
+       dwarfs anything RTO4 is likely to do. Year-by-year collisions, where they happen and this
+       year's crash news are in the <a href="Traffic/stops.html">road-safety report</a>.`;
+    document.getElementById("collisionCard").style.display = "block";
   }
 }
 
