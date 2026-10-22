@@ -1,4 +1,4 @@
-/* Static report: only local JSON at runtime; no Power BI or ArcGIS queries. */
+/* Static report: only local JSON/CSV at runtime; no Power BI or ArcGIS queries. */
 'use strict';
 const BASE = 'data/derived/stops_report/';
 const $ = id => document.getElementById(id);
@@ -168,6 +168,65 @@ function renderDrivers(state) {
 function snapshots() {
   return `<article class="card wide"><p class="eyebrow">Newer data · separate OPS publications</p><h3>Beyond the detailed records</h3><p class="note">These summaries use different definitions from the City’s detailed collision files. They are not added to the charts below.</p>${[...data.snapshots].reverse().map(s=>`<div class="snapshot"><h3>${esc(s.label)}</h3><p class="note">${esc(s.period)} · <a href="${esc(s.source)}" target="_blank" rel="noopener">Official OPS summary</a></p><div class="stats">${Object.entries(s.metrics).slice(0,3).map(([label, v])=>stat(fmt(v[1]),`${esc(label)} · ${esc(s.labels[1])}<br>${fmt(v[0])} in ${esc(s.labels[0])}`)).join('')}</div><p class="note">${esc(s.note)}</p><details class="chart-data"><summary>View all published comparison values</summary><div class="table-wrap">${table(['Measure',...s.labels],Object.entries(s.metrics).map(([k,v])=>[k,...v]))}</div></details></div>`).join('')}</article>`;
 }
+// Crash news log: two CSVs the hourly collect.yml pollers rewrite, read as-is so the
+// block is current without a rebuild. See Traffic/README.md for how rows are tagged.
+const newsFiles = ['data/ops_collision_releases.csv','data/ctv_crash_headlines.csv'];
+const crashTypes = [['pedestrian','Pedestrian'],['cyclist','Cyclist'],['motorcycle','Motorcycle'],['multi_vehicle','Multi-vehicle'],['single_vehicle','Single vehicle'],['off_road','Off-road vehicle'],['building','Into a building'],['train','Train'],['unknown','Not stated']];
+const crashType = key => (crashTypes.find(t=>t[0]===key) || crashTypes.at(-1))[1];
+const severityGroups = [['Fatal',['fatal'],'--red'],['Critical or serious injury',['critical','serious'],'--amber'],['Injury',['injury'],'--accent-2'],['Not stated in headline',['unknown','none',''],'--ink-3']];
+const severityGroup = key => (severityGroups.find(g=>g[1].includes(key)) || severityGroups.at(-1))[0];
+let newsTask;
+function parseCSV(text) {
+  const rows = []; let row = [], field = '', quoted = false;
+  text = text.replace(/^﻿/, '');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) { if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else quoted = false; } else field += c; }
+    else if (c === '"') quoted = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (c !== '\r') field += c;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  const [head, ...body] = rows;
+  return body.filter(r=>r.length === head.length).map(r=>Object.fromEntries(head.map((h,i)=>[h,r[i]])));
+}
+async function loadCSV(file) {
+  const response = await fetch(file, {cache:'no-cache'});
+  if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+  return parseCSV(await response.text());
+}
+const link = (url, text) => /^https:\/\//.test(url || '') ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>` : esc(text);
+const headline = slug => slug.replace(/-/g,' ').replace(/^./, c=>c.toUpperCase());
+function subPanel(id, title, note, tall = false) {
+  return `<div><p class="eyebrow">${title}</p><p class="note">${note}</p><div class="chart-box ${tall ? 'tall' : ''}"><canvas id="${id}" role="img" aria-label="${esc(title)}; values in the data table below"></canvas></div><div id="${id}-data"></div></div>`;
+}
+function newsCard() {
+  return `<article class="card wide" id="news"><p class="eyebrow">Since December 2025 · news releases and headlines · updated hourly</p><h3>Serious crashes in the news</h3><p class="note">A sample, not a complete record: Ottawa Police issue releases mostly for fatal and serious crashes, and CTV Ottawa covers the crashes it chooses. One crash can produce several stories. Nothing here is added to the City records below, and the year and ward filters do not apply.</p><div id="news-body"><p class="note">Loading the news log…</p></div></article>`;
+}
+function storyRows(rows) {
+  return `<div class="table-wrap"><table><thead><tr><th scope="col">Date</th><th scope="col">CTV headline</th><th scope="col">Type</th><th scope="col">Severity</th><th scope="col">OPS release</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.sitemap_date)}</td><td>${link(r.url, headline(r.slug))}</td><td>${esc(crashType(r.collision_type))}</td><td>${esc(severityGroup(r.severity))}</td><td>${r.matched_ops_url ? link(r.matched_ops_url, r.match_basis === 'road' ? 'Yes' : 'Probably') : 'None matched'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+async function renderNews(token) {
+  try {
+    newsTask ??= Promise.all(newsFiles.map(loadCSV)).catch(e=>{ newsTask = null; throw e; });
+    const [ops, ctv] = await newsTask;
+    if (token !== generation) return;
+    const releases = ops.filter(r=>r.kind === 'collision' && r.follow_up === '0').sort((a,b)=>b.release_utc.localeCompare(a.release_utc));
+    const stories = ctv.filter(r=>r.in_ottawa_ops === '1' && r.story_kind === 'incident').sort((a,b)=>b.lastmod_utc.localeCompare(a.lastmod_utc));
+    const serious = stories.filter(r=>['fatal','critical','serious'].includes(r.severity));
+    const matched = serious.filter(r=>r.matched_ops_url).length;
+    const dates = [...stories.map(r=>r.sitemap_date), ...releases.map(r=>r.release_utc.slice(0,10))].sort();
+    const months = [];
+    for (let [y, m] = dates[0].split('-').map(Number); `${y}-${String(m).padStart(2,'0')}` <= dates.at(-1).slice(0,7); m === 12 ? (y++, m = 1) : m++) months.push(`${y}-${String(m).padStart(2,'0')}`);
+    const monthLabel = ym => `${monthNames[Number(ym.slice(5))-1]} ${ym.slice(0,4)}`;
+    $('news-body').innerHTML = `<div class="stats">${stat(fmt(releases.length),`OPS collision releases · ${releases.filter(r=>r.severity==='fatal').length} fatal`)}${stat(fmt(stories.length),'CTV Ottawa crash stories inside the city, on roads OPS patrols')}${stat(`${matched} of ${serious.length}`,'Fatal, critical or serious CTV stories with a matched OPS release')}</div><p class="note">Stories are matched to releases automatically by road, crash type and date, and the matching misses some pairs. A hand check of March 1 to October 19, 2026 found an OPS release for 14 of 18 fatal crashes but only 8 of 28 serious or critical ones. <a href="README.md#ctv-ottawa-crash-headlines-hourly">How rows are tagged and matched</a>.</p><div class="grid">${subPanel('news-monthly','CTV crash stories by month',`Stories, not crashes. ${monthLabel(months.at(-1))} is partial.`)}${subPanel('news-types','By type of crash','CTV stories and original OPS releases. Types come from headlines and release text.',true)}</div><p class="eyebrow">Latest stories</p>${storyRows(stories.slice(0,10))}<details class="chart-data"><summary>All ${fmt(stories.length)} CTV stories</summary>${storyRows(stories)}</details><details class="chart-data"><summary>All ${fmt(releases.length)} OPS collision releases</summary><div class="table-wrap"><table><thead><tr><th scope="col">Released</th><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Severity</th><th scope="col">Location</th></tr></thead><tbody>${releases.map(r=>`<tr><td>${esc(r.release_utc.slice(0,10))}</td><td>${link(r.url, r.title)}</td><td>${esc(crashType(r.collision_type))}</td><td>${esc(r.severity || '—')}</td><td>${esc(r.location || '—')}</td></tr>`).join('')}</tbody></table></div></details><p class="note"><a href="${newsFiles[0]}" download>Download OPS releases (CSV)</a> · <a href="${newsFiles[1]}" download>Download CTV headlines (CSV)</a></p>`;
+    chart('news-monthly','bar',months.map(monthLabel),severityGroups.map(([label,,colour])=>({label,backgroundColor:css(colour),data:months.map(m=>stories.filter(r=>r.sitemap_date.startsWith(m)&&severityGroup(r.severity)===label).length)})),{stacked:true});
+    chart('news-types','bar',crashTypes.map(t=>t[1]),[{label:'CTV stories',data:crashTypes.map(([k])=>stories.filter(r=>(r.collision_type||'unknown')===k).length)},{label:'OPS releases',data:crashTypes.map(([k])=>releases.filter(r=>(r.collision_type||'unknown')===k).length)}],{horizontal:true});
+  } catch(e) {
+    if (token === generation) $('news-body').innerHTML = '<p class="empty">The news log could not load. The City records below are unaffected.</p>';
+  }
+}
 async function renderCollisions(state, token) {
   const years = [...new Set(data.collisions.map(r=>r.year))].sort();
   const wards = [...new Set(data.collisions.map(r=>r.ward))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
@@ -183,7 +242,7 @@ async function renderCollisions(state, token) {
   const severity = aggregate(selected.flatMap(r=>Object.entries(r.severity)),r=>r[0],r=>r[1]);
   const fatal = severity.get('Fatal injury')||0, injury = severity.get('Non-fatal injury')||0;
   $('stats').innerHTML = stat(fmt(total),`Collision records · ${esc(state.year)} · selected ward(s)`)+stat(fmt(injury),'Non-fatal injury collisions')+stat(fmt(fatal),'Fatal collisions · not people killed');
-  $('panels').innerHTML = '<div class="grid">'+snapshots()+panel('collision-trend','Detailed collision records over time','Selected ward(s). 2023 is missing at source; the gap is not zero.',true)+panel('fatal-trend','Fatal collisions by year','Selected ward(s), all available detailed years. Counts collisions, not people killed.')+panel('injury-trend','Non-fatal injury collisions by year','Selected ward(s), all available detailed years. Counts collisions, not injured people.')+panel('severity','Collision severity','Collision records classified by their most severe outcome.')+panel('impact','How collisions occurred','Top 10 recorded impact types.',false,true)+panel('parties','Parties involved','Sum of recorded vehicles and road users. These categories can overlap; motorcycles may also be included in vehicles. Blank fields are omitted.',true)+mapPanel('Collision locations',`${esc(state.year)} · ${esc(state.ward==='all'?'all wards':state.ward)}. Counts at reported coordinates, not a measure of road risk or traffic exposure.`)+'</div>';
+  $('panels').innerHTML = '<div class="grid">'+snapshots()+newsCard()+panel('collision-trend','Detailed collision records over time','Selected ward(s). 2023 is missing at source; the gap is not zero.',true)+panel('fatal-trend','Fatal collisions by year','Selected ward(s), all available detailed years. Counts collisions, not people killed.')+panel('injury-trend','Non-fatal injury collisions by year','Selected ward(s), all available detailed years. Counts collisions, not injured people.')+panel('severity','Collision severity','Collision records classified by their most severe outcome.')+panel('impact','How collisions occurred','Top 10 recorded impact types.',false,true)+panel('parties','Parties involved','Sum of recorded vehicles and road users. These categories can overlap; motorcycles may also be included in vehicles. Blank fields are omitted.',true)+mapPanel('Collision locations',`${esc(state.year)} · ${esc(state.ward==='all'?'all wards':state.ward)}. Counts at reported coordinates, not a measure of road risk or traffic exposure.`)+'</div>';
   const range = Array.from({length:Math.max(...years)-Math.min(...years)+1},(_,i)=>Math.min(...years)+i);
   chart('collision-trend','line',range,[{label:'Collision records',data:range.map(y=>years.includes(y) ? sum(wardRows.filter(r=>r.year===y).map(r=>r.total)) : null)}]);
   for(const [id,kind] of [['fatal-trend','Fatal injury'],['injury-trend','Non-fatal injury']]) {
@@ -195,6 +254,7 @@ async function renderCollisions(state, token) {
   chart('impact','bar',impact.map(r=>r[0]),[{label:'Collisions',data:impact.map(r=>r[1])}],{horizontal:true});
   const participants = ['vehicles','pedestrians','bicycles','motorcycles'];
   chart('parties','bar',['Vehicles','Pedestrians','Bicycles','Motorcycles'],[{label:'Recorded parties',data:participants.map(k=>sum(selected.map(r=>r.participants[k]||0)))}]);
+  const news = renderNews(token);
   $('locations').innerHTML = '<p class="note">Loading selected year’s locations…</p>';
   exports = [['year','ward','collision_records','non_fatal_injury_collisions','fatal_collisions'],...selected.map(r=>[r.year,r.ward,r.total,r.severity['Non-fatal injury']||0,r.severity['Fatal injury']||0])];
   try {
@@ -205,6 +265,7 @@ async function renderCollisions(state, token) {
   } catch(e) {
     if (token === generation) $('map').innerHTML = '<p class="empty">Location data could not load. Change the year to retry. Summary charts remain available.</p>';
   }
+  await news;
 }
 function cameraPeriod(rows) {
   if (!rows.length) return 'No reported months';
@@ -321,7 +382,7 @@ $('download').addEventListener('click',()=>{
 });
 Promise.all([loadJSON('report.json'),loadJSON('sources.json')]).then(async result=>{
   [data,audit]=result;
-  $('coverage').textContent=`Stops: ${data.police.years[0]}–${data.police.years.at(-1)} · Detailed collisions: 2017–2024, excluding 2023 · Speed cameras: through Nov 2025 · Red-light cameras: through ${cameraPeriod(data.redlight.months).split(' to ').at(-1)}`;
+  $('coverage').textContent=`Stops: ${data.police.years[0]}–${data.police.years.at(-1)} · Detailed collisions: 2017–2024, excluding 2023 · Speed cameras: through Nov 2025 · Red-light cameras: through ${cameraPeriod(data.redlight.months).split(' to ').at(-1)} · Crash news log: Dec 2025 to now, hourly`;
   $('update-note').innerHTML='Newer OPS summaries are available: <strong>2025 year-end</strong> and <strong>2026 through September 19</strong>. See the Collisions section. Detailed police-stop records still end in 2024.';
   $('checked').textContent=`Official catalogues and detailed record totals checked ${audit.checked_utc.slice(0,10)}. Report rebuilt ${data.built_utc.slice(0,10)}.`;
   const sourceRows=[
@@ -332,6 +393,8 @@ Promise.all([loadJSON('report.json'),loadJSON('sources.json')]).then(async resul
     ['City — monitoring after ASE removal','https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement%20Camera%20Removal','Dated observations through '+data.monitoring.filter(r=>r.month).map(r=>r.month).sort().at(-1),'Separate speed samples, not ticket counts. Undated baselines retained in the table.'],
     ['OPS — 2025 year-end summary',data.snapshots[0].source,'2025 vs 2024','Incidents, not people; separate reporting definitions.'],
     ['OPS — 2026 YTD summary',data.snapshots[1].source,'Through September 19 in both years','Partial year; citywide totals only.'],
+    ['OPS — collision news releases','https://www.ottawapolice.ca/en/news/','December 2025 to now, checked hourly','Mostly fatal and serious crashes. Fields parsed from release text.'],
+    ['CTV Ottawa — crash headlines','https://www.ctvnews.ca/ottawa/','December 2025 to now, checked hourly','Headlines only. One crash can have several stories.'],
   ];
   $('source-rows').innerHTML=sourceRows.map(r=>`<tr><td><a href="${esc(r[1])}" target="_blank" rel="noopener">${esc(r[0])}</a></td><td>${esc(r[2])}</td><td>${esc(r[3])}</td></tr>`).join('');
   $('load-status').hidden=true;
