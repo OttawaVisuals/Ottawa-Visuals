@@ -3,7 +3,7 @@
 ## Traffic stops report (no Power BI)
 
 [`stops.html`](stops.html) is a static Chart.js + Leaflet report with five sections:
-police stops, driver demographics, collisions, speed cameras and red-light cameras.
+collisions (the default), police stops, driver demographics, speed cameras and red-light cameras.
 Filter scopes are stated beside the controls. Each chart has a data table;
 filtered CSV downloads and URL filters are supported. The police location map
 is explicitly **all years and outcomes**: its rollup does not retain those dimensions.
