@@ -1219,13 +1219,14 @@
 
     {
       id: "roads",
+      hidden: true, // merged into the Traffic/stops.html "Where it happens" tab (2026-10-22)
       topic: "Traffic & roads",
       title: "Where people get hurt, and where police stop drivers",
       lede: "Every Ottawa neighbourhood's share of police traffic stops against its share of injury collisions, the riskiest busy intersections per vehicle, and whether traffic is back to pre-pandemic levels.",
       date: "Updated Oct 2026",
       readTime: "~ 5 min read",
       tag: "#traffic",
-      page: "Traffic/roads.html",
+      page: "Traffic/stops.html?section=where",
       why: "Enforcement and harm don't line up: some neighbourhoods get three times more police stops than their share of injury crashes, others less than a third. Knowing where the gaps are is the start of asking why.",
       method: "City of Ottawa collision records (2017–2024; the City has published no 2023 file), intersection and midblock traffic counts, and red-light and photo-radar camera data are joined with Ottawa Police traffic stops on the City's own road-network IDs, then rolled up to the police's 111 neighbourhoods. 'Stops vs harm' divides a neighbourhood's share of stops by its share of injury collisions over the same years; areas with fewer than 20 injury collisions get no index. Intersection risk is collisions per million vehicles, limited to intersections carrying 10,000+ vehicles a day.",
       sources: [

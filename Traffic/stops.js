@@ -9,7 +9,7 @@ const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
 const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
 const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
 const params = new URLSearchParams(location.search);
-const sections = ['collisions','stops','drivers','speed','redlight'];
+const sections = ['collisions','where','stops','drivers','speed','redlight'];
 let section = sections.includes(params.get('section')) ? params.get('section') : 'collisions';
 const initialSection = section;
 let data, audit, charts = [], maps = [], exports = [], generation = 0;
@@ -57,12 +57,15 @@ function chart(id, type, labels, series, opts = {}) {
       indexAxis:opts.horizontal ? 'y' : 'x',
       interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:series.length > 1,position:'bottom',labels:{color:css('--ink-2'),boxWidth:10,padding:13}},
-        tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.raw)}${opts.percent ? '%' : ''}`}}},
-      scales:{x:{stacked:!!opts.stacked,grid:{display:!!opts.horizontal,color:css('--line')},ticks:{color:css('--ink-2'),maxTicksLimit:opts.horizontal ? 12 : 11,autoSkip:true},...(opts.horizontal ? {beginAtZero:true} : {})},
-        y:{stacked:!!opts.stacked,beginAtZero:true,...(opts.percent && !opts.horizontal ? {max:100} : {}),grid:{color:css('--line'),display:!opts.horizontal},ticks:{color:css('--ink-2'),precision:opts.percent ? 1 : 0,...(opts.percent ? {callback:v=>`${v}%`} : {})}}}},
+        tooltip:{callbacks:{label:opts.label || (ctx=>`${ctx.dataset.label}: ${fmt(ctx.raw)}${opts.percent ? '%' : ''}`)}}},
+      scales:{x:{stacked:!!opts.stacked,grid:{display:!!opts.horizontal,color:css('--line')},ticks:{color:css('--ink-2'),maxTicksLimit:opts.horizontal ? 12 : 11,autoSkip:true},...(opts.horizontal ? {beginAtZero:true} : {}),...opts.x},
+        y:{stacked:!!opts.stacked,beginAtZero:true,...(opts.percent && !opts.horizontal ? {max:100} : {}),grid:{color:css('--line'),display:!opts.horizontal},ticks:{color:css('--ink-2'),precision:opts.percent ? 1 : 0,...(opts.percent ? {callback:v=>`${v}%`} : {})},...opts.y}}},
+    plugins:opts.plugins || [],
   };
   charts.push(new Chart($(id), config));
 }
+// Same OSM tiles as rto.html; CARTO now serves an "API key required" placeholder. Dark mode filters them in CSS.
+const basemap = () => L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 function mapPoints(points, period) {
   // points: {name,lat,lon,n,detail}; no source HTML is inserted unescaped.
   const sorted = [...points].sort((a,b)=>b.n-a.n);
@@ -71,9 +74,7 @@ function mapPoints(points, period) {
   if (typeof L === 'undefined') { $('map').innerHTML = '<p class="empty">Map library unavailable. Use the location table below.</p>'; return; }
   const map = L.map('map', {scrollWheelZoom:false,preferCanvas:true}).setView([45.33,-75.76],10);
   maps.push(map);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19,
-  }).addTo(map).on('tileerror',()=>{ if (!$('map-tile-error')) $('map').insertAdjacentHTML('afterend','<p class="note" id="map-tile-error">Basemap could not load. Points and the location table remain available.</p>'); });
+  basemap().addTo(map).on('tileerror',()=>{ if (!$('map-tile-error')) $('map').insertAdjacentHTML('afterend','<p class="note" id="map-tile-error">Basemap could not load. Points and the location table remain available.</p>'); });
   points.forEach(p=>L.circleMarker([p.lat,p.lon],{radius:Math.min(23,2+Math.sqrt(p.n)*.35),weight:1,color:css('--accent-2'),fillColor:css('--accent-2'),fillOpacity:.42})
     .bindPopup(`<strong>${esc(p.name)}</strong><br>${fmt(p.n)} records · ${esc(period)}${p.detail ? '<br>'+esc(p.detail) : ''}`).addTo(map));
   // Keep the Ottawa view: erroneous source coordinates must not zoom the map out.
@@ -85,6 +86,7 @@ function saveState() {
 }
 function initState(name) {
   if (settings[name]) return settings[name];
+  if (name === 'where') return settings[name] = {};
   const initial = name === 'collisions' ? {year:String(Math.max(...data.collisions.map(r=>r.year))),ward:'all'} : name === 'speed' || name === 'redlight' ? {year:String(Math.max(...data[name].months.map(r=>r[0]))),site:'all',metric:'total',...(name==='speed'?{monitor:''}:{})} : {year:'all',outcome:'all'};
   if (name === initialSection) Object.keys(initial).forEach(k=>{if(params.has(k)) initial[k] = params.get(k);});
   const years = name === 'collisions' ? [...new Set(data.collisions.map(r=>r.year))] : data.police.years;
@@ -110,7 +112,7 @@ function renderStops(state) {
   const p = data.police;
   const firstYear=p.years[0], lastYear=p.years.at(-1), period=`${firstYear}–${lastYear}`;
   policeFilters(state);
-  $('section-kicker').textContent = '02 · Police enforcement';
+  $('section-kicker').textContent = '03 · Police enforcement';
   $('section-title').textContent = 'Fewer stops. What were the outcomes?';
   $('section-description').textContent = `Follow traffic-stop records from ${firstYear} to ${lastYear}, with every source outcome retained.`;
   $('filter-scope').textContent = 'Year and outcome filter the summary, monthly chart, weekday chart and neighbourhoods. The annual chart keeps all years for context. The location map is all years and all outcomes.';
@@ -139,7 +141,7 @@ function renderStops(state) {
 }
 function renderDrivers(state) {
   policeFilters(state);
-  $('section-kicker').textContent = '03 · Driver demographics';
+  $('section-kicker').textContent = '04 · Driver demographics';
   $('section-title').textContent = 'Who appears in the stop records?';
   $('section-description').textContent = 'Recorded race, age and gender categories. A person can appear more than once, and unknown values remain in the denominator.';
   $('filter-scope').textContent = 'Filters affect the summary and category charts. The race-share trend retains all years, filtered by outcome. No population or driving-exposure denominator is available here.';
@@ -271,6 +273,128 @@ async function renderCollisions(state, token) {
   }
   await news;
 }
+// Where it happens (formerly roads.html): neighbourhood stops-vs-harm map, riskiest busy
+// intersections and traffic volume, from build_stories.py's weekly stories.json.
+const divTokens = ['--div-w3','--div-w2','--div-w1','--div-0','--div-c1','--div-c2','--div-c3'];
+const titleCase = s => String(s || '').toLowerCase().replace(/(^|[\s/(@-])([a-z])/g, (m, p, c) => p + c.toUpperCase());
+let whereTask;
+async function fetchJSON(file) {
+  const response = await fetch(file);
+  if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+  return response.json();
+}
+// log2 index -> one of 7 diverging classes (¼×, ½×, ~1×, 2×, 4×).
+function divColor(index) {
+  const l = Math.log2(index), cuts = [-1.5,-.75,-.2,.2,.75,1.5];
+  let i = 0; while (i < cuts.length && l > cuts[i]) i++;
+  return css(divTokens[i]);
+}
+const popRow = (label, value) => `<div class="pop-row"><span>${label}</span><b>${value}</b></div>`;
+function areaPopup(a) {
+  if (!a) return '<strong>No data</strong>';
+  return `<strong>${esc(a.neighbourhood)}</strong>${popRow('Stops vs harm', a.index ? `${a.index.toFixed(2)}×` : 'no index (under 20 injury crashes)')}${popRow('Share of injury crashes', `${a.share_injury_pct.toFixed(2)}%`)}${popRow('Share of police stops', `${a.share_stops_pct.toFixed(2)}%`)}${popRow('Injury crashes', fmt(a.injury_collisions))}${popRow('Police stops', fmt(a.police_stops))}${a.charged_pct != null ? popRow('Stops ending in a charge', `${a.charged_pct}%`) : ''}`;
+}
+function whereMap(stories, areas) {
+  const byName = Object.fromEntries(stories.enforcement_vs_harm.areas.map(a => [a.neighbourhood, a]));
+  if (typeof L === 'undefined') { $('where-map').innerHTML = '<p class="empty">Map library unavailable. The neighbourhood table below has every value.</p>'; return; }
+  const map = L.map('where-map', {scrollWheelZoom:false,zoomSnap:.5}).setView([45.33,-75.72],10);
+  maps.push(map);
+  basemap().addTo(map);
+  const areaLayer = L.geoJSON(areas, {
+    style: f => { const a = byName[f.properties.name]; return a && a.index
+      ? {color:css('--bg-2'),weight:1,fillColor:divColor(a.index),fillOpacity:.72}
+      : {color:css('--ink-3'),weight:1,dashArray:'3 3',fillColor:css('--bg-3'),fillOpacity:.25}; },
+    onEachFeature: (f, layer) => {
+      layer.bindPopup(areaPopup(byName[f.properties.name]));
+      layer.on('mouseover', () => layer.setStyle({weight:2.5,color:css('--ink')}));
+      layer.on('mouseout', () => areaLayer.resetStyle(layer));
+    },
+  }).addTo(map);
+  // Fit once the container has a size; a hidden pane measures 0 px and Leaflet would max-zoom.
+  const fit = () => { const size = map.getSize(); if (!size.x || !size.y) return false; const b = areaLayer.getBounds(); map.setView(b.getCenter(), Math.min(12, map.getBoundsZoom(b, false, L.point(16,16))), {animate:false}); return true; };
+  if (!fit()) { const ro = new ResizeObserver(() => { map.invalidateSize(); if (fit()) ro.disconnect(); }); ro.observe($('where-map')); }
+  // Solid dots = riskiest intersections; hollow rings = cameras.
+  const dot = (r, radius, colour, html) => L.circleMarker([r.lat,r.lon], {radius,color:css('--bg-2'),weight:2,fillColor:colour,fillOpacity:.95}).bindPopup(html);
+  const ring = (r, colour, html) => L.circleMarker([r.lat,r.lon], {radius:5,color:colour,weight:2.5,fillColor:css('--bg-2'),fillOpacity:.9}).bindPopup(html);
+  const layers = {
+    danger: L.layerGroup(stories.danger_intersections.rows.slice(0,30).map((r,i) => dot(r, 5+Math.min(5,r.per_mev*1.3), css('--ink'), `<strong>#${i+1} ${esc(titleCase(r.name))}</strong>${popRow('Collisions 2017–24', fmt(r.collisions))}${popRow(`Vehicles / day (${esc(r.aadt_year)})`, fmt(r.aadt))}${popRow('Per million vehicles', r.per_mev.toFixed(2))}${popRow('Police stops here', fmt(r.police_stops))}`))),
+    rlc: L.layerGroup(stories.camera_sites.red_light.map(c => ring(c, css('--ink'), `<strong>Red-light camera</strong><br>${esc(titleCase(c.name))}${popRow('Installed', esc(c.installed || '?'))}${popRow('Violations since 2015', fmt(c.violations))}`))),
+    ase: L.layerGroup(stories.camera_sites.photo_radar.map(c => ring(c, css('--ink-3'), `<strong>Photo radar ${esc(c.site_id)}</strong><br>${esc(c.name)}${popRow('Installed', esc(c.installed || '?'))}${popRow('Tickets until Nov 2025', fmt(c.tickets))}`))),
+  };
+  const sync = () => Object.entries(layers).forEach(([key, layer]) => { if ($(`lyr-${key}`).checked) layer.addTo(map); else map.removeLayer(layer); });
+  Object.keys(layers).forEach(key => $(`lyr-${key}`).addEventListener('change', sync));
+  sync();
+}
+// Shaded p25–p75 band per series, drawn behind the median lines.
+const bandPlugin = bands => ({id:'band', beforeDatasetsDraw(c) {
+  const {ctx, scales:{x, y}} = c; ctx.save();
+  for (const b of bands) {
+    const pts = b.rows.map((r,i) => r && {x:x.getPixelForValue(i), lo:y.getPixelForValue(r.p25), hi:y.getPixelForValue(r.p75)}).filter(Boolean);
+    if (pts.length < 2) continue;
+    ctx.beginPath(); pts.forEach((p,i) => i ? ctx.lineTo(p.x,p.hi) : ctx.moveTo(p.x,p.hi)); [...pts].reverse().forEach(p => ctx.lineTo(p.x,p.lo)); ctx.closePath();
+    ctx.fillStyle = b.colour; ctx.globalAlpha = .12; ctx.fill();
+  }
+  ctx.restore();
+}});
+const refLine = value => ({id:'ref', beforeDatasetsDraw(c) {
+  const {ctx, chartArea:{left, right}, scales:{y}} = c, yy = y.getPixelForValue(value);
+  ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle = css('--ink-3'); ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(left,yy); ctx.lineTo(right,yy); ctx.stroke(); ctx.restore();
+}});
+async function renderWhere(token) {
+  $('filters').innerHTML = '';
+  $('section-kicker').textContent = '02 · Where it happens';
+  $('section-title').textContent = 'Where people get hurt, and where police stop drivers';
+  $('section-description').textContent = 'City collision records and police traffic stops, joined on the City’s own road network and rolled up to the police’s neighbourhoods. Camera locations and traffic counts add context.';
+  $('filter-scope').textContent = 'No filters on this tab: each view uses every available year. Collisions are 2017–2024 without 2023; police stops end in 2024.';
+  $('stats').innerHTML = '';
+  $('panels').innerHTML = '<p class="note">Loading neighbourhood data…</p>';
+  exports = [['neighbourhood','police_stops','injury_collisions','share_stops_pct','share_injury_pct','stops_vs_harm_index','charged_pct']];
+  let stories, areas;
+  try {
+    whereTask ??= Promise.all([fetchJSON('data/derived/stories.json'), fetchJSON('data/derived/neighbourhoods.geojson')]).catch(e=>{ whereTask = null; throw e; });
+    [stories, areas] = await whereTask;
+  } catch(e) {
+    if (token === generation) $('panels').innerHTML = `<p class="empty">Neighbourhood data could not load (${esc(e.message)}). Switch tabs and back to retry.</p>`;
+    return;
+  }
+  if (token !== generation) return;
+  const e = stories.enforcement_vs_harm, d = stories.danger_intersections;
+  const idx = e.areas.filter(a=>a.index).sort((a,b)=>b.index-a.index), top = idx.slice(0,10), bottom = idx.slice(-10);
+  const share = (rows, k, digits) => sum(rows.map(a=>a[k])).toFixed(digits);
+  $('stats').innerHTML = stat(`${share(top,'share_stops_pct',0)}% / ${share(top,'share_injury_pct',0)}%`,'Share of stops vs share of injury crashes in the 10 neighbourhoods with the most stops relative to harm')
+    + stat(`${share(bottom,'share_stops_pct',1)}% / ${share(bottom,'share_injury_pct',1)}%`,'The same shares in the 10 neighbourhoods with the fewest')
+    + stat(`${idx[0].index.toFixed(1)}× · ${idx.at(-1).index.toFixed(2)}×`,`Highest and lowest: ${esc(idx[0].neighbourhood)} · ${esc(idx.at(-1).neighbourhood)}`);
+  const scale = divTokens.map(t=>`<span style="background:${css(t)}"></span>`).join('');
+  const dangerRows = d.rows.slice(0,15).map((r,i)=>`<tr><td class="num">${i+1}</td><td>${esc(titleCase(r.name))}<span class="muted">${esc(r.neighbourhood || '')}</span></td><td class="num">${fmt(r.collisions)}<span class="muted">${fmt(r.injury_collisions)} injury</span></td><td class="num">${fmt(r.aadt)}<span class="muted">${esc(r.aadt_year)}</span></td><td class="num"><b>${r.per_mev.toFixed(2)}</b></td><td class="num">${fmt(r.police_stops)}</td></tr>`).join('');
+  const v = stories.volume_index.by_year, last = v.at(-1);
+  $('panels').innerHTML = `<div class="grid">
+    <article class="card wide"><h3>Enforcement vs harm, by neighbourhood</h3><p class="note">Each neighbourhood’s share of the city’s ${fmt(e.total_police_stops)} police traffic stops, divided by its share of the city’s ${fmt(e.total_injury_collisions)} injury collisions (${esc(e.years[0])}–${esc(e.years.at(-1))}, without 2023). 1× means stops match harm. Select a neighbourhood for its numbers.</p>
+      <div class="chips" role="group" aria-label="Map layers"><label class="chip"><input type="checkbox" id="lyr-danger" checked><span class="dot dot-solid"></span>Riskiest busy intersections</label><label class="chip"><input type="checkbox" id="lyr-rlc"><span class="dot"></span>Red-light cameras</label><label class="chip"><input type="checkbox" id="lyr-ase"><span class="dot dot-muted"></span>Photo-radar sites (off since Nov 2025)</label></div>
+      <div id="where-map" class="map tall-map" role="region" aria-label="Map of Ottawa neighbourhoods shaded by police stops relative to injury collisions"></div>
+      <div class="scale" aria-hidden="true"><div><div class="scale-bar">${scale}</div><div class="scale-ends"><span>¼×</span><span>1×</span><span>4×</span></div></div><span>← fewer stops than its share of injury crashes · more →</span><span class="scale-none"><span></span>under 20 injury crashes, no index</span></div>
+      <details class="chart-data"><summary>All ${fmt(e.areas.length)} neighbourhoods</summary><div class="table-wrap">${table(['Neighbourhood','Stops vs harm (×)','Share of stops %','Share of injury crashes %','Police stops','Injury crashes'],[...e.areas].sort((a,b)=>(b.index ?? -1)-(a.index ?? -1)).map(a=>[a.neighbourhood,a.index == null ? 'no index' : Number(a.index.toFixed(2)),a.share_stops_pct,a.share_injury_pct,a.police_stops,a.injury_collisions]))}</div></details></article>
+    <article class="card wide"><h3>The biggest gaps</h3><p class="note">The 10 neighbourhoods with the most stops relative to injury crashes, and the 10 with the fewest. Bars run from 1× (stops exactly match harm), on a doubling scale. Stops include every reason an officer pulls a driver over; collisions are those reported to police. Population plays no part: a low-population area on a highway corridor can carry many crashes.</p><div class="chart-box xtall"><canvas id="extremes" role="img" aria-label="Neighbourhoods with the highest and lowest ratio of police-stop share to injury-collision share; values in the data table below"></canvas></div><div id="extremes-data"></div></article>
+    <article class="card wide"><h3>Riskiest busy intersections</h3><p class="note">Collisions per million vehicles entering the intersection, so a busy intersection isn’t ranked high just for being busy. Only intersections with at least ${fmt(d.min_aadt)} vehicles a day and ${esc(d.min_collisions)}+ collisions (${fmt(d.candidates)} qualify); top 15 shown, top 30 on the map. Vehicles per day is the latest City count there, with its year.</p><div class="table-wrap"><table><thead><tr><th scope="col" class="num">#</th><th scope="col">Intersection</th><th scope="col" class="num">Collisions 2017–24</th><th scope="col" class="num">Vehicles / day</th><th scope="col" class="num">Per million vehicles</th><th scope="col" class="num">Police stops</th></tr></thead><tbody>${dangerRows}</tbody></table></div></article>
+    <article class="card wide"><p class="eyebrow">Context · traffic volume</p><h3>Is traffic back to pre-pandemic levels?</h3><p class="note">Each intersection the City counted is compared with its own 2015–2019 average, because the City counts different intersections each year. Lines are medians; bands hold the middle half. Counts are short studies scaled to 24 hours, and 2025 uses a slightly different City method: read the trend, not the decimal.</p>
+      <div class="stats">${stat(`${last.city.median}%`,`City-wide, ${esc(last.year)} (${fmt(last.city.n)} intersections)`)}${stat(last.core ? `${last.core.median}%` : '—',`Downtown core (within 4 km of Parliament), ${esc(last.year)}`)}${stat(`${last.outside_core.median}%`,`Rest of the city, ${esc(last.year)}`)}</div>
+      <div class="grid"><div><p class="eyebrow">Median volume vs 2015–19</p><div class="chart-box"><canvas id="volume" role="img" aria-label="Median intersection traffic volume as a percentage of 2015 to 2019, downtown core versus the rest of the city; values in the data table below"></canvas></div><div id="volume-data"></div></div><div><p class="eyebrow">2020–22 · monthly pandemic monitoring</p><div class="chart-box"><canvas id="covid" role="img" aria-label="Monthly traffic as a percentage of normal, 2020 to 2022; values in the data table below"></canvas></div><div id="covid-data"></div></div></div></article>
+  </div>`;
+  exports.push(...e.areas.map(a=>[a.neighbourhood,a.police_stops,a.injury_collisions,a.share_stops_pct,a.share_injury_pct,a.index ?? '',a.charged_pct ?? '']));
+  const ext = top.concat(bottom);
+  chart('extremes','bar',ext.map(r=>r.neighbourhood),[{label:'Stops vs harm',data:ext.map(r=>Math.log2(r.index)),backgroundColor:ext.map(r=>css(r.index >= 1 ? '--div-c3' : '--div-w3')),barThickness:14}],
+    {horizontal:true, x:{min:-2,max:2,ticks:{color:css('--ink-2'),stepSize:1,callback:t=>({'-2':'¼×','-1':'½×','0':'1×','1':'2×','2':'4×'})[t] ?? ''}}, y:{ticks:{color:css('--ink-2'),autoSkip:false,callback(t) { const name = this.getLabelForValue(t), max = innerWidth < 640 ? 16 : 40; return name.length > max ? name.slice(0,max-1).trimEnd()+'…' : name; }}},
+     label:ctx=>{ const r = ext[ctx.dataIndex]; return [`${r.index.toFixed(2)}× its share`,`${r.share_stops_pct.toFixed(2)}% of stops · ${r.share_injury_pct.toFixed(2)}% of injury crashes`]; }});
+  $('extremes-data').innerHTML = `<details class="chart-data"><summary>View chart data</summary><div class="table-wrap">${table(['Neighbourhood','Stops vs harm (×)','Share of stops %','Share of injury crashes %'],ext.map(r=>[r.neighbourhood,Number(r.index.toFixed(2)),r.share_stops_pct,r.share_injury_pct]))}</div></details>`;
+  const series = (key, label, colour) => ({label, borderColor:css(colour), backgroundColor:css(colour), data:v.map(r=>r[key] ? r[key].median : null), spanGaps:true, tension:.25});
+  chart('volume','line',v.map(r=>String(r.year)),[series('core','Downtown core %','--accent'),series('outside_core','Rest of the city %','--accent-2')],
+    {y:{beginAtZero:false,suggestedMin:50,suggestedMax:120,ticks:{color:css('--ink-2'),callback:t=>`${t}%`}}, plugins:[refLine(100), bandPlugin([{rows:v.map(r=>r.core),colour:css('--accent')},{rows:v.map(r=>r.outside_core),colour:css('--accent-2')}])],
+     label:ctx=>{ const r = v[ctx.dataIndex][ctx.datasetIndex ? 'outside_core' : 'core'], name = ctx.dataset.label.slice(0,-2); return r ? `${name}: ${r.median}% (middle half ${r.p25}–${r.p75}%, n=${r.n})` : `${name}: too few counts`; }});
+  const c = stories.covid_monthly;
+  chart('covid','line',c.map(m=>`${monthNames[Number(m.month.slice(5,7))-1]} ${m.month.slice(0,4)}`),[{label:'Monitored intersections %',data:c.map(m=>m.intersections),borderColor:css('--accent-2'),pointRadius:0,spanGaps:true},{label:'Macdonald-Cartier Bridge %',data:c.map(m=>m.bridge),borderColor:css('--accent'),pointRadius:0,spanGaps:true,borderDash:[]}],
+    {y:{max:110,ticks:{color:css('--ink-2'),callback:t=>`${t}%`}}, plugins:[refLine(100)]});
+  whereMap(stories, areas);
+}
 function cameraPeriod(rows) {
   if (!rows.length) return 'No reported months';
   const months = [...new Set(rows.map(r=>`${r[0]}-${String(r[1]).padStart(2,'0')}`))].sort();
@@ -281,7 +405,7 @@ function renderCameras(state) {
   const years = [...new Set(c.months.map(r=>r[0]))].sort();
   const options = c.sites.map((s,i)=>[String(i),`${speed ? s.id+' · ' : ''}${s.name}${s.direction ? ' · '+s.direction : ''}`]).sort((a,b)=>a[1].localeCompare(b[1]));
   $('filters').innerHTML = select('year','Violation year',yearsOptions(years),state.year)+select('site',speed?'Camera site':'Camera approach',[['all','All locations'],...options],state.site)+select('metric','Monthly chart measure',[['total','Total violations'],['per-camera','Per reporting camera']],state.metric);
-  $('section-kicker').textContent = speed ? '04 · Speed cameras' : '05 · Red-light cameras';
+  $('section-kicker').textContent = speed ? '05 · Speed cameras' : '06 · Red-light cameras';
   $('section-title').textContent = speed ? 'Speed-camera violations, through the program’s end' : 'Red-light violations at monitored approaches';
   $('section-description').textContent = speed ? 'Monthly automated speed enforcement records through November 2025. Enforcement ended November 14, 2025.' : 'Monthly recorded violations, including the available 2026 months. More cameras can increase the total even if driver behaviour is unchanged.';
   $('filter-scope').textContent = 'Year and location affect the summary, monthly chart and map. The annual chart retains all years for the selected location. “Per reporting camera” changes the monthly chart only. Missing months are not treated as zero.';
@@ -341,6 +465,7 @@ async function render() {
   if (section==='stops') renderStops(state);
   else if (section==='drivers') renderDrivers(state);
   else if (section==='collisions') mapTask=renderCollisions(state,token);
+  else if (section==='where') mapTask=renderWhere(token);
   else renderCameras(state);
   if (token !== generation) return;
   document.querySelectorAll('#filters select, #monitor').forEach(input=>input.addEventListener('change',()=>{
@@ -381,7 +506,7 @@ $('download').addEventListener('click',()=>{
     return '"'+text.replace(/"/g,'""')+'"';
   }).join(',')).join('\r\n');
   const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
-  const a=document.createElement('a');a.href=url;a.download=`ottawa-${section}-${settings[section].year}.csv`;a.click();
+  const a=document.createElement('a');a.href=url;a.download=`ottawa-${section}-${settings[section].year || 'all-years'}.csv`;a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 Promise.all([loadJSON('report.json'),loadJSON('sources.json')]).then(async result=>{

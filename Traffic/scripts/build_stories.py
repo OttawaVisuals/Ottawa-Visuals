@@ -12,7 +12,7 @@ Story keys (road-safety.html):
   rlc_by_years_since    -- red-light violations per camera-month by camera age
   rlc_before_after      -- collisions by type before vs after a red-light camera
   ped_fmi_by_year       -- pedestrian fatal + major-injury collisions per year
-Story keys (Traffic/roads.html):
+Story keys (Where tab of Traffic/stops.html, formerly roads.html):
   enforcement_vs_harm   -- per neighbourhood: share of police stops vs share of injury crashes
   danger_intersections  -- busiest-and-riskiest intersections (collisions per million vehicles)
   camera_sites          -- red-light + photo-radar camera locations
@@ -136,7 +136,7 @@ def ped_fmi(cols):
 
 
 # --------------------------------------------------------------------------
-# Roads map page (Traffic/roads.html)
+# Where tab of Traffic/stops.html (formerly roads.html)
 # --------------------------------------------------------------------------
 
 # Neighbourhoods with fewer injury collisions than this get no index: one

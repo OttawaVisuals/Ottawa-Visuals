@@ -847,15 +847,15 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
 <section id="traffic-stops" class="card">
   <div class="proj-head"><h2>🚦 Traffic stops, collisions &amp; cameras</h2><span class="chip done">✅ Native HTML · Oct 18, 2026</span><a class="live-link" href="Traffic/stops.html">open the page ↗</a></div>
-  <p>Power BI replaced by five sections with charts, maps, filters, accessible data tables and CSV downloads. The weekly workflow checks official source coverage and rebuilds the report.</p>
+  <p>Power BI replaced by six sections (Collisions first, then Where it happens, the former roads page) with charts, maps, filters, accessible data tables and CSV downloads. The weekly workflow checks official source coverage and rebuilds the report.</p>
   <p><b>Sources checked Oct 18:</b> police stops through 2024; detailed collisions through 2024 with 2023 absent; speed-camera tickets through November 2025; red-light tickets through August 2026. Speed monitoring continues through September 2026. Newer OPS collision summaries (2025 year-end and September 19, 2026 YTD) are shown separately because definitions differ.</p>
   <p><b>Limits:</b> police locations are an all-years rollup; demographics have no driving-exposure denominator; camera totals depend on network size; partial years and missing months remain explicit. OPS summary snapshots are manually verified, not automatically updated. <a href="Traffic/README.md">Method and rebuild instructions</a>.</p>
 </section>
 <section id="roads" class="card">
   <div class="proj-head">
     <h2>🛣️ Roads: risk vs enforcement</h2>
-    <span class="chip done">✅ Live</span>
-    <a class="live-link" href="Traffic/roads.html" target="_blank">open the page ↗</a>
+    <span class="chip done">✅ Merged into stops.html · Oct 22, 2026</span>
+    <a class="live-link" href="Traffic/stops.html?section=where" target="_blank">open the tab ↗</a>
   </div>
   <p><b>In one sentence:</b> each neighbourhood's share of police traffic stops against its share
   of injury collisions on a map, the riskiest busy intersections per vehicle, and whether traffic is
@@ -873,7 +873,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="arr">→</div>
     <div class="step"><b>2 · Join</b><span>build_geo_index.py snaps everything to the City's Geo_ID + ward + neighbourhood</span></div>
     <div class="arr">→</div>
-    <div class="step"><b>3 · Distil</b><span>build_stories.py → stories.json (~90 KB), which roads.html reads</span></div>
+    <div class="step"><b>3 · Distil</b><span>build_stories.py → stories.json (~90 KB), which the stops.html Where-it-happens tab reads</span></div>
   </div>
 
   <div class="assump-box">

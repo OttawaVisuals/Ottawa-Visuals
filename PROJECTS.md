@@ -202,14 +202,14 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ### Ottawa Traffic Stops, Red Lights & Speed Violations
 - **Progress:** ~100% · Native HTML report rebuilt Oct 18, 2026; Power BI removed.
-- Five sections: stops/outcomes, demographics, collisions, speed cameras, red-light cameras; filters, maps, chart tables and CSV downloads.
+- Six sections: collisions (default, with the live crash-news counts), where it happens (the former roads page), stops/outcomes, demographics, speed cameras, red-light cameras; filters, maps, chart tables and CSV downloads.
 - **Sources checked Oct 18:** stops through 2024; detailed collisions through 2024 (2023 absent); speed-camera tickets through Nov 2025; red-light tickets through Aug 2026; separate speed monitoring through Sep 2026. OPS 2025 year-end and Sep 19 2026 YTD summaries are kept separate with their definitions.
 - Weekly source audit/rebuild; manually verified OPS snapshots stay pinned until reviewed. **Page:** `Traffic/stops.html` (`/#report-traffic` redirects there). **Method:** `Traffic/README.md`.
 - **OPS release log (2026-10-20):** `Traffic/scripts/poll_ops_news.py` parses OPS news releases into `Traffic/data/ops_collision_releases.csv`. It runs hourly via `collect.yml`. The backfill covers Dec 2025 → now: 23 original collision releases (12 fatal) and 12 enforcement releases. By `collision_type`: 7 pedestrian, 5 motorcycle, 3 multi-vehicle, 2 cyclist, 2 single-vehicle, 1 each ATV / train / into-a-building, 1 unknown. Checked against CTV Ottawa (Mar–Oct): OPS released 14 of 18 fatal crashes but only 8 of 28 serious non-fatal ones. Sep–Oct is much better (14 of 16). Details are in `Traffic/README.md`.
 - **CTV second source (2026-10-20):** `Traffic/scripts/poll_ctv_crashes.py` logs CTV Ottawa crash headlines from CTV's daily sitemaps, hourly via `collect.yml`. Its rows use the same `collision_type` labels as the OPS file and link to the matching OPS release. The backfill from Dec 2025 has 116 in-area crash stories, among them 29 pedestrian, 11 into a building, 8 cyclist and 24 fatal. Only 16 of the 55 fatal or serious stories have an OPS release. It's headline-only, and one crash can have several stories, so don't count rows as crashes. **On the page (2026-10-22):** a "Serious crashes in the news" block in the Collisions tab of `stops.html` reads both CSVs directly, so it is current within the hourly poll. It is a **news-release sample (serious/fatal only), not a complete dataset**, so keep it separate from the City series. Not on a page yet. Traffic stops have no equivalent: enforcement releases give totals only.
 
 ### Ottawa Roads — risk vs enforcement
-- **Progress:** ~85% (live Oct 2026) · `Traffic/roads.html`, also a home-page report (`#report-roads`).
+- **Progress:** ~85% · **merged 2026-10-22** into the "Where it happens" tab of `Traffic/stops.html` (`?section=where`). `Traffic/roads.html` and `#report-roads` now redirect there; the home-page tile is hidden.
 - Neighbourhood map of police-stop share vs injury-collision share, riskiest busy intersections
   (collisions per million vehicles), and an intersection-volume index vs 2015–19 (downtown core 89%
   in 2025, rest of the city 105%).
