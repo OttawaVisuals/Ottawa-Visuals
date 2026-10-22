@@ -211,8 +211,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#mortgage">🏡 Mortgage</a>
       <a href="#weather">🌡️ Weather</a>
       <a href="#road-safety">🚗 Road Safety</a>
-      <a href="#traffic-stops">🚦 Traffic stops</a>
-      <a href="#roads">🛣️ Roads</a>
+      <a href="#traffic-stops">🚦 Road safety report</a>
+      <a href="#roads">🛣️ Roads (merged)</a>
       <a href="#tax">🧾 Tax</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
       <a href="#ontario-costs">💸 Ontario Costs</a>
@@ -307,8 +307,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏡 Mortgage Calculator</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌡️ Weather / Climate</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚗 Road Safety Calculator</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 Traffic stops</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100% · native HTML</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 Road safety report</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">100% · 6 tabs, Oct 22</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛣️ Roads: risk vs enforcement</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85% · merged into the road safety report</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧾 Taxing the Top</span><div class="track"><div class="fill f-done" style="width:80%"></div></div><span class="pct">80%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🛢️ Oil &amp; Gas</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">60%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">💸 Ontario Costs</span><div class="track"><div class="fill f-done" style="width:70%"></div></div><span class="pct">70%</span></div>
@@ -846,7 +846,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
 <!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
 <section id="traffic-stops" class="card">
-  <div class="proj-head"><h2>🚦 Traffic stops, collisions &amp; cameras</h2><span class="chip done">✅ Native HTML · Oct 18, 2026</span><a class="live-link" href="Traffic/stops.html">open the page ↗</a></div>
+  <div class="proj-head"><h2>🚦 Road safety report: collisions, traffic stops &amp; cameras</h2><span class="chip done">✅ Native HTML · Oct 18, 2026</span><a class="live-link" href="Traffic/stops.html">open the page ↗</a></div>
   <p>Power BI replaced by six sections (Collisions first, then Where it happens, the former roads page) with charts, maps, filters, accessible data tables and CSV downloads. The weekly workflow checks official source coverage and rebuilds the report.</p>
   <p><b>Sources checked Oct 18:</b> police stops through 2024; detailed collisions through 2024 with 2023 absent; speed-camera tickets through November 2025; red-light tickets through August 2026. Speed monitoring continues through September 2026. Newer OPS collision summaries (2025 year-end and September 19, 2026 YTD) are shown separately because definitions differ.</p>
   <p><b>Limits:</b> police locations are an all-years rollup; demographics have no driving-exposure denominator; camera totals depend on network size; partial years and missing months remain explicit. OPS summary snapshots are manually verified, not automatically updated. <a href="Traffic/README.md">Method and rebuild instructions</a>.</p>

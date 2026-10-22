@@ -1,8 +1,10 @@
 name: Update ASE Speed Data
 
+# Schedule removed 2026-10-22: no page reads Vehicles/ase-speed-data.* any more. The same
+# City dataset is fetched weekly as Traffic/data/city/ase_removal_monitoring.csv
+# (fetch_city_traffic.py) and charted in the Speed tab of Traffic/stops.html.
+# Kept runnable by hand in case the Vehicles/ copies are wanted again.
 on:
-  schedule:
-    - cron: '0 10 * * 1'  # Every Monday 10:00 UTC (staggered: real-estate 09:00, this, StatCan 11:00)
   workflow_dispatch:
 
 jobs:

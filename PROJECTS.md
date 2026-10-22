@@ -200,8 +200,14 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
-### Ottawa Traffic Stops, Red Lights & Speed Violations
+### Ottawa Road Safety report — collisions, traffic stops & cameras (`Traffic/stops.html`)
 - **Progress:** ~100% · Native HTML report rebuilt Oct 18, 2026; Power BI removed.
+- **Hub merge (2026-10-22):** the one place for collisions, stops and cameras. `roads.html` became the
+  "Where it happens" tab (old URL and `#report-roads` redirect); the camera cards on
+  `Vehicles/road-safety.html` moved to the Speed and Red-light tabs (that page keeps the impact
+  calculator, fleet and pedestrian-FMI cards); `rto.html`'s collisions chart became one computed
+  sentence linking here. `update-ase-speed-data.yml` no longer runs on a schedule (same data now comes
+  from `fetch_city_traffic.py`).
 - Six sections: collisions (default, with the live crash-news counts), where it happens (the former roads page), stops/outcomes, demographics, speed cameras, red-light cameras; filters, maps, chart tables and CSV downloads.
 - **Sources checked Oct 18:** stops through 2024; detailed collisions through 2024 (2023 absent); speed-camera tickets through Nov 2025; red-light tickets through Aug 2026; separate speed monitoring through Sep 2026. OPS 2025 year-end and Sep 19 2026 YTD summaries are kept separate with their definitions.
 - Weekly source audit/rebuild; manually verified OPS snapshots stay pinned until reviewed. **Page:** `Traffic/stops.html` (`/#report-traffic` redirects there). **Method:** `Traffic/README.md`.
