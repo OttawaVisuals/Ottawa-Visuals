@@ -135,6 +135,103 @@ If a feed suddenly drops below 20% of its previous event count, the run is logge
 error and the state is kept. Otherwise one glitch would "clear" every event and then
 re-add them all.
 
+## OPS collision + enforcement releases (hourly)
+
+[`scripts/poll_ops_news.py`](scripts/poll_ops_news.py) reads the Ottawa Police news RSS
+(`ottawapolice.ca/en/news/rss/`, no key). It fetches each new post once and keeps the
+traffic ones. It runs from `collect.yml`, which triggers every 5 min, but it only
+polls once an hour. The City and OPS open data layers stop at 2024, so this is the
+only post-2024 per-incident source.
+
+| File | Meaning |
+|---|---|
+| `data/ops_collision_releases.csv` | One row per traffic release. `kind` = `collision` (a specific incident) or `enforcement` (blitz/charge results, with `charges` where a number is given). Collision rows: `incident_date`/`incident_time` (local), `district`, `location` (block / intersection / road), `severity` (`fatal` > `critical` > `serious` > `injury` > `none` > `unknown`), `collision_type` (one label, first match wins: `pedestrian` > `cyclist` (incl. e-scooter) > `motorcycle` > `off_road` (ATV, snowmobile) > `train` > `building` (into a store/home/business) > `multi_vehicle` > `single_vehicle` > `unknown`), 0/1 flags `pedestrian` `cyclist` `motorcycle` `truck` `bus` `hit_and_run`, and `people_killed`. Blank = the text doesn't say. |
+| `data/ops_news_seen.json` | Every post link already classified, plus the last poll time. Don't edit it. |
+
+**It's a sample, not a dataset.** OPS releases cover the collisions it wants witnesses
+for, so mostly fatal or life-threatening ones. Treat counts as a floor, and never append
+them to the City collision series. One incident can get several releases: `follow_up = 1`
+marks "UPDATE…" / "arrested in…" posts, so filter those out before counting.
+The feed only holds posts the site still hosts (~216, back to about Dec 2025). The
+backfill was the first run, so anything older is gone.
+
+**Coverage check (2026-10-20, against CTV Ottawa).** I took CTV's daily sitemaps from
+Mar 1 to Oct 19 and kept crashes inside the City of Ottawa on OPS roads (the 417/416 are
+OPP, so they're out) that were fatal or seriously/critically injured someone. I then matched
+them by hand to OPS releases:
+
+| | CTV reported | OPS issued a release | Logged here |
+|---|---|---|---|
+| Fatal | 18 | 14 (78%) | 13 |
+| Serious / critical, not fatal | 28 | 8 (29%) | 8 |
+| Sep 1 – Oct 19 only (both) | 16 | 14 | 13 |
+
+Notes on the table:
+- Mar–Aug is thin: only 2 of 21 serious non-fatal crashes got a release.
+- The one release that was missed is the Friel St pedestrian death. Its text never says
+  "vehicle" or "collision".
+- Fatal crashes with no OPS release: a May crash near Fallowfield Station, a child killed
+  near Osgoode (June), a rural crash on Aug 22, and a car into a home in Orléans (Sep 9).
+- Minor crashes almost never get a release. That covers most crashes into stores and
+  minor pedestrian/cyclist hits.
+
+Fields come from regexes on the release text. The tests in
+[`scripts/test_ops_news.py`](scripts/test_ops_news.py) pin the traps found so far:
+- Every release names the "Fatal Collision Investigation Unit", which does not mean a death.
+- "motorcyclist" contains "cyclist".
+- A cyclist "struck by a vehicle" is not a pedestrian.
+- Feature stories about crashes abroad get skipped.
+
+## CTV Ottawa crash headlines (hourly)
+
+[`scripts/poll_ctv_crashes.py`](scripts/poll_ctv_crashes.py) is the second source. It covers
+what OPS releases skip: non-fatal serious crashes, minor pedestrian and cyclist hits, and cars
+into buildings. It reads CTV's daily news sitemaps
+(`ctvnews.ca/arc/outboundfeeds/sitemap/YYYY-MM-DD/`, no key, ~340 URLs a day). It keeps
+`/ottawa/article/` URLs with a crash word in the slug, and tags each one from the headline
+slug alone. Article text is never fetched. It runs from `collect.yml` right after the OPS
+poller, at most once an hour, and re-reads today's and yesterday's sitemaps. The backfill
+starts 2025-12-01 (`--since`). `--reclassify` re-applies the slug rules without fetching.
+
+| File | Meaning |
+|---|---|
+| `data/ctv_crash_headlines.csv` | One row per article: `sitemap_date`, `lastmod_utc`, `in_ottawa_ops` (0 = outside the city or on an OPP highway; `out_reason` names the place that excluded it), `story_kind` (`incident` / `follow_up` / `context`), `severity`, `collision_type` (same labels and order as the OPS file), 0/1 road-user and `building` flags, `matched_ops_url` + `match_basis`. Rewritten each run (~300 rows) so late OPS matches fill in. |
+| `data/ctv_crashes_state.json` | Last poll time and the earliest backfilled day. |
+
+**Matching to OPS.** A CTV row gets a match when an OPS collision release scores 3+ and no
+other release ties it:
+- same road named in both (3)
+- same `collision_type` (2)
+- same severity bucket (1), where fatal is one bucket and critical/serious another
+- fatal on one side only (−3)
+- dates within ±3 days, or ±1 day when the two share no road name
+
+`match_basis` = `road` is reliable. `type+date` is probable: CTV usually names the
+neighbourhood (Barrhaven) where OPS names the street (Strandherd). Check those before
+relying on one. One CTV story per incident gets matched, and the others (follow-ups, the
+"dies" update) often stay blank.
+
+**Backfill, Dec 2025 – Oct 20, 2026:**
+- **Rows:** 307 crash headlines, of which 146 are inside the city on OPS roads. The rest are
+  mostly the 417, eastern Ontario, Kingston and Gatineau.
+- **In-area crash stories:** 116 incident stories.
+  - By type: 29 pedestrian, 15 multi-vehicle, 15 single-vehicle, 11 into a building,
+    10 motorcycle, 8 cyclist.
+  - By severity: 24 fatal, 31 critical/serious.
+- **Matches:** 16 of the 55 fatal/critical/serious stories have a matched OPS release.
+
+**Limits:**
+- **Headline only.** "Pedestrian struck in Barrhaven" has no severity, so 33 in-area rows are
+  `unknown` severity.
+- **Duplicates:** one crash can produce several CTV stories, so don't count rows as crashes.
+- **Scope:** only stories CTV filed under its Ottawa section.
+
+The slug rules are pinned in [`scripts/test_ctv_crashes.py`](scripts/test_ctv_crashes.py):
+- "clock strikes" isn't a crash.
+- "crash on Bank Street" isn't into a bank, and "street" doesn't contain a "tree".
+- "woman struck by vehicle" is a pedestrian.
+- The 417 is OPP, and Hwy 174 is OPS.
+
 ## City + police context datasets
 
 [`scripts/fetch_city_traffic.py`](scripts/fetch_city_traffic.py) pulls the static

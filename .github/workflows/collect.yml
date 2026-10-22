@@ -31,6 +31,10 @@ env:
     Traffic/data/events_summary.csv
     Traffic/data/events_active.json
     Traffic/data/cameras.csv
+    Traffic/data/ops_collision_releases.csv
+    Traffic/data/ops_news_seen.json
+    Traffic/data/ctv_crash_headlines.csv
+    Traffic/data/ctv_crashes_state.json
     OC_Transpo/rt_data/trip_updates_summary.csv
     OC_Transpo/rt_data/vehicle_positions_summary.csv
 
@@ -100,6 +104,8 @@ jobs:
           python Traffic/scripts/poll_traffic.py
           python Traffic/scripts/poll_parking.py || echo "poll_parking failed (non-fatal)"
           python Traffic/scripts/poll_events.py || echo "poll_events failed (non-fatal)"
+          python Traffic/scripts/poll_ops_news.py || echo "poll_ops_news failed (non-fatal)"
+          python Traffic/scripts/poll_ctv_crashes.py || echo "poll_ctv_crashes failed (non-fatal)"
           python OC_Transpo/scripts/poll_gtfsrt.py
 
       - name: Save readings to spool

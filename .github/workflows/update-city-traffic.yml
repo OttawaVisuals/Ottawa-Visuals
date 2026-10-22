@@ -34,6 +34,8 @@ jobs:
         run: |
           python Traffic/scripts/build_stops_report.py --refresh
           python Traffic/scripts/test_stops_report.py
+          python Traffic/scripts/test_ops_news.py
+          python Traffic/scripts/test_ctv_crashes.py
 
       - name: Commit if changed
         if: always()  # keep whatever did refresh
