@@ -3174,29 +3174,6 @@
 },
 "fp": "d812b86d3a85"
 },
-"29608": {
-"event": {
-"cause": "construction",
-"created": "2026-10-21 06:39:00",
-"cross_street_1": "DALHOUSIE",
-"cross_street_2": "CUMBERLAND",
-"direction": null,
-"event_id": "29608",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "YORK closed between DALHOUSIE and CUMBERLAND due to construction, from October 19th to 30th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.428854,
-"lon": -75.691118,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-19T00:00",
-"priority": "HIGH",
-"road": "YORK",
-"source": "city",
-"updated": "2026-10-21 06:40:00"
-},
-"fp": "fae81a52faff"
-},
 "29613": {
 "event": {
 "cause": "construction",
@@ -3288,6 +3265,52 @@
 "updated": "2026-10-22 10:28:00"
 },
 "fp": "7db40b1bf703"
+},
+"29626": {
+"event": {
+"cause": "",
+"created": "2026-10-22 10:51:00",
+"cross_street_1": "MOODIE DR (IC 134)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29626",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound On-ramp at MOODIE DR - Continuous Construction. ALL LANES CLOSED. 2026-10-22 10:00 to 2026-10-22 14:30",
+"lanes": "ALL LANES CLOSED",
+"lat": 45.33849,
+"lon": -75.84131,
+"planned_end": "2026-10-22T14:30",
+"planned_start": "2026-10-22T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-22 10:51:00"
+},
+"fp": "f4a327a9853d"
+},
+"29627": {
+"event": {
+"cause": "construction",
+"created": "2026-10-22 11:03:00",
+"cross_street_1": "LYON",
+"cross_street_2": "BAY",
+"direction": null,
+"event_id": "29627",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT westbound lane reduction between LYON and BAY due to construction. From 12:00am, 22/10/26 to 5:00pm, 25/10/26",
+"lanes": "lane reduction",
+"lat": 45.418147,
+"lon": -75.704422,
+"planned_end": "2026-10-25T17:00",
+"planned_start": "2026-10-22T00:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-10-22 11:04:00"
+},
+"fp": "183317fd7b34"
 },
 "7973": {
 "event": {
