@@ -277,7 +277,7 @@ It puts every dataset on one key, the City's **Geo_ID** (a numeric ID is an inte
 | `snaps.csv` | Every coordinate-only record (police stop locations, red-light and ASE cameras, TomTom segments, traffic cameras, pre-2024 intersection counts) with its matched Geo_ID and distance |
 | `neighbourhood_summary.csv` | Per OPS neighbourhood: collisions vs police stops vs 2016 population |
 | `neighbourhoods.geojson` | Simplified OPS neighbourhood outlines (117 KB) for the map on the Where tab of [`stops.html`](stops.html?section=where) |
-| `stories.json` | Small precomputed numbers that the Where tab of [`stops.html`](stops.html?section=where) and the road-safety page chart (photo-radar tickets per camera, red-light before/after, pedestrian FMI check). Built by [`scripts/build_stories.py`](scripts/build_stories.py) so the page doesn't fetch 15 MB of collisions. |
+| `stories.json` | Small precomputed numbers that [`stops.html`](stops.html) charts (Where tab; collisions at photo-radar sites; red-light before/after and by camera age) and the road-safety page checks (pedestrian FMI check). Built by [`scripts/build_stories.py`](scripts/build_stories.py) so the page doesn't fetch 15 MB of collisions. |
 
 How matching works:
 

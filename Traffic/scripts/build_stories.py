@@ -6,8 +6,8 @@ page to fetch for a handful of charts, so this distils them into one JSON:
 Traffic/data/derived/stories.json. Run after build_geo_index.py (the weekly
 workflow does both).
 
-Story keys (road-safety.html):
-  ase_tickets_monthly   -- photo-radar tickets per active camera per month
+Story keys (camera tabs of Traffic/stops.html; ped_fmi_by_year: Vehicles/road-safety.html):
+  ase_tickets_monthly   -- photo-radar tickets per active camera per month (no page reads it since 2026-10-22)
   ase_collisions        -- collisions at ASE sites before vs after install
   rlc_by_years_since    -- red-light violations per camera-month by camera age
   rlc_before_after      -- collisions by type before vs after a red-light camera

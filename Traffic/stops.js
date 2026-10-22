@@ -277,7 +277,9 @@ async function renderCollisions(state, token) {
 // intersections and traffic volume, from build_stories.py's weekly stories.json.
 const divTokens = ['--div-w3','--div-w2','--div-w1','--div-0','--div-c1','--div-c2','--div-c3'];
 const titleCase = s => String(s || '').toLowerCase().replace(/(^|[\s/(@-])([a-z])/g, (m, p, c) => p + c.toUpperCase());
-let whereTask;
+let storiesTask, areasTask;
+const loadStories = () => storiesTask ??= fetchJSON('data/derived/stories.json').catch(e=>{ storiesTask = null; throw e; });
+const loadAreas = () => areasTask ??= fetchJSON('data/derived/neighbourhoods.geojson').catch(e=>{ areasTask = null; throw e; });
 async function fetchJSON(file) {
   const response = await fetch(file);
   if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
@@ -352,8 +354,7 @@ async function renderWhere(token) {
   exports = [['neighbourhood','police_stops','injury_collisions','share_stops_pct','share_injury_pct','stops_vs_harm_index','charged_pct']];
   let stories, areas;
   try {
-    whereTask ??= Promise.all([fetchJSON('data/derived/stories.json'), fetchJSON('data/derived/neighbourhoods.geojson')]).catch(e=>{ whereTask = null; throw e; });
-    [stories, areas] = await whereTask;
+    [stories, areas] = await Promise.all([loadStories(), loadAreas()]);
   } catch(e) {
     if (token === generation) $('panels').innerHTML = `<p class="empty">Neighbourhood data could not load (${esc(e.message)}). Switch tabs and back to retry.</p>`;
     return;
@@ -400,7 +401,7 @@ function cameraPeriod(rows) {
   const months = [...new Set(rows.map(r=>`${r[0]}-${String(r[1]).padStart(2,'0')}`))].sort();
   return `${months[0]} to ${months.at(-1)}`;
 }
-function renderCameras(state) {
+function renderCameras(state, token) {
   const speed = section==='speed', c = data[section];
   const years = [...new Set(c.months.map(r=>r[0]))].sort();
   const options = c.sites.map((s,i)=>[String(i),`${speed ? s.id+' · ' : ''}${s.name}${s.direction ? ' · '+s.direction : ''}`]).sort((a,b)=>a[1].localeCompare(b[1]));
@@ -440,8 +441,50 @@ function renderCameras(state) {
   }
   const points = [...aggregate(rows,r=>r[2],r=>r[3])].map(([i,n])=>({...c.sites[i],n})).filter(s=>s.lat!=null&&s.lon!=null).map(s=>({...s,name:s.name+(s.direction?' · '+s.direction:'')}));
   mapPoints(points,cameraPeriod(rows));
-  if (speed) renderMonitoring(state);
+  if (speed) { renderAseSummary(); renderMonitoring(state); }
+  $('panels').insertAdjacentHTML('beforeend','<div id="camera-stories"></div>');
   exports = [['year','month','site_or_approach','location','direction','violations'],...rows.map(r=>[r[0],r[1],c.sites[r[2]].id,c.sites[r[2]].name,c.sites[r[2]].direction,r[3]])];
+  return renderCameraStories(speed, token);
+}
+// All monitored sites by program stage (formerly the photo-radar card on Vehicles/road-safety.html).
+function renderAseSummary() {
+  const obs = data.monitoring, pre = obs.filter(r=>r.stage==='Pre ASE Installation');
+  const staged = obs.filter(r=>r.month && r.stage!=='Pre ASE Installation');
+  const avgOf = a => a.length ? +(sum(a)/a.length).toFixed(1) : null;
+  const sorted = staged.map(r=>r.month).sort(), months = [];
+  for (let [y, m] = sorted[0].split('-').map(Number); `${y}-${String(m).padStart(2,'0')}` <= sorted.at(-1); m === 12 ? (y++, m = 1) : m++) months.push(`${y}-${String(m).padStart(2,'0')}`);
+  const at = (stage, month, k) => avgOf(staged.filter(r=>r.stage===stage && r.month===month && r[k]!=null).map(r=>r[k]));
+  const series = (stage, k) => months.map(m=>at(stage, m, k));
+  const lastOf = stage => staged.filter(r=>r.stage===stage).map(r=>r.month).sort().at(-1);
+  const lastOn = lastOf('ASE Active'), lastOff = lastOf('ASE Removed');
+  const preC = avgOf(pre.map(r=>r.pct_compliance)), preH = avgOf(pre.map(r=>r.pct_high_end_speeders));
+  const sites = new Set(obs.map(r=>r.site_id)).size, label = ym => `${monthNames[Number(ym.slice(5))-1]} ${ym.slice(0,4)}`;
+  $('panels').insertAdjacentHTML('beforeend',`<section class="card"><p class="eyebrow">All ${sites} monitored school-zone sites</p><h3>Photo radar: on, then off</h3><p class="note">Monthly averages across the ${sites} sites the City measured before, during and after camera operation. Ontario’s Bill 56 switched every camera off on November 14, 2025; the City kept measuring speeds afterwards. Dashed line: before the cameras (one reading per site). Sampled speeds, not tickets, and not a causal estimate.</p><div class="stats">${stat(`${preC}%`,'Compliance before cameras')}${stat(lastOn ? `${at('ASE Active',lastOn,'pct_compliance')}%` : '—',`With cameras (${lastOn ? label(lastOn) : 'no reading'})`)}${stat(lastOff ? `${at('ASE Removed',lastOff,'pct_compliance')}%` : '—',`Cameras off (${lastOff ? label(lastOff) : 'no reading'})`)}</div><div class="grid">${panel('ase-compliance','Compliance with the speed limit','Average share of observed drivers at or under the limit.')}${panel('ase-highend','High-end speeding','Average share more than 15 km/h over the limit.')}</div></section>`);
+  const off = series('ASE Removed','pct_high_end_speeders'), on = series('ASE Active','pct_high_end_speeders');
+  const peak = Math.max(preH, ...on.concat(off).filter(v=>v!=null));
+  chart('ase-compliance','line',months.map(label),[{label:'Cameras on',data:series('ASE Active','pct_compliance')},{label:'Cameras off',data:series('ASE Removed','pct_compliance')}],{percent:true,plugins:[refLine(preC)]});
+  chart('ase-highend','line',months.map(label),[{label:'Cameras on',data:on},{label:'Cameras off',data:off}],{percent:true,y:{max:Math.ceil(peak/5)*5},plugins:[refLine(preH)]});
+}
+// Camera effects on collisions, from stories.json (formerly on Vehicles/road-safety.html).
+async function renderCameraStories(speed, token) {
+  let stories;
+  try { stories = await loadStories(); }
+  catch(e) { if (token === generation) $('camera-stories').innerHTML = '<p class="empty">Camera before/after data could not load. The violation records above are unaffected.</p>'; return; }
+  if (token !== generation) return;
+  const signed = p => `${p > 0 ? '+' : ''}${p}%`;
+  if (speed) {
+    const c = stories.ase_collisions;
+    $('camera-stories').innerHTML = `<section class="card"><p class="eyebrow">Collisions at camera sites</p><h3>Did crashes drop where photo radar went in?</h3><div class="stats">${stat(c.before_rate,'Collisions per site per year before installation')}${stat(c.after_rate,'Collisions per site per year after installation')}${stat(fmt(c.after_site_years),`Site-years of after data, across ${fmt(c.sites)} sites`)}</div><p class="note">Too early to call: most cameras went in during 2023–24 and the City’s 2023 collision file is missing, so only ${fmt(c.after_site_years)} site-years of post-installation data exist, against ${fmt(c.before_site_years)} before.</p></section>`;
+    return;
+  }
+  const ba = stories.rlc_before_after, types = ba.by_type, ages = stories.rlc_by_years_since.filter(a=>a.camera_months >= 250);
+  const angle = types.find(t=>t.type.startsWith('Angle')), rear = types.find(t=>t.type==='Rear end');
+  $('camera-stories').innerHTML = `<section class="card"><p class="eyebrow">Collisions before and after a camera</p><h3>Red-light cameras: the trade-off</h3><p class="note">Collisions per intersection per year at the ${fmt(ba.intersections)} intersections that got their first red-light camera in ${esc(String(ba.install_years).replace('-','–'))}: ${fmt(ba.before_site_years)} intersection-years before installation vs ${fmt(ba.after_site_years)} after. Angle and turning crashes, the kind red-light running causes, changed ${signed(angle.change_pct)}; rear-end crashes changed ${signed(rear.change_pct)} as drivers brake harder for yellows. A before/after comparison, not a controlled estimate.</p><div class="grid">${panel('rlc-before-after','Collisions per intersection-year, by type','Before vs after the first camera at the same intersections.')}${panel('rlc-age','Violations per camera per month, by camera age','Unlike photo radar, violations barely fade as cameras age. Ages with fewer than 250 camera-months are left out.')}</div></section>`;
+  chart('rlc-before-after','bar',types.map(t=>t.type),[{label:'Before camera',data:types.map(t=>t.before_rate),backgroundColor:css('--ink-3')},{label:'After camera',data:types.map(t=>t.after_rate)}],
+    {label:ctx=>{ const t = types[ctx.dataIndex]; return `${ctx.dataset.label}: ${ctx.raw.toFixed(2)} per year (${fmt(ctx.datasetIndex ? t.after : t.before)} collisions)${ctx.datasetIndex ? ` · ${signed(t.change_pct)}` : ''}`; }});
+  $('rlc-before-after-data').innerHTML = `<details class="chart-data"><summary>View chart data</summary><div class="table-wrap">${table(['Collision type','Before, per year','After, per year','Change','Collisions before','Collisions after'],types.map(t=>[t.type,t.before_rate,t.after_rate,signed(t.change_pct),t.before,t.after]))}</div></details>`;
+  chart('rlc-age','line',ages.map(a=>a.years_since_install ? `Year ${a.years_since_install}` : 'Install year'),[{label:'Violations per camera per month',data:ages.map(a=>a.avg_monthly)}],
+    {label:ctx=>`${ctx.raw.toFixed(1)} per camera per month (${fmt(ages[ctx.dataIndex].camera_months)} camera-months)`});
 }
 function renderMonitoring(state) {
   const observations=data.monitoring;
@@ -466,7 +509,7 @@ async function render() {
   else if (section==='drivers') renderDrivers(state);
   else if (section==='collisions') mapTask=renderCollisions(state,token);
   else if (section==='where') mapTask=renderWhere(token);
-  else renderCameras(state);
+  else mapTask=renderCameras(state,token);
   if (token !== generation) return;
   document.querySelectorAll('#filters select, #monitor').forEach(input=>input.addEventListener('change',()=>{
     state[input.id]=input.value;
