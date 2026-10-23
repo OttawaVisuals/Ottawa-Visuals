@@ -3312,29 +3312,6 @@
 },
 "fp": "183317fd7b34"
 },
-"29634": {
-"event": {
-"cause": "construction",
-"created": "2026-10-22 15:58:00",
-"cross_street_1": "Tenth Line",
-"cross_street_2": "Trim",
-"direction": null,
-"event_id": "29634",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound reduced to 1 lane between Tenth Line and Trim due to construction. From 9:00am to 2:00pm, 23/10/26",
-"lanes": "reduced to 1 lane",
-"lat": 45.484886,
-"lon": -75.504585,
-"planned_end": "2026-10-23T14:00",
-"planned_start": "2026-10-23T09:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-23 08:56:00"
-},
-"fp": "588f47a0f5da"
-},
 "29635": {
 "event": {
 "cause": "construction",
@@ -3449,6 +3426,29 @@
 "updated": "2026-10-23 11:24:00"
 },
 "fp": "ee0907e75deb"
+},
+"29653": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-23 13:41:00",
+"cross_street_1": "Hunt Club",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29653",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bank southbound right-turn lane closed at Hunt Club due to a disabled vehicle. Duration is unknown.",
+"lanes": "right-turn lane closed",
+"lat": 45.353618,
+"lon": -75.647862,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Bank",
+"source": "city",
+"updated": "2026-10-23 13:41:00"
+},
+"fp": "c88e3ade777e"
 }
 }
 }
