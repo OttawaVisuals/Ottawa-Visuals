@@ -49,11 +49,35 @@ in the OS temp directory; source URLs, SHA-256 hashes and PDF pages are retained
   Source p. 215, Table 52 provides shelter users and nights. Wait-list placements are
   not housing starts/completions; shelter users do not count all people experiencing homelessness.
 
-After **any data rebuild**, run `python Budget/scripts/package_page_data.py`.
+After **any data rebuild**, run `python Budget/scripts/build_inflation.py`, then
+`python Budget/scripts/package_page_data.py`.
 It generates `data/page-data.js` from the four canonical JSON files, allowing a local
 `file://` page to load without fetch. Over HTTP, the page continues to load the JSON files
 and preserves shared URL controls. Local-file controls work without rewriting the URL.
 Check the package with `scripts/check_history_kpis.py` before committing.
+
+## Inflation option
+
+The global dollar-basis control defaults to nominal and can show **2025 dollars**.
+It updates budget overview cards, history, operating/capital/funding bars, children,
+tables and changes. Within-year shares stay the same. `prices=real` persists in HTTP URLs.
+Lansdowne's separately dated source figures and non-monetary service KPIs keep their units.
+
+Formula: `nominal amount * CPI(2025) / CPI(year)`. Ottawa-Gatineau, Ontario part,
+all-items, not seasonally adjusted, CPI index 2002=100; StatCan geography member 15,
+product member 2. Annual Table 18-10-0005-01 gives 2023=159.2, 2024=162.8, 2025=166.3.
+2026 uses a **provisional Jan–Sep monthly average**, 170.4444444, from Table 18-10-0004-01.
+It is a YTD proxy, not full-year inflation or a forecast. No missing months are invented.
+CPI is a consumer-price benchmark, not a municipal wage or construction-cost deflator.
+
+`build_inflation.py` caches WDS responses in the OS temp directory, retains source hashes
+and every 2026 monthly observation in `data/inflation.json`, and writes CPI/factor CSV
+and `budget-inflation-adjusted.csv` (122 overview/history observations, original plus adjusted).
+The script stops if the cutoff changes from nine months so labels must be reviewed explicitly.
+To refresh, move/remove the two specifically named cached `ottawa-cpi-18100005.json` and
+`ottawa-cpi-18100004.json` files; rerun and review. Repackage after rebuilding.
+
+Validate with `python Budget/scripts/check_inflation.py` and `node --check Budget/inflation.js`.
 
 ## Sources and reproducible budget extraction
 

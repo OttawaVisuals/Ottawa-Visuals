@@ -8,6 +8,8 @@
   const pct=(a,b)=>(b-a)/a*100;
   const signedPercent=n=>sign(n)+Math.abs(n).toFixed(1)+'%';
   const signedMoney=n=>sign(n)+million(Math.abs(n));
+  const price=(value,year)=>window.OVBudgetPrices?.convert(value,year)??value;
+  const basis=()=>window.OVBudgetPrices?.basis||'nominal dollars';
   const p=new URLSearchParams(location.search);
   let historyData,kpiData;
   const state={from:p.get('from')||'2023',to:p.get('to')||'2026',rank:p.get('rank')==='percent'?'percent':'dollars',group:['paramedics','infrastructure','housing'].includes(p.get('kpi'))?p.get('kpi'):'paramedics',metric:p.get('metric')||'ctas1-city',region:['city','urban','rural'].includes(p.get('region'))?p.get('region'):'city'};
@@ -24,18 +26,21 @@
     $('history-from').value=state.from;
     $('history-to').innerHTML=years.filter(y=>Number(y)>Number(state.from)).map(y=>`<option${y===state.to?' selected':''}>${y}</option>`).join('');
     $('history-unit').value=state.rank;
-    const totals=historyData.totals,maxTotal=Math.max(...Object.values(totals));
-    $('annual-totals').innerHTML=years.map((y,i)=>`<div><span>${y} budget</span><strong>$${(totals[y]/1e6).toFixed(2)}B</strong><div class="annual-track" aria-hidden="true"><i style="width:${totals[y]/maxTotal*100}%"></i></div><small>${i?signedPercent(pct(totals[years[i-1]],totals[y]))+' vs '+years[i-1]:'First year in this series'}</small></div>`).join('');
-    const rows=historyData.rows.map(r=>({...r,delta:r.values[state.to]-r.values[state.from],percent:pct(r.values[state.from],r.values[state.to])}));
+    const totals=Object.fromEntries(Object.entries(historyData.totals).map(([y,v])=>[y,price(v,y)])),maxTotal=Math.max(...Object.values(totals));
+    $('annual-totals').innerHTML=years.map((y,i)=>`<div><span>${y} budget${window.OVBudgetPrices?.real?' · 2025$':''}</span><strong>$${(totals[y]/1e6).toFixed(2)}B</strong><div class="annual-track" aria-hidden="true"><i style="width:${totals[y]/maxTotal*100}%"></i></div><small>${i?signedPercent(pct(totals[years[i-1]],totals[y]))+' vs '+years[i-1]:'First year in this series'}${window.OVBudgetPrices?.real&&y==='2026'?' · provisional':''}</small></div>`).join('');
+    const adjustedRows=historyData.rows.map(r=>({...r,values:Object.fromEntries(Object.entries(r.values).map(([y,v])=>[y,price(v,y)]))}));
+    const rows=adjustedRows.map(r=>({...r,delta:r.values[state.to]-r.values[state.from],percent:pct(r.values[state.from],r.values[state.to])}));
     rows.sort((a,b)=>b[state.rank==='percent'?'percent':'delta']-a[state.rank==='percent'?'percent':'delta']);
     const scale=Math.max(...rows.map(r=>Math.abs(state.rank==='percent'?r.percent:r.delta)),1);
     const delta=totals[state.to]-totals[state.from];
-    $('history-summary').textContent=`${state.from} → ${state.to}: ${signedMoney(delta)} (${signedPercent(pct(totals[state.from],totals[state.to]))}) total · ${rows.filter(r=>r.delta>0).length} categories increased · ${rows.filter(r=>r.delta<0).length} decreased`;
+    $('history-summary').textContent=`${state.from} → ${state.to}: ${signedMoney(delta)} (${signedPercent(pct(totals[state.from],totals[state.to]))}) total · ${rows.filter(r=>r.delta>0).length} categories increased · ${rows.filter(r=>r.delta<0).length} decreased · ${basis()}${window.OVBudgetPrices?.real&&state.to==='2026'?' · 2026 provisional':''}`;
     $('change-chart').innerHTML=rows.map(r=>{
       const v=state.rank==='percent'?r.percent:r.delta,width=Math.abs(v)/scale*49;
-      return `<details class="change-row"><summary><span class="change-name">${esc(r.name)}</span><span class="delta-track" aria-hidden="true"><i class="zero-line"></i><i class="delta-bar ${v<0?'decrease':'increase'}" style="width:${width}%;left:${v<0?50-width:50}%"></i></span><span class="change-value">${state.rank==='percent'?signedPercent(r.percent):signedMoney(r.delta)}<small>${state.rank==='percent'?signedMoney(r.delta):signedPercent(r.percent)}</small></span></summary><div class="annual-detail">${years.map(y=>`<div><span>${y}</span><strong>${million(r.values[y])}</strong></div>`).join('')}</div><p class="small">${state.from}: ${million(r.values[state.from])} → ${state.to}: ${million(r.values[state.to])}. Nominal budget expenses.</p></details>`;
+      return `<details class="change-row"><summary><span class="change-name">${esc(r.name)}</span><span class="delta-track" aria-hidden="true"><i class="zero-line"></i><i class="delta-bar ${v<0?'decrease':'increase'}" style="width:${width}%;left:${v<0?50-width:50}%"></i></span><span class="change-value">${state.rank==='percent'?signedPercent(r.percent):signedMoney(r.delta)}<small>${state.rank==='percent'?signedMoney(r.delta):signedPercent(r.percent)}</small></span></summary><div class="annual-detail">${years.map(y=>`<div><span>${y}${window.OVBudgetPrices?.real&&y==='2026'?' (provisional)':''}</span><strong>${million(r.values[y])}</strong></div>`).join('')}</div><p class="small">${state.from}: ${million(r.values[state.from])} → ${state.to}: ${million(r.values[state.to])}. Budget expenses in ${basis()}.</p></details>`;
     }).join('');
-    $('history-rows').innerHTML=historyData.rows.concat([{name:'Total budget expenses',values:totals}]).map(r=>`<tr><th scope="row">${esc(r.name)}</th>${years.map(y=>`<td>${(r.values[y]/1000).toLocaleString('en-CA',{minimumFractionDigits:3,maximumFractionDigits:3})}</td>`).join('')}</tr>`).join('');
+    $('history-rows').innerHTML=adjustedRows.concat([{name:'Total budget expenses',values:totals}]).map(r=>`<tr><th scope="row">${esc(r.name)}</th>${years.map(y=>`<td>${(r.values[y]/1000).toLocaleString('en-CA',{minimumFractionDigits:3,maximumFractionDigits:3})}</td>`).join('')}</tr>`).join('');
+    document.querySelector('#history table caption').textContent=`Budget expenses in millions of ${basis()}, full-accrual basis.${window.OVBudgetPrices?.real?' 2026 uses provisional January–September CPI.':''}`;
+    const download=document.querySelector('#history .download');download.href=window.OVBudgetPrices?.real?'data/budget-inflation-adjusted.csv':'data/history.csv';download.textContent=window.OVBudgetPrices?.real?'Adjusted CSV ↓':'History CSV ↓';
     $('history-sources').innerHTML=`<a href="${historyData.sources['2023'].url}#page=14">2024 adopted book, Table 1 ↗</a> · <a href="${historyData.sources['2026'].url}#page=15">2026 adopted book, Table 1 ↗</a>`;
     url();
   }
@@ -87,5 +92,6 @@
   $('kpi-metric').addEventListener('change',e=>{state.metric=e.target.value;renderKpis();});
   $('kpi-region').addEventListener('change',e=>{state.region=e.target.value;renderKpis();});
   $('history-retry').addEventListener('click',loadHistory);$('kpi-retry').addEventListener('click',loadKpis);
+  window.addEventListener('budget-prices-change',renderHistory);
   loadHistory();loadKpis();
 })();

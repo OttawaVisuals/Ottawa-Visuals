@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Budget inflation option (Oct 23: shared nominal/2025-dollar control for budget charts/tables/cards; official Ottawa CPI, explicitly provisional Jan–Sep 2026 proxy; formulas, source factors and adjusted CSV)
 - [x] Expand budget history and service KPIs (Oct 23: 2023–2026 full-accrual budget changes, dollar/percent ranking; 26 paramedic/transportation-condition/housing series with targets and dates, sourced CSV/JSON; bundled local-file fallback)
 - [x] Ottawa budget page (Oct 23: adopted 2026 operating/capital/funding, 2025 budget comparison, service breakdowns, source extraction/reconciliation, CSV/JSON; separate Lansdowne scope/financing/July 2026 spending snapshot and service KPI links)
 - [x] Simplify traffic court charts (Oct 23: removed camera-issued versus court-completed chart; selected-offence chart 30% taller at each screen breakpoint)

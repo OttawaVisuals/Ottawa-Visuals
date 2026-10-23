@@ -1,0 +1,40 @@
+{
+  "reviewed": "2026-10-23",
+  "geography": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+  "product": "All-items CPI, not seasonally adjusted",
+  "index_base": "2002=100",
+  "base_year": 2025,
+  "annual_indices": {
+    "2023": 159.2,
+    "2024": 162.8,
+    "2025": 166.3,
+    "2026": 170.44444444444446
+  },
+  "provisional_years": [
+    2026
+  ],
+  "monthly_2026": {
+    "2026-01": 167.0,
+    "2026-02": 168.1,
+    "2026-03": 169.8,
+    "2026-04": 170.4,
+    "2026-05": 172.0,
+    "2026-06": 171.4,
+    "2026-07": 171.7,
+    "2026-08": 171.6,
+    "2026-09": 172.0
+  },
+  "factors": {
+    "2023": 1.0445979899497488,
+    "2024": 1.0214987714987716,
+    "2025": 1.0,
+    "2026": 0.9756844850065189
+  },
+  "formula": "2025 dollars = nominal dollars × 2025 annual CPI / year CPI",
+  "annual_source": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000501",
+  "monthly_source": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
+  "coordinate": "15.2.0.0.0.0.0.0.0.0",
+  "annual_response_sha256": "d4c5fb09f7d6d313f65ff5b979b9613fecd1d5567bce68e577c3b462e16576a6",
+  "monthly_response_sha256": "7906778975eed23afb83551600a997ec991a5c09d971878ee92bb9b434962911",
+  "note": "2026 uses the January–September monthly CPI average as a provisional proxy for annual CPI. It is not a full-year index or a forecast. CPI measures consumer prices, not municipal wages, construction or procurement costs."
+}

@@ -1,5 +1,23 @@
 # Verification — October 23, 2026
 
+## Inflation option (same day)
+
+- Retrieved StatCan WDS geography 15 / product 2 (Ottawa-Gatineau, Ontario part,
+  all-items CPI). Annual 2023–2025 indices checked; January–September 2026 monthly
+  indices retained individually. The nine-month mean is explicitly a provisional proxy.
+- `check_inflation.py` passed: base-year identity, exact factor arithmetic, provisional
+  coverage, 122 adjusted-export observations, lower real growth under positive inflation,
+  annual total reconciliation, and packaged-source equality.
+- Original and history/KPI suites passed (128 + 211 checks); three JS syntax checks
+  and whitespace checks passed.
+- Browser: 40 budget/filter combinations across both bases, all 24 historical pair/rank
+  combinations, no invalid values. Within-year shares and 2025 base-year amounts unchanged.
+- Verified both percentage and dollar changes, table units, adjusted CSV links, budget
+  overview amounts and unchanged KPI units. `prices=real` survives reload.
+- Checked the control at 320px width without horizontal overflow. The visible note and
+  annual 2026 card label disclose the provisional CPI; no complete 2026 CPI is claimed.
+- Original source JSON/CSV stay nominal. Adjusted export includes both amounts and CPI status.
+
 ## Historical comparison and KPI expansion (same day)
 
 - Built `history.json/csv` from Table 1 of the 2024 and 2026 adopted books. Ten
