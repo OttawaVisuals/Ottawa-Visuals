@@ -1,4 +1,105 @@
 {
- "window": null,
- "routes": []
+ "window": {
+  "start": "2026-10-23",
+  "end": "2026-10-23",
+  "otranspo_days": 0
+ },
+ "routes": [
+  {
+   "route": "12",
+   "school": false,
+   "days": 1,
+   "observations": 1,
+   "bus_minutes": 60,
+   "ontime_pct": 100.0,
+   "late_pct": 0.0,
+   "early_pct": 0.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": 1.8,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  },
+  {
+   "route": "39",
+   "school": false,
+   "days": 1,
+   "observations": 2,
+   "bus_minutes": 120,
+   "ontime_pct": 50.0,
+   "late_pct": 0.0,
+   "early_pct": 50.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": 0.0,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  },
+  {
+   "route": "45",
+   "school": false,
+   "days": 1,
+   "observations": 1,
+   "bus_minutes": 60,
+   "ontime_pct": 100.0,
+   "late_pct": 0.0,
+   "early_pct": 0.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": 4.4,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  },
+  {
+   "route": "61",
+   "school": false,
+   "days": 1,
+   "observations": 1,
+   "bus_minutes": 60,
+   "ontime_pct": 0.0,
+   "late_pct": 0.0,
+   "early_pct": 100.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": -2.1,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  },
+  {
+   "route": "75",
+   "school": false,
+   "days": 1,
+   "observations": 2,
+   "bus_minutes": 120,
+   "ontime_pct": 50.0,
+   "late_pct": 0.0,
+   "early_pct": 50.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": -0.8,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  },
+  {
+   "route": "105",
+   "school": false,
+   "days": 1,
+   "observations": 2,
+   "bus_minutes": 120,
+   "ontime_pct": 100.0,
+   "late_pct": 0.0,
+   "early_pct": 0.0,
+   "within_5min_pct": 100.0,
+   "mean_delay_min": 1.2,
+   "cancelled": 0,
+   "cancel_notices": 0,
+   "otranspo_within_5min_pct": null,
+   "otranspo_observations": 0
+  }
+ ]
 }
