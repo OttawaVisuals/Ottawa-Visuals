@@ -29,6 +29,8 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 
 Publication review corrections, their causes and verification are recorded in
 [`ACCURACY_FIXES.md`](ACCURACY_FIXES.md).
+Mobile layout checks, fixes and device-testing limits are recorded in
+[`MOBILE_CHECKS.md`](MOBILE_CHECKS.md).
 
 | Path | Purpose |
 |---|---|

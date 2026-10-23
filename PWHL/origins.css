@@ -12,5 +12,7 @@
 [data-theme="dark"] .origin-marker{border-color:#fff;background:rgba(25,32,42,.88);color:#fff}
 .leaflet-container{font:12px Inter,system-ui,sans-serif}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--bg-2);color:var(--ink)}
+/* Reserve page/card gutters, popup margins and auto-pan padding on phones. */
+#origins-map .leaflet-popup-content{max-width:calc(100vw - 132px);overflow-wrap:anywhere}
 .leaflet-control-zoom a{background:var(--bg-2)!important;color:var(--ink)!important;border-color:var(--line)!important}
 @media(max-width:720px){#origins-map{height:70vh;min-height:430px}.origins-map-card{padding:6px}}

@@ -58,6 +58,12 @@ Promise.all([
     PWHL.showError(status, 'Map tiles could not load. Check your connection and try again.');
   });
   originsMarkers = L.layerGroup().addTo(originsMap);
+  // Reposition an open popup when phone rotation changes its available width.
+  originsMap.on('resize', () => {
+    originsMarkers.eachLayer(marker => {
+      if (marker.isPopupOpen()) marker.getPopup().update();
+    });
+  });
   originsRender(selected);
   PWHL.onTheme(() => PWHL.fillHeader());
 }).catch(err => {

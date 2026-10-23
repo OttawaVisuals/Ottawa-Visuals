@@ -364,3 +364,11 @@ img.pwhl-image-fallback{object-fit:contain;background:#33058D;}
 .team-award-cols,.team-award-row{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:8px;align-items:center;}
 .team-award-cols{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);padding:0 0 4px;border-bottom:1px solid var(--line);}
 .team-award-row{grid-template-columns:78px minmax(0,1fr) auto;}
+
+/* Phone forms and playback controls need room for a finger. Keep the compact
+   navigation separate so its wrapped rows do not crowd out the report. */
+@media (max-width:720px){
+  .report .ov-select,.report input:not([type]),.report input[type=text],.report input[type=number]{font-size:16px;min-height:44px;max-width:100%;}
+  .report .tab-btn,.report .more-btn,.report .table-sort{min-height:44px;min-width:44px;}
+  .report input[type=range]{min-height:44px;}
+}
