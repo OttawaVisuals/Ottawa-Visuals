@@ -1,0 +1,135 @@
+{
+  "reviewed": "2026-10-23",
+  "unit": "CAD thousands",
+  "basis": "Full-accrual consolidated budget expenses by function; nominal dollars; not actual spending",
+  "years": [
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "sources": {
+    "2024": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2024%20Adopted%20Budget%20Book%20English%20Condensed-AODA.pdf",
+      "sha256": "d271e7b022defce6c1124b34ec37425d9f99103a719a46e59912b0ad57e6a712",
+      "pdf_page": 14,
+      "locator": "Table 1: Full Accrual Budget, expenses; current-year budget"
+    },
+    "2023": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2024%20Adopted%20Budget%20Book%20English%20Condensed-AODA.pdf",
+      "sha256": "d271e7b022defce6c1124b34ec37425d9f99103a719a46e59912b0ad57e6a712",
+      "pdf_page": 14,
+      "locator": "Table 1: Full Accrual Budget, expenses; prior-year budget comparator"
+    },
+    "2026": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf",
+      "sha256": "a57c1a5ab4c64f8022a8f8e05471075543f9a2ba9cd5583d8789ca8c75e63dba",
+      "pdf_page": 15,
+      "locator": "Table 1: Full Accrual Budget, expenses; current-year budget"
+    },
+    "2025": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf",
+      "sha256": "a57c1a5ab4c64f8022a8f8e05471075543f9a2ba9cd5583d8789ca8c75e63dba",
+      "pdf_page": 15,
+      "locator": "Table 1: Full Accrual Budget, expenses; prior-year budget comparator"
+    }
+  },
+  "totals": {
+    "2024": 4586778,
+    "2023": 4458244,
+    "2026": 5288959,
+    "2025": 4898070
+  },
+  "rows": [
+    {
+      "name": "General government",
+      "values": {
+        "2024": 118316,
+        "2023": 114877,
+        "2026": 136216,
+        "2025": 117929
+      }
+    },
+    {
+      "name": "Protection to persons and property",
+      "values": {
+        "2024": 723344,
+        "2023": 687250,
+        "2026": 852638,
+        "2025": 799797
+      }
+    },
+    {
+      "name": "Roads, traffic and parking",
+      "values": {
+        "2024": 479704,
+        "2023": 464888,
+        "2026": 530128,
+        "2025": 496221
+      }
+    },
+    {
+      "name": "Transit",
+      "values": {
+        "2024": 825653,
+        "2023": 793699,
+        "2026": 913993,
+        "2025": 825737
+      }
+    },
+    {
+      "name": "Environmental services",
+      "values": {
+        "2024": 518400,
+        "2023": 500852,
+        "2026": 561427,
+        "2025": 539604
+      }
+    },
+    {
+      "name": "Health services",
+      "values": {
+        "2024": 230813,
+        "2023": 260398,
+        "2026": 256981,
+        "2025": 248479
+      }
+    },
+    {
+      "name": "Social and family services",
+      "values": {
+        "2024": 803594,
+        "2023": 782176,
+        "2026": 1012302,
+        "2025": 935196
+      }
+    },
+    {
+      "name": "Social housing",
+      "values": {
+        "2024": 366990,
+        "2023": 359543,
+        "2026": 431310,
+        "2025": 399061
+      }
+    },
+    {
+      "name": "Recreation and cultural services",
+      "values": {
+        "2024": 414233,
+        "2023": 399722,
+        "2026": 453944,
+        "2025": 424467
+      }
+    },
+    {
+      "name": "Planning and development",
+      "values": {
+        "2024": 105731,
+        "2023": 94839,
+        "2026": 140020,
+        "2025": 111579
+      }
+    }
+  ]
+}

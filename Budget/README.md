@@ -13,7 +13,47 @@
 - Accessible native bars, exact table, CSV, JSON, source PDF page links and shared themes.
 - Lansdowne: distinct main project / parking / retail authority, initial financing,
   July 21, 2026 spending snapshot and separately labelled modelled revenue offsets.
-- Service KPI source directory; no new citywide KPI score or causal spending/outcome claims.
+- 2023–2026 full-accrual budget expenses by 10 City functions, with selectable comparison
+  years, dollar/percentage changes, zero-centred increase/decrease bars, annual values and CSV.
+- 26 dated KPI series: paramedic response (including citywide/urban/rural), Level Zero,
+  transportation condition measures and housing wait-list/shelter measures. Targets shown
+  where extracted; no citywide performance score or causal spending/outcome claims.
+
+## Added historical comparison and KPI sources
+
+Run `python Budget/scripts/build_history_kpis.py` to rebuild `history.json/csv`,
+`kpis.json/csv` and `history-kpi-source-excerpts.txt`. Requires `pypdf`. PDFs are cached
+in the OS temp directory; source URLs, SHA-256 hashes and PDF pages are retained.
+
+- **Budget history:** 2024 adopted book, Table 1, PDF p. 14, gives 2023/2024 budget expenses;
+  2026 adopted book, Table 1, PDF p. 15, gives 2025/2026. Same ten function labels.
+  These are **full-accrual consolidated budget expenses**, not the cash-oriented operating
+  budget in the original service chart. They spread asset costs over useful life and include
+  consolidated entities. Never splice these totals into the operating series. Reported
+  as published, without restating historical program scope, inflation or population.
+- **Paramedics:** 2025 annual report, official eScribe DocumentId 318696, PDF pp. 18–22.
+  CTAS 1–5 targets and citywide response (2021–2025), urban/rural response (2021–2025),
+  sudden cardiac arrest response and Level Zero minutes. The clock starts at crew
+  notification, not the original 9-1-1 call. AED arrival can involve any person with an AED.
+  Urban/rural charts reference the citywide target; separate geographic targets are not asserted.
+  MPDS was introduced in April 2024. If automated download returns 403, use the official
+  report link in the browser and save as `ottawa-paramedic-2025.pdf` in the temp directory.
+- **Infrastructure:** 2025 Transportation Services AMP, PDF p. 16 gives dated 2019 and
+  2023 condition measures. No annual interpolation. PDF p. 11 gives overall condition
+  shares weighted by replacement value; these are a separate plan snapshot with varied
+  inspection dates, not percentages of kilometres or assets. Transportation only; water,
+  sewer and other infrastructure classes are not included. Targets not extracted.
+- **Housing:** 2024 Housing Needs Assessment, Figures 57 and 62, PDF pp. 117 and 123.
+  The chart labels are raster content, so `housing-reviewed.csv` holds manually transcribed
+  and visually verified labels for 2019–2024. Wait-list 2024 is **December 10**, not December 31.
+  Source p. 215, Table 52 provides shelter users and nights. Wait-list placements are
+  not housing starts/completions; shelter users do not count all people experiencing homelessness.
+
+After **any data rebuild**, run `python Budget/scripts/package_page_data.py`.
+It generates `data/page-data.js` from the four canonical JSON files, allowing a local
+`file://` page to load without fetch. Over HTTP, the page continues to load the JSON files
+and preserves shared URL controls. Local-file controls work without rewriting the URL.
+Check the package with `scripts/check_history_kpis.py` before committing.
 
 ## Sources and reproducible budget extraction
 
@@ -92,7 +132,9 @@ fallback content; update them together with the JSON. `scripts/check_budget.py` 
 
 ```powershell
 python Budget/scripts/check_budget.py
+python Budget/scripts/check_history_kpis.py
 node --check Budget/budget.js
+node --check Budget/history-kpis.js
 python -m http.server 8765 --bind 127.0.0.1
 ```
 

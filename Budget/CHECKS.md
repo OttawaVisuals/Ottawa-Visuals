@@ -1,5 +1,33 @@
 # Verification — October 23, 2026
 
+## Historical comparison and KPI expansion (same day)
+
+- Built `history.json/csv` from Table 1 of the 2024 and 2026 adopted books. Ten
+  identical function labels, four years, reconciled annual full-accrual totals.
+- Downloaded the official 2025 paramedic report (eScribe DocumentId 318696) through
+  the browser after automated source retrieval was blocked. Cached PDF stays outside
+  Git. Visually checked PDF p. 18 response table against the extracted 2021–2025 values.
+- Visually checked Housing Needs Assessment Figure 57 (PDF p. 117) and Figure 62
+  (p. 123). Exact chart-image labels retained in `housing-reviewed.csv`.
+- Extracted transportation condition measures (2019/2023) and the separate replacement-
+  value-weighted condition snapshot. Did not interpolate missing years or infer targets.
+- **124 original accounting/source/file checks and 208 history/KPI/package checks passed.**
+  JS syntax checks passed for both scripts. Packaged JSON matches all canonical files.
+- Exercised **all 12** valid historical year-pair/ranking combinations and **all 26** KPI
+  series through the browser, including urban/rural choices and target markers. No invalid
+  numeric labels. Confirmed negative changes remain negative and zero-centred.
+- Verified URL controls coexist with the original operating/capital chart controls.
+  Added a bundled JSON snapshot for direct-file use; browser automation cannot inspect
+  `file://` URLs, so direct-file rendering is not browser-verified. HTTP preview is verified.
+- Added mobile-specific count/unit separation after finding awkward wrapping in housing
+  headlines. Checked 390px and 320px widths; no horizontal page overflow. Reviewed tablet
+  (768px), desktop, dark and colour-blind modes, and the dashed target-line contrast.
+- Reloaded a combined history/KPI/capital/share URL and verified every selection persisted.
+  No console errors in the completed HTTP preview.
+
+The original checks below describe the initial page; this section supersedes its
+former limitation that KPI cards were only source links.
+
 ## Data
 
 - Ran `scripts/build_budget.py` against the adopted 352-page City PDF. Source SHA-256
@@ -43,5 +71,6 @@ Used the in-app browser against the local static server.
 - The Lansdowne ledger is a July 21, 2026 snapshot, not a claim to be the newest available
   update. Final borrowing terms and realized future revenue are not established.
 - This verification does not certify the City's forecasts or provide an independent
-  project cost audit. KPI cards are a source directory, not extracted KPI time series.
+  project cost audit. The initial release's KPI link cards were expanded into sourced
+  time series in the same-day update described above.
 - Local build only; no publication or remote push was performed.

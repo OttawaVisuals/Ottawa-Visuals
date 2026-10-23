@@ -1,0 +1,557 @@
+{
+  "reviewed": "2026-10-23",
+  "sources": {
+    "budget2024": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2024%20Adopted%20Budget%20Book%20English%20Condensed-AODA.pdf",
+      "sha256": "d271e7b022defce6c1124b34ec37425d9f99103a719a46e59912b0ad57e6a712"
+    },
+    "budget2026": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf",
+      "sha256": "a57c1a5ab4c64f8022a8f8e05471075543f9a2ba9cd5583d8789ca8c75e63dba"
+    },
+    "paramedics": {
+      "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=318696",
+      "sha256": "d0ac9ca9ba6f35cea6147174a09832db7a9660e8255efd95c30bb03a447094af"
+    },
+    "infrastructure": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2025_transportation_amp_en.pdf",
+      "sha256": "8daee509789748205ac79d45b22dd2987cef401e6d29b491d8514f3dd8332137"
+    },
+    "housing": {
+      "url": "https://documents.ottawa.ca/sites/default/files/2024-HNA_EN.pdf",
+      "sha256": "7e1c69477571be5d62e7b282705e1e24082906e53b0cbece430683f268f1325e"
+    }
+  },
+  "groups": {
+    "paramedics": {
+      "name": "Paramedics",
+      "note": "2025 annual report, published June 2026. Response clock starts when a crew is notified, not when 9-1-1 answers. Dispatch changed in April 2024; call mix and triage can affect comparisons.",
+      "metrics": [
+        {
+          "id": "ctas1-city",
+          "name": "CTAS 1 · life-threatening calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 1 calls reached within 8 minutes of crew notification.",
+          "values": {
+            "2021": 66.8,
+            "2022": 61.8,
+            "2023": 68.0,
+            "2024": 75.1,
+            "2025": 70.4
+          },
+          "source": "paramedics",
+          "pdf_page": 18,
+          "target": 75,
+          "note": "",
+          "region": "city"
+        },
+        {
+          "id": "ctas1-urban",
+          "name": "CTAS 1 · life-threatening calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 1 calls reached within 8 minutes of crew notification.",
+          "values": {
+            "2021": 72.9,
+            "2022": 65.8,
+            "2023": 70.9,
+            "2024": 79.3,
+            "2025": 73.6
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "urban"
+        },
+        {
+          "id": "ctas1-rural",
+          "name": "CTAS 1 · life-threatening calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 1 calls reached within 8 minutes of crew notification.",
+          "values": {
+            "2021": 20.4,
+            "2022": 8.1,
+            "2023": 18.8,
+            "2024": 18.1,
+            "2025": 24.6
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "rural"
+        },
+        {
+          "id": "ctas2-city",
+          "name": "CTAS 2 · urgent calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 2 calls reached within 10 minutes of crew notification.",
+          "values": {
+            "2021": 71.2,
+            "2022": 63.2,
+            "2023": 68.8,
+            "2024": 76.2,
+            "2025": 78.3
+          },
+          "source": "paramedics",
+          "pdf_page": 18,
+          "target": 75,
+          "note": "",
+          "region": "city"
+        },
+        {
+          "id": "ctas2-urban",
+          "name": "CTAS 2 · urgent calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 2 calls reached within 10 minutes of crew notification.",
+          "values": {
+            "2021": 74.0,
+            "2022": 67.2,
+            "2023": 71.6,
+            "2024": 82.8,
+            "2025": 82.6
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "urban"
+        },
+        {
+          "id": "ctas2-rural",
+          "name": "CTAS 2 · urgent calls",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 2 calls reached within 10 minutes of crew notification.",
+          "values": {
+            "2021": 24.6,
+            "2022": 22.2,
+            "2023": 24.4,
+            "2024": 25.7,
+            "2025": 34.0
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "rural"
+        },
+        {
+          "id": "ctas3-city",
+          "name": "CTAS 3 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 3 calls reached within 15 minutes of crew notification.",
+          "values": {
+            "2021": 85.9,
+            "2022": 76.3,
+            "2023": 79.3,
+            "2024": 82.8,
+            "2025": 81.8
+          },
+          "source": "paramedics",
+          "pdf_page": 18,
+          "target": 75,
+          "note": "",
+          "region": "city"
+        },
+        {
+          "id": "ctas3-urban",
+          "name": "CTAS 3 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 3 calls reached within 15 minutes of crew notification.",
+          "values": {
+            "2021": 87.6,
+            "2022": 80.5,
+            "2023": 81.7,
+            "2024": 86.1,
+            "2025": 83.2
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "urban"
+        },
+        {
+          "id": "ctas3-rural",
+          "name": "CTAS 3 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 3 calls reached within 15 minutes of crew notification.",
+          "values": {
+            "2021": 53.4,
+            "2022": 42.7,
+            "2023": 46.9,
+            "2024": 55.5,
+            "2025": 60.4
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "rural"
+        },
+        {
+          "id": "ctas4-city",
+          "name": "CTAS 4 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 4 calls reached within 20 minutes of crew notification.",
+          "values": {
+            "2021": 92.1,
+            "2022": 83.4,
+            "2023": 83.5,
+            "2024": 78.3,
+            "2025": 87.3
+          },
+          "source": "paramedics",
+          "pdf_page": 18,
+          "target": 75,
+          "note": "",
+          "region": "city"
+        },
+        {
+          "id": "ctas4-urban",
+          "name": "CTAS 4 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 4 calls reached within 20 minutes of crew notification.",
+          "values": {
+            "2021": 91.4,
+            "2022": 85.0,
+            "2023": 84.5,
+            "2024": 89.8,
+            "2025": 88.0
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "urban"
+        },
+        {
+          "id": "ctas4-rural",
+          "name": "CTAS 4 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 4 calls reached within 20 minutes of crew notification.",
+          "values": {
+            "2021": 71.2,
+            "2022": 62.3,
+            "2023": 65.9,
+            "2024": 75.5,
+            "2025": 74.6
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "rural"
+        },
+        {
+          "id": "ctas5-city",
+          "name": "CTAS 5 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 5 calls reached within 25 minutes of crew notification.",
+          "values": {
+            "2021": 94.7,
+            "2022": 86.7,
+            "2023": 86.8,
+            "2024": 88.8,
+            "2025": 91.8
+          },
+          "source": "paramedics",
+          "pdf_page": 18,
+          "target": 75,
+          "note": "",
+          "region": "city"
+        },
+        {
+          "id": "ctas5-urban",
+          "name": "CTAS 5 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 5 calls reached within 25 minutes of crew notification.",
+          "values": {
+            "2021": 93.1,
+            "2022": 87.6,
+            "2023": 87.4,
+            "2024": 93.2,
+            "2025": 92.1
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "urban"
+        },
+        {
+          "id": "ctas5-rural",
+          "name": "CTAS 5 · response performance",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of CTAS 5 calls reached within 25 minutes of crew notification.",
+          "values": {
+            "2021": 79.9,
+            "2022": 69.2,
+            "2023": 71.7,
+            "2024": 84.6,
+            "2025": 82.0
+          },
+          "source": "paramedics",
+          "pdf_page": 20,
+          "target": 75,
+          "note": "",
+          "region": "rural"
+        },
+        {
+          "id": "cardiac",
+          "name": "Sudden cardiac arrest",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent reached within 6 minutes of crew notification by any person with an automated external defibrillator, not necessarily a paramedic.",
+          "values": {
+            "2021": 63.8,
+            "2022": 48.4,
+            "2023": 64.8,
+            "2024": 70.2,
+            "2025": 74.9
+          },
+          "source": "paramedics",
+          "pdf_page": 19,
+          "target": 65,
+          "note": "Arrival of any person with an AED; not the same responder definition as CTAS.",
+          "region": null
+        },
+        {
+          "id": "level-zero",
+          "name": "Time with no ambulance available",
+          "unit": "minutes",
+          "direction": "lower",
+          "definition": "Total minutes at Level Zero: no ambulance available to respond to a call in the community.",
+          "values": {
+            "2021": 24310.0,
+            "2022": 2023.0,
+            "2023": 2024.0,
+            "2024": 11372.0,
+            "2025": 866.0
+          },
+          "source": "paramedics",
+          "pdf_page": 22,
+          "target": null,
+          "note": "The report states there should never be time at Level Zero; no numeric performance target is plotted.",
+          "region": null
+        }
+      ]
+    },
+    "infrastructure": {
+      "name": "Infrastructure conditions",
+      "note": "Transportation assets only. Trend values refer to 2019 and 2023, published in the 2025 plan; they are not annual 2025/2026 inspections. Targets are not extracted here.",
+      "metrics": [
+        {
+          "id": "pavement",
+          "name": "Paved-road condition",
+          "unit": "index",
+          "direction": "higher",
+          "definition": "Pavement Quality Index, 0–100; higher means better pavement.",
+          "values": {
+            "2019": 59.0,
+            "2023": 57.0
+          },
+          "source": "infrastructure",
+          "pdf_page": 16,
+          "target": null,
+          "note": "Two dated observations; no annual values are interpolated. Targets not extracted.",
+          "region": null
+        },
+        {
+          "id": "bridges",
+          "name": "Bridge condition",
+          "unit": "index",
+          "direction": "higher",
+          "definition": "Average Bridge Condition Index, 0–100; higher means better condition.",
+          "values": {
+            "2019": 74.0,
+            "2023": 74.0
+          },
+          "source": "infrastructure",
+          "pdf_page": 16,
+          "target": null,
+          "note": "Two dated observations; no annual values are interpolated. Targets not extracted.",
+          "region": null
+        },
+        {
+          "id": "culverts",
+          "name": "Bridge-culvert condition",
+          "unit": "index",
+          "direction": "higher",
+          "definition": "Average Bridge Condition Index for structural culverts, 0–100.",
+          "values": {
+            "2019": 67.0,
+            "2023": 78.0
+          },
+          "source": "infrastructure",
+          "pdf_page": 16,
+          "target": null,
+          "note": "Two dated observations; no annual values are interpolated. Targets not extracted.",
+          "region": null
+        },
+        {
+          "id": "active",
+          "name": "Walking & cycling assets in fair or better condition",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of active transportation assets reported in fair or better condition.",
+          "values": {
+            "2019": 88.0,
+            "2023": 83.0
+          },
+          "source": "infrastructure",
+          "pdf_page": 16,
+          "target": null,
+          "note": "Two dated observations; no annual values are interpolated. Targets not extracted.",
+          "region": null
+        },
+        {
+          "id": "fleet",
+          "name": "Roads & traffic fleet in fair or better condition",
+          "unit": "percent",
+          "direction": "higher",
+          "definition": "Percent of roads and traffic services fleet assets in fair or better condition.",
+          "values": {
+            "2019": 88.0,
+            "2023": 67.0
+          },
+          "source": "infrastructure",
+          "pdf_page": 16,
+          "target": null,
+          "note": "Two dated observations; no annual values are interpolated. Targets not extracted.",
+          "region": null
+        }
+      ],
+      "condition_snapshot": {
+        "name": "All transportation assets, by replacement cost",
+        "source": "infrastructure",
+        "pdf_page": 11,
+        "period": "2025 plan snapshot; inspection dates vary",
+        "categories": [
+          {
+            "name": "Very good",
+            "value": 12
+          },
+          {
+            "name": "Good",
+            "value": 32
+          },
+          {
+            "name": "Fair",
+            "value": 41
+          },
+          {
+            "name": "Poor",
+            "value": 11
+          },
+          {
+            "name": "Very poor",
+            "value": 4
+          }
+        ],
+        "note": "Replacement-cost weighted, not a count of assets or kilometres. Excludes streetlights and flashers. The condition snapshot is separate from the dated 2019/2023 measures."
+      }
+    },
+    "housing": {
+      "name": "Housing",
+      "note": "2019–2024 official assessment figures. The 2024 wait-list snapshot is December 10. Wait-list placements are not all affordable homes built, and shelter use is not all homelessness. Targets are not extracted here.",
+      "metrics": [
+        {
+          "id": "waitlist",
+          "name": "Households waiting for subsidized housing",
+          "unit": "households",
+          "direction": "lower",
+          "definition": "Active households on the Centralized Wait List; a stock of applications, not all households needing housing.",
+          "values": {
+            "2019": 12577,
+            "2020": 12571,
+            "2021": 12106,
+            "2022": 11065,
+            "2023": 12447,
+            "2024": 15140
+          },
+          "source": "housing",
+          "pdf_page": 117,
+          "target": null,
+          "note": "Chart-image labels manually transcribed and visually checked against Figure 57; 2024 wait list is as of December 10.",
+          "region": null
+        },
+        {
+          "id": "placements",
+          "name": "Households housed from the wait list",
+          "unit": "households",
+          "direction": "higher",
+          "definition": "Households placed from the Centralized Wait List during the year; not newly built housing units.",
+          "values": {
+            "2019": 1487,
+            "2020": 1086,
+            "2021": 1554,
+            "2022": 1230,
+            "2023": 1186,
+            "2024": 1089
+          },
+          "source": "housing",
+          "pdf_page": 123,
+          "target": null,
+          "note": "Chart-image labels manually transcribed and visually checked against Figure 62. No published annual target extracted.",
+          "region": null
+        },
+        {
+          "id": "shelter-users",
+          "name": "People using overnight shelters",
+          "unit": "people",
+          "direction": "context",
+          "definition": "People using an overnight emergency shelter in the year. Not a count of all people experiencing homelessness.",
+          "values": {
+            "2019": 8902.0,
+            "2020": 7316.0,
+            "2021": 7071.0,
+            "2022": 7820.0,
+            "2023": 8826.0,
+            "2024": 9702.0
+          },
+          "source": "housing",
+          "pdf_page": 215,
+          "target": null,
+          "note": "Demand/context measure; a decrease alone does not establish that housing access improved.",
+          "region": null
+        },
+        {
+          "id": "shelter-nights",
+          "name": "Nights spent in emergency shelters",
+          "unit": "nights",
+          "direction": "context",
+          "definition": "Total overnight emergency-shelter nights during the year.",
+          "values": {
+            "2019": 885840.0,
+            "2020": 894483.0,
+            "2021": 725739.0,
+            "2022": 779013.0,
+            "2023": 845989.0,
+            "2024": 1057774.0
+          },
+          "source": "housing",
+          "pdf_page": 215,
+          "target": null,
+          "note": "Demand/context measure; a decrease alone does not establish that housing access improved.",
+          "region": null
+        }
+      ]
+    }
+  }
+}

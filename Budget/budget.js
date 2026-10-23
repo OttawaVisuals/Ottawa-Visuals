@@ -54,23 +54,29 @@ window.setTheme = mode => { document.documentElement.dataset.theme = mode; };
     $('rounding').textContent = state.view === 'capital' ? 'New authority, not annual cash spending. Rounded committee rows differ from the 2026 printed total by $0.001M.' : state.view === 'operating' ? 'Includes tax- and rate-supported services when “All services” is selected. Small differences between row sums and printed totals reflect source rounding.' : 'Revenue amounts are shown as positive funding sources. Own funds are internal funding. Rounded categories may not sum exactly to the printed total.';
     $('table-caption').textContent = titles[state.view]+' · amounts in thousands of Canadian dollars. Changes compare budgets, not actual spending.';
     $('data-rows').innerHTML = rows.map(r=>`<tr><th scope="row">${escape(r.name)}</th><td>${number(r.budget_2025)}</td><td>${number(r.budget_2026)}</td><td>${change(r.budget_2025,r.budget_2026)}</td><td><a href="${data.source_url}#page=${r.pdf_page}">PDF p. ${r.pdf_page} ↗</a></td></tr>`).join('');
-    const query = new URLSearchParams();
-    Object.entries(state).forEach(([key,val]) => { if(key !== 'compare') query.set(key,val); else if(val) query.set(key,'1'); });
-    history.replaceState(null,'',`${location.pathname}?${query}${location.hash}`);
+    const query = new URLSearchParams(location.search);
+    Object.entries(state).forEach(([key,val]) => { if(key !== 'compare') query.set(key,val); else if(val) query.set(key,'1'); else query.delete(key); });
+    if(location.protocol!=='file:') history.replaceState(null,'',`${location.pathname}?${query}${location.hash}`);
   }
   function renderProject(project) {
     const list = items => items.map(r=>`<div class="mini-row"><span>${escape(r.name)}<small>${escape(r.note)}</small></span><strong>$${r.amount.toFixed(1)}M</strong></div>`).join('');
     $('project-scope').innerHTML = list(project.scope);
     $('project-funding').innerHTML = list(project.financing);
     ['progress','finance','approval'].forEach(key => $(key+'-source').href = project.sources[key].url);
-    $('source-list').innerHTML += Object.values(project.sources).map(s=>`<li><a href="${escape(s.url)}">${escape(s.title)} ↗</a> · ${escape(s.locator)}</li>`).join('');
+    document.querySelectorAll('#source-list .project-source').forEach(el=>el.remove());
+    $('source-list').innerHTML += Object.values(project.sources).map(s=>`<li class="project-source"><a href="${escape(s.url)}">${escape(s.title)} ↗</a> · ${escape(s.locator)}</li>`).join('');
   }
   async function load() {
     $('error').hidden = true;
     try {
-      const responses = await Promise.all([fetch('data/budget.json'),fetch('data/lansdowne.json')]);
-      if(responses.some(r=>!r.ok)) throw new Error('Data request failed');
-      const [budget,project] = await Promise.all(responses.map(r=>r.json()));
+      let budget,project;
+      if(location.protocol==='file:' && window.OTTAWA_BUDGET_DATA) {
+        ({budget,lansdowne:project}=window.OTTAWA_BUDGET_DATA);
+      } else {
+        const responses = await Promise.all([fetch('data/budget.json'),fetch('data/lansdowne.json')]);
+        if(responses.some(r=>!r.ok)) throw new Error('Data request failed');
+        [budget,project] = await Promise.all(responses.map(r=>r.json()));
+      }
       data = budget;
       $('operating-total').textContent = billion(data.totals.operating['2026']);
       $('capital-total').textContent = billion(data.totals.capital['2026']);
