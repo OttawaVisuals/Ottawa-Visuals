@@ -16,9 +16,12 @@ Three datasets, three free TomTom APIs (20,000 req/month each on the free tier):
 Sampling cadence is decided *here*, not by the cron, so it survives DST:
 collect.yml fires every 5 min and this script decides whether the run is a
 sample. Weekday rush hours (AM 06:30-09:30, PM 15:30-18:30 local Ottawa time)
-are sampled every run; all other times only the first run of each hour,
-judged from the last row in incidents_summary.csv (so cron lag can't skip or
-double an hour). Pass --force to bypass the gate (useful for manual test runs).
+are sampled every 15 min, all other times hourly: the first run in each
+quarter-hour / hour slot that incidents_summary.csv has no row for yet (so
+cron lag can't skip or double a slot). That's the Pi's cadence, ~1,100 TomTom
+calls a weekday; sampling peaks every 5 min tripled it and TomTom answered
+HTTP 403 from 2026-10-19. Pass --force to bypass the gate (useful for manual
+test runs).
 
 Stdlib only (urllib + zoneinfo), so the workflow needs no pip install.
 Requires env var TOMTOM_API_KEY.
@@ -80,10 +83,18 @@ def in_peak(now_local: datetime) -> bool:
     return (am[0] <= mins <= am[1]) or (pm[0] <= mins <= pm[1])
 
 
-def hour_key(ts_local: str) -> str:
-    """'2026-10-22T21:10:51-0400' -> '2026-10-22T21-0400' (offset keeps the
-    repeated 01:00 hour apart when DST ends)."""
-    return ts_local[:13] + ts_local[-5:]
+PEAK_SLOT_MIN = 15      # rush hours: one sample per quarter hour
+OFFPEAK_SLOT_MIN = 60   # otherwise: one per hour
+
+
+def slot_key(ts_local: str, slot_min: int) -> str:
+    """'2026-10-22T21:10:51-0400', 15 -> '2026-10-22T21:0-0400' (offset keeps
+    the repeated 01:00 hour apart when DST ends)."""
+    try:
+        minute = int(ts_local[14:16])
+    except ValueError:
+        return ""
+    return f"{ts_local[:13]}:{minute // slot_min}{ts_local[-5:]}"
 
 
 def last_logged_local(path: Path) -> str:
@@ -101,16 +112,15 @@ def last_logged_local(path: Path) -> str:
 
 
 def should_sample(now_local: datetime, log: Path = INCIDENT_LOG) -> bool:
-    """Peak -> every run. Off-peak -> the first run of each hour only.
+    """The first run of each slot: 15 min at peak, an hour otherwise.
 
     With a 5-min trigger, a minute-of-hour window lets several runs through
     (minute < 15 logged :00, :05 and :10, tripling TomTom calls), so the log
-    itself says whether this hour already has a sample. One row per sample
+    itself says whether this slot already has a sample. One row per sample
     goes to incidents_summary.csv, errors included.
     """
-    if in_peak(now_local):
-        return True
-    return hour_key(last_logged_local(log)) != hour_key(now_local.strftime("%Y-%m-%dT%H:%M:%S%z"))
+    slot = PEAK_SLOT_MIN if in_peak(now_local) else OFFPEAK_SLOT_MIN
+    return slot_key(last_logged_local(log), slot) != slot_key(now_local.strftime("%Y-%m-%dT%H:%M:%S%z"), slot)
 
 
 def fetch_json(url: str, retries: int = 2) -> dict:
@@ -237,7 +247,7 @@ def main():
     now_local = now_utc.astimezone(TZ)
 
     if not args.force and not should_sample(now_local):
-        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} is off-peak and this hour is already sampled")
+        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} slot is already sampled")
         return 0
 
     cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
