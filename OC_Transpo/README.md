@@ -33,7 +33,11 @@ static GTFS (`collect.yml` rebuilds it when the published zip's ETag changes and
 keeps it in the Actions cache; it's never committed). Buses that haven't left
 their first stop, and trips missing from the timetable, are skipped; each run
 logs how many matched. On-time buckets follow OC Transpo's punctuality rule
-(−1 to +5 min). `bus_less_frequent` (scheduled less often than every 15 min) is
+(−1 to +5 min). `pct_within_5min` (added 2026-10-22) scores the same delays with
+a symmetric ±5 min window, the definition the independent site
+[otranspo.ca](https://otranspo.ca/en/methodology) publishes monthly (76.1% for
+OC Transpo in Sept 2026), so our figure can be checked against theirs; the
+daily rollup carries it as `bus_within_5min_pct`. `bus_less_frequent` (scheduled less often than every 15 min) is
 the group comparable to OC Transpo's punctuality KPI; it's measured at each
 bus's next stop rather than at their timepoints, so it's a close proxy, not
 their exact figure. `scripts/build_history_transit.py` rolls the samples into

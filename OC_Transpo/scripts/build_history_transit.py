@@ -9,8 +9,9 @@ collection continues:
                        active buses, mean fleet speed, mean/max cancelled
                        trips and cancellation % (of trips tracked), and
                        on-time figures once poll_gtfsrt.py fills them in:
-                       bus on-time / early / late %, and punctuality of
-                       less-frequent routes (all day, AM and PM peak).
+                       bus on-time / early / late %, punctuality of
+                       less-frequent routes (all day, AM and PM peak), and
+                       the share within +/-5 min (otranspo.ca's definition).
 
 On-time % is weighted by trips observed x minutes the sample stands for (peaks
 are sampled every 5 min, off-peak every 15), so the daily figure is a share of
@@ -143,6 +144,7 @@ def main():
                 "bus_ontime_pct": weighted_pct(bus[d], "pct_ontime"),
                 "bus_early_pct": weighted_pct(bus[d], "pct_early"),
                 "bus_late_pct": weighted_pct(bus[d], "pct_late"),
+                "bus_within_5min_pct": weighted_pct(bus[d], "pct_within_5min"),
                 "punctuality_pct": weighted_pct(lessfreq.get(d, []), "pct_ontime"),
                 "punctuality_pct_am_peak": weighted_pct(lessfreq.get(d, []), "pct_ontime", (7, 9)),
                 "punctuality_pct_pm_peak": weighted_pct(lessfreq.get(d, []), "pct_ontime", (16, 18)),

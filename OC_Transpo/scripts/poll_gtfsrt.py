@@ -33,6 +33,8 @@ Transpo's own near-term prediction for the next timepoint.
 On-time buckets (when delays exist) follow OC Transpo's own punctuality
 definition for less-frequent routes: early = more than 1 min early
 (delay < -60 s), on-time = -60..+300 s, late = more than 5 min late (> 300 s).
+pct_within_5min is the same delays scored with a symmetric +/-5 min window,
+the definition otranspo.ca publishes monthly, so the two can be compared.
 
 Sampling cadence is decided *here*, not by the cron (cron fires every 5 min):
   - weekday peaks (06:00-09:30, 15:00-18:30 Ottawa time): every run (5 min)
@@ -87,12 +89,13 @@ OTRAIN_ROUTES = {"1", "2", "3", "4"}
 
 ONTIME_EARLY_S = -60    # more than 1 min early counts as "early"
 ONTIME_LATE_S = 300     # more than 5 min late counts as "late"
+WITHIN_S = 300          # pct_within_5min: |delay| <= 5 min (otranspo.ca's window)
 
 TRIP_FIELDS = [
     "timestamp_utc", "timestamp_local", "group",
     "trips_tracked", "trips_canceled", "delays_observed",
     "mean_delay_s", "median_delay_s", "p90_delay_s",
-    "pct_early", "pct_ontime", "pct_late", "error",
+    "pct_early", "pct_ontime", "pct_late", "pct_within_5min", "error",
 ]
 VP_FIELDS = [
     "timestamp_utc", "timestamp_local", "group",
@@ -363,6 +366,7 @@ def summarize_trips(feed, sched=None, stats=None):
             row["pct_early"] = round(100 * sum(1 for d in ds if d < ONTIME_EARLY_S) / n, 1)
             row["pct_ontime"] = round(100 * sum(1 for d in ds if ONTIME_EARLY_S <= d <= ONTIME_LATE_S) / n, 1)
             row["pct_late"] = round(100 * sum(1 for d in ds if d > ONTIME_LATE_S) / n, 1)
+            row["pct_within_5min"] = round(100 * sum(1 for d in ds if abs(d) <= WITHIN_S) / n, 1)
         rows.append(row)
     return rows
 
@@ -407,9 +411,28 @@ def archive_raw(raw_dir: Path, name: str, payload: dict, now_utc: datetime):
         json.dump(payload, fh, separators=(",", ":"))
 
 
+def migrate_header(path: Path, fields):
+    """When FIELDS gains a column, rewrite the log once with the new header so
+    every row has the same columns (old rows get the new column blank)."""
+    with path.open(newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        if reader.fieldnames == fields:
+            return
+        old = list(reader)
+    tmp = path.with_suffix(".tmp")
+    with tmp.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(old)
+    tmp.replace(path)
+    print(f"migrated {path.name} header to {len(fields)} columns ({len(old)} rows)")
+
+
 def append_rows(path: Path, fields, rows, stamps):
     path.parent.mkdir(parents=True, exist_ok=True)
     new_file = not path.exists()
+    if not new_file:
+        migrate_header(path, fields)
     with path.open("a", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=fields)
         if new_file:
