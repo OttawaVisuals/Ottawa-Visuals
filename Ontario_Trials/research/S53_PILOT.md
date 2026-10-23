@@ -1,5 +1,8 @@
 # Published s.53 judgments: search pilot
 
+**Follow-up:** [all 133 retained candidates have now been classified](S53_REVIEW.md).
+The figures and partial-review statements below preserve the initial pilot snapshot.
+
 Reviewed October 23, 2026. Target: Ottawa Highway Traffic Act s.53 trial outcomes,
 using decision dates January 1, 2016–December 31, 2025 (ten complete calendar years).
 This is a search experiment, **not a complete collection of cases or judgments**.

@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Review all 133 s.53 search candidates (Oct 23: 131 full-text relevance screens, two exclusions by proceeding scope after long-page failures; per-document classifications, source locators, CSV/JSON and checks; one Toronto trial conviction, one Pembroke-area plea, one Pembroke procedural ruling; no Ottawa trial verdict established in the candidate set)
 - [x] S.53 published-judgment search pilot (Oct 23: five retained CanLII searches for 2016–2025; 133 deduplicated candidate links, 27 candidate texts checked plus one supplemental judgment; verified Ontario examples and exclusions documented; no Ottawa s.53 trial verdict confirmed, no chart reclassification)
 - [x] Traffic court tab in How Ottawa Really Moves (Oct 23: reused audited OCJ data; revised to offence-driven latest-year KPIs, outcome-stacked first chart with five groups, count/share buttons, no year dropdown, all-calendar-year CSV and camera context; 15 checks pass, desktop and narrow-phone layouts reviewed)
 - [x] Ottawa court outcomes (Oct 23: 27 official publications, 903 validated rows; separate criminal/POA views, offence/period filters, count/share bars, tables and downloads; non-calendar periods and 2016 source discrepancy preserved)

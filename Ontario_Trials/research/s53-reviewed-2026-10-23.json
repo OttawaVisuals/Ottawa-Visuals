@@ -1,0 +1,2746 @@
+{
+  "reviewed_on": "2026-10-23",
+  "scope": "Published decisions dated 2016-01-01 through 2025-12-31; Ottawa s.53 HTA pilot",
+  "candidate_set_complete": true,
+  "complete_inventory_of_published_judgments": false,
+  "candidate_count": 133,
+  "reviewed_count": 133,
+  "classification_counts": {
+    "impoundment_appeal": 7,
+    "other_proceeding": 98,
+    "s53_guilty_plea": 1,
+    "s53_procedural_ruling": 1,
+    "s53_trial_conviction": 1,
+    "suspended_driving_reference": 25
+  },
+  "confirmed_ottawa_s53_trial_outcomes": [],
+  "method": [
+    "Opened each of the 133 source pages in the public CanLII browser interface.",
+    "Screened text for the charge/proceeding, s.53 references, suspended-driving wording and outcome; checked surrounding passages. This is a relevance/outcome review, not a full legal case analysis.",
+    "Retrieved uncropped text in chunks for long decisions. Two clearly unrelated proceedings (IDs 126 and 132) were excluded by their opening and proceeding scope after repeated long-page navigation/evaluation failures. Their cached body extracts are truncated; this is explicit in review_method.",
+    "Classifications and source locators are reviewer-authored. Search matches are not counted as charges; historical/cited outcomes and criminal prohibited-driving convictions are not recoded as s.53 trial verdicts."
+  ],
+  "limitations": [
+    "This completes only the retained 133-candidate list, not all published judgments or all Ottawa s.53 cases.",
+    "CanLII is not exhaustive; other search terms and unindexed or unpublished documents may yield additional cases.",
+    "Decision date differs from trial/disposition date. Multiple judgments may concern one case, and a judgment may address multiple charges.",
+    "No candidate was linked to the annual OCJ charge totals and no trial totals were reclassified.",
+    "A null trial outcome means not established in this document, not acquitted or no trial. Geography concerns the relationship identified in the text; an Ottawa hearing, residence or cited policy alone is insufficient."
+  ],
+  "queries": [
+    {
+      "id": "wording",
+      "case_hits": 25,
+      "loaded": 25,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22driving%20while%20under%20suspension%22%20OR%20%22driving%20while%20suspended%22%20OR%20%22drive%20while%20under%20suspension%22%20OR%20%22driving%20while%20driver%E2%80%99s%20licence%20suspended%22)%20AND%20Ottawa&searchId=2026-10-23T14%3A03%3A04%3A442%2F239c8dec8b034a8eb2f82d17ac59c180"
+    },
+    {
+      "id": "subsection",
+      "case_hits": 5,
+      "loaded": 5,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%2253(1)%22%20OR%20%2253%20(1)%22%20OR%20%2253(1.1)%22)%20AND%20%22Highway%20Traffic%20Act%22%20AND%20Ottawa&searchId=2026-10-23T14%3A05%3A12%3A651%2F460440486b4d41179c02ad66ca25081c"
+    },
+    {
+      "id": "french_wording",
+      "case_hits": 0,
+      "loaded": 0,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22article%2053%22%20OR%20%2253(1)%22%20OR%20%2253%20(1)%22)%20AND%20%22Code%20de%20la%20route%22%20AND%20Ottawa&searchId=2026-10-23T14%3A05%3A45%3A563%2F4b1a50a7465e4161abb3275a12ddc88c"
+    },
+    {
+      "id": "broad_section",
+      "case_hits": 84,
+      "loaded": 84,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=%2253%22%20AND%20(%22suspended%22%20OR%20%22suspension%22)%20AND%20Ottawa%20AND%20(%22Highway%20Traffic%20Act%22%20OR%20%22Code%20de%20la%20route%22)&searchId=2026-10-23T14%3A06%3A05%3A651%2F5f8fec3936444e82b2caad423164a25f"
+    },
+    {
+      "id": "alternate_wording",
+      "case_hits": 41,
+      "loaded": 41,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22licence%20suspended%22%20OR%20%22license%20suspended%22%20OR%20%22drive%20suspend%22%20OR%20%22driving%20under%20suspension%22)%20AND%20Ottawa&searchId=2026-10-23T14%3A07%3A56%3A208%2F004011259d334b8eb2e5c1573f608d2b"
+    }
+  ],
+  "candidates": [
+    {
+      "id": 1,
+      "title": "R. v. Santana",
+      "citation": "R. v. Santana, 2020 ONCA 365 (CanLII)",
+      "decision_date": "2020-06-11",
+      "url": "https://www.canlii.org/en/on/onca/doc/2020/2020onca365/2020onca365.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 7–9, 28",
+      "review_note": "Drug-trafficking appeal arising in Thunder Bay; suspended-driving warrant is the arrest background, not the charge resolved.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 29125,
+      "source_text_sha256": "465e18588e28cb1e8ebf6c10da86b261ceb751a3e91a61095127e7c140de41bf"
+    },
+    {
+      "id": 2,
+      "title": "R. v. McLaughlin",
+      "citation": "R. v. McLaughlin, 2020 ONCJ 326 (CanLII)",
+      "decision_date": "2020-07-20",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2020/2020oncj326/2020oncj326.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; paras. 1–4; Appendix A",
+      "review_note": "Toronto bail application; appendix lists an HTA suspended-driving allegation but this is not its trial disposition.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 35782,
+      "source_text_sha256": "763ce93c961e175c077961e8c89b29c53ef10c91b6bb6d1194dc3051e04a60c8"
+    },
+    {
+      "id": 3,
+      "title": "Sonocast Inc. v. Registrar of Motor Vehicles",
+      "citation": "Sonocast Inc. v. Registrar of Motor Vehicles, 2022 CanLII 120037 (ON LAT)",
+      "decision_date": "2022-12-12",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii120037/2022canlii120037.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 4",
+      "review_note": "LAT vehicle-impoundment appeal under ss.50.2/55.1, not an s.53 prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 11140,
+      "source_text_sha256": "a3d0f77ad47b21d3c9befa961c4f7eb35156fa8b77cd151c66bf75eea83dd266"
+    },
+    {
+      "id": 4,
+      "title": "Brampton (City) v. Singh",
+      "citation": "Brampton (City) v. Singh, 2025 ONCJ 469 (CanLII)",
+      "decision_date": "2025-09-11",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj469/2025oncj469.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; paras. 3–4, 18; disposition",
+      "review_note": "Brampton fail-to-remain trial under s.200; separate suspended-driving charges are background, not the charges adjudicated here.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 305371,
+      "source_text_sha256": "5b2a05ebdebc642fcebcf1d9eaf50f6de7e9ab05e1dc7fa72bc2e36162f00ad6"
+    },
+    {
+      "id": 5,
+      "title": "Mohammad Dost v. Registrar of Motor Vehicles",
+      "citation": "Mohammad Dost v. Registrar of Motor Vehicles, 2020 CanLII 72488 (ON LAT)",
+      "decision_date": "2020-09-28",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2020/2020canlii72488/2020canlii72488.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 5",
+      "review_note": "LAT appeal seeking release of an impounded vehicle; no s.53 verdict is given.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 14570,
+      "source_text_sha256": "63f90d8992c072dd7dbd44b1a78e4e363dc2504bea202c4e30d2405bd27b29e8"
+    },
+    {
+      "id": 6,
+      "title": "R. v. Sitladeen",
+      "citation": "R. v. Sitladeen, 2021 ONCA 303 (CanLII)",
+      "decision_date": "2021-05-10",
+      "url": "https://www.canlii.org/en/on/onca/doc/2021/2021onca303/2021onca303.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; appeal overview",
+      "review_note": "Firearm convictions challenged after wrongful suspended-driving arrest; not a suspended-driving verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 89139,
+      "source_text_sha256": "83477bece31f5f4e849d536cda310dadbeba42d0150f9af74f32729b59808649"
+    },
+    {
+      "id": 7,
+      "title": "11960 v. Registrar of Motor Vehicles",
+      "citation": "11960 v. Registrar of Motor Vehicles, 2019 CanLII 37552 (ON LAT)",
+      "decision_date": "2019-04-26",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2019/2019canlii37552/2019canlii37552.html",
+      "queries": [
+        "wording",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 25–26",
+      "review_note": "LAT vehicle-release appeal; cited earlier suspended-driving convictions are not a new verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 13982,
+      "source_text_sha256": "3e210e26012f0f37c3947d4e48126427a35e2537f8a27d1dd075ef04334c5e01"
+    },
+    {
+      "id": 8,
+      "title": "12059 v Registrar of Motor Vehicles",
+      "citation": "12059 v Registrar of Motor Vehicles, 2019 CanLII 76866 (ON LAT)",
+      "decision_date": "2019-07-23",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2019/2019canlii76866/2019canlii76866.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "ottawa_incident",
+      "evidence_locator": "paras. 1, 6",
+      "review_note": "Vehicle taken from an Ottawa home and impounded; LAT decides the owner's release appeal, not the driver's s.53 charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 8548,
+      "source_text_sha256": "6b78f468c2c8a47e1adc31dac4b017cfa79ee8e8705f542c9cf29c2a11b49751"
+    },
+    {
+      "id": 9,
+      "title": "R. v. Godin",
+      "citation": "R. v. Godin, 2024 ONCJ 492 (CanLII)",
+      "decision_date": "2024-10-01",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj492/2024oncj492.html",
+      "queries": [
+        "wording",
+        "subsection",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "s53_guilty_plea",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 15–18; sentencing orders",
+      "review_note": "Explicit s.53(1) guilty plea; suspended-driving event is near Pembroke; sentence includes 30 concurrent jail days. Not a trial verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 48056,
+      "source_text_sha256": "5b98bc366781919f586536a1477c02e4a7163eea7fb7d5a61317b2a54e3ade7d"
+    },
+    {
+      "id": 10,
+      "title": "West v. Registrar of Motor Vehicles",
+      "citation": "West v. Registrar of Motor Vehicles, 2022 CanLII 27255 (ON LAT)",
+      "decision_date": "2022-03-30",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii27255/2022canlii27255.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1–2, 8",
+      "review_note": "LAT impoundment appeal; prior criminal prohibited-driving conviction is not a current s.53 disposition.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 10175,
+      "source_text_sha256": "0187e0e24d5c6922cf18567c7ab897df7c83636437ab36cd8f523b8fee539083"
+    },
+    {
+      "id": 11,
+      "title": "Fazekas v. Canada (Citizenship and Immigration)",
+      "citation": "Fazekas v. Canada (Citizenship and Immigration), 2023 FC 666 (CanLII)",
+      "decision_date": "2023-05-10",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2023/2023fc666/2023fc666.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Immigration judicial review describes earlier United States convictions, not an Ontario s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 8332,
+      "source_text_sha256": "63b724066f25e7f445b05ec9eb6bfa05a017adb23021615fa7e173a495077b05"
+    },
+    {
+      "id": 12,
+      "title": "Davidson v. Deputy Head (Canada Border Services Agency)",
+      "citation": "Davidson v. Deputy Head (Canada Border Services Agency), 2017 PSLREB 42 (CanLII)",
+      "decision_date": "2017-04-24",
+      "url": "https://www.canlii.org/en/ca/pslreb/doc/2017/2017pslreb42/2017pslreb42.html",
+      "queries": [
+        "wording",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1–2, 16; disciplinary allegations",
+      "review_note": "Employment grievance concerning a border officer's arrest actions in Alberta, not an Ontario HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 126870,
+      "source_text_sha256": "dac2817d64b26daa906a0bd910f51fea27bdffd715b62152597d08f7b876d975"
+    },
+    {
+      "id": 13,
+      "title": "Pelletier Bertrand v. Registrar of Motor Vehicles",
+      "citation": "Pelletier Bertrand v. Registrar of Motor Vehicles, 2022 CanLII 55030 (ON LAT)",
+      "decision_date": "2022-06-13",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii55030/2022canlii55030.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 5",
+      "review_note": "LAT appeal about a vehicle impounded while someone else drove it; no s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 14687,
+      "source_text_sha256": "6c7bb0a1f4ad82ac28e608c431180d7f1878dcd1ba42d6b1c30fdd0c862529a8"
+    },
+    {
+      "id": 14,
+      "title": "R. v. Sealy-Ward",
+      "citation": "R. v. Sealy-Ward, 2019 ONSC 1080 (CanLII)",
+      "decision_date": "2019-02-15",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc1080/2019onsc1080.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 4, 13, 45",
+      "review_note": "Ottawa criminal Charter motion; suspended-driving suspicion and warning do not establish a prosecuted s.53 charge or verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 47572,
+      "source_text_sha256": "0a4c5a9c3a50db65d1f739f190ba16be1ac70e4263cda13a22be047fbafa402e"
+    },
+    {
+      "id": 15,
+      "title": "RR (Re)",
+      "citation": "RR (Re), 2024 CanLII 15811 (ON CCB)",
+      "decision_date": "2024-01-03",
+      "url": "https://www.canlii.org/en/on/onccb/doc/2024/2024canlii15811/2024canlii15811.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "hearing purpose; narrative of December 2023",
+      "review_note": "Consent and Capacity Board proceeding; medical suspension and driving allegations are background.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 37358,
+      "source_text_sha256": "a6668b2207d28d56db3497aadcc693d3e0d84a5aedfdda8b27532feff4138fb6"
+    },
+    {
+      "id": 16,
+      "title": "Magoya v. Canada (Citizenship and Immigration)",
+      "citation": "Magoya v. Canada (Citizenship and Immigration), 2023 FC 516 (CanLII)",
+      "decision_date": "2023-04-11",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2023/2023fc516/2023fc516.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 8",
+      "review_note": "Refugee judicial review; United States criminal history includes suspended driving, not an Ontario HTA outcome.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 25409,
+      "source_text_sha256": "b88ffd5faeebc8b63c8d7934f1fa4017c6feb9222b00138e817d85beceeda2d4"
+    },
+    {
+      "id": 17,
+      "title": "10014 v Registrar of Alcohol and Gaming",
+      "citation": "10014 v Registrar of Alcohol and Gaming, 2016 CanLII 50132 (ON LAT)",
+      "decision_date": "2016-06-01",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2016/2016canlii50132/2016canlii50132.html",
+      "queries": [
+        "wording",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "ottawa_hearing_only",
+      "evidence_locator": "heading; background; witnesses' testimony",
+      "review_note": "Gaming-registration appeal heard in Ottawa; prior suspended-driving convictions discussed without adjudicating a new s.53 charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 31900,
+      "source_text_sha256": "bf2310893a3597bb3668b3d43b25b421b242bb311acf6771986b8544ead0fe5f"
+    },
+    {
+      "id": 18,
+      "title": "R. v. Sealy-Ward",
+      "citation": "R. v. Sealy-Ward, 2019 ONSC 2647 (CanLII)",
+      "decision_date": "2019-04-29",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc2647/2019onsc2647.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1, 7, 16",
+      "review_note": "Same proceeding as candidate 14; firearm/drug counts adjudicated, not an s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 59625,
+      "source_text_sha256": "d2e0ab436435230d4b87b8bcafd4009250099ca41f3a754709504f4de98c5143"
+    },
+    {
+      "id": 19,
+      "title": "R. v. Hashimi",
+      "citation": "R. v. Hashimi, 2025 ONCJ 673 (CanLII)",
+      "decision_date": "2025-12-16",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj673/2025oncj673.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 3–9, 15, 63",
+      "review_note": "Criminal prohibited-driving/flight/obstruction trial after a Toronto-area stop; an Ottawa residence is not the trial location or an HTA disposition.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 34390,
+      "source_text_sha256": "47e8f6ceb061a03210ea156f0e25c68973a24df4b143e9d75d93e16880547584"
+    },
+    {
+      "id": 20,
+      "title": "R. v Noganosh",
+      "citation": "R. v Noganosh, 2017 ONSC 131 (CanLII)",
+      "decision_date": "2017-01-05",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2017/2017onsc131/2017onsc131.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; sentencing discussion",
+      "review_note": "Criminal sentencing for the charges in the indictment; licence suspension appears in comparative sentencing discussion, not an s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 45984,
+      "source_text_sha256": "87148ab45624d160026a1051f63cacc577c81cc59b3a22ddc4f43b40b23deea8"
+    },
+    {
+      "id": 21,
+      "title": "Grievor X v. Canada Revenue Agency",
+      "citation": "Grievor X v. Canada Revenue Agency, 2020 FPSLREB 74 (CanLII)",
+      "decision_date": "2020-07-08",
+      "url": "https://www.canlii.org/en/ca/pslreb/doc/2020/2020fpslreb74/2020fpslreb74.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 34, 49, 69",
+      "review_note": "CRA employment grievance discussing past police contacts and suspension; not a court adjudicating an HTA charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 68537,
+      "source_text_sha256": "c09ce68282f7277b358a68335f358d29b17e1f386ac0f25734891d9cad896c92"
+    },
+    {
+      "id": 22,
+      "title": "CAS of Hamilton v. D.B. et al.",
+      "citation": "CAS of Hamilton v. D.B. et al., 2021 ONSC 4983 (CanLII)",
+      "decision_date": "2021-07-15",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc4983/2021onsc4983.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; family-history allegations",
+      "review_note": "Hamilton child-protection proceeding; suspended-driving charges are background allegations, not verdicts in this decision.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 104162,
+      "source_text_sha256": "9dc81544ffb2725f356471d802472a2d56c8d5d2f6d003bb06d2238e8f8546c5"
+    },
+    {
+      "id": 23,
+      "title": "R. v Russell",
+      "citation": "R. v Russell, 2023 BCSC 2039 (CanLII)",
+      "decision_date": "2023-11-07",
+      "url": "https://www.canlii.org/en/bc/bcsc/doc/2023/2023bcsc2039/2023bcsc2039.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; discussion citing Logeman",
+      "review_note": "British Columbia criminal sentencing; suspended-driving discussion concerns a cited earlier case.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 77548,
+      "source_text_sha256": "80ddf9769a22c1c34cd198de276492a7fc73db8a3b591ddd65b3cbfe880cd36d"
+    },
+    {
+      "id": 24,
+      "title": "R. v. Reyes",
+      "citation": "R. v. Reyes, 2016 ONCJ 656 (CanLII)",
+      "decision_date": "2016-10-19",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj656/2016oncj656.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; para. 1; paras. 92 onward",
+      "review_note": "Oakville dangerous-driving case; witness testimony mentions a separate earlier suspended-driving trial without resolving it.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 101202,
+      "source_text_sha256": "82266d67cde722a00db014d2ff69fad590eaaf5462b3ad437f4d5107e1672b53"
+    },
+    {
+      "id": 25,
+      "title": "R. v. Bharath",
+      "citation": "R. v. Bharath, 2016 ONCJ 382 (CanLII)",
+      "decision_date": "2016-06-24",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj382/2016oncj382.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; introduction; para. 219",
+      "review_note": "Brampton traffic/Charter proceeding; suspended-driving discussion quotes Ladouceur as an authority, not an s.53 charge against this defendant.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 638050,
+      "source_text_sha256": "93908c4166af24a97880768e39183f03aca5115a66a81d044230a6d74a28a7b2"
+    },
+    {
+      "id": 26,
+      "title": "R. v. Haaima",
+      "citation": "R. v. Haaima, 2023 ONCJ 625 (CanLII)",
+      "decision_date": "2023-04-20",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2023/2023oncj625/2023oncj625.html",
+      "queries": [
+        "subsection",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "s53_procedural_ruling",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; paras. 1, 3–4, 38–39",
+      "review_note": "Pembroke case lists two s.53(1) charges; dismissal concerns an application for a video trial, not either charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 17353,
+      "source_text_sha256": "da4ced64c270e5e9af1d7f342c38b979791c82f5c20b8a0822d77a9bc61ea0b9"
+    },
+    {
+      "id": 27,
+      "title": "R v Hadi",
+      "citation": "R v Hadi, 2018 ABQB 35 (CanLII)",
+      "decision_date": "2018-01-15",
+      "url": "https://www.canlii.org/en/ab/abqb/doc/2018/2018abqb35/2018abqb35.html",
+      "queries": [
+        "subsection"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; Alberta statutory provisions",
+      "review_note": "Alberta criminal appeal; section 53(1)(b) reference concerns licence plates under different legislation, not Ontario HTA s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 40180,
+      "source_text_sha256": "16c8d422b6195fa1f4226d181bb9f3f09d8d756b85dce02b762cecd149284f5d"
+    },
+    {
+      "id": 28,
+      "title": "Willcott v. Freeway Transportation Inc.",
+      "citation": "Willcott v. Freeway Transportation Inc., 2019 CHRT 29 (CanLII)",
+      "decision_date": "2019-08-13",
+      "url": "https://www.canlii.org/en/ca/chrt/doc/2019/2019chrt29/2019chrt29.html",
+      "queries": [
+        "subsection"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 5; remedies",
+      "review_note": "Canadian Human Rights Tribunal employment complaint; section 53 is a CHRA remedy provision, not the HTA offence.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 129797,
+      "source_text_sha256": "d920c54eef61c3c8125cc706aea47c2cbdcadba85d0f9eaae387a6170ed67be6"
+    },
+    {
+      "id": 29,
+      "title": "R. v. Bell",
+      "citation": "R. v. Bell, 2024 ONCJ 692 (CanLII)",
+      "decision_date": "2024-08-08",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj692/2024oncj692.html",
+      "queries": [
+        "subsection",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "s53_trial_conviction",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; paras. 5, 8, 104",
+      "review_note": "Toronto trial: para.8 lists s.53(1); para.104 records conviction on all charges following the evidentiary ruling.",
+      "s53_trial_outcome": "convicted",
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 68954,
+      "source_text_sha256": "b5a4b65a048c57caa260c79a240d0cb0e46124b6ff558c74f3d61c7d479b3c8f"
+    },
+    {
+      "id": 30,
+      "title": "Procureur général du Québec c. Luamba",
+      "citation": "Procureur général du Québec c. Luamba, 2024 QCCA 1387 (CanLII)",
+      "decision_date": "2024-10-23",
+      "url": "https://www.canlii.org/en/qc/qcca/doc/2024/2024qcca1387/2024qcca1387.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "court heading; constitutional issues",
+      "review_note": "Quebec appeal about random traffic stops and constitutional validity; not an Ottawa s.53 prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 183002,
+      "source_text_sha256": "0be3d1205f613689dd0ac0e0adde50e3c3e38d414f6dc2a50cf6e532fd2b2196"
+    },
+    {
+      "id": 31,
+      "title": "R. v. Droog",
+      "citation": "R. v. Droog, 2022 ONSC 5033 (CanLII)",
+      "decision_date": "2022-09-01",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2022/2022onsc5033/2022onsc5033.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–3, 83",
+      "review_note": "Appeal of an alcohol-driving acquittal; resulting licence suspension is a penalty, not an s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 43995,
+      "source_text_sha256": "193bc1e111bfb36440948337bff5649ac211aa1a29b1e27661e5cdb5f3b9473a"
+    },
+    {
+      "id": 32,
+      "title": "Siddiqui v. Saint Francis Xavier High School",
+      "citation": "Siddiqui v. Saint Francis Xavier High School, 2019 ONSC 30 (CanLII)",
+      "decision_date": "2019-01-02",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc30/2019onsc30.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Civil limitation-period/summary-judgment motion concerning a school; not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 30227,
+      "source_text_sha256": "3935d937338b2ba8d3d1d38de33c41c056258b754dded0405a6b60dd3d039f01"
+    },
+    {
+      "id": 33,
+      "title": "Yassin v. Canada (Attorney General)",
+      "citation": "Yassin v. Canada (Attorney General), 2020 FC 237 (CanLII)",
+      "decision_date": "2020-02-12",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2020/2020fc237/2020fc237.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Judicial review concerning revocation of statutory release by the Parole Board, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 61515,
+      "source_text_sha256": "500bcde9f1f2ce0cd4575faca8ddc3390ea7cccc4062d88c088d507c8368c1d8"
+    },
+    {
+      "id": 34,
+      "title": "Manitoba Government v Province of Manitoba",
+      "citation": "Manitoba Government v Province of Manitoba, 2016 CanLII 61642 (MB LA)",
+      "decision_date": "2016-06-27",
+      "url": "https://www.canlii.org/en/mb/mbla/doc/2016/2016canlii61642/2016canlii61642.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; paras. 59, 71",
+      "review_note": "Manitoba employment arbitration following a fatal collision; licence suspension is background to sentencing, not Ontario s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 68275,
+      "source_text_sha256": "e7d0c89a19d37390dfbfdb474f331d0547394d36c39fa6818015d220da1677e1"
+    },
+    {
+      "id": 35,
+      "title": "Zapata, Steve, et al v. Reid, David, et al.",
+      "citation": "Zapata, Steve, et al v. Reid, David, et al., 2025 ONSC 594 (CanLII)",
+      "decision_date": "2025-01-29",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc594/2025onsc594.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 10–11",
+      "review_note": "Civil negligence litigation after a Highway 427 collision; medical licence suspension is background.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 75942,
+      "source_text_sha256": "906536119666654db9632509fb55df8a1325277e2384fecf36cae3db55065f67"
+    },
+    {
+      "id": 36,
+      "title": "Mahoney-Bruer v. Ontario Provincial Police",
+      "citation": "Mahoney-Bruer v. Ontario Provincial Police, 2018 ONCPC 13 (CanLII)",
+      "decision_date": "2018-10-31",
+      "url": "https://www.canlii.org/en/on/oncpc/doc/2018/2018oncpc13/2018oncpc13.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 26",
+      "review_note": "Police-discipline appeal; section/paragraph 53 reference belongs to cited authorities, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 43052,
+      "source_text_sha256": "02bbcabaeff0549e6d911bd3c89c1dfbea90b8fd1c70df2c2c10ee8edb4f1170"
+    },
+    {
+      "id": 37,
+      "title": "Brian Cadieux v Amalgamated Transit Union, Local 1415",
+      "citation": "Brian Cadieux v Amalgamated Transit Union, Local 1415, 2016 CIRB 809 (CanLII)",
+      "decision_date": "2016-01-28",
+      "url": "https://www.canlii.org/en/ca/cirb/doc/2016/2016cirb809/2016cirb809.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Canada Industrial Relations Board duty-of-fair-representation complaint, not a traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 102772,
+      "source_text_sha256": "82ba2fb8045f3e44362e08ee4c14f4bc73b724d57cbf19c9494fb667cdda2e94"
+    },
+    {
+      "id": 38,
+      "title": "R. v. Naveed",
+      "citation": "R. v. Naveed, 2025 ONCJ 268 (CanLII)",
+      "decision_date": "2025-05-14",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj268/2025oncj268.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 49",
+      "review_note": "Sentencing for criminal dangerous driving causing death; licence prohibition/suspension is a sentencing consequence or comparison.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 58300,
+      "source_text_sha256": "362fd1b1d7d8157babb388697892e899cb92a1663d2dcce7e1abac73b775d1ce"
+    },
+    {
+      "id": 39,
+      "title": "R. v. Guenter",
+      "citation": "R. v. Guenter, 2016 ONCA 572 (CanLII)",
+      "decision_date": "2016-07-19",
+      "url": "https://www.canlii.org/en/on/onca/doc/2016/2016onca572/2016onca572.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_incident",
+      "evidence_locator": "paras. 1 onward",
+      "review_note": "Appeal concerning criminal driving charges following an Ottawa-area collision; no suspended-driving charge is adjudicated.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 52980,
+      "source_text_sha256": "3c1a25aad7e672ba96097052327f5b41f534acd0f5bf59b33f67c3c024de4f92"
+    },
+    {
+      "id": 40,
+      "title": "Brampton (City) v. Mocanu",
+      "citation": "Brampton (City) v. Mocanu, 2025 ONCJ 315 (CanLII)",
+      "decision_date": "2025-06-09",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj315/2025oncj315.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1–3, 8",
+      "review_note": "Application about paralegals' appearance rights and alleged abuse of traffic-appeal processes; not an individual s.53 trial verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 201856,
+      "source_text_sha256": "fb6deed8364f11213ee119c4fdcfc928d0e822016d8a4e2b12811617ba532a21"
+    },
+    {
+      "id": 41,
+      "title": "R. v. Randall",
+      "citation": "R. v. Randall, 2025 ONCJ 337 (CanLII)",
+      "decision_date": "2025-06-16",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj337/2025oncj337.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "opening paragraphs; charges/Charter issues",
+      "review_note": "Ottawa traffic-stop search and criminal-evidence proceeding; no s.53 disposition identified.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 36268,
+      "source_text_sha256": "de84c9888875778afe4c7dd9f1b321c8edb6738263904385118d4133416f6b01"
+    },
+    {
+      "id": 42,
+      "title": "R. v. Burns",
+      "citation": "R. v. Burns, 2024 ONCJ 91 (CanLII)",
+      "decision_date": "2024-02-13",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj91/2024oncj91.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 8",
+      "review_note": "Careless-driving appeal under HTA s.130; Ottawa is a highway destination, not proof of an Ottawa s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 33119,
+      "source_text_sha256": "12b292ab1ff2057e720a07684db46e00fd5315de64ab504608c6cc9c15918c6f"
+    },
+    {
+      "id": 43,
+      "title": "R. v. Gardner",
+      "citation": "R. v. Gardner, 2021 ONSC 3468 (CanLII)",
+      "decision_date": "2021-05-25",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc3468/2021onsc3468.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–4",
+      "review_note": "Appeal of criminal alcohol-driving acquittal; not an HTA suspended-driving verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 82568,
+      "source_text_sha256": "2540fc7121aacbc41eab2600dbce9144cb24c450e9f60a750de6a9c7c2a209ee"
+    },
+    {
+      "id": 44,
+      "title": "S. S. v S. B.",
+      "citation": "S. S. v S. B., 2018 CanLII 125963 (ON HPARB)",
+      "decision_date": "2018-11-15",
+      "url": "https://www.canlii.org/en/on/onhparb/doc/2018/2018canlii125963/2018canlii125963.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 7, 75",
+      "review_note": "Optometry-complaint review related to medical fitness reporting; not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 32138,
+      "source_text_sha256": "d72d7e60796b509400cbbac24083c32ce1762438050b8f35d24abfb6280a300b"
+    },
+    {
+      "id": 45,
+      "title": "R. v. Lomilo",
+      "citation": "R. v. Lomilo, 2019 ONSC 6826 (CanLII)",
+      "decision_date": "2019-12-11",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc6826/2019onsc6826.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2",
+      "review_note": "Drug/proceeds-of-crime charges and search-exclusion motion; not an s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 63589,
+      "source_text_sha256": "83a075674254ed55134ffec4e04d0f99e2901f1ff84b28c60456e78bd239a87b"
+    },
+    {
+      "id": 46,
+      "title": "R. v. Solano-Santana",
+      "citation": "R. v. Solano-Santana, 2018 ONSC 2609 (CanLII)",
+      "decision_date": "2018-04-24",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2018/2018onsc2609/2018onsc2609.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 9, 32",
+      "review_note": "Thunder Bay drug-evidence motion; suspended-driving warrant is arrest background, not the adjudicated offence. Related to candidate 1.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 36848,
+      "source_text_sha256": "e05a50d2d6a97b61c87b2362751ef08c373cd9141289e98fb4e69be6adbe55ae"
+    },
+    {
+      "id": 47,
+      "title": "York (Regional Municipality) v. Tsui",
+      "citation": "York (Regional Municipality) v. Tsui, 2017 ONCA 230 (CanLII)",
+      "decision_date": "2017-03-22",
+      "url": "https://www.canlii.org/en/on/onca/doc/2017/2017onca230/2017onca230.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; bylaw provisions",
+      "review_note": "Vaughan body-rub-parlour licensing litigation; suspended business licences are not HTA s.53 verdicts.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 83064,
+      "source_text_sha256": "d0f04be3b49eda1f7d9d484af51d5d496986c53b0dcc876aa7d70506957c4098"
+    },
+    {
+      "id": 48,
+      "title": "Fair Change v. His Majesty the King in Right of Ontario",
+      "citation": "Fair Change v. His Majesty the King in Right of Ontario, 2024 ONSC 1895 (CanLII)",
+      "decision_date": "2024-04-02",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc1895/2024onsc1895.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; constitutional issues",
+      "review_note": "Constitutional challenge to the Safe Streets Act, not an individual HTA suspended-driving trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 251962,
+      "source_text_sha256": "ff77064456b10850052ab013d56e32b2af92a3f391d57555dc8ee6dc7d4ed154"
+    },
+    {
+      "id": 49,
+      "title": "R. v. Anstie",
+      "citation": "R. v. Anstie, 2020 ONSC 5505 (CanLII)",
+      "decision_date": "2020-09-14",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc5505/2020onsc5505.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_area_incident",
+      "evidence_locator": "paras. 1–2, 129",
+      "review_note": "Sentencing for fatal criminal driving offences; licence suspension is a consequence, not a prosecuted s.53 outcome.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 64443,
+      "source_text_sha256": "bdc3edf878b490e9fa99f72ef77d972af48fb3050c7d362bfa0077c611e46479"
+    },
+    {
+      "id": 50,
+      "title": "Teamsters Local Union 938 v Bolt Technologies Incorporated",
+      "citation": "Teamsters Local Union 938 v Bolt Technologies Incorporated, 2023 CanLII 123712 (ON LRB)",
+      "decision_date": "2023-12-11",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii123712/2023canlii123712.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Labour Relations Board interim-order proceeding involving a union and employer, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 91457,
+      "source_text_sha256": "27a8a9d4bfd786009062dfb577cbf9c1ef27ae2630ecfaaa9c573998c4fb8f59"
+    },
+    {
+      "id": 51,
+      "title": "Premium Cars Wholesale Limited, Hussein Shahnematollah-Yazde, Daniel Amirjani v. Registrar, Motor Vehicle Dealers Act, 2002",
+      "citation": "Premium Cars Wholesale Limited, Hussein Shahnematollah-Yazde, Daniel Amirjani v. Registrar, Motor Vehicle Dealers Act, 2002, 2020 CanLII 27360 (ON LAT)",
+      "decision_date": "2020-01-17",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2020/2020canlii27360/2020canlii27360.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "LAT motor-vehicle-dealer registration-revocation appeal, not a driver's s.53 charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 113975,
+      "source_text_sha256": "28f8fe49962bce3906a2dfc9a0f1ca72d37f18bd1699bc1c7ab57f2c6ddf2bbd"
+    },
+    {
+      "id": 52,
+      "title": "R. v. Hamed",
+      "citation": "R. v. Hamed, 2017 ONCJ 205 (CanLII)",
+      "decision_date": "2017-03-21",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2017/2017oncj205/2017oncj205.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2",
+      "review_note": "Criminal drug, resisting-arrest and counterfeit-currency charges arising from a traffic stop; no s.53 adjudication.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 61611,
+      "source_text_sha256": "bad32976d4000c8ff5ef9c9b10e03a7c3779afd7590c63db95c0d88af8585262"
+    },
+    {
+      "id": 53,
+      "title": "Ottawa (City) v C.U.P.E., Local 503",
+      "citation": "Ottawa (City) v C.U.P.E., Local 503, 2025 CanLII 80148 (ON LA)",
+      "decision_date": "2025-08-13",
+      "url": "https://www.canlii.org/en/on/onla/doc/2025/2025canlii80148/2025canlii80148.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_employment",
+      "evidence_locator": "para. 1",
+      "review_note": "City of Ottawa work-scheduling grievance, not a court prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 61000,
+      "source_text_sha256": "3e70dfa570abd5854f772ca5b3d7f3fa8aa7a54846c93ac1e2871845ea9879da"
+    },
+    {
+      "id": 54,
+      "title": "Li v. Barber",
+      "citation": "Li v. Barber, 2025 ONCA 169 (CanLII)",
+      "decision_date": "2025-03-06",
+      "url": "https://www.canlii.org/en/on/onca/doc/2025/2025onca169/2025onca169.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_civil_proceeding",
+      "evidence_locator": "para. 1",
+      "review_note": "Civil class-proceeding appeal arising from the 2022 Ottawa protest; not a suspended-driving prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 87581,
+      "source_text_sha256": "53353ff2737421521f4d1a8a53468a7f5c6dd3900648b459436fc7fb73b63293"
+    },
+    {
+      "id": 55,
+      "title": "Welfare v. Peel Regional Police Service",
+      "citation": "Welfare v. Peel Regional Police Service, 2018 ONCPC 15 (CanLII)",
+      "decision_date": "2018-11-23",
+      "url": "https://www.canlii.org/en/on/oncpc/doc/2018/2018oncpc15/2018oncpc15.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Peel police employment/discipline appeal, not an HTA trial verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 33625,
+      "source_text_sha256": "f111e6d6d2108f6fc0e88c98987a4c2f9586513867df5f4b25e9bcd47b3ef9cc"
+    },
+    {
+      "id": 56,
+      "title": "Elmi v. Choukair et al.",
+      "citation": "Elmi v. Choukair et al., 2020 ONSC 1181 (CanLII)",
+      "decision_date": "2020-02-26",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc1181/2020onsc1181.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Civil pedestrian-injury/rental-vehicle litigation, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 28439,
+      "source_text_sha256": "a5f074ff7056ca37f7515d3f3cba500045090c9458587ca8b50229c3e4487a4c"
+    },
+    {
+      "id": 57,
+      "title": "Cai v. Qi",
+      "citation": "Cai v. Qi, 2025 ONSC 1981 (CanLII)",
+      "decision_date": "2025-03-31",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc1981/2025onsc1981.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 14",
+      "review_note": "Civil motor-coach collision litigation; earlier s.130 careless-driving plea and suspension are not s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 33854,
+      "source_text_sha256": "c598549661534d39bc7e842114ec16845f7d550301747fd86a43b36566163722"
+    },
+    {
+      "id": 58,
+      "title": "R. v. Guilbeault",
+      "citation": "R. v. Guilbeault, 2018 ONCJ 703 (CanLII)",
+      "decision_date": "2018-06-06",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj703/2018oncj703.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2, 18",
+      "review_note": "Criminal impaired/care-or-control trial; administrative licence suspension is incidental.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 72955,
+      "source_text_sha256": "d2679ce017d0ec0b347d4eeca98bf14fac437408dc63140219a056863f943ade"
+    },
+    {
+      "id": 59,
+      "title": "Anderson, D. v Pinto",
+      "citation": "Anderson, D. v Pinto, 2022 ONMIC 6 (CanLII)",
+      "decision_date": "2022-03-10",
+      "url": "https://www.canlii.org/en/on/onmic/doc/2022/2022onmic6/2022onmic6.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Municipal integrity/code-of-conduct complaint concerning a parade, not a traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 113348,
+      "source_text_sha256": "e0056b9aa7f16e9f42676018e4ffc6c089e417081a58248dfb1223abef45393d"
+    },
+    {
+      "id": 60,
+      "title": "R. v. Seguin",
+      "citation": "R. v. Seguin, 2016 ONCJ 441 (CanLII)",
+      "decision_date": "2016-07-14",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj441/2016oncj441.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2, 65, 147",
+      "review_note": "Criminal impaired/refusal proceedings; section 53 reference is to the Police Services Act, not the HTA offence.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 135606,
+      "source_text_sha256": "6b286458f618f29debd657e3179c520c6f6350180f8b79486ed11fb9f44197b8"
+    },
+    {
+      "id": 61,
+      "title": "Christoforou v. John Grant Haulage Ltd.",
+      "citation": "Christoforou v. John Grant Haulage Ltd., 2020 CHRT 33 (CanLII)",
+      "decision_date": "2020-10-19",
+      "url": "https://www.canlii.org/en/ca/chrt/doc/2020/2020chrt33/2020chrt33.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Canadian Human Rights Tribunal employment complaint, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 71520,
+      "source_text_sha256": "9353723b6a9f2300810127038ed6a0d40884a231b6285a658df95848bf9057f6"
+    },
+    {
+      "id": 62,
+      "title": "Metro Taxi Ltd. et al. v. City of Ottawa",
+      "citation": "Metro Taxi Ltd. et al. v. City of Ottawa, 2024 ONSC 2725 (CanLII)",
+      "decision_date": "2024-05-13",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc2725/2024onsc2725.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_civil_proceeding",
+      "evidence_locator": "para. 1; claims",
+      "review_note": "Civil taxi-industry litigation against Ottawa, not an individual s.53 prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 211614,
+      "source_text_sha256": "ba02a08aa840c87cb31b9f6bb9bca4b6ec9bc0f79c720d27854842525d4efdca"
+    },
+    {
+      "id": 63,
+      "title": "R. v. Massalida",
+      "citation": "R. v. Massalida, 2022 ONCJ 451 (CanLII)",
+      "decision_date": "2022-10-03",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2022/2022oncj451/2022oncj451.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 19",
+      "review_note": "Criminal breath-demand-refusal case; administrative suspension paperwork is background, not an s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 42817,
+      "source_text_sha256": "f5cd0fa8f0545d3e213cd5e0c0c2684e8990f57653feb28d66146c04c99afbbc"
+    },
+    {
+      "id": 64,
+      "title": "Nordik Windows Inc. v. Aviva Insurance Co.",
+      "citation": "Nordik Windows Inc. v. Aviva Insurance Co., 2023 ONSC 1804 (CanLII)",
+      "decision_date": "2023-03-22",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2023/2023onsc1804/2023onsc1804.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Insurance class-certification/rehearing litigation, not a traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 72492,
+      "source_text_sha256": "be8f3a1b164d586449a20374a8a864e8ad78605782e1f514e0b710397677abd0"
+    },
+    {
+      "id": 65,
+      "title": "R. v. Ranger",
+      "citation": "R. v. Ranger, 2019 ONCJ 413 (CanLII)",
+      "decision_date": "2019-06-14",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2019/2019oncj413/2019oncj413.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "para. 1",
+      "review_note": "Criminal over-80 trial; not an HTA suspended-driving charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 38364,
+      "source_text_sha256": "27d29337d3cc21507c2d42d2c8f85af5b59f8ed56385717904a511d47e858ec5"
+    },
+    {
+      "id": 66,
+      "title": "Brantford (City) v. Doolittle",
+      "citation": "Brantford (City) v. Doolittle, 2024 ONCJ 498 (CanLII)",
+      "decision_date": "2024-09-30",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj498/2024oncj498.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; introduction; charged-offence discussion",
+      "review_note": "Brantford/Brant traffic-jurisdiction and constitutional litigation; no s.53 charge or verdict identified.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 857249,
+      "source_text_sha256": "f080c6dc2e22c5e03181f6cca72edf94e53526941d75408e382536b1183db3ce"
+    },
+    {
+      "id": 67,
+      "title": "R. v. Deria",
+      "citation": "R. v. Deria, 2019 ONSC 5667 (CanLII)",
+      "decision_date": "2019-10-01",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc5667/2019onsc5667.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2",
+      "review_note": "Criminal firearm-evidence Charter motion, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 52360,
+      "source_text_sha256": "1ce94b2829e659fec1e762c3bff9cabbe8613d25a592c03d0116f876cf3c04f2"
+    },
+    {
+      "id": 68,
+      "title": "R. v. Brar",
+      "citation": "R. v. Brar, 2018 ONCJ 966 (CanLII)",
+      "decision_date": "2018-11-19",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj966/2018oncj966.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 8; detention issues",
+      "review_note": "Alcohol-driving detention/overholding case; request for a licence suspension is not an s.53 trial outcome.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 89756,
+      "source_text_sha256": "c1966df951cf6836542f04d272e7ffccc1dc64e6bc35ad371cefec68d601a661"
+    },
+    {
+      "id": 69,
+      "title": "R. v. Pillar",
+      "citation": "R. v. Pillar, 2020 ONCJ 394 (CanLII)",
+      "decision_date": "2020-09-02",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2020/2020oncj394/2020oncj394.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–4",
+      "review_note": "Criminal impaired/over-80 trial; no s.53 charge adjudicated.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 101639,
+      "source_text_sha256": "63a5828c16ff5ba3a8b043d6e4b65cee83d17457f86c4c8b47d2e9397819bde7"
+    },
+    {
+      "id": 70,
+      "title": "A. v. A.",
+      "citation": "A. v. A., 2023 ONSC 2558 (CanLII)",
+      "decision_date": "2023-05-11",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2023/2023onsc2558/2023onsc2558.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Parenting-order family trial, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 91483,
+      "source_text_sha256": "4129484ca4ed17e4b7baf4ccab730815a3ebe946332126d573585915e7d0652f"
+    },
+    {
+      "id": 71,
+      "title": "R. v. Brennan",
+      "citation": "R. v. Brennan, 2025 ONSC 6116 (CanLII)",
+      "decision_date": "2025-11-27",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc6116/2025onsc6116.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–3",
+      "review_note": "Criminal firearm/drug/proceeds charges; traffic-stop background does not establish an s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 101087,
+      "source_text_sha256": "54e5b51aaa75a11c59b0d88b3fbeadc33037b8caa2427111185e3634ef6ef50f"
+    },
+    {
+      "id": 72,
+      "title": "Saskatchewan Government Insurance v Giesbrecht",
+      "citation": "Saskatchewan Government Insurance v Giesbrecht, 2025 SKCA 10 (CanLII)",
+      "decision_date": "2025-01-28",
+      "url": "https://www.canlii.org/en/sk/skca/doc/2025/2025skca10/2025skca10.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 10–14",
+      "review_note": "Saskatchewan licensing-information/privacy litigation, not Ontario HTA s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 74888,
+      "source_text_sha256": "0b1669d47fb45370874528e358c4939826e8b22946786626cbc6e3c5c5eab1e3"
+    },
+    {
+      "id": 73,
+      "title": "Luamba c. Procureur général du Québec",
+      "citation": "Luamba c. Procureur général du Québec, 2022 QCCS 3866 (CanLII)",
+      "decision_date": "2022-10-25",
+      "url": "https://www.canlii.org/fr/qc/qccs/doc/2022/2022qccs3866/2022qccs3866.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; constitutional issues; para. 65",
+      "review_note": "Quebec constitutional traffic-stop litigation; cites the historical Ottawa Ladouceur incident, not a new Ottawa s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 486575,
+      "source_text_sha256": "9388159e54bf02e47be81bb6e5d5509d0402ecf346138c97a87aa89ea4708776"
+    },
+    {
+      "id": 74,
+      "title": "R. c. Bamusamba",
+      "citation": "R. c. Bamusamba, 2019 ONCJ 724 (CanLII)",
+      "decision_date": "2019-10-07",
+      "url": "https://www.canlii.org/fr/on/oncj/doc/2019/2019oncj724/2019oncj724.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2",
+      "review_note": "French Ottawa criminal impaired/refusal trial; not an HTA s.53 charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 32814,
+      "source_text_sha256": "7235b106f1dfd7d6af3589bafa29405d73699f8437796afe325749ea1cdb1d68"
+    },
+    {
+      "id": 75,
+      "title": "Commission des droits de la personne et des droits de la jeunesse (DeBellefeuille) v. Ville de Longueuil",
+      "citation": "Commission des droits de la personne et des droits de la jeunesse (DeBellefeuille) v. Ville de Longueuil, 2020 QCTDP 21 (CanLII)",
+      "decision_date": "2020-11-17",
+      "url": "https://www.canlii.org/en/qc/qctdp/doc/2020/2020qctdp21/2020qctdp21.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "court heading; racial-profiling complaint",
+      "review_note": "Quebec human-rights proceeding involving Longueuil, not an Ontario s.53 prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 157416,
+      "source_text_sha256": "edc03e1edb56a7ea15ee160e304d9a8f7f3aa0dff396b6b7e93e05cba295f0a5"
+    },
+    {
+      "id": 76,
+      "title": "Children’s Aid Society of the Region of Waterloo",
+      "citation": "Children’s Aid Society of the Region of Waterloo, 2021 ONSC 990 (CanLII)",
+      "decision_date": "2021-04-26",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc990/2021onsc990.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "opening issues; child-protection application",
+      "review_note": "Waterloo child-protection proceeding; not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 107699,
+      "source_text_sha256": "3becc874427cefe3b625813ba3800c9bfa4192df74e56ad8ef4300209b21db3c"
+    },
+    {
+      "id": 77,
+      "title": "Children’s Aid Society of Toronto v. A.S.",
+      "citation": "Children’s Aid Society of Toronto v. A.S., 2022 ONCJ 553 (CanLII)",
+      "decision_date": "2022-11-29",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2022/2022oncj553/2022oncj553.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; child-protection discussion of the father's charges",
+      "review_note": "Toronto child-protection case mentions a pending suspended-licence charge; does not resolve it.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 54864,
+      "source_text_sha256": "67b354ee757c6f66fd1fd9285e8c01a2c8e2552b049b5b31270bbb32032d1499"
+    },
+    {
+      "id": 78,
+      "title": "R c. Charland",
+      "citation": "R c. Charland, 2024 CanLII 129603 (ON CS)",
+      "decision_date": "2024-12-03",
+      "url": "https://www.canlii.org/fr/on/onsc/doc/2024/2024canlii129603/2024canlii129603.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "para. 1",
+      "review_note": "Criminal mischief case concerning the Ottawa protest; statutory suspension of enforcement is not a suspended-driving verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 126209,
+      "source_text_sha256": "e5efd1e062b96ada700b959cf8f163999eef5ff0ceb0ec29987fdae8b075aec9"
+    },
+    {
+      "id": 79,
+      "title": "Ontario Public Service Employees Union Local 234 v Ministry Community Safety Correctional Services Vanier Centre For Women",
+      "citation": "Ontario Public Service Employees Union Local 234 v Ministry Community Safety Correctional Services Vanier Centre For Women, 2019 CanLII 14451 (ON LRB)",
+      "decision_date": "2019-02-21",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2019/2019canlii14451/2019canlii14451.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Occupational-health-and-safety inspector-order appeal concerning Vanier Centre for Women, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 98703,
+      "source_text_sha256": "7393d9f0718c09d5eecfecf436e2889b58f04d517e0a2193e9d34b5364ed9ea3"
+    },
+    {
+      "id": 80,
+      "title": "Decision No. 1540/17",
+      "citation": "Decision No. 1540/17, 2018 ONWSIAT 1892 (CanLII)",
+      "decision_date": "2018-06-11",
+      "url": "https://www.canlii.org/en/on/onwsiat/doc/2018/2018onwsiat1892/2018onwsiat1892.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Workplace insurance-benefit appeal, not a court adjudicating s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 78201,
+      "source_text_sha256": "008ffb72dbc1b848a1a121b570f7c4cc7bf578054601e878552d9cd4bc9ea23a"
+    },
+    {
+      "id": 81,
+      "title": "Lin v. Canada (Citizenship and Immigration)",
+      "citation": "Lin v. Canada (Citizenship and Immigration), 2021 FC 1329 (CanLII)",
+      "decision_date": "2021-11-30",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2021/2021fc1329/2021fc1329.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Refugee-exclusion judicial review, not an Ontario traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 56533,
+      "source_text_sha256": "a8daa6c9e644f8fd4ab79cc93b26c06c4aa6a992818fa9e1a6078bc65a5273c5"
+    },
+    {
+      "id": 82,
+      "title": "Yaniv Froehlich v City of Toronto",
+      "citation": "Yaniv Froehlich v City of Toronto, 2024 CanLII 34793 (ON LRB)",
+      "decision_date": "2024-04-03",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2024/2024canlii34793/2024canlii34793.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Workplace reprisal application against Toronto under OHSA, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 199510,
+      "source_text_sha256": "35322c5921e50fb4b2952f98a2d2f9d1a3b78d7b7af1493c379926b8576140bf"
+    },
+    {
+      "id": 83,
+      "title": "R. c. Pittarelli",
+      "citation": "R. c. Pittarelli, 2025 QCCM 61 (CanLII)",
+      "decision_date": "2025-07-03",
+      "url": "https://www.canlii.org/fr/qc/qccm/doc/2025/2025qccm61/2025qccm61.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 28",
+      "review_note": "Quebec criminal breath-demand-refusal charge; suspension is a consequence discussed by police.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 44171,
+      "source_text_sha256": "efe78de2187682dcce5b38362a9d5fd582e12a5d27112ce49565a1c660691f1e"
+    },
+    {
+      "id": 84,
+      "title": "Miller Group Kakabeka MDMC v A Director under the Occupational Health and Safety Act",
+      "citation": "Miller Group Kakabeka MDMC v A Director under the Occupational Health and Safety Act, 2023 CanLII 34317 (ON LRB)",
+      "decision_date": "2023-04-19",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii34317/2023canlii34317.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Occupational-health-and-safety field-report appeal, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 81715,
+      "source_text_sha256": "1d91519e1c01d94534bc3c07ab2ce1625f95f5369bf24251f8db28993b3c6212"
+    },
+    {
+      "id": 85,
+      "title": "Picard v. Canada (Attorney General)",
+      "citation": "Picard v. Canada (Attorney General), 2018 FC 747 (CanLII)",
+      "decision_date": "2018-07-18",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2018/2018fc747/2018fc747.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Federal/Quebec Indigenous-policing powers litigation, not a suspended-driving trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 125487,
+      "source_text_sha256": "8d47866cceec758b47256bf4ebbbda546da81c16e373626fa8b7a1606160f236"
+    },
+    {
+      "id": 86,
+      "title": "Dr. Jha v. College of Physicians and Surgeons of Ontario",
+      "citation": "Dr. Jha v. College of Physicians and Surgeons of Ontario, 2022 ONSC 769 (CanLII)",
+      "decision_date": "2022-05-04",
+      "url": "https://www.canlii.org/en/on/onscdc/doc/2022/2022onsc769/2022onsc769.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 16, 85, 151",
+      "review_note": "Physician-discipline appeal; licence is professional registration and section 53.1 is a costs power under different legislation.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 125482,
+      "source_text_sha256": "f955308fa885fdd5436900e499b287e79fb462ef55e518d6549290a52f19b038"
+    },
+    {
+      "id": 87,
+      "title": "R v Chung",
+      "citation": "R v Chung, 2024 ABKB 96 (CanLII)",
+      "decision_date": "2024-02-20",
+      "url": "https://www.canlii.org/en/ab/abkb/doc/2024/2024abkb96/2024abkb96.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Alberta murder/remains case and Charter issues, not an Ontario HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 135039,
+      "source_text_sha256": "7f79e014e62e09da51a97732f01392bd09d192d8ec3282cf1bac16ce86ea32e1"
+    },
+    {
+      "id": 88,
+      "title": "Law Society of Ontario v. McCallum",
+      "citation": "Law Society of Ontario v. McCallum, 2024 ONLSTH 29 (CanLII)",
+      "decision_date": "2024-03-18",
+      "url": "https://www.canlii.org/en/on/onlst/doc/2024/2024onlsth29/2024onlsth29.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Law Society professional-misconduct proceeding, not a driving charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 131599,
+      "source_text_sha256": "ab128ed5250ff9c8b09e30e9f0b33e78d1c5f8fc01a689ee0e7fbe62453a9978"
+    },
+    {
+      "id": 89,
+      "title": "R. v. N.S.",
+      "citation": "R. v. N.S., 2022 ONCA 160 (CanLII)",
+      "decision_date": "2022-02-24",
+      "url": "https://www.canlii.org/en/on/onca/doc/2022/2022onca160/2022onca160.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Constitutional litigation concerning criminal sex-work provisions, not a suspended-driving trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 110511,
+      "source_text_sha256": "d03cb016e7828f3d4392d9c4a4c4a162e172e2ac97a020fdd4815ad5fddc76bf"
+    },
+    {
+      "id": 90,
+      "title": "R. v. Qureshi",
+      "citation": "R. v. Qureshi, 2021 ONSC 1576 (CanLII)",
+      "decision_date": "2021-04-23",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc1576/2021onsc1576.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; charged-offence overview",
+      "review_note": "Criminal collision proceedings near Prescott, not an s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 190637,
+      "source_text_sha256": "c82599a87e94d066ccfba58a6d1b33ecf2ac8d4877cd9d0c2db0b648b1aabc24"
+    },
+    {
+      "id": 91,
+      "title": "Calgary (City) v Bell Canada Inc.",
+      "citation": "Calgary (City) v Bell Canada Inc., 2020 ABCA 211 (CanLII)",
+      "decision_date": "2020-05-21",
+      "url": "https://www.canlii.org/en/ab/abca/doc/2020/2020abca211/2020abca211.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Calgary telecommunications/right-of-way constitutional litigation, not an Ontario HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 307639,
+      "source_text_sha256": "9c12b8482cb1d06d78805be5b44b0282a3e0854b4b7eabefa2ea0a98396accf7"
+    },
+    {
+      "id": 92,
+      "title": "Pioneer Corp. v. Godfrey",
+      "citation": "Pioneer Corp. v. Godfrey, 2019 SCC 42 (CanLII), [2019] 3 SCR 295",
+      "decision_date": "2019-09-20",
+      "url": "https://www.canlii.org/en/ca/scc/doc/2019/2019scc42/2019scc42.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1",
+      "review_note": "Supreme Court appeal concerning optical-disc-drive competition/class-action issues, not s.53 driving.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 252330,
+      "source_text_sha256": "3247698f96b37c63adc2fa9d4d087c4f15540b2a8e80f3e69268e582dee2f5b6"
+    },
+    {
+      "id": 93,
+      "title": "NN v. DL",
+      "citation": "NN v. DL, 2019 ONSC 4913 (CanLII)",
+      "decision_date": "2019-08-22",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc4913/2019onsc4913.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; family-law issues",
+      "review_note": "Family litigation; no present s.53 prosecution adjudicated.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 134793,
+      "source_text_sha256": "8e1c25a0f13a5b155a68e174292ee4eb2b41369a568c4a5f792fb470afc42cdd"
+    },
+    {
+      "id": 94,
+      "title": "CAS of Haldimand & Norfolk v. J.-L.J et al",
+      "citation": "CAS of Haldimand & Norfolk v. J.-L.J et al, 2021 ONSC 5465 (CanLII)",
+      "decision_date": "2021-08-10",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc5465/2021onsc5465.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "opening parties/issues; child-protection application",
+      "review_note": "Haldimand/Norfolk child-protection proceeding, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 187907,
+      "source_text_sha256": "93dbe41592b67b6b61196af12e291366bbd96c0d826804e3be07951214a486f7"
+    },
+    {
+      "id": 95,
+      "title": "R. v. Duffy",
+      "citation": "R. v. Duffy, 2016 ONCJ 220 (CanLII)",
+      "decision_date": "2016-04-21",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj220/2016oncj220.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "para. 1",
+      "review_note": "Senate fraud/breach-of-trust/bribery trial, not a suspended-driving prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 951365,
+      "source_text_sha256": "67fcf5ecc23e438fb44a8d2c74cb01f01d2e3b5ea17ec536bde66e2347617948"
+    },
+    {
+      "id": 96,
+      "title": "Hak c. Procureur général du Québec",
+      "citation": "Hak c. Procureur général du Québec, 2021 QCCS 1466 (CanLII)",
+      "decision_date": "2021-04-20",
+      "url": "https://www.canlii.org/fr/qc/qccs/doc/2021/2021qccs1466/2021qccs1466.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "court heading; constitutional issues",
+      "review_note": "Quebec religious-neutrality constitutional litigation; licence references/cited cases do not resolve Ontario s.53 charges.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 656255,
+      "source_text_sha256": "46bf422d55ae2c500538e3638992a1c9ba84f8528f486343dffbb7b12b1abf7a"
+    },
+    {
+      "id": 97,
+      "title": "Khan v. Khan",
+      "citation": "Khan v. Khan, 2024 ONSC 4045 (CanLII)",
+      "decision_date": "2024-07-22",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc4045/2024onsc4045.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; family-law issues",
+      "review_note": "Family litigation; no s.53 prosecution adjudicated.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 427491,
+      "source_text_sha256": "d2f8557ab758ea401af7ae6297f1210e8b890b8f6a8c68cd14c90abd8316960d"
+    },
+    {
+      "id": 98,
+      "title": "Amalgamated Transit Union - Local 1587 (Policy) v Ontario (Metrolinx)",
+      "citation": "Amalgamated Transit Union - Local 1587 (Policy) v Ontario (Metrolinx), 2025 CanLII 18169 (ON GSB)",
+      "decision_date": "2025-02-21",
+      "url": "https://www.canlii.org/en/on/ongsb/doc/2025/2025canlii18169/2025canlii18169.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 21",
+      "review_note": "Metrolinx fitness-for-duty policy arbitration; administrative driver suspensions are a policy issue, not s.53 verdicts.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 300594,
+      "source_text_sha256": "8a856dd8382aa318b17b828038b14d404062d3f4537ef0e9fd54ac6c662f582a"
+    },
+    {
+      "id": 99,
+      "title": "Gatineau (Ville) c Syndicat des cols blancs de la ville de Gatineau",
+      "citation": "Gatineau (Ville) c Syndicat des cols blancs de la ville de Gatineau, 2016 CanLII 40448 (QC SAT)",
+      "decision_date": "2016-06-20",
+      "url": "https://www.canlii.org/fr/qc/qcsat/doc/2016/2016canlii40448/2016canlii40448.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 17–25",
+      "review_note": "Gatineau municipal-court employee job-evaluation grievances; processing suspension files is not adjudication of a driver's s.53 charge.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 192814,
+      "source_text_sha256": "8533bbe32f9ccb52720e20d104a2855ddc253d9495950d3d981352800848e720"
+    },
+    {
+      "id": 100,
+      "title": "Barbagianis v Nychuk",
+      "citation": "Barbagianis v Nychuk, 2018 SKQB 266 (CanLII)",
+      "decision_date": "2018-10-03",
+      "url": "https://www.canlii.org/en/sk/skqb/doc/2018/2018skqb266/2018skqb266.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; civil claims",
+      "review_note": "Saskatchewan civil litigation/limitation issues, not an Ontario HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 188700,
+      "source_text_sha256": "63873284872f3f6dc5179762b493298084e44200f6c4b100a90a79a7fb83c5b4"
+    },
+    {
+      "id": 101,
+      "title": "Reference re Greenhouse Gas Pollution Pricing Act",
+      "citation": "Reference re Greenhouse Gas Pollution Pricing Act, 2020 ABCA 74 (CanLII)",
+      "decision_date": "2020-02-24",
+      "url": "https://www.canlii.org/en/ab/abca/doc/2020/2020abca74/2020abca74.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; constitutional reference issues",
+      "review_note": "Alberta greenhouse-gas-pricing constitutional reference, not an individual traffic trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 784080,
+      "source_text_sha256": "fa4aab90722aa5393d7ca91b37297390861305563df04d1ce0be4688b93708a7"
+    },
+    {
+      "id": 102,
+      "title": "Brampton (City) v. Moeen",
+      "citation": "Brampton (City) v. Moeen, 2025 ONCJ 37 (CanLII)",
+      "decision_date": "2025-01-21",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj37/2025oncj37.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; introduction; charged-offence discussion",
+      "review_note": "Brampton traffic/obstruction and Charter litigation; no s.53 charge or disposition identified.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 405539,
+      "source_text_sha256": "addff7a460b523d82b1252309290502a505c18e6236dac1709e4d38067cbed14"
+    },
+    {
+      "id": 103,
+      "title": "Cambie Surgeries Corporation v British Columbia (Attorney General)",
+      "citation": "Cambie Surgeries Corporation v British Columbia (Attorney General), 2020 BCSC 1310 (CanLII)",
+      "decision_date": "2020-09-10",
+      "url": "https://www.canlii.org/en/bc/bcsc/doc/2020/2020bcsc1310/2020bcsc1310.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; introduction; issues",
+      "review_note": "British Columbia health-care constitutional litigation, not a traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 1944479,
+      "source_text_sha256": "d8b268af6ac1ae20442bdeef11bf7cb80f1b4b9542f9f897ba34d41a37c16089"
+    },
+    {
+      "id": 104,
+      "title": "Alan Taylor v Teamsters Local Union",
+      "citation": "Alan Taylor v Teamsters Local Union, 2016 CanLII 7406 (ON LRB)",
+      "decision_date": "2016-02-12",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2016/2016canlii7406/2016canlii7406.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 10, 12, 23",
+      "review_note": "Union-representation/employment complaint; past suspension contributes to dismissal history, not a new s.53 verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 56349,
+      "source_text_sha256": "ebce73d28e16f85ade06cc59dbf23fd4a37cbad80da52e661b0198d4139d67c3"
+    },
+    {
+      "id": 105,
+      "title": "Fremond v. Canada (Public Safety and Emergency Preparedness)",
+      "citation": "Fremond v. Canada (Public Safety and Emergency Preparedness), 2022 CanLII 98008 (FC)",
+      "decision_date": "2022-10-24",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2022/2022canlii98008/2022canlii98008.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "immigration background",
+      "review_note": "Federal immigration proceeding discusses earlier United States suspended-driving convictions, not Ontario s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 12099,
+      "source_text_sha256": "581055041630c5b6ed175570f55796548aa5b0445a9a23b40d1f1f6f784d9d42"
+    },
+    {
+      "id": 106,
+      "title": "100004807111 (Re)",
+      "citation": "100004807111 (Re), 2023 CanLII 126935 (CA VRAB)",
+      "decision_date": "2023-11-29",
+      "url": "https://www.canlii.org/en/ca/cavrab/doc/2023/2023canlii126935/2023canlii126935.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "hearing purpose; disability-entitlement issues",
+      "review_note": "Veterans Review and Appeal Board benefits proceeding, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 26075,
+      "source_text_sha256": "6e5f9a3fb10214c9bcf34b5c88ec74ade8d9a543c7fa8af6d3500c562c6dca46"
+    },
+    {
+      "id": 107,
+      "title": "R v Gil",
+      "citation": "R v Gil, 2018 CanLII 43792 (ON CJ)",
+      "decision_date": "2018-04-26",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018canlii43792/2018canlii43792.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "heading; proposed surety's criminal-record discussion",
+      "review_note": "Ottawa bail decision; suspended-driving conviction belongs to a proposed surety's past record, not a verdict in the case.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 26299,
+      "source_text_sha256": "334b34f7913a5f412896855fbb0ebf3e62715a00e5aad11f9aeb927c139e9705"
+    },
+    {
+      "id": 108,
+      "title": "MH (Re)",
+      "citation": "MH (Re), 2017 CanLII 143062 (ON CCB)",
+      "decision_date": "2017-01-03",
+      "url": "https://www.canlii.org/en/on/onccb/doc/2017/2017canlii143062/2017canlii143062.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "hearing purpose; involuntary-admission issues",
+      "review_note": "Consent and Capacity Board proceeding; medical licence suspension is background.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 34845,
+      "source_text_sha256": "7f1858e0044e07ecd6192a2eb9b73efc8c6fb48520aee7ecf6e7d0603d6f4d21"
+    },
+    {
+      "id": 109,
+      "title": "100003206196 (Re)",
+      "citation": "100003206196 (Re), 2018 CanLII 65870 (CA VRAB)",
+      "decision_date": "2018-05-23",
+      "url": "https://www.canlii.org/en/ca/cavrab/doc/2018/2018canlii65870/2018canlii65870.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "hearing purpose; entitlement/assessment",
+      "review_note": "Veterans disability-benefit appeal; medical inability to drive is background, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 14874,
+      "source_text_sha256": "3e86f47b00316dbefe3620c036cf17110791be3272cb309395578e52571c5b5a"
+    },
+    {
+      "id": 110,
+      "title": "R. v. Saleh-Mohamed",
+      "citation": "R. v. Saleh-Mohamed, 2021 ONSC 4260 (CanLII)",
+      "decision_date": "2021-08-10",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc4260/2021onsc4260.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "paras. 1–2, 8, 12, 56",
+      "review_note": "Ottawa criminal appeal distinguishes HTA arrest from criminal prohibited-driving conviction; an HTA s.53 verdict is not established.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 17560,
+      "source_text_sha256": "82dbad3fad9cbbe1a4ea63183216f9f96604e74cb16903b458ab3a54fcc73ed4"
+    },
+    {
+      "id": 111,
+      "title": "Saheed v. Canada (Public Safety and Emergency Preparedness)",
+      "citation": "Saheed v. Canada (Public Safety and Emergency Preparedness), 2018 CanLII 103416 (FC)",
+      "decision_date": "2018-10-26",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2018/2018canlii103416/2018canlii103416.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "immigration decision; statutory citation for earlier conviction",
+      "review_note": "Immigration matter refers to a conviction under Motor Vehicle Act s.95(1), not Ontario HTA s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 3409,
+      "source_text_sha256": "65b5a91fce48250b5b15df0295b21053a160fe68ccb7b66d919ea77017a700b0"
+    },
+    {
+      "id": 112,
+      "title": "Lapierre v Kovalyk",
+      "citation": "Lapierre v Kovalyk, 2016 ONSC 7775 (CanLII)",
+      "decision_date": "2016-12-09",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2016/2016onsc7775/2016onsc7775.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 12",
+      "review_note": "Family-support variation proceeding from Brockville; licence suspension is enforcement/background, not a driving prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 13469,
+      "source_text_sha256": "eb371f5f70488798027ff65ff2e51d7e05e3b2a5d6be3cc9b6c8ee22779e80fc"
+    },
+    {
+      "id": 113,
+      "title": "Desjardins v. Registrar of Motor Vehicles",
+      "citation": "Desjardins v. Registrar of Motor Vehicles, 2023 CanLII 107293 (ON LAT)",
+      "decision_date": "2023-11-15",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2023/2023canlii107293/2023canlii107293.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "impoundment_appeal",
+      "ottawa_relation": "ottawa_residence_only",
+      "evidence_locator": "paras. 1–2; hardship discussion",
+      "review_note": "LAT decides vehicle-impoundment appeal; an Ottawa residence does not establish an Ottawa s.53 trial verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 5761,
+      "source_text_sha256": "82d584de8dae1514e26aceec07ac08d317aea538b60d66a7df2a5bbf18c4bdf5"
+    },
+    {
+      "id": 114,
+      "title": "Amara v. Canada (Citizenship and Immigration)",
+      "citation": "Amara v. Canada (Citizenship and Immigration), 2022 FC 1448 (CanLII)",
+      "decision_date": "2022-10-24",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2022/2022fc1448/2022fc1448.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 10",
+      "review_note": "Refugee judicial review; father's claimed foreign licence suspensions are part of the refugee narrative, not an Ontario trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 9698,
+      "source_text_sha256": "9317999172d6cf933c3afeb5d6c48d23c9bf51ecf94b84a2c8071ded2720d687"
+    },
+    {
+      "id": 115,
+      "title": "Robin v Saskatchewan (Police Commission)",
+      "citation": "Robin v Saskatchewan (Police Commission), 2016 SKCA 159 (CanLII)",
+      "decision_date": "2016-12-06",
+      "url": "https://www.canlii.org/en/sk/skca/doc/2016/2016skca159/2016skca159.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 126",
+      "review_note": "Saskatchewan police-dismissal appeal cites an earlier wrongful suspended-driving conviction in another case; not an Ontario s.53 trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 74902,
+      "source_text_sha256": "1a97660ff17c7d80469989153f105d93d756fea94a5253fdfa6ce720a2d25a3a"
+    },
+    {
+      "id": 116,
+      "title": "Turner-Lienaux v. Canada (Attorney General)",
+      "citation": "Turner-Lienaux v. Canada (Attorney General), 2021 FC 1483 (CanLII)",
+      "decision_date": "2021-12-30",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2021/2021fc1483/2021fc1483.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1–2",
+      "review_note": "Judicial-review complaint arising from Halifax impaired-driving events and Nova Scotia suspension, not Ontario s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 32987,
+      "source_text_sha256": "4dd1477932d3bb326610e5156de01d0c546627466d3fc86ac1e4966413df7846"
+    },
+    {
+      "id": 117,
+      "title": "Decision No. 442/19",
+      "citation": "Decision No. 442/19, 2019 ONWSIAT 2583 (CanLII)",
+      "decision_date": "2019-11-20",
+      "url": "https://www.canlii.org/en/on/onwsiat/doc/2019/2019onwsiat2583/2019onwsiat2583.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1",
+      "review_note": "Workplace injury-benefit appeal, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 27882,
+      "source_text_sha256": "b081a5639070bf5ae174800921d28281d9168467e6fec71225f65e74f4782853"
+    },
+    {
+      "id": 118,
+      "title": "AN (Re)",
+      "citation": "AN (Re), 2024 CanLII 44497 (ON CCB)",
+      "decision_date": "2024-05-03",
+      "url": "https://www.canlii.org/en/on/onccb/doc/2024/2024canlii44497/2024canlii44497.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "hearing purpose; community-treatment-order issues",
+      "review_note": "Consent and Capacity Board proceeding; medical driving issues do not establish an HTA verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 16348,
+      "source_text_sha256": "b1eb1fd4ca7434a4fbd70bafccd01b28bb617852b41b31462e4cf0c4cb2903dc"
+    },
+    {
+      "id": 119,
+      "title": "M.S. v J.C.",
+      "citation": "M.S. v J.C., 2017 CanLII 46855 (ON HPARB)",
+      "decision_date": "2017-07-21",
+      "url": "https://www.canlii.org/en/on/onhparb/doc/2017/2017canlii46855/2017canlii46855.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 7, 21",
+      "review_note": "Physician-complaint review about medical reporting/licence suspension, not a driving prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 20514,
+      "source_text_sha256": "00ce03f97d01a0b38927791f6a31f9339a36e15f98c0beea775d859fef9f8acf"
+    },
+    {
+      "id": 120,
+      "title": "R. v. Hannaford",
+      "citation": "R. v. Hannaford, 2020 ONSC 1388 (CanLII)",
+      "decision_date": "2020-03-06",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc1388/2020onsc1388.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; para. 1; criminal-record/probation summary",
+      "review_note": "Kitchener criminal/Charter case; explicit s.53 reference describes an earlier conviction in the record, not the present disposition.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 228906,
+      "source_text_sha256": "6cd9baafca71560201c4560e787ccd095df24d1684d0811c8e555966cfd13e5f"
+    },
+    {
+      "id": 121,
+      "title": "Her Majesty The Queen v. A Group of 721 Respondents",
+      "citation": "Her Majesty The Queen v. A Group of 721 Respondents, 2021 ONSC 7380 (CanLII)",
+      "decision_date": "2021-11-10",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc7380/2021onsc7380.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 6",
+      "review_note": "Victim-fine-surcharge enforcement proceeding; suspension is an enforcement mechanism, not a charge of driving while suspended.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 28121,
+      "source_text_sha256": "bf39ba341b88948e81c853709e79abd0b529fa3e882d9b2554d0ac3962524044"
+    },
+    {
+      "id": 122,
+      "title": "Diakité v. Canada (Immigration, Refugees and Citizenship)",
+      "citation": "Diakité v. Canada (Immigration, Refugees and Citizenship), 2024 FC 170 (CanLII)",
+      "decision_date": "2024-02-02",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2024/2024fc170/2024fc170.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; professional-registration background",
+      "review_note": "Immigration/removal litigation; licence suspension references concern professional obligations, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 50526,
+      "source_text_sha256": "b0782720c07ae647c291c34fb09cc688cb8db8b9ce5a407be511f583f108ea89"
+    },
+    {
+      "id": 123,
+      "title": "Ross v. Holmes",
+      "citation": "Ross v. Holmes, 2022 ONSC 3769 (CanLII)",
+      "decision_date": "2022-06-24",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2022/2022onsc3769/2022onsc3769.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_family_proceeding",
+      "evidence_locator": "para. 1; parenting motion",
+      "review_note": "Family parenting-time motion involving police-enforcement clauses, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 71827,
+      "source_text_sha256": "7769ff6914f4014fdab82ef293fb0dfbd882bb41ba40add8cf0b8d967802252c"
+    },
+    {
+      "id": 124,
+      "title": "R. v Vanderwal",
+      "citation": "R. v Vanderwal, 2016 ONSC 1889 (CanLII)",
+      "decision_date": "2016-03-31",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2016/2016onsc1889/2016onsc1889.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; criminal-record list",
+      "review_note": "Bail review mentions driving-suspended convictions from 1979/1980; not a 2016–2025 s.53 trial outcome.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 53629,
+      "source_text_sha256": "05b7b94eb512f3e6722ddba475d7b39a51f3287eece7c28c780c1f7407d90874"
+    },
+    {
+      "id": 125,
+      "title": "R. v. Stewart",
+      "citation": "R. v. Stewart, 2018 ONCJ 678 (CanLII)",
+      "decision_date": "2018-09-20",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj678/2018oncj678.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "ottawa_proceeding",
+      "evidence_locator": "para. 1; comparative sentencing table",
+      "review_note": "Criminal dangerous/impaired-driving sentencing; suspended licence is background/comparison, not an s.53 disposition.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 41157,
+      "source_text_sha256": "00d3bd5f0ce65c094864b0dae64bbe5bd5c6e667f8b90fad128b82a604365c22"
+    },
+    {
+      "id": 126,
+      "title": "Toronto (City) v Toronto Professional Firefighters’ Association, Local 3888",
+      "citation": "Toronto (City) v Toronto Professional Firefighters’ Association, Local 3888, 2020 CanLII 31921 (ON LA)",
+      "decision_date": "2020-03-06",
+      "url": "https://www.canlii.org/en/on/onla/doc/2020/2020canlii31921/2020canlii31921.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "opening_and_proceeding_scope",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "heading; opening scope paragraph",
+      "review_note": "Toronto firefighter health/dental/benefit-carrier arbitration, not a traffic prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 200011,
+      "source_text_sha256": "d11f11b124520fd45ac850f6f7952d2e4769200fa05bfaec05e4269b51e0a9c3"
+    },
+    {
+      "id": 127,
+      "title": "X (Re)",
+      "citation": "X (Re), 2018 CanLII 145341 (CA IRB)",
+      "decision_date": "2018-06-12",
+      "url": "https://www.canlii.org/en/ca/irb/doc/2018/2018canlii145341/2018canlii145341.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "suspended_driving_reference",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "immigration facts; address/delay discussion",
+      "review_note": "Immigration proceeding; suspended licence appears in explanations of earlier conduct, not an HTA verdict.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 69484,
+      "source_text_sha256": "5347d136ce2fa602e673b711ea771cd7467f39efebfcb320a0247c601c8cd0ac"
+    },
+    {
+      "id": 128,
+      "title": "Law Society of Ontario v. Marusic and Martini",
+      "citation": "Law Society of Ontario v. Marusic and Martini, 2022 ONLSTH 55 (CanLII)",
+      "decision_date": "2022-05-11",
+      "url": "https://www.canlii.org/en/on/onlst/doc/2022/2022onlsth55/2022onlsth55.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 6–7, 17",
+      "review_note": "Law Society conduct proceeding; suspended licences are licences to practise law, not driving licences.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 153501,
+      "source_text_sha256": "a6d7496bd3e4b0c3fa8ce1cf5c72dd2815702932ef1d4c522fba3d8b83d60a65"
+    },
+    {
+      "id": 129,
+      "title": "United Food and Commercial Workers Union Canada, Local 175 v OLYMEL s.e.c./l.p.",
+      "citation": "United Food and Commercial Workers Union Canada, Local 175 v OLYMEL s.e.c./l.p., 2020 CanLII 35299 (ON LA)",
+      "decision_date": "2020-05-22",
+      "url": "https://www.canlii.org/en/on/onla/doc/2020/2020canlii35299/2020canlii35299.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "paras. 1, 28",
+      "review_note": "Workplace forklift discipline; employer-suspended forklift authorization is not Ontario HTA s.53.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 69447,
+      "source_text_sha256": "6c778e11c2c1b33cbc4c9e55e8aac333eaebff770157c7d899e22e8299186cac"
+    },
+    {
+      "id": 130,
+      "title": "Iron Workers District Council of Ontario v Alloy Fusion Inc.",
+      "citation": "Iron Workers District Council of Ontario v Alloy Fusion Inc., 2023 CanLII 69462 (ON LRB)",
+      "decision_date": "2023-07-07",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii69462/2023canlii69462.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "not_established",
+      "evidence_locator": "para. 1; employment evidence",
+      "review_note": "Labour certification/unfair-practice proceeding; past licence suspension is incidental employment evidence, not an HTA trial.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 102822,
+      "source_text_sha256": "181cec09701386d7d43df5a9fe8bcefa2992ba6cc8430bcddab895f2d7176cb1"
+    },
+    {
+      "id": 131,
+      "title": "Ontario Public Service Employees Union (Cusack) v Ontario (Community Safety and Correctional Services)",
+      "citation": "Ontario Public Service Employees Union (Cusack) v Ontario (Community Safety and Correctional Services), 2016 CanLII 7452 (ON GSB)",
+      "decision_date": "2016-01-06",
+      "url": "https://www.canlii.org/en/on/ongsb/doc/2016/2016canlii7452/2016canlii7452.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; nursing/employment grievance issues",
+      "review_note": "Nurse's employment grievance; professional-registration concerns are not suspended-driving charges.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 132927,
+      "source_text_sha256": "ee9cc0bc88395e7c256b8cb88625786b7781bd55d218d9d10d1b82846da22759"
+    },
+    {
+      "id": 132,
+      "title": "Barker v. Barker",
+      "citation": "Barker v. Barker, 2020 ONSC 3746 (CanLII)",
+      "decision_date": "2020-06-25",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc3746/2020onsc3746.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "opening_and_proceeding_scope",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "para. 1; civil claims",
+      "review_note": "Civil litigation over historical hospital treatment, not an HTA prosecution.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 200011,
+      "source_text_sha256": "b2c7dc8dd6aead45774bb6ded2de363642f376019f8ee276716dc326426f4bef"
+    },
+    {
+      "id": 133,
+      "title": "R. v Wood",
+      "citation": "R. v Wood, 2017 ONSC 3239 (CanLII)",
+      "decision_date": "2017-06-01",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2017/2017onsc3239/2017onsc3239.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "reviewed",
+      "review_method": "full_text_relevance_screen",
+      "classification": "other_proceeding",
+      "ottawa_relation": "outside_ottawa",
+      "evidence_locator": "paras. 1, 13, 171–172",
+      "review_note": "Criminal mall-collapse/engineering case; suspended licence is an engineering licence, not a driver's licence.",
+      "s53_trial_outcome": null,
+      "confirmed_ottawa_s53_trial_outcome": false,
+      "source_text_chars": 259068,
+      "source_text_sha256": "eec62e035801dca6f53528660676e4aa5188cb3b9ecd62a7af2496c6cd5cdef3"
+    }
+  ]
+}

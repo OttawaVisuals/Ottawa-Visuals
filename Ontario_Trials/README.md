@@ -9,6 +9,8 @@ and camera-issued/completed context. It does not duplicate or independently refr
 An [s.53 judgment-search pilot](research/S53_PILOT.md) records published-decision
 searches, verified comparison cases and the limitations of linking judgments to
 these aggregate statistics. It does not change the outcome totals.
+The [follow-up review of all 133 candidates](research/S53_REVIEW.md) includes a CSV
+and per-document classification, with full-text versus scope-review limitations stated.
 
 ## Coverage
 
