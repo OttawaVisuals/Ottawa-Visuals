@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Ottawa Really Moves · Road safety</title>
-<meta name="description" content="Explore Ottawa police traffic stops, driver demographics, collisions and camera violations, with sources and clear data coverage.">
+<meta name="description" content="Explore Ottawa collisions, traffic stops, camera enforcement and traffic-court outcomes, with sources and clear data coverage.">
 <link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -23,6 +23,8 @@
 <script src="../assets/site-theme.js"></script>
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script defer src="../Ontario_Trials/model.js"></script>
+<script defer src="court.js"></script>
 <script defer src="stops.js"></script>
 <script defer src="kpis.js"></script>
 <script defer src="revenue.js"></script>
@@ -38,7 +40,7 @@
   <header class="page-header">
     <p class="eyebrow">Traffic &amp; roads · Ottawa</p>
     <h1>How Ottawa <em>really moves</em></h1>
-    <p class="sub">Collisions, where they happen, police stops and camera enforcement. Explore the records, see what changed, and check how far each source goes.</p>
+    <p class="sub">Collisions, where they happen, police stops, camera enforcement and traffic-court outcomes. Explore the records, see what changed, and check how far each source goes.</p>
     <p class="coverage" id="coverage">Loading official data coverage…</p>
   </header>
   <div class="notice" id="update-note">Different sources cover different periods. Detailed records and newer OPS summaries are shown separately.</div>
@@ -50,6 +52,7 @@
     <button type="button" data-section="drivers" aria-pressed="false">Driver demographics</button>
     <button type="button" data-section="speed" aria-pressed="false">Speed cameras</button>
     <button type="button" data-section="redlight" aria-pressed="false">Red-light cameras</button>
+    <button type="button" data-section="court" aria-pressed="false">Traffic court</button>
     <button type="button" data-section="revenue" aria-pressed="false">Ticket revenue</button>
   </nav>
   <div id="load-status" role="status">Loading report…</div>
@@ -84,13 +87,14 @@
         <li>Ward assignment for detailed collisions uses the existing Geo_ID join to 2022–2026 ward boundaries. Unmatched records remain an explicit category. Police neighbourhoods are source categories, not wards.</li>
         <li>Camera totals count reported violations, not unique drivers. A camera can monitor one approach. “Per reporting camera” divides that month’s violations by camera approaches/sites with a published numeric value, including zero; it is not a traffic-volume rate.</li>
         <li>A missing camera-month stays missing. It may reflect no published value or a camera not yet operating. Latest calendar years can be incomplete. Growing camera networks and changing traffic volumes affect totals.</li>
+        <li>Traffic court counts Ottawa City Highway Traffic Act charges completed under POA Parts I and III—not unique drivers, police stops or tickets issued that year. Calendar years only; the overlapping April 2025–March 2026 source is excluded. Guilty pleas are not all guilty outcomes; completed-trial results are not split into guilty/acquitted. Camera and officer-issued charges cannot be separated. The court snapshot is refreshed independently of the weekly City/police data. <a href="../Ontario_Trials/README.md">Court definitions and source audit</a>.</li>
         <li>The Summary tab’s whole-city congestion check comes from the <a href="https://www.tomtom.com/traffic-index/city/ottawa/">TomTom Traffic Index</a> (© TomTom). We save the hourly readings TomTom publishes for Ottawa once a day, for comparison with our own road samples. The two measure different things and will not match.</li>
         <li>OPS summaries use a separate reporting system and publication cutoff. They are kept out of the detailed City time series. The 2026 comparison uses the same September 19 cutoff in both years.</li>
         <li>Speed-camera enforcement ended November 14, 2025. November is a shortened operating month. Red-light cameras were not affected. <a href="https://ottawa.ca/en/city-hall/city-news/newsroom/changes-coming-automated-speed-enforcement">City announcement</a>.</li>
       </ul>
     </details>
     <details><summary>Download the source tables &amp; reproduce the report</summary>
-      <p>Data is served from this repository. The weekly workflow refreshes the source CSVs, checks the public catalogues and rebuilds the report. The “checked” date means a successful source check, not the latest event date.</p>
+      <p>Data is served from this repository. The weekly workflow refreshes the City/police source CSVs, checks the public catalogues and rebuilds the report. The “checked” date means a successful source check, not the latest event date. Court data use a separate audited snapshot with its own review date and refresh script in <a href="../Ontario_Trials/README.md">Ontario_Trials</a>.</p>
       <p class="downloads"><a href="data/police/traffic_stops_by_time.csv" download>Police annual/day/hour totals</a><a href="data/police/traffic_stops_monthly.csv" download>Police monthly totals</a><a href="data/police/traffic_stops_by_driver.csv" download>Driver categories</a><a href="data/police/traffic_stops_by_area.csv" download>Police areas</a><a href="data/police/traffic_stops_by_location.csv" download>All police locations</a><a href="data/city/ase_violations.csv" download>Speed-camera violations</a><a href="data/city/red_light_violations.csv" download>Red-light violations</a><a href="data/city/ase_removal_monitoring.csv" download>Monitoring after removal</a><a href="data/ops_collision_releases.csv" download>OPS collision releases</a><a href="data/ctv_crash_headlines.csv" download>CTV crash headlines</a><a href="data/derived/stops_report/sources.json" download>Source audit</a><a href="scripts/build_stops_report.py">Rebuild script</a></p>
       <p>Local rebuild: <code>python Traffic/scripts/build_stops_report.py --refresh</code>. See <a href="README.md">Traffic methodology</a> for collection and matching details.</p>
     </details>

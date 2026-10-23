@@ -2,6 +2,10 @@
 
 Page: [courts.html](courts.html). Official-source snapshot reviewed **October 23, 2026**. Static HTML, CSS and JavaScript; no chart library or backend.
 
+The [Traffic court tab in How Ottawa Really Moves](../Traffic/stops.html?section=court)
+reuses this snapshot and `model.js` for calendar-year HTA offences, outcome filters
+and camera-issued/completed context. It does not duplicate or independently refresh the data.
+
 ## Coverage
 
 [Ontario Court of Justice statistics](https://www.ontariocourts.ca/ocj/statistics/) are the sole data source. The importer discovers links from that page rather than inventing historical URLs.

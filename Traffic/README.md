@@ -2,8 +2,9 @@
 
 ## Traffic stops report (no Power BI)
 
-[`stops.html`](stops.html) is a static Chart.js + Leaflet report with five sections:
-collisions (the default), police stops, driver demographics, speed cameras and red-light cameras.
+[`stops.html`](stops.html) is a static Chart.js + Leaflet report with nine tabs:
+summary (the default), collisions, where it happens, police stops, driver demographics,
+speed cameras, red-light cameras, traffic court and ticket revenue.
 Filter scopes are stated beside the controls. Each chart has a data table;
 filtered CSV downloads and URL filters are supported. The police location map
 is explicitly **all years and outcomes**: its rollup does not retain those dimensions.
@@ -59,6 +60,33 @@ are recorded road users/vehicles, not injuries; blank party counts are omitted.
 TomTom's live map has no history, so this pipeline **builds its own** by polling
 TomTom APIs on a schedule and appending every reading to CSV. A few weeks of runs
 gives a real time series for the commute / RTO / quality-of-life narrative.
+
+## Traffic court tab
+
+[`Traffic court`](stops.html?section=court) reuses the audited
+[`Ontario_Trials/data/outcomes.json`](../Ontario_Trials/data/outcomes.json) snapshot
+and shared outcome definitions. Reviewed October 23, 2026; separate from the weekly
+City/Police refresh. See [court methodology and rebuild instructions](../Ontario_Trials/README.md).
+
+- Ottawa City Highway Traffic Act **charges completed**, calendar years 2015–2025.
+  The publication indexed as 2026 covers April 2025–March 2026 and is excluded.
+- The mix is speeding, red lights and **all other HTA offences combined**. All other
+  is the parent total minus speeding and red lights; it includes the separate source
+  catch-all. All 15 source detail rows reconcile to HTA for every metric/publication.
+- Year selects cards, the detail table and CSV. Offence selects the outcome history
+  and detail values. Annual charts keep all calendar years; count/share applies to
+  the mix and outcome charts. CSV contains one selected-year row, raw outcomes,
+  fractional shares, camera counts/coverage and original court source locations.
+- Prepaid fines, guilty pleas and default guilt remain separate. Trial results are
+  not split into guilty/acquitted; no complete conviction rate is available.
+- Camera tickets **issued** appear alongside court **completions** for context.
+  They are not matched cohorts and can occur in different years. Court data combine
+  officer and camera enforcement, so an exact automated-enforcement share is unknown.
+  Missing camera years stay missing; 2025 speed-camera coverage is 11 months with
+  November shortened. Reporting months do not imply every site reported each month.
+
+Checks: `node --test Traffic/scripts/test_court.cjs Ontario_Trials/scripts/test_outcomes.cjs`.
+Court data load on first opening the tab, with retry and a link to the full report.
 
 ## What it collects
 

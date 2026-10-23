@@ -9,7 +9,7 @@ const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
 const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
 const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
 const params = new URLSearchParams(location.search);
-const sections = ['summary','collisions','where','stops','drivers','speed','redlight','revenue'];
+const sections = ['summary','collisions','where','stops','drivers','speed','redlight','court','revenue'];
 let section = sections.includes(params.get('section')) ? params.get('section') : 'summary';
 const initialSection = section;
 let data, audit, charts = [], maps = [], exports = [], generation = 0;
@@ -87,6 +87,11 @@ function saveState() {
 function initState(name) {
   if (settings[name]) return settings[name];
   if (name === 'where') return settings[name] = {};
+  if (name === 'court') {
+    const initial={year:'latest',offence:'all',metric:'count'};
+    if(name===initialSection)Object.keys(initial).forEach(k=>{if(params.has(k))initial[k]=params.get(k);});
+    return settings[name]=initial;
+  }
   if (name === 'revenue') { const init = {...REV_DEFAULTS}; if (name === initialSection) Object.keys(init).forEach(k=>{ if (params.has(k) && Number.isFinite(Number(params.get(k)))) init[k] = params.get(k); }); return settings[name] = init; }
   const initial = name === 'collisions' ? {year:String(Math.max(...data.collisions.map(r=>r.year))),ward:'all'} : name === 'speed' || name === 'redlight' ? {year:String(Math.max(...data[name].months.map(r=>r[0]))),site:'all',metric:'total',...(name==='speed'?{monitor:''}:{})} : {year:'all',outcome:'all'};
   if (name === initialSection) Object.keys(initial).forEach(k=>{if(params.has(k)) initial[k] = params.get(k);});
@@ -505,6 +510,7 @@ async function render() {
   document.querySelectorAll('[data-section]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.section===section)));
   $('summary').hidden = section!=='summary';
   $('report').hidden = section==='summary';
+  $('download').disabled=false;
   if (section==='summary') { saveState(); return; }
   const state=initState(section);
   let mapTask;
@@ -513,6 +519,7 @@ async function render() {
   else if (section==='collisions') mapTask=renderCollisions(state,token);
   else if (section==='where') mapTask=renderWhere(token);
   else if (section==='revenue') mapTask=renderRevenue(state,token);
+  else if (section==='court') await renderTrafficCourt(state,token);
   else mapTask=renderCameras(state,token);
   if (token !== generation) return;
   document.querySelectorAll('#filters select, #monitor').forEach(input=>input.addEventListener('change',()=>{
@@ -566,6 +573,7 @@ Promise.all([loadJSON('report.json'),loadJSON('sources.json')]).then(async resul
     ['City — detailed collisions',audit.collisions.url,'2017–2022, 2024','2023 absent. No 2025/2026 detailed layer found in the checked catalogue.'],
     ['City — speed-camera violations','https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement',cameraPeriod(data.speed.months),'Program ended November 14, 2025.'],
     ['City — red-light violations','https://open.ottawa.ca/search?q=Red%20Light%20Camera',cameraPeriod(data.redlight.months),'Latest year is incomplete. Some sites have fewer months.'],
+    ['OCJ — Ottawa traffic court','https://www.ontariocourts.ca/ocj/statistics/','Calendar years 2015–2025; see Traffic court','Separate reviewed court snapshot. Charges completed, not tickets issued. Non-calendar sources excluded.'],
     ['City — monitoring after ASE removal','https://open.ottawa.ca/search?q=Automated%20Speed%20Enforcement%20Camera%20Removal','Dated observations through '+data.monitoring.filter(r=>r.month).map(r=>r.month).sort().at(-1),'Separate speed samples, not ticket counts. Undated baselines retained in the table.'],
     ['OPS — 2025 year-end summary',data.snapshots[0].source,'2025 vs 2024','Incidents, not people; separate reporting definitions.'],
     ['OPS — 2026 YTD summary',data.snapshots[1].source,'Through September 19 in both years','Partial year; citywide totals only.'],
