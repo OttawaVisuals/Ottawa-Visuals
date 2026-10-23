@@ -1082,6 +1082,28 @@
 <script>
   const ALL_REPORTS = [
     {
+      id: "court-outcomes",
+      topic: "Courts & justice",
+      title: "How Ottawa court cases end",
+      lede: "Guilty pleas, withdrawals and stays, and completions following trial. Ottawa criminal cases and provincial/traffic charges, with offence filters and source limits.",
+      date: "Reviewed Oct 23, 2026",
+      readTime: "~ 4 min read",
+      tag: "#courts",
+      page: "Ontario_Trials/courts.html",
+      why: "Court statistics are scattered across annual PDFs and workbooks. A consistent view makes the outcomes visible without treating every completion as a verdict.",
+      method: "Official Ottawa OCJ and Ottawa City provincial-offence tables; 27 publications with reporting periods and source locations retained. Shares use completed cases or charges, separately. Trial results are not split into guilty and acquitted.",
+      sources: [
+        { name: "Ontario Court of Justice statistics", meta: "criminal 2012–2026; provincial 2015–2026 publications", url: "https://www.ontariocourts.ca/ocj/statistics/" },
+        { name: "Method and source audit", meta: "reproducible extraction", url: "Ontario_Trials/README.md" },
+      ],
+      takeaways: [
+        ["11,005", "criminal cases completed in Ottawa OCJ in 2025"],
+        ["5,413", "2025 guilty pleas; this is not all guilty outcomes"],
+        ["4,119", "criminal cases withdrawn/stayed before trial in 2025; reasons not reported"],
+      ],
+      thumb: "bars",
+    },
+    {
       id: "ops",
       topic: "Police accountability",
       title: "Ottawa Police: complaints and discipline",

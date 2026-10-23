@@ -20,7 +20,7 @@ any bookmarked or shared links.
 | [`Vehicles/`](Vehicles/README.md) | Road safety / vehicle-pedestrian impact calculator |
 | [`Ottawa_Elections/`](Ottawa_Elections/README.md) | Ward-by-ward municipal election results |
 | [`Ontario_Elections/`](Ontario_Elections/README.md) | Ontario provincial election + coalition scenarios |
-| [`Ontario_Trials/`](Ontario_Trials/README.md) | Ontario Court traffic cases (exploration) |
+| [`Ontario_Trials/`](Ontario_Trials/README.md) | How Ottawa court cases end: criminal and provincial/traffic outcomes, offence filters, calendar/non-calendar periods, count/share charts and downloads ([`courts.html`](Ontario_Trials/courts.html)) |
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |
 | [`Energy/`](Energy/README.md) | Geothermal feasibility (companion to the separate Energy repo) |
 | [`Traffic/`](Traffic/README.md) | TomTom commute-time, parking and road-event collectors (feed RTO Watch), plus weekly City/Police road datasets behind the road-safety report [`stops.html`](Traffic/stops.html) (its Where tab replaced `roads.html`) and the impact calculator |

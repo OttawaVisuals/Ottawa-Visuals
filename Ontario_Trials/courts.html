@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>How Ottawa court cases end · Ottawa Visuals</title>
+  <meta name="description" content="Ottawa court outcomes over time: guilty pleas, withdrawals, stays and cases completed following trial. Official Ontario Court of Justice data, with criminal and provincial-offence views.">
+  <link rel="icon" href="../assets/img/avatar.png">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="courts.css"><link rel="stylesheet" href="../assets/site-theme.css">
+  <script defer src="../assets/site-theme.js"></script><script defer src="model.js"></script><script defer src="courts.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to report</a>
+<header class="topbar">
+  <a class="brand" href="../index.html"><span>Ottawa Visuals <small>Courts</small></span></a>
+  <nav aria-label="Related reports"><a href="../OPS/ops.html">OPS discipline</a><a href="../Traffic/stops.html">Road safety</a></nav>
+  <span class="spacer"></span><button id="theme-toggle" hidden aria-hidden="true" tabindex="-1"></button>
+</header>
+<main id="main">
+  <header class="page-header">
+    <p class="eyebrow">Ontario Court of Justice · Ottawa</p>
+    <h1>How Ottawa <em>court cases end</em></h1>
+    <p class="lede">Guilty pleas, withdrawals and stays, and cases completed following a trial. Explore what the published totals show—and where they stop.</p>
+    <p id="coverage" class="small">Loading court statistics…</p>
+  </header>
+  <div id="error" class="notice" role="alert" hidden>Data could not be loaded. <button id="retry" type="button">Try again</button> or open the <a href="https://www.ontariocourts.ca/ocj/statistics/">official court statistics</a>.</div>
+  <noscript><p>JavaScript is needed for filters and charts. <a href="data/outcomes.json">Download the sourced data</a> or <a href="https://www.ontariocourts.ca/ocj/statistics/">visit the original statistics</a>.</p></noscript>
+  <div class="notice"><strong>Completed cases are not all verdicts.</strong> These tables identify guilty pleas, but do not split the results of completed trials into guilty and acquitted. Criminal completions also include cases committed for trial in Superior Court.</div>
+  <section class="card controls" aria-label="Report filters">
+    <div class="tabs" role="group" aria-label="Court dataset">
+      <button id="crim" type="button" aria-pressed="true">Criminal cases</button>
+      <button id="poa" type="button" aria-pressed="false">Provincial &amp; traffic offences</button>
+    </div>
+    <p class="scope" id="scope">Criminal cases include adult and youth cases; one case can contain several charges.</p>
+    <div class="filters">
+      <label>Reporting period<select id="period"></select></label>
+      <label class="subject">Offence or group<select id="offence"></select></label>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </section>
+  <section aria-labelledby="selected-title">
+    <div class="section-head"><h2 id="selected-title">Selected period</h2><p id="selected-period" class="small"></p></div>
+    <p id="period-note" class="small"></p>
+    <p id="unavailable" class="notice" role="status" hidden>No published row was found for this subject in the selected period. This is unavailable data, not zero.</p>
+    <div class="stats">
+      <article class="stat-box"><div class="stat-val" id="completed">—</div><h3 id="completed-label">Cases completed</h3><p id="completed-note">Published total for the selected subject</p></article>
+      <article class="stat-box"><div class="stat-val" id="pleas">—</div><h3>Guilty pleas</h3><p id="pleas-note">Before trial or at a trial date</p></article>
+      <article class="stat-box"><div class="stat-val" id="withdrawals">—</div><h3 id="withdrawal-label">Withdrawn / stayed before trial</h3><p id="withdrawals-note">Source category; reasons not reported</p></article>
+      <article class="stat-box"><div class="stat-val" id="trials">—</div><h3>Following a trial</h3><p id="trials-note">Trial results are not split</p></article>
+    </div>
+    <details class="source-detail"><summary>See this period’s outcome counts and original source</summary><div id="selected-details"></div></details>
+  </section>
+  <section class="card history" aria-labelledby="history-title">
+    <div class="section-head"><div><p class="eyebrow">Over time</p><h2 id="history-title">How cases were completed</h2></div><button id="download" type="button" disabled>Download chart data (CSV)</button></div>
+    <div class="chart-controls"><div class="mode" role="group" aria-label="Chart measure"><button id="share" type="button" aria-pressed="true">Share of completions</button><button id="count" type="button" aria-pressed="false">Number completed</button></div><label class="checkbox"><input type="checkbox" id="rolling">Include overlapping, non-calendar periods</label></div>
+    <p id="chart-note" class="small">Each bar uses that period’s completed cases as its denominator. Select a period label to see its details above.</p>
+    <p id="overlap-note" class="notice" hidden>Additional periods overlap calendar years. Their exact dates are shown. Do not add these bars together or treat them as successive calendar years.</p>
+    <div id="legend" class="legend"></div>
+    <div id="chart" class="chart" aria-label="Court completion categories by reporting period"></div>
+    <p class="small">Hover over a segment for its count and share. Exact values are also in the table below. Missing rows and periods remain unavailable.</p>
+    <details class="data-table"><summary>View chart data as a table</summary><div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable chart data table"><table id="table"></table></div></details>
+  </section>
+  <section class="card methodology" aria-labelledby="method-title">
+    <h2 id="method-title">What these numbers mean</h2>
+    <details open><summary>Counts and percentages</summary><p><strong>Criminal:</strong> a case means the charges on one Information for one accused. Cases are classified by the most serious charge. One person can have several cases; these are not counts of unique people. The all-criminal series includes youth cases.</p><p><strong>Provincial offences:</strong> individual charges under Parts I and III of the Provincial Offences Act, including Highway Traffic Act offences and other statutes. These are charges, not criminal cases or unique people. Parking matters under Part II are outside this series.</p><p><strong>Share:</strong> category count ÷ the published completed total for the same subject and period. A zero completed total has no percentage. Received and pending counts are context only; neither is used as the denominator. No totals are added across reporting periods.</p></details>
+    <details><summary>How outcomes are grouped</summary><p>Guilty pleas before trial and at a trial date are combined. For criminal cases, “withdrawn/stayed before trial” remains separate from withdrawals at a trial date. Stays cannot be separated from withdrawals in the pre-trial category. Other dispositions before and at trial dates are combined.</p><p>For provincial offences, prepaid fines, guilty pleas, guilt recorded after failure to respond/attend, withdrawals, other dispositions and completion following trial remain separate categories. “Following a trial” is a process category, not a guilty or acquitted result.</p><p>“At trial date” can mean the matter was resolved without a trial. The page does not label guilty pleas as trial verdicts. No complete conviction/acquittal rate, reason for withdrawal or stay, or finding about police conduct can be calculated from these tables.</p></details>
+    <details><summary>Coverage, periods and source limitations</summary><p id="coverage-details"></p><p>The calendar-year view excludes publications with different reporting windows. The criminal file indexed as 2020 covers October 2019–September 2020; the files indexed as 2026 cover April 2025–March 2026. These are complete reporting windows, not 2026 year-to-date. Full dates control the labels, rather than filenames.</p><p>The Court cautions about the accuracy and reliability of pandemic-era ICON data. Changes in legislation, enforcement, offence mix and court operations can affect comparisons. Provincial traffic counts can include automated-camera charges; no adjustment for enforcement volume is made.</p><p>These are Ottawa OCJ location statistics and Ottawa City provincial-offence statistics. They are not all courts in Ottawa, do not identify individual cases or judges, and cannot be linked to named OPS officers. Superior Court case outcomes are not included.</p><p>The Ministry of the Attorney General collects the data on behalf of the Court. The Court does not confirm its accuracy/completeness or endorse this analysis. Newer source workbooks include reuse/audience wording; this report retains the original links and source notices in its audit.</p></details>
+    <details><summary>Extraction and reconciliation</summary><p>Discover annual publications from the official statistics index. Read only the Ottawa or Ottawa City workbook sheet, or the Ottawa PDF table. Keep the original period, table row, source URL and file hash with every extracted row. Source workbooks are read without changing formulas or labels.</p><p>Check that the component outcomes sum to each published row’s before-trial, trial-date and completed totals. Separately compare offence rows against group totals and groups/statutes against the overall total. Source inconsistencies remain recorded; no missing count is distributed across categories. The page uses the source’s printed row for each selected group or overall total.</p><p>Blank count cells are treated as zero within structurally valid rows only after their outcome totals reconcile. Missing offence rows, source periods and failed downloads are never turned into zero. Header errors in some workbooks are ignored only outside the numeric data table.</p><div id="audit-summary"></div></details>
+    <details open><summary>Original publications and downloads</summary><p><a href="https://www.ontariocourts.ca/ocj/statistics/">Ontario Court of Justice statistics index</a> · <a href="data/outcomes.json" download>Full sourced JSON</a> · <a href="README.md">Method and refresh instructions</a></p><ul id="sources"></ul></details>
+  </section>
+</main>
+<footer><p>Ottawa Visuals · Official statistics, with their limits. <a href="../index.html">All reports</a></p></footer>
+</body></html>

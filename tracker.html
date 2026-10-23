@@ -213,6 +213,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#road-safety">🚗 Road Safety</a>
       <a href="#traffic-stops">🚦 Road safety report</a>
       <a href="#ops">OPS discipline</a>
+      <a href="#court-outcomes">Court outcomes</a>
       <a href="#roads">🛣️ Roads (merged)</a>
       <a href="#tax">🧾 Tax</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
@@ -321,7 +322,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">search + PDFs</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🧑‍⚖️ Ontario Court Cases</span><div class="track"><div class="fill" style="width:30%"></div></div><span class="pct">30%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#court-outcomes">Ottawa court outcomes</a></span><span class="pct">Built · Oct 23, 2026</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal (Ottawa, Energy repo)</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">live ↗</span></div>
     <p class="small muted" style="margin-top:.6rem">Status as of 2026-09-03. RTO Watch (<code>rto.html</code>) folds
     together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
@@ -848,6 +849,12 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 </section>
 
 <!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
+<section id="court-outcomes" class="card">
+  <div class="proj-head"><h2>How Ottawa court cases end</h2><span class="chip build">Built · Oct 23, 2026</span><a class="live-link" href="Ontario_Trials/courts.html">open the page ↗</a></div>
+  <p>Criminal cases and provincial/traffic charges kept separate. Offence/group filters, reporting periods, count/share bars, accessible tables, shareable filters and CSV/JSON. Latest calendar year: 2025.</p>
+  <p><b>Source audit:</b> 27 official publications, 903 extracted Ottawa rows. Each row’s outcome components reconcile. The 2016 provincial source has a verified subtotal discrepancy; printed totals are retained and the differences flagged.</p>
+  <p><b>Limits:</b> criminal completions include committals to Superior Court; trial results are not split into guilty/acquitted. Withdrawals/stays have no recorded reasons. Criminal “2020” and both “2026” files have non-calendar periods, excluded from the default calendar chart. No named-case or OPS-officer linkage. Source reuse wording and local publication status documented in <a href="Ontario_Trials/README.md">the method notes</a>.</p>
+</section>
 <section id="ops" class="card">
   <div class="proj-head"><h2>Ottawa Police: complaints &amp; discipline</h2><span class="chip build">Reviewed snapshot · Oct 23, 2026</span><a class="live-link" href="OPS/ops.html">open the page ↗</a></div>
   <p><b>Collection:</b> 23 unique named OPS officers in 20 proceedings with published decisions; 18 officers with misconduct findings or admissions. The table has 24 officer–case entries, including six without findings. One officer appears in both outcome groups in separate cases. Two additional officers with scheduled hearings are shown separately.</p>
@@ -1325,7 +1332,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
     <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b> ✅</td><td>Done 2026-10-16: <a href="OC_Transpo/octranspo_kpis.html">octranspo_kpis.html</a>, built from <code>OC_Transpo/kpi_history/</code> (numbers extracted from the harvested PDFs). See the <a href="#octranspo">OC Transpo KPIs</a> section.</td><td>done</td></tr>
     <tr><td>2</td><td><b>Ottawa City Finances / Budget Dashboard</b></td><td>Municipal spending; ties into the property-tax / quality-of-life narrative. eScribe index (<code>CityHall_Index/</code>) is a candidate input.</td><td>2–3 sessions</td></tr>
-    <tr><td>3</td><td><b>Ontario Court Cases visual</b></td><td>Extraction/structuring is ~30% done; the visual on top hasn't started.</td><td>2 sessions</td></tr>
+    <tr><td>3</td><td><b>Ottawa court outcomes</b></td><td>Built Oct 23, 2026: <a href="Ontario_Trials/courts.html">How Ottawa court cases end</a>, official-source extraction and source audit. Manual refresh; see the <a href="#court-outcomes">project notes</a>.</td><td>built</td></tr>
     <tr><td>4</td><td><b>Ottawa Real Estate Dashboard</b></td><td>Weekly-refreshed real-estate trends — prototyped in chat, not yet built.</td><td>2 sessions</td></tr>
     <tr><td>5</td><td><b>Province Spending by Category</b></td><td>Ontario spending across healthcare, education, etc.</td><td>2 sessions</td></tr>
     <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>

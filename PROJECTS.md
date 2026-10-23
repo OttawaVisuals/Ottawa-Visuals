@@ -410,8 +410,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   ages, and the separately-tracked Ontario government spending companion visual is
   still just an idea, not scoped.
 
-### Ontario Court Cases
-- **Progress:** ~30% · Extraction/structuring of Ontario Court traffic cases → CSV/JSON, then a visual.
+### How Ottawa court cases end
+- **Built October 23, 2026:** `Ontario_Trials/courts.html`, linked from the homepage. Separate criminal cases and provincial/traffic charges, offence/group filters, reporting-period picker, count/share stacked bars, accessible table, source links and CSV/JSON.
+- **Data:** 903 Ottawa rows from 27 official publications (criminal indexed 2012–2026; provincial offences 2015–2026). Latest calendar year is 2025. Reproducible PDF/XLSX extraction with row-level partitions and hierarchy reconciliation.
+- **Period safeguards:** criminal “2020” is October 2019–September 2020, and both “2026” files are April 2025–March 2026. Overlapping periods are separate from the default calendar chart; no cross-period total.
+- **Limits:** completed cases can include committals to Superior Court; trial outcomes are not split into guilty/acquitted; no reasons for withdrawals/stays or links to individual officers. 2016 provincial subtotals have a visually verified source discrepancy, retained and flagged. Source reuse wording is documented; built/committed locally, no public deployment verified.
+- **Method/update:** `Ontario_Trials/README.md`; manual refresh, no scheduled collector.
 
 ### Ottawa Geothermal Suitability Map — live (this entry was stale; corrected 2026-09-03)
 - **Progress:** ✅ **live**, not the ~15% this entry previously said. **Ottawa-scoped, not national** —
