@@ -2645,6 +2645,52 @@
 },
 "fp": "2a383089391c"
 },
+"29513": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 09:55:00",
+"cross_street_1": "LEITRIM",
+"cross_street_2": "SPRING",
+"direction": null,
+"event_id": "29513",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "RUSSELL reduced to 1 lane with alternating traffic between LEITRIM and SPRING due to construction, from October 26th to November 20th. Flagpersons present. ",
+"lanes": "reduced to 1 lane with alternating traffic",
+"lat": 45.370708,
+"lon": -75.507699,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-23T07:00",
+"priority": "LOW",
+"road": "RUSSELL",
+"source": "city",
+"updated": "2026-10-23 06:56:00"
+},
+"fp": "6567065d82c1"
+},
+"29517": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 10:49:00",
+"cross_street_1": "BAY",
+"cross_street_2": "BOOTH",
+"direction": null,
+"event_id": "29517",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT westbound lane reduction between BAY and BOOTH due to construction, from October 26th to 28th.",
+"lanes": "lane reduction",
+"lat": 45.417476,
+"lon": -75.70599,
+"planned_end": "2026-10-28T17:00",
+"planned_start": "2026-10-23T07:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-10-23 06:56:00"
+},
+"fp": "c99d51509531"
+},
 "29518": {
 "event": {
 "cause": "construction",
