@@ -135,6 +135,38 @@ If a feed suddenly drops below 20% of its previous event count, the run is logge
 error and the state is kept. Otherwise one glitch would "clear" every event and then
 re-add them all.
 
+## Summary tab on `stops.html`
+
+[`kpis.js`](kpis.js) fills the three cards on the Summary tab (the default tab) from local files, with no build step.
+Each card fails on its own.
+
+| Card | Source | Notes |
+|---|---|---|
+| Fatal collisions, 2026 so far vs all of 2025 (22, from `ops_annual_report_traffic.csv`) | `snapshots` in `data/derived/stops_report/report.json` (hand-transcribed OPS figures) | The "at least N more since" line counts fatal, non-follow-up rows in `data/ops_collision_releases.csv` dated after the snapshot cutoff. It is a floor. |
+| Congestion, worst hour of the day | `data/history/city_daily.json` (`peak_congestion_pct`) | Median of the last 7 weekdays vs the median of all weekdays on record. |
+| OC Transpo buses on time vs target | `OC_Transpo/kpi_history/kpi_observations.csv` (official monthly punctuality + scorecard target) | The live tracker figure from `rt_data/history/transit_daily.json` is shown as context only. It is measured differently. |
+
+## TomTom Traffic Index log (daily)
+
+[`scripts/poll_tomtom_live.py`](scripts/poll_tomtom_live.py) saves the hourly city-wide readings behind the
+tiles on <https://www.tomtom.com/traffic-index/city/ottawa/> (speed and jam tiles read from the same public file the
+page loads, `traffic-index/api/live-traffic.json?city=CAN_ottawa_new`). It holds about a week of hourly records, so one
+fetch a day leaves no gaps. It runs from `collect.yml`, self-gates to once per Ottawa day after 05:00, waits an hour
+after a failure, and identifies itself in the User-Agent.
+
+| File | Meaning |
+|---|---|
+| `data/tomtom_ottawa_hourly.csv` | One row per TomTom record, keyed on `update_utc` (a later fetch overwrites the same hour). `congestion_pct` / `congestion_usual_pct` = live and usual-for-that-hour congestion level, `rel_travel_time_pct` (100 = free flow), `jams_count`, `jams_length_km`, `jams_delay_min`. |
+| `data/tomtom_live_state.json` | Last success (Ottawa date) and last attempt. |
+
+**This is TomTom's data (© TomTom).** Their terms of use reserve all rights and grant no licence to reuse site content, and
+we have no agreement beyond that. We show it with attribution and a link, for comparison only. If TomTom objects, delete the
+CSV and remove the job. It measures the whole city with TomTom's own method, so it will not match our sampled `segment_speeds.csv`.
+Tests: `python Traffic/scripts/test_tomtom_live.py`.
+
+`data/ops_annual_report_traffic.csv` holds the OPS annual-report traffic figures for 2019 to 2025
+(PDF page and URL per row). The page reads the 2025 fatal-collision row from it.
+
 ## OPS collision + enforcement releases (hourly)
 
 [`scripts/poll_ops_news.py`](scripts/poll_ops_news.py) reads the Ottawa Police news RSS

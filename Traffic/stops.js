@@ -9,8 +9,8 @@ const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
 const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
 const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
 const params = new URLSearchParams(location.search);
-const sections = ['collisions','where','stops','drivers','speed','redlight'];
-let section = sections.includes(params.get('section')) ? params.get('section') : 'collisions';
+const sections = ['summary','collisions','where','stops','drivers','speed','redlight'];
+let section = sections.includes(params.get('section')) ? params.get('section') : 'summary';
 const initialSection = section;
 let data, audit, charts = [], maps = [], exports = [], generation = 0;
 const settings = {}, collisionCache = new Map();
@@ -501,8 +501,10 @@ async function render() {
   const token = ++generation;
   charts.forEach(c=>c.destroy()); charts=[];
   maps.forEach(m=>m.remove()); maps=[];
-  $('report').hidden=false;
   document.querySelectorAll('[data-section]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.section===section)));
+  $('summary').hidden = section!=='summary';
+  $('report').hidden = section==='summary';
+  if (section==='summary') { saveState(); return; }
   const state=initState(section);
   let mapTask;
   if (section==='stops') renderStops(state);
@@ -539,7 +541,7 @@ window.setTheme=function(mode) {
 document.querySelectorAll('[data-section]').forEach(button=>button.addEventListener('click',()=>{
   if(!data) return;
   section=button.dataset.section;
-  render().then(()=>$('section-title').focus({preventScroll:true})).catch(reportError);
+  render().then(()=>$(section==='summary'?'summary-title':'section-title').focus({preventScroll:true})).catch(reportError);
 }));
 $('download').addEventListener('click',()=>{
   // Keep source text from being interpreted as a spreadsheet formula.
