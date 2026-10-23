@@ -3381,29 +3381,6 @@
 },
 "fp": "9e1fb0bd06cd"
 },
-"29644": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-23 08:17:00",
-"cross_street_1": "Kichi Zibi Mikan",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29644",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Island Park southbound lane reduction at Kichi Zibi Mikan due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.402343,
-"lon": -75.752032,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Island Park",
-"source": "city",
-"updated": "2026-10-23 10:50:00"
-},
-"fp": "b9d43b1a1b0e"
-},
 "29648": {
 "event": {
 "cause": "construction",
@@ -3449,6 +3426,29 @@
 "updated": "2026-10-23 09:56:00"
 },
 "fp": "4dfbf8ddbd97"
+},
+"29651": {
+"event": {
+"cause": "a movie filming",
+"created": "2026-10-23 11:20:00",
+"cross_street_1": "LYON",
+"cross_street_2": "KENT",
+"direction": null,
+"event_id": "29651",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "ARLINGTON eastbound lane reduction between LYON and KENT due to a movie filming, from October 23rd to November 6th.",
+"lanes": "lane reduction",
+"lat": 45.408553,
+"lon": -75.696351,
+"planned_end": "2026-11-06T23:00",
+"planned_start": "2026-10-23T00:00",
+"priority": "UNKNOWN",
+"road": "ARLINGTON",
+"source": "city",
+"updated": "2026-10-23 11:24:00"
+},
+"fp": "ee0907e75deb"
 }
 }
 }
