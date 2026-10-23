@@ -3312,29 +3312,6 @@
 },
 "fp": "183317fd7b34"
 },
-"29635": {
-"event": {
-"cause": "construction",
-"created": "2026-10-22 16:03:00",
-"cross_street_1": "Trim",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29635",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 westbound reduced to 1 lane at Trim due to construction. From 10:00am to 3:00pm, 23/10/26",
-"lanes": "reduced to 1 lane",
-"lat": 45.499749,
-"lon": -75.477449,
-"planned_end": "2026-10-23T15:00",
-"planned_start": "2026-10-23T10:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-23 09:56:00"
-},
-"fp": "178be1fe885d"
-},
 "29637": {
 "event": {
 "cause": "",
@@ -3449,6 +3426,98 @@
 "updated": "2026-10-23 13:41:00"
 },
 "fp": "c88e3ade777e"
+},
+"29654": {
+"event": {
+"cause": "",
+"created": "2026-10-23 14:12:00",
+"cross_street_1": "CENTURY RD / PRINCE OF WALES DR (CR 73)",
+"cross_street_2": "L & G RD 43 (IC 34) (KEMPTVILLE)",
+"direction": null,
+"event_id": "29654",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Southbound from CENTURY RD / PRINCE OF WALES DR to L & G RD 43 (KEMPTVILLE) - Daily Construction. 1 Alternating Lane. 2026-10-26 00:00 to 2026-11-01 12:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.19425,
+"lon": -75.72434,
+"planned_end": "2026-11-01T12:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-23 14:12:00"
+},
+"fp": "c646b55a24da"
+},
+"29655": {
+"event": {
+"cause": "",
+"created": "2026-10-23 14:18:00",
+"cross_street_1": "3RD LINE RD",
+"cross_street_2": "ROGER STEVENS DR (IC 49)/CR 6",
+"direction": null,
+"event_id": "29655",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Northbound from 3RD LINE RD to ROGER STEVENS DR /CR 6 - Daily Construction. 1 Left Lane(s). 2026-10-26 00:00 to 2026-11-01 12:00",
+"lanes": "1 Left Lane(s)",
+"lat": 45.12595,
+"lon": -75.67518,
+"planned_end": "2026-11-01T12:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-23 14:18:00"
+},
+"fp": "bcb8bfe3c369"
+},
+"29656": {
+"event": {
+"cause": "",
+"created": "2026-10-23 14:21:00",
+"cross_street_1": "ROGER STEVENS DR (IC 49)/CR 6",
+"cross_street_2": "3RD LINE RD",
+"direction": null,
+"event_id": "29656",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Southbound from ROGER STEVENS DR /CR 6 to 3RD LINE RD - Daily Construction. 1 Right Lane(s). 2026-10-26 00:00 to 2026-11-01 12:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.14599,
+"lon": -75.6806,
+"planned_end": "2026-11-01T12:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-23 14:21:00"
+},
+"fp": "85bc9584511c"
+},
+"29657": {
+"event": {
+"cause": "",
+"created": "2026-10-23 14:21:00",
+"cross_street_1": "MOODIE DR (IC 134)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29657",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound On-ramp at MOODIE DR - Continuous Construction. ALL LANES CLOSED. 2026-10-23 10:00 to 2026-10-23 17:00",
+"lanes": "ALL LANES CLOSED",
+"lat": 45.33849,
+"lon": -75.84131,
+"planned_end": "2026-10-23T17:00",
+"planned_start": "2026-10-23T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-23 14:21:00"
+},
+"fp": "e78edce828e1"
 }
 }
 }
