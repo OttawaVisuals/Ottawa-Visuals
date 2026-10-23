@@ -1,10 +1,10 @@
 {
  "window": {
   "start": "2026-10-17",
-  "end": "2026-10-22"
+  "end": "2026-10-23"
  },
  "weekday": {
-  "days": 4,
+  "days": 5,
   "cancel_days": 0,
   "hours": [
    {
@@ -49,52 +49,52 @@
    },
    {
     "hour": 4,
-    "delays_observed": 39,
-    "bus_ontime_pct": 64.3,
-    "bus_late_pct": 5.0,
-    "bus_early_pct": 30.7,
-    "bus_within_5min_pct": null,
-    "punctuality_pct": 64.3,
+    "delays_observed": 48,
+    "bus_ontime_pct": 64.7,
+    "bus_late_pct": 4.1,
+    "bus_early_pct": 31.2,
+    "bus_within_5min_pct": 100.0,
+    "punctuality_pct": 64.7,
     "cancelled_per_day": null
    },
    {
     "hour": 5,
-    "delays_observed": 1024,
-    "bus_ontime_pct": 73.1,
-    "bus_late_pct": 8.6,
-    "bus_early_pct": 18.3,
-    "bus_within_5min_pct": null,
-    "punctuality_pct": 72.7,
+    "delays_observed": 1272,
+    "bus_ontime_pct": 73.3,
+    "bus_late_pct": 8.5,
+    "bus_early_pct": 18.2,
+    "bus_within_5min_pct": 91.6,
+    "punctuality_pct": 72.9,
     "cancelled_per_day": null
    },
    {
     "hour": 6,
-    "delays_observed": 8936,
-    "bus_ontime_pct": 70.7,
-    "bus_late_pct": 11.2,
-    "bus_early_pct": 18.2,
-    "bus_within_5min_pct": null,
+    "delays_observed": 11070,
+    "bus_ontime_pct": 71.0,
+    "bus_late_pct": 10.6,
+    "bus_early_pct": 18.3,
+    "bus_within_5min_pct": 90.3,
     "punctuality_pct": 69.9,
     "cancelled_per_day": null
    },
    {
     "hour": 7,
-    "delays_observed": 12910,
-    "bus_ontime_pct": 65.5,
-    "bus_late_pct": 19.1,
-    "bus_early_pct": 15.4,
-    "bus_within_5min_pct": null,
-    "punctuality_pct": 65.5,
+    "delays_observed": 15999,
+    "bus_ontime_pct": 65.9,
+    "bus_late_pct": 18.1,
+    "bus_early_pct": 16.0,
+    "bus_within_5min_pct": 84.6,
+    "punctuality_pct": 66.1,
     "cancelled_per_day": null
    },
    {
     "hour": 8,
-    "delays_observed": 13649,
-    "bus_ontime_pct": 53.2,
-    "bus_late_pct": 33.6,
-    "bus_early_pct": 13.1,
-    "bus_within_5min_pct": null,
-    "punctuality_pct": 52.9,
+    "delays_observed": 13925,
+    "bus_ontime_pct": 53.7,
+    "bus_late_pct": 33.2,
+    "bus_early_pct": 13.2,
+    "bus_within_5min_pct": 82.2,
+    "punctuality_pct": 53.3,
     "cancelled_per_day": null
    },
    {

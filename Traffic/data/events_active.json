@@ -2622,6 +2622,75 @@
 },
 "fp": "aca181cc3c7c"
 },
+"29481": {
+"event": {
+"cause": "construction",
+"created": "2026-10-15 06:21:00",
+"cross_street_1": "Clare",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29481",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Westhaven (west) closed at Clare due to construction, from October 26th to November 2nd between 6:00am and 7:00pm. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.38883,
+"lon": -75.743739,
+"planned_end": "2026-11-02T19:00",
+"planned_start": "2026-10-23T06:00",
+"priority": "LOW",
+"road": "Westhaven (west/ouest)",
+"source": "city",
+"updated": "2026-10-23 05:56:00"
+},
+"fp": "2a383089391c"
+},
+"29513": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 09:55:00",
+"cross_street_1": "LEITRIM",
+"cross_street_2": "SPRING",
+"direction": null,
+"event_id": "29513",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "RUSSELL reduced to 1 lane with alternating traffic between LEITRIM and SPRING due to construction, from October 26th to November 20th. Flagpersons present. ",
+"lanes": "reduced to 1 lane with alternating traffic",
+"lat": 45.370708,
+"lon": -75.507699,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-23T07:00",
+"priority": "LOW",
+"road": "RUSSELL",
+"source": "city",
+"updated": "2026-10-23 06:56:00"
+},
+"fp": "6567065d82c1"
+},
+"29517": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 10:49:00",
+"cross_street_1": "BAY",
+"cross_street_2": "BOOTH",
+"direction": null,
+"event_id": "29517",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT westbound lane reduction between BAY and BOOTH due to construction, from October 26th to 28th.",
+"lanes": "lane reduction",
+"lat": 45.417476,
+"lon": -75.70599,
+"planned_end": "2026-10-28T17:00",
+"planned_start": "2026-10-23T07:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-10-23 06:56:00"
+},
+"fp": "c99d51509531"
+},
 "29518": {
 "event": {
 "cause": "construction",
@@ -3082,52 +3151,6 @@
 },
 "fp": "f878948d9b78"
 },
-"29584": {
-"event": {
-"cause": "",
-"created": "2026-10-20 00:18:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": "LEES AVE",
-"direction": null,
-"event_id": "29584",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from METCALFE ST to LEES AVE - Nightly Construction. 2 Right Lane(s). Traffic will encounter a double right lane closures, Metcalfe On ramp closure and Nicholas / Lee's Offramp closures. Detailed closure information is as follows: All days: 22:00-05:00 Nearby ramps may be affected. 2026-10-18 22:00 to 2026-10-23 05:00",
-"lanes": "2 Right Lane(s)",
-"lat": 45.41096,
-"lon": -75.68708,
-"planned_end": "2026-10-23T05:00",
-"planned_start": "2026-10-18T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-20 00:18:00"
-},
-"fp": "32ad635be315"
-},
-"29586": {
-"event": {
-"cause": "",
-"created": "2026-10-20 00:36:00",
-"cross_street_1": "VANIER PKWY/RIVERSIDE  (IC 117)",
-"cross_street_2": "METCALFE ST (IC 119A)",
-"direction": null,
-"event_id": "29586",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from VANIER PKWY/RIVERSIDE to METCALFE ST - Nightly Construction. 2 Alternating Lanes. Detailed closure information is as follows: All days: 22:00-05:00 Nearby ramps may be affected. 2026-10-18 22:00 to 2026-10-23 05:00",
-"lanes": "2 Alternating Lane(s)",
-"lat": 45.41762,
-"lon": -75.65658,
-"planned_end": "2026-10-23T05:00",
-"planned_start": "2026-10-18T22:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-20 00:36:00"
-},
-"fp": "7c338dc4b88d"
-},
 "29599": {
 "event": {
 "cause": "construction",
@@ -3174,6 +3197,29 @@
 },
 "fp": "d812b86d3a85"
 },
+"29612": {
+"event": {
+"cause": "construction",
+"created": "2026-10-21 10:57:00",
+"cross_street_1": "Ogilvie",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29612",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Aviation southbound closed nightly at Ogilvie due to construction, from October 25th to 27th between 11:00pm and 5:00am.",
+"lanes": "closed",
+"lat": 45.427938,
+"lon": -75.626987,
+"planned_end": "2026-10-27T05:00",
+"planned_start": "2026-10-22T23:00",
+"priority": "MEDIUM",
+"road": "Aviation",
+"source": "city",
+"updated": "2026-10-22 22:56:00"
+},
+"fp": "cffe0e963ca5"
+},
 "29613": {
 "event": {
 "cause": "construction",
@@ -3197,28 +3243,28 @@
 },
 "fp": "8a690d058726"
 },
-"29618": {
+"29614": {
 "event": {
-"cause": "",
-"created": "2026-10-21 16:57:00",
-"cross_street_1": "LEES AVE",
-"cross_street_2": "METCALFE ST (IC 119A)",
+"cause": "construction",
+"created": "2026-10-21 11:28:00",
+"cross_street_1": "Innes W/B",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29618",
+"event_id": "29614",
 "event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from LEES AVE to METCALFE ST - Continuous Construction. 1 Alternating Lane. 2026-10-22 23:00 to 2026-10-23 02:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.41722,
-"lon": -75.6691,
-"planned_end": "2026-10-23T02:00",
+"full_closure": true,
+"headline": "417 W/B on-ramp closed nightly at Innes W/B due to construction, from October 25th to 27th between 11:00pm and 5:00am.",
+"lanes": "closed",
+"lat": 45.415669,
+"lon": -75.604307,
+"planned_end": "2026-10-27T05:00",
 "planned_start": "2026-10-22T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "MEDIUM",
+"road": "417 W/B on-ramp",
 "source": "city",
-"updated": "2026-10-21 16:57:00"
+"updated": "2026-10-22 22:56:00"
 },
-"fp": "022392ad665d"
+"fp": "1c68f8e56e15"
 },
 "29623": {
 "event": {
@@ -3288,29 +3334,6 @@
 "updated": "2026-10-22 16:48:00"
 },
 "fp": "9e1fb0bd06cd"
-},
-"7973": {
-"event": {
-"cause": "",
-"created": "2022-04-16 03:00:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": "LEES AVE",
-"direction": null,
-"event_id": "7973",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from METCALFE ST to LEES AVE - Continuous Construction. 1 Alternating Lane. 2026-10-22 23:00 to 2026-10-23 02:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.41096,
-"lon": -75.68708,
-"planned_end": "2026-10-23T02:00",
-"planned_start": "2026-10-22T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-21 16:57:00"
-},
-"fp": "6cad1c82d3ea"
 }
 }
 }
