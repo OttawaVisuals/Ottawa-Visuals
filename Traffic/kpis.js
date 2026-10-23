@@ -31,6 +31,8 @@
     return rows.filter(r => r.length === head.length).map(r => Object.fromEntries(head.map((h, i) => [h, r[i]])));
   }
 
+  window.ovParseCsv = parseCsv;   // shared with revenue.js
+
   function el(tag, cls, text) {
     const e = document.createElement(tag);
     if (cls) e.className = cls;

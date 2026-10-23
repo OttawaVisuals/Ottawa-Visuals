@@ -9,7 +9,7 @@ const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
 const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
 const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
 const params = new URLSearchParams(location.search);
-const sections = ['summary','collisions','where','stops','drivers','speed','redlight'];
+const sections = ['summary','collisions','where','stops','drivers','speed','redlight','revenue'];
 let section = sections.includes(params.get('section')) ? params.get('section') : 'summary';
 const initialSection = section;
 let data, audit, charts = [], maps = [], exports = [], generation = 0;
@@ -87,6 +87,7 @@ function saveState() {
 function initState(name) {
   if (settings[name]) return settings[name];
   if (name === 'where') return settings[name] = {};
+  if (name === 'revenue') { const init = {...REV_DEFAULTS}; if (name === initialSection) Object.keys(init).forEach(k=>{ if (params.has(k) && Number.isFinite(Number(params.get(k)))) init[k] = params.get(k); }); return settings[name] = init; }
   const initial = name === 'collisions' ? {year:String(Math.max(...data.collisions.map(r=>r.year))),ward:'all'} : name === 'speed' || name === 'redlight' ? {year:String(Math.max(...data[name].months.map(r=>r[0]))),site:'all',metric:'total',...(name==='speed'?{monitor:''}:{})} : {year:'all',outcome:'all'};
   if (name === initialSection) Object.keys(initial).forEach(k=>{if(params.has(k)) initial[k] = params.get(k);});
   const years = name === 'collisions' ? [...new Set(data.collisions.map(r=>r.year))] : data.police.years;
@@ -511,6 +512,7 @@ async function render() {
   else if (section==='drivers') renderDrivers(state);
   else if (section==='collisions') mapTask=renderCollisions(state,token);
   else if (section==='where') mapTask=renderWhere(token);
+  else if (section==='revenue') mapTask=renderRevenue(state,token);
   else mapTask=renderCameras(state,token);
   if (token !== generation) return;
   document.querySelectorAll('#filters select, #monitor').forEach(input=>input.addEventListener('change',()=>{
