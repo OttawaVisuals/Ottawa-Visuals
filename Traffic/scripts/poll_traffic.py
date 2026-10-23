@@ -14,10 +14,11 @@ Three datasets, three free TomTom APIs (20,000 req/month each on the free tier):
     jams" tile on tomtom.com/traffic-index).
 
 Sampling cadence is decided *here*, not by the cron, so it survives DST:
-the workflow fires every 15 min and this script decides whether the tick is a
+collect.yml fires every 5 min and this script decides whether the run is a
 sample. Weekday rush hours (AM 06:30-09:30, PM 15:30-18:30 local Ottawa time)
-are sampled every run (~15 min); all other times only the top-of-hour run is
-kept (hourly). Pass --force to bypass the gate (useful for manual test runs).
+are sampled every run; all other times only the first run of each hour,
+judged from the last row in incidents_summary.csv (so cron lag can't skip or
+double an hour). Pass --force to bypass the gate (useful for manual test runs).
 
 Stdlib only (urllib + zoneinfo), so the workflow needs no pip install.
 Requires env var TOMTOM_API_KEY.
@@ -79,15 +80,37 @@ def in_peak(now_local: datetime) -> bool:
     return (am[0] <= mins <= am[1]) or (pm[0] <= mins <= pm[1])
 
 
-def should_sample(now_local: datetime) -> bool:
-    """Peak -> every run. Off-peak -> only the top-of-hour run.
+def hour_key(ts_local: str) -> str:
+    """'2026-10-22T21:10:51-0400' -> '2026-10-22T21-0400' (offset keeps the
+    repeated 01:00 hour apart when DST ends)."""
+    return ts_local[:13] + ts_local[-5:]
 
-    The workflow fires at :00/:15/:30/:45 but GitHub cron can lag several
-    minutes, so 'top of hour' is a generous minute < 15 window rather than
-    exactly :00. Worst case a lagged run double-logs one off-peak hour, which
-    is harmless for trend analysis.
+
+def last_logged_local(path: Path) -> str:
+    """timestamp_local of the last row of a log, '' if there is none."""
+    try:
+        with path.open("rb") as fh:
+            fh.seek(0, 2)
+            fh.seek(max(0, fh.tell() - 4096))
+            lines = fh.read().decode("utf-8", "replace").splitlines()
+    except OSError:
+        return ""
+    last = next((ln for ln in reversed(lines) if ln.strip()), "")
+    parts = last.split(",")
+    return parts[1] if len(parts) > 1 and parts[1][:2] == "20" else ""
+
+
+def should_sample(now_local: datetime, log: Path = INCIDENT_LOG) -> bool:
+    """Peak -> every run. Off-peak -> the first run of each hour only.
+
+    With a 5-min trigger, a minute-of-hour window lets several runs through
+    (minute < 15 logged :00, :05 and :10, tripling TomTom calls), so the log
+    itself says whether this hour already has a sample. One row per sample
+    goes to incidents_summary.csv, errors included.
     """
-    return in_peak(now_local) or now_local.minute < 15
+    if in_peak(now_local):
+        return True
+    return hour_key(last_logged_local(log)) != hour_key(now_local.strftime("%Y-%m-%dT%H:%M:%S%z"))
 
 
 def fetch_json(url: str, retries: int = 2) -> dict:
@@ -214,7 +237,7 @@ def main():
     now_local = now_utc.astimezone(TZ)
 
     if not args.force and not should_sample(now_local):
-        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} is off-peak, not top of hour")
+        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} is off-peak and this hour is already sampled")
         return 0
 
     cfg = json.loads(CONFIG.read_text(encoding="utf-8"))

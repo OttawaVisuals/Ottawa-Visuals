@@ -23,7 +23,8 @@ while we log it. Two rows per reading are appended:
 
 Cadence is self-gated here, not in the cron, so it survives DST — matching
 poll_traffic.py. Weekday daytime (07:00-19:00 local) samples every run; other
-times only the top-of-hour run is kept. Pass --force to bypass.
+times only the first run of each hour, judged from the last row in
+parking_summary.csv. Pass --force to bypass.
 
 Related: Park & Ride lots publish `capacity` but NOT occupancy (verified
 2026-07-25), so commuter-lot fill cannot be tracked this way.
@@ -73,8 +74,33 @@ def in_daytime(now_local):
     return now_local.weekday() < 5 and 7 <= now_local.hour < 19
 
 
-def should_sample(now_local):
-    return in_daytime(now_local) or now_local.minute < 15
+def hour_key(ts_local):
+    """'2026-10-22T21:10:51-0400' -> '2026-10-22T21-0400' (DST-safe)."""
+    return ts_local[:13] + ts_local[-5:]
+
+
+def last_logged_local(path):
+    """timestamp_local of the last row of a log, '' if there is none."""
+    try:
+        with path.open("rb") as fh:
+            fh.seek(0, 2)
+            fh.seek(max(0, fh.tell() - 4096))
+            lines = fh.read().decode("utf-8", "replace").splitlines()
+    except OSError:
+        return ""
+    last = next((ln for ln in reversed(lines) if ln.strip()), "")
+    parts = last.split(",")
+    return parts[1] if len(parts) > 1 and parts[1][:2] == "20" else ""
+
+
+def should_sample(now_local, log=SUMMARY_LOG):
+    """Daytime -> every run; otherwise the first run of each hour. A
+    minute-of-hour window let :00, :05 and :10 all through on the 5-min
+    trigger; the summary log (one or two rows per sample, errors included)
+    says whether this hour already has a sample."""
+    if in_daytime(now_local):
+        return True
+    return hour_key(last_logged_local(log)) != hour_key(now_local.strftime("%Y-%m-%dT%H:%M:%S%z"))
 
 
 def is_downtown(address):
@@ -121,7 +147,7 @@ def main():
     now_utc = datetime.now(ZoneInfo("UTC"))
     now_local = now_utc.astimezone(TZ)
     if not args.force and not should_sample(now_local):
-        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} is off-peak, not top of hour")
+        print(f"skip: {now_local:%Y-%m-%d %H:%M %Z} is off-peak and this hour is already sampled")
         return 0
 
     stamps = {
