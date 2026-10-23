@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Simplify traffic court charts (Oct 23: removed camera-issued versus court-completed chart; selected-offence chart 30% taller at each screen breakpoint)
 - [x] Clarify traffic trial category (Oct 23: “Completed after trial · outcome not reported”; CanLII follow-up dropped, aggregate source remains the report basis)
 - [x] Review all 133 s.53 search candidates (Oct 23: 131 full-text relevance screens, two exclusions by proceeding scope after long-page failures; per-document classifications, source locators, CSV/JSON and checks; one Toronto trial conviction, one Pembroke-area plea, one Pembroke procedural ruling; no Ottawa trial verdict established in the candidate set)
 - [x] S.53 published-judgment search pilot (Oct 23: five retained CanLII searches for 2016–2025; 133 deduplicated candidate links, 27 candidate texts checked plus one supplemental judgment; verified Ontario examples and exclusions documented; no Ottawa s.53 trial verdict confirmed, no chart reclassification)

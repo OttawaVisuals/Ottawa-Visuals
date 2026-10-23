@@ -83,11 +83,10 @@ City/Police refresh. See [court methodology and rebuild instructions](../Ontario
   withdrawn; other; completed after trial (outcome not reported). Trial results are not split into
   guilty/acquitted; no complete conviction rate is available. Raw categories remain
   separate in the CSV. Context charts retain all HTA offences.
-- Camera tickets **issued** appear alongside court **completions** for context.
-  They are not matched cohorts and can occur in different years. Court data combine
-  officer and camera enforcement, so an exact automated-enforcement share is unknown.
-  Missing camera years stay missing; 2025 speed-camera coverage is 11 months with
-  November shortened. Reporting months do not imply every site reported each month.
+- The camera-issued/court-completed comparison chart was removed: those records
+  are not matched cohorts. Camera coverage remains in the CSV for context.
+- The first outcome chart is 30% taller at desktop and phone breakpoints.
+
 
 Checks: `node --test Traffic/scripts/test_court.cjs Ontario_Trials/scripts/test_outcomes.cjs`.
 Court data load on first opening the tab, with retry and a link to the full report.
