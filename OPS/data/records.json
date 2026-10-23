@@ -1,0 +1,612 @@
+{
+  "checked_on": "2026-10-23",
+  "title": "Ottawa Police: complaints and discipline",
+  "scope": "Named OPS respondents in the reviewed LECA hearing directory, OPAAC discipline and PSA appeal directories, and current OPS disciplinary page. Selected published records, not a complete register of complaints or internal discipline.",
+  "sources": [
+    {
+      "name": "LECA hearing results",
+      "url": "https://leca.ca/results-hearings/?wbdisable=true",
+      "coverage": "17 Ottawa directory rows; 16 unique officers. Linked decisions manually reconciled."
+    },
+    {
+      "name": "OPAAC discipline decisions",
+      "url": "https://www.policearbitration.gov.on.ca/police-discipline-decisions-rights-2/",
+      "coverage": "4 Ottawa matters listed: 25-007, 25-008, 26-013, 26-028."
+    },
+    {
+      "name": "OPAAC PSA appeals",
+      "url": "https://www.policearbitration.gov.on.ca/en/",
+      "coverage": "2 Ottawa matters: 25-009 and 26-019. Motion and appeal merged."
+    },
+    {
+      "name": "OPS disciplinary decisions and schedule",
+      "url": "https://www.ottawapolice.ca/en/newsroom/disciplinary-hearings-and-decisions/",
+      "coverage": "2 linked decisions (Hart duplicates OPAAC), plus 2 upcoming matters."
+    }
+  ],
+  "records": [
+    {
+      "id": "thebault",
+      "officer_id": "jonathan-thebault",
+      "officer": "Jonathan Thebault",
+      "case_id": "robertson-thebault",
+      "decision_date": "2018-09-18",
+      "outcome": "no_finding",
+      "category": "Authority / use of force",
+      "summary": "Two allegations concerning entry and use of force; both officers found not guilty on both counts.",
+      "penalty": "None ordered in this decision.",
+      "incident_period": "",
+      "notes": "Scanned decision visually checked. Filename suggests May; signed decision is September 18, 2018.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/Robertson-Thebault-Hearing-Decision-18.05.18.pdf",
+          "pages": "PDF pp. 1, 27 (printed p. 29)"
+        }
+      ]
+    },
+    {
+      "id": "robertson",
+      "officer_id": "cory-robertson",
+      "officer": "Cory Robertson",
+      "case_id": "robertson-thebault",
+      "decision_date": "2018-09-18",
+      "outcome": "no_finding",
+      "category": "Authority / use of force",
+      "summary": "Two allegations concerning entry and use of force; both officers found not guilty on both counts.",
+      "penalty": "None ordered in this decision.",
+      "incident_period": "",
+      "notes": "Scanned decision visually checked. Filename suggests May; signed decision is September 18, 2018.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/Robertson-Thebault-Hearing-Decision-18.05.18.pdf",
+          "pages": "PDF pp. 1, 27 (printed p. 29)"
+        }
+      ]
+    },
+    {
+      "id": "alden",
+      "officer_id": "patrick-alden",
+      "officer": "Patrick Alden",
+      "case_id": "alden-traffic-stop",
+      "decision_date": "2013-11-18",
+      "outcome": "finding",
+      "category": "Traffic / driving",
+      "summary": "Off-duty traffic stop: findings of insubordination and discreditable conduct. Insubordination appeal dismissed.",
+      "penalty": "Forfeiture of 8 days of work (8-hour shifts).",
+      "incident_period": "2011-01-25",
+      "notes": "LECA lists October 23, 2013 for the appeal; the PDF is dated November 18, 2013.",
+      "appeal_status": "Appeal dismissed; discreditable-conduct and related penalty challenge abandoned.",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/Alden-Patrick-Hearing-Decision-11.05.12.pdf",
+          "pages": "PDF p. 1"
+        },
+        {
+          "label": "Appeal decision",
+          "url": "https://leca.ca/wp-content/uploads/Alden-Patrick-OCPC-Appeal-10.23.13.pdf",
+          "pages": "paras. 1–7, 76–84"
+        }
+      ]
+    },
+    {
+      "id": "thomson",
+      "officer_id": "gregory-thomson",
+      "officer": "Gregory Thomson",
+      "case_id": "thomson-force",
+      "decision_date": "2018-05-24",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Unlawful or unnecessary force against an apprehended person; misconduct proven.",
+      "penalty": "Forfeiture of 40 hours and one day of off-duty emotional-intelligence training.",
+      "incident_period": "2017-01-19",
+      "notes": "LECA lists March 24; signed PDF is May 24, 2018.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Disposition and penalty",
+          "url": "https://leca.ca/wp-content/uploads/ThomsonGregory-Disposition-Penalty-0524.2018.pdf",
+          "pages": "PDF pp. 2, 8"
+        }
+      ]
+    },
+    {
+      "id": "belanger",
+      "officer_id": "jerome-belanger",
+      "officer": "Jerome Belanger",
+      "case_id": "belanger-authority",
+      "decision_date": "2016-04-04",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Guilty plea accepted for unlawful or unnecessary exercise of authority.",
+      "penalty": "Forfeiture of 80 hours and arrest/detention and Charter training.",
+      "incident_period": "",
+      "notes": "Date taken from LECA directory; decision date field in PDF is blank.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Disposition and penalty",
+          "url": "https://leca.ca/wp-content/uploads/Belanger-Jerome-Hearing-Decision-04.04.16.pdf",
+          "pages": "Overview; Part IV"
+        }
+      ]
+    },
+    {
+      "id": "jason-bond",
+      "officer_id": "jason-bond",
+      "officer": "Jason Bond",
+      "case_id": "jason-bond-conduct",
+      "decision_date": "2016-12-08",
+      "outcome": "finding",
+      "category": "Professional conduct",
+      "summary": "Published sentencing decision records discreditable conduct involving communications with a complainant and misuse of police position.",
+      "penalty": "Demotion to third class for one year, then second class for one year, subject to conditions; training and supervision.",
+      "incident_period": "2014",
+      "notes": "LECA identifies Jason Bond; PDF uses initials J.B. No private identities reproduced.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Sentencing decision",
+          "url": "https://leca.ca/wp-content/uploads/Bond-Jason-Constable-Hearing-and-Penalty-Decision-08.12.16.pdf",
+          "pages": "PDF pp. 1–3, 24–26"
+        }
+      ]
+    },
+    {
+      "id": "svidran",
+      "officer_id": "emmanuel-svidran",
+      "officer": "Emmanuel Svidran",
+      "case_id": "kraljevic-neglect",
+      "decision_date": "2017-12-29",
+      "outcome": "no_finding",
+      "category": "Neglect of duty",
+      "summary": "Neglect-of-duty proceedings concerning seized property. Charges dismissed; dismissal confirmed on appeal.",
+      "penalty": "None; charges dismissed.",
+      "incident_period": "2013",
+      "notes": "LECA lists June 15, 2017 for the appeal; PDF release is December 29, 2017. Plomp is Katharine in the directory and Katherine in the decision.",
+      "appeal_status": "Dismissals confirmed on appeal.",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/SvidranEmmanuel-HearingDecision-28.04.16.pdf",
+          "pages": "Disposition"
+        },
+        {
+          "label": "Appeal decision",
+          "url": "https://leca.ca/wp-content/uploads/PlompWilsonSvidran-OCPC-Decision-06-15-2017.pdf",
+          "pages": "paras. 46–47; release date"
+        }
+      ]
+    },
+    {
+      "id": "wilson",
+      "officer_id": "wayne-wilson",
+      "officer": "Wayne Wilson",
+      "case_id": "kraljevic-neglect",
+      "decision_date": "2017-12-29",
+      "outcome": "no_finding",
+      "category": "Neglect of duty",
+      "summary": "Neglect-of-duty proceedings concerning seized property. Charges dismissed; dismissal confirmed on appeal.",
+      "penalty": "None; charges dismissed.",
+      "incident_period": "2013",
+      "notes": "LECA lists June 15, 2017 for the appeal; PDF release is December 29, 2017. Plomp is Katharine in the directory and Katherine in the decision.",
+      "appeal_status": "Dismissals confirmed on appeal.",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/PlompKatherineWilsonWayne-HearingDecision-11.07.16.pdf",
+          "pages": "Disposition"
+        },
+        {
+          "label": "Appeal decision",
+          "url": "https://leca.ca/wp-content/uploads/PlompWilsonSvidran-OCPC-Decision-06-15-2017.pdf",
+          "pages": "paras. 46–47; release date"
+        }
+      ]
+    },
+    {
+      "id": "plomp",
+      "officer_id": "katherine-plomp",
+      "officer": "Katherine Plomp",
+      "case_id": "kraljevic-neglect",
+      "decision_date": "2017-12-29",
+      "outcome": "no_finding",
+      "category": "Neglect of duty",
+      "summary": "Neglect-of-duty proceedings concerning seized property. Charges dismissed; dismissal confirmed on appeal.",
+      "penalty": "None; charges dismissed.",
+      "incident_period": "2013",
+      "notes": "LECA lists June 15, 2017 for the appeal; PDF release is December 29, 2017. Plomp is Katharine in the directory and Katherine in the decision.",
+      "appeal_status": "Dismissals confirmed on appeal.",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/PlompKatherineWilsonWayne-HearingDecision-11.07.16.pdf",
+          "pages": "Disposition"
+        },
+        {
+          "label": "Appeal decision",
+          "url": "https://leca.ca/wp-content/uploads/PlompWilsonSvidran-OCPC-Decision-06-15-2017.pdf",
+          "pages": "paras. 46–47; release date"
+        }
+      ]
+    },
+    {
+      "id": "batson-lafreniere-batson",
+      "officer_id": "kirk-batson",
+      "officer": "Kirk Batson",
+      "case_id": "seguin-arrest",
+      "decision_date": "2016-03-24",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Unlawful arrest on a public sidewalk; finding of unlawful or unnecessary exercise of authority.",
+      "penalty": "Forfeiture of 8 hours and arrest-powers training.",
+      "incident_period": "2013-09-01",
+      "notes": "LECA cross-links the 2014 and 2016 Batson matters. Grouped using the contents of the PDFs, not the directory row.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/BatsonKirk-LafrenierePatrick-DisciplinaryHearingDecision-01.13.2016.pdf",
+          "pages": "PDF p. 1"
+        },
+        {
+          "label": "Penalty decision",
+          "url": "https://leca.ca/wp-content/uploads/BatsonKirk-LafrenierePatrick-PenaltyDecision-03.24.2016.pdf",
+          "pages": "The Hearing; Decision"
+        }
+      ]
+    },
+    {
+      "id": "batson-lafreniere-lafreniere",
+      "officer_id": "patrick-lafreniere",
+      "officer": "Patrick Lafreniere",
+      "case_id": "seguin-arrest",
+      "decision_date": "2016-03-24",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Unlawful arrest on a public sidewalk; finding of unlawful or unnecessary exercise of authority.",
+      "penalty": "Reprimand and arrest-powers training.",
+      "incident_period": "2013-09-01",
+      "notes": "",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/BatsonKirk-LafrenierePatrick-DisciplinaryHearingDecision-01.13.2016.pdf",
+          "pages": "PDF p. 1"
+        },
+        {
+          "label": "Penalty decision",
+          "url": "https://leca.ca/wp-content/uploads/BatsonKirk-LafrenierePatrick-PenaltyDecision-03.24.2016.pdf",
+          "pages": "The Hearing; Decision"
+        }
+      ]
+    },
+    {
+      "id": "mallett",
+      "officer_id": "jason-mallett",
+      "officer": "Jason Mallett",
+      "case_id": "mallett-conduct",
+      "decision_date": "2016-01-18",
+      "outcome": "finding",
+      "category": "Professional conduct",
+      "summary": "Guilty pleas for insubordination, unlawful or unnecessary exercise of authority and discreditable conduct.",
+      "penalty": "Demotion from first class to second class for one year.",
+      "incident_period": "2013–2014",
+      "notes": "",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Disposition",
+          "url": "https://leca.ca/wp-content/uploads/MallettJason-DisciplinaryHearingDecision-18.01.2016.pdf",
+          "pages": "Overview; Part IV"
+        }
+      ]
+    },
+    {
+      "id": "finniss",
+      "officer_id": "jennifer-finniss",
+      "officer": "Jennifer Finniss",
+      "case_id": "finniss-information",
+      "decision_date": "2015-06-26",
+      "outcome": "finding",
+      "category": "Information / privacy",
+      "summary": "Unauthorized police-information queries and disclosure; insubordination and breach of confidence proven.",
+      "penalty": "Forfeiture of 160 hours of time off and 24 hours of pay.",
+      "incident_period": "2014",
+      "notes": "Scanned decision visually checked.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing and penalty",
+          "url": "https://leca.ca/wp-content/uploads/FinnissJennifer-DisciplinaryHearingDecision-26.06.15.pdf",
+          "pages": "PDF pp. 2, 8"
+        }
+      ]
+    },
+    {
+      "id": "heaton",
+      "officer_id": "keith-heaton",
+      "officer": "Keith Heaton",
+      "case_id": "heaton-conduct",
+      "decision_date": "2013-01-10",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Guilty pleas and findings on 19 discreditable-conduct counts, two unlawful-exercise-of-authority counts and two unlawful-or-unnecessary-exercise-of-authority counts.",
+      "penalty": "Third class for six months, then second class for six months, subject to conditions; remedial training and supervised patrol.",
+      "incident_period": "",
+      "notes": "Scanned decision visually checked. Multiple counts handled in one proceeding; not counted as 23 cases.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing and penalty",
+          "url": "https://leca.ca/wp-content/uploads/HeatonKeith-Disciplinary-Hearing-Decision-and-Penalty-01.10.2013_E.pdf",
+          "pages": "PDF pp. 1, 10–13"
+        }
+      ]
+    },
+    {
+      "id": "batson-force",
+      "officer_id": "kirk-batson",
+      "officer": "Kirk Batson",
+      "case_id": "batson-rooftop",
+      "decision_date": "2014-06-11",
+      "outcome": "no_finding",
+      "category": "Authority / use of force",
+      "summary": "Use-of-force allegations during a rooftop arrest; found not guilty on both counts.",
+      "penalty": "None ordered; found not guilty.",
+      "incident_period": "",
+      "notes": "Scanned PDF visually checked. Separate from the 2016 unlawful-arrest finding.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing decision",
+          "url": "https://leca.ca/wp-content/uploads/Baston-Kirk-Disciplinary-Hearing-Decision-06.11.14.pdf",
+          "pages": "PDF pp. 14–15"
+        }
+      ]
+    },
+    {
+      "id": "behan",
+      "officer_id": "nancy-behan",
+      "officer": "Nancy Behan",
+      "case_id": "behan-neglect",
+      "decision_date": "2014-06-03",
+      "outcome": "finding",
+      "category": "Neglect of duty",
+      "summary": "Guilty pleas and findings of neglect of duty and discreditable conduct concerning investigation and continued incarceration of the wrong person.",
+      "penalty": "Forfeiture of 128 hours and demotion to second class for eight months.",
+      "incident_period": "2011-05-25",
+      "notes": "",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Hearing and penalty",
+          "url": "https://leca.ca/wp-content/uploads/Behan-Nancy-Disciplinary-Hearing-and-Penalty-06.03.14.pdf",
+          "pages": "PDF pp. 1, 9"
+        }
+      ]
+    },
+    {
+      "id": "michael-bond",
+      "officer_id": "michael-bond",
+      "officer": "Michael Bond",
+      "case_id": "michael-bond-conduct",
+      "decision_date": "2013-05-09",
+      "outcome": "finding",
+      "category": "Professional conduct",
+      "summary": "Guilty plea accepted on one published count of discreditable conduct.",
+      "penalty": "Four-month demotion.",
+      "incident_period": "",
+      "notes": "Date from LECA directory. Parts concerning an internal investigation are redacted; no inference made about them.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "Disposition and penalty",
+          "url": "https://leca.ca/wp-content/uploads/BondMichael-Disciplinary-Hearing-Decision-Penalty-05-09.2013_E.pdf",
+          "pages": "Disposition"
+        }
+      ]
+    },
+    {
+      "id": "jay",
+      "officer_id": "keith-jay",
+      "officer": "Keith Jay",
+      "case_id": "opaac-25-007",
+      "decision_date": "2025-04-10",
+      "outcome": "finding",
+      "category": "Traffic / driving",
+      "summary": "Off-duty collision; admitted misconduct for undermining public trust. Criminal impaired-driving charge resolved by plea to careless driving under the Highway Traffic Act.",
+      "penalty": "12-month demotion to second class and remedial assistance plan.",
+      "incident_period": "2024-06-17",
+      "notes": "",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPAAC decision summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2025/04/OPAAC-ADJ25-007.pdf",
+          "pages": "PDF pp. 1–3"
+        }
+      ]
+    },
+    {
+      "id": "fortin",
+      "officer_id": "serge-fortin",
+      "officer": "Serge Fortin",
+      "case_id": "opaac-25-008",
+      "decision_date": "2025-05-23",
+      "outcome": "finding",
+      "category": "Traffic / driving",
+      "summary": "Off-duty impaired driving; two misconduct findings incorporated in a consent order.",
+      "penalty": "14-month demotion to second class.",
+      "incident_period": "2024-11-26",
+      "notes": "",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPAAC decision summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2025/06/OPAAC-ADJ25-008.pdf",
+          "pages": "PDF pp. 1–3"
+        }
+      ]
+    },
+    {
+      "id": "rabiha-stevens",
+      "officer_id": "jerome-rabiha-stevens",
+      "officer": "Jerome Rabiha-Stevens",
+      "case_id": "opaac-26-013",
+      "decision_date": "2026-04-20",
+      "outcome": "finding",
+      "category": "Information / privacy",
+      "summary": "Four admitted misconduct counts covering unauthorized database queries and undermining public trust; consent order.",
+      "penalty": "18-month demotion to second class.",
+      "incident_period": "2024–2025",
+      "notes": "Includes a confrontation involving a cruiser collision, described in the official summary.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPAAC decision summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2026/04/OPAAC-ADJ-26-013.pdf",
+          "pages": "PDF pp. 1–2"
+        }
+      ]
+    },
+    {
+      "id": "hart",
+      "officer_id": "andre-hart",
+      "officer": "Andre Hart",
+      "case_id": "opaac-26-028",
+      "decision_date": "2026-07-23",
+      "outcome": "finding",
+      "category": "Workplace harassment",
+      "summary": "Admitted workplace sexual harassment during training; misconduct finding and consent order.",
+      "penalty": "Forfeiture of 140 hours.",
+      "incident_period": "2026-02-02",
+      "notes": "OPS and OPAAC publications describe the same case; counted once.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPAAC decision summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2026/07/OPAAC-ADJ-26-028.pdf",
+          "pages": "PDF pp. 1–2"
+        },
+        {
+          "label": "OPS settlement and consent order",
+          "url": "https://www.ottawapolice.ca/media/5cth25fb/2026-01433-section-202-demotion-and-termination-of-a-police-officer-cst_-a_-hart-settlement-agreement.pdf",
+          "pages": "PDF pp. 4–5"
+        }
+      ]
+    },
+    {
+      "id": "fournier",
+      "officer_id": "pierre-fournier",
+      "officer": "Pierre Fournier",
+      "case_id": "opaac-25-009",
+      "decision_date": "2025-06-06",
+      "outcome": "finding",
+      "category": "Professional conduct",
+      "summary": "Discreditable-conduct finding concerning confrontation with youths. Finding and penalty appeals dismissed.",
+      "penalty": "Forfeiture of 80 hours; penalty upheld.",
+      "incident_period": "2023-04-24",
+      "notes": "Directory lists April 11, 2025 (hearing); summary identifies June 6, 2025 as the penalty-appeal decision.",
+      "appeal_status": "Misconduct appeal dismissed for failure to supply transcript; penalty appeal dismissed.",
+      "sources": [
+        {
+          "label": "OPAAC appeal summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2025/07/OPAAC-ADJ-25-009.pdf",
+          "pages": "PDF pp. 1–5"
+        }
+      ]
+    },
+    {
+      "id": "beric",
+      "officer_id": "goran-beric",
+      "officer": "Goran Beric",
+      "case_id": "opaac-26-019",
+      "decision_date": "2026-05-08",
+      "outcome": "finding",
+      "category": "Authority / use of force",
+      "summary": "Five misconduct admissions following criminal convictions for assault and assault with a weapon. Penalty appeal dismissed.",
+      "penalty": "Dismissal unless resignation within seven days; penalty upheld.",
+      "incident_period": "2021-08-04",
+      "notes": "",
+      "appeal_status": "Penalty upheld on appeal. Current employment status not independently verified.",
+      "sources": [
+        {
+          "label": "OPAAC appeal summary",
+          "url": "https://www.policearbitration.gov.on.ca/wp-content/uploads/2026/05/OPAAC-ADJ-26-019.pdf",
+          "pages": "PDF pp. 1–3"
+        }
+      ]
+    },
+    {
+      "id": "grus",
+      "officer_id": "helen-grus",
+      "officer": "Helen Grus",
+      "case_id": "grus-investigations",
+      "decision_date": "2026-08-18",
+      "outcome": "finding",
+      "category": "Information / privacy",
+      "summary": "Discreditable-conduct finding concerning unauthorized inquiries involving infant-death investigations.",
+      "penalty": "24-month demotion to second class.",
+      "incident_period": "2020–2022",
+      "notes": "Finding dated March 25, 2025, as described in the disposition. Latest reviewed disposition is August 18, 2026; subsequent appeal status not established.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPS disposition",
+          "url": "https://www.ottawapolice.ca/media/u50ja1im/det-grus-disposition.pdf",
+          "pages": "PDF pp. 1–3, 38"
+        }
+      ]
+    },
+    {
+      "id": "reesor",
+      "officer_id": "andrew-reesor",
+      "officer": "Andrew Reesor",
+      "case_id": "reesor-scheduled",
+      "decision_date": "",
+      "outcome": "scheduled",
+      "category": "Not specified in schedule",
+      "summary": "Upcoming disciplinary matter listed by OPS. Schedule does not establish misconduct.",
+      "penalty": "No outcome recorded.",
+      "incident_period": "",
+      "notes": "Hearing scheduled for November 3, 2026.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPS hearing schedule",
+          "url": "https://www.ottawapolice.ca/en/newsroom/disciplinary-hearings-and-decisions/",
+          "pages": "Upcoming disciplinary matters"
+        }
+      ],
+      "hearing_date": "2026-11-03"
+    },
+    {
+      "id": "patterson",
+      "officer_id": "mark-patterson",
+      "officer": "Mark Patterson",
+      "case_id": "patterson-scheduled",
+      "decision_date": "",
+      "outcome": "scheduled",
+      "category": "Not specified in schedule",
+      "summary": "Upcoming disciplinary matter listed by OPS. Schedule does not establish misconduct.",
+      "penalty": "No outcome recorded.",
+      "incident_period": "",
+      "notes": "Hearing scheduled for January 18–29, 2027.",
+      "appeal_status": "Not established beyond linked records",
+      "sources": [
+        {
+          "label": "OPS hearing schedule",
+          "url": "https://www.ottawapolice.ca/en/newsroom/disciplinary-hearings-and-decisions/",
+          "pages": "Upcoming disciplinary matters"
+        }
+      ],
+      "hearing_date": "2027-01-18"
+    }
+  ]
+}

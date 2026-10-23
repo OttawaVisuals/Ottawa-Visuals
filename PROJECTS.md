@@ -343,6 +343,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Ottawa Police: complaints and discipline
+- **Built October 23, 2026:** `OPS/ops.html`, linked from the homepage. Searchable official-source snapshot with annual decision-year bars, year/outcome filters, shareable URLs, CSV and full JSON.
+- **Reviewed collection:** 23 unique named officers, 20 proceedings and 24 officer–case entries in published decisions; 18 officers with findings/admissions. Six officer–case entries ended without a finding (one officer also has a separate finding). Two additional upcoming-hearing officers are excluded from decision totals.
+- **Sources:** LECA legacy hearing directory and linked decisions, OPAAC discipline/PSA appeal directories and official summaries, OPS decisions and hearing schedule. Findings, penalties and appeals reconciled; misleading directory dates and Batson cross-links corrected from the documents.
+- **Limits:** not all complaints or internal discipline; no workforce denominator or misconduct rate; changing publication coverage prevents year-to-year rate comparisons. Manual snapshot; subsequent appeals require review. Update method and scope in `OPS/README.md`.
+
 ### City Hall Index — searchable council & committee records
 - **Progress:** ~75% (public search page live Oct 2026) · `CityHall_Index/`, page `cityhall.html`.
 - **Public page (2026-10-19):** `cityhall.html` searches 17.8k substantive agenda items client-side from `CityHall_Index/public/items.json` (title, body, date, report number, decision, first motion, eScribe link; procedural items dropped). `export_public.py` builds it and runs at the end of `weekly_update.py`; the weekly run doesn't commit, so commit the refreshed JSON by hand.

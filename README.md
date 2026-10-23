@@ -14,6 +14,7 @@ any bookmarked or shared links.
 ## Sub-projects
 | Folder | What it is |
 |---|---|
+| [`OPS/`](OPS/README.md) | Published OPS disciplinary records: unique officers, findings/dismissals, penalties, source links and separately listed upcoming hearings ([`ops.html`](OPS/ops.html)); manually reviewed partial snapshot |
 | [`Mortgage/`](Mortgage/README.md) | Mortgage affordability calculator |
 | [`Weather/`](Weather/README.md) | Ottawa climate history dashboard |
 | [`Vehicles/`](Vehicles/README.md) | Road safety / vehicle-pedestrian impact calculator |

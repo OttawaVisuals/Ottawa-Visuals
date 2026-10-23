@@ -1082,6 +1082,29 @@
 <script>
   const ALL_REPORTS = [
     {
+      id: "ops",
+      topic: "Police accountability",
+      title: "Ottawa Police: complaints and discipline",
+      lede: "Named OPS officers in published disciplinary decisions: findings, dismissals, penalties and original sources. A partial public record, with upcoming hearings shown separately.",
+      date: "Reviewed Oct 23, 2026",
+      readTime: "~ 4 min read",
+      tag: "#police",
+      page: "OPS/ops.html",
+      why: "Disciplinary records are scattered across oversight agencies. Counting unique officers and linking outcomes makes the public record easier to inspect.",
+      method: "Manually reviewed LECA, OPAAC discipline and appeal directories, and OPS publications. Related hearing, penalty and appeal documents share one case. Published proceedings are not all complaints or all internal discipline.",
+      sources: [
+        { name: "LECA hearing results", meta: "legacy public-complaint hearings", url: "https://leca.ca/results-hearings/?wbdisable=true" },
+        { name: "OPAAC discipline decisions", meta: "published decisions", url: "https://www.policearbitration.gov.on.ca/police-discipline-decisions-rights-2/" },
+        { name: "Method and scope", meta: "manual snapshot", url: "OPS/README.md" },
+      ],
+      takeaways: [
+        ["23", "unique officers in this collection's published decisions"],
+        ["18", "officers with a reviewed misconduct finding or admission"],
+        ["2", "additional officers listed for upcoming hearings; no finding implied"],
+      ],
+      thumb: "bars",
+    },
+    {
       id: "rto",
       hidden: true,
       topic: "Return to office",

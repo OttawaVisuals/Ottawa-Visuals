@@ -212,6 +212,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#weather">🌡️ Weather</a>
       <a href="#road-safety">🚗 Road Safety</a>
       <a href="#traffic-stops">🚦 Road safety report</a>
+      <a href="#ops">OPS discipline</a>
       <a href="#roads">🛣️ Roads (merged)</a>
       <a href="#tax">🧾 Tax</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
@@ -304,6 +305,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
   <div class="card">
     <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#ops">OPS discipline</a></span><span class="pct">Manual snapshot · Oct 23, 2026</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🗳️ Ward Elections</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏡 Mortgage Calculator</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌡️ Weather / Climate</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
@@ -846,6 +848,12 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 </section>
 
 <!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
+<section id="ops" class="card">
+  <div class="proj-head"><h2>Ottawa Police: complaints &amp; discipline</h2><span class="chip build">Reviewed snapshot · Oct 23, 2026</span><a class="live-link" href="OPS/ops.html">open the page ↗</a></div>
+  <p><b>Collection:</b> 23 unique named OPS officers in 20 proceedings with published decisions; 18 officers with misconduct findings or admissions. The table has 24 officer–case entries, including six without findings. One officer appears in both outcome groups in separate cases. Two additional officers with scheduled hearings are shown separately.</p>
+  <p><b>Method:</b> manually reviewed LECA, OPAAC discipline/PSA appeals and OPS records. Related hearing, penalty and appeal documents count as one proceeding. Search, year/outcome filters, annual decision-year bars, source links, CSV and JSON downloads.</p>
+  <p><b>Limits:</b> selected published records, not all complaints or internal discipline. No workforce denominator; missing years are collection gaps. Directory dates and cross-links corrected from decision contents. Latest reviewed outcomes may have later appeals. Manual updates only. <a href="OPS/README.md">Sources, reconciliation and update method</a>.</p>
+</section>
 <section id="traffic-stops" class="card">
   <div class="proj-head"><h2>🚦 Road safety report: collisions, traffic stops &amp; cameras</h2><span class="chip done">✅ Native HTML · Oct 18, 2026</span><a class="live-link" href="Traffic/stops.html">open the page ↗</a></div>
   <p>Power BI replaced by six sections (Collisions first, then Where it happens, the former roads page) with charts, maps, filters, accessible data tables and CSV downloads. The weekly workflow checks official source coverage and rebuilds the report.</p>
