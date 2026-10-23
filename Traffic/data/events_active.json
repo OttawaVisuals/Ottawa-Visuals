@@ -1817,98 +1817,6 @@
 },
 "fp": "e7d9b3473db1"
 },
-"29323": {
-"event": {
-"cause": "construction",
-"created": "2026-10-07 17:59:00",
-"cross_street_1": "Bowesville",
-"cross_street_2": "Bowesville",
-"direction": null,
-"event_id": "29323",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Ficko closed between Bowesville and Bowesville due to construction. Follow the signed detour. From October 19th to the 23rd.",
-"lanes": "closed",
-"lat": 45.281277,
-"lon": -75.629002,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-16T07:00",
-"priority": "MEDIUM",
-"road": "Ficko",
-"source": "city",
-"updated": "2026-10-16 06:56:00"
-},
-"fp": "eaccdda40557"
-},
-"29342": {
-"event": {
-"cause": "construction",
-"created": "2026-10-08 12:34:00",
-"cross_street_1": "Anna",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29342",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Crerar closed at Anna due to construction, from October 12th to 23rd. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.386049,
-"lon": -75.727342,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-09T07:00",
-"priority": "LOW",
-"road": "Crerar",
-"source": "city",
-"updated": "2026-10-09 06:56:00"
-},
-"fp": "bc04cdd11514"
-},
-"29343": {
-"event": {
-"cause": "construction",
-"created": "2026-10-08 12:40:00",
-"cross_street_1": "CRERAR",
-"cross_street_2": "HARROLD Place North",
-"direction": null,
-"event_id": "29343",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "VETERAN closed between CRERAR and HARROLD Place North due to construction, from October 13th to 23rd. Follow the signed detour. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.385465,
-"lon": -75.728986,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-10T07:00",
-"priority": "LOW",
-"road": "VETERAN",
-"source": "city",
-"updated": "2026-10-10 06:56:00"
-},
-"fp": "68804a644cad"
-},
-"29344": {
-"event": {
-"cause": "construction",
-"created": "2026-10-08 12:48:00",
-"cross_street_1": "Veteran",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29344",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Crerar reduced to 1 lane with alternating traffic at Veteran due to construction, from October 13th to 23rd. Flagpersons present.",
-"lanes": "reduced to 1 lane with alternating traffic",
-"lat": 45.385455,
-"lon": -75.729007,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-10T07:00",
-"priority": "LOW",
-"road": "Crerar",
-"source": "city",
-"updated": "2026-10-10 06:56:00"
-},
-"fp": "13967f4ad5b8"
-},
 "29346": {
 "event": {
 "cause": "construction",
@@ -3059,29 +2967,6 @@
 },
 "fp": "8b8b61972a35"
 },
-"29548": {
-"event": {
-"cause": "",
-"created": "2026-10-16 20:48:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29548",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound On-ramp at MOODIE DR - Daily Construction. ALL LANES CLOSED. 2026-10-19 10:00 to 2026-10-23 17:00",
-"lanes": "ALL LANES CLOSED",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-19T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-16 20:48:00"
-},
-"fp": "70f547ef824e"
-},
 "29549": {
 "event": {
 "cause": "",
@@ -3127,29 +3012,6 @@
 "updated": "2026-10-19 08:40:00"
 },
 "fp": "f878948d9b78"
-},
-"29599": {
-"event": {
-"cause": "construction",
-"created": "2026-10-20 12:57:00",
-"cross_street_1": "P\u00e8res-Blancs",
-"cross_street_2": "Perrier",
-"direction": null,
-"event_id": "29599",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Lavergne closed between P\u00e8res-Blancs and Perrier due to construction, from October 19th to 23rd. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.442068,
-"lon": -75.662822,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-19T00:00",
-"priority": "LOW",
-"road": "Lavergne",
-"source": "city",
-"updated": "2026-10-20 13:00:00"
-},
-"fp": "7eaddc1a36dd"
 },
 "29600": {
 "event": {
@@ -3312,29 +3174,6 @@
 },
 "fp": "9e1fb0bd06cd"
 },
-"29648": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 09:43:00",
-"cross_street_1": "DOVERCOURT",
-"cross_street_2": "AVONDALE",
-"direction": null,
-"event_id": "29648",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "GOLDEN AVE closed between DOVERCOURT and AVONDALE due to construction.",
-"lanes": "closed",
-"lat": 45.383569,
-"lon": -75.75478,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "GOLDEN AVE",
-"source": "city",
-"updated": "2026-10-23 09:43:00"
-},
-"fp": "094eb6faa4c3"
-},
 "29649": {
 "event": {
 "cause": "construction",
@@ -3380,29 +3219,6 @@
 "updated": "2026-10-23 11:24:00"
 },
 "fp": "ee0907e75deb"
-},
-"29653": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-10-23 13:41:00",
-"cross_street_1": "Hunt Club",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29653",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Bank southbound right-turn lane closed at Hunt Club due to a disabled vehicle. Duration is unknown.",
-"lanes": "right-turn lane closed",
-"lat": 45.353618,
-"lon": -75.647862,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Bank",
-"source": "city",
-"updated": "2026-10-23 13:41:00"
-},
-"fp": "c88e3ade777e"
 },
 "29654": {
 "event": {
@@ -3473,28 +3289,143 @@
 },
 "fp": "85bc9584511c"
 },
-"29657": {
+"29660": {
 "event": {
 "cause": "",
-"created": "2026-10-23 14:21:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
+"created": "2026-10-23 16:48:00",
+"cross_street_1": "HWY 7 (IC 145)",
+"cross_street_2": "WALKLEY RD (IC 110)",
 "direction": null,
-"event_id": "29657",
+"event_id": "29660",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Highway 417 Westbound On-ramp at MOODIE DR - Continuous Construction. ALL LANES CLOSED. 2026-10-23 10:00 to 2026-10-23 17:00",
-"lanes": "ALL LANES CLOSED",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-10-23T17:00",
-"planned_start": "2026-10-23T10:00",
+"headline": "Highway 417 Eastbound from Highway 7 to WALKLEY RD - Nightly Construction. 1 Alternating Lane. 2026-10-26 21:00 to 2026-10-29 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.27704,
+"lon": -75.96443,
+"planned_end": "2026-10-29T06:00",
+"planned_start": "2026-10-26T21:00",
 "priority": "UNKNOWN",
 "road": "HWY 417",
 "source": "city",
-"updated": "2026-10-23 14:21:00"
+"updated": "2026-10-23 16:48:00"
 },
-"fp": "e78edce828e1"
+"fp": "3ef52322a0dc"
+},
+"29661": {
+"event": {
+"cause": "",
+"created": "2026-10-23 16:51:00",
+"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
+"cross_street_2": "WALKLEY RD (IC 110)",
+"direction": null,
+"event_id": "29661",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to WALKLEY RD - Nightly Construction. 1 Alternating Lane. 2026-10-26 21:00 to 2026-10-29 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.42092,
+"lon": -76.37281,
+"planned_end": "2026-10-29T06:00",
+"planned_start": "2026-10-26T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-23 16:51:00"
+},
+"fp": "2ee2c12086d7"
+},
+"29662": {
+"event": {
+"cause": "",
+"created": "2026-10-23 16:51:00",
+"cross_street_1": "HWY 7 (IC 145)",
+"cross_street_2": "WALKLEY RD (IC 110)",
+"direction": null,
+"event_id": "29662",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from Highway 7 to WALKLEY RD - Nightly Construction. 1 Alternating Lane. 2026-10-26 21:00 to 2026-10-29 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.27704,
+"lon": -75.96443,
+"planned_end": "2026-10-29T06:00",
+"planned_start": "2026-10-26T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-23 16:51:00"
+},
+"fp": "1002d720f338"
+},
+"29663": {
+"event": {
+"cause": "",
+"created": "2026-10-23 16:51:00",
+"cross_street_1": "HWY 7 (IC 145)",
+"cross_street_2": "WALKLEY RD (IC 110)",
+"direction": null,
+"event_id": "29663",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from Highway 7 to WALKLEY RD - Nightly Construction. 1 Alternating Lane. 2026-10-26 21:00 to 2026-10-29 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.27704,
+"lon": -75.96443,
+"planned_end": "2026-10-29T06:00",
+"planned_start": "2026-10-26T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-23 16:51:00"
+},
+"fp": "1002d720f338"
+},
+"29664": {
+"event": {
+"cause": "",
+"created": "2026-10-23 17:03:00",
+"cross_street_1": "FALLOWFIELD RD (IC 66)",
+"cross_street_2": "HWY 417",
+"direction": null,
+"event_id": "29664",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Northbound from FALLOWFIELD RD to Highway 417 - Nightly Construction. 1 Alternating Lane. 2026-10-26 21:00 to 2026-10-29 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.27087,
+"lon": -75.79581,
+"planned_end": "2026-10-29T06:00",
+"planned_start": "2026-10-26T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-23 17:03:00"
+},
+"fp": "2b84bdb3a3a9"
+},
+"29665": {
+"event": {
+"cause": "",
+"created": "2026-10-23 17:03:00",
+"cross_street_1": "HWY 416",
+"cross_street_2": "WOODROFFE AVE (IC 127)",
+"direction": null,
+"event_id": "29665",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from Highway 416 to WOODROFFE AVE - Continuous Construction. 1 Left Lane(s). 2026-10-26 21:00 to 2026-10-27 06:00",
+"lanes": "1 Left Lane(s)",
+"lat": 45.34147,
+"lon": -75.81586,
+"planned_end": "2026-10-27T06:00",
+"planned_start": "2026-10-26T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-23 17:03:00"
+},
+"fp": "58fa1e38987c"
 }
 }
 }
