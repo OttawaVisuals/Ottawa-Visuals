@@ -80,7 +80,7 @@ City/Police refresh. See [court methodology and rebuild instructions](../Ontario
   and HTA-mix charts. CSV contains every calendar year for the selected offence,
   raw outcomes, grouped counts/fractional shares, camera coverage and source locations.
 - Five outcome groups: prepaid; guilty (pleas plus no response/attendance);
-  withdrawn; other; trial with unavailable verdict. Trial results are not split into
+  withdrawn; other; completed after trial (outcome not reported). Trial results are not split into
   guilty/acquitted; no complete conviction rate is available. Raw categories remain
   separate in the CSV. Context charts retain all HTA offences.
 - Camera tickets **issued** appear alongside court **completions** for context.

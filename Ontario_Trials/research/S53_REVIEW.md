@@ -1,5 +1,10 @@
 # Review of all 133 s.53 search candidates
 
+**Follow-up closed:** the CanLII approach was dropped on October 23, 2026.
+The traffic report uses the official aggregate statistics and labels this category
+“Completed after trial · outcome not reported.” This research is retained as a record
+and is not used to assign trial outcomes.
+
 Reviewed October 23, 2026. Decision-date window: January 1, 2016–December 31, 2025.
 This completes the [pilot's](S53_PILOT.md) **retained candidate list**, not a complete
 inventory of published judgments or of Ottawa suspended-driving cases.
