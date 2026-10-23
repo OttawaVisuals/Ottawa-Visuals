@@ -939,7 +939,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 59.3,
   "punctuality_pct_am_peak": null,
-  "punctuality_pct_pm_peak": 51.6
+  "punctuality_pct_pm_peak": 51.6,
+  "otranspo_within_5min_pct": 79.2,
+  "otranspo_observations": 273147
  },
  {
   "date": "2026-10-17",
@@ -960,7 +962,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 60.6,
   "punctuality_pct_am_peak": 74.2,
-  "punctuality_pct_pm_peak": 53.0
+  "punctuality_pct_pm_peak": 53.0,
+  "otranspo_within_5min_pct": 69.1,
+  "otranspo_observations": 190684
  },
  {
   "date": "2026-10-18",
@@ -981,7 +985,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 60.4,
   "punctuality_pct_am_peak": 70.1,
-  "punctuality_pct_pm_peak": 52.8
+  "punctuality_pct_pm_peak": 52.8,
+  "otranspo_within_5min_pct": 74.9,
+  "otranspo_observations": 160890
  },
  {
   "date": "2026-10-19",
@@ -1002,7 +1008,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 59.0,
   "punctuality_pct_am_peak": 59.4,
-  "punctuality_pct_pm_peak": 48.0
+  "punctuality_pct_pm_peak": 48.0,
+  "otranspo_within_5min_pct": 79.3,
+  "otranspo_observations": 276821
  },
  {
   "date": "2026-10-20",
@@ -1023,7 +1031,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 57.6,
   "punctuality_pct_am_peak": 54.8,
-  "punctuality_pct_pm_peak": 41.4
+  "punctuality_pct_pm_peak": 41.4,
+  "otranspo_within_5min_pct": 76.3,
+  "otranspo_observations": 275937
  },
  {
   "date": "2026-10-21",
@@ -1044,7 +1054,9 @@
   "bus_within_5min_pct": null,
   "punctuality_pct": 59.7,
   "punctuality_pct_am_peak": 61.3,
-  "punctuality_pct_pm_peak": 41.2
+  "punctuality_pct_pm_peak": 41.2,
+  "otranspo_within_5min_pct": 74.8,
+  "otranspo_observations": 274136
  },
  {
   "date": "2026-10-22",
@@ -1070,12 +1082,12 @@
  {
   "date": "2026-10-23",
   "weekday": 4,
-  "n": 5,
+  "n": 6,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 250.0,
+  "buses_mean": 235.0,
   "buses_max": 275,
-  "speed_mean_kmh": 9.8,
+  "speed_mean_kmh": 9.0,
   "cancelled_mean": 0.0,
   "cancelled_max": 0,
   "cancelled_pct_mean": 0.0
