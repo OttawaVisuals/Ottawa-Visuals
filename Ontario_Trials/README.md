@@ -6,6 +6,10 @@ The [Traffic court tab in How Ottawa Really Moves](../Traffic/stops.html?section
 reuses this snapshot and `model.js` for calendar-year HTA offences, outcome filters
 and camera-issued/completed context. It does not duplicate or independently refresh the data.
 
+An [s.53 judgment-search pilot](research/S53_PILOT.md) records published-decision
+searches, verified comparison cases and the limitations of linking judgments to
+these aggregate statistics. It does not change the outcome totals.
+
 ## Coverage
 
 [Ontario Court of Justice statistics](https://www.ontariocourts.ca/ocj/statistics/) are the sole data source. The importer discovers links from that page rather than inventing historical URLs.

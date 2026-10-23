@@ -1,0 +1,1398 @@
+{
+  "reviewed_on": "2026-10-23",
+  "scope": "Published decisions dated 2016-01-01 through 2025-12-31; Ottawa s.53 HTA pilot",
+  "complete_inventory": false,
+  "confirmed_ottawa_s53_trial_outcomes": [],
+  "limitations": [
+    "No claim that all published s.53 judgments were found. Keyword searches may miss documents and CanLII is not exhaustive.",
+    "A judgment is not a charge: multiple rulings can concern one proceeding and one judgment can resolve multiple charges.",
+    "Search counts include other jurisdictions, tribunals, cited authorities and incidental mentions. Unreviewed candidates are not classified as outcomes.",
+    "Ottawa annual source rows have no case identifiers or individual dates. No linkage or reallocation of trial totals was performed."
+  ],
+  "queries": [
+    {
+      "id": "wording",
+      "case_hits": 25,
+      "loaded": 25,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22driving%20while%20under%20suspension%22%20OR%20%22driving%20while%20suspended%22%20OR%20%22drive%20while%20under%20suspension%22%20OR%20%22driving%20while%20driver%E2%80%99s%20licence%20suspended%22)%20AND%20Ottawa&searchId=2026-10-23T14%3A03%3A04%3A442%2F239c8dec8b034a8eb2f82d17ac59c180"
+    },
+    {
+      "id": "subsection",
+      "case_hits": 5,
+      "loaded": 5,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%2253(1)%22%20OR%20%2253%20(1)%22%20OR%20%2253(1.1)%22)%20AND%20%22Highway%20Traffic%20Act%22%20AND%20Ottawa&searchId=2026-10-23T14%3A05%3A12%3A651%2F460440486b4d41179c02ad66ca25081c"
+    },
+    {
+      "id": "french_wording",
+      "case_hits": 0,
+      "loaded": 0,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22article%2053%22%20OR%20%2253(1)%22%20OR%20%2253%20(1)%22)%20AND%20%22Code%20de%20la%20route%22%20AND%20Ottawa&searchId=2026-10-23T14%3A05%3A45%3A563%2F4b1a50a7465e4161abb3275a12ddc88c"
+    },
+    {
+      "id": "broad_section",
+      "case_hits": 84,
+      "loaded": 84,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=%2253%22%20AND%20(%22suspended%22%20OR%20%22suspension%22)%20AND%20Ottawa%20AND%20(%22Highway%20Traffic%20Act%22%20OR%20%22Code%20de%20la%20route%22)&searchId=2026-10-23T14%3A06%3A05%3A651%2F5f8fec3936444e82b2caad423164a25f"
+    },
+    {
+      "id": "alternate_wording",
+      "case_hits": 41,
+      "loaded": 41,
+      "url": "https://www.canlii.org/?origLang=en#search/indexLang=en&type=decision&startDate=2016-01-01&endDate=2025-12-31&text=(%22licence%20suspended%22%20OR%20%22license%20suspended%22%20OR%20%22drive%20suspend%22%20OR%20%22driving%20under%20suspension%22)%20AND%20Ottawa&searchId=2026-10-23T14%3A07%3A56%3A208%2F004011259d334b8eb2e5c1573f608d2b"
+    }
+  ],
+  "candidates": [
+    {
+      "title": "R. v. Santana",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onca/doc/2020/2020onca365/2020onca365.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. McLaughlin",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2020/2020oncj326/2020oncj326.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Sonocast Inc. v. Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii120037/2022canlii120037.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Brampton (City) v. Singh",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj469/2025oncj469.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Mohammad Dost v. Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2020/2020canlii72488/2020canlii72488.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Sitladeen",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onca/doc/2021/2021onca303/2021onca303.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "11960 v. Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2019/2019canlii37552/2019canlii37552.html",
+      "queries": [
+        "wording",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "12059 v Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2019/2019canlii76866/2019canlii76866.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Godin",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj492/2024oncj492.html",
+      "queries": [
+        "wording",
+        "subsection",
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "West v. Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii27255/2022canlii27255.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Fazekas v. Canada (Citizenship and Immigration)",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ca/fct/doc/2023/2023fc666/2023fc666.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Davidson v. Deputy Head (Canada Border Services Agency)",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ca/pslreb/doc/2017/2017pslreb42/2017pslreb42.html",
+      "queries": [
+        "wording",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Pelletier Bertrand v. Registrar of Motor Vehicles",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2022/2022canlii55030/2022canlii55030.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Sealy-Ward",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc1080/2019onsc1080.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "RR (Re)",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onccb/doc/2024/2024canlii15811/2024canlii15811.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Magoya v. Canada (Citizenship and Immigration)",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ca/fct/doc/2023/2023fc516/2023fc516.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "10014 v Registrar of Alcohol and Gaming",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onlat/doc/2016/2016canlii50132/2016canlii50132.html",
+      "queries": [
+        "wording",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Sealy-Ward",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc2647/2019onsc2647.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Hashimi",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj673/2025oncj673.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v Noganosh",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onsc/doc/2017/2017onsc131/2017onsc131.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Grievor X v. Canada Revenue Agency",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ca/pslreb/doc/2020/2020fpslreb74/2020fpslreb74.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "CAS of Hamilton v. D.B. et al.",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc4983/2021onsc4983.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v Russell",
+      "citation": null,
+      "url": "https://www.canlii.org/en/bc/bcsc/doc/2023/2023bcsc2039/2023bcsc2039.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Reyes",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj656/2016oncj656.html",
+      "queries": [
+        "wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Bharath",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj382/2016oncj382.html",
+      "queries": [
+        "wording",
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Haaima",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2023/2023oncj625/2023oncj625.html",
+      "queries": [
+        "subsection",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R v Hadi",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ab/abqb/doc/2018/2018abqb35/2018abqb35.html",
+      "queries": [
+        "subsection"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Willcott v. Freeway Transportation Inc.",
+      "citation": null,
+      "url": "https://www.canlii.org/en/ca/chrt/doc/2019/2019chrt29/2019chrt29.html",
+      "queries": [
+        "subsection"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Bell",
+      "citation": null,
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj692/2024oncj692.html",
+      "queries": [
+        "subsection",
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Procureur général du Québec c. Luamba",
+      "citation": "2024 QCCA 1387 (CanLII)",
+      "url": "https://www.canlii.org/en/qc/qcca/doc/2024/2024qcca1387/2024qcca1387.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Droog",
+      "citation": "2022 ONSC 5033 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2022/2022onsc5033/2022onsc5033.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Siddiqui v. Saint Francis Xavier High School",
+      "citation": "2019 ONSC 30 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc30/2019onsc30.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Yassin v. Canada (Attorney General)",
+      "citation": "2020 FC 237 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2020/2020fc237/2020fc237.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Manitoba Government v Province of Manitoba",
+      "citation": "2016 CanLII 61642 (MB LA)",
+      "url": "https://www.canlii.org/en/mb/mbla/doc/2016/2016canlii61642/2016canlii61642.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Zapata, Steve, et al v. Reid, David, et al.",
+      "citation": "2025 ONSC 594 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc594/2025onsc594.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Mahoney-Bruer v. Ontario Provincial Police",
+      "citation": "2018 ONCPC 13 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncpc/doc/2018/2018oncpc13/2018oncpc13.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Brian Cadieux v Amalgamated Transit Union, Local 1415",
+      "citation": "2016 CIRB 809 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/cirb/doc/2016/2016cirb809/2016cirb809.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Naveed",
+      "citation": "2025 ONCJ 268 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj268/2025oncj268.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Guenter",
+      "citation": "2016 ONCA 572 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onca/doc/2016/2016onca572/2016onca572.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Brampton (City) v. Mocanu",
+      "citation": "2025 ONCJ 315 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj315/2025oncj315.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Randall",
+      "citation": "2025 ONCJ 337 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj337/2025oncj337.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Burns",
+      "citation": "2024 ONCJ 91 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj91/2024oncj91.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Gardner",
+      "citation": "2021 ONSC 3468 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc3468/2021onsc3468.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "S. S. v S. B.",
+      "citation": "2018 CanLII 125963 (ON HPARB)",
+      "url": "https://www.canlii.org/en/on/onhparb/doc/2018/2018canlii125963/2018canlii125963.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Lomilo",
+      "citation": "2019 ONSC 6826 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc6826/2019onsc6826.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Solano-Santana",
+      "citation": "2018 ONSC 2609 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2018/2018onsc2609/2018onsc2609.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "York (Regional Municipality) v. Tsui",
+      "citation": "2017 ONCA 230 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onca/doc/2017/2017onca230/2017onca230.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Fair Change v. His Majesty the King in Right of Ontario",
+      "citation": "2024 ONSC 1895 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc1895/2024onsc1895.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Anstie",
+      "citation": "2020 ONSC 5505 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc5505/2020onsc5505.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Teamsters Local Union 938 v Bolt Technologies Incorporated",
+      "citation": "2023 CanLII 123712 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii123712/2023canlii123712.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Premium Cars Wholesale Limited, Hussein Shahnematollah-Yazde, Daniel Amirjani v. Registrar, Motor Vehicle Dealers Act, 2002",
+      "citation": "2020 CanLII 27360 (ON LAT)",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2020/2020canlii27360/2020canlii27360.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Hamed",
+      "citation": "2017 ONCJ 205 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2017/2017oncj205/2017oncj205.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Ottawa (City) v C.U.P.E., Local 503",
+      "citation": "2025 CanLII 80148 (ON LA)",
+      "url": "https://www.canlii.org/en/on/onla/doc/2025/2025canlii80148/2025canlii80148.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Li v. Barber",
+      "citation": "2025 ONCA 169 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onca/doc/2025/2025onca169/2025onca169.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Welfare v. Peel Regional Police Service",
+      "citation": "2018 ONCPC 15 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncpc/doc/2018/2018oncpc15/2018oncpc15.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Elmi v. Choukair et al.",
+      "citation": "2020 ONSC 1181 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc1181/2020onsc1181.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Cai v. Qi",
+      "citation": "2025 ONSC 1981 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc1981/2025onsc1981.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Guilbeault",
+      "citation": "2018 ONCJ 703 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj703/2018oncj703.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Anderson, D. v Pinto",
+      "citation": "2022 ONMIC 6 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onmic/doc/2022/2022onmic6/2022onmic6.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Seguin",
+      "citation": "2016 ONCJ 441 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj441/2016oncj441.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Christoforou v. John Grant Haulage Ltd.",
+      "citation": "2020 CHRT 33 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/chrt/doc/2020/2020chrt33/2020chrt33.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Metro Taxi Ltd. et al. v. City of Ottawa",
+      "citation": "2024 ONSC 2725 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc2725/2024onsc2725.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Massalida",
+      "citation": "2022 ONCJ 451 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2022/2022oncj451/2022oncj451.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Nordik Windows Inc. v. Aviva Insurance Co.",
+      "citation": "2023 ONSC 1804 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2023/2023onsc1804/2023onsc1804.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Ranger",
+      "citation": "2019 ONCJ 413 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2019/2019oncj413/2019oncj413.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Brantford (City) v. Doolittle",
+      "citation": "2024 ONCJ 498 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2024/2024oncj498/2024oncj498.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Deria",
+      "citation": "2019 ONSC 5667 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc5667/2019onsc5667.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Brar",
+      "citation": "2018 ONCJ 966 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj966/2018oncj966.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Pillar",
+      "citation": "2020 ONCJ 394 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2020/2020oncj394/2020oncj394.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "A. v. A.",
+      "citation": "2023 ONSC 2558 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2023/2023onsc2558/2023onsc2558.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Brennan",
+      "citation": "2025 ONSC 6116 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2025/2025onsc6116/2025onsc6116.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Saskatchewan Government Insurance v Giesbrecht",
+      "citation": "2025 SKCA 10 (CanLII)",
+      "url": "https://www.canlii.org/en/sk/skca/doc/2025/2025skca10/2025skca10.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Luamba c. Procureur général du Québec",
+      "citation": "2022 QCCS 3866 (CanLII)",
+      "url": "https://www.canlii.org/fr/qc/qccs/doc/2022/2022qccs3866/2022qccs3866.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. c. Bamusamba",
+      "citation": "2019 ONCJ 724 (CanLII)",
+      "url": "https://www.canlii.org/fr/on/oncj/doc/2019/2019oncj724/2019oncj724.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Commission des droits de la personne et des droits de la jeunesse (DeBellefeuille) v. Ville de Longueuil",
+      "citation": "2020 QCTDP 21 (CanLII)",
+      "url": "https://www.canlii.org/en/qc/qctdp/doc/2020/2020qctdp21/2020qctdp21.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Children’s Aid Society of the Region of Waterloo",
+      "citation": "2021 ONSC 990 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc990/2021onsc990.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Children’s Aid Society of Toronto v. A.S.",
+      "citation": "2022 ONCJ 553 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2022/2022oncj553/2022oncj553.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R c. Charland",
+      "citation": "2024 CanLII 129603 (ON CS)",
+      "url": "https://www.canlii.org/fr/on/onsc/doc/2024/2024canlii129603/2024canlii129603.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Ontario Public Service Employees Union Local 234 v Ministry Community Safety Correctional Services Vanier Centre For Women",
+      "citation": "2019 CanLII 14451 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2019/2019canlii14451/2019canlii14451.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Decision No. 1540/17",
+      "citation": "2018 ONWSIAT 1892 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onwsiat/doc/2018/2018onwsiat1892/2018onwsiat1892.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Lin v. Canada (Citizenship and Immigration)",
+      "citation": "2021 FC 1329 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2021/2021fc1329/2021fc1329.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Yaniv Froehlich v City of Toronto",
+      "citation": "2024 CanLII 34793 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2024/2024canlii34793/2024canlii34793.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. c. Pittarelli",
+      "citation": "2025 QCCM 61 (CanLII)",
+      "url": "https://www.canlii.org/fr/qc/qccm/doc/2025/2025qccm61/2025qccm61.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Miller Group Kakabeka MDMC v A Director under the Occupational Health and Safety Act",
+      "citation": "2023 CanLII 34317 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii34317/2023canlii34317.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Picard v. Canada (Attorney General)",
+      "citation": "2018 FC 747 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2018/2018fc747/2018fc747.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Dr. Jha v. College of Physicians and Surgeons of Ontario",
+      "citation": "2022 ONSC 769 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onscdc/doc/2022/2022onsc769/2022onsc769.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R v Chung",
+      "citation": "2024 ABKB 96 (CanLII)",
+      "url": "https://www.canlii.org/en/ab/abkb/doc/2024/2024abkb96/2024abkb96.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Law Society of Ontario v. McCallum",
+      "citation": "2024 ONLSTH 29 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onlst/doc/2024/2024onlsth29/2024onlsth29.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. N.S.",
+      "citation": "2022 ONCA 160 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onca/doc/2022/2022onca160/2022onca160.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Qureshi",
+      "citation": "2021 ONSC 1576 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc1576/2021onsc1576.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Calgary (City) v Bell Canada Inc.",
+      "citation": "2020 ABCA 211 (CanLII)",
+      "url": "https://www.canlii.org/en/ab/abca/doc/2020/2020abca211/2020abca211.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Pioneer Corp. v. Godfrey",
+      "citation": "2019 SCC 42 (CanLII), [2019] 3 SCR 295",
+      "url": "https://www.canlii.org/en/ca/scc/doc/2019/2019scc42/2019scc42.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "NN v. DL",
+      "citation": "2019 ONSC 4913 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2019/2019onsc4913/2019onsc4913.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "CAS of Haldimand & Norfolk v. J.-L.J et al",
+      "citation": "2021 ONSC 5465 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc5465/2021onsc5465.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Duffy",
+      "citation": "2016 ONCJ 220 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2016/2016oncj220/2016oncj220.html",
+      "queries": [
+        "broad_section",
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Hak c. Procureur général du Québec",
+      "citation": "2021 QCCS 1466 (CanLII)",
+      "url": "https://www.canlii.org/fr/qc/qccs/doc/2021/2021qccs1466/2021qccs1466.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Khan v. Khan",
+      "citation": "2024 ONSC 4045 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2024/2024onsc4045/2024onsc4045.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Amalgamated Transit Union - Local 1587 (Policy) v Ontario (Metrolinx)",
+      "citation": "2025 CanLII 18169 (ON GSB)",
+      "url": "https://www.canlii.org/en/on/ongsb/doc/2025/2025canlii18169/2025canlii18169.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Gatineau (Ville) c Syndicat des cols blancs de la ville de Gatineau",
+      "citation": "2016 CanLII 40448 (QC SAT)",
+      "url": "https://www.canlii.org/fr/qc/qcsat/doc/2016/2016canlii40448/2016canlii40448.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Barbagianis v Nychuk",
+      "citation": "2018 SKQB 266 (CanLII)",
+      "url": "https://www.canlii.org/en/sk/skqb/doc/2018/2018skqb266/2018skqb266.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Reference re Greenhouse Gas Pollution Pricing Act",
+      "citation": "2020 ABCA 74 (CanLII)",
+      "url": "https://www.canlii.org/en/ab/abca/doc/2020/2020abca74/2020abca74.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Brampton (City) v. Moeen",
+      "citation": "2025 ONCJ 37 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2025/2025oncj37/2025oncj37.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Cambie Surgeries Corporation v British Columbia (Attorney General)",
+      "citation": "2020 BCSC 1310 (CanLII)",
+      "url": "https://www.canlii.org/en/bc/bcsc/doc/2020/2020bcsc1310/2020bcsc1310.html",
+      "queries": [
+        "broad_section"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Alan Taylor v Teamsters Local Union",
+      "citation": "2016 CanLII 7406 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2016/2016canlii7406/2016canlii7406.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Fremond v. Canada (Public Safety and Emergency Preparedness)",
+      "citation": "2022 CanLII 98008 (FC)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2022/2022canlii98008/2022canlii98008.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "100004807111 (Re)",
+      "citation": "2023 CanLII 126935 (CA VRAB)",
+      "url": "https://www.canlii.org/en/ca/cavrab/doc/2023/2023canlii126935/2023canlii126935.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R v Gil",
+      "citation": "2018 CanLII 43792 (ON CJ)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018canlii43792/2018canlii43792.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "MH (Re)",
+      "citation": "2017 CanLII 143062 (ON CCB)",
+      "url": "https://www.canlii.org/en/on/onccb/doc/2017/2017canlii143062/2017canlii143062.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "100003206196 (Re)",
+      "citation": "2018 CanLII 65870 (CA VRAB)",
+      "url": "https://www.canlii.org/en/ca/cavrab/doc/2018/2018canlii65870/2018canlii65870.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Saleh-Mohamed",
+      "citation": "2021 ONSC 4260 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc4260/2021onsc4260.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Saheed v. Canada (Public Safety and Emergency Preparedness)",
+      "citation": "2018 CanLII 103416 (FC)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2018/2018canlii103416/2018canlii103416.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Lapierre v Kovalyk",
+      "citation": "2016 ONSC 7775 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2016/2016onsc7775/2016onsc7775.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Desjardins v. Registrar of Motor Vehicles",
+      "citation": "2023 CanLII 107293 (ON LAT)",
+      "url": "https://www.canlii.org/en/on/onlat/doc/2023/2023canlii107293/2023canlii107293.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Amara v. Canada (Citizenship and Immigration)",
+      "citation": "2022 FC 1448 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2022/2022fc1448/2022fc1448.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Robin v Saskatchewan (Police Commission)",
+      "citation": "2016 SKCA 159 (CanLII)",
+      "url": "https://www.canlii.org/en/sk/skca/doc/2016/2016skca159/2016skca159.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Turner-Lienaux v. Canada (Attorney General)",
+      "citation": "2021 FC 1483 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2021/2021fc1483/2021fc1483.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Decision No. 442/19",
+      "citation": "2019 ONWSIAT 2583 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onwsiat/doc/2019/2019onwsiat2583/2019onwsiat2583.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "AN (Re)",
+      "citation": "2024 CanLII 44497 (ON CCB)",
+      "url": "https://www.canlii.org/en/on/onccb/doc/2024/2024canlii44497/2024canlii44497.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "M.S. v J.C.",
+      "citation": "2017 CanLII 46855 (ON HPARB)",
+      "url": "https://www.canlii.org/en/on/onhparb/doc/2017/2017canlii46855/2017canlii46855.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Hannaford",
+      "citation": "2020 ONSC 1388 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc1388/2020onsc1388.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Her Majesty The Queen v. A Group of 721 Respondents",
+      "citation": "2021 ONSC 7380 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2021/2021onsc7380/2021onsc7380.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Diakité v. Canada (Immigration, Refugees and Citizenship)",
+      "citation": "2024 FC 170 (CanLII)",
+      "url": "https://www.canlii.org/en/ca/fct/doc/2024/2024fc170/2024fc170.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Ross v. Holmes",
+      "citation": "2022 ONSC 3769 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2022/2022onsc3769/2022onsc3769.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v Vanderwal",
+      "citation": "2016 ONSC 1889 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2016/2016onsc1889/2016onsc1889.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v. Stewart",
+      "citation": "2018 ONCJ 678 (CanLII)",
+      "url": "https://www.canlii.org/en/on/oncj/doc/2018/2018oncj678/2018oncj678.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "judgment_text_checked",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Toronto (City) v Toronto Professional Firefighters’ Association, Local 3888",
+      "citation": "2020 CanLII 31921 (ON LA)",
+      "url": "https://www.canlii.org/en/on/onla/doc/2020/2020canlii31921/2020canlii31921.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "X (Re)",
+      "citation": "2018 CanLII 145341 (CA IRB)",
+      "url": "https://www.canlii.org/en/ca/irb/doc/2018/2018canlii145341/2018canlii145341.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Law Society of Ontario v. Marusic and Martini",
+      "citation": "2022 ONLSTH 55 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onlst/doc/2022/2022onlsth55/2022onlsth55.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "United Food and Commercial Workers Union Canada, Local 175 v OLYMEL s.e.c./l.p.",
+      "citation": "2020 CanLII 35299 (ON LA)",
+      "url": "https://www.canlii.org/en/on/onla/doc/2020/2020canlii35299/2020canlii35299.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Iron Workers District Council of Ontario v Alloy Fusion Inc.",
+      "citation": "2023 CanLII 69462 (ON LRB)",
+      "url": "https://www.canlii.org/en/on/onlrb/doc/2023/2023canlii69462/2023canlii69462.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Ontario Public Service Employees Union (Cusack) v Ontario (Community Safety and Correctional Services)",
+      "citation": "2016 CanLII 7452 (ON GSB)",
+      "url": "https://www.canlii.org/en/on/ongsb/doc/2016/2016canlii7452/2016canlii7452.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "Barker v. Barker",
+      "citation": "2020 ONSC 3746 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2020/2020onsc3746/2020onsc3746.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    },
+    {
+      "title": "R. v Wood",
+      "citation": "2017 ONSC 3239 (CanLII)",
+      "url": "https://www.canlii.org/en/on/onsc/doc/2017/2017onsc3239/2017onsc3239.html",
+      "queries": [
+        "alternate_wording"
+      ],
+      "review": "search_metadata_only",
+      "ottawa_s53_trial_outcome": null
+    }
+  ]
+}
