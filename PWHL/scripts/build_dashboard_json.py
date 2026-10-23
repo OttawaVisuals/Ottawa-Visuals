@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from pwhl_geography import birthplace_points, great_circle_km, home_venue_points
+from pwhl_stats import build_leaders, build_team_players, deduplicate_season_stats, unique_shots
 
 DATA_DIR = os.path.join("PWHL", "data")
 OUT_DIR = os.path.join(DATA_DIR, "json")
@@ -90,13 +91,13 @@ def main():
     preseason_ids = {
         str(season["season_id"])
         for season in season_catalog
-        if "preseason" in (season.get("season_name") or "").casefold()
+        if "preseason" in (season.get("season_name") or "").casefold().replace("-", "")
     }
     team_logos = read_csv("pwhl_team_logos.csv")
     game_summaries = read_csv("pwhl_game_summaries.csv")
     season_ids_rows = read_csv("pwhl_season_game_ids.csv")
     standings = read_csv("pwhl_standings.csv")
-    season_stats = read_csv("pwhl_player_season_stats.csv")
+    season_stats = deduplicate_season_stats(read_csv("pwhl_player_season_stats.csv"))
     pbp = read_csv("pwhl_pbp.csv", required=False)
     bracket = read_csv("pwhl_playoff_bracket.csv")
     transactions = read_csv("pwhl_transactions.csv")
@@ -116,7 +117,8 @@ def main():
         if str(g.get("is_final")).upper() == "TRUE":
             final_games_by_season[g["season_id"]].append(g)
 
-    season_names = {}
+    # The catalog also names future roster seasons with no played games yet.
+    season_names = {r["season_id"]: r["season_name"] for r in season_catalog}
     for r in season_stats:
         season_names.setdefault(r["season_id"], r.get("season_name", r["season_id"]))
     # Some seasons (e.g. preseason) never show up in season_stats; fall back
@@ -199,25 +201,6 @@ def main():
         standings_by_season[sid].sort(key=lambda t: (t["rank"] is None, t["rank"]))
     write_json("pwhl_standings.json", standings_by_season)
 
-    # ---- Player leaders (regular-season, per season) -----------------
-    def leader_row(r):
-        return {
-            "player_id": r["player_id"],
-            "name": None,  # filled in below from players_info
-            "team_code": r.get("team_code"),
-            "gp": to_num(r.get("games_played"), int),
-            "goals": to_num(r.get("goals"), int),
-            "assists": to_num(r.get("assists"), int),
-            "points": to_num(r.get("points"), int),
-            "shots": to_num(r.get("shots"), int),
-            "hits": to_num(r.get("hits"), int),
-            "pim": to_num(r.get("penalty_minutes"), int),
-            "ppg": to_num(r.get("power_play_goals"), int),
-            "ppa": to_num(r.get("power_play_assists"), int),
-            "faceoff_pct": to_num(r.get("faceoff_pct")),
-            "points_per_game": to_num(r.get("points_per_game")),
-        }
-
     players_info = {p["player_id"]: p for p in read_csv("pwhl_players_info.csv")}
     home_points = home_venue_points(teams, game_summaries, venues)
     birthplace_coords = birthplace_points(Path(DATA_DIR))
@@ -229,29 +212,9 @@ def main():
         name = (p.get("first_name", "") + " " + p.get("last_name", "")).strip()
         return name or f"Player {pid}"
 
-    leaders_by_season = {}
-    for sid in all_season_ids:
-        # Each season id holds one kind of stat line (regular, playoff or
-        # exhibition), so take them all; skip the career "Total" rows.
-        rows = [
-            leader_row(r) for r in season_stats
-            if r["season_id"] == sid and r.get("season_name") != "Total"
-            and to_num(r.get("games_played"), int)
-        ]
-        for r in rows:
-            r["name"] = player_display_name(r["player_id"])
-        leaders_by_season[sid] = {
-            "points": sorted(rows, key=lambda r: (-(r["points"] or 0), -(r["goals"] or 0)))[:15],
-            "goals": sorted(rows, key=lambda r: -(r["goals"] or 0))[:15],
-            "assists": sorted(rows, key=lambda r: -(r["assists"] or 0))[:15],
-            "shots": sorted(rows, key=lambda r: -(r["shots"] or 0))[:15],
-            "hits": sorted(rows, key=lambda r: -(r["hits"] or 0))[:15],
-            "faceoff_pct": sorted(
-                [r for r in rows if (r["gp"] or 0) >= 5 and r["faceoff_pct"] is not None],
-                key=lambda r: -(r["faceoff_pct"] or 0),
-            )[:15],
-        }
-    write_json("pwhl_leaders.json", leaders_by_season)
+    # League leaderboards combine club splits; team pages retain each split.
+    write_json("pwhl_leaders.json", build_leaders(season_stats, players_info))
+    write_json("pwhl_team_players.json", build_team_players(season_stats, players_info))
 
     # ---- Awards: full skater table per season ---------------------------
     # The dashboard's "Superlatives" section derives ~15 tongue-in-cheek
@@ -283,12 +246,8 @@ def main():
         # Each season id carries only one kind of stat line; preseason is filed
         # under "exhibition" rather than a name matching its season label.
         name = season_names.get(sid, "")
-        stat_type = "playoff" if "Playoff" in name else "exhibition" if "Preseason" in name else "regular"
-        # The feed carries one row per player *per team*, so a mid-season trade
-        # splits a player across two rows that must be summed. It also emits the
-        # occasional exact-duplicate line (same totals, blank/NA team code), so
-        # dedupe on the stat line itself before summing or the traded-player fix
-        # would double-count them.
+        stat_type = "playoff" if "Playoff" in name else "exhibition" if "preseason" in name.casefold().replace("-", "") else "regular"
+        # Rows were deduplicated once on input, retaining distinct team stints.
         by_player = defaultdict(list)
         for r in season_stats:
             if r["season_id"] != sid or r.get("stat_type") != stat_type:
@@ -303,14 +262,7 @@ def main():
 
         rows = []
         for pid, prows in by_player.items():
-            seen, parts = set(), []
-            for r in prows:
-                sig = (r.get("games_played"), r.get("ice_time"), r.get("points"),
-                       r.get("penalty_minutes"), r.get("shots"))
-                if sig in seen:
-                    continue
-                seen.add(sig)
-                parts.append(r)
+            parts = prows
 
             def total(field):
                 return sum(to_num(p.get(field), int) or 0 for p in parts)
@@ -373,16 +325,11 @@ def main():
         if r.get("goalie") == "1" and r.get("shutout") == "1":
             shutouts[(r["season_id"], r["player_id"])] += 1
     goalies_by_season = defaultdict(dict)
-    seen_g = set()
     for r in season_stats:
         if r.get("season_name") == "Total" or to_num(r.get("shots_against"), int) is None:
             continue
         if not to_num(r.get("games_played"), int):
             continue
-        sig = (r["player_id"], r["season_id"], r.get("games_played"), r.get("shots_against"), r.get("seconds_played"))
-        if sig in seen_g:
-            continue
-        seen_g.add(sig)
         sid, pid = r["season_id"], r["player_id"]
         g = goalies_by_season[sid].setdefault(pid, {
             "player_id": pid, "name": player_display_name(pid), "team_code": "", "_toi_best": -1,
@@ -516,25 +463,28 @@ def main():
     goals_by_period = defaultdict(int)
     shots_by_period = defaultdict(int)
 
+    # A goal is usually present as both a shot row and a goal row. Reconcile
+    # them before binning; the event-mix slices must also be disjoint.
     for e in pbp:
         ev = e.get("event")
-        if ev:
+        if ev and ev not in ("shot", "goal"):
             event_counts[ev] += 1
+    for e in unique_shots(pbp):
+        goal = str(e.get("goal")).upper() == "TRUE"
+        event_counts["goal" if goal else "shot"] += 1
         period = e.get("period_of_game")
-        if ev in ("shot", "goal"):
-            if period:
-                shots_by_period[period] += 1
-            if str(e.get("goal")).upper() == "TRUE":
+        if period:
+            shots_by_period[period] += 1
+            if goal:
                 goals_by_period[period] += 1
-            x = to_num(e.get("x_coord"))
-            y = to_num(e.get("y_coord"))
-            if x is not None and y is not None and -100 <= x <= 100 and -45 <= y <= 45:
-                bx = min(GRID_X - 1, max(0, int((x + 100) / 200 * GRID_X)))
-                by = min(GRID_Y - 1, max(0, int((y + 45) / 90 * GRID_Y)))
-                cell = shot_bins[(bx, by)]
-                cell["shots"] += 1
-                if str(e.get("goal")).upper() == "TRUE":
-                    cell["goals"] += 1
+        x = to_num(e.get("x_coord"))
+        y = to_num(e.get("y_coord"))
+        if x is not None and y is not None and -100 <= x <= 100 and -45 <= y <= 45:
+            bx = min(GRID_X - 1, max(0, int((x + 100) / 200 * GRID_X)))
+            by = min(GRID_Y - 1, max(0, int((y + 45) / 90 * GRID_Y)))
+            cell = shot_bins[(bx, by)]
+            cell["shots"] += 1
+            cell["goals"] += goal
 
     shot_map = {
         "grid_x": GRID_X, "grid_y": GRID_Y,
@@ -819,18 +769,9 @@ def write_player_pages(players_info, season_stats, game_logs, pbp, game_summarie
     season_of_game = {g["game_id"]: g["season_id"] for g in game_summaries}
     n = lambda r, f: to_num(r.get(f), int) or 0
 
-    # Season lines: one per season x team. Skip the career "Total" rows and the
-    # feed's exact-duplicate lines (same stats, NA team code).
+    # Input already excludes career totals and duplicate blank-team aliases.
     lines = defaultdict(list)
-    seen = set()
     for r in season_stats:
-        if r.get("season_name") == "Total" or not to_num(r.get("games_played"), int):
-            continue
-        sig = (r["player_id"], r["season_id"], r.get("stat_type"), r.get("games_played"),
-               r.get("points"), r.get("ice_time"), r.get("shots_against"))
-        if sig in seen:
-            continue
-        seen.add(sig)
         line = {
             "season_id": r["season_id"],
             "season": season_names.get(r["season_id"], r.get("season_name")),

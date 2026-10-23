@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js?v=usability-1"></script>
-<script src="pwhl-core.js?v=usability-1"></script>
-<script src="pwhl-sections.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=accuracy-20261023"></script>
+<script src="pwhl-sections.js?v=accuracy-20261023"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -35,7 +35,7 @@
   <div class="hero">
     <span class="eyebrow">PWHL · How it works</span>
     <h1>Data &amp; methodology</h1>
-    <p>Where the historical stats come from, how they are counted, and where coverage is incomplete.</p>
+    <p>Where the historical stats come from, how they are counted, and where coverage is incomplete. An independent fan-made project, not affiliated with the PWHL.</p>
   </div>
   <p id="page-loading" role="status">Loading PWHL data…</p>
   <div id="load-error">Could not load this page. Check your connection and try again.</div>
@@ -44,12 +44,12 @@
     <div class="section" id="methodology">
       <div class="methodology">
         <h3>Data &amp; methodology</h3>
-        <p>Source: the PWHL's own stats feed (HockeyTech), fetched by a daily-scheduled pipeline
+        <p>Source: the <a href="https://www.thepwhl.com/en/stats">PWHL's official statistics (HockeyTech)</a>, fetched by a daily-scheduled pipeline
            in <code>PWHL/scripts/daily_update.R</code> and pre-aggregated into the JSON files this
            page loads by <code>PWHL/scripts/build_dashboard_json.py</code>.</p>
         <ul>
           <li>Includes regular-season, preseason and playoff records from the 2024 inaugural season through 2025-26.</li>
-          <li>"Player leaders" uses regular-season totals only; playoff stats aren't blended in.</li>
+          <li>"Player leaders" follows the selected regular season, preseason or playoffs; competition phases are not blended. Club splits are combined per player before ranking. Faceoff percentage uses combined wins divided by combined attempts, with at least five games played.</li>
           <li>Team colours are each club's dominant brand colour, approximated by eye (the league
             publishes colour names, not codes); the darkest ones are lightened a little on the dark
             theme so they stay visible.</li>
@@ -74,12 +74,13 @@
           <li>Most individual superlatives use skater stat lines; the birthplace-distance award uses player profile data. Team penalty-rate awards include logged goalie penalties where available.</li>
           <li>No "hit the post/crossbar" award: the play-by-play feed does not identify post or crossbar contacts, so those shots cannot be counted reliably.</li>
           <li>The shot map, goals-by-period, and event-mix charts are drawn from the full
-            play-by-play record across all seasons combined, not filtered to the season selector
-            above — a per-season breakdown is a natural next step.</li>
+            play-by-play record across all seasons combined. The density map includes shots on goal, not blocked or missed attempts. Matching shot and goal records are counted once; goal-only records are retained. The event mix separates saved shots from goals so its categories do not overlap.</li>
           <li>Coordinates in the play-by-play feed are in feet from center ice/center width,
             matching a standard 200×85 ft rink; they aren't normalized for which end a team was
             attacking, so the map shows raw shot locations rather than "offensive zone" shots.</li>
-          <li><strong>Team pages</strong>: team records and player totals follow the selected season. Franchise scoring leaders add each player's regular-season goals and points for the club.</li>
+          <li><strong>Team pages</strong>: team records and player totals follow the selected season and include only games for that club. Franchise scoring leaders sum those club-specific regular-season splits. Player award rankings use full-season league totals across clubs; the latest roster is labelled separately and does not follow the historical selector.</li>
+          <li><strong>Most-used lines</strong>: shared time is estimated from consecutive play-by-play lineups, assigning half each interval to each endpoint lineup when it contains five skaters. These are not measured shifts; missing or incomplete lineups limit coverage.</li>
+          <li><strong>Season replay</strong>: player leaders update through the regular season. During playoffs the boards explicitly show final regular-season leaders; playoff results and the bracket update separately.</li>
           <li><strong>Player pages</strong>: season lines and game logs come from the league's box-score feed. Shot maps include only shots with valid play-by-play coordinates.</li>
           <li><strong>The Shin-Pad Shooter</strong> counts a shot attempt as blocked when the feed logs a
             blocked shot with that player as the shooter. Missed shots aren't in the feed, so attempts =
@@ -90,21 +91,18 @@
       </div>
     </div>
 
-  </div>
-</div>
-
     <div class="section">
       <div class="section-head">
         <div>
           <h2>Where the shots come from</h2>
-          <p>Every recorded shot attempt, binned by location, across all games in the play-by-play
+          <p>Recorded shots on goal with valid coordinates, binned by location, across all games in the play-by-play
              record. Darker = more shots from that spot on the ice.</p>
         </div>
       </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-title">Shot density</div>
-          <div class="rink-wrap"><canvas id="rink-canvas" width="700" height="310" role="img" aria-label="Shot density by rink location; darker areas indicate more recorded shot attempts." aria-describedby="shot-map-note"></canvas></div>
+          <div class="rink-wrap"><canvas id="rink-canvas" width="700" height="310" role="img" aria-label="Shot density by rink location; darker areas indicate more recorded shots on goal." aria-describedby="shot-map-note"></canvas></div>
           <div class="rink-legend"><span>fewer</span><span class="bar"></span><span>more</span></div>
         </div>
         <div class="card">

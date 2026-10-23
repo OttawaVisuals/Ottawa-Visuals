@@ -27,6 +27,9 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 
 ## Layout
 
+Publication review corrections, their causes and verification are recorded in
+[`ACCURACY_FIXES.md`](ACCURACY_FIXES.md).
+
 | Path | Purpose |
 |---|---|
 | `pwhl.css` | Shared styles for all pages |
@@ -35,6 +38,9 @@ through" date) and remembers the season you picked (`?season=` / localStorage).
 | `pwhl-sections.js` | Render functions for the dashboard sections; each page calls the ones it shows |
 | `scripts/daily_update.R` | Pulls the latest games/standings/players from the PWHL stats feed |
 | `scripts/build_dashboard_json.py` | Aggregates the raw CSVs in `data/` into the `data/json/` files the pages read, including one `players/<id>.json` per player, home/away team shot maps, goalie lines, the rap sheet and current rosters |
+| `scripts/pwhl_stats.py` | Shared rules for duplicate stat rows, league-wide player totals, club-specific splits and matching shot/goal events |
+| `data/json/pwhl_team_players.json` | Season × club × player splits for team pages; league leaderboards and awards use separate combined-player totals |
+| `tests/test_stats.py` | Counting regressions, including traded players, shot/goal reconciliation and roster labels; run after the dashboard and team-award builders |
 | `scripts/build_pwhl_overview.py` | Builds league-wide completed-game totals for the dashboard home KPIs |
 | `scripts/import_pwhl_salary_guide.py` | One-time extraction of the supplied PWHLPA 2025–26 salary PDF into the reviewable salary CSV (requires `pypdf`) |
 | `scripts/build_pwhl_team_awards.py` | Builds season-by-season team scoring concentration, penalty-rate and listed-salary distribution comparisons |

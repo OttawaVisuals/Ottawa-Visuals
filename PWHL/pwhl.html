@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js?v=usability-1"></script>
-<script src="pwhl-core.js?v=usability-1"></script>
-<script src="pwhl-sections.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=accuracy-20261023"></script>
+<script src="pwhl-sections.js?v=accuracy-20261023"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -61,7 +61,7 @@
       <div class="section-head">
         <div>
           <h2>Standings</h2>
-          <p>Points and record by team. The season you pick here follows you to every page.</p>
+          <p>RW = regulation wins; OTW/SOW = overtime/shootout wins; L = regulation losses. Points: 3 per RW, 2 per OTW/SOW, 1 per OTL/SOL. The season you pick follows you to every page.</p>
         </div>
         <div class="season-picker">
           <select id="season-select" class="ov-select" aria-label="Season"></select>
@@ -83,7 +83,7 @@
       <div class="section-head">
         <div>
           <h2>Player leaders</h2>
-          <p>Top 15 by category, selected season, in team colours. Minimum 5 games played for
+          <p>Top 15 by category, selected season, in team colours. Traded players' club totals are combined. Minimum 5 games played for
              faceoff %. Click a bar for that player's page.</p>
         </div>
         <div class="tabs" id="leader-tabs"></div>

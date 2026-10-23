@@ -46,14 +46,14 @@ function renderStandingsTable(seasonId) {
   const table = document.getElementById('standings-table');
   table.innerHTML = `
     <thead><tr>
-      <th>#</th><th>Team</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SOL</th><th>PTS</th><th>GF</th><th>GA</th>
+      <th>#</th><th>Team</th><th>GP</th><th>RW</th><th>OTW</th><th>SOW</th><th>L</th><th>OTL</th><th>SOL</th><th>PTS</th><th>GF</th><th>GA</th>
     </tr></thead>
     <tbody>
       ${teams.map(t => `
         <tr>
           <td class="rank-badge">${t.rank ?? '—'}</td>
           <td class="team-stripe" style="--tc:${teamColor(t.code)}"><a href="${teamHref(t.code)}" class="team-cell">${PWHL.image(t.logo)}<span>${esc(t.name || t.code)}</span></a></td>
-          <td>${fmt(t.gp)}</td><td>${fmt(t.w)}</td><td>${fmt(t.l)}</td>
+          <td>${fmt(t.gp)}</td><td>${fmt(t.w)}</td><td>${fmt(t.otw || 0)}</td><td>${fmt(t.sow || 0)}</td><td>${fmt(t.l)}</td>
           <td>${fmt((t.otl||0))}</td><td>${fmt((t.sol||0))}</td>
           <td class="pts-cell">${fmt(t.pts)}</td><td>${fmt(t.gf)}</td><td>${fmt(t.ga)}</td>
         </tr>`).join('')}
@@ -133,7 +133,7 @@ function renderLeaders(seasonId, statKey) {
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: rows.map((r, i) => `${i + 1}. ${r.name} · ${r.team_code || ''}`),
+      labels: rows.map((r, i) => `${i + 1}. ${r.name} · ${(r.team_codes || [r.team_code]).filter(Boolean).join('/')}`),
       datasets: [{ label: spec.label, data: rows.map(r => r[statKey]),
         backgroundColor: rows.map(r => teamColor(r.team_code)), borderRadius: 3, barPercentage: 0.82 }],
     },
@@ -544,7 +544,7 @@ function renderShotSections() {
   const total = SHOTMAP.cells.reduce((a,c) => a + c.shots, 0);
   const goals = SHOTMAP.cells.reduce((a,c) => a + c.goals, 0);
   document.getElementById('shot-map-note').textContent =
-    `${fmt(total)} shot attempts plotted (${fmt(goals)} goals) across all recorded games, all seasons.`;
+    `${fmt(total)} shots on goal plotted (${fmt(goals)} goals) across all recorded games, all seasons. Each shot/goal pair is counted once; shots without valid coordinates are omitted.`;
 }
 function drawRink() {
   if (!SHOTMAP) return;
@@ -601,20 +601,19 @@ function hexToRgbArr(hex) {
   return [(n>>16)&255, (n>>8)&255, n&255];
 }
 function renderPeriodChart() {
-  const order = ['1','2','3','OT1','OT2'];
-  const labels = order.filter(p => EVENTS.goals_by_period[p] != null);
+  const labels = Object.keys(EVENTS.goals_by_period).sort((a, b) => Number(a) - Number(b));
   destroyChart('chart-period');
   const ctx = document.getElementById('chart-period').getContext('2d');
   trackChart(new Chart(ctx, {
     type: 'bar',
-    data: { labels: labels.map(p => p.startsWith('OT') ? 'OT' + p.slice(2) : 'P' + p),
+    data: { labels: labels.map(p => Number(p) > 3 ? 'OT' + (Number(p) - 3) : 'P' + p),
       datasets: [{ label: 'Goals', data: labels.map(p => EVENTS.goals_by_period[p]), backgroundColor: cssVar('--accent') }] },
     options: baseOptions({ plugins: { legend: { display: false } } }),
   }));
 }
 function renderEventsChart() {
   const order = ['shot','faceoff','hit','blocked_shot','penalty','goal'];
-  const labelMap = { shot: 'Shots', faceoff: 'Faceoffs', hit: 'Hits', blocked_shot: 'Blocked shots', penalty: 'Penalties', goal: 'Goals' };
+  const labelMap = { shot: 'Saved shots', faceoff: 'Faceoffs', hit: 'Hits', blocked_shot: 'Blocked shots', penalty: 'Penalties', goal: 'Goals' };
   const colors = ['--blue','--ink-3','--amber','--purple','--red','--accent'];
   destroyChart('chart-events');
   const ctx = document.getElementById('chart-events').getContext('2d');

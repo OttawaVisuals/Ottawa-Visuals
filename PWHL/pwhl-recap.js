@@ -328,6 +328,11 @@ function recapRender(index, progress = 1) {
     recapEl('recap-playoff-visual').hidden = !postseason;
     recapEl('recap-standings-board').hidden = postseason;
     recapEl('recap-playoff-board').hidden = !postseason;
+    // Seeking directly into playoffs must not retain the previously viewed
+    // frame's leaders. These boards deliberately show regular-season totals.
+    recapTables(postseason ? recapRegularDays[recapRegularDays.length - 1] : day);
+    recapEl('recap-leaders-title').innerHTML = `${postseason ? 'Final regular-season' : 'Top five'} skaters <span>points</span>`;
+    recapEl('recap-goalies-title').innerHTML = `${postseason ? 'Final regular-season' : 'Top three'} goalies <span>wins</span>`;
     if (postseason) {
       const playedPlayoffGames = recapDays.slice(0,index+1)
         .filter(frame => frame.phase === 'playoff')
@@ -335,7 +340,6 @@ function recapRender(index, progress = 1) {
       recapRenderGameRecap(playedPlayoffGames, day.round_name || '');
       recapRenderPlayoffVisual(day.bracket || []);
     }
-    else recapTables(day);
     recapZoomForDay(day);
     recapMapDay(index);
     recapUpdateEventStrip(index,day);

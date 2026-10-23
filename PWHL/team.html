@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="pwhl-teams.js?v=usability-1"></script>
-<script src="pwhl-core.js?v=usability-1"></script>
-<script src="pwhl-sections.js?v=usability-1"></script>
+<script src="pwhl-core.js?v=accuracy-20261023"></script>
+<script src="pwhl-sections.js?v=accuracy-20261023"></script>
 <script>
 // Apply theme before render to avoid a wrong-theme flash.
 (function(){
@@ -79,7 +79,7 @@
 
       <div class="section" id="lines-section">
         <div class="section-head"><div><h2>Most-used lines</h2>
-          <p>5-on-5 forward trios and defence pairs with the most time on ice together this season, with their goals for and against.</p></div></div>
+          <p>5-on-5 forward trios and defence pairs with the most estimated time together, with their recorded goals for and against. Time is inferred from lineups at consecutive play-by-play events, splitting each interval between the two lineups; it is not measured shift time and depends on event coverage.</p></div></div>
         <div class="grid-2">
           <div class="card"><div class="card-title">Forward trios</div><div id="t-trios"></div></div>
           <div class="card"><div class="card-title">Defence pairs</div><div id="t-pairs"></div></div>
@@ -87,13 +87,13 @@
       </div>
 
       <div class="section">
-        <div class="section-head"><div><h2>Roster stats</h2><p>Everyone who played for the team this season. Click a column to sort.</p></div></div>
+        <div class="section-head"><div><h2>Roster stats</h2><p>Everyone who played for the team this season. Stats include only games with this club. Click a column to sort.</p></div></div>
         <div class="card"><div class="card-title">Skaters</div><div style="overflow-x:auto;"><table class="tbl" id="t-skaters"></table></div></div>
         <div class="card"><div class="card-title">Goalies</div><div style="overflow-x:auto;"><table class="tbl" id="t-goalies"></table></div></div>
       </div>
 
       <div class="section" id="team-awards-section">
-        <div class="section-head"><div><h2>Player award leaders</h2><p>Top three eligible players on this team for each superlative, with their league rank. Ties share a rank.</p></div></div>
+        <div class="section-head"><div><h2>Player award leaders</h2><p>Top three eligible players who appeared for this club, ranked by their full-season league totals (all clubs after a trade). Distance uses each player's main team. Ties share a rank.</p></div></div>
         <div class="awards-grid" id="team-awards"></div>
       </div>
 
@@ -116,7 +116,7 @@
     </div>
 
     <div class="section" id="roster-section">
-      <div class="section-head"><div><h2 id="roster-title">Current roster</h2><p>From the league's roster feed.</p></div></div>
+      <div class="section-head"><div><h2 id="roster-title">Current roster</h2><p>Latest available league roster, independent of the historical season selected above.</p></div></div>
       <div class="card"><div id="t-roster" class="roster-cols"></div></div>
     </div>
   </div>
@@ -134,7 +134,7 @@ let teamSeasons = [];     // seasons with standings for this team
 let selectedGoalieId = null;
 const isD = pos => /D/.test((pos || '').toUpperCase());
 
-PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'lines', 'rosters', 'players_index', 'team_shots'], { team_shots: 'team-shotmaps-1', awards:'geography-awards-1' })
+PWHL.load(['meta', 'standings', 'games', 'awards', 'goalies', 'lines', 'rosters', 'players_index', 'team_shots', 'team_players'], { team_shots: 'team-shotmaps-1', awards:'geography-awards-1' })
   .then(() => {
     // Latest identity for the code (names changed after the inaugural season).
     Object.keys(META.teams_by_season).sort((a, b) => Number(a) - Number(b)).forEach(sid => {
@@ -164,6 +164,9 @@ function render() {
 }
 
 function standingRow(sid) { return (STANDINGS[sid] || []).find(t => t.code === CODE); }
+function teamPlayers(sid, kind = 'skaters') {
+  return ((TEAM_PLAYERS[sid] || {})[kind] || []).filter(p => p.team_code === CODE);
+}
 
 function renderSeasonArchive() {
   const table = document.getElementById('t-season-history');
@@ -171,7 +174,7 @@ function renderSeasonArchive() {
   if (!rows.length) { emptyTable(table, 'No completed regular-season records yet.'); return; }
   table.innerHTML = `<thead><tr><th>Season</th><th>Finish</th><th>Record</th><th>Points</th><th>Goals</th><th>Leading scorer</th></tr></thead><tbody>${rows.map(sid => {
     const st = standingRow(sid);
-    const leader = (AWARDS && AWARDS[sid] || []).filter(p => p.team_code === CODE)
+    const leader = teamPlayers(sid)
       .sort((a, b) => (b.points || 0) - (a.points || 0))[0];
     const record = st ? `${st.w + (st.otw || 0) + (st.sow || 0)}-${st.l}-${(st.otl || 0) + (st.sol || 0)}` : '—';
     const goals = st ? `${fmt(st.gf)}–${fmt(st.ga)}` : '—';
@@ -257,7 +260,7 @@ function renderSeason(sid) {
 }
 
 function renderTopContributors(sid) {
-  const top = (AWARDS[sid] || []).filter(p => p.team_code === CODE)
+  const top = teamPlayers(sid)
     .slice().sort((a, b) => b.points - a.points).slice(0, 10);
   destroyChart('chart-t-top');
   trackChart(new Chart(document.getElementById('chart-t-top').getContext('2d'), {
@@ -289,7 +292,7 @@ function renderLines(sid) {
   const unit = u => {
     return `<div class="unit-row">
       <span class="names">${u.ids.map((id, i) => member(id, u.names[i])).join('')}</span>
-      <span class="num">${Math.round(u.toi / 60)}<span class="lbl"> min</span></span>
+      <span class="num">${Math.round(u.toi / 60)}<span class="lbl"> est. min</span></span>
       <span class="num">${u.gf}-${u.ga}<span class="lbl"> GF-GA</span></span>
     </div>`;
   };
@@ -298,7 +301,7 @@ function renderLines(sid) {
 }
 
 function renderRosterStats(sid) {
-  const skaters = (AWARDS[sid] || []).filter(r => r.team_code === CODE);
+  const skaters = teamPlayers(sid);
   const n0 = v => v == null ? '—' : fmt(v);
   PWHL.sortableTable(document.getElementById('t-skaters'), [
     { key: 'name', label: 'Player', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) + (r.traded ? '*' : '') },
@@ -312,7 +315,7 @@ function renderRosterStats(sid) {
     { key: 's', label: 'S', num: 1, get: r => r.shots, fmt: n0 },
     { key: 'toi', label: 'TOI/GP', num: 1, get: r => r.gp ? r.toi / r.gp : null, fmt: v => v == null ? '—' : mmss(v) },
   ], skaters, { sortKey: 'p', show: 30, noun: 'skaters' });
-  const goalies = ((GOALIES && GOALIES[sid]) || []).filter(g => g.team_code === CODE);
+  const goalies = teamPlayers(sid, 'goalies');
   PWHL.sortableTable(document.getElementById('t-goalies'), [
     { key: 'name', label: 'Goalie', get: r => r.name, fmt: (v, r) => plLink(r.player_id, v) },
     { key: 'gp', label: 'GP', num: 1, get: r => r.gp, fmt: n0 },
@@ -415,7 +418,7 @@ function renderGoalieShotMaps(sid) {
   const section = document.getElementById('goalie-shot-section');
   const grid = document.getElementById('goalie-shot-grid');
   const note = document.getElementById('goalie-shot-note');
-  const goalies = ((GOALIES && GOALIES[sid]) || []).filter(g => g.team_code === CODE).sort((a, b) => b.gp - a.gp);
+  const goalies = teamPlayers(sid, 'goalies').sort((a, b) => b.gp - a.gp);
   const events = TEAM_SHOTS && TEAM_SHOTS[sid];
   if (!goalies.length) { section.style.display = 'none'; return; }
   section.style.display = '';
@@ -448,13 +451,14 @@ function renderTeamAwards(sid) {
     return;
   }
   const th = awardsThresholds(rows);
+  const members = new Set(teamPlayers(sid).map(p => p.player_id));
   const cards = AWARDS_DEFS.flatMap(def => {
     let pool = def.filter ? rows.filter(r => def.filter(r, th)) : rows;
     const scored = pool.map(r => ({ r, v: def.val(r) })).filter(x => Number.isFinite(x.v));
     const sign = def.asc ? 1 : -1, tie = def.tie || (r => r.toi);
     scored.sort((a, b) => sign * (a.v - b.v) || sign * (tie(a.r) - tie(b.r)));
     const ranked = def.asc ? scored : (scored.some(x => x.v !== 0) ? scored.filter(x => x.v !== 0) : scored);
-    const teamEntries = ranked.filter(x => x.r.team_code === CODE).slice(0, 3).map(x => {
+    const teamEntries = ranked.filter(x => members.has(x.r.player_id)).slice(0, 3).map(x => {
       const ahead = ranked.filter(y => def.asc ? y.v < x.v : y.v > x.v).length;
       const tied = ranked.some(y => y.v === x.v && y.r.player_id !== x.r.player_id);
       return { ...x, rank: `${tied ? 'T' : ''}${ahead + 1}` };
@@ -474,9 +478,9 @@ function renderTeamAwards(sid) {
 function renderFranchise() {
   const wrap = document.getElementById('t-franchise');
   const tot = {};
-  Object.entries(AWARDS || {}).forEach(([sid, players]) => {
+  Object.entries(TEAM_PLAYERS || {}).forEach(([sid, season]) => {
     if (!/Regular/.test(seasonName(sid))) return;
-    players.filter(r => r.team_code === CODE).forEach(r => {
+    season.skaters.filter(r => r.team_code === CODE).forEach(r => {
       const t = tot[r.player_id] = tot[r.player_id] || { id: r.player_id, name: r.name, goals: 0, points: 0, gp: 0 };
       t.goals += r.goals; t.points += r.points; t.gp += r.gp;
     });
@@ -504,7 +508,7 @@ function renderRoster() {
       <span class="nm">${photos.has(String(p.player_id)) ? plLink(p.player_id, p.name) : esc(p.name)}</span>
       <span class="aw-sub">${p.rookie ? 'rookie' : ''}</span></div>`).join('')}</div>` : '';
   };
-  document.getElementById('roster-title').textContent = `Roster${ROSTERS.season ? ' · ' + ROSTERS.season : ''}`;
+  document.getElementById('roster-title').textContent = `Current roster${ROSTERS.season ? ' · ' + ROSTERS.season : ''}`;
   document.getElementById('t-roster').innerHTML =
     group('Forwards', p => !isD(p.pos) && p.pos !== 'G') + group('Defence', p => isD(p.pos)) + group('Goalies', p => p.pos === 'G');
 }

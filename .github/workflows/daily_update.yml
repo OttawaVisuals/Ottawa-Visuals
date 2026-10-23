@@ -72,6 +72,10 @@ jobs:
       - name: Build historical team awards
         run: python PWHL/scripts/build_pwhl_team_awards.py
 
+      - name: Check PWHL counting regressions
+        id: accuracy
+        run: python -m unittest discover -s PWHL/tests -p "test_*.py"
+
       - name: Build optional line and model outputs
         # Reads the meta/awards JSON from the step above. Skips (keeping the
         # last output) if the play-by-play cache missed.
@@ -90,7 +94,8 @@ jobs:
           if-no-files-found: ignore
 
       - name: Commit and push changes
-        if: always()
+        # Do not publish refreshed data when the accuracy checks fail.
+        if: always() && steps.accuracy.outcome == 'success'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"

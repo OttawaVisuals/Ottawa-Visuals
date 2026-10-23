@@ -105,7 +105,7 @@ def main():
                 "games": agg["games"],
                 "pim": round(agg["pim"], 2),
                 "pim_per_game": agg["pim"] / agg["games"] if agg["games"] else 0,
-                "scorers": len(points),
+                "scorers": sum(p > 0 for p in points),
                 "points": total_points,
                 "top3_points_share": sum(points[:3]) / total_points if total_points else 0,
                 "salary_count": 0,
