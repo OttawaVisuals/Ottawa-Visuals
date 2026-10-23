@@ -43,6 +43,11 @@ HIST = DATA / "history"
 # First full day of on-time measured at timepoints (poll_gtfsrt.py, 2026-10-16
 # afternoon). The hourly and route profiles start here.
 METHOD_START = "2026-10-17"
+# route_daily.csv's first rows (2026-10-22, routes 12/58/88) come from one
+# sample taken during the timetable changeover, before poll_gtfsrt.py blanked
+# mismatched samples: 4 buses matched to the wrong timetable. Ignored here;
+# the data file is left as logged.
+ROUTE_START = "2026-10-23"
 WINDOW_DAYS = 28
 
 
@@ -307,9 +312,11 @@ def main():
     hourly = build_hourly(bus, lessfreq, cancel_rows)
     if hourly:
         (HIST / "transit_hourly.json").write_text(json.dumps(hourly, indent=1), encoding="utf-8")
-    routes = build_routes(read_csv("route_daily.csv"), cancel_rows, read_csv("otranspo_route_daily.csv"))
-    if routes:
-        (HIST / "transit_routes.json").write_text(json.dumps(routes, indent=1), encoding="utf-8")
+    routes = build_routes([r for r in read_csv("route_daily.csv") if r["date"] >= ROUTE_START],
+                          cancel_rows, read_csv("otranspo_route_daily.csv"))
+    # Always written, so an older file can't outlive the rows it was built from.
+    (HIST / "transit_routes.json").write_text(
+        json.dumps(routes or {"window": None, "routes": []}, indent=1), encoding="utf-8")
     print(f"transit history: {len(out)} day(s); hourly profile {'yes' if hourly else 'no'}; "
           f"{len(routes['routes']) if routes else 0} route(s)")
 
