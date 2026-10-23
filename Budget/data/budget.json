@@ -1,0 +1,641 @@
+{
+  "reviewed": "2026-10-23",
+  "unit": "CAD thousands",
+  "status": "Adopted December 10, 2025",
+  "source_url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf",
+  "source_sha256": "a57c1a5ab4c64f8022a8f8e05471075543f9a2ba9cd5583d8789ca8c75e63dba",
+  "totals": {
+    "operating": {
+      "2025": 4903996,
+      "2026": 5218430
+    },
+    "capital": {
+      "2025": 1681432,
+      "2026": 1924233
+    }
+  },
+  "operating": [
+    {
+      "name": "Rural planning",
+      "funding": "tax",
+      "budget_2025": 3544,
+      "budget_2026": 3627,
+      "pdf_page": 21,
+      "children": [
+        {
+          "name": "Rural planning",
+          "budget_2025": 3544,
+          "budget_2026": 3627
+        }
+      ]
+    },
+    {
+      "name": "Audit",
+      "funding": "tax",
+      "budget_2025": 3208,
+      "budget_2026": 3338,
+      "pdf_page": 21,
+      "children": [
+        {
+          "name": "Auditor General",
+          "budget_2025": 2860,
+          "budget_2026": 2990
+        },
+        {
+          "name": "External and special audits",
+          "budget_2025": 348,
+          "budget_2026": 348
+        }
+      ]
+    },
+    {
+      "name": "Emergency & protective services",
+      "funding": "tax",
+      "budget_2025": 400848,
+      "budget_2026": 429957,
+      "pdf_page": 21,
+      "children": [
+        {
+          "name": "Management and support",
+          "budget_2025": 5258,
+          "budget_2026": 5381
+        },
+        {
+          "name": "Public safety",
+          "budget_2025": 12668,
+          "budget_2026": 13328
+        },
+        {
+          "name": "Fire",
+          "budget_2025": 196729,
+          "budget_2026": 213941
+        },
+        {
+          "name": "Paramedics",
+          "budget_2025": 153661,
+          "budget_2026": 160591
+        },
+        {
+          "name": "By-law",
+          "budget_2025": 31514,
+          "budget_2026": 35661
+        },
+        {
+          "name": "Public policy",
+          "budget_2025": 1018,
+          "budget_2026": 1055
+        }
+      ]
+    },
+    {
+      "name": "Community & social services",
+      "funding": "tax",
+      "budget_2025": 1128180,
+      "budget_2026": 1210577,
+      "pdf_page": 22,
+      "children": [
+        {
+          "name": "Management and support",
+          "budget_2025": 4141,
+          "budget_2026": 4296
+        },
+        {
+          "name": "Community safety and well-being",
+          "budget_2025": 44243,
+          "budget_2026": 46039
+        },
+        {
+          "name": "Employment and social services",
+          "budget_2025": 256969,
+          "budget_2026": 260712
+        },
+        {
+          "name": "Children's services",
+          "budget_2025": 492047,
+          "budget_2026": 556267
+        },
+        {
+          "name": "Housing and homelessness",
+          "budget_2025": 217169,
+          "budget_2026": 221949
+        },
+        {
+          "name": "Long-term care",
+          "budget_2025": 110618,
+          "budget_2026": 118156
+        },
+        {
+          "name": "Equity, inclusion and social development",
+          "budget_2025": 2993,
+          "budget_2026": 3158
+        }
+      ]
+    },
+    {
+      "name": "Parks, recreation & facilities",
+      "funding": "tax",
+      "budget_2025": 286139,
+      "budget_2026": 296219,
+      "pdf_page": 22,
+      "children": [
+        {
+          "name": "Management and support",
+          "budget_2025": 30895,
+          "budget_2026": 31657
+        },
+        {
+          "name": "Recreation and culture",
+          "budget_2025": 80197,
+          "budget_2026": 82706
+        },
+        {
+          "name": "Aquatics and specialized services",
+          "budget_2025": 86899,
+          "budget_2026": 90756
+        },
+        {
+          "name": "Parks and facilities planning",
+          "budget_2025": 2406,
+          "budget_2026": 2451
+        },
+        {
+          "name": "Facility operations",
+          "budget_2025": 40789,
+          "budget_2026": 41407
+        },
+        {
+          "name": "Parks maintenance",
+          "budget_2025": 44953,
+          "budget_2026": 47242
+        }
+      ]
+    },
+    {
+      "name": "Environment, waste & forestry",
+      "funding": "tax",
+      "budget_2025": 161423,
+      "budget_2026": 154034,
+      "pdf_page": 22,
+      "children": [
+        {
+          "name": "Management and support",
+          "budget_2025": 715,
+          "budget_2026": 698
+        },
+        {
+          "name": "Infrastructure support",
+          "budget_2025": 4372,
+          "budget_2026": 4364
+        },
+        {
+          "name": "Asset management",
+          "budget_2025": 3085,
+          "budget_2026": 3029
+        },
+        {
+          "name": "Climate change and resiliency",
+          "budget_2025": 4490,
+          "budget_2026": 4591
+        },
+        {
+          "name": "Solid waste",
+          "budget_2025": 126264,
+          "budget_2026": 117440
+        },
+        {
+          "name": "Forestry",
+          "budget_2025": 22497,
+          "budget_2026": 23912
+        }
+      ]
+    },
+    {
+      "name": "Corporate services & capital funding",
+      "funding": "tax",
+      "budget_2025": 626441,
+      "budget_2026": 656557,
+      "pdf_page": 23,
+      "children": [
+        {
+          "name": "Corporate departments",
+          "budget_2025": 255964,
+          "budget_2026": 275260
+        },
+        {
+          "name": "Non-departmental: capital funding, debt and other costs",
+          "budget_2025": 370477,
+          "budget_2026": 381297
+        }
+      ]
+    },
+    {
+      "name": "Planning, building & strategic housing",
+      "funding": "tax",
+      "budget_2025": 88635,
+      "budget_2026": 91766,
+      "pdf_page": 23,
+      "children": []
+    },
+    {
+      "name": "Roads, traffic & public works",
+      "funding": "tax",
+      "budget_2025": 294904,
+      "budget_2026": 294886,
+      "pdf_page": 24,
+      "children": []
+    },
+    {
+      "name": "Committee of Adjustment",
+      "funding": "tax",
+      "budget_2025": 1854,
+      "budget_2026": 1918,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Committee of Adjustment",
+          "budget_2025": 1854,
+          "budget_2026": 1918
+        }
+      ]
+    },
+    {
+      "name": "Public health",
+      "funding": "tax",
+      "budget_2025": 83358,
+      "budget_2026": 85796,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Public health",
+          "budget_2025": 83358,
+          "budget_2026": 85796
+        }
+      ]
+    },
+    {
+      "name": "Libraries",
+      "funding": "tax",
+      "budget_2025": 65580,
+      "budget_2026": 74188,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Libraries",
+          "budget_2025": 65580,
+          "budget_2026": 74188
+        }
+      ]
+    },
+    {
+      "name": "Police",
+      "funding": "tax",
+      "budget_2025": 442456,
+      "budget_2026": 478709,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Police",
+          "budget_2025": 442456,
+          "budget_2026": 478709
+        }
+      ]
+    },
+    {
+      "name": "Transit",
+      "funding": "tax",
+      "budget_2025": 818256,
+      "budget_2026": 904760,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Transit",
+          "budget_2025": 818256,
+          "budget_2026": 904760
+        }
+      ]
+    },
+    {
+      "name": "Drinking water",
+      "funding": "rate",
+      "budget_2025": 211578,
+      "budget_2026": 223838,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Drinking water",
+          "budget_2025": 211578,
+          "budget_2026": 223838
+        }
+      ]
+    },
+    {
+      "name": "Wastewater",
+      "funding": "rate",
+      "budget_2025": 184161,
+      "budget_2026": 195546,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Wastewater",
+          "budget_2025": 184161,
+          "budget_2026": 195546
+        }
+      ]
+    },
+    {
+      "name": "Stormwater",
+      "funding": "rate",
+      "budget_2025": 103433,
+      "budget_2026": 112718,
+      "pdf_page": 24,
+      "children": [
+        {
+          "name": "Stormwater",
+          "budget_2025": 103433,
+          "budget_2026": 112718
+        }
+      ]
+    }
+  ],
+  "capital": [
+    {
+      "name": "Rural affairs",
+      "budget_2025": 8715,
+      "budget_2026": 14300,
+      "pdf_page": 36,
+      "renewal": 10200,
+      "regulatory": 0,
+      "growth": 2300,
+      "enhancement": 1800
+    },
+    {
+      "name": "Community services",
+      "budget_2025": 159555,
+      "budget_2026": 234956,
+      "pdf_page": 36,
+      "renewal": 58245,
+      "regulatory": 1050,
+      "growth": 171824,
+      "enhancement": 3837,
+      "children": [
+        {
+          "name": "Child care",
+          "budget_2025": 850,
+          "budget_2026": 828
+        },
+        {
+          "name": "Long-term care",
+          "budget_2025": 6375,
+          "budget_2026": 6054
+        },
+        {
+          "name": "Parks maintenance",
+          "budget_2025": 0,
+          "budget_2026": 350
+        },
+        {
+          "name": "Parks, buildings and grounds",
+          "budget_2025": 46988,
+          "budget_2026": 38380
+        },
+        {
+          "name": "Parks, recreation and culture",
+          "budget_2025": 104792,
+          "budget_2026": 188950
+        },
+        {
+          "name": "Social services",
+          "budget_2025": 550,
+          "budget_2026": 394
+        }
+      ]
+    },
+    {
+      "name": "Emergency services",
+      "budget_2025": 17918,
+      "budget_2026": 15303,
+      "pdf_page": 36,
+      "renewal": 12167,
+      "regulatory": 0,
+      "growth": 2586,
+      "enhancement": 550
+    },
+    {
+      "name": "Water, wastewater & stormwater",
+      "budget_2025": 361542,
+      "budget_2026": 305522,
+      "pdf_page": 36,
+      "renewal": 280088,
+      "regulatory": 2258,
+      "growth": 23176,
+      "enhancement": 0
+    },
+    {
+      "name": "Environment & solid waste",
+      "budget_2025": 47991,
+      "budget_2026": 52047,
+      "pdf_page": 37,
+      "renewal": 500,
+      "regulatory": 28950,
+      "growth": 2880,
+      "enhancement": 19717
+    },
+    {
+      "name": "Finance & corporate services",
+      "budget_2025": 33525,
+      "budget_2026": 189080,
+      "pdf_page": 37,
+      "renewal": 32353,
+      "regulatory": 0,
+      "growth": 156656,
+      "enhancement": 71,
+      "children": [
+        {
+          "name": "Corporate real estate",
+          "budget_2025": 1235,
+          "budget_2026": 0
+        },
+        {
+          "name": "Corporate finance",
+          "budget_2025": 0,
+          "budget_2026": 156
+        },
+        {
+          "name": "General government",
+          "budget_2025": 2660,
+          "budget_2026": 4516
+        },
+        {
+          "name": "Information technology",
+          "budget_2025": 26430,
+          "budget_2026": 27908
+        },
+        {
+          "name": "Transit-related projects",
+          "budget_2025": 0,
+          "budget_2026": 156500
+        },
+        {
+          "name": "Transportation",
+          "budget_2025": 3200,
+          "budget_2026": 0
+        }
+      ]
+    },
+    {
+      "name": "Planning & housing",
+      "budget_2025": 34425,
+      "budget_2026": 24114,
+      "pdf_page": 37,
+      "renewal": 444,
+      "regulatory": 0,
+      "growth": 23670,
+      "enhancement": 0
+    },
+    {
+      "name": "Transit committee",
+      "budget_2025": 498283,
+      "budget_2026": 177103,
+      "pdf_page": 37,
+      "renewal": 157653,
+      "regulatory": 4000,
+      "growth": 275,
+      "enhancement": 15175
+    },
+    {
+      "name": "Public works & infrastructure",
+      "budget_2025": 480164,
+      "budget_2026": 880744,
+      "pdf_page": 37,
+      "renewal": 374990,
+      "regulatory": 0,
+      "growth": 477844,
+      "enhancement": 27911,
+      "children": [
+        {
+          "name": "Fleet",
+          "budget_2025": 28696,
+          "budget_2026": 38392
+        },
+        {
+          "name": "Integrated roads, water and wastewater",
+          "budget_2025": 254117,
+          "budget_2026": 239601
+        },
+        {
+          "name": "Parking",
+          "budget_2025": 1970,
+          "budget_2026": 8326
+        },
+        {
+          "name": "Roads",
+          "budget_2025": 7424,
+          "budget_2026": 2005
+        },
+        {
+          "name": "Traffic",
+          "budget_2025": 40945,
+          "budget_2026": 36130
+        },
+        {
+          "name": "Transit-related projects",
+          "budget_2025": 9615,
+          "budget_2026": 317883
+        },
+        {
+          "name": "Transportation",
+          "budget_2025": 137397,
+          "budget_2026": 238408
+        }
+      ]
+    },
+    {
+      "name": "Libraries",
+      "budget_2025": 9105,
+      "budget_2026": 7781,
+      "pdf_page": 38,
+      "renewal": 3897,
+      "regulatory": 0,
+      "growth": 3500,
+      "enhancement": 384
+    },
+    {
+      "name": "Police",
+      "budget_2025": 30209,
+      "budget_2026": 23282,
+      "pdf_page": 38,
+      "renewal": 15916,
+      "regulatory": 0,
+      "growth": 2200,
+      "enhancement": 5166
+    }
+  ],
+  "revenue": [
+    {
+      "name": "Federal",
+      "budget_2025": 93922,
+      "budget_2026": 98014,
+      "pdf_page": 20
+    },
+    {
+      "name": "Provincial",
+      "budget_2025": 1030453,
+      "budget_2026": 1126535,
+      "pdf_page": 20
+    },
+    {
+      "name": "Municipal",
+      "budget_2025": 20,
+      "budget_2026": 20,
+      "pdf_page": 20
+    },
+    {
+      "name": "Own Funds",
+      "budget_2025": 11466,
+      "budget_2026": 28679,
+      "pdf_page": 20
+    },
+    {
+      "name": "Property Taxes",
+      "budget_2025": 2221166,
+      "budget_2026": 2339622,
+      "pdf_page": 20
+    },
+    {
+      "name": "Investment Income",
+      "budget_2025": 68412,
+      "budget_2026": 71412,
+      "pdf_page": 20
+    },
+    {
+      "name": "Development Charges",
+      "budget_2025": 71071,
+      "budget_2026": 73311,
+      "pdf_page": 20
+    },
+    {
+      "name": "Payment-in-lieu of taxation",
+      "budget_2025": 184905,
+      "budget_2026": 193305,
+      "pdf_page": 20
+    },
+    {
+      "name": "Fees and Service",
+      "budget_2025": 1118913,
+      "budget_2026": 1173616,
+      "pdf_page": 20
+    },
+    {
+      "name": "Fines",
+      "budget_2025": 90536,
+      "budget_2026": 90813,
+      "pdf_page": 20
+    },
+    {
+      "name": "Other",
+      "budget_2025": 13133,
+      "budget_2026": 23105,
+      "pdf_page": 20
+    }
+  ]
+}

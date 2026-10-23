@@ -1,0 +1,29 @@
+{
+  "reviewed": "2026-10-23",
+  "unit": "CAD millions",
+  "main_budget": 418.8,
+  "reported_spend": 59.5,
+  "spend_period": "First half of 2026; memo published July 21, 2026",
+  "city_modelled_net_investment": 130.7,
+  "projected_revenue_offsets": 288.2,
+  "annual_debt_payment_estimate": 17.4,
+  "debt_assumptions": "November 6, 2025 memo: 4.25% interest over 40 years; budget allocation reaches $17.4M in 2036. Final borrowing terms not verified.",
+  "scope": [
+    {"name": "Event Centre & North Side Stands", "amount": 418.8, "note": "Includes part of the Grand Entrance", "source": "finance"},
+    {"name": "City-owned parking", "amount": 19.2, "note": "Separate budget authority", "source": "approval"},
+    {"name": "Retail element", "amount": 45.9, "note": "$39.2M partnership reimbursement + $6.7M air rights", "source": "approval"}
+  ],
+  "financing": [
+    {"name": "Additional debt", "amount": 331, "note": "Borrowing, not a grant", "source": "finance"},
+    {"name": "Air rights sale", "amount": 33.9, "note": "Allocation to the main project", "source": "finance"},
+    {"name": "Debt premiums", "amount": 32.4, "note": "Part of the City's financing strategy", "source": "finance"},
+    {"name": "City capital reserves", "amount": 15.6, "note": "Existing City funds", "source": "finance"},
+    {"name": "Municipal Accommodation Tax", "amount": 6, "note": "Allocation to initial financing", "source": "finance"}
+  ],
+  "sources": {
+    "progress": {"title": "City project update, July 21, 2026", "url": "https://ottawa.ca/en/city-hall/open-transparent-and-accountable-government/public-disclosure/memoranda-issued-members-council/memoranda-issued-infrastructure-and-water-services/lansdowne-20-q1-q2-2026-project-update-july-21-2026", "locator": "Budget, Table 1: Budget for Event Centre and North Side Stands"},
+    "finance": {"title": "City Manager's financing clarification, November 6, 2025", "url": "https://ottawa.ca/en/city-hall/open-transparent-and-accountable-government/public-disclosure/memoranda-issued-members-council/memoranda-issued-city-manager/lansdowne-20-project-clarifications-november-6-2025", "locator": "Project Financing"},
+    "approval": {"title": "Council approval documents, November 7, 2025", "url": "https://pub-ottawa.escribemeetings.com/Meeting.aspx?Agenda=Agenda&Id=a0303d33-6a97-4a39-b1df-b775b0569c49&lang=English", "locator": "Lansdowne redevelopment recommendations 2.a.i-iii: main project, parking and retail budget authority"},
+    "model": {"title": "City Lansdowne Q&A: projected revenue offsets", "url": "https://engage.ottawa.ca/lansdowne-2-0?tool=qanda", "locator": "Project costs and financing strategy; funding figures described as net present values"}
+  }
+}

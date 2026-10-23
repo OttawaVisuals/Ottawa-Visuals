@@ -344,6 +344,11 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Ottawa budget explorer
+- **Built October 23, 2026:** `Budget/budget.html`, linked from the homepage. Adopted 2026 operating, new capital authority and operating revenue; 2025 budget comparison; dollar/share controls; tax/rate program filters; expandable groups; exact tables and CSV/JSON.
+- **Sources:** 2026 adopted budget book, printed pages 1–5 and 17–19; reproducible labelled-row extraction, source fingerprint and retained text excerpts. Separate Lansdowne Council authority, November 2025 financing and July 21, 2026 first-half spending memo.
+- **Limits:** budgets, not audited actuals; new capital authority can span years; operating/capital totals are not additive. Lansdowne's $483.9M combined scope includes $418.8M main authority plus parking/retail; projected offsets and modelled net investment stay separate from cash received. Service KPI directory only, no new performance score. Manual snapshot. Method and checks: `Budget/README.md` and `Budget/CHECKS.md`.
+
 ### Ottawa Police: complaints and discipline
 - **Built October 23, 2026:** `OPS/ops.html`, linked from the homepage. Searchable official-source snapshot with annual decision-year bars, year/outcome filters, shareable URLs, CSV and full JSON.
 - **Reviewed collection:** 23 unique named officers, 20 proceedings and 24 officer–case entries in published decisions; 18 officers with findings/admissions. Six officer–case entries ended without a finding (one officer also has a separate finding). Two additional upcoming-hearing officers are excluded from decision totals.

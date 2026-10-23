@@ -213,6 +213,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#road-safety">🚗 Road Safety</a>
       <a href="#traffic-stops">🚦 Road safety report</a>
       <a href="#ops">OPS discipline</a>
+      <a href="#budget">Ottawa budget</a>
       <a href="#court-outcomes">Court outcomes</a>
       <a href="#roads">🛣️ Roads (merged)</a>
       <a href="#tax">🧾 Tax</a>
@@ -306,6 +307,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
   <div class="card">
     <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#budget">Ottawa budget</a></span><span class="pct">Adopted 2026 · Oct 23 snapshot</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#ops">OPS discipline</a></span><span class="pct">Manual snapshot · Oct 23, 2026</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🗳️ Ward Elections</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏡 Mortgage Calculator</span><div class="track"><div class="fill f-done" style="width:90%"></div></div><span class="pct">90%</span></div>
@@ -854,6 +856,12 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <p>Criminal cases and provincial/traffic charges kept separate. Offence/group filters, reporting periods, count/share bars, accessible tables, shareable filters and CSV/JSON. Latest calendar year: 2025.</p>
   <p><b>Source audit:</b> 27 official publications, 903 extracted Ottawa rows. Each row’s outcome components reconcile. The 2016 provincial source has a verified subtotal discrepancy; printed totals are retained and the differences flagged.</p>
   <p><b>Limits:</b> criminal completions include committals to Superior Court; trial results are not split into guilty/acquitted. Withdrawals/stays have no recorded reasons. Criminal “2020” and both “2026” files have non-calendar periods, excluded from the default calendar chart. No named-case or OPS-officer linkage. Source reuse wording and local publication status documented in <a href="Ontario_Trials/README.md">the method notes</a>.</p>
+</section>
+<section id="budget" class="card">
+  <div class="proj-head"><h2>Where Ottawa’s budget goes</h2><span class="chip build">Adopted budget · Oct 23, 2026</span><a class="live-link" href="Budget/budget.html">open the page ↗</a></div>
+  <p><b>Coverage:</b> adopted 2026 operating costs, capital new authority and operating revenues; 2025 budget comparator, dollar/share controls, service disclosures, exact tables, source PDF pages and CSV/JSON. Separate Lansdowne main project, parking and retail authority, financing and first-half 2026 reported spending.</p>
+  <p><b>Method:</b> labelled-row extraction from the adopted book with annual reconciliation, source fingerprint and retained source text. Lansdowne figures manually reviewed against dated City and Council records. KPI cards link to published service measures.</p>
+  <p><b>Limits:</b> budgets are not actual spending; capital can span years and cannot simply be added to operating costs. Revenue projections are not cash received. Manual snapshot; no ward-level or household tax estimates. <a href="Budget/README.md">Method and rebuild notes</a> · <a href="Budget/CHECKS.md">Verification</a>.</p>
 </section>
 <section id="ops" class="card">
   <div class="proj-head"><h2>Ottawa Police: complaints &amp; discipline</h2><span class="chip build">Reviewed snapshot · Oct 23, 2026</span><a class="live-link" href="OPS/ops.html">open the page ↗</a></div>

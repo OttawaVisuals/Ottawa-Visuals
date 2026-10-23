@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Ottawa budget page (Oct 23: adopted 2026 operating/capital/funding, 2025 budget comparison, service breakdowns, source extraction/reconciliation, CSV/JSON; separate Lansdowne scope/financing/July 2026 spending snapshot and service KPI links)
 - [x] Simplify traffic court charts (Oct 23: removed camera-issued versus court-completed chart; selected-offence chart 30% taller at each screen breakpoint)
 - [x] Clarify traffic trial category (Oct 23: “Completed after trial · outcome not reported”; CanLII follow-up dropped, aggregate source remains the report basis)
 - [x] Review all 133 s.53 search candidates (Oct 23: 131 full-text relevance screens, two exclusions by proceeding scope after long-page failures; per-document classifications, source locators, CSV/JSON and checks; one Toronto trial conviction, one Pembroke-area plea, one Pembroke procedural ruling; no Ottawa trial verdict established in the candidate set)

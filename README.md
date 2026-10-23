@@ -14,6 +14,7 @@ any bookmarked or shared links.
 ## Sub-projects
 | Folder | What it is |
 |---|---|
+| [`Budget/`](Budget/README.md) | Adopted Ottawa budget: operating, capital and funding charts; 2025/2026 comparison; Lansdowne 2.0 scope, financing and reported spending; service KPI sources ([`budget.html`](Budget/budget.html)) |
 | [`OPS/`](OPS/README.md) | Published OPS disciplinary records: unique officers, findings/dismissals, penalties, source links and separately listed upcoming hearings ([`ops.html`](OPS/ops.html)); manually reviewed partial snapshot |
 | [`Mortgage/`](Mortgage/README.md) | Mortgage affordability calculator |
 | [`Weather/`](Weather/README.md) | Ottawa climate history dashboard |
