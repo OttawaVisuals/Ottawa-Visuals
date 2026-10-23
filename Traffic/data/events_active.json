@@ -3312,6 +3312,52 @@
 },
 "fp": "183317fd7b34"
 },
+"29634": {
+"event": {
+"cause": "construction",
+"created": "2026-10-22 15:58:00",
+"cross_street_1": "Tenth Line",
+"cross_street_2": "Trim",
+"direction": null,
+"event_id": "29634",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 eastbound reduced to 1 lane between Tenth Line and Trim due to construction. From 9:00am to 2:00pm, 23/10/26",
+"lanes": "reduced to 1 lane",
+"lat": 45.484886,
+"lon": -75.504585,
+"planned_end": "2026-10-23T14:00",
+"planned_start": "2026-10-23T09:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-23 08:56:00"
+},
+"fp": "588f47a0f5da"
+},
+"29635": {
+"event": {
+"cause": "construction",
+"created": "2026-10-22 16:03:00",
+"cross_street_1": "Trim",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29635",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 westbound reduced to 1 lane at Trim due to construction. From 10:00am to 3:00pm, 23/10/26",
+"lanes": "reduced to 1 lane",
+"lat": 45.499749,
+"lon": -75.477449,
+"planned_end": "2026-10-23T15:00",
+"planned_start": "2026-10-23T10:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-23 09:56:00"
+},
+"fp": "178be1fe885d"
+},
 "29637": {
 "event": {
 "cause": "",
@@ -3334,6 +3380,98 @@
 "updated": "2026-10-22 16:48:00"
 },
 "fp": "9e1fb0bd06cd"
+},
+"29644": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-23 08:17:00",
+"cross_street_1": "Kichi Zibi Mikan",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29644",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Island Park southbound lane reduction at Kichi Zibi Mikan due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.402343,
+"lon": -75.752032,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Island Park",
+"source": "city",
+"updated": "2026-10-23 08:17:00"
+},
+"fp": "6432bec9ec7a"
+},
+"29646": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-23 09:01:00",
+"cross_street_1": "Cedarview",
+"cross_street_2": "Greenbank",
+"direction": null,
+"event_id": "29646",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hunt Club eastbound lane reduction between Cedarview and Greenbank due to a disabled vehicle.",
+"lanes": "lane reduction",
+"lat": 45.318351,
+"lon": -75.786591,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Hunt Club",
+"source": "city",
+"updated": "2026-10-23 10:02:00"
+},
+"fp": "334b8544ea09"
+},
+"29648": {
+"event": {
+"cause": "construction",
+"created": "2026-10-23 09:43:00",
+"cross_street_1": "DOVERCOURT",
+"cross_street_2": "AVONDALE",
+"direction": null,
+"event_id": "29648",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "GOLDEN AVE closed between DOVERCOURT and AVONDALE due to construction.",
+"lanes": "closed",
+"lat": 45.383569,
+"lon": -75.75478,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "GOLDEN AVE",
+"source": "city",
+"updated": "2026-10-23 09:43:00"
+},
+"fp": "094eb6faa4c3"
+},
+"29649": {
+"event": {
+"cause": "construction",
+"created": "2026-10-23 09:53:00",
+"cross_street_1": "ONSLOW",
+"cross_street_2": "MARLOWE",
+"direction": null,
+"event_id": "29649",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BECKWITH westbound lane reduction between ONSLOW and MARLOWE due to construction, on October 26th and 27th. ",
+"lanes": "lane reduction",
+"lat": 45.405659,
+"lon": -75.671995,
+"planned_end": "2026-10-27T17:00",
+"planned_start": "2026-10-23T07:00",
+"priority": "LOW",
+"road": "BECKWITH",
+"source": "city",
+"updated": "2026-10-23 09:56:00"
+},
+"fp": "4dfbf8ddbd97"
 }
 }
 }
