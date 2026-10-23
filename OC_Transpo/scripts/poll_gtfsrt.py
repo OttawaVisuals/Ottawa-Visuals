@@ -97,6 +97,11 @@ GROUPS = ("all", "bus", "otrain", "unknown")
 TRIP_GROUPS = GROUPS + ("bus_frequent", "bus_less_frequent")
 FREQUENT_MAX_HEADWAY_S = 15 * 60   # "every 15 minutes or more frequently"
 NEXT_STOP_MAX_AHEAD_S = 900        # next timepoint must be within 15 min (prediction gets vaguer further out)
+# Normally every running trip is in the timetable. Above this share missing,
+# the index is out of step with the feed (e.g. a new timetable published the
+# evening before it starts) and the few trips that do match aren't a fair
+# sample, so the sample's on-time figures are left blank.
+MAX_NO_MATCH = 0.10
 # O-Train lines are routes 1/2/4 today (3 reserved for the west extension).
 OTRAIN_ROUTES = {"1", "2", "3", "4"}
 
@@ -628,6 +633,13 @@ def main():
         if raw_dir:
             archive_raw(Path(raw_dir), "tripupdates", feed, now_utc)
         trip_rows = summarize_trips(feed, sched, otp_stats)
+        checked = sum(match_counts(otp_stats).values())
+        if checked and otp_stats.get("no_match", 0) > MAX_NO_MATCH * checked:
+            errors.append(f"timetable mismatch: {otp_stats['no_match']} of {checked} trips not in "
+                          f"{sched.version}; on-time left blank")
+            for r in trip_rows:
+                r.update({f: "" for f in TRIP_FIELDS[TRIP_FIELDS.index("mean_delay_s"):-1]}, delays_observed=0)
+            otp_stats.pop("_routes", None)
     except Exception as exc:  # noqa: BLE001
         errors.append(f"TripUpdates: {exc}")
         trip_rows = [blank_row(TRIP_FIELDS, "all", str(exc)[:200])]

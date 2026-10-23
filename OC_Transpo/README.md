@@ -66,6 +66,15 @@ Added 2026-10-23, shown in the "Measured live" section of `octranspo_kpis.html`:
 These three CSVs and the ledger are kept between Actions runs in their own
 cache (`STATE_PATHS` in `collect.yml`), separate from the readings spool.
 
+**Timetable changeovers.** OC Transpo publishes a new GTFS the evening before
+it starts (S1000524, starting Oct 23, appeared at ~21:15 on Oct 22), and the
+new feed's trip ids differ, so until the old evening service ended almost no
+running trip matched. Since then the index carries the previous feed's trips
+over for one generation (`build_schedule_index.py`), the poller leaves a
+sample's on-time figures blank when more than 10% of trips are missing from
+the index, and the rollup ignores samples where under 5% of tracked trips got
+a delay (that drops the two samples logged before the fix).
+
 The raw-JSON archive (`OCTRANSPO_RAW_DIR`, ~15 MB/day) is now optional and not
 used on Actions. The JSON is protobuf-net style with
 `Has<Field>` companion flags (`"Delay": 0, "HasDelay": false` = unset) — the

@@ -58,12 +58,22 @@ def load(name, group="all"):
     return [r for r in read_csv(name) if r.get("group") == group and not r.get("error")]
 
 
+def on_time_ok(r):
+    """False for samples taken while the timetable index was out of step with
+    the feed (2026-10-22 evening: a handful of matched trips out of ~350).
+    Normally 15-45% of tracked trips get a delay; the rest haven't started."""
+    n, tracked = num(r.get("delays_observed")), num(r.get("trips_tracked"))
+    return bool(n) and (not tracked or n >= 0.05 * tracked)
+
+
 def weighted_pct(samples, field, hours=None):
     """Share across a day's samples, weighted by delays_observed x sample interval."""
     num_, den = 0.0, 0.0
     for r, minutes in samples:
         h = hour_of(r["timestamp_local"])
         if hours and (h is None or not (hours[0] <= h < hours[1])):
+            continue
+        if not on_time_ok(r):
             continue
         v, n = num(r.get(field)), num(r.get("delays_observed"))
         if v is None or not n:
@@ -165,7 +175,7 @@ def build_hourly(bus, lessfreq, cancel_rows):
             hours.append({
                 "hour": h,
                 "delays_observed": int(sum(num(r.get("delays_observed")) or 0 for r, _ in samples
-                                           if hour_of(r["timestamp_local"]) == h)),
+                                           if on_time_ok(r) and hour_of(r["timestamp_local"]) == h)),
                 "bus_ontime_pct": weighted_pct(samples, "pct_ontime", (h, h + 1)),
                 "bus_late_pct": weighted_pct(samples, "pct_late", (h, h + 1)),
                 "bus_early_pct": weighted_pct(samples, "pct_early", (h, h + 1)),
@@ -266,7 +276,7 @@ def main():
         otp = {}
         if any(num(r.get("delays_observed")) for r, _ in bus.get(d, [])):
             otp = {
-                "delays_observed": int(sum(num(r.get("delays_observed")) or 0 for r, _ in bus[d])),
+                "delays_observed": int(sum(num(r.get("delays_observed")) or 0 for r, _ in bus[d] if on_time_ok(r))),
                 "bus_ontime_pct": weighted_pct(bus[d], "pct_ontime"),
                 "bus_early_pct": weighted_pct(bus[d], "pct_early"),
                 "bus_late_pct": weighted_pct(bus[d], "pct_late"),

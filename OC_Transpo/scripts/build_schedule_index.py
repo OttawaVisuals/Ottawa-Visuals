@@ -21,7 +21,17 @@ SQLite file that the poller queries for just the ~600 trips in each sample.
                   Transpo calls routes running every 15 min or better
                   "frequent" (measured by regularity) and the rest
                   "less-frequent" (measured by punctuality).
-  meta(key, value) : feed_version, feed_start_date, feed_end_date, etag, built_utc
+    feed        : feed_version the trip comes from.
+  meta(key, value) : feed_version, feed_start_date, feed_end_date, etag, built_utc,
+                     carried_from, carried_trips
+
+A new feed starts on its first service date, but the evening before still
+runs the old one, and its trip ids are different (seen 2026-10-22: feed
+S1000524 starting Oct 23 was published at 21:30 on Oct 22, and ~85% of
+running trips stopped matching). So when the index at --out is from an older
+feed, its own trips (not ones it carried itself) are carried into the new
+index unless the new feed reuses the trip id. One generation only, so the
+index stays about twice the size of one feed at most.
 
 collect.yml rebuilds it whenever the published zip's ETag changes and keeps it
 in the Actions cache (it is not committed). Stdlib only.
@@ -64,6 +74,32 @@ def active_services(cal, cal_dates, day: date) -> set:
     for x in cal_dates.get(ds, []):
         (out.add if x["exception_type"] == "1" else out.discard)(x["service_id"])
     return out
+
+
+def previous_trips(path: Path, new_version: str):
+    """(version, rows) of the older feed's trips to carry: an older index's own
+    trips, or, when the same feed is rebuilt (zip republished), what it carried."""
+    if not path.exists():
+        return None, []
+    db = None
+    try:
+        db = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+        meta = dict(db.execute("SELECT key, value FROM meta"))
+        version = meta.get("feed_version", "")
+        if version == new_version:
+            version = meta.get("carried_from", "")
+            if not version:
+                return None, []
+        cols = [c[1] for c in db.execute("PRAGMA table_info(trips)")]
+        where = " WHERE feed = ?" if "feed" in cols else ""
+        return version, db.execute("SELECT trip_id, route_id, headway_s, seqs, secs, tps FROM trips" + where,
+                                   (version,) if where else ()).fetchall()
+    except sqlite3.Error as exc:
+        print(f"warning: previous index unreadable ({exc}); not carried over", file=sys.stderr)
+        return None, []
+    finally:
+        if db:
+            db.close()  # before the new index replaces this file
 
 
 def build(zip_path: Path, out: Path, etag: str = ""):
@@ -134,20 +170,26 @@ def build(zip_path: Path, out: Path, etag: str = ""):
                     headway[tid] = dep - g[i - 1][0]
         day += timedelta(days=1)
 
+    version = info.get("feed_version", "")
+    prev_version, prev_rows = previous_trips(out, version)
+    carried = [r + (prev_version,) for r in prev_rows if r[0] not in seqs]
+
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_suffix(".tmp")
     tmp.unlink(missing_ok=True)
     db = sqlite3.connect(tmp)
     db.executescript("""
-        CREATE TABLE trips (trip_id TEXT PRIMARY KEY, route_id TEXT, headway_s INTEGER, seqs BLOB, secs BLOB, tps BLOB);
+        CREATE TABLE trips (trip_id TEXT PRIMARY KEY, route_id TEXT, headway_s INTEGER, seqs BLOB, secs BLOB, tps BLOB, feed TEXT);
         CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
     """)
-    db.executemany("INSERT INTO trips VALUES (?,?,?,?,?,?)",
+    db.executemany("INSERT INTO trips VALUES (?,?,?,?,?,?,?)",
                    ((tid, trips[tid]["route_id"] if tid in trips else "", headway.get(tid),
-                     seqs[tid].tobytes(), times[tid].tobytes(), tps[tid].tobytes()) for tid in seqs))
-    meta = {"feed_version": info.get("feed_version", ""), "feed_start_date": info.get("feed_start_date", ""),
+                     seqs[tid].tobytes(), times[tid].tobytes(), tps[tid].tobytes(), version) for tid in seqs))
+    db.executemany("INSERT INTO trips VALUES (?,?,?,?,?,?,?)", carried)
+    meta = {"feed_version": version, "feed_start_date": info.get("feed_start_date", ""),
             "feed_end_date": info.get("feed_end_date", ""), "etag": etag,
-            "built_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+            "built_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "carried_from": prev_version or "", "carried_trips": str(len(carried))}
     db.executemany("INSERT INTO meta VALUES (?,?)", meta.items())
     db.commit()
     db.execute("VACUUM")
@@ -155,7 +197,9 @@ def build(zip_path: Path, out: Path, etag: str = ""):
     tmp.replace(out)
     freq = sum(1 for h in headway.values() if h is not None and h <= 900)
     print(f"schedule index: {len(seqs):,} trips ({freq:,} frequent), feed {meta['feed_version']} "
-          f"{meta['feed_start_date']}..{meta['feed_end_date']}, {out.stat().st_size / 1e6:.1f} MB -> {out}")
+          f"{meta['feed_start_date']}..{meta['feed_end_date']}"
+          + (f", plus {len(carried):,} carried from {prev_version}" if prev_version else "")
+          + f", {out.stat().st_size / 1e6:.1f} MB -> {out}")
 
 
 def main():

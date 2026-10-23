@@ -75,9 +75,11 @@ jobs:
       # Timetable index for on-time computation (poll_gtfsrt.py compares predicted
       # arrivals with the schedule). Keyed on the published zip's ETag, so it is
       # rebuilt (~30 s) only when OC Transpo publishes a new timetable or the
-      # index format changes (bump the v2 in the key). Kept in
+      # index format changes (bump the v3 in the key). Kept in
       # the Actions cache, never committed. Any failure here just leaves the
-      # delay columns empty for that run.
+      # delay columns empty for that run. On a new timetable the previous index
+      # is restored first (restore-keys), so the build can carry its trips over:
+      # the evening before a new feed starts still runs the old one.
       - name: Timetable version
         id: gtfs
         continue-on-error: true
@@ -92,20 +94,24 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: OC_Transpo/schedule_cache/schedule_index.sqlite
-          key: gtfs-index-v2-${{ steps.gtfs.outputs.etag }}
+          key: gtfs-index-v3-${{ steps.gtfs.outputs.etag }}
+          restore-keys: gtfs-index-v3-
 
       - name: Build timetable index
+        id: build
         if: steps.sched.outputs.cache-hit != 'true'
         continue-on-error: true
         run: python OC_Transpo/scripts/build_schedule_index.py --etag "${{ steps.gtfs.outputs.etag }}"
 
+      # Only a fresh build: a failed one leaves the restored older index, which
+      # must not be saved under the new ETag.
       - name: Save timetable index
-        if: steps.sched.outputs.cache-hit != 'true' && hashFiles('OC_Transpo/schedule_cache/schedule_index.sqlite') != ''
+        if: steps.build.outcome == 'success' && hashFiles('OC_Transpo/schedule_cache/schedule_index.sqlite') != ''
         continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: OC_Transpo/schedule_cache/schedule_index.sqlite
-          key: gtfs-index-v2-${{ steps.gtfs.outputs.etag }}
+          key: gtfs-index-v3-${{ steps.gtfs.outputs.etag }}
 
       - name: Poll
         env:
