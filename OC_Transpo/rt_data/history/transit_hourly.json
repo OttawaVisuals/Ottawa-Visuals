@@ -1,0 +1,498 @@
+{
+ "window": {
+  "start": "2026-10-17",
+  "end": "2026-10-22"
+ },
+ "weekday": {
+  "days": 4,
+  "cancel_days": 0,
+  "hours": [
+   {
+    "hour": 0,
+    "delays_observed": 709,
+    "bus_ontime_pct": 65.6,
+    "bus_late_pct": 7.1,
+    "bus_early_pct": 27.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 65.6,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 1,
+    "delays_observed": 101,
+    "bus_ontime_pct": 58.3,
+    "bus_late_pct": 11.8,
+    "bus_early_pct": 29.9,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 58.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 2,
+    "delays_observed": 54,
+    "bus_ontime_pct": 59.3,
+    "bus_late_pct": 11.1,
+    "bus_early_pct": 29.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 59.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 3,
+    "delays_observed": 43,
+    "bus_ontime_pct": 46.5,
+    "bus_late_pct": 6.9,
+    "bus_early_pct": 46.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 46.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 4,
+    "delays_observed": 39,
+    "bus_ontime_pct": 64.3,
+    "bus_late_pct": 5.0,
+    "bus_early_pct": 30.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 64.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 5,
+    "delays_observed": 1024,
+    "bus_ontime_pct": 73.1,
+    "bus_late_pct": 8.6,
+    "bus_early_pct": 18.3,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 72.7,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 6,
+    "delays_observed": 8936,
+    "bus_ontime_pct": 70.7,
+    "bus_late_pct": 11.2,
+    "bus_early_pct": 18.2,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 69.9,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 7,
+    "delays_observed": 12910,
+    "bus_ontime_pct": 65.5,
+    "bus_late_pct": 19.1,
+    "bus_early_pct": 15.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 65.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 8,
+    "delays_observed": 13649,
+    "bus_ontime_pct": 53.2,
+    "bus_late_pct": 33.6,
+    "bus_early_pct": 13.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 52.9,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 9,
+    "delays_observed": 6986,
+    "bus_ontime_pct": 58.5,
+    "bus_late_pct": 26.2,
+    "bus_early_pct": 15.3,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 57.8,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 10,
+    "delays_observed": 3297,
+    "bus_ontime_pct": 63.5,
+    "bus_late_pct": 16.4,
+    "bus_early_pct": 20.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 63.0,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 11,
+    "delays_observed": 2982,
+    "bus_ontime_pct": 64.4,
+    "bus_late_pct": 16.1,
+    "bus_early_pct": 19.5,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 64.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 12,
+    "delays_observed": 3265,
+    "bus_ontime_pct": 62.9,
+    "bus_late_pct": 19.0,
+    "bus_early_pct": 18.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 62.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 13,
+    "delays_observed": 3276,
+    "bus_ontime_pct": 62.4,
+    "bus_late_pct": 18.6,
+    "bus_early_pct": 19.0,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 63.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 14,
+    "delays_observed": 3822,
+    "bus_ontime_pct": 62.0,
+    "bus_late_pct": 17.4,
+    "bus_early_pct": 20.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 63.0,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 15,
+    "delays_observed": 13966,
+    "bus_ontime_pct": 54.8,
+    "bus_late_pct": 28.5,
+    "bus_early_pct": 16.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 54.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 16,
+    "delays_observed": 14498,
+    "bus_ontime_pct": 45.7,
+    "bus_late_pct": 40.8,
+    "bus_early_pct": 13.5,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 45.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 17,
+    "delays_observed": 14461,
+    "bus_ontime_pct": 45.6,
+    "bus_late_pct": 41.8,
+    "bus_early_pct": 12.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 42.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 18,
+    "delays_observed": 8542,
+    "bus_ontime_pct": 48.8,
+    "bus_late_pct": 36.4,
+    "bus_early_pct": 14.8,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 47.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 19,
+    "delays_observed": 2962,
+    "bus_ontime_pct": 58.8,
+    "bus_late_pct": 26.5,
+    "bus_early_pct": 14.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 61.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 20,
+    "delays_observed": 2429,
+    "bus_ontime_pct": 65.9,
+    "bus_late_pct": 17.4,
+    "bus_early_pct": 16.8,
+    "bus_within_5min_pct": 79.0,
+    "punctuality_pct": 66.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 21,
+    "delays_observed": 1778,
+    "bus_ontime_pct": 64.4,
+    "bus_late_pct": 16.8,
+    "bus_early_pct": 18.7,
+    "bus_within_5min_pct": 83.6,
+    "punctuality_pct": 63.9,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 22,
+    "delays_observed": 1283,
+    "bus_ontime_pct": 64.1,
+    "bus_late_pct": 15.6,
+    "bus_early_pct": 20.3,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 65.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 23,
+    "delays_observed": 973,
+    "bus_ontime_pct": 66.5,
+    "bus_late_pct": 11.1,
+    "bus_early_pct": 22.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 66.6,
+    "cancelled_per_day": null
+   }
+  ]
+ },
+ "weekend": {
+  "days": 2,
+  "cancel_days": 0,
+  "hours": [
+   {
+    "hour": 0,
+    "delays_observed": 394,
+    "bus_ontime_pct": 68.3,
+    "bus_late_pct": 9.9,
+    "bus_early_pct": 21.8,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 68.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 1,
+    "delays_observed": 57,
+    "bus_ontime_pct": 72.0,
+    "bus_late_pct": 10.6,
+    "bus_early_pct": 17.5,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 72.0,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 2,
+    "delays_observed": 27,
+    "bus_ontime_pct": 81.5,
+    "bus_late_pct": 7.4,
+    "bus_early_pct": 11.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 81.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 3,
+    "delays_observed": 22,
+    "bus_ontime_pct": 68.2,
+    "bus_late_pct": 18.2,
+    "bus_early_pct": 13.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 68.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 4,
+    "delays_observed": 20,
+    "bus_ontime_pct": 65.0,
+    "bus_late_pct": 5.0,
+    "bus_early_pct": 30.0,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 65.0,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 5,
+    "delays_observed": 162,
+    "bus_ontime_pct": 64.6,
+    "bus_late_pct": 7.7,
+    "bus_early_pct": 27.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 64.6,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 6,
+    "delays_observed": 334,
+    "bus_ontime_pct": 71.6,
+    "bus_late_pct": 10.8,
+    "bus_early_pct": 17.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 71.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 7,
+    "delays_observed": 562,
+    "bus_ontime_pct": 72.6,
+    "bus_late_pct": 10.3,
+    "bus_early_pct": 17.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 72.8,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 8,
+    "delays_observed": 739,
+    "bus_ontime_pct": 71.9,
+    "bus_late_pct": 14.7,
+    "bus_early_pct": 13.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 72.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 9,
+    "delays_observed": 929,
+    "bus_ontime_pct": 65.8,
+    "bus_late_pct": 22.4,
+    "bus_early_pct": 11.8,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 65.4,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 10,
+    "delays_observed": 1042,
+    "bus_ontime_pct": 61.7,
+    "bus_late_pct": 26.6,
+    "bus_early_pct": 11.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 62.4,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 11,
+    "delays_observed": 1111,
+    "bus_ontime_pct": 59.3,
+    "bus_late_pct": 29.7,
+    "bus_early_pct": 11.0,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 60.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 12,
+    "delays_observed": 1172,
+    "bus_ontime_pct": 58.3,
+    "bus_late_pct": 32.9,
+    "bus_early_pct": 8.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 59.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 13,
+    "delays_observed": 1231,
+    "bus_ontime_pct": 55.2,
+    "bus_late_pct": 34.9,
+    "bus_early_pct": 10.0,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 55.8,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 14,
+    "delays_observed": 1231,
+    "bus_ontime_pct": 51.2,
+    "bus_late_pct": 37.6,
+    "bus_early_pct": 11.2,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 55.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 15,
+    "delays_observed": 1222,
+    "bus_ontime_pct": 51.1,
+    "bus_late_pct": 40.4,
+    "bus_early_pct": 8.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 53.9,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 16,
+    "delays_observed": 1255,
+    "bus_ontime_pct": 51.1,
+    "bus_late_pct": 40.0,
+    "bus_early_pct": 8.9,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 53.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 17,
+    "delays_observed": 1201,
+    "bus_ontime_pct": 51.1,
+    "bus_late_pct": 39.2,
+    "bus_early_pct": 9.7,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 52.3,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 18,
+    "delays_observed": 1150,
+    "bus_ontime_pct": 52.4,
+    "bus_late_pct": 37.4,
+    "bus_early_pct": 10.2,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 54.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 19,
+    "delays_observed": 980,
+    "bus_ontime_pct": 54.0,
+    "bus_late_pct": 35.2,
+    "bus_early_pct": 10.8,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 55.1,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 20,
+    "delays_observed": 883,
+    "bus_ontime_pct": 63.6,
+    "bus_late_pct": 23.8,
+    "bus_early_pct": 12.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 63.4,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 21,
+    "delays_observed": 775,
+    "bus_ontime_pct": 63.2,
+    "bus_late_pct": 20.6,
+    "bus_early_pct": 16.1,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 63.5,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 22,
+    "delays_observed": 652,
+    "bus_ontime_pct": 66.4,
+    "bus_late_pct": 17.2,
+    "bus_early_pct": 16.4,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 66.2,
+    "cancelled_per_day": null
+   },
+   {
+    "hour": 23,
+    "delays_observed": 500,
+    "bus_ontime_pct": 68.0,
+    "bus_late_pct": 11.4,
+    "bus_early_pct": 20.6,
+    "bus_within_5min_pct": null,
+    "punctuality_pct": 67.6,
+    "cancelled_per_day": null
+   }
+  ]
+ }
+}
