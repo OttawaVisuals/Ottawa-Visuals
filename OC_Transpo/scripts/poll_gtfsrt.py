@@ -36,6 +36,16 @@ definition for less-frequent routes: early = more than 1 min early
 pct_within_5min is the same delays scored with a symmetric +/-5 min window,
 the definition otranspo.ca publishes monthly, so the two can be compared.
 
+Two small day-level files are kept alongside (both need the timetable index):
+  * route_daily.csv         -> per local date and bus route, the same on-time
+    buckets as bus-minutes (each observed bus counts for the minutes its sample
+    stands for), so routes can be ranked without storing individual buses.
+  * cancellations_daily.csv -> distinct cancelled trips per service date, route
+    and scheduled start hour. A trip counts once however many polls showed the
+    notice, and not at all if the notice was withdrawn or a vehicle later ran
+    it (otranspo.ca's rule). Open service dates live in cancel_state.json and
+    are written out once the day's last trips are done (05:00 next morning).
+
 Sampling cadence is decided *here*, not by the cron (cron fires every 5 min):
   - weekday peaks (06:00-09:30, 15:00-18:30 Ottawa time): every run (5 min)
   - overnight 01:00-05:00 (little/no service):            hourly
@@ -72,6 +82,9 @@ TZ = ZoneInfo("America/Toronto")
 
 TRIP_LOG = DATA / "trip_updates_summary.csv"
 VP_LOG = DATA / "vehicle_positions_summary.csv"
+ROUTE_LOG = DATA / "route_daily.csv"
+CANCEL_LOG = DATA / "cancellations_daily.csv"
+CANCEL_STATE = DATA / "cancel_state.json"
 
 API_BASE = "https://nextrip-public-api.azure-api.net/octranspo"
 TRIP_URL = f"{API_BASE}/gtfs-rt-tp/beta/v1/TripUpdates?format=json"
@@ -102,6 +115,15 @@ VP_FIELDS = [
     "vehicles", "routes_active", "speeds_observed",
     "mean_speed_kmh", "pct_moving", "error",
 ]
+# *_min columns are bus-minutes; percentages are x_min / bus_minutes.
+ROUTE_FIELDS = [
+    "date", "route", "samples", "observations", "bus_minutes",
+    "early_min", "ontime_min", "late_min", "within_5min_min", "delay_s_x_min",
+]
+CANCEL_FIELDS = [
+    "date", "route", "start_hour", "notices", "withdrawn", "ran", "cancelled", "partial",
+]
+CANCEL_DONE_HOUR = 5    # a service date's trips are all over by 05:00 the next morning
 
 
 def in_peak(now_local: datetime) -> bool:
@@ -123,6 +145,13 @@ def should_sample(now_local: datetime) -> bool:
     if 1 * 60 <= mins < 5 * 60:
         return now_local.minute < 5
     return now_local.minute % 15 < 5
+
+
+def sample_minutes(now_local: datetime) -> int:
+    """Minutes one sample stands for under the gate above."""
+    if in_peak(now_local):
+        return 5
+    return 60 if 1 <= now_local.hour < 5 else 15
 
 
 def g(obj, *names, default=None):
@@ -238,6 +267,21 @@ def service_day_start(day) -> float:
     return (datetime(day.year, day.month, day.day, 12, tzinfo=TZ) - timedelta(hours=12)).timestamp()
 
 
+def service_date(rec, start_date, now_ts):
+    """A trip's service date: the feed's startDate, else the day that puts its
+    scheduled start nearest now (notices and vehicles are near-term)."""
+    s = str(start_date or "")
+    if len(s) == 8 and s.isdigit():
+        return datetime.strptime(s, "%Y%m%d").date()
+    today = datetime.fromtimestamp(now_ts, TZ).date()
+    return min((today - timedelta(days=1), today, today + timedelta(days=1)),
+               key=lambda d: abs(service_day_start(d) + rec["secs"][0] - now_ts))
+
+
+def route_label(route_id) -> str:
+    return str(route_id or "").split("-")[0].strip()
+
+
 def schedule_delay_s(tu, sched, now_ts, timepoints=True):
     """(delay seconds, status) for one running trip: predicted departure from
     its next timepoint (or next stop, timepoints=False) minus scheduled.
@@ -327,6 +371,9 @@ def summarize_trips(feed, sched=None, stats=None):
         trip = g(tu, "trip", default={})
         grp = route_group(g(trip, "routeId"))
         canceled = is_canceled(g(trip, "scheduleRelationship"))
+        if stats is not None:  # trip ids for the cancellation ledger
+            stats.setdefault("_canceled" if canceled else "_live", []).append(
+                (g(trip, "tripId"), g(trip, "startDate")))
         targets = ["all", grp]
         if grp == "bus" and sched:
             rec = sched.trip(g(trip, "tripId"))
@@ -350,6 +397,9 @@ def summarize_trips(feed, sched=None, stats=None):
             if d is not None:
                 for target in targets:
                     per_group[target]["delays"].append(d)
+                if grp == "bus" and stats is not None:
+                    stats.setdefault("_routes", {}).setdefault(
+                        route_label(g(trip, "routeId")), []).append(d)
 
     rows = []
     for grp in TRIP_GROUPS:
@@ -371,7 +421,8 @@ def summarize_trips(feed, sched=None, stats=None):
     return rows
 
 
-def summarize_vehicles(feed):
+def summarize_vehicles(feed, running=None):
+    """running, if given, collects (tripId, startDate) of every vehicle on a trip."""
     entities = g(feed, "entity", default=[]) or []
     per_group = {grp: {"vehicles": 0, "routes": set(), "speeds": []} for grp in GROUPS}
     for ent in entities:
@@ -380,6 +431,8 @@ def summarize_vehicles(feed):
             continue
         trip = g(veh, "trip", default={})
         rid = g(trip, "routeId")
+        if running is not None and g(trip, "tripId"):
+            running.append((g(trip, "tripId"), g(trip, "startDate")))
         grp = route_group(rid)
         speed = g(g(veh, "position"), "speed")  # m/s per GTFS-RT spec
         for target in ("all", grp):
@@ -441,6 +494,102 @@ def append_rows(path: Path, fields, rows, stamps):
             w.writerow({**stamps, **r})
 
 
+def route_sort_key(key):
+    date, route = key
+    return (date, int(route) if route.isdigit() else 10 ** 6, route)
+
+
+def update_route_daily(path: Path, date_str, route_delays, minutes):
+    """Add one sample's per-route delays to the day's running bus-minute totals."""
+    rows = {}
+    if path.exists():
+        with path.open(newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                rows[(r["date"], r["route"])] = r
+    for route, ds in route_delays.items():
+        r = rows.setdefault((date_str, route), {f: 0 for f in ROUTE_FIELDS} | {"date": date_str, "route": route})
+        add = {
+            "samples": 1,
+            "observations": len(ds),
+            "bus_minutes": len(ds) * minutes,
+            "early_min": minutes * sum(1 for d in ds if d < ONTIME_EARLY_S),
+            "ontime_min": minutes * sum(1 for d in ds if ONTIME_EARLY_S <= d <= ONTIME_LATE_S),
+            "late_min": minutes * sum(1 for d in ds if d > ONTIME_LATE_S),
+            "within_5min_min": minutes * sum(1 for d in ds if abs(d) <= WITHIN_S),
+            "delay_s_x_min": minutes * sum(ds),
+        }
+        for f, v in add.items():
+            r[f] = int(r[f]) + v
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    with tmp.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=ROUTE_FIELDS, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows[k] for k in sorted(rows, key=route_sort_key))
+    tmp.replace(path)
+
+
+def update_cancellations(sched, canceled, live, running, now_ts,
+                         state_path=CANCEL_STATE, log_path=CANCEL_LOG):
+    """Keep one ledger entry per (service date, trip) that ever had a
+    cancellation notice; write finished service dates to the daily log.
+    Returns (open entries, rows written)."""
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        state = {"since": now_ts, "trips": {}}
+    trips = state["trips"]
+
+    def entry_key(tid, start_date):
+        rec = sched.trip(tid) if tid else None
+        return (f"{service_date(rec, start_date, now_ts):%Y-%m-%d}|{tid}", rec) if rec else (None, None)
+
+    for tid, sd in canceled:
+        k, rec = entry_key(tid, sd)
+        if not k:
+            continue  # not in the timetable: can't date it or say what was missed
+        if k in trips:
+            trips[k]["withdrawn"] = 0  # notice is (back) in force
+        else:
+            trips[k] = {"route": route_label(rec["route_id"]), "hour": rec["secs"][0] // 3600 % 24,
+                        "withdrawn": 0, "ran": 0}
+    pending = {k.split("|", 1)[1] for k in trips}
+    for flag, seen in (("withdrawn", live), ("ran", running)):
+        for tid, sd in seen:
+            if tid in pending:
+                k, _ = entry_key(tid, sd)
+                if k in trips:
+                    trips[k][flag] = 1
+
+    cutoff = f"{datetime.fromtimestamp(now_ts, TZ) - timedelta(hours=CANCEL_DONE_HOUR):%Y-%m-%d}"
+    logged = set()
+    if log_path.exists():
+        with log_path.open(newline="", encoding="utf-8") as fh:
+            logged = {r["date"] for r in csv.DictReader(fh)}
+    done = {}
+    for k in [k for k in trips if k[:10] < cutoff]:
+        e = trips.pop(k)
+        date = k[:10]
+        if date in logged:
+            continue
+        b = done.setdefault((date, e["route"], e["hour"]), {"notices": 0, "withdrawn": 0, "ran": 0, "cancelled": 0})
+        b["notices"] += 1
+        b["withdrawn"] += e["withdrawn"]
+        b["ran"] += e["ran"] and not e["withdrawn"]
+        b["cancelled"] += not (e["withdrawn"] or e["ran"])
+    rows = []
+    for (date, route, hour), b in sorted(done.items(), key=lambda kv: (*route_sort_key(kv[0][:2]), kv[0][2])):
+        d = datetime.strptime(date, "%Y-%m-%d").date()
+        # Ledger started after that day's first trips: early notices were missed.
+        partial = int(state["since"] > service_day_start(d) + 4 * 3600)
+        rows.append({"date": date, "route": route, "start_hour": hour, **b, "partial": partial})
+    if rows:
+        append_rows(log_path, CANCEL_FIELDS, rows, {})
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(json.dumps(state, sort_keys=True, separators=(",", ":")), encoding="utf-8")
+    return len(trips), len(rows)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--force", action="store_true",
@@ -469,6 +618,7 @@ def main():
     otp_stats = {}
 
     trip_rows, vp_rows = None, None
+    running, vp_ok = [], False
     errors = []
     try:
         feed = fetch_json(TRIP_URL, key)
@@ -489,13 +639,25 @@ def main():
             print("VehiclePositions first entity:", json.dumps(ents[0], indent=2)[:2000] if ents else "(empty)")
         if raw_dir:
             archive_raw(Path(raw_dir), "vehiclepositions", feed, now_utc)
-        vp_rows = summarize_vehicles(feed)
+        vp_rows = summarize_vehicles(feed, running)
+        vp_ok = True
     except Exception as exc:  # noqa: BLE001
         errors.append(f"VehiclePositions: {exc}")
         vp_rows = [blank_row(VP_FIELDS, "all", str(exc)[:200])]
 
     append_rows(TRIP_LOG, TRIP_FIELDS, trip_rows, stamps)
     append_rows(VP_LOG, VP_FIELDS, vp_rows, stamps)
+
+    extra = ""
+    if sched and "TripUpdates" not in " ".join(errors):
+        routes = otp_stats.get("_routes", {})
+        update_route_daily(ROUTE_LOG, f"{now_local:%Y-%m-%d}", routes, sample_minutes(now_local))
+        extra = f" routes={len(routes)}"
+        if vp_ok:  # without vehicles a cancelled-but-ran trip can't be told apart
+            open_, written = update_cancellations(sched, otp_stats.get("_canceled", []),
+                                                  otp_stats.get("_live", []), running,
+                                                  int(now_utc.timestamp()))
+            extra += f" cancel-ledger={open_} open, {written} rows written"
 
     all_row_t = next((r for r in trip_rows if r["group"] == "all"), trip_rows[0])
     lf_row = next((r for r in trip_rows if r["group"] == "bus_less_frequent"), {})
@@ -509,6 +671,7 @@ def main():
           f"vehicles={all_row_v.get('vehicles', '?')} "
           + (f"schedule={sched.version} delay-match={match_counts(otp_stats)} "
              f"every-stop-ontime%={every_stop_pct(otp_stats.get('_every_stop'))}" if sched else "schedule=none")
+          + extra
           + (f" ERRORS: {'; '.join(errors)}" if errors else ""))
     return 0
 

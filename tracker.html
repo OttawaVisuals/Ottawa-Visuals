@@ -1065,6 +1065,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <div class="src">OC Transpo update deck, Sept 2023<small>monthly chart labels: ridership, Para trips, fare revenue, trips delivered</small></div>
     <div class="src">5-Year Roadmap scorecards, 2024 – 2026 editions<small>annual 2023–2025 KPIs and targets</small></div>
     <div class="src">Inquiry answers (TTC 06-19, OCC-2026-08) + 2025 bus reliability report<small>one-off figures, incl. weekday time-of-day shares</small></div>
+    <div class="src">Our own GTFS-RT collector (collect.yml), since 2026-10-16<small>"Measured live" section: daily and hourly bus on-time, cancelled trips, most-late routes</small></div>
+    <div class="src">otranspo.ca public API (MIT, attribution required), since 2026-08-01<small>independent daily ±5 min on-time, network and per route, as a cross-check</small></div>
   </div>
 
   <h3>How it was built</h3>
@@ -1093,6 +1095,16 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         <span class="tag data">source limit</span><b>After 2021 the monthly charts are images, so most 2022+ monthly values can't be read.</b>
         <p>Monthly data exists for 2020–21 and Aug 2022–Aug 2023 only; everything else is annual.</p>
         <div class="where">OC_Transpo/README.md, "KPI history" coverage table.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="octranspo-live-compare"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>Our ±5 figure and otranspo.ca's sit on one chart, but they aren't the same measurement.</b>
+        <p>We score each running bus at its next timepoint, weighted by sample time; otranspo.ca scores one settled prediction per stop arrival at every stop. The page says so; agreement is a sanity check, not proof.</p>
+        <div class="where">OC_Transpo/octranspo_kpis.html renderLive(); OC_Transpo/README.md GTFS-RT section.</div>
+      </div></li>
+      <li><input type="checkbox" data-key="octranspo-cancel-rule"><div class="a-body">
+        <span class="tag choice">judgment call</span><b>A cancelled trip only counts if its notice stayed up and no bus was seen running it.</b>
+        <p>Same rule as otranspo.ca. Polls are 5–15 min apart, so a trip run without a vehicle position, or a notice up for a few minutes only, can be missed either way.</p>
+        <div class="where">OC_Transpo/scripts/poll_gtfsrt.py update_cancellations().</div>
       </div></li>
     </ul>
   </div>

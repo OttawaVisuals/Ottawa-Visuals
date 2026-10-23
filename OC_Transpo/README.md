@@ -44,6 +44,28 @@ their exact figure. `scripts/build_history_transit.py` rolls the samples into
 daily on-time figures in `rt_data/history/transit_daily.json`, which is the
 permanent record. Individual bus records are never stored.
 
+Added 2026-10-23, shown in the "Measured live" section of `octranspo_kpis.html`:
+
+- **Per-route tally** (`rt_data/route_daily.csv`): per local date and bus route,
+  the same on-time buckets as bus-minutes, so routes can be ranked without
+  storing buses. Rolled up over the last 28 days into
+  `rt_data/history/transit_routes.json`.
+- **Distinct cancellations** (`rt_data/cancellations_daily.csv`): per service
+  date, route and scheduled start hour. A trip counts once a day, and not at
+  all if its notice was withdrawn or a vehicle later ran it (otranspo.ca's
+  rule). Open days live in `rt_data/cancel_state.json` and are written out at
+  05:00 the next morning. The per-sample `trips_canceled` count is kept, but it
+  counts the same trip again in every poll.
+- **On time by hour** (`rt_data/history/transit_hourly.json`): the last 28
+  days, weekdays and weekends apart, plus cancelled trips by start hour.
+- **otranspo.ca comparison** (`scripts/fetch_otranspo_daily.py` →
+  `rt_data/otranspo_daily.csv`, `otranspo_route_daily.csv`): their daily
+  network and per-route ±5 figures from their public API (MIT licence,
+  attribution required), backfilled from 2026-08-01, a few days per hourly run.
+
+These three CSVs and the ledger are kept between Actions runs in their own
+cache (`STATE_PATHS` in `collect.yml`), separate from the readings spool.
+
 The raw-JSON archive (`OCTRANSPO_RAW_DIR`, ~15 MB/day) is now optional and not
 used on Actions. The JSON is protobuf-net style with
 `Has<Field>` companion flags (`"Delay": 0, "HasDelay": false` = unset) — the

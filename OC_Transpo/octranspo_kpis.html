@@ -75,6 +75,7 @@
   @media (max-width:640px){ .chart-wrap{height:260px;} .chart-wrap.short{height:220px;} }
   .note { font-size:12px; color:var(--ink-3); margin-top:10px; padding:8px 12px; border-left:2px solid var(--line-2); line-height:1.55; }
   .note b { color:var(--ink-2); }
+  .note:empty { display:none; }
   .error-msg { font-family:var(--font-mono); font-size:12px; color:var(--accent); padding:12px; background:var(--bg); border-radius:6px; border:1px solid var(--line); margin-bottom:12px; display:none; }
 
   .stat-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:4px; }
@@ -85,6 +86,7 @@
   .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
 
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px 20px; }
+  .grid2 > * { min-width:0; }  /* let charts shrink when the window narrows */
   @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
 
   .legend { display:flex; flex-wrap:wrap; gap:6px 14px; margin:4px 0 6px; font-size:12px; color:var(--ink-2); }
@@ -104,6 +106,12 @@
   summary:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; border-radius:3px; }
   ul.plain { margin:4px 0 0; padding-left:18px; font-size:13px; line-height:1.6; color:var(--ink-2); }
   ul.plain b { color:var(--ink); }
+
+  .seg { display:inline-flex; gap:4px; margin-left:8px; vertical-align:middle; }
+  .seg button { font:inherit; font-size:10.5px; padding:2px 8px; border-radius:6px; border:1px solid var(--line); background:var(--bg-2); color:var(--ink-3); cursor:pointer; }
+  .seg button[aria-pressed="true"] { color:var(--ink); border-color:var(--ink-2); }
+  .seg button:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+  .empty { display:grid; place-items:center; height:100%; font-size:12.5px; color:var(--ink-3); text-align:center; padding:0 16px; border:1px dashed var(--line-2); border-radius:8px; }
 
   footer { max-width:960px; margin:0 auto; padding:0 16px 40px; font-size:11.5px; color:var(--ink-3); line-height:1.6; }
   footer a { color:var(--ink-2); }
@@ -231,7 +239,38 @@
     <p class="note" id="otp-note"></p>
   </section>
 
-  <!-- 5. ABOUT -->
+  <!-- 5. LIVE -->
+  <section class="card" id="live">
+    <p class="q">Measured live</p>
+    <h2 class="section-title">What the buses are doing now</h2>
+    <p class="section-note" id="live-note">Loading live measurements…</p>
+    <div class="stat-row" id="live-hero"></div>
+    <p class="chart-sub" style="margin-top:16px">Buses on time each day, %</p>
+    <div class="legend" id="lg-live-d"></div>
+    <div class="chart-wrap short"><canvas id="c-live-d" aria-label="Daily share of buses on time: our two measures and otranspo.ca's"></canvas></div>
+    <p class="note" id="live-d-note"></p>
+    <div class="grid2" style="margin-top:20px">
+      <div>
+        <p class="chart-sub">On time by hour of day, % <span class="seg" role="group" aria-label="Day type"><button type="button" data-kind="weekday" aria-pressed="true">Weekdays</button><button type="button" data-kind="weekend" aria-pressed="false">Weekends</button></span></p>
+        <div class="legend" id="lg-live-h"></div>
+        <div class="chart-wrap short"><canvas id="c-live-h" aria-label="Share of buses on time and more than 5 minutes late, by hour of day"></canvas></div>
+        <p class="note" id="live-h-note"></p>
+      </div>
+      <div>
+        <p class="chart-sub">Cancelled trips per service day</p>
+        <div class="legend" id="lg-live-c"></div>
+        <div class="chart-wrap short" id="w-live-c"><canvas id="c-live-c" aria-label="Distinct cancelled bus trips per service day"></canvas></div>
+        <p class="note" id="live-c-note"></p>
+      </div>
+    </div>
+    <p class="chart-sub" style="margin-top:20px">Routes most often more than 5 minutes late <span id="rt-window"></span></p>
+    <div class="table-wrap" id="t-routes"></div>
+    <p class="note" id="routes-note"></p>
+    <details><summary>Show the numbers</summary><div class="table-wrap" id="t-live"></div></details>
+    <p class="note"><b>How it's measured:</b> every 5 minutes at peak and every 15 off-peak, each running bus's predicted departure from its next timepoint (the major stops OC Transpo measures at) is compared with the timetable. Each bus counts for the minutes its sample stands for; individual buses aren't stored. <b>On time</b> uses OC Transpo's window, 1 minute early to 5 minutes late; <b>within ±5 min</b> is otranspo.ca's window. otranspo.ca scores one settled prediction per stop arrival at every stop, so its figure isn't the same measurement, but it's independent. A trip counts as <b>cancelled</b> once per day if a cancellation notice was posted and no bus later ran it. Bus only: the feed doesn't cover the O-Train. Comparison figures: <a href="https://otranspo.ca/en/insights/reports">otranspo.ca</a>, an independent riders' site (MIT licence); transit data © OC Transpo open data.</p>
+  </section>
+
+  <!-- 6. ABOUT -->
   <section class="card">
     <p class="q">About the data</p>
     <h2 class="section-title">Where these numbers come from</h2>
@@ -521,6 +560,139 @@ fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(`kpi_series.csv: HTTP ${r
   })
   .catch(err => { const el = $('err'); el.textContent = `⚠ Could not load data: ${err.message}`; el.style.display = 'block'; console.error(err); });
 
+// ── LIVE (rollups written hourly by collect.yml) ────────────────────────────
+const LIVE_DIR = 'rt_data/history/';
+let LIVE = null, liveKind = 'weekday';
+const getJSON = u => fetch(u).then(r => r.ok ? r.json() : null).catch(() => null);
+const dLabel = d => `${MON[+d.slice(5, 7) - 1]} ${+d.slice(8)}`;
+const dLong = d => `${MONTH[+d.slice(5, 7) - 1]} ${+d.slice(8)}`;
+const hLabel = h => h === 0 ? '12 a.m.' : h < 12 ? `${h} a.m.` : h === 12 ? '12 p.m.' : `${h - 12} p.m.`;
+const hTick = h => h % 3 ? '' : h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 ? '12p' : `${h - 12}p`;
+const avgOf = xs => { xs = xs.filter(v => v != null); return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null; };
+function dateSpan(from, to) {
+  const out = []; for (let t = Date.parse(from + 'T12:00Z'); t <= Date.parse(to + 'T12:00Z'); t += 864e5) out.push(new Date(t).toISOString().slice(0, 10)); return out;
+}
+function emptyBox(wrapId, text) { $(wrapId).innerHTML = `<div class="empty">${text}</div>`; }
+
+function renderLive() {
+  const D = LIVE.daily, by = Object.fromEntries(D.map(r => [r.date, r]));
+  const s1 = css('--s1'), s2 = css('--s2'), s3 = css('--s3'), cm = css('--muted');
+  const ours = D.filter(r => r.bus_ontime_pct != null);
+  if (!ours.length) { $('live-note').textContent = 'Live measurements are not available yet.'; return; }
+  const start = ours[0].date, end = D[D.length - 1].date;
+
+  // Daily line: from the first otranspo.ca day in the last 60, so their history gives context.
+  const anyDay = D.filter(r => r.bus_ontime_pct != null || r.otranspo_within_5min_pct != null).map(r => r.date);
+  const cut = new Date(Date.parse(end + 'T12:00Z') - 59 * 864e5).toISOString().slice(0, 10);
+  const from = anyDay.find(d => d >= cut) || start;
+  const days = dateSpan(from, end), g = k => days.map(d => by[d]?.[k] ?? null);
+  const pts = { pointRadius: 2.5, pointHoverRadius: 5 };
+  legend('lg-live-d', [['On time, −1 to +5 min (OC Transpo window)', s1], ['Within ±5 min, ours', s2], ['Within ±5 min, otranspo.ca', s3], ['OC Transpo target 85%', css('--ink-3'), 'dash']]);
+  const od = baseOpts({ yTick: v => v + '%', min: 40, max: 100 });
+  od.scales.x.ticks.callback = function (v) { const d = days[v]; return days.length <= 14 || new Date(d + 'T12:00Z').getUTCDay() === 1 ? dLabel(d) : ''; };  // Mondays
+  od.scales.x.ticks.autoSkip = false;
+  od.plugins.tooltip.callbacks = { title: c => dLong(days[c[0].dataIndex]), label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make('c-live-d', { data: { labels: days.map(dLabel), datasets: [
+    line('On time (−1/+5)', g('bus_ontime_pct'), s1, pts), line('Within ±5, ours', g('bus_within_5min_pct'), s2, pts),
+    line('Within ±5, otranspo.ca', g('otranspo_within_5min_pct'), s3, pts), target('Target', days.length, 85)] }, options: od });
+
+  const both = D.filter(r => r.bus_within_5min_pct != null && r.otranspo_within_5min_pct != null);
+  const last7 = ours.slice(-7);
+  $('live-d-note').innerHTML = (both.length
+    ? `On the ${both.length} day${both.length > 1 ? 's' : ''} both sites measured, our ±5 figure averaged <b>${pct(avgOf(both.map(r => r.bus_within_5min_pct)))}</b> and otranspo.ca's <b>${pct(avgOf(both.map(r => r.otranspo_within_5min_pct)))}</b>. `
+    : `The ±5 figure started on October 22, 2026; otranspo.ca publishes each day a day or two later, so the lines overlap from then on. `) +
+    `Gaps are days nobody measured (our collector was down October 12–16), not zeros.`;
+
+  // Hero tiles
+  const hw = LIVE.hourly?.weekday?.hours || [];
+  const busy = hw.filter(h => h.delays_observed >= 2000 && h.bus_ontime_pct != null);
+  const worst = busy.slice().sort((a, b) => a.bus_ontime_pct - b.bus_ontime_pct)[0];
+  const best = busy.slice().sort((a, b) => b.bus_ontime_pct - a.bus_ontime_pct)[0];
+  const cx = D.filter(r => r.cancelled_trips != null && !r.cancel_partial);
+  const w5 = D.filter(r => r.bus_within_5min_pct != null).slice(-7);
+  $('live-hero').innerHTML = [
+    [pct(avgOf(last7.map(r => r.bus_ontime_pct))), `of buses on time (1 min early to 5 late), ${dLabel(last7[0].date)}–${dLabel(last7[last7.length - 1].date)}. OC Transpo's target is 85%.`],
+    [pct(avgOf(w5.map(r => r.bus_within_5min_pct))), `within ±5 minutes, the window otranspo.ca uses${w5.length < 7 ? ` (${w5.length} day${w5.length > 1 ? 's' : ''} so far)` : ', last 7 days'}.`],
+    worst ? [pct(worst.bus_ontime_pct), `on time at ${hLabel(worst.hour)} on weekdays, the worst hour. ${pct(worst.bus_late_pct)} of buses are more than 5 min late then.`] : ['—', 'worst weekday hour: not enough data yet.'],
+    cx.length ? [Math.round(avgOf(cx.map(r => r.cancelled_trips))), `bus trips cancelled on a typical day (${cx.length} full day${cx.length > 1 ? 's' : ''} counted).`] : ['—', 'cancelled trips per day: counting started October 23, 2026.'],
+  ].map(([v, l]) => `<div class="stat-box"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+
+  $('live-note').innerHTML = `Since October 16, 2026, this site checks OC Transpo's live bus predictions against the timetable around the clock. ` +
+    (worst && best ? `The pattern is clear already: on weekdays buses are on time <b>${pct(best.bus_ontime_pct)}</b> of the time at ${hLabel(best.hour)}, but only <b>${pct(worst.bus_ontime_pct)}</b> at ${hLabel(worst.hour)}, in the afternoon rush. ` : '') +
+    `That's live, unlike the monthly KPIs above, which OC Transpo publishes months later (the latest is April 2026).`;
+
+  renderLiveHourly();
+  renderLiveCancel(cx, days, by, cm, s1);
+  renderLiveRoutes();
+
+  table('t-live', ours.map(r => dLong(r.date)), [
+    { label: 'On time (−1/+5)', data: ours.map(r => r.bus_ontime_pct) },
+    { label: 'Late >5 min', data: ours.map(r => r.bus_late_pct) },
+    { label: 'Within ±5, ours', data: ours.map(r => r.bus_within_5min_pct) },
+    { label: 'Within ±5, otranspo.ca', data: ours.map(r => r.otranspo_within_5min_pct ?? null) },
+    { label: 'Cancelled trips', data: ours.map(r => r.cancelled_trips ?? null), fmt: v => String(v) }], v => pct(v));
+}
+
+function renderLiveHourly() {
+  const H = LIVE.hourly, s1 = css('--s1'), s2 = css('--s2');
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.kind === liveKind)));
+  const k = H?.[liveKind];
+  if (!k || !k.days) {
+    if (charts['c-live-h']) { charts['c-live-h'].destroy(); delete charts['c-live-h']; }
+    $('lg-live-h').innerHTML = ''; $('live-h-note').textContent = `No ${liveKind === 'weekday' ? 'weekday' : 'weekend'} data yet.`; return;
+  }
+  // Overnight hours are sampled once an hour with few buses out: too thin to chart.
+  const hrs = k.hours.filter(h => h.delays_observed >= 300), labels = hrs.map(h => h.hour);
+  legend('lg-live-h', [['On time (−1/+5)', s1], ['More than 5 min late', s2]]);
+  const o = baseOpts({ yTick: v => v + '%', min: 0, max: 100 });
+  o.scales.x.ticks.callback = v => hTick(labels[v]); o.scales.x.ticks.autoSkip = false;
+  o.plugins.tooltip.callbacks = { title: c => `${hLabel(labels[c[0].dataIndex])}–${hLabel((labels[c[0].dataIndex] + 1) % 24)}`, label: c => ` ${c.dataset.label}: ${pct(c.parsed.y)}` };
+  make('c-live-h', { data: { labels: labels.map(hLabel), datasets: [
+    line('On time', hrs.map(h => h.bus_ontime_pct), s1), line('Late >5 min', hrs.map(h => h.bus_late_pct), s2)] }, options: o });
+  $('live-h-note').innerHTML = `${k.days} ${liveKind === 'weekday' ? 'weekday' : 'weekend day'}${k.days > 1 ? 's' : ''}, ${dLabel(H.window.start)}–${dLabel(H.window.end)} (rolling 28 days). ` +
+    (liveKind === 'weekday' ? 'The afternoon rush is the worst stretch, as it was in OC Transpo\'s own 2020–21 figures above.' : '');
+}
+
+function renderLiveCancel(cx, days, by, cm, s1) {
+  if (!cx.length && !LIVE.daily.some(r => r.cancelled_trips != null)) {
+    emptyBox('w-live-c', 'Counting started October 23, 2026.<br>Each service day is added at 5 a.m. the next morning, once its last trips are done.');
+    $('live-c-note').textContent = ''; $('lg-live-c').innerHTML = '';
+    return;
+  }
+  if (!$('c-live-c')) $('w-live-c').innerHTML = '<canvas id="c-live-c" aria-label="Distinct cancelled bus trips per service day"></canvas>';
+  const cd = days.filter(d => by[d]?.cancelled_trips != null);
+  const span = dateSpan(cd[0], cd[cd.length - 1]);
+  legend('lg-live-c', [['Cancelled trips', s1, 'box'], ['Partly counted day', cm, 'box']]);
+  const o = baseOpts({ min: 0 });
+  o.plugins.tooltip.filter = i => i.parsed.y != null;
+  o.plugins.tooltip.callbacks = { title: c => dLong(span[c[0].dataIndex]), label: c => { const r = by[span[c.dataIndex]];
+    return [` ${r.cancelled_trips} cancelled${r.cancel_partial ? ' (partly counted)' : ''}`, ` ${r.cancel_notices} notices: ${r.cancel_withdrawn} withdrawn, ${r.cancel_ran} ran anyway`]; } };
+  make('c-live-c', { data: { labels: span.map(dLabel), datasets: [bar('Cancelled', span.map(d => by[d]?.cancelled_trips ?? null),
+    span.map(d => by[d]?.cancel_partial ? cm : s1))] }, options: o });
+  const hw = LIVE.hourly?.weekday?.hours || [], top = hw.filter(h => h.cancelled_per_day).sort((a, b) => b.cancelled_per_day - a.cancelled_per_day).slice(0, 2);
+  const notices = cd.reduce((s, d) => s + by[d].cancel_notices, 0), dropped = cd.reduce((s, d) => s + by[d].cancel_withdrawn + by[d].cancel_ran, 0);
+  $('live-c-note').innerHTML = `Each trip counts once a day. ${dropped} of ${notices} notices were left out because the notice was withdrawn or a bus ran the trip anyway.` +
+    (top.length ? ` Weekday cancellations bunch up in trips scheduled to start at ${top.map(h => hLabel(h.hour)).join(' and ')}.` : '');
+}
+
+function renderLiveRoutes() {
+  const R = LIVE.routes;
+  if (!R || !R.routes.length) { $('t-routes').innerHTML = '<div class="empty" style="height:80px">The route tally started October 23, 2026. A ranking appears here after a few days.</div>'; return; }
+  const nDays = dateSpan(R.window.start, R.window.end).length;
+  const rows = R.routes.filter(r => !r.school && r.observations >= 100 && r.late_pct != null).slice(0, 12);
+  $('rt-window').textContent = `· ${dLabel(R.window.start)}–${dLabel(R.window.end)}${nDays < 7 ? ` · provisional, ${nDays} day${nDays > 1 ? 's' : ''} of data` : ''}`;
+  const n = v => v == null ? '—' : v;
+  $('t-routes').innerHTML = '<table><thead><tr><th>Route</th><th class="num">Late &gt;5 min</th><th class="num">On time (−1/+5)</th><th class="num">Avg delay</th><th class="num">Within ±5, ours</th><th class="num">Within ±5, otranspo.ca</th><th class="num">Trips cancelled</th></tr></thead><tbody>' +
+    rows.map(r => `<tr><td>${r.route}</td><td class="num">${pct(r.late_pct)}</td><td class="num">${pct(r.ontime_pct)}</td><td class="num">${r.mean_delay_min == null ? '—' : (r.mean_delay_min > 0 ? '+' : '') + r.mean_delay_min.toFixed(1) + ' min'}</td><td class="num">${pct(r.within_5min_pct)}</td><td class="num">${pct(r.otranspo_within_5min_pct)}</td><td class="num">${n(r.cancelled)}</td></tr>`).join('') + '</tbody></table>';
+  $('routes-note').innerHTML = `Bus routes with at least 100 buses observed, ranked by the share of bus-time spent more than 5 minutes late. School routes (600s) are left out: they run a few trips at bell times. ` +
+    `otranspo.ca's column covers ${R.window.otranspo_days} of these days${R.window.otranspo_days < nDays ? ' (it publishes a day or two later)' : ''}.`;
+}
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { liveKind = b.dataset.kind; if (LIVE) renderLiveHourly(); }));
+Promise.all(['transit_daily', 'transit_hourly', 'transit_routes'].map(n => getJSON(`${LIVE_DIR}${n}.json`)))
+  .then(([daily, hourly, routes]) => { LIVE = { daily: daily || [], hourly, routes }; renderLive(); })
+  .catch(err => { $('live-note').textContent = `Could not load live data: ${err.message}`; console.error(err); });
+
 // ── THEME (shared ov-theme key across the site) ──────────────────────────────
 const root = document.documentElement;
 const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
@@ -531,6 +703,7 @@ function setTheme(mode) {
   try { localStorage.setItem('ov-theme', mode); } catch(e){}
   setToggleIcon(mode);
   if (ROWS) renderAll();
+  if (LIVE) renderLive();
 }
 setToggleIcon(root.getAttribute('data-theme'));
 $('theme-toggle').addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));

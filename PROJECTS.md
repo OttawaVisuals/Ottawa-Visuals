@@ -266,6 +266,10 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   published monthly figures (Line 1 service not delivered 2020–21, trips delivered Aug 2022–Aug 2023,
   weekday bus punctuality by peak 2020–21). Gaps are left empty; hours-based and trip-based delivery
   measures are never spliced.
+- **Measured live section (2026-10-23):** daily bus on-time (ours, −1/+5 and ±5) next to otranspo.ca's
+  daily ±5 figure, on time by hour of day, distinct cancelled trips per day, and the routes most often
+  late (route tally and cancellation ledger started 2026-10-23; ranking provisional until ~a week of
+  data). First read: weekday on-time drops to ~46% at 4–6 p.m., with ~41% of buses >5 min late.
 - Ridership + service-quality KPIs over time. Data gap on OC Transpo site (KPIs only 2019–2022 downloadable).
 - **Built:** Pi/Windows-ready scraper in [`OC_Transpo/`](OC_Transpo/oc_transpo_kpi_scraper.py) — auto-discovers Transit
   Committee/Commission meetings via eScribe's calendar API, downloads the KPI/ridership

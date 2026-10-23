@@ -37,6 +37,12 @@ env:
     Traffic/data/ctv_crashes_state.json
     OC_Transpo/rt_data/trip_updates_summary.csv
     OC_Transpo/rt_data/vehicle_positions_summary.csv
+  # Same idea, own cache: changing SPOOL_PATHS changes that cache's version,
+  # so the next restore would miss and lose up to an hour of readings.
+  STATE_PATHS: |
+    OC_Transpo/rt_data/route_daily.csv
+    OC_Transpo/rt_data/cancellations_daily.csv
+    OC_Transpo/rt_data/cancel_state.json
 
 jobs:
   collect:
@@ -58,6 +64,13 @@ jobs:
           path: ${{ env.SPOOL_PATHS }}
           key: collect-spool-none
           restore-keys: collect-spool-
+
+      - name: Restore transit day state
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.STATE_PATHS }}
+          key: transit-state-none
+          restore-keys: transit-state-
 
       # Timetable index for on-time computation (poll_gtfsrt.py compares predicted
       # arrivals with the schedule). Keyed on the published zip's ETag, so it is
@@ -115,6 +128,13 @@ jobs:
           path: ${{ env.SPOOL_PATHS }}
           key: collect-spool-${{ github.run_id }}-${{ github.run_attempt }}
 
+      - name: Save transit day state
+        if: always() && hashFiles('OC_Transpo/rt_data/cancel_state.json', 'OC_Transpo/rt_data/route_daily.csv') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.STATE_PATHS }}
+          key: transit-state-${{ github.run_id }}-${{ github.run_attempt }}
+
       # Commit each collector at most once an hour (>=55 min since its last
       # readings commit), keeping the Pi's "traffic: readings" / "transit:
       # readings" messages so collector-heartbeat.yml keeps working.
@@ -136,6 +156,7 @@ jobs:
             git diff --cached --quiet || git commit -q -m "traffic: readings $stamp"
           fi
           if due "transit: readings"; then
+            python OC_Transpo/scripts/fetch_otranspo_daily.py || echo "fetch_otranspo_daily failed (non-fatal)"
             python OC_Transpo/scripts/build_history_transit.py || echo "build_history_transit failed (non-fatal)"
             git add OC_Transpo/rt_data/
             git diff --cached --quiet || git commit -q -m "transit: readings $stamp"
