@@ -328,7 +328,9 @@
   "speed_mean_kmh": 10.9,
   "cancelled_mean": 2.0,
   "cancelled_max": 5,
-  "cancelled_pct_mean": 0.73
+  "cancelled_pct_mean": 0.73,
+  "otranspo_within_5min_pct": 81.1,
+  "otranspo_observations": 77114
  },
  {
   "date": "2026-09-03",
@@ -393,7 +395,9 @@
   "speed_mean_kmh": 13.2,
   "cancelled_mean": 5.8,
   "cancelled_max": 10,
-  "cancelled_pct_mean": 2.61
+  "cancelled_pct_mean": 2.61,
+  "otranspo_within_5min_pct": 81.8,
+  "otranspo_observations": 141216
  },
  {
   "date": "2026-09-08",
@@ -406,7 +410,9 @@
   "speed_mean_kmh": 15.3,
   "cancelled_mean": 17.4,
   "cancelled_max": 33,
-  "cancelled_pct_mean": 4.66
+  "cancelled_pct_mean": 4.66,
+  "otranspo_within_5min_pct": 76.0,
+  "otranspo_observations": 272836
  },
  {
   "date": "2026-09-09",
@@ -419,7 +425,9 @@
   "speed_mean_kmh": 15.2,
   "cancelled_mean": 17.7,
   "cancelled_max": 29,
-  "cancelled_pct_mean": 4.19
+  "cancelled_pct_mean": 4.19,
+  "otranspo_within_5min_pct": 73.4,
+  "otranspo_observations": 275244
  },
  {
   "date": "2026-09-10",
@@ -432,7 +440,9 @@
   "speed_mean_kmh": 15.0,
   "cancelled_mean": 82.7,
   "cancelled_max": 122,
-  "cancelled_pct_mean": 14.45
+  "cancelled_pct_mean": 14.45,
+  "otranspo_within_5min_pct": 73.7,
+  "otranspo_observations": 272193
  },
  {
   "date": "2026-09-11",
@@ -445,7 +455,9 @@
   "speed_mean_kmh": 15.2,
   "cancelled_mean": 79.5,
   "cancelled_max": 124,
-  "cancelled_pct_mean": 15.34
+  "cancelled_pct_mean": 15.34,
+  "otranspo_within_5min_pct": 78.5,
+  "otranspo_observations": 276538
  },
  {
   "date": "2026-09-12",
@@ -458,7 +470,9 @@
   "speed_mean_kmh": 13.4,
   "cancelled_mean": 27.8,
   "cancelled_max": 38,
-  "cancelled_pct_mean": 11.9
+  "cancelled_pct_mean": 11.9,
+  "otranspo_within_5min_pct": 63.8,
+  "otranspo_observations": 190943
  },
  {
   "date": "2026-09-13",
@@ -471,7 +485,9 @@
   "speed_mean_kmh": 13.2,
   "cancelled_mean": 33.4,
   "cancelled_max": 107,
-  "cancelled_pct_mean": 14.36
+  "cancelled_pct_mean": 14.36,
+  "otranspo_within_5min_pct": 73.7,
+  "otranspo_observations": 164493
  },
  {
   "date": "2026-09-14",
@@ -484,7 +500,9 @@
   "speed_mean_kmh": 15.2,
   "cancelled_mean": 77.2,
   "cancelled_max": 122,
-  "cancelled_pct_mean": 14.91
+  "cancelled_pct_mean": 14.91,
+  "otranspo_within_5min_pct": 80.5,
+  "otranspo_observations": 273976
  },
  {
   "date": "2026-09-15",
@@ -979,15 +997,15 @@
  {
   "date": "2026-10-22",
   "weekday": 3,
-  "n": 130,
+  "n": 134,
   "buses_am_peak": 540.0,
   "buses_pm_peak": 556.0,
-  "buses_mean": 482.0,
+  "buses_mean": 478.0,
   "buses_max": 566,
-  "speed_mean_kmh": 15.6,
-  "cancelled_mean": 30.0,
+  "speed_mean_kmh": 15.4,
+  "cancelled_mean": 29.2,
   "cancelled_max": 49,
-  "cancelled_pct_mean": 6.19,
+  "cancelled_pct_mean": 6.02,
   "delays_observed": 29062,
   "bus_ontime_pct": 59.4,
   "bus_early_pct": 15.1,
