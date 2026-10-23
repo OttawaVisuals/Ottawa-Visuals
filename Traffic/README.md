@@ -73,12 +73,16 @@ City/Police refresh. See [court methodology and rebuild instructions](../Ontario
 - The mix is speeding, red lights and **all other HTA offences combined**. All other
   is the parent total minus speeding and red lights; it includes the separate source
   catch-all. All 15 source detail rows reconcile to HTA for every metric/publication.
-- Year selects cards, the detail table and CSV. Offence selects the outcome history
-  and detail values. Annual charts keep all calendar years; count/share applies to
-  the mix and outcome charts. CSV contains one selected-year row, raw outcomes,
-  fractional shares, camera counts/coverage and original court source locations.
-- Prepaid fines, guilty pleas and default guilt remain separate. Trial results are
-  not split into guilty/acquitted; no complete conviction rate is available.
+- Offence selects all three KPIs (completed, prepaid, guilty pleas/default), the
+  first chart and detail table. KPIs/table use the latest calendar year, explicitly
+  labelled; there is no year picker. The first stacked chart shows that offence's
+  annual completions grouped by outcome. Count/share buttons apply to the outcome
+  and HTA-mix charts. CSV contains every calendar year for the selected offence,
+  raw outcomes, grouped counts/fractional shares, camera coverage and source locations.
+- Five outcome groups: prepaid; guilty (pleas plus no response/attendance);
+  withdrawn; other; trial with unavailable verdict. Trial results are not split into
+  guilty/acquitted; no complete conviction rate is available. Raw categories remain
+  separate in the CSV. Context charts retain all HTA offences.
 - Camera tickets **issued** appear alongside court **completions** for context.
   They are not matched cohorts and can occur in different years. Court data combine
   officer and camera enforcement, so an exact automated-enforcement share is unknown.

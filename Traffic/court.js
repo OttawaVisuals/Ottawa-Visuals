@@ -4,6 +4,15 @@
   const M=typeof module==='undefined'?window.CourtOutcomes:require('../Ontario_Trials/model.js');
   const HTA='statute:highway-traffic-act',SPEED='hta:s-128-speeding',RED='hta:s-144-red-light-proceed-before-green';
   const calendarSources=d=>M.sources(d,'poa').filter(s=>s.period.calendar_year);
+  // Prepayment and unknown trial verdicts stay separate from recorded guilt.
+  const outcomeDefinitions=[
+    ['paid','Prepaid',['prepaid']],
+    ['guilty','Guilty (pleas / default)',['guilty_before','guilty_at','no_response','no_attendance']],
+    ['withdrawn','Withdrawn',['withdrawn_before','withdrawn_at']],
+    ['other','Other',['other_before','other_at']],
+    ['trial','Trial · verdict unavailable',['following_trial']]
+  ];
+  const groupedOutcomes=values=>outcomeDefinitions.map(([key,label,fields])=>({key,label,value:fields.reduce((n,k)=>n+values[k],0)}));
   function selected(d,source,key){
     if(key==='all')return M.record(d,source.id,HTA);
     if(key!=='other')return M.record(d,source.id,key);
@@ -23,12 +32,16 @@
   }
   function exportRows(d,source,key,report){
     const row=selected(d,source,key),mix=composition(d,source),speed=cameraYear(report,'speed',source.period.calendar_year),red=cameraYear(report,'redlight',source.period.calendar_year);
-    const groups=M.definitions.poa.map(([k])=>k),metrics=Object.keys(row?.values||{});
+    const groups=outcomeDefinitions.map(([k])=>k),metrics=Object.keys(d.records.find(r=>r.source_id===source.id).values);
     const header=['calendar_year','period','offence','unit','availability','hta_completed','speeding_completed','red_light_completed','other_hta_completed',...groups.flatMap(k=>[k+'_count',k+'_share']),...metrics,'speed_camera_violations_issued','speed_camera_months','red_light_camera_violations_issued','red_light_camera_months','source_url','source_locator','source_row'];
-    const buckets=row?M.buckets('poa',row.values):[];
-    return [header,[source.period.calendar_year,source.period.label,row?.label||key,'charges',row?'available':'unavailable',mix?.total,mix?.speed,mix?.red,mix?.other,...groups.flatMap(k=>{const b=buckets.find(x=>x.key===k);return [b?.value,row?M.share(b.value,row.values.disposed):null];}),...metrics.map(k=>row.values[k]),speed.count,speed.months,red.count,red.months,source.url,source.locator,row?.source_row]];
+    const buckets=row?groupedOutcomes(row.values):[];
+    return [header,[source.period.calendar_year,source.period.label,row?.label||key,'charges',row?'available':'unavailable',mix?.total,mix?.speed,mix?.red,mix?.other,...groups.flatMap(k=>{const b=buckets.find(x=>x.key===k);return [b?.value,row?M.share(b.value,row.values.disposed):null];}),...metrics.map(k=>row?.values[k]),speed.count,speed.months,red.count,red.months,source.url,source.locator,row?.source_row]];
   }
-  const api={HTA,SPEED,RED,calendarSources,selected,composition,cameraYear,exportRows};
+  function exportHistory(d,key,report){
+    const rows=calendarSources(d).map(s=>exportRows(d,s,key,report));
+    return [rows[0][0],...rows.map(r=>r[1])];
+  }
+  const api={HTA,SPEED,RED,calendarSources,selected,composition,cameraYear,exportRows,exportHistory,outcomeDefinitions,groupedOutcomes};
   if(typeof module!=='undefined'){module.exports=api;return;}
   window.TrafficCourt=api;
   let task;
@@ -55,32 +68,38 @@
     }
     if(token!==generation)return;
     const sources=calendarSources(court),last=sources.at(-1);
-    if(!sources.some(s=>String(s.period.calendar_year)===state.year))state.year=String(last.period.calendar_year);
-    const source=sources.find(s=>String(s.period.calendar_year)===state.year);
+    delete state.year; // Old shared links now use the same latest-year KPI snapshot.
+    const source=last;
     const details=M.catalog(court,'poa').filter(r=>r.kind==='offence'&&r.group==='Highway Traffic Act'&&![SPEED,RED].includes(r.key));
     const options=[['all','All Highway Traffic Act charges'],[SPEED,'Speeding'],[RED,'Red-light offences'],['other','All other HTA offences combined'],...details.map(r=>[r.key,r.key==='hta:other-highway-traffic-act-charges'?'Other HTA charges (source catch-all)':r.label])];
     if(!options.some(([k])=>k===state.offence))state.offence='all';
     if(!['count','share'].includes(state.metric))state.metric='count';
-    $('filters').innerHTML=select('year','Court completion year',sources.map(s=>[String(s.period.calendar_year),String(s.period.calendar_year)]).reverse(),state.year)+select('offence','Traffic offence',options,state.offence)+select('metric','Annual chart measure',[['count','Number completed'],['share','Share of completions']],state.metric);
-    $('filter-scope').textContent='Year filters the cards, selected-period table and CSV. Annual charts retain all calendar years. Offence filters the outcome chart and selected-period values; the traffic-mix and camera charts retain all HTA charges for context.';
+    $('filters').innerHTML=select('offence','Traffic offence',options,state.offence)+`<div class="court-measure"><span>Chart measure</span><div role="group" aria-label="Chart measure">${[['count','Number completed'],['share','Share of completions']].map(([key,label])=>`<button type="button" data-court-metric="${key}" aria-pressed="${state.metric===key}">${label}</button>`).join('')}</div></div>`;
+    document.querySelectorAll('[data-court-metric]').forEach(button=>button.addEventListener('click',()=>{
+      if(state.metric===button.dataset.courtMetric)return;
+      state.metric=button.dataset.courtMetric;
+      render().then(()=>document.querySelector(`[data-court-metric="${state.metric}"]`)?.focus({preventScroll:true})).catch(reportError);
+    }));
+    $('filter-scope').textContent=`Selected offence: KPIs and detail table show ${last.period.calendar_year}, the latest calendar year. The first chart and CSV cover all calendar years. Measure buttons change the first two charts; context charts retain all HTA offences.`;
     const row=selected(court,source,state.offence),v=row?.values;
-    $('stats').innerHTML=stat(fmt(v?.disposed),`Charges completed · ${esc(state.year)} · ${esc(row?.label||'unavailable offence')}`)+stat(fmt(v?v.guilty_before+v.guilty_at:null),'Guilty pleas · not all guilty outcomes')+stat(fmt(v?.following_trial),'Completed following a trial · result not split');
-    const outcomesRows=row?M.buckets('poa',v).map(b=>[b.label,b.value,M.formatShare(b.value,v.disposed)]):[];
+    $('stats').innerHTML=stat(fmt(v?.disposed),`Charges completed · ${last.period.calendar_year}`)+stat(fmt(v?.prepaid),`Prepaid · ${last.period.calendar_year}`)+stat(fmt(v?groupedOutcomes(v).find(b=>b.key==='guilty').value:null),`Guilty: pleas / default · ${last.period.calendar_year}`);
+    const outcomesRows=row?groupedOutcomes(v).map(b=>[b.label,b.value,M.formatShare(b.value,v.disposed)]):[];
     const note=`<div class="notice">Camera and officer-issued charges are combined in the court tables. The speeding/red-light pattern is consistent with automated enforcement, but these data cannot identify the exact camera share. Tickets issued and charges completed can fall in different years.</div>`;
-    const selectedPanel=`<article class="card"><h3>${esc(row?.label||'Selected offence')} · ${esc(source.period.label)}</h3>${row?`<div class="table-wrap">${table(['Completion category','Charges','Share of completed'],outcomesRows)}</div><p class="note">${row.derived?'Derived':'Published'} completed total: ${fmt(v.disposed)}. Received: ${fmt(v.received)}; pending: ${fmt(v.pending)}. Shares use completed charges only.</p>`:'<p class="empty">No published row for this offence and year. Unavailable does not mean zero.</p>'}<p class="note"><a href="${esc(source.url)}" target="_blank" rel="noopener">Original court ${esc(source.format.toUpperCase())}</a> · ${esc(source.locator)}${row?' · '+(row.derived?'derived by subtracting table rows ':'source row ')+esc(row.source_row):''}. Snapshot reviewed ${esc(court.reviewed_on)}.</p><p class="note">Prepaid fines and guilt after failure to respond/attend remain separate from guilty pleas. Completed-trial results are not split into guilty/acquitted. No complete conviction rate or reason for withdrawals/stays is available.</p></article>`;
-    $('panels').innerHTML=note+'<div class="grid">'+panel('court-mix','Speeding, red lights and all other HTA offences','All HTA charges completed, all calendar years. “All other” is the HTA total minus speeding and red lights, including the source’s catch-all category. These three parts add to the HTA total.',true)+panel('court-outcomes','How the selected traffic charges ended','Selected offence, all calendar years. Pleas and trial-date resolutions can occur without a trial. Missing rows remain unavailable.',true)+'</div>'+selectedPanel+'<div class="grid">'+panel('court-cameras','Camera tickets issued alongside court completions','Context only: these are different event dates and populations, not matched tickets. No camera/total ratio is calculated. Labels show camera-month coverage; 2025 speed enforcement ended November 14.',true)+'</div>'+`<p class="note">Only calendar-year provincial-offence publications are used here (${sources[0].period.calendar_year}–${last.period.calendar_year}). The file indexed as 2026 covers April 2025–March 2026 and is excluded to avoid overlapping years. <a href="../Ontario_Trials/courts.html?series=poa&period=${esc(source.id)}&offence=${encodeURIComponent(state.offence==='all'?HTA:state.offence==='other'?HTA:state.offence)}&mode=${state.metric}">Explore the full court report</a> · <a href="../Ontario_Trials/README.md">Definitions and source audit</a> · <a href="?section=speed">Speed-camera detail</a> · <a href="?section=redlight">Red-light-camera detail</a></p>`;
+    const groupingNote='Guilty combines pleas and guilt after no response / attendance. Prepaid fines stay separate. Trial verdicts are unavailable, so this is not a complete conviction rate. Raw categories remain in the CSV.';
+    const selectedPanel=`<article class="card"><h3>${esc(row?.label||'Selected offence')} · ${esc(source.period.label)}</h3>${row?`<div class="table-wrap">${table(['Completion category','Charges','Share of completed'],outcomesRows)}</div><p class="note">${row.derived?'Derived':'Published'} completed total: ${fmt(v.disposed)}. Received: ${fmt(v.received)}; pending: ${fmt(v.pending)}. Shares use completed charges only.</p>`:'<p class="empty">No published row for this offence and year. Unavailable does not mean zero.</p>'}<p class="note"><a href="${esc(source.url)}" target="_blank" rel="noopener">Original court ${esc(source.format.toUpperCase())}</a> · ${esc(source.locator)}${row?' · '+(row.derived?'derived by subtracting table rows ':'source row ')+esc(row.source_row):''}. Snapshot reviewed ${esc(court.reviewed_on)}.</p><p class="note">${groupingNote}</p></article>`;
+    $('panels').innerHTML='<div class="grid">'+panel('court-outcomes',`${esc(row?.label||'Selected offence')}: how the charges ended`,groupingNote+' Missing rows remain unavailable.',true)+'</div>'+selectedPanel+note+'<div class="grid">'+panel('court-mix','Context: speeding, red lights and all other HTA offences','All HTA charges completed, all calendar years. “All other” is the HTA total minus speeding and red lights, including the source’s catch-all category. These three parts add to the HTA total.',true)+panel('court-cameras','Camera tickets issued alongside court completions','Context only: these are different event dates and populations, not matched tickets. No camera/total ratio is calculated. Labels show camera-month coverage; 2025 speed enforcement ended November 14.',true)+'</div>'+`<p class="note">Only calendar-year provincial-offence publications are used here (${sources[0].period.calendar_year}–${last.period.calendar_year}). The file indexed as 2026 covers April 2025–March 2026 and is excluded to avoid overlapping years. <a href="../Ontario_Trials/courts.html?series=poa&period=${esc(source.id)}&offence=${encodeURIComponent(state.offence==='all'?HTA:state.offence==='other'?HTA:state.offence)}&mode=${state.metric}">Explore the full court report</a> · <a href="../Ontario_Trials/README.md">Definitions and source audit</a> · <a href="?section=speed">Speed-camera detail</a> · <a href="?section=redlight">Red-light-camera detail</a></p>`;
     const years=sources.map(s=>s.period.calendar_year),mix=sources.map(s=>composition(court,s)),totals=mix.map(r=>r?.total||0);
     const parts=[['speed','Speeding'],['red','Red lights'],['other','All other HTA offences']].map(([key,label])=>({label,values:mix.map(r=>r?.[key]??null)}));
     const asChart=(series,denominators)=>series.map(s=>({label:s.label,data:s.values.map((v,i)=>v==null?null:state.metric==='share'?(denominators[i]?v/denominators[i]*100:null):v)}));
     chart('court-mix','bar',years,asChart(parts,totals),{stacked:true,percent:state.metric==='share',label:ctx=>`${parts[ctx.datasetIndex].label}: ${fmt(parts[ctx.datasetIndex].values[ctx.dataIndex])} (${M.formatShare(parts[ctx.datasetIndex].values[ctx.dataIndex],totals[ctx.dataIndex])})`});
     exactTable('court-mix',years,parts,totals,'All HTA completions');
     const selectedRows=sources.map(s=>selected(court,s,state.offence)),selectedTotals=selectedRows.map(r=>r?.values.disposed||0);
-    const outcomeSeries=M.definitions.poa.map(([key,label])=>({label,values:selectedRows.map(r=>r?M.buckets('poa',r.values).find(b=>b.key===key).value:null)}));
+    const outcomeSeries=outcomeDefinitions.map(([key,label])=>({label,values:selectedRows.map(r=>r?groupedOutcomes(r.values).find(b=>b.key===key).value:null)}));
     chart('court-outcomes','bar',years,asChart(outcomeSeries,selectedTotals),{stacked:true,percent:state.metric==='share',label:ctx=>{const series=outcomeSeries[ctx.datasetIndex],i=ctx.dataIndex;return `${series.label}: ${fmt(series.values[i])} (${M.formatShare(series.values[i],selectedTotals[i])})`;}});
     exactTable('court-outcomes',years,outcomeSeries,selectedTotals,'Selected offence completions');
     const speeds=years.map(y=>cameraYear(data,'speed',y)),reds=years.map(y=>cameraYear(data,'redlight',y));
     const cameraLabels=years.map((y,i)=>`${y} · speed ${speeds[i].months}/12, red ${reds[i].months}/12 months`);
     chart('court-cameras','bar',cameraLabels,[{label:'Speed camera: violations issued',data:speeds.map(r=>r.count)},{label:'Speeding: court completions',data:mix.map(r=>r?.speed??null)},{label:'Red-light camera: violations issued',data:reds.map(r=>r.count)},{label:'Red lights: court completions',data:mix.map(r=>r?.red??null)}]);
-    exports=exportRows(court,source,state.offence,data);$('download').disabled=false;
+    exports=exportHistory(court,state.offence,data);$('download').disabled=false;
   };
 })();

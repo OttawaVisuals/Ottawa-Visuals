@@ -14,7 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
-- [x] Traffic court tab in How Ottawa Really Moves (Oct 23: reused audited OCJ data; 2015–2025 speeding/red-light/other HTA mix, offence outcomes, count/share filters, selected-year CSV and camera context; 13 checks pass, desktop and 320/390px layouts reviewed)
+- [x] Traffic court tab in How Ottawa Really Moves (Oct 23: reused audited OCJ data; revised to offence-driven latest-year KPIs, outcome-stacked first chart with five groups, count/share buttons, no year dropdown, all-calendar-year CSV and camera context; 15 checks pass, desktop and narrow-phone layouts reviewed)
 - [x] Ottawa court outcomes (Oct 23: 27 official publications, 903 validated rows; separate criminal/POA views, offence/period filters, count/share bars, tables and downloads; non-calendar periods and 2016 source discrepancy preserved)
 - [x] OPS complaints and discipline (Oct 23: official-source snapshot; 23 officers in published decisions, 18 with findings/admissions, 20 cases; 2 upcoming-hearing officers separate; source reconciliation, filters, annual bars, CSV and JSON)
 - [x] PWHL mobile review (Oct 23: checked 11 page types at phone/tablet widths; fixed clipped birthplace popups and rotation, enlarged form/sort/playback controls, verified 44 updated page/width combinations; limitations in PWHL/MOBILE_CHECKS.md)

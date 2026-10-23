@@ -88,7 +88,7 @@ function initState(name) {
   if (settings[name]) return settings[name];
   if (name === 'where') return settings[name] = {};
   if (name === 'court') {
-    const initial={year:'latest',offence:'all',metric:'count'};
+    const initial={offence:'all',metric:'count'};
     if(name===initialSection)Object.keys(initial).forEach(k=>{if(params.has(k))initial[k]=params.get(k);});
     return settings[name]=initial;
   }

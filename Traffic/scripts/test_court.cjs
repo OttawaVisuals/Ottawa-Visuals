@@ -44,9 +44,34 @@ test('selected-year CSV preserves counts, fractional shares, units and provenanc
   const r=Object.fromEntries(rows[0].map((h,i)=>[h,rows[1][i]]));
   assert.equal(r.calendar_year,2025);assert.equal(r.unit,'charges');assert.equal(r.disposed,16489);
   assert.equal(r.hta_completed,r.speeding_completed+r.red_light_completed+r.other_hta_completed);
-  assert.equal(r.pleas_share,r.pleas_count/r.disposed);
+  assert.equal(r.guilty_share,r.guilty_count/r.disposed);
+  assert.equal(r.guilty_count,r.guilty_before+r.guilty_at+r.no_response+r.no_attendance);
   assert.equal(r.source_url,latest.url);assert.match(r.source_row,/minus/);
   const missing=C.exportRows(d,latest,'nonexistent',cameras);
   assert.equal(missing[0].length,missing[1].length);
   assert.equal(missing[1][4],'unavailable');
+});
+
+test('simplified outcomes partition every HTA row without treating unknown verdicts as guilty',()=>{
+  for(const source of C.calendarSources(d)){
+    const rows=d.records.filter(r=>r.source_id===source.id&&(r.key===C.HTA||r.group==='Highway Traffic Act'));
+    for(const row of [...rows,C.selected(d,source,'other')]){
+      const b=C.groupedOutcomes(row.values),v=row.values;
+      assert.equal(b.length,5);
+      assert.equal(b.reduce((n,r)=>n+r.value,0),v.disposed);
+      assert.equal(b.find(r=>r.key==='paid').value,v.prepaid);
+      assert.equal(b.find(r=>r.key==='guilty').value,v.guilty_before+v.guilty_at+v.no_response+v.no_attendance);
+      assert.equal(b.find(r=>r.key==='trial').value,v.following_trial);
+    }
+  }
+});
+
+test('CSV now covers the selected offence for every calendar year with a stable schema',()=>{
+  const rows=C.exportHistory(d,C.SPEED,cameras);
+  assert.equal(rows.length,12);
+  for(const row of rows.slice(1)){
+    assert.equal(row.length,rows[0].length);
+    assert.equal(row[2],'s.128 Speeding');
+    assert.ok(row[0]>=2015&&row[0]<=2025);
+  }
 });
