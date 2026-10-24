@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Stage 2 LRT promise (Oct 24: three extension timelines; inherited forecasts, contractual/testing milestones and actual passenger service separated; original deadline gap, latest dated east/west uncertainty, exact evidence table and CSV/JSON retained)
 - [x] Hide EV charging (Oct 24: omitted from public HTML/navigation/header/script includes and homepage description; source data, map/timeline analysis, exports and checks retained)
 - [x] EV charging promise context (Oct 24: original Hydro Ottawa/200/cost-recovery wording; primary locator spatial snapshot, 347 records/1,158 ports, Hydro-name subset, map/date timeline and CSV; programme scope and documented listing-date discrepancy retained, no unsupported pledge score)
 - [x] Hide municipal savings (Oct 24: omitted from public promises HTML/navigation/header and homepage description; research data, source notes, analysis builder and exports retained)

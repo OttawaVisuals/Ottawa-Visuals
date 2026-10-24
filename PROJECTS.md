@@ -345,6 +345,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ## 🔄 In Progress
 
 ### Sutcliffe’s 2022 promises
+- Stage 2 LRT added October 24: south/east/west milestone timelines with inherited completion forecasts separated from passenger opening forecasts and actual service. South phased opening verified; latest east testing and west flood/schedule updates retained with dates. Original 2022 commitment has no verified explicit deadline; no invented completion score or causal attribution. Exact table, CSV/JSON and sources included.
 - First topic built October 24: [property-tax increases](Promises/promises.html), 2023–2026 versus the original campaign range. 2023–24 firm commitment and 2025–26 target distinguished; exact table, CSV/JSON, source locations and evidence gaps included. No 2026 campaign pledges.
 - Expanded October 24: vertical bars, City-published history back to 2013, optional Ottawa CPI line and range controls. 2026 CPI is matched January–September versus the same months of 2025, explicitly provisional. Historical budgets receive no promise verdict.
 - Cumulative view added October 24: compounded tax index and direct CPI growth from the selected 2012/2022 baseline, with summary and CSV. 2026 CPI uses the January–September endpoint against the baseline annual index; full-year tax versus partial-year CPI coverage is labelled.

@@ -1,0 +1,52 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": {
+    "text": "Deliver Phase 2 of LRT",
+    "source": "campaign",
+    "deadline": null,
+    "note": "Contemporary September 2022 platform coverage; no explicit delivery deadline in the source reviewed. Stage 3 funding and Stage 1 inquiry recommendations are separate commitments."
+  },
+  "method": "Selected chronology, ordered by update or event date within each extension; vertical spacing is not elapsed time. Forecasts retain the original date precision. Completion, testing and passenger service are different milestones. No lateness calculation, percentage-complete score or causal attribution to the mayor. Inherited schedules are context, not campaign deadlines. Status reflects the latest dated evidence retained, not live verification.",
+  "sources": {
+    "campaign": {"title": "CityNews · September 22, 2022 transportation platform coverage", "url": "https://ottawa.citynews.ca/2022/09/22/sutcliffe-vows-to-equally-respect-motorists-cyclists-and-pedestrians-with-transportation-plan-5855497/", "type": "contemporary campaign reporting", "locator": "Paragraph beginning ‘As part of his platform’", "note": "Original archived campaign platform not obtained; contemporary reporting used."},
+    "baseline": {"title": "CityNews · early November 2022 construction update", "url": "https://ottawa.citynews.ca/2022/11/01/committee-receives-update-on-stage-2-lrt-construction-6039343/", "type": "secondary report of municipal update", "locator": "Three anticipated completion dates", "note": "Article posted November 1 but body refers to November 2; labelled early November. Completion forecasts are not treated as verified passenger-opening deadlines."},
+    "south": {"title": "OC Transpo · 2025 Operational Roadmap scorecard", "url": "https://www.octranspo.com/images/files/reports/OC-Transpo-Operational-Roadmap-scorecard_2025_Eng_accessible.pdf", "type": "operator report", "locator": "PDF page 4 · Handover of Stage 2 from construction to operations", "note": "Official indexed text confirms actual phased opening dates; direct automated PDF access returned 403. Exact publication date unverified; 2025 is the edition label."},
+    "airport": {"title": "Ottawa Airport Authority · January 6, 2025 launch", "url": "https://www.yow.ca/about-yow/media-room/news/city-of-ottawa-o-train-starts-at-yow", "type": "airport authority announcement", "locator": "Opening paragraphs and service integration", "note": "Independent institutional corroboration of Line 4 launch; Line 2 and later service phases use the operator scorecard."},
+    "east_march": {"title": "OC Transpo memo · March 5, 2026", "url": "https://glengower.ca/information/stage-2-o-train-line-east-extension-achieves-substantial-completion/", "type": "municipal staff memo republished by councillor", "locator": "Opening paragraphs, launch forecast and Q&A", "note": "Signed by Troy Charter. Contractual milestone and then-current Q2 opening forecast are distinct."},
+    "east_october": {"title": "OC Transpo correspondence · October 2, 2026", "url": "https://glengower.ca/information/memo-update-on-o-train-east-extension/", "type": "operator correspondence republished by councillor", "locator": "October 2 correspondence, published October 5", "note": "Rick Leary correspondence: software update moves pre-trial running forecast from October to November. No firm passenger-opening date."},
+    "west_2025": {"title": "City Council · December 10, 2025 agenda", "url": "https://pub-ottawa.escribemeetings.com/Meeting.aspx?Agenda=Agenda&Id=4d914219-00c6-48c4-bcc6-b82ca579c430&lang=English", "type": "municipal agenda", "locator": "Transit budget recommendation on temporary 105-minute peak transfers", "note": "Recommendation refers to the west launch to Algonquin and Moodie expected in 2027. Used as a dated planning assumption, not evidence of opening."},
+    "september": {"title": "City of Ottawa · September 10, 2026 transit update", "url": "https://ottawa.ca/en/city-hall/city-news/newsroom/transit-committee-receives-update-fall-service-improvements-and-customer-first-action-plan", "type": "municipal release", "locator": "Stage 2 update · east readiness and west flood impacts", "note": "Indexed official text reviewed; direct automated access returned 403. No replacement west opening date stated."},
+    "overview": {"title": "OC Transpo · extension overview", "url": "https://www.octranspo.com/en/o-train-extension/", "type": "operator overview, undated", "locator": "O-Train expansion timeline", "note": "Lists south open, east 2026 and west 2027. Broad planning years do not resolve uncertainty in the dated memos; do not treat them as firm opening dates."}
+  },
+  "extensions": [
+    {
+      "id": "south", "name": "South", "route": "Lines 2 & 4 · Limebank and Airport", "status": "Passenger service open", "status_kind": "open", "status_as_of": "2025-03-16", "status_source": "south",
+      "summary": "Opened in phases; seven-day service began March 16, 2025.",
+      "events": [
+        {"update_date": "2022-11", "date_label": "Early Nov 2022", "kind": "forecast", "stage": "completion", "target": "September 2023", "actual_date": null, "text": "Inherited completion forecast: September 2023.", "source": "baseline"},
+        {"update_date": "2025-01-06", "date_label": "Jan 6, 2025", "kind": "actual", "stage": "passenger_service", "target": null, "actual_date": "2025-01-06", "text": "Passenger service began Monday–Friday.", "source": "south"},
+        {"update_date": "2025-01-25", "date_label": "Jan 25, 2025", "kind": "actual", "stage": "passenger_service", "target": null, "actual_date": "2025-01-25", "text": "Saturday service added.", "source": "south"},
+        {"update_date": "2025-03-16", "date_label": "Mar 16, 2025", "kind": "actual", "stage": "passenger_service", "target": null, "actual_date": "2025-03-16", "text": "Seven-day service began.", "source": "south"}
+      ]
+    },
+    {
+      "id": "east", "name": "East", "route": "Line 1 · Blair to Trim", "status": "Passenger opening pending", "status_kind": "pending", "status_as_of": "2026-10-02", "status_source": "east_october",
+      "summary": "Latest memo forecasts pre-trial running in November 2026; no firm passenger-opening date.",
+      "events": [
+        {"update_date": "2022-11", "date_label": "Early Nov 2022", "kind": "forecast", "stage": "completion", "target": "End of 2024", "actual_date": null, "text": "Inherited completion forecast: end of 2024.", "source": "baseline"},
+        {"update_date": "2026-03-05", "date_label": "Mar 5, 2026", "kind": "actual", "stage": "substantial_completion", "target": null, "actual_date": "2026-03-05", "text": "Substantial completion certified. Passenger service had not begun.", "source": "east_march"},
+        {"update_date": "2026-03-05", "date_label": "Mar 5 update", "kind": "forecast", "stage": "passenger_service", "target": "Q2 2026", "actual_date": null, "text": "Passenger launch still forecast for Q2 2026; subsequently overtaken by testing delays.", "source": "east_march"},
+        {"update_date": "2026-10-02", "date_label": "Oct 2, 2026", "kind": "forecast", "stage": "pre_trial_running", "target": "November 2026", "actual_date": null, "text": "Pre-trial running forecast moved from October to November after a train-control software issue.", "source": "east_october"}
+      ]
+    },
+    {
+      "id": "west", "name": "West", "route": "Lines 1 & 3 · Algonquin and Moodie", "status": "Schedule under review", "status_kind": "pending", "status_as_of": "2026-09-10", "status_source": "september",
+      "summary": "Flood recovery and schedule review underway; the dated update gives no replacement opening date.",
+      "events": [
+        {"update_date": "2022-11", "date_label": "Early Nov 2022", "kind": "forecast", "stage": "completion", "target": "Late 2026", "actual_date": null, "text": "Inherited completion forecast: late 2026.", "source": "baseline"},
+        {"update_date": "2025-12-10", "date_label": "Dec 10, 2025", "kind": "forecast", "stage": "passenger_service", "target": "2027", "actual_date": null, "text": "Council agenda refers to a west passenger launch expected in 2027.", "source": "west_2025"},
+        {"update_date": "2026-09-10", "date_label": "Sep 10, 2026", "kind": "update", "stage": "construction", "target": null, "actual_date": null, "text": "City reports July 1 flood damage, repairs and a project schedule review.", "source": "september"}
+      ]
+    }
+  ]
+}

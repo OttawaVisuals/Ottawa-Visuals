@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and Stage 2 LRT. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,19 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, Stage 2 LRT, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+
+## Stage 2 LRT
+
+`data/lrt-stage2.json` is the reviewed source snapshot. `scripts/build_lrt.py` renders three ordered milestone timelines and the exact table, and exports 11 records to CSV. Timeline spacing is not elapsed time. Forecast target text preserves month, quarter, year and qualitative precision; missing actual dates remain null. No network dependency during builds.
+
+The original September 22, 2022 campaign coverage commits to delivering Phase 2 but gives no explicit deadline. The archived platform was not obtained. Early November 2022 completion forecasts (south September 2023; east end 2024; west late 2026) are inherited context from contemporary reporting, not passenger-opening deadlines or new campaign commitments. The source has a November 1/2 publication/body date inconsistency, retained in the notes.
+
+South actual phased service: January 6, January 25 and March 16, 2025, from the operator’s 2025 scorecard (PDF p. 4), with Airport Authority corroboration of the January 6 launch. Operator PDF direct access returned 403; official indexed text reviewed. East substantial completion and Q2 2026 passenger forecast use the March 5 staff memo; the October 2 correspondence shifts pre-trial running to November, without a firm passenger date. Both are republished by Councillor Gower. West’s 2027 launch planning assumption appears in the December 10, 2025 Council agenda; the September 10, 2026 City release reports flood recovery and schedule review with no replacement date. Official indexed text used where direct access was blocked. The undated overview’s east 2026/west 2027 years are not substituted for the dated uncertainty.
+
+Latest retained status evidence is extension-specific: south March 16, 2025; east October 2, 2026; west September 10, 2026. The October 24 review date is not live status verification. No invented days-late calculation, percentage completion, attribution of each delay to the mayor or assessment of separate Stage 3/inquiry commitments. Validate with `python Promises/scripts/check_lrt.py`.
+
+Verification: all seven topic checks pass, including retained hidden research. LRT CSV matches all 11 reviewed records; forecast/actual separation, date precision, unique IDs and local links checked. Headless Edge checked 390/768/1440 px in light/dark/colour-blind themes, expanded details, no-JavaScript and file:// content; no page errors or document overflow. Desktop/dark and phone/light renders visually inspected.
 
 ## Housing
 
