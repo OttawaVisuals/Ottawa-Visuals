@@ -132,6 +132,21 @@ def line_length(geom):
     return total
 
 
+def first_point(geom):
+    """First vertex (x, y) of a feature's geometry in tile units, or None."""
+    if len(geom) >= 3 and geom[0] & 7 == 1:
+        return zigzag(geom[1]), zigzag(geom[2])
+    return None
+
+
+def tile_lonlat(z, x, y, px, py, extent):
+    """Tile coordinates -> (lon, lat)."""
+    n = 2 ** z
+    lon = (x + px / extent) / n * 360.0 - 180.0
+    lat = math.degrees(math.atan(math.sinh(math.pi * (1 - 2 * (y + py / extent) / n))))
+    return lon, lat
+
+
 def decode_tile(data):
     """Return list of layers: {name, extent, features:[{type, props, length}]}."""
     layers = []
@@ -161,7 +176,7 @@ def decode_tile(data):
                 elif n3 == 4:
                     geom = packed_varints(v)
             props = {keys[tags[j]]: values[tags[j + 1]] for j in range(0, len(tags) - 1, 2)}
-            out.append({"type": gtype, "props": props,
+            out.append({"type": gtype, "props": props, "xy": first_point(geom),
                         "length": line_length(geom) if gtype == 2 else 0.0})
         layers.append({"name": name, "extent": extent, "features": out})
     return layers
