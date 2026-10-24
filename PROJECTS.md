@@ -344,6 +344,10 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Sutcliffe’s 2022 promises
+- First topic built October 24: [property-tax increases](Promises/promises.html), 2023–2026 versus the original campaign range. 2023–24 firm commitment and 2025–26 target distinguished; exact table, CSV/JSON, source locations and evidence gaps included. No 2026 campaign pledges.
+- Next, one topic at a time: transit fares, bus reliability and housing. Other candidates and methodological limits in [Promises/README.md](Promises/README.md).
+
 ### Ottawa budget explorer
 - **Inflation option (October 23):** shared nominal/2025-dollar control, official Ottawa all-items CPI; 2026 uses the explicitly provisional Jan–Sep monthly average. Updates budget cards/charts/tables/comparisons and adjusted CSV. CPI is not a municipal input-cost index; separately dated Lansdowne figures and KPI units are preserved.
 - **Expanded October 23:** 2023–2026 full-accrual budget history by ten identical City functions, selectable comparison years and dollar/percentage increase/decrease bars. Separate from the cash-oriented service budget. Added 26 sourced KPI series: 2021–2025 paramedic citywide/urban/rural response and Level Zero; dated 2019/2023 transportation condition measures plus replacement-value-weighted snapshot; 2019–2024 housing wait list, placements and shelter measures. Added bundled local-file data; source fingerprints, CSV, extracted text and tests retained.

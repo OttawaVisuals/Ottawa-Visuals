@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Sutcliffe’s original 2022 promises (Oct 24: first topic, 2023–2026 property-tax increases versus the 2023–24 firm commitment and 2025–26 target; static chart, exact table, CSV/JSON and evidence limits; homepage/tracker links; desktop/mobile, three themes, local links and offline content checked)
 - [x] Budget inflation option (Oct 23: shared nominal/2025-dollar control for budget charts/tables/cards; official Ottawa CPI, explicitly provisional Jan–Sep 2026 proxy; formulas, source factors and adjusted CSV)
 - [x] Expand budget history and service KPIs (Oct 23: 2023–2026 full-accrual budget changes, dollar/percent ranking; 26 paramedic/transportation-condition/housing series with targets and dates, sourced CSV/JSON; bundled local-file fallback)
 - [x] Ottawa budget page (Oct 23: adopted 2026 operating/capital/funding, 2025 budget comparison, service breakdowns, source extraction/reconciliation, CSV/JSON; separate Lansdowne scope/financing/July 2026 spending snapshot and service KPI links)

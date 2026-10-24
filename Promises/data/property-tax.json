@@ -1,0 +1,25 @@
+{
+  "reviewed": "2026-10-24",
+  "metric": "Published overall municipal property-tax increase in each adopted budget",
+  "promise": {
+    "announced": "2022-10-05",
+    "summary": "Limit property-tax increases to 2–2.5% in 2023 and 2024; target the same range in 2025 and 2026.",
+    "lower_pct": 2,
+    "upper_pct": 2.5,
+    "source": "campaign"
+  },
+  "years": [
+    {"year": 2023, "increase_pct": 2.5, "commitment": "Firm commitment", "source": "review2023", "supporting_source": "city2023", "note": "At the upper end of the promised range."},
+    {"year": 2024, "increase_pct": 2.5, "commitment": "Firm commitment", "source": "adopted2024", "note": "At the upper end of the promised range."},
+    {"year": 2025, "increase_pct": 3.9, "commitment": "Target", "source": "adopted2025", "note": "Overall increase; the citywide and police levies rose 2.9%, while the transit levy rose 8%. Transit fares are separate."},
+    {"year": 2026, "increase_pct": 3.75, "commitment": "Target", "source": "adopted2026", "note": "Overall net tax increase in the adopted 2026 budget."}
+  ],
+  "sources": {
+    "campaign": {"title": "2022 campaign financial framework · CityNews", "date": "2022-10-05", "url": "https://ottawa.citynews.ca/2022/10/05/sutcliffe-reveals-plan-to-hold-property-tax-increase-between-two-and-25-per-cent-for-2023-and-2024-if-elected-mayor-5914445/", "locator": "Paragraph beginning Central to Sutcliffe’s financial framework", "review_note": "Contemporary reporting distinguishes the 2023–24 limit from the 2025–26 target. The opening paragraph has a conflicting five-per-cent typo; the title and detailed framework specify 2.5%. Original campaign platform archive not obtained."},
+    "review2023": {"title": "CBC first-term promise review · republished by Yahoo", "date": "2026-08-20", "url": "https://malaysia.news.yahoo.com/mark-sutcliffe-kept-promises-made-080000042.html", "locator": "Taxes and spending", "review_note": "Retrospective confirmation of adopted 2.5% increases in both 2023 and 2024; secondary source, cross-checked against City 2023 draft and councillor 2024 adoption account."},
+    "city2023": {"title": "City of Ottawa · 2023 draft budget at a glance", "date": "2023", "url": "https://ottawa.ca/en/city-hall/budget-finance-and-corporate-planning/previous-budgets/budget-2023/draft-budget-2023-glance", "locator": "Working together for a better Ottawa; Overall affordability", "review_note": "Primary source for the proposed 2.5% overall increase; draft only, so final adoption is separately confirmed by CBC."},
+    "adopted2024": {"title": "Councillor Rawlson King · adopted 2024 budget", "date": "2023-12-08", "url": "https://www.rideau-rockcliffe.ca/december_8_2023_newsletter", "locator": "A Message from Councillor King, first paragraph", "review_note": "Council member’s contemporary account of approval on December 6 and 2.5% increase."},
+    "adopted2025": {"title": "Councillor Rawlson King · adopted 2025 budget", "date": "2024-12-11", "url": "https://www.rideau-rockcliffe.ca/council_approves_2025_city_budget", "locator": "Opening budget summary and overall tax increase paragraph", "review_note": "3.9% overall; 2.9% citywide and police, with transit levy contributing the additional overall percentage point. Also cross-checked against December 11 CityNews adoption report."},
+    "adopted2026": {"title": "City of Ottawa · Council approves Ottawa’s 2026 Budget", "date": "2025-12-10", "url": "https://ottawa.ca/en/city-hall/city-news/newsroom/council-approves-ottawas-2026-budget", "locator": "Second paragraph", "review_note": "Adoption announcement states 3.75% overall net tax increase. Archived City page."}
+  }
+}
