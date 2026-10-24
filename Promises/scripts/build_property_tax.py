@@ -130,16 +130,18 @@ source_items = ''.join(f'<li>{source_link(k)} · {e(s["date"])}<br><small>Locati
 build_savings()
 # EV charging is also withheld; retain its analysis and exports for research.
 build_ev_charging()
+# Building upgrades is withheld; preserve reviewed evidence and exports.
+build_building_upgrades()
 page = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sutcliffe’s 2022 promises · Ottawa Visuals</title>
-<meta name="description" content="Sutcliffe’s 2022 commitments and results: property taxes, transit fares, bus reliability, housing, Stage 2 LRT and building energy upgrades, with historical trends and source notes.">
+<meta name="description" content="Sutcliffe’s 2022 commitments and results: property taxes, transit fares, bus reliability, housing and Stage 2 LRT, with historical trends and source notes.">
 <link rel="icon" href="../assets/img/avatar.png"><script>try{{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}}catch(e){{document.documentElement.dataset.theme='light'}}</script>
 <link rel="stylesheet" href="promises.css"><link rel="stylesheet" href="../assets/site-theme.css"><script defer src="../assets/site-theme.js"></script><script defer src="promises.js"></script><script defer src="transit-fares.js"></script><script defer src="bus-reliability.js"></script><script defer src="housing.js"></script>
 </head><body><a class="skip" href="#main">Skip to report</a>
 <header class="topbar"><a class="brand" href="../index.html"><span>Ottawa Visuals <small>2022 commitments</small></span></a><a href="../index.html">All reports ↗</a></header>
-<main id="main"><header><p class="eyebrow">Mark Sutcliffe · First term, 2022–2026</p><h1>The promises.<br>The years since.</h1><p class="lede">Track the original 2022 campaign commitments against Ottawa’s published results, one topic at a time.</p><p class="small">Reviewed October 24, 2026 · Taxes, fares, bus reliability, housing, LRT &amp; building upgrades</p></header>
-<nav aria-label="On this page"><a href="#property-tax">Property taxes</a><a href="#transit-fares">Transit fares</a><a href="#bus-reliability">Bus reliability</a><a href="#housing">Housing</a><a href="#lrt-stage2">Stage 2 LRT</a><a href="#building-upgrades">Building upgrades</a><a href="#method">Sources &amp; method</a><a href="../Budget/budget.html">Explore the budget ↗</a></nav>
+<main id="main"><header><p class="eyebrow">Mark Sutcliffe · First term, 2022–2026</p><h1>The promises.<br>The years since.</h1><p class="lede">Track the original 2022 campaign commitments against Ottawa’s published results, one topic at a time.</p><p class="small">Reviewed October 24, 2026 · Taxes, fares, bus reliability, housing &amp; Stage 2 LRT</p></header>
+<nav aria-label="On this page"><a href="#property-tax">Property taxes</a><a href="#transit-fares">Transit fares</a><a href="#bus-reliability">Bus reliability</a><a href="#housing">Housing</a><a href="#lrt-stage2">Stage 2 LRT</a><a href="#method">Sources &amp; method</a><a href="../Budget/budget.html">Explore the budget ↗</a></nav>
 <section id="property-tax" class="card" aria-labelledby="tax-title"><p class="eyebrow">01 · Affordability</p><h2 id="tax-title">Property-tax increases</h2>
 <div class="promise"><p><strong>The 2022 commitment</strong></p><p>Limit increases to <strong>2–2.5% in 2023 and 2024</strong>; <strong>target the same range in 2025 and 2026</strong>.</p><p class="small">Paraphrase of the October 5, 2022 financial framework. {source_link('campaign', 'Read the campaign coverage ↗')}</p></div>
 <p class="verdict"><strong>The 2023–24 commitment was met.</strong> Both years came in at 2.5%. Increases of 3.9% in 2025 and 3.75% in 2026 exceeded the later-year target.</p>
@@ -164,10 +166,9 @@ page = f'''<!doctype html>
 {build_bus_reliability()}
 {build_housing()}
 {build_lrt()}
-{build_building_upgrades()}
 <section id="method" class="card"><h2>Sources &amp; method</h2><details open><summary>What is being compared?</summary><p>For 2023–2026, each budget year’s published overall municipal property-tax increase is compared with the upper end of the original campaign range, 2.5%. The gap equals adopted increase minus 2.5, in percentage points. The 2013–2022 bars are historical context and receive no promise assessment.</p><p>Inflation = (annual-average CPI / previous annual-average CPI − 1) × 100. For the incomplete 2026 year, both averages use January–September. Inflation is rounded to one decimal in tax chart titles and the tax table; the CSV retains six decimals. Fare changes use two decimals in the display. No inflation adjustment or cumulative household bill estimate is applied. Same-year inflation was not fully known when budgets were adopted.</p><p>Council approves budgets; this page evaluates the campaign commitment without attributing every budget decision solely to the mayor. Historical rates follow the City’s own published comparison series; individual bills and separate fees can differ. Transit-fare methodology and source notes are in the <a href="#transit-fares">fare section</a>.</p></details>
 <details><summary>Evidence limits and review process</summary><p>The campaign benchmark comes from reporting published during the 2022 campaign; an archived original platform has not yet been obtained. The campaign article’s opening paragraph contains a conflicting number, while its headline and detailed framework agree on 2–2.5% and distinguish the later target.</p><p>2013–2023 tax increases come from the City’s historical comparison table. The 2024 and 2025 adoption figures are supported by contemporary councillor accounts; 2026 uses the City’s adoption announcement. CPI is retrieved from Statistics Canada tables 18-10-0005-01 and 18-10-0004-01; inputs and response hashes are retained. These are reviewed snapshots, not an automatic feed or independently audited household tax bills. No 2026 reelection promises are included.</p></details>
 <details><summary>Documents and source locations</summary><ol class="source-list">{source_items}</ol><p><a href="README.md">Review and rebuild notes</a></p></details></section>
 </main><footer>Ottawa Visuals · Independent reporting · <a href="../index.html">All reports</a></footer></body></html>'''
 (ROOT / 'promises.html').write_text(page, encoding='utf-8')
-print('Built Promises/promises.html and tax, fare, bus KPI, housing, LRT, building upgrades and retained EV/savings research exports')
+print('Built Promises/promises.html and tax, fare, bus KPI, housing, LRT and retained building/EV/savings research exports')

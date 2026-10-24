@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Hide building energy upgrades (Oct 24: omitted from public promises page/navigation/header and homepage; reviewed data, source notes, analysis builder, exports and checks retained)
 - [x] Building energy upgrade evidence (Oct 24: original additional $100M/four-year wording; six selected 2024 plan amounts, City-reported annual range and named project statuses; no invented actual total or pledge score; PDF/source review, CSV/JSON, methodology and browser/data checks)
 - [x] Stage 2 LRT promise (Oct 24: three extension timelines; inherited forecasts, contractual/testing milestones and actual passenger service separated; original deadline gap, latest dated east/west uncertainty, exact evidence table and CSV/JSON retained)
 - [x] Hide EV charging (Oct 24: omitted from public HTML/navigation/header/script includes and homepage description; source data, map/timeline analysis, exports and checks retained)

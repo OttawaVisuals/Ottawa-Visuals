@@ -4,6 +4,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from build_building_upgrades import build
 
 ROOT=Path(__file__).resolve().parents[1]
 d=json.loads((ROOT/'data/building-upgrades.json').read_text(encoding='utf-8'))
@@ -24,7 +25,9 @@ with (ROOT/'data/building-upgrades-projects.csv').open(encoding='utf-8',newline=
 with (ROOT/'data/building-upgrades-plan-2024.csv').open(encoding='utf-8',newline='') as f:
     assert list(csv.DictReader(f))==[{**{k:str(v) for k,v in r.items()},'source_url':d['sources']['plan']['url']} for r in d['plan_2024']]
 html=(ROOT/'promises.html').read_text(encoding='utf-8')
-section=html.split('<section id="building-upgrades"',1)[1].split('</section>',1)[0]
+assert 'id="building-upgrades"' not in html and 'href="#building-upgrades"' not in html
+assert 'building energy upgrades' not in html.split('</head>',1)[0]
+section=build()
 svg=ET.fromstring(re.search(r'<svg class="building-svg".*?</svg>',section,re.S)[0])
 bars=list(svg.iter('rect'))
 assert len(bars)==6
@@ -35,4 +38,4 @@ assert section.count('class="building-lane"')==2
 assert 'not actual expenditures' in section and 'Term total unavailable' in section
 assert 'four-year total or used to calculate pledge completion' in section
 assert 'id="savings"' not in html and 'id="ev-charging"' not in html
-print('PASS: original additional pledge; six plan figures, 13 site/work records, CSV parity, bar scale and explicit actual-spending gaps.')
+print('PASS: original additional pledge; six plan figures, 13 site/work records, CSV parity, bar scale and explicit actual-spending gaps and hidden public section.')

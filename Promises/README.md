@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery, Stage 2 LRT and building energy upgrades. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and Stage 2 LRT. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -26,7 +26,9 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
 
-## Building energy upgrades
+## Building energy upgrades — hidden from the public page
+
+Hidden at the user’s request: omitted from public HTML, navigation, header and homepage description. Source data, analysis builder, exports and checks remain; the main builder invokes the research builder without inserting its fragment.
 
 `data/building-upgrades.json` retains the original additional $100M/four-year pledge, official annual efficiency-program range, six selected 2024 planned costs/allocations, and 13 named site/work records. `scripts/build_building_upgrades.py` renders a static zero-based horizontal bar chart, exact table and two project-status columns; exports separate plan/project CSVs. Ordinary builds use only stdlib and reviewed local data.
 
