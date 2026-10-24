@@ -5,6 +5,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from build_dog_parks import build
 
 ROOT=Path(__file__).resolve().parents[1]
 d=json.loads((ROOT/'data/dog-parks.json').read_text(encoding='utf-8'))
@@ -32,7 +33,8 @@ for row,p in zip(rows,parks):
 with (ROOT/'data/dog-parks-milestones.csv').open(encoding='utf-8',newline='') as f:
     assert list(csv.DictReader(f))==[{'park_id':p['id'],'date':h['date'] or '', 'text':h['text'],'source_url':d['sources'][h['source']]['url']} for p in parks for h in p['history']]
 html=(ROOT/'promises.html').read_text(encoding='utf-8')
-section=html.split('<section id="dog-parks"',1)[1].split('</section>',1)[0]
+assert 'id="dog-parks"' not in html and 'href="#dog-parks"' not in html
+section=build()
 svg=ET.fromstring(re.search(r'<svg class="dog-map".*?</svg>',section,re.S)[0])
 links=list(svg.iter('a'));assert len(links)==5
 for link,p in zip(links,parks):assert link.attrib['href']=='#dog-'+p['id']

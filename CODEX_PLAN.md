@@ -14,6 +14,8 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] ByWard Market safety (Oct 24: original 2022 wording, official OPS neighbourhood 2018–2025 counts for four categories; 32 totals/7,893 source records reconciled, no identifiers retained; centre opening separate from outcomes; source cautions, chart control, CSV/JSON and browser/data checks)
+- [x] Hide dog parks (Oct 24: omitted from public promises page/navigation/header and homepage; all research, map data, builders, exports and checks retained)
 - [x] Dog park promise evidence (Oct 24: original at-least-three suburban wording; five-site map/cards and dated milestones; opening ceremony/public-use reports separated from acquisition, construction and rural-village context; aliases, location provenance, CSV/JSON and data/browser checks)
 - [x] Hide building energy upgrades (Oct 24: omitted from public promises page/navigation/header and homepage; reviewed data, source notes, analysis builder, exports and checks retained)
 - [x] Building energy upgrade evidence (Oct 24: original additional $100M/four-year wording; six selected 2024 plan amounts, City-reported annual range and named project statuses; no invented actual total or pledge score; PDF/source review, CSV/JSON, methodology and browser/data checks)

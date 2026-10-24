@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery, Stage 2 LRT and dog parks. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery, Stage 2 LRT and ByWard Market safety. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,9 +24,27 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidate: ByWard Market safety. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
 
-## Dog parks
+## ByWard Market safety
+
+`data/market-safety.json` is a primary OPS snapshot of 32 annual counts: assaults, robbery, break and enter, theft $5,000 and under, for report years 2018–2025. `market-safety-sources.json` retains the original October 3, 2022 platform wording, source definitions, cautions, scope and June 2024 operations-centre evidence. `scripts/build_market_safety.py` creates four zero-based SVG charts (one visible at a time), a complete exact table, CSV and a neighbourhood-outline reference. `market-safety.js` uses `marketmetric=assaults|robbery|break-enter|theft-under` independently of other page controls. All content and controls work from local files; without JavaScript, assaults and the full table are available.
+
+The source is the actual CrimeMap_YE layer /16 used by the OPS Experience Builder app. Query `Neighbourhood = 'Byward Market'`, group on Reported_Year and Offence_Category, count OBJECTID. No spatial geofencing of masked incidents. This is the ONS 2017 neighbourhood, not Ward 12, the BMDA district or broader CORE zone. The exported boundary comes from the same app’s ONS_2017 layer. Query URLs and response SHA-256 values retained; service-root description still says 2013–2022 but actual layer/app coverage is 2018–2025.
+
+`scripts/fetch_market_safety.py` deliberately refreshes the snapshot and independently checks aggregates against paged record queries. It verified 7,893 records with no duplicated year/category/GO identifiers; individual identifiers and locations are never written to disk or exposed. Refresh is not part of normal builds; it stops if the year coverage changes. After any deliberate refresh, review count expectations, labels, provenance and source notes before rebuilding. This uses manually maintained project data, not collector outputs.
+
+OPS defines the mapped data as founded incidents by most serious violation and report year. It is preliminary, incomplete and revisable; OPS explicitly warns against relying on it for comparisons over time. The public page displays that caution above the chart. These are descriptive records from one snapshot, not certified trends, causal effects, rates, perceived safety or comprehensive crime totals. No category sum, percent-change headline, whole-promise score or 2026 partial-year extrapolation. 2022 is an election-year reference including late-term weeks; 2023 begins full calendar years of this term. Pandemic years remain context. An earlier newspaper excerpt gave 158 break-ins in 2023, whereas this retrieved API gives 128; no cause for that difference established. Use the consistent API snapshot here, without mixing publication vintages.
+
+The original 2022 coverage includes a dedicated team and storefront centre, plus other safety/community actions. OPS’s November 26, 2024 release confirms the NOC opened in June and CORE launched in June 2024. This verifies one action, not the complete pledge or an improvement in neighbourhood safety. CORE covers additional areas; hotspot percentages and calls-for-service statistics are not spliced into this series. No assumption of sole mayoral control.
+
+Validate with `python Promises/scripts/check_market_safety.py`, existing topic checks and `node --check Promises/market-safety.js`. Attribution follows the Open Government Licence – Ontario linked by OPS; the independent report is not endorsed by OPS.
+
+Verification: all ten topic checks passed, including four retained hidden sections. Four chart scales and 32 annual values match the reviewed source; independent paged-record reconciliation, CSV parity, no individual identifiers, page IDs and local links checked. Headless Edge: 36 viewport/theme/category combinations at 390/768/1440 px across light/dark/colour-blind themes; URL restoration, preservation of other topic filters, exact tables, downloads, file:// controls and no-JavaScript content pass with no document overflow or page errors. Phone/light and desktop/dark renders inspected. Small-screen charts initially scroll to recent years; earlier history remains accessible to the left.
+
+## Dog parks — hidden from the public page
+
+Hidden at the user’s request; reviewed research, map data, builder, exports and checks retained. Main builder updates exports without inserting the public fragment.
 
 `data/dog-parks.json` retains five named project records, source-specific evidence dates and milestones. October 2022 Ottawa Times election coverage specifies at least three new dog parks in the suburbs; the original full platform and exact deadline were not obtained. The page uses named communities for scope: Kanata North/Barrhaven/Stittsville are suburban, Greely/Richmond rural villages. This analytical classification is not a verified campaign definition.
 
