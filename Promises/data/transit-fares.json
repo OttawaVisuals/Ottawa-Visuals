@@ -1,0 +1,29 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": "Freeze transit fares for 2023.",
+  "baseline": "Late-2022 fare schedule, before the 2023 freeze; not an annual average fare.",
+  "currency": "CAD",
+  "products": [
+    {"id": "card", "label": "Adult single ride · card", "unit": "per ride", "field": "adult_card"},
+    {"id": "monthly", "label": "Adult monthly pass", "unit": "per month", "field": "adult_monthly"},
+    {"id": "cash", "label": "Adult single ride · cash", "unit": "per ride", "field": "adult_cash"}
+  ],
+  "years": [
+    {"year": 2022, "adult_card": 3.70, "adult_cash": 3.75, "adult_monthly": 125.50, "source": "baseline", "note": "Late-2022 schedule used as baseline; 2023 sources confirm fares unchanged from 2022. No 2022 annual increase calculated."},
+    {"year": 2023, "adult_card": 3.70, "adult_cash": 3.75, "adult_monthly": 125.50, "source": "fares2024", "note": "2023 freeze: adult card, cash and monthly pass prices unchanged from late 2022."},
+    {"year": 2024, "adult_card": 3.80, "adult_cash": 3.85, "adult_monthly": 128.75, "source": "fares2024", "note": "New schedule effective January 1, 2024. Published prices are rounded; product changes differ from the 2.5% budget headline."},
+    {"year": 2025, "adult_card": 4.00, "adult_cash": 4.05, "adult_monthly": 135.00, "source": "fares2026", "note": "2025 rates in the adopted 2026 user-fee table; adoption cross-check in Councillor King’s 2025 budget account."},
+    {"year": 2026, "adult_card": 4.10, "adult_cash": 4.15, "adult_monthly": 138.50, "source": "fares2026", "note": "2026 user-fee schedule effective January 1, 2026. Monthly pass sales can open in December for the following month; these are fare-validity years."}
+  ],
+  "sources": {
+    "campaign": {"title": "2022 campaign affordability framework · CityNews", "url": "https://ottawa.citynews.ca/2022/10/05/sutcliffe-reveals-plan-to-hold-property-tax-increase-between-two-and-25-per-cent-for-2023-and-2024-if-elected-mayor-5914445/", "locator": "Affordability plan list: freezing transit fares for 2023", "note": "Contemporary 2022 reporting; same campaign source as property taxes. No 2026 election proposals used."},
+    "baseline": {"title": "OC Transpo · 2023 fare freeze implementation", "url": "https://www.octranspo.com/en/transparency-footer/", "locator": "2023 budget information, Fare freeze row", "note": "Operator says Council invested $5M to keep fares unchanged from 2022. Direct automated opening returned 403; indexed operator text was available. 2023/2024 prices cross-checked below."},
+    "baseline2022": {"title": "2022 Transit Commission fare decision · CityNews", "url": "https://ottawa.citynews.ca/2022/03/31/transit-commission-approves-oc-transpo-fare-hike-in-may-5216777/", "locator": "Proposed May increase and $125.50 adult monthly pass", "note": "Supports the 2022 schedule change before Sutcliffe took office; commission approval report, not proof of implementation on its own."},
+    "operator2023": {"title": "OC Transpo O-Payment announcement · republished by Councillor Gower", "url": "https://glengower.ca/information/tap-and-ride-with-o-payment/", "locator": "September 7, 2023: adult card fare and monthly maximum", "note": "Operator announcement specifies $3.70 card and $125.50 monthly during 2023."},
+    "fares2024": {"title": "Implemented January 2024 fare changes · CityNews", "url": "https://ottawa.citynews.ca/2024/01/01/transit-fare-hike-hits-ottawa-on-new-years-day/", "locator": "Adult cash, card and monthly pass before/after list", "note": "Adult values: cash $3.75→$3.85; card $3.70→$3.80; monthly $125.50→$128.75. Youth/senior figures elsewhere in this report were not used."},
+    "operator2024": {"title": "OC Transpo debit announcement · republished by Councillor Gower", "url": "https://glengower.ca/information/riding-oc-transpo-just-got-easier-with-interac-debit/", "locator": "May 28, 2024: adult card fare and monthly cap", "note": "Primary operator announcement cross-checks the $3.80 card fare and $128.75 monthly maximum."},
+    "fares2025": {"title": "Adopted 2025 budget · Councillor Rawlson King", "url": "https://www.rideau-rockcliffe.ca/council_approves_2025_city_budget", "locator": "Transit fare changes list", "note": "Adult ride $4 and monthly pass $135; cross-checked against the 2025 comparator in the 2026 adopted user-fee schedule."},
+    "fares2026": {"title": "City of Ottawa · 2026 adopted budget book", "url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf", "locator": "Transit Services Department — Transit Services — User Fees; 2025 Rate / 2026 Rate columns; adult monthly pass, adult card single ride and regular cash single ride rows", "note": "2025→2026: monthly $135→$138.50; card $4→$4.10; cash $4.05→$4.15. Effective January 1, 2026. Table located through indexed official document content."},
+    "adoption2026": {"title": "2026 budget adoption account · Councillor Rawlson King", "url": "https://www.rideau-rockcliffe.ca/december_12_2025_newsletter", "locator": "Transit budget and fare increase discussion", "note": "Post-adoption account confirms the $4→$4.10 single fare and $138.50 monthly pass."}
+  }
+}

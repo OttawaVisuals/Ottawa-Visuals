@@ -348,7 +348,8 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - First topic built October 24: [property-tax increases](Promises/promises.html), 2023–2026 versus the original campaign range. 2023–24 firm commitment and 2025–26 target distinguished; exact table, CSV/JSON, source locations and evidence gaps included. No 2026 campaign pledges.
 - Expanded October 24: vertical bars, City-published history back to 2013, optional Ottawa CPI line and range controls. 2026 CPI is matched January–September versus the same months of 2025, explicitly provisional. Historical budgets receive no promise verdict.
 - Cumulative view added October 24: compounded tax index and direct CPI growth from the selected 2012/2022 baseline, with summary and CSV. 2026 CPI uses the January–September endpoint against the baseline annual index; full-year tax versus partial-year CPI coverage is labelled.
-- Next, one topic at a time: transit fares, bus reliability and housing. Other candidates and methodological limits in [Promises/README.md](Promises/README.md).
+- Transit fares added October 24: 2023 freeze and adult card/cash/monthly schedules through 2026, with late-2022 baseline. Price, annual and cumulative views; optional Ottawa CPI; actual rounded price changes, exact tables and CSV/JSON; sources and limits retained.
+- Next, one topic at a time: bus reliability and housing. Other candidates and methodological limits in [Promises/README.md](Promises/README.md).
 
 ### Ottawa budget explorer
 - **Inflation option (October 23):** shared nominal/2025-dollar control, official Ottawa all-items CPI; 2026 uses the explicitly provisional Jan–Sep monthly average. Updates budget cards/charts/tables/comparisons and adjusted CSV. CPI is not a municipal input-cost index; separately dated Lansdowne figures and KPI units are preserved.
