@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026) and official bus reliability KPIs. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,23 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. User’s next topic: housing. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, municipal savings, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, municipal savings, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+
+## Housing
+
+`data/housing.json` retains 21 annual/YTD completion observations (2006–2026), 80 monthly completion observations (Jan 2020–Aug 2026), construction stages for 2023–2026 and three years of affordable/supportive report results. `scripts/build_housing.py` generates four static SVGs, exact tables, `housing.csv` (121 observations; annual/monthly/subset records must not be added together), and `housing-progress.json`. No PDF or spreadsheet runtime dependency for ordinary page builds.
+
+The original October 14, 2022 Glebe Report campaign advertisement (PDF p. 34) states 100,000 homes over ten years, including 10,000 affordable homes. September 16 CityNews platform coverage instead uses community housing and specifies 1,000 per year. Neither reviewed source fixes the exact calendar start. This page uses January 2023, the first full year after taking office, as an explicit analytical convention; late 2022 is excluded. The 10,000/year straight-line pace is arithmetic, not a promised interim milestone. In the cumulative view its 2026 endpoint is prorated to eight months. The full-year reference stops before the partial 2026 annual bar. No final target deadline or definitive campaign completion percentage is assigned. The provincial 151,000-home pledge is a different commitment and is not substituted.
+
+City HNA Table 31 (PDF p. 71) supplies history through 2023; all components reconcile to totals. Its prose mistakenly repeats 7,668 as 2023; the table’s 7,890 is used. Recent construction data is the public councillor-office compilation of CMHC census-subdivision releases, linked by the Kitchissippi Ward site. The workbook’s Notes tab identifies the CSD source. This is a secondary compilation, not an independent current CMHC pull (automated access blocked). Monthly/YTD sums, dwelling-type components and the overlap with the HNA (2020–2023) reconcile exactly. 2024 completions: 8,794; 2025: 7,797; Jan–Aug 2026: 5,559. Cumulative Jan 2023–Aug 2026: 30,040. Jan–Aug 2025: 4,514 is the matched-period comparison. Geography is Ottawa city/CSD, excluding neighbouring municipalities and Gatineau. No net-stock or causal claim.
+
+City program reports give 49 affordable + 57 supportive completions in 2023, 318 + 75 in 2024 and 31 + 48 in 2025: combined 578. The categories are not proven identical to campaign community/affordable scope; do not interpret this as exact fulfilment of the 10,000-unit pledge. The 2023 report separately discusses a late-2022 completed project with 2023 move-ins; these 40 units are not added again. Under-construction figures are stocks, kept separate from completions. No 2026 program delivery count is inferred. People housed, benefits and acquisitions are not counted as new-unit completions.
+
+Context uses year-end annual reports: 2024 wait list 14,721 and placements 1,077. The HNA’s Dec 10 wait-list snapshot is 15,140 and its placement figure 1,089; discrepancies are preserved without assuming the reason. Budget’s existing series is unchanged. HNA starts-table figures conflict with its narrative; starts here use only the councillor’s municipality compilation.
+
+`scripts/extract_housing_sources.py` deliberately refreshes the reviewed snapshot using cached PDF/workbook sources in the OS temporary directory. Requires pymupdf and openpyxl; captures source SHA-256 hashes and cell/page locations. Blank future component cells with formula totals of zero are excluded as unreported, not recorded zero months. The script stops if the August 2026 cutoff changes; review labels before refreshing. 2025 program figures are manually reviewed against the official June 26, 2026 memo’s indexed text (direct opening returned 403). Primary PDF pages and the campaign ad were visually reviewed after rendering.
+
+Housing controls use `housingview=cumulative` and `housinghistory=1`, scoped independently from other topics. Validate with `python Promises/scripts/check_housing.py` and `node --check Promises/housing.js`.
 
 ## Bus reliability
 
@@ -57,3 +73,5 @@ Cumulative extension: 36 viewport/theme/range/measure combinations checked; one 
 Transit-fare extension: 81 viewport/theme/product/mode combinations (390/768/1440 px, three themes, three products, three measures), no document overflow or page errors. Verified tax/fare control independence, URL restore, downloads, offline controls and no-JavaScript card chart. All 15 price observations and calculated series reconcile, including the 2023 freeze, distinct card/cash rates, rounded annual changes and direct cumulative ratios. Desktop and phone fare sections visually reviewed.
 
 Bus extension: 54 viewport/theme/metric/period combinations, no document overflow or page errors. Tax/fare/bus controls preserve independent selections; URL restore, local source/download links, offline and no-JavaScript content pass. All 63 observations reconcile with the unchanged input archive; three latest-edition targets, actual spreadsheet links and six SVG charts checked. SVG segment counts confirm no lines cross missing months. Desktop annual section visually inspected.
+
+Housing extension: 27 viewport/theme/view combinations, no overflow or page errors; unique IDs, URL persistence, cross-topic selections, local links/downloads, offline and no-JavaScript charts checked. Validated 121 CSV observations, monthly/annual reconciliation, matched-period totals, 30,040 cumulative completions, 578 program completions, partial-year handling and four charts. Desktop and phone sections visually reviewed; City PDF source panels and campaign ad rendered and inspected.

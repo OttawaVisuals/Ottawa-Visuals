@@ -1,0 +1,803 @@
+{
+  "reviewed": "2026-10-24",
+  "geography": "City of Ottawa / Ottawa census subdivision; excludes neighbouring municipalities and Gatineau",
+  "promise": {
+    "homes": 100000,
+    "years": 10,
+    "community_homes": 10000,
+    "community_annual": 1000,
+    "analysis_start": "2023-01-01",
+    "analysis_start_note": "First full calendar year after taking office; analytical convention, not a verified campaign calendar baseline. Late 2022 excluded."
+  },
+  "annual_completions": [
+    {
+      "year": 2006,
+      "completions": 5000,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2007,
+      "completions": 5436,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2008,
+      "completions": 6135,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2009,
+      "completions": 5620,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2010,
+      "completions": 6420,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2011,
+      "completions": 5629,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2012,
+      "completions": 5263,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2013,
+      "completions": 4896,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2014,
+      "completions": 6544,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2015,
+      "completions": 5645,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2016,
+      "completions": 4785,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2017,
+      "completions": 4955,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2018,
+      "completions": 6202,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2019,
+      "completions": 5323,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2020,
+      "completions": 7095,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2021,
+      "completions": 7938,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2022,
+      "completions": 7668,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2023,
+      "completions": 7890,
+      "source": "hna",
+      "locator": "Table 31, PDF p. 71",
+      "months": 12
+    },
+    {
+      "year": 2024,
+      "completions": 8794,
+      "months": 12,
+      "source": "ward",
+      "locator": "Completions by month, 2024 monthly/YTD columns"
+    },
+    {
+      "year": 2025,
+      "completions": 7797,
+      "months": 12,
+      "source": "ward",
+      "locator": "Completions by month, 2025 monthly/YTD columns"
+    },
+    {
+      "year": 2026,
+      "completions": 5559,
+      "months": 8,
+      "source": "ward",
+      "locator": "Completions by month, 2026 monthly/YTD columns"
+    }
+  ],
+  "monthly_completions": [
+    {
+      "period": "2020-01",
+      "completions": 442,
+      "source": "ward",
+      "locator": "Completions by month!C2"
+    },
+    {
+      "period": "2020-02",
+      "completions": 878,
+      "source": "ward",
+      "locator": "Completions by month!C3"
+    },
+    {
+      "period": "2020-03",
+      "completions": 327,
+      "source": "ward",
+      "locator": "Completions by month!C4"
+    },
+    {
+      "period": "2020-04",
+      "completions": 694,
+      "source": "ward",
+      "locator": "Completions by month!C5"
+    },
+    {
+      "period": "2020-05",
+      "completions": 257,
+      "source": "ward",
+      "locator": "Completions by month!C6"
+    },
+    {
+      "period": "2020-06",
+      "completions": 891,
+      "source": "ward",
+      "locator": "Completions by month!C7"
+    },
+    {
+      "period": "2020-07",
+      "completions": 458,
+      "source": "ward",
+      "locator": "Completions by month!C8"
+    },
+    {
+      "period": "2020-08",
+      "completions": 627,
+      "source": "ward",
+      "locator": "Completions by month!C9"
+    },
+    {
+      "period": "2020-09",
+      "completions": 525,
+      "source": "ward",
+      "locator": "Completions by month!C10"
+    },
+    {
+      "period": "2020-10",
+      "completions": 585,
+      "source": "ward",
+      "locator": "Completions by month!C11"
+    },
+    {
+      "period": "2020-11",
+      "completions": 928,
+      "source": "ward",
+      "locator": "Completions by month!C12"
+    },
+    {
+      "period": "2020-12",
+      "completions": 483,
+      "source": "ward",
+      "locator": "Completions by month!C13"
+    },
+    {
+      "period": "2021-01",
+      "completions": 525,
+      "source": "ward",
+      "locator": "Completions by month!E2"
+    },
+    {
+      "period": "2021-02",
+      "completions": 654,
+      "source": "ward",
+      "locator": "Completions by month!E3"
+    },
+    {
+      "period": "2021-03",
+      "completions": 444,
+      "source": "ward",
+      "locator": "Completions by month!E4"
+    },
+    {
+      "period": "2021-04",
+      "completions": 530,
+      "source": "ward",
+      "locator": "Completions by month!E5"
+    },
+    {
+      "period": "2021-05",
+      "completions": 506,
+      "source": "ward",
+      "locator": "Completions by month!E6"
+    },
+    {
+      "period": "2021-06",
+      "completions": 778,
+      "source": "ward",
+      "locator": "Completions by month!E7"
+    },
+    {
+      "period": "2021-07",
+      "completions": 502,
+      "source": "ward",
+      "locator": "Completions by month!E8"
+    },
+    {
+      "period": "2021-08",
+      "completions": 644,
+      "source": "ward",
+      "locator": "Completions by month!E9"
+    },
+    {
+      "period": "2021-09",
+      "completions": 1109,
+      "source": "ward",
+      "locator": "Completions by month!E10"
+    },
+    {
+      "period": "2021-10",
+      "completions": 793,
+      "source": "ward",
+      "locator": "Completions by month!E11"
+    },
+    {
+      "period": "2021-11",
+      "completions": 855,
+      "source": "ward",
+      "locator": "Completions by month!E12"
+    },
+    {
+      "period": "2021-12",
+      "completions": 598,
+      "source": "ward",
+      "locator": "Completions by month!E13"
+    },
+    {
+      "period": "2022-01",
+      "completions": 658,
+      "source": "ward",
+      "locator": "Completions by month!G2"
+    },
+    {
+      "period": "2022-02",
+      "completions": 612,
+      "source": "ward",
+      "locator": "Completions by month!G3"
+    },
+    {
+      "period": "2022-03",
+      "completions": 362,
+      "source": "ward",
+      "locator": "Completions by month!G4"
+    },
+    {
+      "period": "2022-04",
+      "completions": 465,
+      "source": "ward",
+      "locator": "Completions by month!G5"
+    },
+    {
+      "period": "2022-05",
+      "completions": 731,
+      "source": "ward",
+      "locator": "Completions by month!G6"
+    },
+    {
+      "period": "2022-06",
+      "completions": 762,
+      "source": "ward",
+      "locator": "Completions by month!G7"
+    },
+    {
+      "period": "2022-07",
+      "completions": 675,
+      "source": "ward",
+      "locator": "Completions by month!G8"
+    },
+    {
+      "period": "2022-08",
+      "completions": 1232,
+      "source": "ward",
+      "locator": "Completions by month!G9"
+    },
+    {
+      "period": "2022-09",
+      "completions": 423,
+      "source": "ward",
+      "locator": "Completions by month!G10"
+    },
+    {
+      "period": "2022-10",
+      "completions": 593,
+      "source": "ward",
+      "locator": "Completions by month!G11"
+    },
+    {
+      "period": "2022-11",
+      "completions": 545,
+      "source": "ward",
+      "locator": "Completions by month!G12"
+    },
+    {
+      "period": "2022-12",
+      "completions": 610,
+      "source": "ward",
+      "locator": "Completions by month!G13"
+    },
+    {
+      "period": "2023-01",
+      "completions": 635,
+      "source": "ward",
+      "locator": "Completions by month!I2"
+    },
+    {
+      "period": "2023-02",
+      "completions": 1089,
+      "source": "ward",
+      "locator": "Completions by month!I3"
+    },
+    {
+      "period": "2023-03",
+      "completions": 411,
+      "source": "ward",
+      "locator": "Completions by month!I4"
+    },
+    {
+      "period": "2023-04",
+      "completions": 490,
+      "source": "ward",
+      "locator": "Completions by month!I5"
+    },
+    {
+      "period": "2023-05",
+      "completions": 519,
+      "source": "ward",
+      "locator": "Completions by month!I6"
+    },
+    {
+      "period": "2023-06",
+      "completions": 963,
+      "source": "ward",
+      "locator": "Completions by month!I7"
+    },
+    {
+      "period": "2023-07",
+      "completions": 784,
+      "source": "ward",
+      "locator": "Completions by month!I8"
+    },
+    {
+      "period": "2023-08",
+      "completions": 565,
+      "source": "ward",
+      "locator": "Completions by month!I9"
+    },
+    {
+      "period": "2023-09",
+      "completions": 561,
+      "source": "ward",
+      "locator": "Completions by month!I10"
+    },
+    {
+      "period": "2023-10",
+      "completions": 521,
+      "source": "ward",
+      "locator": "Completions by month!I11"
+    },
+    {
+      "period": "2023-11",
+      "completions": 636,
+      "source": "ward",
+      "locator": "Completions by month!I12"
+    },
+    {
+      "period": "2023-12",
+      "completions": 716,
+      "source": "ward",
+      "locator": "Completions by month!I13"
+    },
+    {
+      "period": "2024-01",
+      "completions": 236,
+      "source": "ward",
+      "locator": "Completions by month!K2"
+    },
+    {
+      "period": "2024-02",
+      "completions": 550,
+      "source": "ward",
+      "locator": "Completions by month!K3"
+    },
+    {
+      "period": "2024-03",
+      "completions": 562,
+      "source": "ward",
+      "locator": "Completions by month!K4"
+    },
+    {
+      "period": "2024-04",
+      "completions": 894,
+      "source": "ward",
+      "locator": "Completions by month!K5"
+    },
+    {
+      "period": "2024-05",
+      "completions": 556,
+      "source": "ward",
+      "locator": "Completions by month!K6"
+    },
+    {
+      "period": "2024-06",
+      "completions": 1411,
+      "source": "ward",
+      "locator": "Completions by month!K7"
+    },
+    {
+      "period": "2024-07",
+      "completions": 574,
+      "source": "ward",
+      "locator": "Completions by month!K8"
+    },
+    {
+      "period": "2024-08",
+      "completions": 935,
+      "source": "ward",
+      "locator": "Completions by month!K9"
+    },
+    {
+      "period": "2024-09",
+      "completions": 945,
+      "source": "ward",
+      "locator": "Completions by month!K10"
+    },
+    {
+      "period": "2024-10",
+      "completions": 398,
+      "source": "ward",
+      "locator": "Completions by month!K11"
+    },
+    {
+      "period": "2024-11",
+      "completions": 436,
+      "source": "ward",
+      "locator": "Completions by month!K12"
+    },
+    {
+      "period": "2024-12",
+      "completions": 1297,
+      "source": "ward",
+      "locator": "Completions by month!K13"
+    },
+    {
+      "period": "2025-01",
+      "completions": 240,
+      "source": "ward",
+      "locator": "Completions by month!M2"
+    },
+    {
+      "period": "2025-02",
+      "completions": 337,
+      "source": "ward",
+      "locator": "Completions by month!M3"
+    },
+    {
+      "period": "2025-03",
+      "completions": 722,
+      "source": "ward",
+      "locator": "Completions by month!M4"
+    },
+    {
+      "period": "2025-04",
+      "completions": 307,
+      "source": "ward",
+      "locator": "Completions by month!M5"
+    },
+    {
+      "period": "2025-05",
+      "completions": 744,
+      "source": "ward",
+      "locator": "Completions by month!M6"
+    },
+    {
+      "period": "2025-06",
+      "completions": 1338,
+      "source": "ward",
+      "locator": "Completions by month!M7"
+    },
+    {
+      "period": "2025-07",
+      "completions": 450,
+      "source": "ward",
+      "locator": "Completions by month!M8"
+    },
+    {
+      "period": "2025-08",
+      "completions": 376,
+      "source": "ward",
+      "locator": "Completions by month!M9"
+    },
+    {
+      "period": "2025-09",
+      "completions": 721,
+      "source": "ward",
+      "locator": "Completions by month!M10"
+    },
+    {
+      "period": "2025-10",
+      "completions": 263,
+      "source": "ward",
+      "locator": "Completions by month!M11"
+    },
+    {
+      "period": "2025-11",
+      "completions": 705,
+      "source": "ward",
+      "locator": "Completions by month!M12"
+    },
+    {
+      "period": "2025-12",
+      "completions": 1594,
+      "source": "ward",
+      "locator": "Completions by month!M13"
+    },
+    {
+      "period": "2026-01",
+      "completions": 785,
+      "source": "ward",
+      "locator": "Completions by month!O2"
+    },
+    {
+      "period": "2026-02",
+      "completions": 306,
+      "source": "ward",
+      "locator": "Completions by month!O3"
+    },
+    {
+      "period": "2026-03",
+      "completions": 671,
+      "source": "ward",
+      "locator": "Completions by month!O4"
+    },
+    {
+      "period": "2026-04",
+      "completions": 817,
+      "source": "ward",
+      "locator": "Completions by month!O5"
+    },
+    {
+      "period": "2026-05",
+      "completions": 566,
+      "source": "ward",
+      "locator": "Completions by month!O6"
+    },
+    {
+      "period": "2026-06",
+      "completions": 1217,
+      "source": "ward",
+      "locator": "Completions by month!O7"
+    },
+    {
+      "period": "2026-07",
+      "completions": 735,
+      "source": "ward",
+      "locator": "Completions by month!O8"
+    },
+    {
+      "period": "2026-08",
+      "completions": 462,
+      "source": "ward",
+      "locator": "Completions by month!O9"
+    }
+  ],
+  "pipeline": [
+    {
+      "year": 2023,
+      "months": 12,
+      "starts": 8632,
+      "completions": 7890,
+      "under_construction": 16174,
+      "stock_date": "2023-12-31",
+      "source": "ward",
+      "locator": "By type rollup 2023, total row 7; 3-column blocks for starts/under construction/completions; components rows 3–6"
+    },
+    {
+      "year": 2024,
+      "months": 12,
+      "starts": 6800,
+      "completions": 8794,
+      "under_construction": 14186,
+      "stock_date": "2024-12-31",
+      "source": "ward",
+      "locator": "By type rollup 2024, total row 7; 3-column blocks for starts/under construction/completions; components rows 3–6"
+    },
+    {
+      "year": 2025,
+      "months": 12,
+      "starts": 9524,
+      "completions": 7797,
+      "under_construction": 15870,
+      "stock_date": "2025-12-31",
+      "source": "ward",
+      "locator": "By type rollup 2025, total row 7; 3-column blocks for starts/under construction/completions; components rows 3–6"
+    },
+    {
+      "year": 2026,
+      "months": 8,
+      "starts": 6146,
+      "completions": 5559,
+      "under_construction": 16446,
+      "stock_date": "2026-08-31",
+      "source": "ward",
+      "locator": "By type rollup 2026, total row 7; 3-column blocks for starts/under construction/completions; components rows 3–6"
+    }
+  ],
+  "affordable_supportive": [
+    {
+      "year": 2023,
+      "affordable": 49,
+      "supportive": 57,
+      "completed": 106,
+      "source": "report2023",
+      "locator": "PDF p. 7",
+      "under_construction": 831
+    },
+    {
+      "year": 2024,
+      "affordable": 318,
+      "supportive": 75,
+      "completed": 393,
+      "source": "report2024",
+      "locator": "PDF p. 10",
+      "under_construction": 927
+    },
+    {
+      "year": 2025,
+      "affordable": 31,
+      "supportive": 48,
+      "completed": 79,
+      "source": "memo2025",
+      "locator": "Accomplishments list",
+      "under_construction": 994
+    }
+  ],
+  "context": [
+    {
+      "year": 2023,
+      "year_end_waitlist": 12447,
+      "placements": 1186,
+      "source": "report2023"
+    },
+    {
+      "year": 2024,
+      "year_end_waitlist": 14721,
+      "placements": 1077,
+      "source": "report2024"
+    },
+    {
+      "year": 2025,
+      "year_end_waitlist": null,
+      "placements": 1017,
+      "source": "memo2025"
+    }
+  ],
+  "reconciliation_notes": [
+    "HNA Table 31 has 7,890 completions in 2023; accompanying prose incorrectly repeats 7,668. Table chosen and checked against ward compilation.",
+    "HNA Table 30 starts and its narrative disagree for several years. Starts here use only the ward CMHC CSD compilation; the HNA starts appendix is not spliced in.",
+    "2024 HNA wait list: 15,140 on December 10; annual report: 14,721 on December 31. Different dates retained, not averaged or treated as explained revisions. HNA placements 1,089 versus annual report 1,077: reason not established. This section uses year-end annual report figures.",
+    "Affordable/supportive report completions are not established as the exact scope of the campaign community/affordable pledge. No completion percentage for that pledge is assigned.",
+    "Community figures are a subset/context of overall housing, not added to CMHC total completions; housing benefits and people housed are not new housing units."
+  ],
+  "sources": {
+    "hna": {
+      "title": "City of Ottawa · 2024 Housing Needs Assessment",
+      "url": "https://documents.ottawa.ca/sites/default/files/2024-HNA_EN.pdf",
+      "locator": "Table 31, PDF p. 71; 2006–2023 completions",
+      "note": "Use table values, not the contradictory prose beneath it: 2023 is 7,890 in the table; prose repeats 7,668, the 2022 figure. Components reconcile to totals.",
+      "sha256": "7e1c69477571be5d62e7b282705e1e24082906e53b0cbece430683f268f1325e"
+    },
+    "ward": {
+      "title": "Councillor Jeff Leiper’s CMHC compilation",
+      "url": "https://docs.google.com/spreadsheets/d/1VjBnjoMVAgX0e5R3HFgoDFWhNMo5RFX8bKt0PAddNhE/edit",
+      "download": "https://docs.google.com/spreadsheets/d/1VjBnjoMVAgX0e5R3HFgoDFWhNMo5RFX8bKt0PAddNhE/export?format=xlsx",
+      "locator": "Completions by month; Starts roll-up; Under-construction roll-up; month-specific 2023–2026 tabs",
+      "note": "Secondary manual compilation of CMHC census-subdivision releases, published by the councillor’s office. Notes worksheet identifies the CMHC CSD source. Not a direct CMHC download. Completion totals reconcile with the City HNA for 2020–2023; 2024/25 and 2026 YTD use the compilation.",
+      "sha256": "d9607b96eb573f855a438691a4f80ba64ac292568e55032bfe6fd8abd48633db"
+    },
+    "report2023": {
+      "title": "City · 2023 Housing and Homelessness Progress Report",
+      "url": "https://documents.ottawa.ca/sites/default/files/2023HHReport_EN.pdf",
+      "locator": "PDF p. 7 (printed p. 4); completion projects on PDF p. 13",
+      "note": "49 affordable + 57 supportive = 106 completed units. PDF p. 13 separately mentions 40 units completed in late 2022 with move-ins in 2023; these are not added again.",
+      "sha256": "a383119e4218b3f45560bf9d11429bd078dd5131f3a7b4238b099c8b3b09a78e"
+    },
+    "report2024": {
+      "title": "City · 2024 Housing and Homelessness Progress Report",
+      "url": "https://documents.ottawa.ca/sites/default/files/2024HHReport_EN.pdf",
+      "locator": "PDF p. 10, 2024 by the numbers",
+      "note": "318 affordable and 75 supportive completed; 815 affordable and 112 supportive under construction at December 31. Year-end wait list and placements differ from HNA figures; retained separately.",
+      "sha256": "994af532031532fb6c3f45bc1c9c0f294ada76a54ae07592487f9a21aeca9036"
+    },
+    "memo2025": {
+      "title": "City · 2025 housing progress update, June 26, 2026",
+      "url": "https://ottawa.ca/en/city-hall/open-transparent-and-accountable-government/public-disclosure/memoranda-issued-members-council/memoranda-issued-community-and-social-services/memo-2025-housing-and-homelessness-plan-progress-update-june-26-2026",
+      "locator": "2025 Housing and Homelessness Plan Progress Report, accomplishments list",
+      "note": "Manually reviewed from indexed official memo text; direct automated opening returned 403. Reports 31 affordable + 48 supportive completed, 907 + 87 under construction at December 31, and 1,017 households housed from the wait list. No 2026 completion count in this source."
+    },
+    "campaign_ad": {
+      "title": "Sutcliffe’s October 2022 campaign advertisement · Glebe Report",
+      "url": "https://glebereport.ca/wp-content/uploads/2022/10/Glebe-Report-October-14-2022.pdf",
+      "locator": "PDF p. 34, campaign advertisement",
+      "note": "Primary campaign evidence: 100,000 homes over the next ten years, including 10,000 affordable homes. No exact calendar baseline or interim milestones given.",
+      "sha256": "286550f5e137c0fc89eaa2f78392d2b84a8af0c0aa464d227e22e45c6be91f3f"
+    },
+    "campaign_news": {
+      "title": "September 16, 2022 housing platform · CityNews",
+      "url": "https://ottawa.citynews.ca/2022/09/16/ottawa-mayoral-candidate-mark-sutcliffe-pledging-to-build-100k-new-homes-5829675/",
+      "locator": "Housing pledge and community housing paragraphs",
+      "note": "Contemporary report describes 100,000 new homes over ten years, including 10,000 community housing units and 1,000 community units per year. Terminology differs from the campaign advertisement’s affordable homes."
+    },
+    "ward_page": {
+      "title": "Councillor’s explanation of the CMHC tracker",
+      "url": "https://kitchissippiward.ca/2026/08/25/ottawa-housing-stats/",
+      "locator": "CMHC Ottawa housing tracker; links to spreadsheet and CMHC CSD release",
+      "note": "The downloadable workbook currently extends through August 2026. Its cutoff, rather than the article date, is used."
+    },
+    "cmhc": {
+      "title": "CMHC · Starts, completions and under construction by census subdivisions",
+      "url": "https://www.cmhc-schl.gc.ca/en/professionals/housing-markets-data-and-research/housing-data/data-tables/housing-market-data/starts-completions-under-construction-census-subdivisions",
+      "locator": "Ottawa census subdivision, not Ottawa–Gatineau CMA",
+      "note": "Upstream source identified by the ward compilation. Direct automated download was blocked; no claim of a fresh independent CMHC pull."
+    }
+  }
+}

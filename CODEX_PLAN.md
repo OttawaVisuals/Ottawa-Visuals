@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Housing promise section (Oct 24: original 2022 campaign ad and coverage verified; 2006–2026 Ottawa completion history, monthly CMHC compilation through Aug 2026, cumulative view, separate affordable/supportive delivery and pipeline; baseline/scope gaps, HNA discrepancies and unreported-month formula zeros documented; sources, CSV/JSON and browser/data checks)
 - [x] Bus reliability promise section (Oct 24: reused 63 official archive observations for delivery/punctuality/regularity, annual/monthly views and May 2026 scorecard references; gaps and April 2026 cutoff labelled, no live-feed splice; provenance, exact table, CSV/JSON and calculation/browser checks)
 - [x] Transit-fare promise section (Oct 24: verified 2023 freeze; 2022 baseline and 2023–2026 adult card/cash/monthly prices; price/annual/cumulative charts with optional Ottawa CPI, source reconciliation, CSV/JSON; 81 browser combinations, independent tax/fare controls and calculation checks)
 - [x] Cumulative tax/inflation view (Oct 24: Annual/Cumulative switch, compounded budget tax index and direct CPI index growth from 2012 or 2022; provisional 2026 endpoint labels, summary, exact table and cumulative CSV; calculation and browser checks)
