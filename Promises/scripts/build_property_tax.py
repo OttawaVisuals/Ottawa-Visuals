@@ -6,6 +6,7 @@ import statistics
 from html import escape as e
 from pathlib import Path
 from build_transit_fares import build as build_transit_fares
+from build_bus_reliability import build as build_bus_reliability
 
 ROOT = Path(__file__).resolve().parents[1]
 data = json.loads((ROOT / 'data/property-tax.json').read_text(encoding='utf-8'))
@@ -123,13 +124,13 @@ source_items = ''.join(f'<li>{source_link(k)} · {e(s["date"])}<br><small>Locati
 page = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sutcliffe’s 2022 promises · Ottawa Visuals</title>
-<meta name="description" content="Sutcliffe’s 2022 commitments and results: Ottawa property-tax increases and adult transit fares, annual and cumulative changes, and Ottawa inflation comparisons.">
+<meta name="description" content="Sutcliffe’s 2022 commitments and results: property taxes, adult transit fares and official bus reliability KPIs, with historical trends and source notes.">
 <link rel="icon" href="../assets/img/avatar.png"><script>try{{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}}catch(e){{document.documentElement.dataset.theme='light'}}</script>
-<link rel="stylesheet" href="promises.css"><link rel="stylesheet" href="../assets/site-theme.css"><script defer src="../assets/site-theme.js"></script><script defer src="promises.js"></script><script defer src="transit-fares.js"></script>
+<link rel="stylesheet" href="promises.css"><link rel="stylesheet" href="../assets/site-theme.css"><script defer src="../assets/site-theme.js"></script><script defer src="promises.js"></script><script defer src="transit-fares.js"></script><script defer src="bus-reliability.js"></script>
 </head><body><a class="skip" href="#main">Skip to report</a>
 <header class="topbar"><a class="brand" href="../index.html"><span>Ottawa Visuals <small>2022 commitments</small></span></a><a href="../index.html">All reports ↗</a></header>
-<main id="main"><header><p class="eyebrow">Mark Sutcliffe · First term, 2022–2026</p><h1>The promises.<br>The years since.</h1><p class="lede">Track the original 2022 campaign commitments against Ottawa’s published results, one topic at a time.</p><p class="small">Reviewed October 24, 2026 · Property taxes &amp; transit fares</p></header>
-<nav aria-label="On this page"><a href="#property-tax">Property taxes</a><a href="#transit-fares">Transit fares</a><a href="#method">Sources &amp; method</a><a href="../Budget/budget.html">Explore the budget ↗</a></nav>
+<main id="main"><header><p class="eyebrow">Mark Sutcliffe · First term, 2022–2026</p><h1>The promises.<br>The years since.</h1><p class="lede">Track the original 2022 campaign commitments against Ottawa’s published results, one topic at a time.</p><p class="small">Reviewed October 24, 2026 · Property taxes, transit fares &amp; bus reliability</p></header>
+<nav aria-label="On this page"><a href="#property-tax">Property taxes</a><a href="#transit-fares">Transit fares</a><a href="#bus-reliability">Bus reliability</a><a href="#method">Sources &amp; method</a><a href="../Budget/budget.html">Explore the budget ↗</a></nav>
 <section id="property-tax" class="card" aria-labelledby="tax-title"><p class="eyebrow">01 · Affordability</p><h2 id="tax-title">Property-tax increases</h2>
 <div class="promise"><p><strong>The 2022 commitment</strong></p><p>Limit increases to <strong>2–2.5% in 2023 and 2024</strong>; <strong>target the same range in 2025 and 2026</strong>.</p><p class="small">Paraphrase of the October 5, 2022 financial framework. {source_link('campaign', 'Read the campaign coverage ↗')}</p></div>
 <p class="verdict"><strong>The 2023–24 commitment was met.</strong> Both years came in at 2.5%. Increases of 3.9% in 2025 and 3.75% in 2026 exceeded the later-year target.</p>
@@ -151,9 +152,10 @@ page = f'''<!doctype html>
 <p class="small">Your own bill can change differently because of property assessment, location, tax class and applicable levies. Water, wastewater, stormwater, garbage fees and provincial education taxes are outside this municipal increase comparison. These figures do not measure growth in the City’s total tax revenue.</p>
 <div class="downloads"><a href="data/property-tax.csv" download>Download CSV ↓</a><a href="data/property-tax.json" download>Tax data &amp; sources ↓</a><a href="data/inflation.json" download>CPI inputs &amp; formula ↓</a></div></section>
 {build_transit_fares()}
+{build_bus_reliability()}
 <section id="method" class="card"><h2>Sources &amp; method</h2><details open><summary>What is being compared?</summary><p>For 2023–2026, each budget year’s published overall municipal property-tax increase is compared with the upper end of the original campaign range, 2.5%. The gap equals adopted increase minus 2.5, in percentage points. The 2013–2022 bars are historical context and receive no promise assessment.</p><p>Inflation = (annual-average CPI / previous annual-average CPI − 1) × 100. For the incomplete 2026 year, both averages use January–September. Inflation is rounded to one decimal in tax chart titles and the tax table; the CSV retains six decimals. Fare changes use two decimals in the display. No inflation adjustment or cumulative household bill estimate is applied. Same-year inflation was not fully known when budgets were adopted.</p><p>Council approves budgets; this page evaluates the campaign commitment without attributing every budget decision solely to the mayor. Historical rates follow the City’s own published comparison series; individual bills and separate fees can differ. Transit-fare methodology and source notes are in the <a href="#transit-fares">fare section</a>.</p></details>
 <details><summary>Evidence limits and review process</summary><p>The campaign benchmark comes from reporting published during the 2022 campaign; an archived original platform has not yet been obtained. The campaign article’s opening paragraph contains a conflicting number, while its headline and detailed framework agree on 2–2.5% and distinguish the later target.</p><p>2013–2023 tax increases come from the City’s historical comparison table. The 2024 and 2025 adoption figures are supported by contemporary councillor accounts; 2026 uses the City’s adoption announcement. CPI is retrieved from Statistics Canada tables 18-10-0005-01 and 18-10-0004-01; inputs and response hashes are retained. These are reviewed snapshots, not an automatic feed or independently audited household tax bills. No 2026 reelection promises are included.</p></details>
 <details><summary>Documents and source locations</summary><ol class="source-list">{source_items}</ol><p><a href="README.md">Review and rebuild notes</a></p></details></section>
 </main><footer>Ottawa Visuals · Independent reporting · <a href="../index.html">All reports</a></footer></body></html>'''
 (ROOT / 'promises.html').write_text(page, encoding='utf-8')
-print('Built Promises/promises.html, tax exports and transit-fare exports')
+print('Built Promises/promises.html and tax, fare and bus KPI exports')

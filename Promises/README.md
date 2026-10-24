@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026) and adult transit fares (late-2022 baseline through 2026), with Ottawa CPI inflation. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026) and official bus reliability KPIs. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,17 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. User’s next topics: bus KPIs and housing. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, municipal savings, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. User’s next topic: housing. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, municipal savings, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+
+## Bus reliability
+
+`scripts/build_bus_reliability.py` reuses `OC_Transpo/kpi_history/kpi_series.csv`, filtering official bus delivery, punctuality and frequent-route regularity, without breakdowns. Retains annual results and monthly observations from 2022 onward: 63 observations total. No collector rebuild or edits. The complete page builder invokes it. `data/bus-reliability.json` retains input SHA-256, original row metadata, source URLs, three May 2026 targets and publication/extraction details. `bus-source-links.json` stores five public document/spreadsheet mappings derived from the existing scraper manifest; rebuilds do not require ignored local PDF downloads or manifest files. New source files must be mapped explicitly.
+
+Annual figures: delivery 97.8/98/97% for 2023/24/25; punctuality 74.5/74/72%; regularity 82/82% for 2024/25 (2023 unavailable). Annual narrative assertions stop the build if the referenced observations change, requiring review. No complete annual 2022 or 2026 result is inferred. Monthly delivery includes Aug 2022–Aug 2023 and Apr 2025–Apr 2026; punctuality Jan 2025–Apr 2026; regularity Apr 2025–Apr 2026. Earlier pandemic-era punctuality remains on the full KPI dashboard, not used as a clean baseline here. Missing months are not joined or interpolated.
+
+Annual bars start at zero; monthly lines use labelled narrowed axes (90–100 delivery, 60–100 punctuality, 70–100 regularity). Reference targets come from the May 2026 scorecard: 99.5%, 85%, 85%. Delivery target completion is Q4 2027; regularity’s date depends on reaching service availability; no extracted punctuality deadline is asserted. These are not numerical promises made in 2022 or presumed historical deadlines. No whole-promise pass/fail verdict or causal attribution.
+
+`busmetric` and `busperiod=monthly` URL parameters preserve selection; controls are independent from tax/fare views. Exports include exact observations and source links. Spreadsheet extracts carry a legacy .pdf source filename in the archive; this page links the actual .xlsx and identifies the worksheet. Live predictions and early/late splits are excluded because the comparable official series does not provide them consistently. Validation: `python Promises/scripts/check_bus_reliability.py` and `node --check Promises/bus-reliability.js`.
 
 ## Transit fares
 
@@ -45,3 +55,5 @@ Headless Edge / Playwright: 390, 768 and 1440 px widths in light, dark and colou
 Cumulative extension: 36 viewport/theme/range/measure combinations checked; one chart visible at a time, annual references absent in cumulative mode, URL restoration, CPI visibility, CSV download and offline switching pass. All 18 cumulative observations reconcile against independent compounding and direct CPI-ratio calculations; the two-year 2023–24 tax change is 5.0625%, confirming rates are not summed. Desktop cumulative rendering visually reviewed.
 
 Transit-fare extension: 81 viewport/theme/product/mode combinations (390/768/1440 px, three themes, three products, three measures), no document overflow or page errors. Verified tax/fare control independence, URL restore, downloads, offline controls and no-JavaScript card chart. All 15 price observations and calculated series reconcile, including the 2023 freeze, distinct card/cash rates, rounded annual changes and direct cumulative ratios. Desktop and phone fare sections visually reviewed.
+
+Bus extension: 54 viewport/theme/metric/period combinations, no document overflow or page errors. Tax/fare/bus controls preserve independent selections; URL restore, local source/download links, offline and no-JavaScript content pass. All 63 observations reconcile with the unchanged input archive; three latest-edition targets, actual spreadsheet links and six SVG charts checked. SVG segment counts confirm no lines cross missing months. Desktop annual section visually inspected.
