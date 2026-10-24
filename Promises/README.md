@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and Stage 2 LRT. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery, Stage 2 LRT and building energy upgrades. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,21 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+
+## Building energy upgrades
+
+`data/building-upgrades.json` retains the original additional $100M/four-year pledge, official annual efficiency-program range, six selected 2024 planned costs/allocations, and 13 named site/work records. `scripts/build_building_upgrades.py` renders a static zero-based horizontal bar chart, exact table and two project-status columns; exports separate plan/project CSVs. Ordinary builds use only stdlib and reviewed local data.
+
+August 17, 2022 CityNews coverage supplies the original wording, including additional funding and support from federal/provincial programs and Hydro Ottawa. Exact calendar endpoints and pre-promise baseline are not established. No newer commitments substituted. The current campaign site’s retrospective more-than-$100M retrofit/renewal claim is identified as interested-party evidence with a broader scope and no project-level bridge.
+
+City ECDM 2024 PDF pp. 4–7 supplies heat pumps $978K, lighting $834K, condenser controls $525K, boiler approximately $500K, automation $300K and envelope $250K. The final two are approved allocations; other figures are estimated costs. No actual spend or full-program total inferred. Source SHA-256 retained; all four relevant pages rendered and visually inspected. The report notes asset-management/facility contributions and historical 2019–2023 work; do not assign the whole historical period to this term.
+
+City April 22, 2025 release verifies six selected completed site/work records (Glebe appears for two different measures); dates are reporting upper bounds, not installation dates or proof of post-election initiation. June 19, 2026 release supplies seven planned/ongoing records, retained as unconfirmed complete. The latter reports $3.5–4M annually since 2023, using internal capital and external incentives. Do not extrapolate into annual bars, four-year totals, a missing-year zero or a pledge-completion percentage. No comparable additional-spending ledger obtained. Direct City release access returned 403; official indexed text reviewed. Private-home financing, buses and broad climate spending excluded.
+
+Validate: `python Promises/scripts/check_building_upgrades.py`, followed by existing topic checks. The LRT check also verifies page-wide unique IDs and local links.
+
+Verification: all eight topic checks passed, including retained hidden research. Six bar lengths reconcile with reviewed plan amounts; both CSVs match the snapshot and planned work is never converted to actual spending. Headless Edge checked 390/768/1440 px in light/dark/colour-blind themes, expanded details and file:// without JavaScript; no document overflow or page errors. Desktop/dark and phone/light sections visually inspected; the chart intentionally scrolls horizontally on phones.
 
 ## Stage 2 LRT
 

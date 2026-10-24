@@ -1,0 +1,42 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": {"amount_cad": 100000000, "years": 4, "additional": true, "source": "campaign", "comparable_actual_cad": null, "baseline_cad": null, "note": "Additional energy upgrades and retrofits to City buildings, with support from established federal/provincial programs and Hydro Ottawa. Exact calendar endpoints and definition of additional investment unverified."},
+  "sources": {
+    "campaign": {"title": "CityNews · August 17, 2022 climate platform", "url": "https://ottawa.citynews.ca/2022/08/17/we-have-to-be-ambitious-ottawa-mayoral-candidate-mark-sutcliffe-releases-climate-platform-5706900/", "locator": "For city-owned buildings · retrofit pledge", "note": "Contemporary reporting; original archived platform not obtained. The $100M is additional over four years, not an annual target."},
+    "plan": {"title": "City of Ottawa · 2024 Energy Conservation and Demand Management Plan", "url": "https://documents.ottawa.ca/sites/default/files/Energy_Conservation_and_Demand_Management_Plan_2024_AODA.pdf", "locator": "PDF pp. 3–7 · facility measures and 2024 plans", "sha256": "3de6a6b98b8882efbd9542f3a5194913f34e003fd4175832747cf136aadc7c85", "note": "PDF downloaded and pp. 4–7 visually checked. Selected estimates/allocations, not actual expenditures. Project costs can include asset-management/facility funding. Historical 2019–2023 totals cannot be assigned wholly to this term."},
+    "completed": {"title": "City of Ottawa · April 22, 2025 facility retrofit update", "url": "https://www.ottawa.ca/en/city-hall/city-news/newsroom/greening-our-city-ottawa-assets-well-underway", "locator": "Heat pumps replace furnaces; A window to the future", "note": "Official indexed text reviewed; direct access returned 403. Completion confirmed by publication; exact installation dates and individual costs not stated. Does not establish that all work began after the election."},
+    "latest": {"title": "City of Ottawa · June 19, 2026 efficiency upgrades announcement", "url": "https://ottawa.ca/en/city-hall/city-news/newsroom/energy-efficiency-upgrades-come-city-facilities-part-broader-climate-retrofit-program", "locator": "Investment paragraph; Carlingwood and upcoming/ongoing retrofits", "note": "Official indexed text reviewed; direct access returned 403. Annual range is reported, not an exact year-by-year ledger. Future/ongoing work remains unconfirmed as complete in this snapshot."},
+    "claim": {"title": "Mayor’s campaign website · retrospective record claim", "url": "https://marksutcliffe.ca/priorities/environment", "locator": "My record · building retrofits and renewals", "note": "Undated page reviewed October 24, 2026; interested-party claim of more than $100M. Includes renewals and usability; no comparable project-level accounting bridge supplied. New campaign promises are excluded."}
+  },
+  "reported_annual": {"minimum_cad": 3500000, "maximum_cad": 4000000, "period_wording": "Since 2023", "as_of": "2026-06-19", "source": "latest", "note": "Efficiency upgrades using internal capital and external incentives. No precise annual amounts or comparable term total inferred."},
+  "plan_2024": [
+    {"measure": "Heat pumps", "amount_cad": 978000, "type": "Estimated cost", "page": 5},
+    {"measure": "LED lighting", "amount_cad": 834000, "type": "Estimated cost", "page": 4},
+    {"measure": "Rink condenser controls", "amount_cad": 525000, "type": "Estimated cost", "page": 7},
+    {"measure": "Electric boiler", "amount_cad": 500000, "type": "Approximate cost", "page": 6},
+    {"measure": "Building automation", "amount_cad": 300000, "type": "Approved allocation", "page": 6},
+    {"measure": "Building envelope", "amount_cad": 250000, "type": "Approved allocation", "page": 7}
+  ],
+  "projects": [
+    {"site": "Glebe Community Centre", "work": "Heat pumps", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Plant Recreation Centre", "work": "Heat pumps", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Borden Farm Child Care", "work": "Heat pumps", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Huron Early Learning Centre", "work": "Heat pumps", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Hintonburg Community Centre", "work": "Windows", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Glebe Community Centre", "work": "Windows", "status": "Completed by report date", "as_of": "2025-04-22", "source": "completed"},
+    {"site": "Carlingwood library", "work": "LED lighting and hybrid heat pumps", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "City Hall", "work": "Rooftop solar", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "Charles Sim Municipal Workshop Complex", "work": "Rooftop solar", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "Bob MacQuarrie Recreation Complex – Orléans", "work": "Rooftop solar", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "Cardel Recreation Centre", "work": "Electric dehumidifier", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "Carleton Lodge", "work": "Building automation", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"},
+    {"site": "Fire Station 23", "work": "Windows", "status": "Planned / ongoing at report date", "as_of": "2026-06-19", "source": "latest"}
+  ],
+  "limitations": [
+    "No reconciled 2023–2026 project-level actual expenditure series or pre-promise funding baseline obtained.",
+    "The annual efficiency-program range and broader retrofit/renewal claim have different scopes; neither is a verified total of additional energy investment.",
+    "Selected 2024 measures are estimates or allocations; they may overlap other published program amounts and must not be added to them.",
+    "Project examples are selected reporting evidence, not a complete inventory or a count of projects delivered during this term. Exact installation dates and individual project spending are unavailable here.",
+    "No completion percentage, zero for missing years, annualized $25M target or four-year extrapolation of the annual range is calculated."
+  ]
+}
