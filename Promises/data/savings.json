@@ -32,6 +32,31 @@
       "locator": "PDF and printed page 38, Table 5, Budget efficiencies",
       "note": "Despite FINAL in the filename, the page itself says Draft Budget 2026. Retrospective 2023–25 claims and draft 2026 measures; not an independently audited realization ledger. Rendered and visually verified.",
       "sha256": "43eeda8e4600a27a3669f49d03b28225f2ebfaad9bc9b258f6b65d4700e0c611"
+    },
+    "city_context": {
+      "title": "City of Ottawa — service review explanation",
+      "url": "https://documents.ottawa.ca/sites/default/files/FINAL%202026%20Budget%20Magazine%20English.pdf#page=37",
+      "locator": "Draft Budget 2026 magazine, PDF/printed page 37",
+      "note": "Describes revenue generation, facilities disposal and capacity creation; does not reconcile each measure to a realized net saving."
+    },
+    "adopted_transit": {
+      "title": "City of Ottawa — adopted 2026 operating changes",
+      "url": "https://documents.ottawa.ca/sites/default/files/2026%20Adopted%20Budget%20Book%20English%20Condensed.pdf#page=28",
+      "locator": "PDF page 28 / printed page 9; Transit Committee row, Service Initiatives / Savings column",
+      "note": "Shows a $2.363M reduction in this column. Different scope from the magazine headline; no automatic substitution or addition. Adoption is confirmed for this subtotal only; actual realization remains unverified.",
+      "sha256": "a57c1a5ab4c64f8022a8f8e05471075543f9a2ba9cd5583d8789ca8c75e63dba"
+    },
+    "transit_notes": {
+      "title": "City of Ottawa — detailed draft 2026 Transit budget",
+      "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=280355",
+      "locator": "Printed page 18; Transit Services Operating Resource Requirement Explanatory Notes",
+      "note": "Indexed official PDF text gives station hydro $2.200M and administration $0.163M, subtotal $2.363M. Direct PDF retrieval returned 403; labels not visually verified. Total cross-checks the adopted book, but adoption of each unchanged component is not separately established."
+    },
+    "cib_bus": {
+      "title": "Canada Infrastructure Bank — Ottawa electric-bus financing",
+      "url": "https://cib-bic.ca/en/projects/enabling-housing-supply/city-of-ottawa-zero-emission-buses/",
+      "locator": "Investment and Benefits of CIB involvement paragraphs",
+      "note": "Explains financing of the electric-bus purchase premium and repayment from operating savings versus equivalent diesel buses. Context only: not a reconciliation of the 2026 transit headline."
     }
   },
   "years": [
@@ -74,98 +99,187 @@
       "item": "User fee review",
       "operating_cad_thousands": 990,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Revenue measure",
+      "explanation": "User charges are a funding source; a fee increase does not itself reduce the cost of providing a service.",
+      "remaining_gap": "Exact fees, payer impacts and incremental net receipts remain unverified.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Service review",
       "item": "Facility rationalization",
       "operating_cad_thousands": 5594,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Facilities changes",
+      "explanation": "The City describes property consolidation/disposal and reduced facility costs alongside revenue opportunities.",
+      "remaining_gap": "The $5.594M has not been matched to a complete property list, transition costs or service changes.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_context"
     },
     {
       "group": "Department initiatives",
       "item": "Fleet efficiencies",
       "operating_cad_thousands": 1950,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Cost measure — detail incomplete",
+      "explanation": "The summary assigns an amount to fleet operations.",
+      "remaining_gap": "Price effects, vehicle utilization, maintenance changes and offsetting costs are not separated.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Facility operations",
       "operating_cad_thousands": 1475,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Cost measure — detail incomplete",
+      "explanation": "The summary assigns an amount to facility operations.",
+      "remaining_gap": "Individual measures, service impacts and net implementation costs remain unverified.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Investor / interest income",
       "operating_cad_thousands": 3000,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Revenue measure",
+      "explanation": "Investment returns and interest add revenue.",
+      "remaining_gap": "Increment above the baseline, associated costs and realized returns remain unverified.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Curbside collection strategy",
       "operating_cad_thousands": 372,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Collection changes",
+      "explanation": "The label identifies a curbside collection strategy.",
+      "remaining_gap": "No verified route/contract bridge, gross-to-net calculation or service-impact assessment is retained.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Leaf / yard waste diversion",
       "operating_cad_thousands": 1606,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Waste diversion",
+      "explanation": "The label identifies diversion of leaves and yard waste.",
+      "remaining_gap": "Avoided disposal costs, collection/processing costs and realized tonnage are not reconciled.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Biosolids contract",
       "operating_cad_thousands": 230,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Contract / allocation change",
+      "explanation": "The summary attributes an amount to a biosolids agreement.",
+      "remaining_gap": "Contract baseline, internal allocation effects and realized net reduction remain unverified.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Child care funding model",
       "operating_cad_thousands": 2882,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Funding-model change",
+      "explanation": "The label identifies a new funding model for municipal child care.",
+      "remaining_gap": "Do not infer fewer costs or fewer spaces; the funding/expense split and external contributions are not reconciled.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Tree-planting sponsorship",
       "operating_cad_thousands": 500,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Revenue measure",
+      "explanation": "Sponsorship brings in outside funding.",
+      "remaining_gap": "Signed agreements, delivery costs and actual receipts remain unverified.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Discretionary savings",
       "operating_cad_thousands": 1535,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Spending restraint — detail incomplete",
+      "explanation": "The summary names discretionary efficiencies.",
+      "remaining_gap": "Specific purchases/services foregone, implementation and recurrence are not established.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Department initiatives",
       "item": "Workforce strategy",
       "operating_cad_thousands": 6500,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Staffing measure — detail incomplete",
+      "explanation": "The summary identifies a workforce strategy; departmental notes allocate targets.",
+      "remaining_gap": "The $6.5M has not been reconciled to positions, vacancy assumptions, overtime/backfill or service impacts.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Other services",
       "item": "Police",
       "operating_cad_thousands": 4259,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Mixed measures — detail incomplete",
+      "explanation": "The summary gives one police total.",
+      "remaining_gap": "A complete bridge from individual measures to $4.259M and actual net results is not retained.",
+      "evidence_basis": "Editorial reading of the City summary label; not an independently verified mechanism",
+      "detail_source": "city_table"
     },
     {
       "group": "Other services",
       "item": "Transit",
       "operating_cad_thousands": 14031,
       "recurrence": "Unknown",
-      "label_note": "Shortened source label; source table linked"
+      "label_note": "Shortened source label; source table linked",
+      "classification": "Mixed measures — unreconciled",
+      "explanation": "The magazine gives $14.031M; the adopted savings column separately shows $2.363M.",
+      "remaining_gap": "These scopes have not been bridged. Fuel changes, electric-bus costs and capital deferrals must not be assigned to the headline without evidence.",
+      "evidence_basis": "Magazine total compared with separately scoped adopted budget column; reconciliation incomplete",
+      "detail_source": "adopted_transit"
     }
-  ]
+  ],
+  "review_status": "Under review; headline totals are source context, not verified promise delivery",
+  "transit_review": {
+    "headline_cad_thousands": 14031,
+    "adopted_service_initiatives_savings_cad_thousands": 2363,
+    "draft_notes": [
+      {
+        "item": "Station electricity",
+        "cad_thousands": 2200
+      },
+      {
+        "item": "Administration",
+        "cad_thousands": 163
+      }
+    ],
+    "bridge_verified": false,
+    "net_electric_bus_cost_verified": false,
+    "realization_verified": false,
+    "note": "Do not subtract the adopted subtotal from the headline and call the difference unexplained savings; their scope relationship is not verified. Do not add these observations to the 14 summary items."
+  }
 }

@@ -31,6 +31,13 @@ assert sum(int(r['total_cad_thousands']) for r in exported) == 252672
 with (root / 'data/savings-2026-items.csv').open(encoding='utf-8', newline='') as f:
     items = list(csv.DictReader(f))
 assert len(items) == 14 and sum(int(r['operating_cad_thousands']) for r in items) == 44924
+for r in items:
+    assert r['classification'] and r['explanation'] and r['remaining_gap'] and r['evidence_basis']
+    assert r['detail_source_url'] in [s['url'] for s in d['sources'].values()]
+transit = d['transit_review']
+assert sum(r['cad_thousands'] for r in transit['draft_notes']) == 2363 == transit['adopted_service_initiatives_savings_cad_thousands']
+assert not transit['bridge_verified'] and not transit['net_electric_bus_cost_verified'] and not transit['realization_verified']
+assert transit['headline_cad_thousands'] == 14031
 html = (root / 'promises.html').read_text(encoding='utf-8')
 chart = ET.fromstring(re.search(r'<svg class="savings-svg".*?</svg>', html, re.S).group())
 bars = [n for n in chart.iter('rect')]
@@ -38,4 +45,7 @@ assert len(bars) == 7 and sum('draft' in n.attrib['class'] for n in bars) == 1
 assert all(float(n.attrib['height']) > 0 for n in bars)
 assert 'No annual $35M target is inferred.' in html
 assert len(re.findall(r'id="savings"', html)) == 1
-print('Savings checks passed: annual/detail totals, non-overlapping exports, unknown recurrence and draft chart status.')
+assert 'Under review: the headline totals need a fuller breakdown.' in html
+assert re.search(r'<details id="savings-aggregate-context">', html), 'Aggregate chart must be collapsed context, not a score'
+assert re.search(r'<details id="savings-item-evidence">', html)
+print('Savings checks passed: totals, 14 evidence gaps, separate transit scopes, unknown net costs and collapsed aggregate context.')
