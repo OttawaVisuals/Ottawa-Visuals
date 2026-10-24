@@ -1,0 +1,171 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": {
+    "minimum_cad_thousands": 35000,
+    "timing_verified": false,
+    "annual_target_verified": false,
+    "recurrence_verified": false
+  },
+  "unit": "CAD thousands, nominal",
+  "sources": {
+    "campaign": {
+      "title": "Capital Current — election coverage, October 2022",
+      "url": "https://capitalcurrent.ca/voters-across-capital-set-to-elect-new-mayor-at-least-11-newcomers-to-ottawa-council/",
+      "locator": "Financial plan paragraph: $35–60M through strategic spending review",
+      "note": "Contemporary reporting; original archived framework not recovered. Does not establish an annual target."
+    },
+    "campaign_floor": {
+      "title": "Capital Current — October 25, 2022",
+      "url": "https://capitalcurrent.ca/ottawa-voters-embrace-sutcliffes-middle-of-the-road-vision-and-more-of-the-same/",
+      "locator": "Paragraph beginning He has promised to cap property tax increases",
+      "note": "Cross-checks $35M savings commitment. First-100-days review is mentioned separately; not treated as a verified savings deadline."
+    },
+    "campaign_range": {
+      "title": "Ottawa Lookout — October 7, 2022",
+      "url": "https://www.ottawalookout.com/p/mayor-fiscal-platforms-2022/",
+      "locator": "How he would do it paragraph",
+      "note": "Reports $35–65M rather than $35–60M. Both share the $35M floor; upper bound remains unreconciled. Linked original fiscal plan unavailable."
+    },
+    "city_table": {
+      "title": "City of Ottawa — Draft Budget 2026 magazine",
+      "url": "https://documents.ottawa.ca/sites/default/files/FINAL%202026%20Budget%20Magazine%20English.pdf#page=38",
+      "locator": "PDF and printed page 38, Table 5, Budget efficiencies",
+      "note": "Despite FINAL in the filename, the page itself says Draft Budget 2026. Retrospective 2023–25 claims and draft 2026 measures; not an independently audited realization ledger. Rendered and visually verified.",
+      "sha256": "43eeda8e4600a27a3669f49d03b28225f2ebfaad9bc9b258f6b65d4700e0c611"
+    }
+  },
+  "years": [
+    {
+      "year": 2023,
+      "operating_cad_thousands": 11268,
+      "capital_cad_thousands": 42650,
+      "total_cad_thousands": 53918,
+      "evidence_status": "City-reported achieved; not independently audited",
+      "recurrence": "Unknown"
+    },
+    {
+      "year": 2024,
+      "operating_cad_thousands": 55477,
+      "capital_cad_thousands": 44108,
+      "total_cad_thousands": 99585,
+      "evidence_status": "City-reported achieved; not independently audited",
+      "recurrence": "Unknown"
+    },
+    {
+      "year": 2025,
+      "operating_cad_thousands": 25979,
+      "capital_cad_thousands": 28266,
+      "total_cad_thousands": 54245,
+      "evidence_status": "City-reported achieved; not independently audited",
+      "recurrence": "Unknown"
+    },
+    {
+      "year": 2026,
+      "operating_cad_thousands": 44924,
+      "capital_cad_thousands": 0,
+      "total_cad_thousands": 44924,
+      "evidence_status": "Identified in draft; realization unverified",
+      "recurrence": "Unknown"
+    }
+  ],
+  "items_2026": [
+    {
+      "group": "Service review",
+      "item": "User fee review",
+      "operating_cad_thousands": 990,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Service review",
+      "item": "Facility rationalization",
+      "operating_cad_thousands": 5594,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Fleet efficiencies",
+      "operating_cad_thousands": 1950,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Facility operations",
+      "operating_cad_thousands": 1475,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Investor / interest income",
+      "operating_cad_thousands": 3000,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Curbside collection strategy",
+      "operating_cad_thousands": 372,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Leaf / yard waste diversion",
+      "operating_cad_thousands": 1606,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Biosolids contract",
+      "operating_cad_thousands": 230,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Child care funding model",
+      "operating_cad_thousands": 2882,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Tree-planting sponsorship",
+      "operating_cad_thousands": 500,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Discretionary savings",
+      "operating_cad_thousands": 1535,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Department initiatives",
+      "item": "Workforce strategy",
+      "operating_cad_thousands": 6500,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Other services",
+      "item": "Police",
+      "operating_cad_thousands": 4259,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    },
+    {
+      "group": "Other services",
+      "item": "Transit",
+      "operating_cad_thousands": 14031,
+      "recurrence": "Unknown",
+      "label_note": "Shortened source label; source table linked"
+    }
+  ]
+}

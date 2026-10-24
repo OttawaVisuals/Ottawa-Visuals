@@ -14,7 +14,7 @@ any bookmarked or shared links.
 ## Sub-projects
 | Folder | What it is |
 |---|---|
-| [`Promises/`](Promises/README.md) | Sutcliffe’s original 2022 commitments and results: property taxes, transit fares, bus reliability and housing delivery; historical trends, targets and source notes ([`promises.html`](Promises/promises.html)) |
+| [`Promises/`](Promises/README.md) | Sutcliffe’s original 2022 commitments and results: property taxes, transit fares, bus reliability, housing delivery and municipal savings; historical trends, targets and source notes ([`promises.html`](Promises/promises.html)) |
 | [`Budget/`](Budget/README.md) | Ottawa budget: 2023–2026 expense changes; operating/capital/funding charts; Lansdowne 2.0; paramedic, transportation-condition and housing KPI series ([`budget.html`](Budget/budget.html)) |
 | [`OPS/`](OPS/README.md) | Published OPS disciplinary records: unique officers, findings/dismissals, penalties, source links and separately listed upcoming hearings ([`ops.html`](OPS/ops.html)); manually reviewed partial snapshot |
 | [`Mortgage/`](Mortgage/README.md) | Mortgage affordability calculator |

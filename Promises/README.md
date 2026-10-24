@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and municipal savings. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,7 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, municipal savings, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
 
 ## Housing
 
@@ -75,3 +75,17 @@ Transit-fare extension: 81 viewport/theme/product/mode combinations (390/768/144
 Bus extension: 54 viewport/theme/metric/period combinations, no document overflow or page errors. Tax/fare/bus controls preserve independent selections; URL restore, local source/download links, offline and no-JavaScript content pass. All 63 observations reconcile with the unchanged input archive; three latest-edition targets, actual spreadsheet links and six SVG charts checked. SVG segment counts confirm no lines cross missing months. Desktop annual section visually inspected.
 
 Housing extension: 27 viewport/theme/view combinations, no overflow or page errors; unique IDs, URL persistence, cross-topic selections, local links/downloads, offline and no-JavaScript charts checked. Validated 121 CSV observations, monthly/annual reconciliation, matched-period totals, 30,040 cumulative completions, 578 program completions, partial-year handling and four charts. Desktop and phone sections visually reviewed; City PDF source panels and campaign ad rendered and inspected.
+
+## Municipal savings
+
+`data/savings.json` is a manually reviewed snapshot of the original $35M pledge floor and City Table 5 in the Draft Budget 2026 magazine (PDF/printed p. 38). The page itself says Draft despite FINAL in the URL. Cached PDF SHA-256 is retained; the source page was rendered and visually inspected. `data/savings-source-table.txt` preserves extracted table text. The 2026 adopted book was searched but did not contain a matching aggregate table; no adoption reconciliation is claimed.
+
+Contemporary Capital Current coverage gives $35–60M and separately confirms $35M; Ottawa Lookout gives $35–65M. The shared floor is used without choosing an upper bound. The original framework link was unavailable. Exact pledge timing and recurrence conditions are not established; no annual target, 100-day savings deadline, fulfilment percentage or definitive grade is assigned.
+
+Operating/capital amounts in source CAD thousands: 2023 11,268/42,650; 2024 55,477/44,108; 2025 25,979/28,266; draft 2026 44,924/0. Sum 2023–25: 207,748; combined 2023–26: 252,672 (137,648 operating + 115,024 capital). Earlier values are City-reported achieved claims, not independently audited realization. The 2026 amount is draft identified, not verified adopted or delivered. Zero capital is the source table's zero, not proof that no capital efficiencies exist elsewhere.
+
+Operating is not synonymous with recurring; capital is not automatically a one-time cash saving. Recurrence is unknown for every aggregate and 2026 item. The 14 leaf items sum to 44,924; 6,584 service review + 20,050 department initiatives + 4,259 police + 14,031 transit. Shortened labels are editorial paraphrases; the original table remains linked. Added revenue, funding changes and efficiencies coexist. No split into independently verified spending cuts is inferred. No carry-forward multiplication, inflation adjustment, counterfactual tax estimate or causal service claim.
+
+`scripts/build_savings.py`, called by the full page builder, generates the static chart and `savings.csv` / `savings-2026-items.csv`. These exports have distinct scopes and must never be added together. No fetch, JavaScript or PDF dependency during ordinary builds. Validate: `python Promises/scripts/check_savings.py`.
+
+Savings verification: annual/detail arithmetic and export scopes pass; previous tax/fare/bus/housing checks still pass. Headless Edge at 390/768/1440 px in light/dark/colour-blind themes: no document overflow or page errors; seven chart segments, 18 exact/detail rows, all downloads, offline and no-JavaScript chart checked. Desktop/dark and phone/light renders visually inspected.
