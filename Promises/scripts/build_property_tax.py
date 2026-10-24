@@ -2,6 +2,7 @@
 import csv
 import json
 import math
+import statistics
 from html import escape as e
 from pathlib import Path
 
@@ -16,41 +17,62 @@ def source_link(key, label=None):
     s = sources[key]
     return f'<a href="{e(s["url"], quote=True)}">{e(label or s["title"])}</a>'
 
-def svg_chart(records, chart_id):
+def cumulative_values(records):
+    baseline = records[0]['year'] - 1
+    factor = 1
+    result = {}
+    for r in records:
+        year = r['year']
+        factor *= 1 + r['increase_pct'] / 100
+        index = (statistics.mean(inflation['monthly_2026_jan_sep'].values()) if year == 2026
+                 else inflation['annual_indices'][str(year)])
+        result[year] = {'tax': (factor - 1) * 100,
+                        'cpi': (index / inflation['annual_indices'][str(baseline)] - 1) * 100}
+    return result
+
+
+def svg_chart(records, chart_id, cumulative=False):
     """Native SVG with a common percent axis; no second axis or chart library."""
     width, height = (990, 460) if len(records) > 4 else (720, 430)
     left, right, top, bottom = 52, 80, 55, 75
     pw, ph = width - left - right, height - top - bottom
-    maximum = math.ceil(max(8, *(r['increase_pct'] for r in data['years']), *inflation['inflation_pct'].values()))
+    totals = cumulative_values(records)
+    tax_value = lambda r: totals[r['year']]['tax'] if cumulative else r['increase_pct']
+    cpi_value = lambda r: totals[r['year']]['cpi'] if cumulative else inflation['inflation_pct'][str(r['year'])]
+    tick_step = 10 if cumulative and len(records) > 4 else 2 if cumulative else 1
+    maximum = math.ceil(max(8, *(tax_value(r) for r in records), *(cpi_value(r) for r in records)) / tick_step) * tick_step
     step = pw / len(records)
     x = lambda i: left + step * (i + .5)
     y = lambda v: top + ph * (1 - v / maximum)
-    parts = [f'<svg class="tax-chart" viewBox="0 0 {width} {height}" role="img" aria-labelledby="{chart_id}-title {chart_id}-desc"><title id="{chart_id}-title">Ottawa annual property-tax increases and inflation, {records[0]["year"]}–2026</title><desc id="{chart_id}-desc">Vertical bars show tax increases. A line shows Ottawa CPI inflation, with a hollow point and dashed segment for the partial 2026 year. Horizontal reference lines mark 2 and 2.5 percent during the 2023–2026 promise period. Exact values are in the table below.</desc>']
+    measure = f'Cumulative increase since {records[0]["year"]-1} (%)' if cumulative else 'Annual increase (%)'
+    parts = [f'<svg class="tax-chart" data-measure="{"cumulative" if cumulative else "annual"}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="{chart_id}-title {chart_id}-desc"><title id="{chart_id}-title">Ottawa {measure}, {records[0]["year"]}–2026</title><desc id="{chart_id}-desc">Vertical bars show tax increases. A line shows Ottawa CPI inflation, with a hollow point and dashed segment for the partial 2026 year. Exact values are in the downloadable tables.</desc>']
     start = next(i for i, r in enumerate(records) if r['year'] == 2023)
     sx = left + step * start
     parts.append(f'<rect class="term-shade" x="{sx:.2f}" y="{top}" width="{pw-step*start:.2f}" height="{ph}"/>')
-    for tick in range(maximum + 1):
+    for tick in range(0, maximum + 1, tick_step):
         parts.append(f'<line class="gridline" x1="{left}" x2="{width-right}" y1="{y(tick):.2f}" y2="{y(tick):.2f}"/><text class="tick" x="{left-10}" y="{y(tick)+4:.2f}" text-anchor="end">{tick}%</text>')
-    parts.append(f'<text class="axis-title" x="{left}" y="20">Annual increase (%)</text>')
+    parts.append(f'<text class="axis-title" x="{left}" y="20">{measure}</text>')
     for i, r in enumerate(records):
-        rate = r['increase_pct']
+        rate = tax_value(r)
+        label = f'{rate:.1f}' if cumulative else f'{rate:g}'
         bw = step * .52
         cname = 'tax-column' if r['year'] >= 2023 else 'tax-column historical'
-        parts.append(f'<rect class="{cname}" x="{x(i)-bw/2:.2f}" y="{y(rate):.2f}" width="{bw:.2f}" height="{y(0)-y(rate):.2f}"><title>{r["year"]}: tax increase {rate:g}%; inflation {inflation["inflation_pct"][str(r["year"])]:.1f}%'+(' (Jan–Sep, provisional)' if r['year']==2026 else '')+'</title></rect>')
-        parts.append(f'<text class="tax-label" x="{x(i):.2f}" y="{y(rate)-8:.2f}" text-anchor="middle">{rate:g}%</text><text class="tick" x="{x(i):.2f}" y="{y(0)+22:.2f}" text-anchor="middle">{r["year"]}</text>')
+        parts.append(f'<rect class="{cname}" x="{x(i)-bw/2:.2f}" y="{y(rate):.2f}" width="{bw:.2f}" height="{y(0)-y(rate):.2f}"><title>{r["year"]}: {"cumulative " if cumulative else ""}tax increase {label}%; inflation {cpi_value(r):.1f}%'+(' (Jan–Sep endpoint, provisional)' if r['year']==2026 else '')+'</title></rect>')
+        parts.append(f'<text class="tax-label" x="{x(i):.2f}" y="{y(rate)-8:.2f}" text-anchor="middle">{label}%</text><text class="tick" x="{x(i):.2f}" y="{y(0)+22:.2f}" text-anchor="middle">{r["year"]}</text>')
     # References apply only to the campaign years, never to historical budgets.
-    for value, dash in [(2, '2 4'), (2.5, '7 4')]:
+    for value, dash in ([] if cumulative else [(2, '2 4'), (2.5, '7 4')]):
         parts.append(f'<line class="promise-line" x1="{sx:.2f}" x2="{width-right}" y1="{y(value):.2f}" y2="{y(value):.2f}" stroke-dasharray="{dash}"/><text class="reference-label" x="{width-right+8}" y="{y(value)+4:.2f}">{value:g}%</text>')
-    annual_points = [(x(i), y(inflation['inflation_pct'][str(r['year'])])) for i,r in enumerate(records) if r['year'] <= 2025]
+    annual_points = [(x(i), y(cpi_value(r))) for i,r in enumerate(records) if r['year'] <= 2025]
     points = ' '.join(f'{a:.2f},{b:.2f}' for a,b in annual_points)
     parts.append(f'<g class="inflation-series"><polyline class="inflation-line" points="{points}"/>')
     lastx, lasty = annual_points[-1]
-    endx, endy = x(len(records)-1), y(inflation['inflation_pct']['2026'])
+    endx, endy = x(len(records)-1), y(cpi_value(records[-1]))
     parts.append(f'<line class="inflation-line provisional" x1="{lastx:.2f}" y1="{lasty:.2f}" x2="{endx:.2f}" y2="{endy:.2f}"/>')
     for i,r in enumerate(records):
-        rate = inflation['inflation_pct'][str(r['year'])]
+        rate = cpi_value(r)
         provisional = r['year'] == 2026
-        parts.append(f'<circle class="inflation-point {"provisional" if provisional else ""}" cx="{x(i):.2f}" cy="{y(rate):.2f}" r="4"><title>{r["year"]} Ottawa CPI: {rate:.1f}%'+(' · Jan–Sep versus Jan–Sep 2025, provisional' if provisional else ' · annual average change')+'</title></circle>')
+        period = (f' · Jan–Sep endpoint versus {records[0]["year"]-1} annual average, provisional' if cumulative else ' · Jan–Sep versus Jan–Sep 2025, provisional') if provisional else (' · change from baseline annual average' if cumulative else ' · annual average change')
+        parts.append(f'<circle class="inflation-point {"provisional" if provisional else ""}" cx="{x(i):.2f}" cy="{y(rate):.2f}" r="4"><title>{r["year"]} Ottawa CPI: {rate:.1f}%{period}</title></circle>')
     parts.append('</g>')
     if start:
         parts.append(f'<text class="era-label" x="{left+(sx-left)/2:.2f}" y="{height-20}" text-anchor="middle">Before Sutcliffe’s first budget</text>')
@@ -79,6 +101,23 @@ with (ROOT / 'data/property-tax.csv').open('w', encoding='utf-8', newline='') as
         partial = r['year'] == 2026
         writer.writerow([r['year'], r['increase_pct'], '' if historical else promise['lower_pct'], '' if historical else upper, r['commitment'], '' if historical else round(r['increase_pct'] - upper, 2), sources[r['source']]['url'], r['note'], inflation['inflation_pct'][str(r['year'])], 'Jan–Sep vs Jan–Sep previous year (provisional)' if partial else 'Annual average vs previous annual average', inflation['monthly_source'] if partial else inflation['annual_source']])
 
+term_records = [r for r in data['years'] if r['year'] >= 2023]
+cumulative_rows, cumulative_summaries = [], []
+with (ROOT / 'data/property-tax-cumulative.csv').open('w', encoding='utf-8', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(['baseline_year', 'year', 'compounded_tax_increase_pct', 'cumulative_ottawa_cpi_pct', 'cpi_endpoint', 'method'])
+    for scope, records in [('all', data['years']), ('term', term_records)]:
+        baseline = records[0]['year'] - 1
+        totals = cumulative_values(records)
+        final = totals[2026]
+        cumulative_summaries.append(f'<div class="cumulative-summary" data-summary="{scope}" hidden><p><strong>Since {baseline}</strong> · through the 2026 budget / latest CPI</p><p><strong>Tax index: +{final["tax"]:.1f}%</strong><span class="inflation-summary"> · <strong>Consumer prices: +{final["cpi"]:.1f}%*</strong></span></p><p class="small">*CPI ends at the Jan–Sep 2026 average; baseline is the {baseline} annual average. Tax index compounds published budget increases; it is not an individual bill.</p></div>')
+        for r in records:
+            year = r['year']
+            values = totals[year]
+            endpoint = 'Jan–Sep average (provisional)' if year == 2026 else 'Annual average'
+            writer.writerow([baseline, year, round(values['tax'], 6), round(values['cpi'], 6), endpoint, 'Tax: product of (1 + annual rate/100) minus 1; CPI: endpoint index / baseline annual index minus 1; both × 100'])
+            cumulative_rows.append(f'<tr><td>{baseline}</td><th scope="row">{year}</th><td>{values["tax"]:.2f}%</td><td>{values["cpi"]:.2f}%</td><td>{endpoint}</td></tr>')
+
 source_items = ''.join(f'<li>{source_link(k)} · {e(s["date"])}<br><small>Location: {e(s["locator"])}. {e(s["review_note"])}</small></li>' for k, s in sources.items())
 page = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -94,13 +133,19 @@ page = f'''<!doctype html>
 <div class="promise"><p><strong>The 2022 commitment</strong></p><p>Limit increases to <strong>2–2.5% in 2023 and 2024</strong>; <strong>target the same range in 2025 and 2026</strong>.</p><p class="small">Paraphrase of the October 5, 2022 financial framework. {source_link('campaign', 'Read the campaign coverage ↗')}</p></div>
 <p class="verdict"><strong>The 2023–24 commitment was met.</strong> Both years came in at 2.5%. Increases of 3.9% in 2025 and 3.75% in 2026 exceeded the later-year target.</p>
 <p>These are the published <strong>overall municipal increases</strong> in Council-approved budgets. The comparison preserves the distinction between a firm commitment and a later target.</p>
-<div class="chart-controls" hidden><div class="range-buttons" role="group" aria-label="Chart years"><button type="button" data-range="all" aria-pressed="true">2013–2026</button><button type="button" data-range="term" aria-pressed="false">Sutcliffe · 2023–2026</button></div><label><input type="checkbox" id="show-inflation" checked> Show Ottawa inflation</label></div>
-<div class="legend"><span><i class="key"></i>Municipal tax increase</span><span><i class="key historical"></i>Before this term</span><span class="inflation-legend"><i class="key inflation"></i>Ottawa CPI inflation</span><span><i class="key reference"></i>2% and 2.5% references</span></div>
+<div class="chart-controls" hidden><div class="range-buttons" role="group" aria-label="Chart years"><button type="button" data-range="all" aria-pressed="true">2013–2026</button><button type="button" data-range="term" aria-pressed="false">Sutcliffe · 2023–2026</button></div><div class="range-buttons" role="group" aria-label="Chart measure"><button type="button" data-measure="annual" aria-pressed="true">Annual</button><button type="button" data-measure="cumulative" aria-pressed="false">Cumulative</button></div><label><input type="checkbox" id="show-inflation" checked> Show Ottawa inflation</label></div>
+{''.join(cumulative_summaries)}
+<div class="legend"><span><i class="key"></i>Municipal tax increase</span><span><i class="key historical"></i>Before this term</span><span class="inflation-legend"><i class="key inflation"></i>Ottawa CPI inflation</span><span class="reference-legend"><i class="key reference"></i>2% and 2.5% references</span></div>
 <div class="chart-scroll" id="chart-all" tabindex="0" role="region" aria-label="Tax and inflation chart, 2013–2026; scroll horizontally on small screens">{svg_chart(data['years'], 'history')}</div>
 <div class="chart-scroll term-view" id="chart-term" hidden tabindex="0" role="region" aria-label="Tax and inflation chart, 2023–2026; scroll horizontally on small screens">{svg_chart([r for r in data['years'] if r['year'] >= 2023], 'term')}</div>
-<p class="small">Years run horizontally; increases (%) run vertically. Bars start at zero. The shaded 2023–2026 period contains the 2% and 2.5% reference lines: a firm range in 2023–24, a target in 2025–26. Earlier budgets are context only. Scroll the chart sideways on small screens.</p>
-<p class="small inflation-note"><strong>Inflation:</strong> Ottawa-Gatineau, Ontario part, all-items CPI. 2013–2025 use annual-average changes. The hollow 2026 point and dashed segment show <strong>Jan–Sep 2026 versus Jan–Sep 2025 ({inflation['inflation_pct']['2026']:.1f}%, provisional)</strong>, not full-year inflation. CPI measures consumer prices, not the City’s operating costs.</p>
+<div class="chart-scroll" id="chart-all-cumulative" hidden tabindex="0" role="region" aria-label="Cumulative tax and inflation since 2012; scroll horizontally on small screens">{svg_chart(data['years'], 'history-cumulative', True)}</div>
+<div class="chart-scroll term-view" id="chart-term-cumulative" hidden tabindex="0" role="region" aria-label="Cumulative tax and inflation since 2022; scroll horizontally on small screens">{svg_chart(term_records, 'term-cumulative', True)}</div>
+<p class="small annual-note">Years run horizontally; increases (%) run vertically. Bars start at zero. The shaded 2023–2026 period contains the 2% and 2.5% reference lines: a firm range in 2023–24, a target in 2025–26. Earlier budgets are context only. Scroll the chart sideways on small screens.</p>
+<p class="small cumulative-note" hidden>Cumulative tax increases are compounded, not added. The baseline is 2012 for the full history or 2022 for Sutcliffe’s budgets. CPI compares each endpoint index directly with that baseline’s annual average. Annual 2% and 2.5% references apply only in Annual view. Scroll sideways on small screens.</p>
+<p class="small inflation-note annual-note"><strong>Inflation:</strong> Ottawa-Gatineau, Ontario part, all-items CPI. 2013–2025 use annual-average changes. The hollow 2026 point and dashed segment show <strong>Jan–Sep 2026 versus Jan–Sep 2025 ({inflation['inflation_pct']['2026']:.1f}%, provisional)</strong>, not full-year inflation. CPI measures consumer prices, not the City’s operating costs.</p>
+<p class="small cumulative-note" hidden><strong>CPI’s 2026 endpoint is partial-year:</strong> Jan–Sep 2026 average versus the baseline annual average. We do not compound the annual-mode 2026 year-to-date rate onto the full 2025 average. Taxes include the full 2026 budget increase. CPI measures consumer prices, not municipal costs.</p>
 <details><summary>Exact annual values and evidence</summary><p class="small">On narrow screens, scroll the table horizontally. The table and CSV always include all years, regardless of chart controls.</p><div class="table-wrap" tabindex="0" role="region" aria-label="Annual property-tax comparison table"><table style="min-width:900px"><caption>Published municipal increases, Ottawa inflation and the original 2022 benchmark.</caption><thead><tr><th scope="col">Year</th><th scope="col">Tax increase</th><th scope="col">Ottawa CPI</th><th scope="col">2022 benchmark</th><th scope="col">Comparison</th><th scope="col">Evidence &amp; context</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div></details>
+<details><summary>Cumulative values and baselines</summary><div class="table-wrap" tabindex="0" role="region" aria-label="Cumulative tax and inflation table"><table style="min-width:620px"><caption>Both cumulative periods; tax rates compounded, CPI measured directly from baseline.</caption><thead><tr><th scope="col">Baseline year</th><th scope="col">Year</th><th scope="col">Tax index increase</th><th scope="col">CPI increase</th><th scope="col">CPI endpoint</th></tr></thead><tbody>{''.join(cumulative_rows)}</tbody></table></div><p><a href="data/property-tax-cumulative.csv" download>Download cumulative CSV ↓</a></p></details>
 <p><strong>Why 3.9% in 2025?</strong> The citywide and police levies rose 2.9%, while the transit levy rose 8%. Their weighted overall impact was published as 3.9%. Transit fare increases are a separate charge and are not added to this property-tax comparison.</p>
 <p class="small">Your own bill can change differently because of property assessment, location, tax class and applicable levies. Water, wastewater, stormwater, garbage fees and provincial education taxes are outside this municipal increase comparison. These figures do not measure growth in the City’s total tax revenue.</p>
 <div class="downloads"><a href="data/property-tax.csv" download>Download CSV ↓</a><a href="data/property-tax.json" download>Tax data &amp; sources ↓</a><a href="data/inflation.json" download>CPI inputs &amp; formula ↓</a></div></section>
