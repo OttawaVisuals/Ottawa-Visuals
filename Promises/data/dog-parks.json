@@ -1,0 +1,209 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": {
+    "minimum_parks": 3,
+    "geography": "suburbs",
+    "source": "campaign",
+    "deadline": null
+  },
+  "sources": {
+    "campaign": {
+      "title": "Ottawa Times · October 2022 election recap",
+      "url": "https://otttimes.ca/news/political-rookie-mark-sutcliffe-wins-ottawa-mayoral-race/",
+      "note": "Dated October 25, updated October 26, 2022. Records at least three new suburban dog parks. Original archived platform not obtained; no precise deadline in this source."
+    },
+    "morgan_open": {
+      "title": "Kanata North councillor · August 10, 2026 opening report",
+      "url": "https://www.kanatanorth.ca/morgans-grant-dog-park-grand-opening/",
+      "note": "Reports Sunday’s ceremony: August 9, 2026, derived from publication date and weekday. This is a ceremony date, not a verified first day of public use."
+    },
+    "morgan_plan": {
+      "title": "City · Morgan’s Grant consultation",
+      "url": "https://engage.ottawa.ca/morgan-s-grant-park",
+      "note": "2023 consultation; construction then anticipated in 2024. A forecast, not an opening."
+    },
+    "morgan_grass": {
+      "title": "Kanata North councillor · June 27, 2025 update",
+      "url": "https://www.kanatanorth.ca/dog-park-update/",
+      "note": "Constructed site awaiting grass establishment; possible opening the next spring. Not proof of a 2025 opening."
+    },
+    "casey_plan": {
+      "title": "Barrhaven councillor · McKenna Casey project",
+      "url": "https://www.davidhillbarrhaven.ca/post/mckenna-casey-dog-park",
+      "note": "Construction began July 2025, completion listed as 2026; identifies same site formerly consulted on as Gregory Casey."
+    },
+    "casey_use": {
+      "title": "Mayor · McKenna Casey public-use report",
+      "url": "https://www.linkedin.com/posts/mark-sutcliffe_were-creating-more-spaces-throughout-ottawa-activity-7466936821273219072-HKfL",
+      "note": "Public post says residents already use the new park. Interested-party report; only relative post age displayed. Observed October 24, 2026, not an exact opening or publication date."
+    },
+    "shea": {
+      "title": "Stittsville councillor · February 27, 2026 Shea Woods update",
+      "url": "https://glengower.ca/information/update-shea-woods-dog-park/",
+      "note": "Acquisition complete; informal use predates 2022. Park design/engagement still to come. January wording called it a permanent dog park; February clarifies future development."
+    },
+    "andy": {
+      "title": "Andy Shields · substantial-performance certificate",
+      "url": "https://certificates.link2build.ca/Search/Detail/8c59ec4d-1c44-4a21-b599-b23c010d1bbb",
+      "note": "City-owned construction contract substantially performed November 12, 2024; certificate signed December 4, 2024 (US-style dates on page). No public-opening date established."
+    },
+    "andy_location": {
+      "title": "City · Andy Shields project",
+      "url": "https://engage.ottawa.ca/andy-shields-park",
+      "note": "1448 Meadow Drive, Ward 20, Greely. Kept as a rural-village project, outside strict suburban comparison."
+    },
+    "richmond": {
+      "title": "City · Richmond dog-park update, October 1, 2026",
+      "url": "https://engage.ottawa.ca/dog-park-in-richmond-village",
+      "note": "Site work began late September; not open while grass establishes. Opening timing depends on fall 2026/spring 2027 weather; no firm opening date."
+    },
+    "reported_four": {
+      "title": "CBC via Yahoo · August 20, 2026 promise review",
+      "url": "https://nz.news.yahoo.com/mark-sutcliffe-kept-promises-made-080000042.html",
+      "note": "Reports four citywide openings but does not name them in the reviewed text. Not substituted for a verified list of suburban openings."
+    },
+    "location": {
+      "title": "Map locations and geometry provenance",
+      "url": "data/dog-parks-map.json",
+      "note": "City park geometry, OpenStreetMap/Mapcarta reference points and an Esri address geocode. Approximate site markers, not entrances; methods and source URLs in the map export."
+    }
+  },
+  "parks": [
+    {
+      "id": "morgan",
+      "name": "Morgan’s Grant Hydro Corridor",
+      "area": "Kanata North",
+      "ward": 4,
+      "geography": "suburban",
+      "status": "Opening ceremony confirmed",
+      "kind": "open",
+      "source": "morgan_open",
+      "opening_date": null,
+      "ceremony_date": "2026-08-09",
+      "evidence_as_of": "2026-08-10",
+      "date_label": "Ceremony · Aug 9, 2026",
+      "note": "New fenced park. First public-use date is not established.",
+      "history": [
+        {
+          "date": "2023-09",
+          "text": "Consultation concluded; 2024 construction forecast.",
+          "source": "morgan_plan"
+        },
+        {
+          "date": "2025-06-27",
+          "text": "Grass establishment still required before opening.",
+          "source": "morgan_grass"
+        },
+        {
+          "date": "2026-08-09",
+          "text": "Opening ceremony reported the following day.",
+          "source": "morgan_open"
+        }
+      ]
+    },
+    {
+      "id": "casey",
+      "name": "McKenna Casey",
+      "area": "Barrhaven",
+      "ward": 3,
+      "geography": "suburban",
+      "status": "Public use reported",
+      "kind": "reported",
+      "source": "casey_use",
+      "opening_date": null,
+      "ceremony_date": null,
+      "evidence_as_of": "2026-10-24",
+      "date_label": "In use by review · Oct 24, 2026",
+      "note": "Mayor reports people using the new park; exact opening date unverified. Gregory Casey and McKenna Casey refer to this same project.",
+      "history": [
+        {
+          "date": "2025-07",
+          "text": "Construction began.",
+          "source": "casey_plan"
+        },
+        {
+          "date": null,
+          "text": "Mayor reports residents already using the new park; exact post date unavailable.",
+          "source": "casey_use"
+        }
+      ]
+    },
+    {
+      "id": "shea",
+      "name": "Shea Woods",
+      "area": "Stittsville",
+      "ward": 6,
+      "geography": "suburban",
+      "status": "Acquired; future park development",
+      "kind": "context",
+      "source": "shea",
+      "opening_date": null,
+      "ceremony_date": null,
+      "evidence_as_of": "2026-02-27",
+      "date_label": "Acquisition confirmed · Feb 27, 2026",
+      "note": "Longstanding informal dog-walking area. Acquisition is complete; planned amenities and engagement are not a verified new opening.",
+      "history": [
+        {
+          "date": "2022",
+          "text": "Council acquisition agreement approved; informal use already existed.",
+          "source": "shea"
+        },
+        {
+          "date": "2026-02-27",
+          "text": "City ownership confirmed; future park plans still to be finalized.",
+          "source": "shea"
+        }
+      ]
+    },
+    {
+      "id": "andy",
+      "name": "Andy Shields",
+      "area": "Greely",
+      "ward": 20,
+      "geography": "rural village",
+      "status": "Construction milestone; opening unverified",
+      "kind": "context",
+      "source": "andy",
+      "opening_date": null,
+      "ceremony_date": null,
+      "evidence_as_of": "2024-12-04",
+      "date_label": "Substantial performance · Nov 12, 2024",
+      "note": "Certificate verifies construction, not public access. Rural-village location is kept outside the suburban comparison.",
+      "history": [
+        {
+          "date": "2024-11-12",
+          "text": "Contract substantially performed; certificate signed December 4.",
+          "source": "andy"
+        }
+      ]
+    },
+    {
+      "id": "richmond",
+      "name": "Richmond Dog Park",
+      "area": "Richmond",
+      "ward": 21,
+      "geography": "rural village",
+      "status": "Under construction; not open",
+      "kind": "context",
+      "source": "richmond",
+      "opening_date": null,
+      "ceremony_date": null,
+      "evidence_as_of": "2026-10-01",
+      "date_label": "Not open · Oct 1, 2026 update",
+      "note": "Grass must establish before opening. Rural-village location; excluded from suburban count.",
+      "history": [
+        {
+          "date": "2026-09",
+          "text": "Site work began late September.",
+          "source": "richmond"
+        },
+        {
+          "date": "2026-10-01",
+          "text": "City says stay out until further notice; no firm opening date.",
+          "source": "richmond"
+        }
+      ]
+    }
+  ],
+  "method": "Selected project evidence since November 15, 2022, not an exhaustive inventory. One documented suburban ceremony and one separate mayor-reported suburban public-use site. These evidence categories are distinct. Acquisition, informal use, construction completion and rural-village projects are not silently counted as new suburban openings. No pass/fail or completion percentage."
+}

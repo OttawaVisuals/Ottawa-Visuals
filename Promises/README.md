@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and Stage 2 LRT. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery, Stage 2 LRT and dog parks. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,21 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidate: ByWard Market safety. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+
+## Dog parks
+
+`data/dog-parks.json` retains five named project records, source-specific evidence dates and milestones. October 2022 Ottawa Times election coverage specifies at least three new dog parks in the suburbs; the original full platform and exact deadline were not obtained. The page uses named communities for scope: Kanata North/Barrhaven/Stittsville are suburban, Greely/Richmond rural villages. This analytical classification is not a verified campaign definition.
+
+Morgan’s Grant ceremony is August 9, 2026 (Sunday reported in the councillor’s August 10 post), not necessarily the first day of use. Its 2023 construction forecast and June 2025 grass-establishment delay remain distinct. McKenna Casey has mayor-reported public use, observed October 24; LinkedIn exposes only relative post age, so no exact opening/publication date is invented. Construction began July 2025 according to the councillor. Gregory Casey is the same project, not a second park; small/large-dog areas are one site.
+
+Shea Woods’ February 2026 update confirms acquisition and future park design; informal dog use long predates the term. Do not label acquisition as a new opening. Andy Shields’ construction certificate reports substantial performance November 12, 2024 and signature December 4, 2024, interpreting the page’s US-style dates; no public-opening evidence obtained. Richmond’s October 1, 2026 City update explicitly says not open while grass establishes. CBC’s reported four citywide openings are retained as separate secondary context with no named reconciliation; no promise score assigned.
+
+`scripts/build_dog_parks.py` generates the static SVG map, five project cards, accessible milestone details and separate project/milestone CSVs. No runtime network or JavaScript required. `data/dog-parks-map.json` stores approximate reference coordinates and reused 2022 ward rings, with the unchanged boundary source hash. Morgan uses an Esri address geocode for a nearby ceremony address, McKenna an OSM node, Shea an OSM/Mapcarta forest reference, Andy the parent-park reference, Richmond a City polygon bounding-box centre. Richmond latitude/longitude attribute fields were inconsistent with its geometry; geometry used instead. Source URLs and methods accompany every point. These are not entrances/boundaries. OSM attribution is visible; record creation timestamps are never opening dates. Ordinary builds do not depend on hidden EV research; ward rings were copied into this snapshot.
+
+Validate with `python Promises/scripts/check_dog_parks.py` and existing topic checks. Preserve missing dates as null and evidence categories separately; no annual opening counts or missing-year zeros inferred.
+
+Verification: all nine topic checks passed (including retained hidden research). Five unique project IDs, separate geography/evidence categories, null first-use dates, one ceremony date, boundary hash, map targets and both CSV exports checked. Headless Edge: 390/768/1440 px in light/dark/colour-blind themes, all 45 map-link clicks, expanded details, download responses and file:// without JavaScript; no document overflow or page errors. Phone/light and desktop/dark renders inspected. Phone marker numbers and transparent tap areas enlarged for usability.
 
 ## Building energy upgrades — hidden from the public page
 
