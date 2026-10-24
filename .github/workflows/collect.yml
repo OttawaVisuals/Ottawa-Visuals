@@ -37,6 +37,7 @@ env:
     Traffic/data/ctv_crashes_state.json
     Traffic/data/tomtom_ottawa_hourly.csv
     Traffic/data/tomtom_live_state.json
+    Traffic/data/flow_tiles_summary.csv
     OC_Transpo/rt_data/trip_updates_summary.csv
     OC_Transpo/rt_data/vehicle_positions_summary.csv
   # Same idea, own cache: changing SPOOL_PATHS changes that cache's version,
@@ -128,6 +129,7 @@ jobs:
           python Traffic/scripts/poll_ops_news.py || echo "poll_ops_news failed (non-fatal)"
           python Traffic/scripts/poll_ctv_crashes.py || echo "poll_ctv_crashes failed (non-fatal)"
           python Traffic/scripts/poll_tomtom_live.py || echo "poll_tomtom_live failed (non-fatal)"
+          python Traffic/scripts/poll_tiles.py || echo "poll_tiles failed (non-fatal)"
           python OC_Transpo/scripts/poll_gtfsrt.py
 
       - name: Save readings to spool
