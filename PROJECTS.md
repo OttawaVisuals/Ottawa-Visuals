@@ -346,6 +346,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ### Sutcliffe’s 2022 promises
 - First topic built October 24: [property-tax increases](Promises/promises.html), 2023–2026 versus the original campaign range. 2023–24 firm commitment and 2025–26 target distinguished; exact table, CSV/JSON, source locations and evidence gaps included. No 2026 campaign pledges.
+- Expanded October 24: vertical bars, City-published history back to 2013, optional Ottawa CPI line and range controls. 2026 CPI is matched January–September versus the same months of 2025, explicitly provisional. Historical budgets receive no promise verdict.
 - Next, one topic at a time: transit fares, bus reliability and housing. Other candidates and methodological limits in [Promises/README.md](Promises/README.md).
 
 ### Ottawa budget explorer

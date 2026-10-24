@@ -1,0 +1,70 @@
+{
+  "reviewed": "2026-10-24",
+  "geography": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+  "product": "All-items CPI, not seasonally adjusted",
+  "index_base": "2002=100",
+  "coordinate": "15.2.0.0.0.0.0.0.0.0",
+  "annual_indices": {
+    "2012": 121.7,
+    "2013": 122.9,
+    "2014": 125.3,
+    "2015": 126.5,
+    "2016": 128.1,
+    "2017": 129.9,
+    "2018": 133.2,
+    "2019": 135.9,
+    "2020": 137.8,
+    "2021": 143.6,
+    "2022": 153.5,
+    "2023": 159.2,
+    "2024": 162.8,
+    "2025": 166.3
+  },
+  "monthly_2026_jan_sep": {
+    "2026-01": 167.0,
+    "2026-02": 168.1,
+    "2026-03": 169.8,
+    "2026-04": 170.4,
+    "2026-05": 172.0,
+    "2026-06": 171.4,
+    "2026-07": 171.7,
+    "2026-08": 171.6,
+    "2026-09": 172.0
+  },
+  "monthly_2025_jan_sep": {
+    "2025-01": 163.1,
+    "2025-02": 165.0,
+    "2025-03": 166.0,
+    "2025-04": 165.8,
+    "2025-05": 166.9,
+    "2025-06": 166.8,
+    "2025-07": 167.3,
+    "2025-08": 166.8,
+    "2025-09": 167.0
+  },
+  "inflation_pct": {
+    "2013": 0.986031,
+    "2014": 1.952807,
+    "2015": 0.957702,
+    "2016": 1.264822,
+    "2017": 1.405152,
+    "2018": 2.540416,
+    "2019": 2.027027,
+    "2020": 1.398087,
+    "2021": 4.208999,
+    "2022": 6.89415,
+    "2023": 3.713355,
+    "2024": 2.261307,
+    "2025": 2.149877,
+    "2026": 2.62929
+  },
+  "provisional_years": [
+    2026
+  ],
+  "formula": "2013–2025: (annual average CPI / previous annual average CPI - 1) × 100. 2026: (Jan–Sep 2026 average / Jan–Sep 2025 average - 1) × 100.",
+  "annual_source": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000501",
+  "monthly_source": "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401",
+  "annual_response_sha256": "f4cf484f9a658af579f848238fe31ff5576346d5495e77745a7e3f3c72d0c422",
+  "monthly_response_sha256": "0bad89bb97519596c7d0b1f96c1803630fe297093ecaa1513f150d31d36afd03",
+  "note": "2026 is a matched-period YTD comparison, not annual inflation or a forecast. CPI measures consumer prices, not municipal input costs. Same-year inflation was not fully known when budgets were adopted."
+}
