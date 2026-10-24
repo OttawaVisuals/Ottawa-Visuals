@@ -33,6 +33,7 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -132,6 +133,10 @@ def fetch_json(url: str, retries: int = 2) -> dict:
                 return json.loads(resp.read().decode("utf-8"))
         except Exception as exc:  # noqa: BLE001 - log and move on, one bad call shouldn't kill the run
             last = exc
+            # A 4xx (403 over quota, 429, bad key) won't change on a retry and
+            # each retry spends monthly quota, so give up at once.
+            if isinstance(exc, urllib.error.HTTPError) and 400 <= exc.code < 500 and exc.code != 408:
+                break
             if attempt < retries:
                 time.sleep(2 * (attempt + 1))
     raise last
