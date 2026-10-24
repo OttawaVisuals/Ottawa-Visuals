@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and EV charging context. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -24,7 +24,7 @@ The metric is not total levy revenue growth, an individual bill, a statutory tax
 
 ## Adding topics
 
-Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, EV chargers, Stage 2 LRT, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
+Add only after separately verifying the 2022 wording, deadline, baseline and outcome series. Other candidates: building energy upgrades, Stage 2 LRT, ByWard Market safety and suburban dog parks. Road clearing and traffic calming need more source reconciliation. No statuses assigned to unresearched topics.
 
 ## Housing
 
@@ -101,3 +101,21 @@ Electric-bus financing source provides context on the incremental purchase premi
 Follow-up verification: all prior topic checks and extended savings checks pass. Nine width/theme combinations verify 14 evidence rows, all downloads, default-collapsed aggregate context, no overflow/page errors, and offline/no-JavaScript disclosure access. Updated desktop/dark and phone/light views visually inspected.
 
 Visibility update: savings is omitted entirely from `promises.html`, page navigation, header and homepage report description at the user’s request. Research data, sources, analysis builder and exports remain intact. `check_savings.py` checks the retained analysis separately and confirms it is absent from the public page.
+
+## EV charging — original pledge and locator context
+
+The August 17, 2022 campaign report specifies enabling **Hydro Ottawa** to install 200 EV charging stations on a cost-recovery basis. It does not define a station-versus-port rule or precise deadline. No original full platform archive or comparable delivery ledger was obtained; no fulfilment percentage or pass/fail grade is assigned.
+
+`data/ev-charging.json` retains the reviewed October 24, 2026 NLR/AFDC API snapshot, source/boundary hashes and pared record fields. Fetch query: Ontario electric stations, all statuses/access; 4,632 input records, response count checked against total_results. Point-in-polygon inclusion using the unchanged, existing simplified 2022 ward TopoJSON gives 364 records. Sequential exclusions: 3 not available, 12 not public, 2 source-unverified, 0 future dates. Retained: 347 source IDs / 1,158 currently listed ports. Geometry includes postal-city aliases within municipal bounds instead of trusting city-name strings. Simplified boundary edges can introduce classification uncertainty.
+
+Hydro-named subset matches Hydro Ottawa or Envari in the station name: 19 records / 86 ports. This is neither a full installation inventory nor ownership attribution; some names coexist with private-owner codes. Access follows the source public field, including client/time restrictions; available status is not live uptime. The map uses a local Mercator projection of retained coordinates and existing ward boundaries; no tiles or remote map dependency. Exact addresses/metadata and CSV remain available. Source IDs are unique, but physical sites are not deduplicated; one address can have separate L2/DC records. Ports sum L1/L2/DC counts; connectors are not counted again. No all-level-null records in this reviewed snapshot; future unknown capacity must remain unknown.
+
+The timeline is deliberately **not annual installation progress**. It groups the same current records by open_date, which can be an approximate date or first appearance in the locator. Retired/missing records are absent, and ports may have expanded since the recorded date. Baseline 2022 includes all earlier dates; current-cohort cumulative counts are [100,176,243,305,347] for all records and [1,13,18,19,19] for Hydro-named. 2026 ends Oct 24. No 200 line appears because the units/scope cannot be reconciled. Unknown dates, if encountered on refresh, must not be assigned a year.
+
+`data/ev-charging-sources.json` holds pledge, scope caveats, examples and primary sources. Hydro Ottawa's OEB filing (PDF p. 40, Exhibit 1 / Tab 4 / Schedule 1, p. 40 of 56) reports 1,047 supported charging ports on Q4 2024 program completion, beginning Nov 30, 2021 and spanning mixed residential/workplace/public uses across the service territory and greater Ottawa. This is not added to the locator. Source hash and relevant extracted text retained; the source page was rendered and visually inspected. The 2023 annual report PDF could not be retrieved and its ambiguous 500-station statement is not used to construct a trend.
+
+The July 10, 2026 municipal councillor report confirms Riverain two L2 and City Hall four L2 plus one L3 operational by publication (7 chargers, two examples, not a term total). Current locator records corroborate those capacities. Riverain's locator opening date is Sep 23, later than the July report: the discrepancy is displayed rather than silently corrected or treated as installation timing. No separate map dots or duplicate totals are added for these examples. Fleet/bus depots and e-bike equipment are not added as public-car installations.
+
+Rebuild with `python Promises/scripts/build_property_tax.py`; normal builds use JSON, no fetch. Deliberate refresh: `python Promises/scripts/fetch_ev_charging.py --refresh` (update review date and inspect all counts/labels before publishing). Cached raw Ontario response and OEB PDF stay in OS temp, not Git. CSV and cohort-timeline CSV are derived by `scripts/build_ev_charging.py`. Validate: `python Promises/scripts/check_ev_charging.py` and `node --check Promises/ev-charging.js`. Scope selector uses `evscope=all` and preserves other topic controls. No-JS defaults to Hydro-named map/chart with all exact table records available; local-file controls work without a fetch.
+
+EV verification: 347 unique IDs / 1,158 ports; Hydro-name subset 19 / 86; 10 cumulative cohort observations and source example capacities checked. All prior topic checks, including hidden savings, pass. Headless Edge: 18 width/theme/scope combinations (390/768/1440 px, light/dark/colour-blind, two scopes); correct row/map/chart visibility, independent URL state, all downloads, offline controls and no-JavaScript content; no overflow or page errors. Desktop/dark and phone/light renders visually inspected.

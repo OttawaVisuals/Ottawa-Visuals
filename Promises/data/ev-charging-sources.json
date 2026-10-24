@@ -1,0 +1,76 @@
+{
+  "reviewed": "2026-10-24",
+  "promise": {
+    "stations": 200,
+    "actor": "Hydro Ottawa",
+    "cost_recovery_required": true,
+    "station_port_definition_verified": false,
+    "deadline_verified": false,
+    "comparable_delivered_count": null
+  },
+  "sources": {
+    "campaign": {
+      "title": "CityNews — Sutcliffe climate platform, August 17, 2022",
+      "url": "https://ottawa.citynews.ca/2022/08/17/we-have-to-be-ambitious-ottawa-mayoral-candidate-mark-sutcliffe-releases-climate-platform-5706900/",
+      "locator": "For drivers, cyclists and pedestrians, first bullet",
+      "note": "Explicitly names Hydro Ottawa, 200 EV charging stations and cost recovery. No station/port rule or precise deadline stated in this coverage. Original complete platform archive not recovered."
+    },
+    "api": {
+      "title": "NLR / AFDC — Alternative Fueling Station Locator API",
+      "url": "https://developer.nlr.gov/docs/transportation/alt-fuel-stations-v1/all/",
+      "locator": "Current Ontario electric-station response; snapshot request and SHA-256 in ev-charging.json",
+      "note": "Primary federal locator data, includes Canada. Retrieved with public DEMO_KEY. Current records and capacities, not historical network snapshots or verified pledge installations."
+    },
+    "api_docs": {
+      "title": "NLR API — data definitions",
+      "url": "https://developer.nlr.gov/docs/transportation/alt-fuel-stations-v1/all/#response-fields",
+      "locator": "open_date, access_code, status_code and ownership response fields",
+      "note": "An opening date can be a network-provided date or first appearance in the locator. Public access can have restrictions; available is a source status, not live uptime."
+    },
+    "hydro_program": {
+      "title": "Hydro Ottawa — OEB regulatory filing",
+      "url": "https://www.rds.oeb.ca/CMWebDrawer/Record/895384/File/document#page=40",
+      "locator": "PDF page 40, Exhibit 1, Tab 4, Schedule 1, printed page 40 of 56, ZEVIP paragraph",
+      "note": "Reports 1,047 supported ports on completion in Q4 2024; programme began November 2021 and includes workplaces/MURBs and greater Ottawa. No post-election city-only station count or cost-recovery reconciliation. PDF source page rendered and inspected.",
+      "sha256": "798990f0ede3b69789b3fbda560025c4117c2e099eba5aa455300dca4bea286d"
+    },
+    "operational": {
+      "title": "Councillor Rawlson King — July 10, 2026 newsletter",
+      "url": "https://www.rideau-rockcliffe.ca/july_10_2026_newsletter",
+      "locator": "Enhancing Ottawa’s public EV charging network",
+      "note": "Municipal councillor account: Riverain Park two L2; City Hall four L2 plus one L3; operational by publication. Envari involvement stated. Publication date is an upper bound, not an exact commissioning date."
+    },
+    "boundary": {
+      "title": "Ottawa Visuals — existing 2022 ward geometry",
+      "url": "../Ottawa_Elections/README.md",
+      "locator": "Ottawa_Election_Wards_Only.json, 24 simplified ward polygons",
+      "note": "Reused unchanged for spatial inclusion and map context; boundary SHA-256 retained. Shape simplification can affect edge cases."
+    }
+  },
+  "verified_examples": [
+    {
+      "site": "Riverain Park",
+      "address": "400 North River Road",
+      "level2": 2,
+      "dc_fast": 0,
+      "operational_by": "2026-07-10",
+      "source": "operational"
+    },
+    {
+      "site": "City Hall garage",
+      "address": "110 Laurier Avenue West",
+      "level2": 4,
+      "dc_fast": 1,
+      "operational_by": "2026-07-10",
+      "source": "operational"
+    }
+  ],
+  "hydro_program": {
+    "ports": 1047,
+    "start": "2021-11-30",
+    "completion": "2024-Q4",
+    "scope": "Hydro service territory and greater Ottawa; mixed public, workplace and residential",
+    "source": "hydro_program",
+    "additive_to_locator": false
+  }
+}

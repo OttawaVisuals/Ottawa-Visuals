@@ -354,6 +354,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - Municipal savings added October 24: $35M original pledge floor, 2023–2026 City-reported operating/capital bars and totals; 2026 explicitly draft identified, not verified adopted/realized. Annual and 14-item exports reconcile; recurrence, exact pledge timing and comparable audited delivery remain unknown.
 - Savings visibility: hidden entirely from the promises page at the user’s request; research data, sources and analysis builder retained.
 - Savings follow-up: under review, aggregate chart collapsed; all 14 items now have explanations and explicit gaps. Adopted transit savings column $2.363M is confirmed; draft notes identify station hydro/admin components, but no bridge to magazine $14.031M or net electric-bus costs is established.
+- EV charging added October 24: original Hydro Ottawa/cost-recovery wording; primary locator map, Hydro-named/all-public scopes, current-record date timeline, access notes and exports. 347 retained records / 1,158 ports; Hydro-name subset 19 / 86. Programme 1,047-port scope and Riverain date discrepancy documented. No unverified 200-pledge score or reconstructed installation series.
 - Other candidates and methodological limits in [Promises/README.md](Promises/README.md).
 
 ### Ottawa budget explorer
