@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Hide municipal savings (Oct 24: omitted from public promises HTML/navigation/header and homepage description; research data, source notes, analysis builder and exports retained)
 - [x] Savings evidence follow-up (Oct 24: 14 item explanations/classifications/gaps, adopted $2.363M transit column vs unbridged $14.031M magazine scope, electric-bus net-cost caveat; review-pending status and aggregate chart collapsed; CSV/source/QA updates)
 - [x] Municipal savings promise (Oct 24: original $35M floor, City-reported 2023–2026 operating/capital chart and totals; 2026 draft status and unknown recurrence/realization explicit; 14-item detail, source table/hash, CSV/JSON and data/browser checks)
 - [x] Housing promise section (Oct 24: original 2022 campaign ad and coverage verified; 2006–2026 Ottawa completion history, monthly CMHC compilation through Aug 2026, cumulative view, separate affordable/supportive delivery and pipeline; baseline/scope gaps, HNA discrepancies and unreported-month formula zeros documented; sources, CSV/JSON and browser/data checks)

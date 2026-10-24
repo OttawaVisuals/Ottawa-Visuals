@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and municipal savings. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -76,7 +76,7 @@ Bus extension: 54 viewport/theme/metric/period combinations, no document overflo
 
 Housing extension: 27 viewport/theme/view combinations, no overflow or page errors; unique IDs, URL persistence, cross-topic selections, local links/downloads, offline and no-JavaScript charts checked. Validated 121 CSV observations, monthly/annual reconciliation, matched-period totals, 30,040 cumulative completions, 578 program completions, partial-year handling and four charts. Desktop and phone sections visually reviewed; City PDF source panels and campaign ad rendered and inspected.
 
-## Municipal savings
+## Municipal savings — hidden from the public page
 
 `data/savings.json` is a manually reviewed snapshot of the original $35M pledge floor and City Table 5 in the Draft Budget 2026 magazine (PDF/printed p. 38). The page itself says Draft despite FINAL in the URL. Cached PDF SHA-256 is retained; the source page was rendered and visually inspected. `data/savings-source-table.txt` preserves extracted table text. The 2026 adopted book was searched but did not contain a matching aggregate table; no adoption reconciliation is claimed.
 
@@ -86,7 +86,7 @@ Operating/capital amounts in source CAD thousands: 2023 11,268/42,650; 2024 55,4
 
 Operating is not synonymous with recurring; capital is not automatically a one-time cash saving. Recurrence is unknown for every aggregate and 2026 item. The 14 leaf items sum to 44,924; 6,584 service review + 20,050 department initiatives + 4,259 police + 14,031 transit. Shortened labels are editorial paraphrases; the original table remains linked. Added revenue, funding changes and efficiencies coexist. No split into independently verified spending cuts is inferred. No carry-forward multiplication, inflation adjustment, counterfactual tax estimate or causal service claim.
 
-`scripts/build_savings.py`, called by the full page builder, generates the static chart and `savings.csv` / `savings-2026-items.csv`. These exports have distinct scopes and must never be added together. No fetch, JavaScript or PDF dependency during ordinary builds. Validate: `python Promises/scripts/check_savings.py`.
+`scripts/build_savings.py`, called by the full page builder to retain exports (HTML is omitted), generates the static chart and `savings.csv` / `savings-2026-items.csv`. These exports have distinct scopes and must never be added together. No fetch, JavaScript or PDF dependency during ordinary builds. Validate: `python Promises/scripts/check_savings.py`.
 
 Savings verification: annual/detail arithmetic and export scopes pass; previous tax/fare/bus/housing checks still pass. Headless Edge at 390/768/1440 px in light/dark/colour-blind themes: no document overflow or page errors; seven chart segments, 18 exact/detail rows, all downloads, offline and no-JavaScript chart checked. Desktop/dark and phone/light renders visually inspected.
 
@@ -99,3 +99,5 @@ The adopted 2026 condensed book (PDF p. 28 / printed p. 9) confirms Transit Comm
 Electric-bus financing source provides context on the incremental purchase premium and repayment from operating savings, not proof of net 2026 savings. No overall lifecycle cost, cash savings or double-count-free financing reconciliation is claimed. Earlier years remain aggregate context without full measure bridges. Full adopted book retrieval was unavailable; committee PDF access was blocked. Further classification requires actual baselines, implementation costs, service effects and realized results. Existing totals/CSV scopes remain unchanged.
 
 Follow-up verification: all prior topic checks and extended savings checks pass. Nine width/theme combinations verify 14 evidence rows, all downloads, default-collapsed aggregate context, no overflow/page errors, and offline/no-JavaScript disclosure access. Updated desktop/dark and phone/light views visually inspected.
+
+Visibility update: savings is omitted entirely from `promises.html`, page navigation, header and homepage report description at the user’s request. Research data, sources, analysis builder and exports remain intact. `check_savings.py` checks the retained analysis separately and confirms it is absent from the public page.
