@@ -1,6 +1,6 @@
 # Sutcliffe’s original 2022 promises
 
-Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs, housing delivery and EV charging context. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
+Topics: municipal property-tax increases (2013–2026), adult transit fares (late-2022 baseline through 2026), official bus reliability KPIs and housing delivery. The tax promise comparison applies only to 2023–2026; the fare-freeze commitment applies only to 2023. Reviewed October 24, 2026. No 2026 campaign commitments included.
 
 ## Data and methodology
 
@@ -102,7 +102,7 @@ Follow-up verification: all prior topic checks and extended savings checks pass.
 
 Visibility update: savings is omitted entirely from `promises.html`, page navigation, header and homepage report description at the user’s request. Research data, sources, analysis builder and exports remain intact. `check_savings.py` checks the retained analysis separately and confirms it is absent from the public page.
 
-## EV charging — original pledge and locator context
+## EV charging — hidden; research retained
 
 The August 17, 2022 campaign report specifies enabling **Hydro Ottawa** to install 200 EV charging stations on a cost-recovery basis. It does not define a station-versus-port rule or precise deadline. No original full platform archive or comparable delivery ledger was obtained; no fulfilment percentage or pass/fail grade is assigned.
 
@@ -119,3 +119,5 @@ The July 10, 2026 municipal councillor report confirms Riverain two L2 and City 
 Rebuild with `python Promises/scripts/build_property_tax.py`; normal builds use JSON, no fetch. Deliberate refresh: `python Promises/scripts/fetch_ev_charging.py --refresh` (update review date and inspect all counts/labels before publishing). Cached raw Ontario response and OEB PDF stay in OS temp, not Git. CSV and cohort-timeline CSV are derived by `scripts/build_ev_charging.py`. Validate: `python Promises/scripts/check_ev_charging.py` and `node --check Promises/ev-charging.js`. Scope selector uses `evscope=all` and preserves other topic controls. No-JS defaults to Hydro-named map/chart with all exact table records available; local-file controls work without a fetch.
 
 EV verification: 347 unique IDs / 1,158 ports; Hydro-name subset 19 / 86; 10 cumulative cohort observations and source example capacities checked. All prior topic checks, including hidden savings, pass. Headless Edge: 18 width/theme/scope combinations (390/768/1440 px, light/dark/colour-blind, two scopes); correct row/map/chart visibility, independent URL state, all downloads, offline controls and no-JavaScript content; no overflow or page errors. Desktop/dark and phone/light renders visually inspected.
+
+Visibility update: EV charging is omitted entirely from the public page, its navigation/header/script includes and the homepage report description at the user’s request. All data, maps/timeline analysis code, sources and exports remain available for future research. Normal builds still refresh derived exports; `check_ev_charging.py` validates the retained analysis separately and confirms its absence from the public page.

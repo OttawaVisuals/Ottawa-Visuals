@@ -3,6 +3,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+from build_ev_charging import build
 import re
 import xml.etree.ElementTree as ET
 
@@ -38,7 +39,10 @@ examples = evidence['verified_examples']
 assert sum(r['level2'] + r['dc_fast'] for r in examples) == 7
 riverain = next(s for s in records if s['id'] == 470392)
 assert riverain['open_date'] == '2026-09-23' > examples[0]['operational_by'], 'Keep the documented listing/operational discrepancy'
-html = (ROOT / 'promises.html').read_text(encoding='utf-8')
+public_html = (ROOT / 'promises.html').read_text(encoding='utf-8')
+assert 'id="ev-charging"' not in public_html and 'href="#ev-charging"' not in public_html
+assert 'src="ev-charging.js"' not in public_html
+html = build()
 svgs = [ET.fromstring(s) for s in re.findall(r'<svg class="ev-(?:map|chart)".*?</svg>', html, re.S)]
 assert len(svgs) == 4
 assert [len(list(s.iter('circle'))) for s in svgs] == [19, 5, 347, 5]
