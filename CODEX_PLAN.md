@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Election recap image (Oct 25: chart-only PNG/SVG using reviewed tax, housing and annual bus KPI data; firm/target distinction, partial-year housing and missing regularity labelled; reproducible renderer and source notes)
 - [x] Restore PWHL recap winner popup (Oct 25: champion logo/name and final series score at playback completion or final-date seek; close/replay controls, completed-final guard and cache refresh; browser checks across all three seasons, playback finish and replay reset)
 - [x] ByWard Market safety (Oct 24: original 2022 wording, official OPS neighbourhood 2018–2025 counts for four categories; 32 totals/7,893 source records reconciled, no identifiers retained; centre opening separate from outcomes; source cautions, chart control, CSV/JSON and browser/data checks)
 - [x] Hide dog parks (Oct 24: omitted from public promises page/navigation/header and homepage; all research, map data, builders, exports and checks retained)
