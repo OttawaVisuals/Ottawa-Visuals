@@ -1,0 +1,29 @@
+{
+ "displayFieldName": "ZONEID",
+ "fieldAliases": {
+  "ZONEID": "ZoneID",
+  "HOURLYRATE": "Hourly Rate"
+ },
+ "fields": [
+  {
+   "name": "ZONEID",
+   "type": "esriFieldTypeString",
+   "alias": "ZoneID",
+   "length": 50
+  },
+  {
+   "name": "HOURLYRATE",
+   "type": "esriFieldTypeString",
+   "alias": "Hourly Rate",
+   "length": 10
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "ZONEID": "15",
+    "HOURLYRATE": "$4.00"
+   }
+  }
+ ]
+}

@@ -36,14 +36,15 @@ assert annual[2023] == 7890 and annual[2024] == 8794 and annual[2025] == 7797
 assert sum(monthly[2026, month] for month in range(1,9)) == 5559
 assert monthly[2026,9] == 274 and annual[2026] == 5833
 bus = json.loads((ROOT / 'data/bus-reliability.json').read_text(encoding='utf-8'))
+fees = json.loads((ROOT / 'data/municipal-fees-recap.json').read_text(encoding='utf-8'))
 INK, MUTED, GRID, BLUE, TEAL, ORANGE = '#172b3a', '#526473', '#dce3e7', '#2474a6', '#148477', '#ad5c25'
 plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 12,
                      'text.color': INK, 'axes.labelcolor': MUTED,
                      'xtick.color': MUTED, 'ytick.color': MUTED,
                      'svg.fonttype': 'none', 'hatch.linewidth': 1.2})
-fig = plt.figure(figsize=(15, 11.5), facecolor='white')
-gs = fig.add_gridspec(2, 6, left=.065, right=.975, bottom=.075, top=.90,
-                      hspace=.68, wspace=.80, height_ratios=[1.12, 1])
+fig = plt.figure(figsize=(15, 17.2), facecolor='white')
+gs = fig.add_gridspec(3, 6, left=.065, right=.975, bottom=.06, top=.93,
+                      hspace=.78, wspace=.80, height_ratios=[1.12, 1, 1])
 
 def style(ax, title, subtitle, ymax, ticks):
     ax.set_axisbelow(True)
@@ -82,13 +83,37 @@ ax.set_xticks(range(4), ['2023', '2024', '2025', '2026\nJan–Sep only'])
 ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:,.0f}'))
 ax.text(0, -.26, '¹ 100,000 ÷ 10; no annual milestone was promised.', transform=ax.transAxes, fontsize=10, color=MUTED)
 
+# Context fees have their own units; never add them to the property-tax rate.
+fee_panels = [
+    ('waste', 'Garbage collection fee', 'Curbside household · $/year\nSingle fee introduced in 2025', 320, [0,100,200,300],
+     'Earlier years also included a property-tax\ncomponent; omitted to avoid a false comparison.'),
+    ('water', 'Water utility increases', 'Water, wastewater & stormwater (%)\nOverall annual rate increase; bills vary', 5.6, [0,1,2,3,4,5],
+     'Separate from the property-tax pledge.\n2026 rates effective April 1.'),
+    ('parking', 'Street parking example', 'Downtown zone 15 · $/hour\nDated rates; other zones differ', 5.2, [0,1,2,3,4,5],
+     'Selected-zone observations, not citywide\nrates or annual parking expenditure.'),
+]
+for i, (key, title, subtitle, ymax, ticks, note) in enumerate(fee_panels):
+    ax = fig.add_subplot(gs[1, 2*i:2*i+2])
+    style(ax, title, subtitle, ymax, ticks)
+    values = fees[key]['values']
+    bars = ax.bar(range(len(values)), [r['value'] for r in values], width=.66, color=TEAL)
+    if key == 'water':
+        labels = [f"{r['value']:g}%" for r in values]
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}%'))
+    else:
+        labels = [f"${r['value']:.2f}" if key == 'parking' else f"${r['value']:g}" for r in values]
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'${v:g}'))
+    ax.bar_label(bars, labels=labels, padding=8, fontsize=14, weight='bold')
+    ax.set_xticks(range(len(values)), [str(r['year']) if 'year' in r else r['label'].replace(' ', '\n') for r in values])
+    ax.text(0, -.26, note, transform=ax.transAxes, fontsize=9, color=MUTED, linespacing=1.5)
+
 metrics = [
     ('trips_delivered', 'Bus trips delivered', 'Scheduled trips that operated', '99.5% target · Q4 2027'),
     ('punctuality_less_frequent_routes', 'Bus punctuality', 'Less-frequent routes', '85% official target'),
     ('regularity_frequent_routes', 'Bus regularity', 'Frequent routes · spacing measure', '85% official target²'),
 ]
 for i, (metric, title, definition, target_label) in enumerate(metrics):
-    ax = fig.add_subplot(gs[1, 2*i:2*i+2])
+    ax = fig.add_subplot(gs[2, 2*i:2*i+2])
     style(ax, title, f'OC Transpo · annual results (%)\n{definition}', 112, [0, 25, 50, 75, 100])
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}%'))
     target = bus['targets'][metric]['value']

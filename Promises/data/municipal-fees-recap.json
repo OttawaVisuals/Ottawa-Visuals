@@ -1,0 +1,29 @@
+{
+  "reviewed": "2026-10-25",
+  "scope": "Selected municipal user fees as context, not additional tax rates or tests of the 2022 property-tax pledge. No household total calculated.",
+  "water": {
+    "unit": "annual overall rate increase percent",
+    "values": [{"year": 2023, "value": 4.2}, {"year": 2024, "value": 4.3}, {"year": 2025, "value": 4.4}, {"year": 2026, "value": 4.5}],
+    "source_url": "https://ottawa.ca/en/living-ottawa/water-utility-bills/rates-and-fees",
+    "locator": "Rate Increase Timeline, 2023–2026 rows",
+    "note": "Combined water, wastewater and stormwater overall rate increase, not each component rate or an individual bill. Household bills depend on consumption, meter and property/service classification. 2026 rates effective April 1, 2026."
+  },
+  "waste": {
+    "unit": "CAD per curbside residential dwelling per year",
+    "values": [
+      {"year": 2025, "value": 243, "source_url": "https://documents.ottawa.ca/sites/default/files/2025%20EN%20Solid%20Waster%20Flyer.pdf", "locator": "One-page City flyer: NEW 2025 Solid Waste Fee, curbside service fee"},
+      {"year": 2026, "value": 267, "source_url": "https://ottawa.ca/en/residents/laws-licenses-and-permits/laws/solid-waste-management-law-no-2006-300-0", "locator": "Consolidated Solid Waste Services By-law 2024-453, Schedule A, curbside collection user fee"}
+    ],
+    "note": "Series begins in 2025, when City moved waste funding from a property-tax component plus a separate charge to a single annual fee. Older standalone garbage fees are not comparable to the new combined fee. Multi-residential containerized collection has different rates. No tax/fee totals or claims of identical service scope over time."
+  },
+  "parking": {
+    "unit": "CAD per hour",
+    "zone": "Downtown, zone 15",
+    "values": [
+      {"label": "Jun 2024", "value": 3.5, "source_url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=190516", "locator": "Document 2 Implementation Plan, Current Changes table, Downtown zone 15: current $3.50, new $4.00 in August 2024"},
+      {"label": "2025 report", "value": 4, "source_url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=240838", "locator": "Parking Services 2024 Annual Report, printed page 31, zone 15 Downtown: $4.00, most recent change August 2024"},
+      {"label": "Oct 2026", "value": 4, "source_url": "https://maps.ottawa.ca/arcgis/rest/services/Parking/MapServer/5/query?where=ZONEID%3D%2715%27&outFields=ZONEID,HOURLYRATE&returnGeometry=false&f=pjson", "locator": "City On-Street Parking Rate Zones layer 5, ZONEID 15, HOURLYRATE; retrieved October 25, 2026"}
+    ],
+    "note": "Selected-zone dated rate observations, not annual averages, all parking costs, private parking rates, a citywide rate or a claim that all zones increased. Demand-based rates vary by zone and some decreased. Current GIS snapshot may differ from reports for other zones; only Downtown zone 15 used. Fees may apply over different paid hours; no annual parking expenditure inferred."
+  }
+}
