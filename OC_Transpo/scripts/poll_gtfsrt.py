@@ -83,6 +83,7 @@ TZ = ZoneInfo("America/Toronto")
 TRIP_LOG = DATA / "trip_updates_summary.csv"
 VP_LOG = DATA / "vehicle_positions_summary.csv"
 ROUTE_LOG = DATA / "route_daily.csv"
+REGULARITY_LOG = DATA / "regularity_daily.csv"
 CANCEL_LOG = DATA / "cancellations_daily.csv"
 CANCEL_STATE = DATA / "cancel_state.json"
 
@@ -109,11 +110,23 @@ ONTIME_EARLY_S = -60    # more than 1 min early counts as "early"
 ONTIME_LATE_S = 300     # more than 5 min late counts as "late"
 WITHIN_S = 300          # pct_within_5min: |delay| <= 5 min (otranspo.ca's window)
 
+# Regularity proxy for frequent routes (our own, not OC Transpo's definition): two consecutive
+# trips predicted at the same timepoint stop are "bunched" if the predicted gap is under
+# BUNCHED_RATIO of the scheduled gap, "gapped" if over GAPPED_RATIO of it.
+BUNCHED_RATIO = 0.5
+GAPPED_RATIO = 1.5
+# A "gapped" pair needs a gap over 1.5x the headway (22 min on a 15-min route), so the
+# prediction window for headways is longer than NEXT_STOP_MAX_AHEAD_S.
+HEADWAY_LOOKAHEAD_S = 1800
+
 TRIP_FIELDS = [
     "timestamp_utc", "timestamp_local", "group",
     "trips_tracked", "trips_canceled", "delays_observed",
     "mean_delay_s", "median_delay_s", "p90_delay_s",
-    "pct_early", "pct_ontime", "pct_late", "pct_within_5min", "error",
+    "pct_early", "pct_ontime", "pct_late", "pct_within_5min",
+    # hold-adjusted: an early bus at a non-final timepoint counts as on time (it will hold).
+    # headway_*: bus_frequent only, see BUNCHED_RATIO / GAPPED_RATIO.
+    "pct_ontime_hold_adj", "headway_pairs", "pct_headway_bunched", "pct_headway_gapped", "error",
 ]
 VP_FIELDS = [
     "timestamp_utc", "timestamp_local", "group",
@@ -125,6 +138,9 @@ ROUTE_FIELDS = [
     "date", "route", "samples", "observations", "bus_minutes",
     "early_min", "ontime_min", "late_min", "within_5min_min", "delay_s_x_min",
 ]
+# Per date and frequent route: headway pairs seen across the day's samples (the same pair
+# shows in several consecutive samples, so these are observations, not unique pairs).
+REGULARITY_FIELDS = ["date", "route", "samples", "pairs", "bunched", "gapped"]
 CANCEL_FIELDS = [
     "date", "route", "start_hour", "notices", "withdrawn", "ran", "cancelled", "partial",
 ]
@@ -287,10 +303,11 @@ def route_label(route_id) -> str:
     return str(route_id or "").split("-")[0].strip()
 
 
-def schedule_delay_s(tu, sched, now_ts, timepoints=True):
+def schedule_delay_s(tu, sched, now_ts, timepoints=True, info=None):
     """(delay seconds, status) for one running trip: predicted departure from
     its next timepoint (or next stop, timepoints=False) minus scheduled.
-    status is "ok" or why it was skipped."""
+    status is "ok" or why it was skipped. If info is a dict, an "ok" result also
+    sets info["final"]: whether that stop is the trip's last (no holding there)."""
     trip = g(tu, "trip", default={})
     rec = sched.trip(g(trip, "tripId"))
     if not rec:
@@ -335,8 +352,66 @@ def schedule_delay_s(tu, sched, now_ts, timepoints=True):
         # both kept. A cap on the prediction alone would drop the late ones.
         if min(t, t - delay) > now_ts + NEXT_STOP_MAX_AHEAD_S:
             return None, "far"
+        if info is not None:
+            info["final"] = i == len(rec["seqs"]) - 1
         return int(delay), "ok"
     return None, "no_timepoint" if started else "no_prediction"
+
+
+def stop_predictions(tu, sched, now_ts):
+    """[(stop_id, predicted_ts, scheduled_ts, scheduled_headway_s)] for a running frequent
+    trip's upcoming timepoints within HEADWAY_LOOKAHEAD_S. Empty if the trip is unmatched
+    or hasn't left its first stop (its predictions are then just the schedule)."""
+    trip = g(tu, "trip", default={})
+    rec = sched.trip(g(trip, "tripId"))
+    if not rec or frequency_group(rec) != "bus_frequent":
+        return []
+    stus = g(tu, "stopTimeUpdate", default=[]) or []
+    if isinstance(stus, dict):
+        stus = [stus]
+    start_date = str(g(trip, "startDate") or "")
+    day = (datetime.strptime(start_date, "%Y%m%d").date()
+           if len(start_date) == 8 and start_date.isdigit() else None)
+    out, started = [], None
+    for stu in stus:
+        t = g(g(stu, "departure"), "time") or g(g(stu, "arrival"), "time")
+        try:
+            t = int(t)
+            i = rec["seqs"].index(int(g(stu, "stopSequence")))
+        except (TypeError, ValueError):
+            continue
+        if t < now_ts - 120:
+            continue
+        if started is None:
+            started = i > 0
+            if not started:
+                return []
+        if t > now_ts + HEADWAY_LOOKAHEAD_S:
+            break
+        if not rec["tps"][i] or not g(stu, "stopId"):
+            continue
+        d = day or datetime.fromtimestamp(now_ts, TZ).date()
+        out.append((str(g(stu, "stopId")), t, service_day_start(d) + rec["secs"][i], rec["headway_s"]))
+    return out
+
+
+def headway_pairs(by_stop):
+    """by_stop {(route, stop_id): [(pred, sched, headway)...]} -> {route: [pairs, bunched, gapped]}.
+    Consecutive scheduled trips only: if a trip between two is missing from the sample the
+    scheduled gap exceeds 1.6x the headway and the pair is skipped, not read as a gap."""
+    out = {}
+    for (route, _stop), items in by_stop.items():
+        items.sort(key=lambda x: x[1])
+        for (p1, s1, _), (p2, s2, h) in zip(items, items[1:]):
+            gs = s2 - s1
+            if gs <= 0 or not h or gs > 1.6 * h:
+                continue
+            gp = p2 - p1
+            r = out.setdefault(route, [0, 0, 0])
+            r[0] += 1
+            r[1] += gp < BUNCHED_RATIO * gs
+            r[2] += gp > GAPPED_RATIO * gs
+    return out
 
 
 def match_counts(stats):
@@ -363,7 +438,8 @@ def blank_row(fields, group, error=""):
 
 def summarize_trips(feed, sched=None, stats=None):
     entities = g(feed, "entity", default=[]) or []
-    per_group = {grp: {"tracked": 0, "canceled": 0, "delays": []} for grp in TRIP_GROUPS}
+    per_group = {grp: {"tracked": 0, "canceled": 0, "delays": [], "holds": []} for grp in TRIP_GROUPS}
+    by_stop = {}
     now_ts = g(g(feed, "header"), "timestamp")
     try:
         now_ts = int(now_ts)
@@ -391,8 +467,9 @@ def summarize_trips(feed, sched=None, stats=None):
                 b["canceled"] += 1
         if not canceled:
             d = trip_delay_s(tu)
+            info = {}
             if d is None and sched:
-                d, status = schedule_delay_s(tu, sched, now_ts)
+                d, status = schedule_delay_s(tu, sched, now_ts, info=info)
                 if stats is not None:
                     stats[status] = stats.get(status, 0) + 1
                     if grp == "bus":  # every-stop figure, log only (for comparison)
@@ -402,9 +479,19 @@ def summarize_trips(feed, sched=None, stats=None):
             if d is not None:
                 for target in targets:
                     per_group[target]["delays"].append(d)
+                    if "final" in info:
+                        per_group[target]["holds"].append((d, info["final"]))
                 if grp == "bus" and stats is not None:
                     stats.setdefault("_routes", {}).setdefault(
                         route_label(g(trip, "routeId")), []).append(d)
+            if sched and grp == "bus":
+                label = route_label(g(trip, "routeId"))
+                for stop_id, pred, sch, headway in stop_predictions(tu, sched, now_ts):
+                    by_stop.setdefault((label, stop_id), []).append((pred, sch, headway))
+
+    pairs = headway_pairs(by_stop)
+    if stats is not None:
+        stats["_headway"] = pairs
 
     rows = []
     for grp in TRIP_GROUPS:
@@ -422,6 +509,16 @@ def summarize_trips(feed, sched=None, stats=None):
             row["pct_ontime"] = round(100 * sum(1 for d in ds if ONTIME_EARLY_S <= d <= ONTIME_LATE_S) / n, 1)
             row["pct_late"] = round(100 * sum(1 for d in ds if d > ONTIME_LATE_S) / n, 1)
             row["pct_within_5min"] = round(100 * sum(1 for d in ds if abs(d) <= WITHIN_S) / n, 1)
+        if b["holds"]:
+            ok = sum(1 for d, final in b["holds"]
+                     if ONTIME_EARLY_S <= d <= ONTIME_LATE_S or (d < ONTIME_EARLY_S and not final))
+            row["pct_ontime_hold_adj"] = round(100 * ok / len(b["holds"]), 1)
+        if grp == "bus_frequent" and sched:
+            tot = [sum(v[i] for v in pairs.values()) for i in range(3)]
+            row["headway_pairs"] = tot[0]
+            if tot[0]:
+                row["pct_headway_bunched"] = round(100 * tot[1] / tot[0], 1)
+                row["pct_headway_gapped"] = round(100 * tot[2] / tot[0], 1)
         rows.append(row)
     return rows
 
@@ -529,6 +626,27 @@ def update_route_daily(path: Path, date_str, route_delays, minutes):
     tmp = path.with_suffix(".tmp")
     with tmp.open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=ROUTE_FIELDS, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows[k] for k in sorted(rows, key=route_sort_key))
+    tmp.replace(path)
+
+
+def update_regularity_daily(path: Path, date_str, route_pairs):
+    """Add one sample's per-route headway counts to the day's running totals."""
+    rows = {}
+    if path.exists():
+        with path.open(newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                rows[(r["date"], r["route"])] = r
+    for route, (n, bunched, gapped) in route_pairs.items():
+        r = rows.setdefault((date_str, route), {f: 0 for f in REGULARITY_FIELDS}
+                            | {"date": date_str, "route": route})
+        for f, v in (("samples", 1), ("pairs", n), ("bunched", bunched), ("gapped", gapped)):
+            r[f] = int(r[f]) + v
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    with tmp.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=REGULARITY_FIELDS, extrasaction="ignore")
         w.writeheader()
         w.writerows(rows[k] for k in sorted(rows, key=route_sort_key))
     tmp.replace(path)
@@ -665,6 +783,7 @@ def main():
         routes = otp_stats.get("_routes", {})
         update_route_daily(ROUTE_LOG, f"{now_local:%Y-%m-%d}", routes, sample_minutes(now_local))
         extra = f" routes={len(routes)}"
+        update_regularity_daily(REGULARITY_LOG, f"{now_local:%Y-%m-%d}", otp_stats.get("_headway", {}))
         if vp_ok:  # without vehicles a cancelled-but-ran trip can't be told apart
             open_, written = update_cancellations(sched, otp_stats.get("_canceled", []),
                                                   otp_stats.get("_live", []), running,
@@ -682,7 +801,9 @@ def main():
           f"punctuality(less-frequent)%={lf_row.get('pct_ontime', '?')} "
           f"vehicles={all_row_v.get('vehicles', '?')} "
           + (f"schedule={sched.version} delay-match={match_counts(otp_stats)} "
-             f"every-stop-ontime%={every_stop_pct(otp_stats.get('_every_stop'))}" if sched else "schedule=none")
+             f"every-stop-ontime%={every_stop_pct(otp_stats.get('_every_stop'))} "
+             f"hold-adjusted-punctuality(less-frequent)%={lf_row.get('pct_ontime_hold_adj', '?')} "
+             f"headway-pairs={next((r.get('headway_pairs') for r in trip_rows if r['group'] == 'bus_frequent'), '?')}" if sched else "schedule=none")
           + extra
           + (f" ERRORS: {'; '.join(errors)}" if errors else ""))
     return 0

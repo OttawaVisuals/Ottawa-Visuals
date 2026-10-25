@@ -50,6 +50,7 @@ env:
   # so the next restore would miss and lose up to an hour of readings.
   STATE_PATHS: |
     OC_Transpo/rt_data/route_daily.csv
+    OC_Transpo/rt_data/regularity_daily.csv
     OC_Transpo/rt_data/cancellations_daily.csv
     OC_Transpo/rt_data/cancel_state.json
 
