@@ -14,7 +14,7 @@
 <script>(function(){let t;try{t=localStorage.getItem('ov-theme')}catch(e){};document.documentElement.setAttribute('data-theme',t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'))})()</script>
 <link rel="stylesheet" href="pwhl.css?v=mobile-audit-20261023"/>
 <link rel="stylesheet" href="pwhl-travel.css?v=travel-1"/>
-<link rel="stylesheet" href="pwhl-recap.css?v=recap-icons-22"/>
+<link rel="stylesheet" href="pwhl-recap.css?v=champion-20261025"/>
 <link rel="stylesheet" href="../assets/site-theme.css"/>
 <script src="../assets/site-theme.js"></script>
 </head>
@@ -28,6 +28,17 @@
   </div>
   <p id="recap-loading" role="status">Building season replay…</p>
   <div id="recap-app" hidden>
+    <dialog id="recap-champion" class="recap-champion" aria-labelledby="recap-champion-title recap-champion-name" aria-describedby="recap-champion-result">
+      <p id="recap-champion-season" class="recap-kicker"></p>
+      <h2 id="recap-champion-title">Walter Cup champions</h2>
+      <div id="recap-champion-logo" class="recap-champion-logo"></div>
+      <h3 id="recap-champion-name"></h3>
+      <p id="recap-champion-result"></p>
+      <div class="recap-champion-actions">
+        <form method="dialog"><button class="tab-btn" autofocus>Close</button></form>
+        <button type="button" class="tab-btn active" id="recap-champion-replay">Replay season</button>
+      </div>
+    </dialog>
     <div id="recap-replay-view">
     <section class="card recap-trends" aria-labelledby="recap-trends-title">
       <div class="recap-trends-head"><h2 id="recap-trends-title">The season race</h2><button type="button" class="tab-btn" id="recap-clear" hidden>Show all teams</button></div>
@@ -83,6 +94,6 @@
   </div>
 </main>
 <footer><span>Ottawa Visuals</span><span>Game and player data: PWHL / HockeyTech · Routes are assumptions</span></footer>
-<script src="pwhl-recap.js?v=accuracy-20261023"></script>
+<script src="pwhl-recap.js?v=champion-20261025"></script>
 </body>
 </html>

@@ -1,5 +1,12 @@
 #recap-app{display:flex;flex-direction:column;gap:8px}
 #recap-app[hidden]{display:none}
+.recap-champion{box-sizing:border-box;width:min(420px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;padding:24px;border:2px solid var(--champion-color);border-radius:14px;background:var(--bg-2);color:var(--ink);text-align:center;box-shadow:0 16px 60px #0006}
+.recap-champion::backdrop{background:#0009}
+.recap-champion h2{font-size:23px;margin:8px 0 16px}
+.recap-champion h3{font-size:21px;margin:12px 0 8px}
+.recap-champion p{font-size:13px}
+.recap-champion-logo img{width:100px;height:100px;object-fit:contain}
+.recap-champion-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}
 .recap-page .logo-strip,.recap-page .data-context{display:none}
 .recap-page #pwhl-header small,.recap-page #pwhl-header .pwhl-nav-brand,.recap-page #pwhl-header .data-through,.recap-page footer span{font-size:12px}
 .recap-page .report{max-width:1320px;padding:8px 16px 36px;gap:8px}

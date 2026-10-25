@@ -7,6 +7,7 @@ let recapCurrentPaths = [], recapMarkers = [], recapFrameId = 0;
 let recapRecentPaths = [], recapChartState = {}, recapBounds, recapProjection;
 let recapDefaultBounds, recapMapBoundsKey = '';
 let recapRenderedEventCount = 0;
+let recapChampionShown = false;
 
 const recapEl = id => document.getElementById(id);
 const recapSvg = (tag, attrs = {}) => {
@@ -350,6 +351,29 @@ function recapRender(index, progress = 1) {
   regularIndex = Math.min(regularIndex,recapRegularDays.length-1);
   if (regularIndex >= 0) recapChartProgress(regularIndex,regularIndex === index ? progress : 1);
   recapCounters(index,progress);
+  recapUpdateChampion(index,progress);
+}
+function recapUpdateChampion(index, progress) {
+  const dialog = recapEl('recap-champion');
+  const final = recapDays[index].bracket?.find(series => series.round === 2);
+  // A leader in an unfinished final is not yet the champion.
+  const winnerIndex = final?.wins.findIndex(wins => wins >= 3) ?? -1;
+  const complete = index === recapDays.length-1 && progress >= 1 && winnerIndex >= 0;
+  if (!complete) {
+    recapChampionShown = false;
+    if (dialog.open) dialog.close();
+    return;
+  }
+  if (recapChampionShown) return;
+  const code = final.teams[winnerIndex];
+  const team = ((META.teams_by_season || {})[recapSeasonId] || []).find(row => row.code === code);
+  recapEl('recap-champion-season').textContent = recapSeason.label;
+  recapEl('recap-champion-name').textContent = team?.name || recapTeamCity(code);
+  recapEl('recap-champion-logo').innerHTML = PWHL.image(recapTeamLogoUrl(code));
+  recapEl('recap-champion-result').textContent = `Won the final ${final.wins[winnerIndex]}–${final.wins[1-winnerIndex]} against ${recapTeamCity(final.teams[1-winnerIndex])}`;
+  dialog.style.setProperty('--champion-color',teamColor(code));
+  recapChampionShown = true;
+  dialog.showModal();
 }
 function recapRenderPlayoffVisual(series) {
   const svg = recapEl('recap-playoff-series');
@@ -517,6 +541,10 @@ Promise.all([
   recapEl('recap-loading').hidden = true;
   recapSetSeason(selected);
   recapEl('recap-play').addEventListener('click',recapPlay);
+  recapEl('recap-champion-replay').addEventListener('click',() => {
+    recapEl('recap-champion').close();
+    recapPlay();
+  });
   recapEl('recap-back').addEventListener('click',() => recapSeek(recapIndex-1));
   recapEl('recap-forward').addEventListener('click',() => recapSeek(recapIndex+1));
   recapEl('recap-scrub').addEventListener('input',e => recapSeek(Number(e.target.value)));
