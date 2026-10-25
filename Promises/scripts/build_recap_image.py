@@ -61,7 +61,7 @@ ax = fig.add_subplot(gs[0, :3])
 rows = [r for r in tax['years'] if r['year'] >= 2023]
 style(ax, 'Municipal property-tax increases', 'Ottawa · adopted annual budget increases (%)', 4.7, [0, 1, 2, 3, 4])
 ax.axhspan(2, 2.5, color=ORANGE, alpha=.10, zorder=0)
-ax.axhline(2.5, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5)
+ax.axhline(2.5, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5, zorder=5)
 ax.text(.02, 4.4, '2022 pledge: 2–2.5%', transform=ax.get_yaxis_transform(), color=ORANGE, fontsize=11)
 bars = ax.bar(range(4), [r['increase_pct'] for r in rows], width=.53, color=BLUE, zorder=3)
 ax.bar_label(bars, labels=[f"{r['increase_pct']:g}%" for r in rows], padding=8, fontsize=16, weight='bold')
@@ -71,7 +71,7 @@ ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}%'))
 ax = fig.add_subplot(gs[0, 3:])
 rows = [{'year': year, 'completions': annual[year], 'months': coverage[year]} for year in range(2023, 2027)]
 style(ax, 'Homes completed in Ottawa', '2022 pledge: 100,000 homes over 10 years\nCMHC completions · Ottawa city · all dwelling types', 12000, [0, 2500, 5000, 7500, 10000])
-ax.hlines(10000, -.45, 2.45, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5)
+ax.hlines(10000, -.45, 2.45, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5, zorder=5)
 ax.text(-.40, 10400, '10,000/year · illustrative pace¹', color=ORANGE, fontsize=11)
 bars = ax.bar(range(4), [r['completions'] for r in rows], width=.53, color=TEAL)
 bars[-1].set_facecolor('#d5ebe6')
@@ -92,13 +92,13 @@ for i, (metric, title, definition, target_label) in enumerate(metrics):
     style(ax, title, f'OC Transpo · annual results (%)\n{definition}', 112, [0, 25, 50, 75, 100])
     ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}%'))
     target = bus['targets'][metric]['value']
-    ax.axhline(target, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5)
+    ax.axhline(target, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5, zorder=5)
     ax.text(.02, target+3, target_label, transform=ax.get_yaxis_transform(), color=ORANGE, fontsize=10)
     records = {int(r['period']): r['value'] for r in bus['records'] if r['metric']==metric and r['period_type']=='year'}
     for j, year in enumerate([2023, 2024, 2025]):
         if year in records:
             val = records[year]
-            ax.bar(j, val, width=.53, color=BLUE)
+            ax.bar(j, val, width=.76, color=BLUE)
             ax.text(j, val-9, f'{val:g}%', ha='center', va='center', color='white', fontsize=14, weight='bold')
         else:
             ax.text(j, 6, 'No annual\nresult', ha='center', color=MUTED, fontsize=10)
