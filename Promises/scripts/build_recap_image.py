@@ -1,5 +1,9 @@
 """Render a chart-only recap from the reviewed local promise snapshots."""
+import csv
 import json
+import re
+from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
 import matplotlib
@@ -11,7 +15,26 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'exports'
 OUT.mkdir(exist_ok=True)
 tax = json.loads((ROOT / 'data/property-tax.json').read_text(encoding='utf-8'))
-housing = json.loads((ROOT / 'data/housing.json').read_text(encoding='utf-8'))
+# Original user-supplied CMHC portal export; retain bytes and source metadata.
+cmhc = list(csv.reader((ROOT / 'data/cmhc-ottawa-completions-2026-09.csv').read_text(encoding='cp1252').splitlines()))
+assert cmhc[0][0].strip() == 'Ottawa (CV) — Historical Completions by Intended Market'
+assert cmhc[1][0] == 'January 2001 to September 2026 Dwelling Types - All'
+assert cmhc[2][1:6] == ['Homeowner', 'Rental', 'Condo', 'Co-Op', 'All']
+annual, coverage, monthly = defaultdict(int), defaultdict(int), {}
+for record in cmhc[3:]:
+    if not record or not re.fullmatch(r'[A-Za-z]{3} \d{4}', record[0]):
+        continue
+    date = datetime.strptime(record[0], '%b %Y')
+    values = [int(value.replace(',', '')) for value in record[1:6]]
+    assert sum(values[:4]) == values[4], record
+    assert (date.year, date.month) not in monthly, record
+    monthly[date.year, date.month] = values[4]
+    annual[date.year] += values[4]
+    coverage[date.year] += 1
+assert set(monthly) == {(year, month) for year in range(2001, 2027) for month in range(1, (9 if year == 2026 else 12)+1)}
+assert annual[2023] == 7890 and annual[2024] == 8794 and annual[2025] == 7797
+assert sum(monthly[2026, month] for month in range(1,9)) == 5559
+assert monthly[2026,9] == 274 and annual[2026] == 5833
 bus = json.loads((ROOT / 'data/bus-reliability.json').read_text(encoding='utf-8'))
 INK, MUTED, GRID, BLUE, TEAL, ORANGE = '#172b3a', '#526473', '#dce3e7', '#2474a6', '#148477', '#ad5c25'
 plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 12,
@@ -46,9 +69,8 @@ ax.set_xticks(range(4), ['2023\nFirm promise', '2024\nFirm promise', '2025\nTarg
 ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:g}%'))
 
 ax = fig.add_subplot(gs[0, 3:])
-rows = [r for r in housing['annual_completions'] if r['year'] >= 2023]
-assert [(r['year'], r['completions'], r['months']) for r in rows] == [(2023,7890,12),(2024,8794,12),(2025,7797,12),(2026,5559,8)]
-style(ax, 'Homes completed in Ottawa', '2022 pledge: 100,000 homes over 10 years\nNew-construction completions · Ottawa city', 12000, [0, 2500, 5000, 7500, 10000])
+rows = [{'year': year, 'completions': annual[year], 'months': coverage[year]} for year in range(2023, 2027)]
+style(ax, 'Homes completed in Ottawa', '2022 pledge: 100,000 homes over 10 years\nCMHC completions · Ottawa city · all dwelling types', 12000, [0, 2500, 5000, 7500, 10000])
 ax.hlines(10000, -.45, 2.45, color=ORANGE, linestyle=(0, (4, 3)), linewidth=1.5)
 ax.text(-.40, 10400, '10,000/year · illustrative pace¹', color=ORANGE, fontsize=11)
 bars = ax.bar(range(4), [r['completions'] for r in rows], width=.53, color=TEAL)
@@ -56,7 +78,7 @@ bars[-1].set_facecolor('#d5ebe6')
 bars[-1].set_edgecolor(TEAL)
 bars[-1].set_hatch('///')
 ax.bar_label(bars, labels=[f"{r['completions']:,}" for r in rows], padding=8, fontsize=16, weight='bold')
-ax.set_xticks(range(4), ['2023', '2024', '2025', '2026\nJan–Aug only'])
+ax.set_xticks(range(4), ['2023', '2024', '2025', '2026\nJan–Sep only'])
 ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f'{v:,.0f}'))
 ax.text(0, -.26, '¹ 100,000 ÷ 10; no annual milestone was promised.', transform=ax.transAxes, fontsize=10, color=MUTED)
 
