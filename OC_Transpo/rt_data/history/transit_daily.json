@@ -1156,6 +1156,29 @@
   "bus_within_5min_pct": 71.0,
   "punctuality_pct": 59.7,
   "punctuality_pct_am_peak": 67.0,
-  "punctuality_pct_pm_peak": 54.7
+  "punctuality_pct_pm_peak": 54.7,
+  "otranspo_within_5min_pct": 74.3,
+  "otranspo_observations": 157620
+ },
+ {
+  "date": "2026-10-26",
+  "weekday": 0,
+  "n": 4,
+  "buses_am_peak": null,
+  "buses_pm_peak": null,
+  "buses_mean": 191.0,
+  "buses_max": 207,
+  "speed_mean_kmh": 9.5,
+  "cancelled_mean": 6.8,
+  "cancelled_max": 10,
+  "cancelled_pct_mean": 11.19,
+  "delays_observed": 96,
+  "bus_ontime_pct": 67.7,
+  "bus_early_pct": 26.0,
+  "bus_late_pct": 6.2,
+  "bus_within_5min_pct": 89.5,
+  "punctuality_pct": 67.7,
+  "punctuality_pct_am_peak": null,
+  "punctuality_pct_pm_peak": null
  }
 ]
