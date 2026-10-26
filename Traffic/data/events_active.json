@@ -3358,29 +3358,6 @@
 },
 "fp": "c145a3298688"
 },
-"29677": {
-"event": {
-"cause": "a special event",
-"created": "2026-10-26 09:23:00",
-"cross_street_1": "Hawthorne",
-"cross_street_2": "Daly",
-"direction": null,
-"event_id": "29677",
-"event_type": "SPECIAL_EVENT",
-"full_closure": true,
-"headline": "Colonel By closed between Hawthorne and Daly due to a special event, Monday October 26th from 9:00am to 2:00pm.",
-"lanes": "closed",
-"lat": 45.411751,
-"lon": -75.682756,
-"planned_end": "2026-10-26T14:00",
-"planned_start": "2026-10-26T09:00",
-"priority": "UNKNOWN",
-"road": "Colonel By",
-"source": "city",
-"updated": "2026-10-26 09:24:00"
-},
-"fp": "b3aeaba35390"
-},
 "29685": {
 "event": {
 "cause": "construction",
@@ -3495,6 +3472,29 @@
 "updated": "2026-10-26 13:00:00"
 },
 "fp": "74935448a16e"
+},
+"29690": {
+"event": {
+"cause": "emergency repairs",
+"created": "2026-10-26 13:51:00",
+"cross_street_1": "Viewmount",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29690",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Fisher reduced to 1 lane at Viewmount due to emergency repairs.",
+"lanes": "reduced to 1 lane",
+"lat": 45.355067,
+"lon": -75.707156,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Fisher",
+"source": "city",
+"updated": "2026-10-26 13:51:00"
+},
+"fp": "787e7fd197d0"
 }
 }
 }
