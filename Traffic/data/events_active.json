@@ -3151,29 +3151,6 @@
 },
 "fp": "85bc9584511c"
 },
-"29658": {
-"event": {
-"cause": "a special event",
-"created": "2026-10-23 16:09:00",
-"cross_street_1": "KING EDWARD",
-"cross_street_2": "STANLEY",
-"direction": null,
-"event_id": "29658",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "SUSSEX northbound reduced to 1 lane between KING EDWARD and STANLEY due to a special event. From 7:00am to 5:00pm, 26/10/26",
-"lanes": "reduced to 1 lane",
-"lat": 45.438641,
-"lon": -75.696395,
-"planned_end": "2026-10-26T17:00",
-"planned_start": "2026-10-26T07:00",
-"priority": "HIGH",
-"road": "SUSSEX",
-"source": "city",
-"updated": "2026-10-26 06:56:00"
-},
-"fp": "825079cc9ca4"
-},
 "29660": {
 "event": {
 "cause": "",
@@ -3495,29 +3472,6 @@
 "updated": "2026-10-26 13:51:00"
 },
 "fp": "787e7fd197d0"
-},
-"29691": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-10-26 15:22:00",
-"cross_street_1": "Laurier",
-"cross_street_2": "417",
-"direction": null,
-"event_id": "29691",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Nicholas northbound reduced to 1 lane between Laurier and 417 due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.420254,
-"lon": -75.682009,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Nicholas",
-"source": "city",
-"updated": "2026-10-26 15:22:00"
-},
-"fp": "56d0b0dd3eb9"
 }
 }
 }
