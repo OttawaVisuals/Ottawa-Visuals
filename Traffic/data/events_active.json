@@ -769,18 +769,18 @@
 "event_id": "28001",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Winterest closed between Calvington and Campeau due to construction, from October 5th to 30th. Follow the signed detour. Access for local traffic maintained.",
+"headline": "Winterest closed between Calvington and Campeau due to construction, until November 13th. Follow the signed detour. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.30489,
 "lon": -75.928308,
-"planned_end": "2026-10-30T17:00",
+"planned_end": "2026-11-13T17:00",
 "planned_start": "2026-10-02T07:00",
 "priority": "MEDIUM",
 "road": "Winterest",
 "source": "city",
-"updated": "2026-10-02 06:56:00"
+"updated": "2026-10-26 12:32:00"
 },
-"fp": "77c713c3a1c3"
+"fp": "84a14ee13156"
 },
 "28004": {
 "event": {
@@ -2724,18 +2724,18 @@
 "event_id": "29527",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "CARLING off-peak lane reductions between ROSEVIEW/BOYCE and SCRIVENS due to construction, from October 15th to November 13th.",
+"headline": "CARLING off-peak lane reductions between ROSEVIEW/BOYCE and SCRIVENS due to construction, from October 26th to November 20th. Flagpersons present.",
 "lanes": "off-peak lane reductions",
 "lat": 45.355618,
 "lon": -75.803652,
-"planned_end": "2026-11-13T17:00",
+"planned_end": "2026-11-20T17:00",
 "planned_start": "2026-10-15T00:00",
 "priority": "MEDIUM",
 "road": "CARLING",
 "source": "city",
-"updated": "2026-10-16 13:04:00"
+"updated": "2026-10-26 12:53:00"
 },
-"fp": "c9bc6c9c8bc6"
+"fp": "dac0e4c6775c"
 },
 "29528": {
 "event": {
@@ -3381,28 +3381,120 @@
 },
 "fp": "b3aeaba35390"
 },
-"29681": {
+"29685": {
 "event": {
-"cause": "a collision",
-"created": "2026-10-26 11:01:00",
-"cross_street_1": "Queensview",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-10-26 12:40:00",
+"cross_street_1": "St-Joseph",
+"cross_street_2": "Lumberman",
 "direction": null,
-"event_id": "29681",
-"event_type": "INCIDENT",
+"event_id": "29685",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Pinecrest lane reductions in both directions at Queensview due to a collision.",
-"lanes": "lane reductions in both directions",
-"lat": 45.351848,
-"lon": -75.791108,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Pinecrest",
+"headline": "Orl\u00e9ans Blvd off-peak lane reduction in both directions between St-Joseph and Lumberman due to construction, from October 26th to November 20th. Flagpersons present.",
+"lanes": "off-peak lane reduction in both directions",
+"lat": 45.468619,
+"lon": -75.530217,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "Boul Orl\u00e9ans Blvd",
 "source": "city",
-"updated": "2026-10-26 11:01:00"
+"updated": "2026-10-26 12:54:00"
 },
-"fp": "87692255f719"
+"fp": "73e3161de39c"
+},
+"29686": {
+"event": {
+"cause": "construction",
+"created": "2026-10-26 12:45:00",
+"cross_street_1": "St-Joseph",
+"cross_street_2": "Des \u00c9pinettes",
+"direction": null,
+"event_id": "29686",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Jeanne d'Arc off-peak lane reductions in both directions between St-Joseph and Des \u00c9pinettes due to construction, from October 26th to November 20th. Flagpersons present.",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.464024,
+"lon": -75.539984,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "Jeanne d'Arc",
+"source": "city",
+"updated": "2026-10-26 12:48:00"
+},
+"fp": "37225fc3306c"
+},
+"29687": {
+"event": {
+"cause": "construction",
+"created": "2026-10-26 12:49:00",
+"cross_street_1": "MER-BLEUE, CH DE LA",
+"cross_street_2": "GERRY LALONDE",
+"direction": null,
+"event_id": "29687",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BRIAN COBURN off-peak lane reductions in both directions between MER-BLEUE and GERRY LALONDE due to construction, from October 26th to November 20th. Flagpersons present.",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.445608,
+"lon": -75.498346,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "BRIAN COBURN",
+"source": "city",
+"updated": "2026-10-26 12:52:00"
+},
+"fp": "57dba1c18203"
+},
+"29688": {
+"event": {
+"cause": "construction",
+"created": "2026-10-26 12:51:00",
+"cross_street_1": "STRASBOURG",
+"cross_street_2": "TENTH LINE",
+"direction": null,
+"event_id": "29688",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BRIAN COBURN off-peak lane reductions in both directions between STRASBOURG and TENTH LINE due to construction, from October 26th to November 6th. Flagpersons present.",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.449219,
+"lon": -75.486824,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "BRIAN COBURN",
+"source": "city",
+"updated": "2026-10-26 12:52:00"
+},
+"fp": "bfb5ec26e407"
+},
+"29689": {
+"event": {
+"cause": "construction",
+"created": "2026-10-26 12:56:00",
+"cross_street_1": "TOMPKINS / TENTH LINE",
+"cross_street_2": "PRINCESS LOUISE / VALADE",
+"direction": null,
+"event_id": "29689",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CHARLEMAGNE off-peak lane reductions in both directions between TOMPKINS / TENTH LINE and PRINCESS LOUISE / VALADE due to construction, from October 26th to November 20th. Flagpersons present. ",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.477321,
+"lon": -75.497409,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "CHARLEMAGNE",
+"source": "city",
+"updated": "2026-10-26 13:00:00"
+},
+"fp": "74935448a16e"
 }
 }
 }
