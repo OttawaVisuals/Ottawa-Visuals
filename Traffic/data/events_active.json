@@ -3427,51 +3427,51 @@
 },
 "fp": "9ef107f8cad7"
 },
-"29697": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-10-27 06:24:00",
-"cross_street_1": "Daz\u00e9/Cahill",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29697",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Bank traffic disruptions at Daz\u00e9/Cahill due to traffic signals not working.",
-"lanes": "traffic disruptions",
-"lat": 45.35567,
-"lon": -75.651148,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Bank",
-"source": "city",
-"updated": "2026-10-27 06:24:00"
-},
-"fp": "71de871db5aa"
-},
-"29698": {
+"29699": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-27 06:38:00",
-"cross_street_1": "Jeanne d'Arc",
-"cross_street_2": null,
+"created": "2026-10-27 07:33:00",
+"cross_street_1": "King Edward",
+"cross_street_2": "Stanley",
 "direction": null,
-"event_id": "29698",
+"event_id": "29699",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "174 westbound right lane closed at Jeanne d'Arc due to a collision. Expect delays or avoid area.",
-"lanes": "right lane closed",
-"lat": 45.466958,
-"lon": -75.551967,
+"headline": "Sussex lane reduction between King Edward and Stanley due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.440469,
+"lon": -75.695261,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Sussex",
+"source": "city",
+"updated": "2026-10-27 07:33:00"
+},
+"fp": "4e996b36b73f"
+},
+"29700": {
+"event": {
+"cause": "high volume",
+"created": "2026-10-27 07:44:00",
+"cross_street_1": "champlain/ place d'Orl\u00e9ans",
+"cross_street_2": "Jeanne d'Arc",
+"direction": null,
+"event_id": "29700",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound traffic heavy & slow between champlain/ place d'Orl\u00e9ans and Jeanne d'Arc due to high volume.",
+"lanes": "traffic heavy & slow",
+"lat": 45.483174,
+"lon": -75.50985,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
 "road": "174",
 "source": "city",
-"updated": "2026-10-27 06:38:00"
+"updated": "2026-10-27 07:44:00"
 },
-"fp": "d4f977ff3671"
+"fp": "04f407e85115"
 }
 }
 }
