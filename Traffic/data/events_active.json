@@ -3472,6 +3472,52 @@
 "updated": "2026-10-27 07:44:00"
 },
 "fp": "04f407e85115"
+},
+"29701": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-27 07:59:00",
+"cross_street_1": "Dealership/Kennevale",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29701",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Strandherd southbound left-turn lane and left lane closed at Dealership/Kennevale due to a collision.",
+"lanes": "left lane closed",
+"lat": 45.264595,
+"lon": -75.777678,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Strandherd",
+"source": "city",
+"updated": "2026-10-27 07:59:00"
+},
+"fp": "f924e6726067"
+},
+"29702": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-27 08:09:00",
+"cross_street_1": "Jeanne D'Arc",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29702",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound lane reduction at Jeanne D'Arc due to a disabled vehicle.",
+"lanes": "lane reduction",
+"lat": 45.478394,
+"lon": -75.522399,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-10-27 08:09:00"
+},
+"fp": "823e4acfc3f0"
 }
 }
 }
