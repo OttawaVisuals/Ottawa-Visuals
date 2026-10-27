@@ -3404,29 +3404,6 @@
 },
 "fp": "74935448a16e"
 },
-"29690": {
-"event": {
-"cause": "emergency repairs",
-"created": "2026-10-26 13:51:00",
-"cross_street_1": "Viewmount",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29690",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Fisher reduced to 1 lane at Viewmount due to emergency repairs.",
-"lanes": "reduced to 1 lane",
-"lat": 45.355067,
-"lon": -75.707156,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Fisher",
-"source": "city",
-"updated": "2026-10-26 13:51:00"
-},
-"fp": "787e7fd197d0"
-},
 "29696": {
 "event": {
 "cause": "construction",
@@ -3450,51 +3427,28 @@
 },
 "fp": "9ef107f8cad7"
 },
-"29708": {
+"29712": {
 "event": {
-"cause": "a collision",
-"created": "2026-10-27 10:40:00",
-"cross_street_1": "Booth",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-10-27 12:38:00",
+"cross_street_1": "VIMY PLACE",
+"cross_street_2": "pr de la Chaudi\u00e8re pr",
 "direction": null,
-"event_id": "29708",
-"event_type": "INCIDENT",
+"event_id": "29712",
+"event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Wellington/ Kichi Z\u012bb\u012b M\u012bkan closed at Booth due to a collision.",
+"headline": "BOOTH closed nightly between VIMY PLACE and Chaudi\u00e8re pr due to construction, from October 28th to November 6th between 8:00pm and 5:00am. Follow the signed detour.",
 "lanes": "closed",
-"lat": 45.416301,
-"lon": -75.714655,
-"planned_end": null,
-"planned_start": null,
+"lat": 45.417013,
+"lon": -75.715017,
+"planned_end": "2026-11-06T05:00",
+"planned_start": "2026-10-27T00:00",
 "priority": "MEDIUM",
-"road": "Wellington/ Kichi Z\u012bb\u012b M\u012bkan",
+"road": "BOOTH",
 "source": "city",
-"updated": "2026-10-27 10:43:00"
+"updated": "2026-10-27 12:40:00"
 },
-"fp": "211aa5d27a06"
-},
-"29710": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-10-27 11:25:00",
-"cross_street_1": "River",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29710",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Earl Armstrong traffic disruptions at River due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.26931,
-"lon": -75.700016,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Earl Armstrong",
-"source": "city",
-"updated": "2026-10-27 11:25:00"
-},
-"fp": "7a75535b9fad"
+"fp": "531272aebae8"
 }
 }
 }
