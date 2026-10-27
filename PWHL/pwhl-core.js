@@ -110,9 +110,7 @@ PWHL.header = function (active) {
         <span>Ottawa Visuals<small>data, charted simply</small></span>
       </a>
       <nav>
-        <a href="../index.html#reports">Reports</a>
         <a href="pwhl.html" class="active">PWHL</a>
-        <a href="../index.html#about">About</a>
       </nav>
       <span class="spacer"></span>
       <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
