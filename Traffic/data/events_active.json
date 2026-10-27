@@ -1551,18 +1551,18 @@
 "event_id": "29123",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "March off-peak lane reductions in both directions between Station rd and Teron due to construction, from September 28th to October 30th.",
+"headline": "March off-peak lane reductions in both directions between Station rd and Teron due to construction, from October 26th to November 20th.",
 "lanes": "off-peak lane reductions in both directions",
 "lat": 45.338625,
 "lon": -75.911653,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
 "priority": "MEDIUM",
 "road": "March",
 "source": "city",
-"updated": "2026-09-28 11:44:00"
+"updated": "2026-10-27 06:14:00"
 },
-"fp": "4e26d3299a6d"
+"fp": "3d1994afb5e9"
 },
 "29124": {
 "event": {
@@ -2034,18 +2034,18 @@
 "event_id": "29368",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "LORRY GREENBERG off-peak lane reductions between SCARLET and HUNT CLUB due to construction, from October 6th to November 6th.",
+"headline": "LORRY GREENBERG off-peak lane reductions between SCARLET and HUNT CLUB due to construction, from October 26th to November 20th.",
 "lanes": "off-peak lane reductions",
 "lat": 45.360951,
 "lon": -75.632354,
-"planned_end": "2026-11-06T17:00",
-"planned_start": "2026-10-06T00:00",
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
 "priority": "LOW",
 "road": "LORRY GREENBERG",
 "source": "city",
-"updated": "2026-10-09 07:56:00"
+"updated": "2026-10-27 06:10:00"
 },
-"fp": "ad77831ee921"
+"fp": "aecaca029853"
 },
 "29373": {
 "event": {
@@ -3220,29 +3220,6 @@
 },
 "fp": "2b84bdb3a3a9"
 },
-"29665": {
-"event": {
-"cause": "",
-"created": "2026-10-23 17:03:00",
-"cross_street_1": "HWY 416",
-"cross_street_2": "WOODROFFE AVE (IC 127)",
-"direction": null,
-"event_id": "29665",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from Highway 416 to WOODROFFE AVE - Continuous Construction. 1 Left Lane(s). 2026-10-26 21:00 to 2026-10-27 06:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.34147,
-"lon": -75.81586,
-"planned_end": "2026-10-27T06:00",
-"planned_start": "2026-10-26T21:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-23 17:03:00"
-},
-"fp": "58fa1e38987c"
-},
 "29667": {
 "event": {
 "cause": "",
@@ -3426,6 +3403,75 @@
 "updated": "2026-10-26 13:51:00"
 },
 "fp": "787e7fd197d0"
+},
+"29696": {
+"event": {
+"cause": "construction",
+"created": "2026-10-27 06:18:00",
+"cross_street_1": "INNES",
+"cross_street_2": "SALZBURG",
+"direction": null,
+"event_id": "29696",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "TRIM off-peak lane reductions in both directions between INNES and SALZBURG due to construction, from October 26th to November 20th. Flagpersons present.",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.470467,
+"lon": -75.454276,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "LOW",
+"road": "TRIM",
+"source": "city",
+"updated": "2026-10-27 06:20:00"
+},
+"fp": "9ef107f8cad7"
+},
+"29697": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-10-27 06:24:00",
+"cross_street_1": "Daz\u00e9/Cahill",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29697",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bank traffic disruptions at Daz\u00e9/Cahill due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.35567,
+"lon": -75.651148,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Bank",
+"source": "city",
+"updated": "2026-10-27 06:24:00"
+},
+"fp": "71de871db5aa"
+},
+"29698": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-27 06:38:00",
+"cross_street_1": "Jeanne d'Arc",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29698",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound right lane closed at Jeanne d'Arc due to a collision. Expect delays or avoid area.",
+"lanes": "right lane closed",
+"lat": 45.466958,
+"lon": -75.551967,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-27 06:38:00"
+},
+"fp": "d4f977ff3671"
 }
 }
 }
