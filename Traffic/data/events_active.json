@@ -2783,6 +2783,29 @@
 },
 "fp": "585e832fe256"
 },
+"29541": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 18:12:00",
+"cross_street_1": "Rossignol",
+"cross_street_2": "Rossignol",
+"direction": null,
+"event_id": "29541",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Jeanne d'Arc closed between Rossignol and Rossignol due to construction. Daily, from 9:30am to 3:00pm, October 27th to 28th.",
+"lanes": "closed",
+"lat": 45.490327,
+"lon": -75.503606,
+"planned_end": "2026-10-28T15:00",
+"planned_start": "2026-10-27T09:30",
+"priority": "MEDIUM",
+"road": "Jeanne d'Arc",
+"source": "city",
+"updated": "2026-10-27 09:28:00"
+},
+"fp": "ca3546e5d58f"
+},
 "29542": {
 "event": {
 "cause": "construction",
@@ -3450,29 +3473,6 @@
 },
 "fp": "4e996b36b73f"
 },
-"29700": {
-"event": {
-"cause": "high volume",
-"created": "2026-10-27 07:44:00",
-"cross_street_1": "champlain/ place d'Orl\u00e9ans",
-"cross_street_2": "Jeanne d'Arc",
-"direction": null,
-"event_id": "29700",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "174 westbound traffic heavy & slow between champlain/ place d'Orl\u00e9ans and Jeanne d'Arc due to high volume.",
-"lanes": "traffic heavy & slow",
-"lat": 45.483174,
-"lon": -75.50985,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-27 07:44:00"
-},
-"fp": "04f407e85115"
-},
 "29701": {
 "event": {
 "cause": "a collision",
@@ -3496,28 +3496,74 @@
 },
 "fp": "f924e6726067"
 },
-"29702": {
+"29705": {
 "event": {
 "cause": "a disabled vehicle",
-"created": "2026-10-27 08:09:00",
-"cross_street_1": "Jeanne D'Arc",
+"created": "2026-10-27 08:56:00",
+"cross_street_1": "Donald",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29702",
+"event_id": "29705",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "174 westbound lane reduction at Jeanne D'Arc due to a disabled vehicle.",
+"headline": "St-Laurent northbound right lane closed at Donald due to a disabled vehicle.",
+"lanes": "right lane closed",
+"lat": 45.42925,
+"lon": -75.640046,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "St-Laurent",
+"source": "city",
+"updated": "2026-10-27 08:56:00"
+},
+"fp": "91a3bb888790"
+},
+"29706": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-27 09:20:00",
+"cross_street_1": "Hunt Club",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29706",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Airport Parkway northbound lane reduction at Hunt Club due to a collision.",
 "lanes": "lane reduction",
-"lat": 45.478394,
-"lon": -75.522399,
+"lat": 45.351764,
+"lon": -75.655892,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "174",
+"road": "Airport Parkway",
 "source": "city",
-"updated": "2026-10-27 08:09:00"
+"updated": "2026-10-27 09:20:00"
 },
-"fp": "823e4acfc3f0"
+"fp": "83174b7b1669"
+},
+"29707": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-27 09:36:00",
+"cross_street_1": "CLONTARF",
+"cross_street_2": "PALEN",
+"direction": null,
+"event_id": "29707",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "ALTA VISTA southbound lane reduction between CLONTARF and PALEN due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.384909,
+"lon": -75.662445,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "ALTA VISTA",
+"source": "city",
+"updated": "2026-10-27 09:36:00"
+},
+"fp": "61d5702f2f59"
 }
 }
 }
