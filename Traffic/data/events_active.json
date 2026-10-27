@@ -3381,28 +3381,28 @@
 },
 "fp": "531272aebae8"
 },
-"29722": {
+"29723": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-27 17:26:00",
-"cross_street_1": "McArthur",
-"cross_street_2": "Montreal",
+"created": "2026-10-27 17:44:00",
+"cross_street_1": "Woodroffe",
+"cross_street_2": "Beatrice",
 "direction": null,
-"event_id": "29722",
+"event_id": "29723",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Vanier northbound reduced to 1 lane between McArthur and Montreal due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.432283,
-"lon": -75.66428,
+"full_closure": true,
+"headline": "Strandherd westbound closed between Woodroffe and Beatrice due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.275205,
+"lon": -75.721181,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Vanier",
+"road": "Strandherd",
 "source": "city",
-"updated": "2026-10-27 17:26:00"
+"updated": "2026-10-27 17:53:00"
 },
-"fp": "2212ea9e6dae"
+"fp": "32c474d3f379"
 }
 }
 }
