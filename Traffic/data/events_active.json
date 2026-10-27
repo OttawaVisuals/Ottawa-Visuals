@@ -3450,120 +3450,28 @@
 },
 "fp": "9ef107f8cad7"
 },
-"29699": {
+"29708": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-27 07:33:00",
-"cross_street_1": "King Edward",
-"cross_street_2": "Stanley",
-"direction": null,
-"event_id": "29699",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Sussex lane reduction between King Edward and Stanley due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.440469,
-"lon": -75.695261,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Sussex",
-"source": "city",
-"updated": "2026-10-27 07:33:00"
-},
-"fp": "4e996b36b73f"
-},
-"29701": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-27 07:59:00",
-"cross_street_1": "Dealership/Kennevale",
+"created": "2026-10-27 10:40:00",
+"cross_street_1": "Booth",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29701",
+"event_id": "29708",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Strandherd southbound left-turn lane and left lane closed at Dealership/Kennevale due to a collision.",
-"lanes": "left lane closed",
-"lat": 45.264595,
-"lon": -75.777678,
+"full_closure": true,
+"headline": "Wellington/ Kichi Z\u012bb\u012b M\u012bkan closed at Booth due to a collision.",
+"lanes": "closed",
+"lat": 45.416301,
+"lon": -75.714655,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Strandherd",
+"road": "Wellington/ Kichi Z\u012bb\u012b M\u012bkan",
 "source": "city",
-"updated": "2026-10-27 07:59:00"
+"updated": "2026-10-27 10:43:00"
 },
-"fp": "f924e6726067"
-},
-"29705": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-10-27 08:56:00",
-"cross_street_1": "Donald",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29705",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St-Laurent northbound right lane closed at Donald due to a disabled vehicle.",
-"lanes": "right lane closed",
-"lat": 45.42925,
-"lon": -75.640046,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St-Laurent",
-"source": "city",
-"updated": "2026-10-27 08:56:00"
-},
-"fp": "91a3bb888790"
-},
-"29706": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-27 09:20:00",
-"cross_street_1": "Hunt Club",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29706",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Airport Parkway northbound lane reduction at Hunt Club due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.351764,
-"lon": -75.655892,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Airport Parkway",
-"source": "city",
-"updated": "2026-10-27 09:20:00"
-},
-"fp": "83174b7b1669"
-},
-"29707": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-27 09:36:00",
-"cross_street_1": "CLONTARF",
-"cross_street_2": "PALEN",
-"direction": null,
-"event_id": "29707",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "ALTA VISTA southbound lane reduction between CLONTARF and PALEN due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.384909,
-"lon": -75.662445,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "ALTA VISTA",
-"source": "city",
-"updated": "2026-10-27 09:36:00"
-},
-"fp": "61d5702f2f59"
+"fp": "211aa5d27a06"
 }
 }
 }
