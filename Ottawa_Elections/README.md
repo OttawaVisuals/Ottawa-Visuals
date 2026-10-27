@@ -1,18 +1,19 @@
 # Ottawa Ward Elections
 
-**Page:** [`ottawa_ward_elections.html`](ottawa_ward_elections.html). Historical mayor results and council participation, 2010–2022.
+**Page:** [`ottawa_ward_elections.html`](ottawa_ward_elections.html). Historical mayor results and council participation, 2010–2026 (2026 = unofficial City results, ward totals only).
 
 **Read first:** [`SOURCE_RECONCILIATION.md`](SOURCE_RECONCILIATION.md) records the October 17, 2026 source audit, corrections, definitions and unresolved gaps.
 
 | File | Purpose |
 |---|---|
+| `FetchResults2026.py` | Fetches the City's 2026 unofficial results feed (`app06.ottawa.ca/election/2026/results.xml` + `electionevent.xml`) into `reconciliation/results_2026.json`. Ward totals only: no polling-place detail and no mayor split by ward. Re-run after the City certifies or revises results |
 | `ReconcileSources.py` | Downloads the four City-published workbooks, checks precinct/candidate/city controls, and creates normalized source data plus a field comparison |
 | `reconciliation/source_results.json` | All extracted mayor/council candidate totals, source rows, city controls, unallocated special polls, hashes and provenance |
 | `reconciliation/field_comparison.csv` | Every populated legacy input compared with the corresponding source field |
 | `reconciliation/legacy_ward_results.csv` | Immutable pre-audit baseline; also retains the 2022 map's ward names |
 | `reconciliation/legacy_population_estimates.csv` | Eight old population figures retained as unverified; not used by the page |
 | `BuildWardData.py` | Builds the page datasets and CSV exports from the normalized source extract |
-| `ward_results.csv` | 93 ward-year rows. `Mayor_Votes` / `Council_Votes` now consistently mean **valid candidate votes**. Separate `*_Ballots_Cast` fields preserve available ballot counts. Coverage/certification/source columns are essential. |
+| `ward_results.csv` | 117 ward-year rows. `Mayor_Votes` / `Council_Votes` now consistently mean **valid candidate votes**. Separate `*_Ballots_Cast` fields preserve available ballot counts. Coverage/certification/source columns are essential. |
 | `ward_data.json`, `mayor_history.json` | Generated page data, also embedded in the HTML for a standalone page |
 | `Ottawa_Summary.csv` | Tab-separated citywide registered, ballot and valid-mayor-vote controls; unavailable ballots are blank |
 | `Ottawa_Election_Wards_Only.json` | Simplified TopoJSON locator for the 24 wards used in 2022 |

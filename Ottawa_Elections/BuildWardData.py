@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-YEARS = [2010, 2014, 2018, 2022]
+YEARS = [2010, 2014, 2018, 2022, 2026]
 
 
 def pct(numerator, denominator):
@@ -18,13 +18,23 @@ def pct(numerator, denominator):
 def main():
     source = json.loads((ROOT/'reconciliation/source_results.json').read_text(encoding='utf8'))
     races = {(r['year'], r['ward'], r['office']): r for r in source['races']}
+    # 2026 comes from the City's unofficial results feed (FetchResults2026.py): ward totals only,
+    # so there is no ward-by-ward mayor split.
+    r26 = json.loads((ROOT/'reconciliation/results_2026.json').read_text(encoding='utf8'))
+    for r in r26['races']:
+        races[(2026, r['ward'], r['office'])] = r
     # Names identify the 2022 map, not a claim about historical boundaries.
     with (ROOT/'reconciliation/legacy_ward_results.csv').open(encoding='utf-8-sig',newline='') as f:
         legacy = list(csv.DictReader(f))
     names = {int(r['ward']):r['name'].strip() for r in legacy if int(r['year']) == 2022}
     city = []
     elected = {}
-    for r in source['citywide']:
+    citywide = list(source['citywide'])
+    m26 = races[(2026, None, 'mayor')]
+    citywide.append({'year':2026, 'registered':m26['registered'], 'ballots':m26['ballots'],
+                     'valid_votes':m26['valid_votes'], 'candidates':m26['candidates'],
+                     'certification':m26['certification']})
+    for r in citywide:
         ranking = sorted(r['candidates'].items(), key=lambda v:v[1], reverse=True)
         winner, runner = ranking[:2]
         elected[r['year']] = winner[0]
@@ -39,6 +49,11 @@ def main():
         r = races.get((year,ward,'councillor'))
         if r is None:
             return None
+        if r.get('acclaimed'):
+            name = next(iter(r['candidates']))
+            return {'name':name, 'share':100.0, 'source_conflict':False, 'acclaimed':True,
+                    'participation':None, 'valid_participation':None, 'registered':r['registered'],
+                    'ballots':None, 'valid_votes':None, 'winner_votes':None, 'certification':r['certification']}
         winner, count = max(r['candidates'].items(),key=lambda v:v[1])
         conflicts = [i for i in source['source_issues'] if i['year']==year and i['ward']==ward and i['office']=='councillor']
         return {'name':winner, 'share':pct(count,r['valid_votes']), 'source_conflict':bool(conflicts),
@@ -48,6 +63,8 @@ def main():
                 'winner_votes':count, 'certification':r['certification']}
 
     def mayor(ward, year):
+        if year == 2026:
+            return None
         r = races.get((year,ward,'mayor'))
         if r is None:
             return None
@@ -61,7 +78,7 @@ def main():
     for ward in range(1,25):
         councils = [council(ward,y) for y in YEARS]
         mayors = [mayor(ward,y) for y in YEARS]
-        last_c, last_m = councils[-1], mayors[-1]
+        last_c, last_m = councils[-1], mayors[YEARS.index(2022)]
         caveat = ('Ward 24 was created in 2022. There are no pre-2022 results for this ward; '
                   'the previous 60/40 estimates have been removed.') if ward==24 else (
                   'Historical entries describe the original election-year ward number, not the 2022 territory. '
@@ -71,7 +88,7 @@ def main():
                           'mayor':{'participation':None, 'winner_pct':last_m['top_share'], 'winner_name':last_m['top_name']},
                           'councillor':dict(last_c, winner_pct=last_c['share'], winner_name=last_c['name']),
                           'history':{'years':YEARS,
-                              'mayor':[None]*4,
+                              'mayor':[None]*len(YEARS),
                               'councillor':[r['participation'] if r else None for r in councils],
                               'councillor_valid':[r['valid_participation'] if r else None for r in councils],
                               'mayor_race':mayors, 'councillor_race':councils}}
@@ -79,7 +96,7 @@ def main():
     (ROOT/'mayor_history.json').write_text(json.dumps(city,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     rows=[]
     for y in YEARS:
-        for ward in range(1,25 if y==2022 else 24):
+        for ward in range(1,25 if y>=2022 else 24):
             row={'ward':ward,'name':names[ward],'year':y}
             for office,prefix in [('mayor','Mayor'),('councillor','Council')]:
                 r = races.get((y,ward,office))
@@ -88,7 +105,7 @@ def main():
                     row.update({prefix+'_Registered':r['registered'],prefix+'_Votes':r['valid_votes'],
                                 prefix+'_Ballots_Cast':r['ballots'],prefix+'_Winner':count,
                                 prefix+'_Win_Name':name,prefix+'_Coverage':r['coverage'],
-                                prefix+'_Certification':r['certification'],prefix+'_Source':r['source_total']})
+                                prefix+'_Certification':r['certification'],prefix+'_Source':r.get('source_total','City unofficial results feed')})
             rows.append(row)
     with (ROOT/'ward_results.csv').open('w',encoding='utf8',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=list(rows[0]))
@@ -105,7 +122,7 @@ def main():
     html,n=re.subn(r'const MAYOR_HISTORY = \[.*?\n\];',lambda _: 'const MAYOR_HISTORY = '+json.dumps(city,ensure_ascii=False,indent=2)+';',html,count=1,flags=re.S)
     assert n==1
     page.write_text(html,encoding='utf8')
-    print('Built 24 ward records, 93 ward-year CSV rows, 4 citywide mayor records, and embedded page data.')
+    print(f'Built 24 ward records, {len(rows)} ward-year CSV rows, {len(city)} citywide mayor records, and embedded page data.')
 
 
 if __name__=='__main__':

@@ -16,15 +16,29 @@ class ReconciliationTests(unittest.TestCase):
         cls.wards=json.loads((ROOT/'ward_data.json').read_text(encoding='utf8'))
         cls.city=json.loads((ROOT/'mayor_history.json').read_text(encoding='utf8'))
         cls.races={(r['year'],r['ward'],r['office']):r for r in cls.source['races']}
+        r26=json.loads((ROOT/'reconciliation/results_2026.json').read_text(encoding='utf8'))
+        cls.races.update({(r['year'],r['ward'],r['office']):r for r in r26['races'] if r['office']=='councillor'})
 
     def test_independent_city_controls(self):
         # Independent published summary controls, not re-summed page outputs.
         expected={2010:(607357,None,269640,131323,64862),
                   2014:(632385,252464,248369,189253,46341),
                   2018:(633946,269772,266024,188960,59156),
-                  2022:(722227,316254,314754,161677,119235)}
+                  2022:(722227,316254,314754,161677,119235),
+                  2026:(868248,314393,312125,139354,105819)}
         for r in self.city:
             self.assertEqual(tuple(r[k] for k in ('registered','votes','validVotes','votesMayor','runnerUp')),expected[r['year']])
+
+    def test_2026_unofficial_feed_matches_city_page(self):
+        # Ward controls read from the City's results page (app06.ottawa.ca/election/2026_en.html).
+        w=self.wards
+        self.assertEqual(w['1']['history']['councillor_race'][4]['name'],'Matt Luloff')
+        self.assertEqual(w['1']['history']['councillor_race'][4]['ballots'],17557)
+        self.assertEqual(w['1']['history']['councillor'][4],39.8)
+        for ward in ('16','21'):
+            self.assertTrue(w[ward]['history']['councillor_race'][4]['acclaimed'])
+        self.assertTrue(all(v['history']['mayor_race'][4] is None for v in w.values()))
+        self.assertEqual(sum(1 for v in w.values() if v['history']['councillor_race'][4].get('acclaimed')),2)
 
     def test_special_votes_are_preserved_without_home_ward_assignment(self):
         for year,ballots,valid in [(2014,7633,7556),(2018,15857,15653),(2022,27560,27376)]:
@@ -89,7 +103,7 @@ class ReconciliationTests(unittest.TestCase):
                          Counter(match=640,ballots_used_as_valid_votes=94,different=2))
         with (ROOT/'ward_results.csv').open(encoding='utf8',newline='') as f:
             rows=list(csv.DictReader(f))
-        self.assertEqual(len(rows),93)
+        self.assertEqual(len(rows),117)
         for row in rows:
             y,w=int(row['year']),int(row['ward'])
             for office,prefix in [('mayor','Mayor'),('councillor','Council')]:
@@ -97,7 +111,7 @@ class ReconciliationTests(unittest.TestCase):
                 if r is None:
                     self.assertEqual(row[prefix+'_Votes'],'')
                 else:
-                    self.assertEqual(int(row[prefix+'_Votes']),r['valid_votes'])
+                    self.assertEqual(row[prefix+'_Votes'],'' if r['valid_votes'] is None else str(r['valid_votes']))
                     self.assertEqual(row[prefix+'_Ballots_Cast'],'' if r['ballots'] is None else str(r['ballots']))
         html=(ROOT/'ottawa_ward_elections.html').read_text(encoding='utf8')
         self.assertEqual(json.loads(re.search(r'const wardData = (.*?);\n',html)[1]),self.wards)

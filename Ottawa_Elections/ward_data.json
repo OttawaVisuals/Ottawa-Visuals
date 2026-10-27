@@ -9,27 +9,29 @@
       "winner_name": "Mark Sutcliffe"
     },
     "councillor": {
-      "name": "Matthew Luloff",
-      "share": 74.2,
+      "name": "Matt Luloff",
+      "share": 36.4,
       "source_conflict": false,
-      "participation": 42.5,
-      "valid_participation": 41.6,
-      "registered": 38618,
-      "ballots": 16426,
-      "valid_votes": 16069,
-      "winner_votes": 11918,
-      "certification": "official",
-      "winner_pct": 74.2,
-      "winner_name": "Matthew Luloff"
+      "participation": 39.8,
+      "valid_participation": 39.5,
+      "registered": 44068,
+      "ballots": 17557,
+      "valid_votes": 17405,
+      "winner_votes": 6337,
+      "certification": "unofficial",
+      "winner_pct": 36.4,
+      "winner_name": "Matt Luloff"
     },
     "history": {
       "years": [
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -39,13 +41,15 @@
         null,
         null,
         43.1,
-        42.5
+        42.5,
+        39.8
       ],
       "councillor_valid": [
         43.2,
         37.9,
         42.8,
-        41.6
+        41.6,
+        39.5
       ],
       "mayor_race": [
         {
@@ -91,7 +95,8 @@
           "ballots": 14769,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -141,6 +146,18 @@
           "valid_votes": 16069,
           "winner_votes": 11918,
           "certification": "official"
+        },
+        {
+          "name": "Matt Luloff",
+          "share": 36.4,
+          "source_conflict": false,
+          "participation": 39.8,
+          "valid_participation": 39.5,
+          "registered": 44068,
+          "ballots": 17557,
+          "valid_votes": 17405,
+          "winner_votes": 6337,
+          "certification": "unofficial"
         }
       ]
     }
@@ -156,16 +173,16 @@
     },
     "councillor": {
       "name": "Laura Dudas",
-      "share": 71.4,
+      "share": 65.6,
       "source_conflict": false,
-      "participation": 45.2,
-      "valid_participation": 44.3,
-      "registered": 37347,
-      "ballots": 16889,
-      "valid_votes": 16550,
-      "winner_votes": 11821,
-      "certification": "official",
-      "winner_pct": 71.4,
+      "participation": 40.7,
+      "valid_participation": 40.3,
+      "registered": 40033,
+      "ballots": 16274,
+      "valid_votes": 16127,
+      "winner_votes": 10573,
+      "certification": "unofficial",
+      "winner_pct": 65.6,
       "winner_name": "Laura Dudas"
     },
     "history": {
@@ -173,9 +190,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -185,13 +204,15 @@
         null,
         null,
         43.8,
-        45.2
+        45.2,
+        40.7
       ],
       "councillor_valid": [
         42.2,
         44.1,
         43.4,
-        44.3
+        44.3,
+        40.3
       ],
       "mayor_race": [
         {
@@ -237,7 +258,8 @@
           "ballots": 15684,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -287,6 +309,18 @@
           "valid_votes": 16550,
           "winner_votes": 11821,
           "certification": "official"
+        },
+        {
+          "name": "Laura Dudas",
+          "share": 65.6,
+          "source_conflict": false,
+          "participation": 40.7,
+          "valid_participation": 40.3,
+          "registered": 40033,
+          "ballots": 16274,
+          "valid_votes": 16127,
+          "winner_votes": 10573,
+          "certification": "unofficial"
         }
       ]
     }
@@ -302,16 +336,16 @@
     },
     "councillor": {
       "name": "David Hill",
-      "share": 44.0,
+      "share": 70.8,
       "source_conflict": false,
-      "participation": 45.8,
-      "valid_participation": 45.1,
-      "registered": 31446,
-      "ballots": 14406,
-      "valid_votes": 14168,
-      "winner_votes": 6230,
-      "certification": "official",
-      "winner_pct": 44.0,
+      "participation": 37.8,
+      "valid_participation": 37.3,
+      "registered": 44156,
+      "ballots": 16705,
+      "valid_votes": 16481,
+      "winner_votes": 11672,
+      "certification": "unofficial",
+      "winner_pct": 70.8,
       "winner_name": "David Hill"
     },
     "history": {
@@ -319,9 +353,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -331,13 +367,15 @@
         null,
         null,
         42.7,
-        45.8
+        45.8,
+        37.8
       ],
       "councillor_valid": [
         41.5,
         34.1,
         42.5,
-        45.1
+        45.1,
+        37.3
       ],
       "mayor_race": [
         {
@@ -383,7 +421,8 @@
           "ballots": 12322,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -433,6 +472,18 @@
           "valid_votes": 14168,
           "winner_votes": 6230,
           "certification": "official"
+        },
+        {
+          "name": "David Hill",
+          "share": 70.8,
+          "source_conflict": false,
+          "participation": 37.8,
+          "valid_participation": 37.3,
+          "registered": 44156,
+          "ballots": 16705,
+          "valid_votes": 16481,
+          "winner_votes": 11672,
+          "certification": "unofficial"
         }
       ]
     }
@@ -448,16 +499,16 @@
     },
     "councillor": {
       "name": "Cathy Curry",
-      "share": 76.7,
+      "share": 73.7,
       "source_conflict": false,
-      "participation": 43.5,
-      "valid_participation": 42.4,
-      "registered": 27108,
-      "ballots": 11803,
-      "valid_votes": 11501,
-      "winner_votes": 8827,
-      "certification": "official",
-      "winner_pct": 76.7,
+      "participation": 36.0,
+      "valid_participation": 35.2,
+      "registered": 35011,
+      "ballots": 12598,
+      "valid_votes": 12331,
+      "winner_votes": 9084,
+      "certification": "unofficial",
+      "winner_pct": 73.7,
       "winner_name": "Cathy Curry"
     },
     "history": {
@@ -465,9 +516,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -477,13 +530,15 @@
         null,
         null,
         48.2,
-        43.5
+        43.5,
+        36.0
       ],
       "councillor_valid": [
         45.1,
         45.5,
         48.0,
-        42.4
+        42.4,
+        35.2
       ],
       "mayor_race": [
         {
@@ -529,7 +584,8 @@
           "ballots": 10709,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -579,6 +635,18 @@
           "valid_votes": 11501,
           "winner_votes": 8827,
           "certification": "official"
+        },
+        {
+          "name": "Cathy Curry",
+          "share": 73.7,
+          "source_conflict": false,
+          "participation": 36.0,
+          "valid_participation": 35.2,
+          "registered": 35011,
+          "ballots": 12598,
+          "valid_votes": 12331,
+          "winner_votes": 9084,
+          "certification": "unofficial"
         }
       ]
     }
@@ -594,16 +662,16 @@
     },
     "councillor": {
       "name": "Clarke Kelly",
-      "share": 27.4,
+      "share": 60.3,
       "source_conflict": false,
-      "participation": 46.9,
-      "valid_participation": 46.3,
-      "registered": 20113,
-      "ballots": 9441,
-      "valid_votes": 9305,
-      "winner_votes": 2549,
-      "certification": "official",
-      "winner_pct": 27.4,
+      "participation": 39.1,
+      "valid_participation": 38.8,
+      "registered": 22389,
+      "ballots": 8754,
+      "valid_votes": 8694,
+      "winner_votes": 5239,
+      "certification": "unofficial",
+      "winner_pct": 60.3,
       "winner_name": "Clarke Kelly"
     },
     "history": {
@@ -611,9 +679,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -623,13 +693,15 @@
         null,
         null,
         42.8,
-        46.9
+        46.9,
+        39.1
       ],
       "councillor_valid": [
         45.4,
         46.4,
         42.7,
-        46.3
+        46.3,
+        38.8
       ],
       "mayor_race": [
         {
@@ -675,7 +747,8 @@
           "ballots": 9015,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -725,6 +798,18 @@
           "valid_votes": 9305,
           "winner_votes": 2549,
           "certification": "official"
+        },
+        {
+          "name": "Clarke Kelly",
+          "share": 60.3,
+          "source_conflict": false,
+          "participation": 39.1,
+          "valid_participation": 38.8,
+          "registered": 22389,
+          "ballots": 8754,
+          "valid_votes": 8694,
+          "winner_votes": 5239,
+          "certification": "unofficial"
         }
       ]
     }
@@ -739,27 +824,29 @@
       "winner_name": "Mark Sutcliffe"
     },
     "councillor": {
-      "name": "Glen Gower",
-      "share": 58.7,
+      "name": "Chelsea Walton",
+      "share": 43.7,
       "source_conflict": false,
-      "participation": 45.6,
-      "valid_participation": 45.1,
-      "registered": 29298,
-      "ballots": 13357,
-      "valid_votes": 13222,
-      "winner_votes": 7758,
-      "certification": "official",
-      "winner_pct": 58.7,
-      "winner_name": "Glen Gower"
+      "participation": 39.3,
+      "valid_participation": 39.1,
+      "registered": 40079,
+      "ballots": 15741,
+      "valid_votes": 15660,
+      "winner_votes": 6847,
+      "certification": "unofficial",
+      "winner_pct": 43.7,
+      "winner_name": "Chelsea Walton"
     },
     "history": {
       "years": [
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -769,13 +856,15 @@
         null,
         null,
         46.4,
-        45.6
+        45.6,
+        39.3
       ],
       "councillor_valid": [
         45.0,
         43.7,
         46.3,
-        45.1
+        45.1,
+        39.1
       ],
       "mayor_race": [
         {
@@ -821,7 +910,8 @@
           "ballots": 11543,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -871,6 +961,18 @@
           "valid_votes": 13222,
           "winner_votes": 7758,
           "certification": "official"
+        },
+        {
+          "name": "Chelsea Walton",
+          "share": 43.7,
+          "source_conflict": false,
+          "participation": 39.3,
+          "valid_participation": 39.1,
+          "registered": 40079,
+          "ballots": 15741,
+          "valid_votes": 15660,
+          "winner_votes": 6847,
+          "certification": "unofficial"
         }
       ]
     }
@@ -886,16 +988,16 @@
     },
     "councillor": {
       "name": "Theresa Kavanagh",
-      "share": 82.8,
+      "share": 82.5,
       "source_conflict": false,
-      "participation": 43.8,
-      "valid_participation": 42.2,
-      "registered": 35473,
-      "ballots": 15527,
-      "valid_votes": 14976,
-      "winner_votes": 12398,
-      "certification": "official",
-      "winner_pct": 82.8,
+      "participation": 38.2,
+      "valid_participation": 37.0,
+      "registered": 39140,
+      "ballots": 14950,
+      "valid_votes": 14477,
+      "winner_votes": 11939,
+      "certification": "unofficial",
+      "winner_pct": 82.5,
       "winner_name": "Theresa Kavanagh"
     },
     "history": {
@@ -903,9 +1005,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -915,13 +1019,15 @@
         null,
         null,
         41.6,
-        43.8
+        43.8,
+        38.2
       ],
       "councillor_valid": [
         null,
         41.8,
         40.7,
-        42.2
+        42.2,
+        37.0
       ],
       "mayor_race": [
         {
@@ -967,7 +1073,8 @@
           "ballots": 14435,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         null,
@@ -1006,6 +1113,18 @@
           "valid_votes": 14976,
           "winner_votes": 12398,
           "certification": "official"
+        },
+        {
+          "name": "Theresa Kavanagh",
+          "share": 82.5,
+          "source_conflict": false,
+          "participation": 38.2,
+          "valid_participation": 37.0,
+          "registered": 39140,
+          "ballots": 14950,
+          "valid_votes": 14477,
+          "winner_votes": 11939,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1021,16 +1140,16 @@
     },
     "councillor": {
       "name": "Laine Johnson",
-      "share": 52.6,
+      "share": 92.0,
       "source_conflict": false,
-      "participation": 46.9,
-      "valid_participation": 45.7,
-      "registered": 36958,
-      "ballots": 17333,
-      "valid_votes": 16906,
-      "winner_votes": 8899,
-      "certification": "official",
-      "winner_pct": 52.6,
+      "participation": 39.1,
+      "valid_participation": 37.8,
+      "registered": 41211,
+      "ballots": 16111,
+      "valid_votes": 15572,
+      "winner_votes": 14327,
+      "certification": "unofficial",
+      "winner_pct": 92.0,
       "winner_name": "Laine Johnson"
     },
     "history": {
@@ -1038,9 +1157,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1050,13 +1171,15 @@
         null,
         null,
         44.8,
-        46.9
+        46.9,
+        39.1
       ],
       "councillor_valid": [
         43.6,
         37.6,
         44.5,
-        45.7
+        45.7,
+        37.8
       ],
       "mayor_race": [
         {
@@ -1102,7 +1225,8 @@
           "ballots": 15917,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1152,6 +1276,18 @@
           "valid_votes": 16906,
           "winner_votes": 8899,
           "certification": "official"
+        },
+        {
+          "name": "Laine Johnson",
+          "share": 92.0,
+          "source_conflict": false,
+          "participation": 39.1,
+          "valid_participation": 37.8,
+          "registered": 41211,
+          "ballots": 16111,
+          "valid_votes": 15572,
+          "winner_votes": 14327,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1167,16 +1303,16 @@
     },
     "councillor": {
       "name": "Sean Devine",
-      "share": 39.2,
+      "share": 59.2,
       "source_conflict": false,
-      "participation": 45.5,
-      "valid_participation": 44.4,
-      "registered": 27650,
-      "ballots": 12594,
-      "valid_votes": 12276,
-      "winner_votes": 4812,
-      "certification": "official",
-      "winner_pct": 39.2,
+      "participation": 39.6,
+      "valid_participation": 38.8,
+      "registered": 30861,
+      "ballots": 12223,
+      "valid_votes": 11967,
+      "winner_votes": 7083,
+      "certification": "unofficial",
+      "winner_pct": 59.2,
       "winner_name": "Sean Devine"
     },
     "history": {
@@ -1184,9 +1320,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1196,13 +1334,15 @@
         null,
         null,
         40.0,
-        45.5
+        45.5,
+        39.6
       ],
       "councillor_valid": [
         43.4,
         35.6,
         39.4,
-        44.4
+        44.4,
+        38.8
       ],
       "mayor_race": [
         {
@@ -1248,7 +1388,8 @@
           "ballots": 11392,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1298,6 +1439,18 @@
           "valid_votes": 12276,
           "winner_votes": 4812,
           "certification": "official"
+        },
+        {
+          "name": "Sean Devine",
+          "share": 59.2,
+          "source_conflict": false,
+          "participation": 39.6,
+          "valid_participation": 38.8,
+          "registered": 30861,
+          "ballots": 12223,
+          "valid_votes": 11967,
+          "winner_votes": 7083,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1313,16 +1466,16 @@
     },
     "councillor": {
       "name": "Jessica Bradley",
-      "share": 42.2,
+      "share": 69.3,
       "source_conflict": false,
-      "participation": 37.5,
-      "valid_participation": 36.3,
-      "registered": 32139,
-      "ballots": 12059,
-      "valid_votes": 11663,
-      "winner_votes": 4927,
-      "certification": "official",
-      "winner_pct": 42.2,
+      "participation": 28.5,
+      "valid_participation": 27.7,
+      "registered": 39036,
+      "ballots": 11122,
+      "valid_votes": 10830,
+      "winner_votes": 7506,
+      "certification": "unofficial",
+      "winner_pct": 69.3,
       "winner_name": "Jessica Bradley"
     },
     "history": {
@@ -1330,9 +1483,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1342,13 +1497,15 @@
         null,
         null,
         38.2,
-        37.5
+        37.5,
+        28.5
       ],
       "councillor_valid": [
         40.1,
         36.6,
         37.9,
-        36.3
+        36.3,
+        27.7
       ],
       "mayor_race": [
         {
@@ -1394,7 +1551,8 @@
           "ballots": 10538,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1444,6 +1602,18 @@
           "valid_votes": 11663,
           "winner_votes": 4927,
           "certification": "official"
+        },
+        {
+          "name": "Jessica Bradley",
+          "share": 69.3,
+          "source_conflict": false,
+          "participation": 28.5,
+          "valid_participation": 27.7,
+          "registered": 39036,
+          "ballots": 11122,
+          "valid_votes": 10830,
+          "winner_votes": 7506,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1459,16 +1629,16 @@
     },
     "councillor": {
       "name": "Tim Tierney",
-      "share": 82.0,
+      "share": 63.1,
       "source_conflict": false,
-      "participation": 40.8,
-      "valid_participation": 39.6,
-      "registered": 23452,
-      "ballots": 9567,
-      "valid_votes": 9293,
-      "winner_votes": 7617,
-      "certification": "official",
-      "winner_pct": 82.0,
+      "participation": 34.3,
+      "valid_participation": 33.7,
+      "registered": 28082,
+      "ballots": 9622,
+      "valid_votes": 9474,
+      "winner_votes": 5978,
+      "certification": "unofficial",
+      "winner_pct": 63.1,
       "winner_name": "Tim Tierney"
     },
     "history": {
@@ -1476,9 +1646,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1488,13 +1660,15 @@
         null,
         null,
         38.1,
-        40.8
+        40.8,
+        34.3
       ],
       "councillor_valid": [
         43.5,
         37.5,
         37.3,
-        39.6
+        39.6,
+        33.7
       ],
       "mayor_race": [
         {
@@ -1540,7 +1714,8 @@
           "ballots": 8937,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1590,6 +1765,18 @@
           "valid_votes": 9293,
           "winner_votes": 7617,
           "certification": "official"
+        },
+        {
+          "name": "Tim Tierney",
+          "share": 63.1,
+          "source_conflict": false,
+          "participation": 34.3,
+          "valid_participation": 33.7,
+          "registered": 28082,
+          "ballots": 9622,
+          "valid_votes": 9474,
+          "winner_votes": 5978,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1605,16 +1792,16 @@
     },
     "councillor": {
       "name": "Stéphanie Plante",
-      "share": 37.1,
+      "share": 53.7,
       "source_conflict": false,
-      "participation": 37.2,
-      "valid_participation": 36.0,
-      "registered": 34574,
-      "ballots": 12854,
-      "valid_votes": 12440,
-      "winner_votes": 4621,
-      "certification": "official",
-      "winner_pct": 37.1,
+      "participation": 28.6,
+      "valid_participation": 27.6,
+      "registered": 41716,
+      "ballots": 11920,
+      "valid_votes": 11524,
+      "winner_votes": 6194,
+      "certification": "unofficial",
+      "winner_pct": 53.7,
       "winner_name": "Stéphanie Plante"
     },
     "history": {
@@ -1622,9 +1809,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1634,13 +1823,15 @@
         null,
         null,
         37.5,
-        37.2
+        37.2,
+        28.6
       ],
       "councillor_valid": [
         37.7,
         36.7,
         37.0,
-        36.0
+        36.0,
+        27.6
       ],
       "mayor_race": [
         {
@@ -1686,7 +1877,8 @@
           "ballots": 11660,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1736,6 +1928,18 @@
           "valid_votes": 12440,
           "winner_votes": 4621,
           "certification": "official"
+        },
+        {
+          "name": "Stéphanie Plante",
+          "share": 53.7,
+          "source_conflict": false,
+          "participation": 28.6,
+          "valid_participation": 27.6,
+          "registered": 41716,
+          "ballots": 11920,
+          "valid_votes": 11524,
+          "winner_votes": 6194,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1751,16 +1955,16 @@
     },
     "councillor": {
       "name": "Rawlson King",
-      "share": 80.2,
+      "share": 81.5,
       "source_conflict": false,
-      "participation": 39.8,
-      "valid_participation": 37.5,
-      "registered": 28220,
-      "ballots": 11226,
-      "valid_votes": 10593,
-      "winner_votes": 8491,
-      "certification": "official",
-      "winner_pct": 80.2,
+      "participation": 31.4,
+      "valid_participation": 29.9,
+      "registered": 33545,
+      "ballots": 10545,
+      "valid_votes": 10034,
+      "winner_votes": 8181,
+      "certification": "unofficial",
+      "winner_pct": 81.5,
       "winner_name": "Rawlson King"
     },
     "history": {
@@ -1768,9 +1972,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1780,13 +1986,15 @@
         null,
         null,
         37.1,
-        39.8
+        39.8,
+        31.4
       ],
       "councillor_valid": [
         41.0,
         39.0,
         35.8,
-        37.5
+        37.5,
+        29.9
       ],
       "mayor_race": [
         {
@@ -1832,7 +2040,8 @@
           "ballots": 10171,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -1882,6 +2091,18 @@
           "valid_votes": 10593,
           "winner_votes": 8491,
           "certification": "official"
+        },
+        {
+          "name": "Rawlson King",
+          "share": 81.5,
+          "source_conflict": false,
+          "participation": 31.4,
+          "valid_participation": 29.9,
+          "registered": 33545,
+          "ballots": 10545,
+          "valid_votes": 10034,
+          "winner_votes": 8181,
+          "certification": "unofficial"
         }
       ]
     }
@@ -1897,16 +2118,16 @@
     },
     "councillor": {
       "name": "Ariel Troster",
-      "share": 61.3,
+      "share": 61.9,
       "source_conflict": false,
-      "participation": 45.2,
-      "valid_participation": 43.1,
-      "registered": 32787,
-      "ballots": 14832,
-      "valid_votes": 14137,
-      "winner_votes": 8663,
-      "certification": "official",
-      "winner_pct": 61.3,
+      "participation": 38.6,
+      "valid_participation": 37.2,
+      "registered": 39309,
+      "ballots": 15162,
+      "valid_votes": 14641,
+      "winner_votes": 9061,
+      "certification": "unofficial",
+      "winner_pct": 61.9,
       "winner_name": "Ariel Troster"
     },
     "history": {
@@ -1914,9 +2135,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -1926,13 +2149,15 @@
         null,
         null,
         39.1,
-        45.2
+        45.2,
+        38.6
       ],
       "councillor_valid": [
         40.8,
         39.0,
         38.4,
-        43.1
+        43.1,
+        37.2
       ],
       "mayor_race": [
         {
@@ -1978,7 +2203,8 @@
           "ballots": 12917,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2028,6 +2254,18 @@
           "valid_votes": 14137,
           "winner_votes": 8663,
           "certification": "official"
+        },
+        {
+          "name": "Ariel Troster",
+          "share": 61.9,
+          "source_conflict": false,
+          "participation": 38.6,
+          "valid_participation": 37.2,
+          "registered": 39309,
+          "ballots": 15162,
+          "valid_votes": 14641,
+          "winner_votes": 9061,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2042,27 +2280,29 @@
       "winner_name": "Catherine McKenney"
     },
     "councillor": {
-      "name": "Jeff Leiper",
-      "share": 72.0,
+      "name": "Joanne Chianello",
+      "share": 65.2,
       "source_conflict": false,
-      "participation": 53.0,
-      "valid_participation": 51.8,
-      "registered": 29621,
-      "ballots": 15693,
-      "valid_votes": 15345,
-      "winner_votes": 11045,
-      "certification": "official",
-      "winner_pct": 72.0,
-      "winner_name": "Jeff Leiper"
+      "participation": 48.7,
+      "valid_participation": 47.4,
+      "registered": 34729,
+      "ballots": 16907,
+      "valid_votes": 16446,
+      "winner_votes": 10722,
+      "certification": "unofficial",
+      "winner_pct": 65.2,
+      "winner_name": "Joanne Chianello"
     },
     "history": {
       "years": [
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2072,13 +2312,15 @@
         null,
         null,
         48.9,
-        53.0
+        53.0,
+        48.7
       ],
       "councillor_valid": [
         null,
         47.6,
         48.0,
-        51.8
+        51.8,
+        47.4
       ],
       "mayor_race": [
         {
@@ -2124,7 +2366,8 @@
           "ballots": 14769,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         null,
@@ -2163,6 +2406,18 @@
           "valid_votes": 15345,
           "winner_votes": 11045,
           "certification": "official"
+        },
+        {
+          "name": "Joanne Chianello",
+          "share": 65.2,
+          "source_conflict": false,
+          "participation": 48.7,
+          "valid_participation": 47.4,
+          "registered": 34729,
+          "ballots": 16907,
+          "valid_votes": 16446,
+          "winner_votes": 10722,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2178,16 +2433,17 @@
     },
     "councillor": {
       "name": "Riley Brockington",
-      "share": 73.1,
+      "share": 100.0,
       "source_conflict": false,
-      "participation": 41.1,
-      "valid_participation": 39.8,
-      "registered": 33024,
-      "ballots": 13560,
-      "valid_votes": 13130,
-      "winner_votes": 9595,
-      "certification": "official",
-      "winner_pct": 73.1,
+      "acclaimed": true,
+      "participation": null,
+      "valid_participation": null,
+      "registered": 37861,
+      "ballots": null,
+      "valid_votes": null,
+      "winner_votes": null,
+      "certification": "unofficial",
+      "winner_pct": 100.0,
       "winner_name": "Riley Brockington"
     },
     "history": {
@@ -2195,9 +2451,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2207,13 +2465,15 @@
         null,
         null,
         38.5,
-        41.1
+        41.1,
+        null
       ],
       "councillor_valid": [
         41.0,
         35.0,
         37.7,
-        39.8
+        39.8,
+        null
       ],
       "mayor_race": [
         {
@@ -2259,7 +2519,8 @@
           "ballots": 12559,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2309,6 +2570,19 @@
           "valid_votes": 13130,
           "winner_votes": 9595,
           "certification": "official"
+        },
+        {
+          "name": "Riley Brockington",
+          "share": 100.0,
+          "source_conflict": false,
+          "acclaimed": true,
+          "participation": null,
+          "valid_participation": null,
+          "registered": 37861,
+          "ballots": null,
+          "valid_votes": null,
+          "winner_votes": null,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2324,16 +2598,16 @@
     },
     "councillor": {
       "name": "Shawn Menard",
-      "share": 78.8,
+      "share": 87.7,
       "source_conflict": false,
-      "participation": 51.3,
-      "valid_participation": 50.0,
-      "registered": 28834,
-      "ballots": 14784,
-      "valid_votes": 14412,
-      "winner_votes": 11358,
-      "certification": "official",
-      "winner_pct": 78.8,
+      "participation": 44.1,
+      "valid_participation": 42.4,
+      "registered": 32652,
+      "ballots": 14398,
+      "valid_votes": 13845,
+      "winner_votes": 12146,
+      "certification": "unofficial",
+      "winner_pct": 87.7,
       "winner_name": "Shawn Menard"
     },
     "history": {
@@ -2341,9 +2615,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2353,13 +2629,15 @@
         null,
         null,
         52.1,
-        51.3
+        51.3,
+        44.1
       ],
       "councillor_valid": [
         51.2,
         37.3,
         51.6,
-        50.0
+        50.0,
+        42.4
       ],
       "mayor_race": [
         {
@@ -2405,7 +2683,8 @@
           "ballots": 13628,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2455,6 +2734,18 @@
           "valid_votes": 14412,
           "winner_votes": 11358,
           "certification": "official"
+        },
+        {
+          "name": "Shawn Menard",
+          "share": 87.7,
+          "source_conflict": false,
+          "participation": 44.1,
+          "valid_participation": 42.4,
+          "registered": 32652,
+          "ballots": 14398,
+          "valid_votes": 13845,
+          "winner_votes": 12146,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2470,16 +2761,16 @@
     },
     "councillor": {
       "name": "Marty Carr",
-      "share": 47.1,
+      "share": 66.6,
       "source_conflict": false,
-      "participation": 43.1,
-      "valid_participation": 41.7,
-      "registered": 31008,
-      "ballots": 13360,
-      "valid_votes": 12919,
-      "winner_votes": 6088,
-      "certification": "official",
-      "winner_pct": 47.1,
+      "participation": 36.3,
+      "valid_participation": 35.4,
+      "registered": 35029,
+      "ballots": 12699,
+      "valid_votes": 12393,
+      "winner_votes": 8256,
+      "certification": "unofficial",
+      "winner_pct": 66.6,
       "winner_name": "Marty Carr"
     },
     "history": {
@@ -2487,9 +2778,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2499,13 +2792,15 @@
         null,
         null,
         41.7,
-        43.1
+        43.1,
+        36.3
       ],
       "councillor_valid": [
         43.6,
         37.6,
         41.1,
-        41.7
+        41.7,
+        35.4
       ],
       "mayor_race": [
         {
@@ -2551,7 +2846,8 @@
           "ballots": 12566,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2601,6 +2897,18 @@
           "valid_votes": 12919,
           "winner_votes": 6088,
           "certification": "official"
+        },
+        {
+          "name": "Marty Carr",
+          "share": 66.6,
+          "source_conflict": false,
+          "participation": 36.3,
+          "valid_participation": 35.4,
+          "registered": 35029,
+          "ballots": 12699,
+          "valid_votes": 12393,
+          "winner_votes": 8256,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2616,16 +2924,16 @@
     },
     "councillor": {
       "name": "Catherine Kitts",
-      "share": 76.5,
+      "share": 90.2,
       "source_conflict": false,
-      "participation": 39.2,
-      "valid_participation": 38.7,
-      "registered": 32023,
-      "ballots": 12558,
-      "valid_votes": 12378,
-      "winner_votes": 9466,
-      "certification": "official",
-      "winner_pct": 76.5,
+      "participation": 30.8,
+      "valid_participation": 30.4,
+      "registered": 44073,
+      "ballots": 13590,
+      "valid_votes": 13391,
+      "winner_votes": 12074,
+      "certification": "unofficial",
+      "winner_pct": 90.2,
       "winner_name": "Catherine Kitts"
     },
     "history": {
@@ -2633,9 +2941,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2645,13 +2955,15 @@
         null,
         null,
         38.0,
-        39.2
+        39.2,
+        30.8
       ],
       "councillor_valid": [
         42.4,
         37.7,
         37.6,
-        38.7
+        38.7,
+        30.4
       ],
       "mayor_race": [
         {
@@ -2697,7 +3009,8 @@
           "ballots": 10828,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2747,6 +3060,18 @@
           "valid_votes": 12378,
           "winner_votes": 9466,
           "certification": "official"
+        },
+        {
+          "name": "Catherine Kitts",
+          "share": 90.2,
+          "source_conflict": false,
+          "participation": 30.8,
+          "valid_participation": 30.4,
+          "registered": 44073,
+          "ballots": 13590,
+          "valid_votes": 13391,
+          "winner_votes": 12074,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2761,27 +3086,29 @@
       "winner_name": "Mark Sutcliffe"
     },
     "councillor": {
-      "name": "George Darouze",
-      "share": 40.8,
+      "name": "Isabelle Skalski",
+      "share": 88.4,
       "source_conflict": false,
-      "participation": 46.2,
-      "valid_participation": 45.7,
-      "registered": 23354,
-      "ballots": 10780,
-      "valid_votes": 10667,
-      "winner_votes": 4353,
-      "certification": "official",
-      "winner_pct": 40.8,
-      "winner_name": "George Darouze"
+      "participation": 31.3,
+      "valid_participation": 30.6,
+      "registered": 26688,
+      "ballots": 8343,
+      "valid_votes": 8155,
+      "winner_votes": 7205,
+      "certification": "unofficial",
+      "winner_pct": 88.4,
+      "winner_name": "Isabelle Skalski"
     },
     "history": {
       "years": [
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2791,13 +3118,15 @@
         null,
         null,
         45.8,
-        46.2
+        46.2,
+        31.3
       ],
       "councillor_valid": [
         44.3,
         45.4,
         45.6,
-        45.7
+        45.7,
+        30.6
       ],
       "mayor_race": [
         {
@@ -2843,7 +3172,8 @@
           "ballots": 10447,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -2893,6 +3223,18 @@
           "valid_votes": 10667,
           "winner_votes": 4353,
           "certification": "official"
+        },
+        {
+          "name": "Isabelle Skalski",
+          "share": 88.4,
+          "source_conflict": false,
+          "participation": 31.3,
+          "valid_participation": 30.6,
+          "registered": 26688,
+          "ballots": 8343,
+          "valid_votes": 8155,
+          "winner_votes": 7205,
+          "certification": "unofficial"
         }
       ]
     }
@@ -2908,16 +3250,17 @@
     },
     "councillor": {
       "name": "David Brown",
-      "share": 66.6,
+      "share": 100.0,
       "source_conflict": false,
-      "participation": 48.1,
-      "valid_participation": 47.1,
-      "registered": 21966,
-      "ballots": 10561,
-      "valid_votes": 10353,
-      "winner_votes": 6898,
-      "certification": "official",
-      "winner_pct": 66.6,
+      "acclaimed": true,
+      "participation": null,
+      "valid_participation": null,
+      "registered": 26716,
+      "ballots": null,
+      "valid_votes": null,
+      "winner_votes": null,
+      "certification": "unofficial",
+      "winner_pct": 100.0,
       "winner_name": "David Brown"
     },
     "history": {
@@ -2925,9 +3268,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -2937,13 +3282,15 @@
         null,
         null,
         46.2,
-        48.1
+        48.1,
+        null
       ],
       "councillor_valid": [
         49.4,
         42.3,
         46.0,
-        47.1
+        47.1,
+        null
       ],
       "mayor_race": [
         {
@@ -2989,7 +3336,8 @@
           "ballots": 10132,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -3039,6 +3387,19 @@
           "valid_votes": 10353,
           "winner_votes": 6898,
           "certification": "official"
+        },
+        {
+          "name": "David Brown",
+          "share": 100.0,
+          "source_conflict": false,
+          "acclaimed": true,
+          "participation": null,
+          "valid_participation": null,
+          "registered": 26716,
+          "ballots": null,
+          "valid_votes": null,
+          "winner_votes": null,
+          "certification": "unofficial"
         }
       ]
     }
@@ -3054,16 +3415,16 @@
     },
     "councillor": {
       "name": "Steve Desroches",
-      "share": 67.8,
+      "share": 85.0,
       "source_conflict": false,
-      "participation": 42.9,
-      "valid_participation": 42.3,
-      "registered": 19822,
-      "ballots": 8508,
-      "valid_votes": 8378,
-      "winner_votes": 5684,
-      "certification": "official",
-      "winner_pct": 67.8,
+      "participation": 29.1,
+      "valid_participation": 28.4,
+      "registered": 31902,
+      "ballots": 9295,
+      "valid_votes": 9063,
+      "winner_votes": 7702,
+      "certification": "unofficial",
+      "winner_pct": 85.0,
       "winner_name": "Steve Desroches"
     },
     "history": {
@@ -3071,9 +3432,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -3083,13 +3446,15 @@
         null,
         null,
         46.1,
-        42.9
+        42.9,
+        29.1
       ],
       "councillor_valid": [
         40.5,
         39.9,
         45.8,
-        42.3
+        42.3,
+        28.4
       ],
       "mayor_race": [
         {
@@ -3135,7 +3500,8 @@
           "ballots": 8008,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -3185,6 +3551,18 @@
           "valid_votes": 8378,
           "winner_votes": 5684,
           "certification": "official"
+        },
+        {
+          "name": "Steve Desroches",
+          "share": 85.0,
+          "source_conflict": false,
+          "participation": 29.1,
+          "valid_participation": 28.4,
+          "registered": 31902,
+          "ballots": 9295,
+          "valid_votes": 9063,
+          "winner_votes": 7702,
+          "certification": "unofficial"
         }
       ]
     }
@@ -3199,27 +3577,29 @@
       "winner_name": "Mark Sutcliffe"
     },
     "councillor": {
-      "name": "Allan Hubley",
-      "share": 33.9,
+      "name": "Erin Coffin",
+      "share": 49.7,
       "source_conflict": false,
-      "participation": 44.0,
-      "valid_participation": 43.7,
-      "registered": 36085,
-      "ballots": 15892,
-      "valid_votes": 15755,
-      "winner_votes": 5334,
-      "certification": "official",
-      "winner_pct": 33.9,
-      "winner_name": "Allan Hubley"
+      "participation": 38.8,
+      "valid_participation": 38.5,
+      "registered": 41205,
+      "ballots": 16001,
+      "valid_votes": 15855,
+      "winner_votes": 7878,
+      "certification": "unofficial",
+      "winner_pct": 49.7,
+      "winner_name": "Erin Coffin"
     },
     "history": {
       "years": [
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -3229,13 +3609,15 @@
         null,
         null,
         41.4,
-        44.0
+        44.0,
+        38.8
       ],
       "councillor_valid": [
         45.7,
         35.9,
         41.2,
-        43.7
+        43.7,
+        38.5
       ],
       "mayor_race": [
         {
@@ -3281,7 +3663,8 @@
           "ballots": 14672,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         {
@@ -3331,6 +3714,18 @@
           "valid_votes": 15755,
           "winner_votes": 5334,
           "certification": "official"
+        },
+        {
+          "name": "Erin Coffin",
+          "share": 49.7,
+          "source_conflict": false,
+          "participation": 38.8,
+          "valid_participation": 38.5,
+          "registered": 41205,
+          "ballots": 16001,
+          "valid_votes": 15855,
+          "winner_votes": 7878,
+          "certification": "unofficial"
         }
       ]
     }
@@ -3346,16 +3741,16 @@
     },
     "councillor": {
       "name": "Wilson Lo",
-      "share": 36.8,
+      "share": 76.9,
       "source_conflict": false,
-      "participation": 39.1,
-      "valid_participation": 38.2,
-      "registered": 31307,
-      "ballots": 12244,
-      "valid_votes": 11958,
-      "winner_votes": 4403,
-      "certification": "official",
-      "winner_pct": 36.8,
+      "participation": 34.2,
+      "valid_participation": 33.5,
+      "registered": 38757,
+      "ballots": 13246,
+      "valid_votes": 12993,
+      "winner_votes": 9987,
+      "certification": "unofficial",
+      "winner_pct": 76.9,
       "winner_name": "Wilson Lo"
     },
     "history": {
@@ -3363,9 +3758,11 @@
         2010,
         2014,
         2018,
-        2022
+        2022,
+        2026
       ],
       "mayor": [
+        null,
         null,
         null,
         null,
@@ -3375,13 +3772,15 @@
         null,
         null,
         null,
-        39.1
+        39.1,
+        34.2
       ],
       "councillor_valid": [
         null,
         null,
         null,
-        38.2
+        38.2,
+        33.5
       ],
       "mayor_race": [
         null,
@@ -3397,7 +3796,8 @@
           "ballots": 11076,
           "coverage": "ward_coded_polls_only",
           "certification": "official"
-        }
+        },
+        null
       ],
       "councillor_race": [
         null,
@@ -3414,6 +3814,18 @@
           "valid_votes": 11958,
           "winner_votes": 4403,
           "certification": "official"
+        },
+        {
+          "name": "Wilson Lo",
+          "share": 76.9,
+          "source_conflict": false,
+          "participation": 34.2,
+          "valid_participation": 33.5,
+          "registered": 38757,
+          "ballots": 13246,
+          "valid_votes": 12993,
+          "winner_votes": 9987,
+          "certification": "unofficial"
         }
       ]
     }
