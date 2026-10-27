@@ -67,7 +67,7 @@ html[data-embedded] .topbar{display:none}
 
 /* Grid */
 .grid-top{display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:12px;align-items:stretch}
-.grid-bottom{display:grid;grid-template-columns:5fr 7fr;gap:12px}
+.grid-bottom{display:grid;grid-template-columns:7fr 5fr;gap:12px}
 .grid-bottom>.card{min-width:0}  /* let the ward list scroll instead of widening the page */
 @media (max-width:720px){
   .grid-top,.grid-bottom{grid-template-columns:1fr}
@@ -1155,6 +1155,20 @@ function renderMayorHistory() {
   lineOverlay.setAttribute('aria-hidden', 'true');
   chartArea.appendChild(lineOverlay);
   container.appendChild(chartArea);
+
+  // Hide a segment's % label when the segment is too narrow to hold it, so
+  // neighbours don't run together on phones. The full value stays in the
+  // segment's title and the row's aria-label.
+  const fitLabels = () => {
+    chartArea.querySelectorAll('.mh-track > div > span').forEach(span => {
+      span.style.visibility = '';
+      if (span.parentElement.clientWidth < span.offsetWidth + 10) span.style.visibility = 'hidden';
+    });
+  };
+  if (container._fitRO) container._fitRO.disconnect();
+  container._fitRO = new ResizeObserver(fitLabels);
+  container._fitRO.observe(chartArea);
+  fitLabels();
 
   // Legend pinned at bottom
   const leg = document.createElement('div');
