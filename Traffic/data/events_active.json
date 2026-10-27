@@ -2898,29 +2898,6 @@
 },
 "fp": "f878948d9b78"
 },
-"29567": {
-"event": {
-"cause": "construction",
-"created": "2026-10-19 11:06:00",
-"cross_street_1": "MERIVALE",
-"cross_street_2": "GRANT CARMAN",
-"direction": null,
-"event_id": "29567",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BASIL MACDONALD lane reduction in both directions between MERIVALE and GRANT CARMAN due to construction, Tuesday October 27th. Flagpersons present.",
-"lanes": "lane reduction in both directions",
-"lat": 45.34594,
-"lon": -75.730549,
-"planned_end": "2026-10-27T17:00",
-"planned_start": "2026-10-24T07:00",
-"priority": "LOW",
-"road": "BASIL MACDONALD",
-"source": "city",
-"updated": "2026-10-24 06:56:00"
-},
-"fp": "c4a6a9922af9"
-},
 "29600": {
 "event": {
 "cause": "construction",
@@ -2989,29 +2966,6 @@
 "updated": "2026-10-22 16:48:00"
 },
 "fp": "9e1fb0bd06cd"
-},
-"29649": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 09:53:00",
-"cross_street_1": "ONSLOW",
-"cross_street_2": "MARLOWE",
-"direction": null,
-"event_id": "29649",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BECKWITH westbound lane reduction between ONSLOW and MARLOWE due to construction, on October 26th and 27th. ",
-"lanes": "lane reduction",
-"lat": 45.405659,
-"lon": -75.671995,
-"planned_end": "2026-10-27T17:00",
-"planned_start": "2026-10-23T07:00",
-"priority": "LOW",
-"road": "BECKWITH",
-"source": "city",
-"updated": "2026-10-23 09:56:00"
-},
-"fp": "4dfbf8ddbd97"
 },
 "29651": {
 "event": {
@@ -3426,6 +3380,29 @@
 "updated": "2026-10-27 12:40:00"
 },
 "fp": "531272aebae8"
+},
+"29722": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-27 17:26:00",
+"cross_street_1": "McArthur",
+"cross_street_2": "Montreal",
+"direction": null,
+"event_id": "29722",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Vanier northbound reduced to 1 lane between McArthur and Montreal due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.432283,
+"lon": -75.66428,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Vanier",
+"source": "city",
+"updated": "2026-10-27 17:26:00"
+},
+"fp": "2212ea9e6dae"
 }
 }
 }
