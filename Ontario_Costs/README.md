@@ -39,16 +39,18 @@ government's spin out of the `measures` line; add the government's response.
 - **Different kinds of numbers.** Spending, revenue given up, extra financing cost and
   value to private owners aren't additive. The page never totals them.
 - **Nominal dollars**, over different time spans; several are projections or ranges.
-- **Sources checked 2026-10-10.** Two come through news reports of the watchdog
-  figure rather than the report itself: Bill 124 ($13.7B FAO estimate, via CTV/Globe)
-  and licence fees (FAO "around a billion", via CTV). The renewable-contracts $231M is
+- **Sources checked 2026-10-10; Bill 124 and licence fees re-sourced 2026-10-28.**
+  Bill 124's $13.7B is from the FAO Winter 2024 outlook itself. For licence fees the
+  FAO has no standalone costing of ending them, so the card uses the FAO's own 2018-19
+  fee revenue ($849.1M, Southern Ontario passenger-car validation) as a floor; the
+  "around a billion" remark and refund count remain news-relayed (CTV). The renewable-contracts $231M is
   from the Public Accounts (found by NDP researchers), not a watchdog report.
 - **Gas plants:** $950M–$1.1B gross includes future ratepayer costs; net of $437M
   future savings it's about $675M (Auditor General 2013).
 
 ## Still to do
 
-- Replace the two news-relayed figures with links to the FAO reports themselves.
+- Licence fees: look for an FAO costing of ending renewal fees (none in the Spring 2022 outlook or the service-fees report).
 - Candidates to add: Ornge air ambulance (AG 2012), smart meters (AG 2014),
   Science Centre closure (AG 2024, partly covered under Ontario Place),
   Skills Development Fund, Highway 413.

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-28",
   "note": "Hand-curated. Every figure is the official estimate named in 'source'; 'measures' says what the number is. Amounts in $ millions, nominal (not inflation-adjusted).",
   "decisions": [
     {
@@ -99,11 +99,11 @@
       "flag": "costed",
       "amount_m": 13700,
       "amount_label": "$13.7B",
-      "measures": "Retroactive pay owed to public-sector workers for 2022–2028 after courts found the 1% wage cap unconstitutional. The FAO had first estimated the law would save $9.7B.",
+      "measures": "The FAO's estimate of the cost to the Province of wage increases that adjust for Bill 124's impact on public-sector employees, 2022-23 to 2027-28, after the Superior Court voided the 1% wage cap. Includes retroactive increases already awarded (nurses, college staff, elementary teachers). The FAO had first estimated the law would save $9.7B.",
       "verdict": "Ontario's Court of Appeal upheld that the law violated workers' bargaining rights; the government repealed it in 2024.",
       "response": "The government said the cap was needed to control spending during a deficit.",
       "sources": [
-        {"name": "Financial Accountability Office estimate, via CTV News", "url": "https://toronto.ctvnews.ca/ontario-bill-124-could-cost-government-over-13b-fao-report-suggests-1.6767007"},
+        {"name": "Financial Accountability Office, Economic and Budget Outlook, Winter 2024 (footnote 13, section 5)", "url": "https://fao-on.org/wp-content/uploads/2024/08/Winter-2024-EBO-EN.pdf"},
         {"name": "Globe and Mail (status of remedies)", "url": "https://www.theglobeandmail.com/canada/toronto/article-ontario-bill-124-public-sector-ieso-retroactive-pay/"}
       ]
     },
@@ -132,14 +132,16 @@
       "year": 2022,
       "kind": "revenue",
       "flag": "choice",
-      "amount_m": 1000,
-      "amount_label": "≈$1B a year",
+      "amount_m": 849,
+      "amount_label": "$849M+ a year",
       "per_year": true,
-      "measures": "Approximate yearly revenue given up (FAO estimate, 'somewhere around a billion dollars'), plus refunds of fees paid since March 2020 to about 7.5 million people.",
+      "measures": "Yearly revenue from the main fee that was ended: the FAO's latest published figure (2018-19) for the Southern Ontario passenger-car validation fee is $849.1M, from 7.1M renewals at $120. A floor, not a costing: it excludes northern Ontario and other vehicle types, and the FAO has published no standalone estimate of the cost of ending it. Fees paid since March 2020 were also refunded (about 7.5 million people, per CTV).",
       "verdict": "A policy choice rather than a finding of waste. Announced months before the 2022 election.",
       "response": "The government said it put about $120 a year back in drivers' pockets.",
       "sources": [
-        {"name": "CTV News (Feb 2022), citing the FAO", "url": "https://toronto.ctvnews.ca/ontario-licence-plate-renewal-fees-stickers-to-be-scrapped-1.5790852"}
+        {"name": "Financial Accountability Office, Ontario Service Fees in 2019-20 (Table 2, passenger car validation)", "url": "https://fao-on.org/wp-content/uploads/Ontario-Services-Fees-2019-20.pdf"},
+        {"name": "Financial Accountability Office, Economic and Budget Outlook, Spring 2022 (lists the policy in its revenue outlook, no figure)", "url": "https://fao-on.org/wp-content/uploads/EBO-Spring-2022-EN.pdf"},
+        {"name": "CTV News (Feb 2022), refunds and the FAO's 'around a billion' remark", "url": "https://toronto.ctvnews.ca/ontario-licence-plate-renewal-fees-stickers-to-be-scrapped-1.5790852"}
       ]
     },
     {
