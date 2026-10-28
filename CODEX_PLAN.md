@@ -70,8 +70,8 @@ TODAY (override): none
 ## Week 1 (Oct 15–21): RTO Watch + collectors
 - [x] Day 1: Claude Code checks Cloudflare cron + `collect.yml`; update `PROJECTS.md` + `tracker.html` together (done Oct 16: collectors down since Oct 12; `collect.yml` has never run because the Worker setup is unfinished; owner steps in PROJECTS.md)
 - [x] Day 2: **RESET 1** — Codex builds RTO Watch before/after charts (strongest model) (done Oct 17 in Claude Code: 311 + electricity vs same weeks of 2025, dot plot + rolling line in section 5; reset not used)
-- [ ] Day 3: finish/review the charts
-- [ ] Day 4: Tax polish (mid model)
+- [x] Day 3: finish/review the charts (done Oct 28 in Claude Code: dot plot and rolling chart render with no console errors; before/phase-in/full values for 311 and electricity match an independent recomputation; no code changes needed. Data last refreshed Oct 17, latest 311 week Oct 5, full-RTO4 window only 4 weeks)
+- [x] Day 4: Tax polish (mid model) (done Oct 28 in Claude Code: all 10 charts render; phone-width event labels no longer overlap on the top-rate chart; canvases given role="img"; no data changes)
 - [ ] Day 5: Ontario Costs: swap the 2 news-relayed FAO figures (mid model)
 - [ ] Day 6: Oil & Gas polish or PWHL open item (mid model)
 - (Roads "why was the commute bad?" waits until ~Nov 5 for event logs)

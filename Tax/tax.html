@@ -157,7 +157,7 @@
     <h2 class="section-title">The headline rate vs what top earners actually paid</h2>
     <p class="section-note">The famous 80–95% rates of the 1940s–60s applied only to incomes far above the top 1% line, roughly the top <b>0.001%</b>. In 1950 someone at the 99th percentile faced a marginal rate of <b id="p99-1950"></b>. The best measure of "taxing the rich" is the <b>average rate actually paid</b> by each group: total federal and provincial income tax divided by income.</p>
     <div class="legend" id="lg-rates"></div>
-    <div class="chart-wrap tall"><canvas id="c-rates" aria-label="Top statutory tax rate and average tax rates paid, 1920 to 2026"></canvas></div>
+    <div class="chart-wrap tall"><canvas id="c-rates" role="img" aria-label="Top statutory tax rate and average tax rates paid, 1920 to 2026"></canvas></div>
     <p class="note">Statutory rate: Saez &amp; Veall Table F1 "top" column to 2000, then federal + Ontario incl. surtax (excl. Ontario Health Premium). Before 1972 the federal rate already included provincial tax for most provinces. Average rates paid: Saez &amp; Veall Table F2 to 2000, then StatCan table 11-10-0055 (tax filers ranked by total income incl. capital gains). The two sources agree within about 1 pt at the 2000/2001 splice. 1942 dip: wartime transitional rules.</p>
   </section>
 
@@ -168,10 +168,10 @@
     <p class="section-note" id="q1-note"></p>
     <p class="chart-sub">Share of all income going to the top 1% of adults, %</p>
     <div class="legend" id="lg-share"></div>
-    <div class="chart-wrap"><canvas id="c-share" aria-label="Top 1 percent income share, 1920 to 2023"></canvas></div>
+    <div class="chart-wrap"><canvas id="c-share" role="img" aria-label="Top 1 percent income share, 1920 to 2023"></canvas></div>
     <p class="chart-sub">Each dot is one year: top statutory rate (x) vs top-1% share (y)</p>
     <div class="legend" id="lg-scatter"></div>
-    <div class="chart-wrap"><canvas id="c-scatter" aria-label="Scatter of top rate versus top 1 percent share by year"></canvas></div>
+    <div class="chart-wrap"><canvas id="c-scatter" role="img" aria-label="Scatter of top rate versus top 1 percent share by year"></canvas></div>
     <div class="verdict" id="q1-verdict"></div>
   </section>
 
@@ -182,10 +182,10 @@
     <p class="section-note" id="q2-note"></p>
     <p class="chart-sub">Real pre-tax income per adult, annual growth %, by group and era</p>
     <div class="legend" id="lg-eras"></div>
-    <div class="chart-wrap short"><canvas id="c-eras" aria-label="Annual real income growth by group, 1950-1980 vs 1980-2019"></canvas></div>
+    <div class="chart-wrap short"><canvas id="c-eras" role="img" aria-label="Annual real income growth by group, 1950-1980 vs 1980-2019"></canvas></div>
     <p class="chart-sub">Real pre-tax income per adult, indexed 1950 = 100</p>
     <div class="legend" id="lg-index"></div>
-    <div class="chart-wrap"><canvas id="c-index" aria-label="Real income index by group, 1950 to 2019"></canvas></div>
+    <div class="chart-wrap"><canvas id="c-index" role="img" aria-label="Real income index by group, 1950 to 2019"></canvas></div>
     <details open>
       <summary>Decade by decade</summary>
       <div class="table-wrap"><table id="t-decades"></table></div>
@@ -201,17 +201,17 @@
     <p class="section-note" id="q3-note"></p>
     <div class="stat-row" id="don-stats"></div>
     <p class="chart-sub">Itemized individual donations per tax filer per year, by postal-code-area (FSA) income decile</p>
-    <div class="chart-wrap short"><canvas id="c-deciles" aria-label="Donations per filer by FSA income decile"></canvas></div>
+    <div class="chart-wrap short"><canvas id="c-deciles" role="img" aria-label="Donations per filer by FSA income decile"></canvas></div>
     <div class="grid2">
       <div>
         <p class="chart-sub">Each dot is one FSA (log income axis). Ottawa highlighted.</p>
         <div class="legend" id="lg-fsa"></div>
-        <div class="chart-wrap"><canvas id="c-fsa" aria-label="FSA average income versus donations per filer"></canvas></div>
+        <div class="chart-wrap"><canvas id="c-fsa" role="img" aria-label="FSA average income versus donations per filer"></canvas></div>
       </div>
       <div>
         <p class="chart-sub">Party share of itemized dollars, by decile</p>
         <div class="legend" id="lg-party"></div>
-        <div class="chart-wrap"><canvas id="c-party" aria-label="Conservative and Liberal share of donations by decile"></canvas></div>
+        <div class="chart-wrap"><canvas id="c-party" role="img" aria-label="Conservative and Liberal share of donations by decile"></canvas></div>
       </div>
     </div>
     <details>
@@ -219,7 +219,7 @@
       <div class="table-wrap"><table id="t-party"></table></div>
     </details>
     <p class="chart-sub" style="margin-top:18px">And the time-series version: itemized individual donations per year (election years darker)</p>
-    <div class="chart-wrap short"><canvas id="c-years" aria-label="Individual donations by year, 2004 to 2023"></canvas></div>
+    <div class="chart-wrap short"><canvas id="c-years" role="img" aria-label="Individual donations by year, 2004 to 2023"></canvas></div>
     <div class="verdict" id="q3-verdict"></div>
     <p class="note">Sources: Elections Canada contributions database (audited returns of parties, riding associations, candidates, nomination and leadership contestants; individuals only); CRA Individual Tax Statistics by FSA, 2021 tax year (average total income per filer). Elections Canada publishes names and postal codes only for donors giving more than $200 per entity per year. Smaller gifts (<span id="unitem"></span> of dollars in this window) have no address, so this measures <b>itemized</b> giving. A donor's postal code can be a business address: K1P (downtown Ottawa, ~700 filers, mostly offices) shows up as an extreme outlier for that reason. FSAs with fewer than 500 filers are dropped. Deciles are filer-weighted: each holds about 10% of Canada's tax filers.</p>
   </section>
@@ -241,7 +241,7 @@
       <div>
         <p class="chart-sub">Share of net personal wealth, %</p>
         <div class="legend" id="lg-wealth"></div>
-        <div class="chart-wrap"><canvas id="c-wealth" aria-label="Wealth shares 1980 to 2024"></canvas></div>
+        <div class="chart-wrap"><canvas id="c-wealth" role="img" aria-label="Wealth shares 1980 to 2024"></canvas></div>
       </div>
       <div>
         <p class="chart-sub">How Canada taxes wealth instead: milestones</p>
@@ -304,12 +304,20 @@ const eventsPlugin = {
     ctx.font = '10px "JetBrains Mono", monospace';
     ctx.fillStyle = css('--ink-3'); ctx.strokeStyle = css('--line-2');
     ctx.setLineDash([3, 3]); ctx.lineWidth = 1;
-    opts.items.forEach(([yr, label], i) => {
+    // Put each label on the first row where it doesn't run into an earlier one (narrow phones).
+    const rowEnds = [];
+    opts.items.forEach(([yr, label]) => {
       const px = x.getPixelForValue(yr);
       if (px < a.left || px > a.right) return;
       ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke();
-      ctx.textAlign = px > a.right - 80 ? 'right' : 'left';
-      ctx.fillText(label, px + (ctx.textAlign === 'left' ? 4 : -4), a.top + 10 + (i % 2) * 12);
+      const w = ctx.measureText(label).width;
+      const right = px > a.right - w - 8;
+      const x0 = right ? px - 4 - w : px + 4;
+      let row = rowEnds.findIndex(e => x0 > e + 6);
+      if (row < 0) row = rowEnds.length;
+      rowEnds[row] = x0 + w;
+      ctx.textAlign = right ? 'right' : 'left';
+      ctx.fillText(label, px + (right ? -4 : 4), a.top + 10 + row * 12);
     });
     ctx.restore();
   }
