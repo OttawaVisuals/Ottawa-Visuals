@@ -3449,6 +3449,52 @@
 "updated": "2026-10-28 08:01:00"
 },
 "fp": "9d77fc590db1"
+},
+"29733": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-28 11:02:00",
+"cross_street_1": "Kent",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29733",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Slater reduced to 1 lane at Kent due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.418352,
+"lon": -75.702093,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Slater",
+"source": "city",
+"updated": "2026-10-28 11:02:00"
+},
+"fp": "7f48f5d76593"
+},
+"29735": {
+"event": {
+"cause": "construction",
+"created": "2026-10-28 11:24:00",
+"cross_street_1": "INNES / INDUSTRIAL",
+"cross_street_2": "BELFAST",
+"direction": null,
+"event_id": "29735",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ST-LAURENT, BOUL northbound right lane closed between INNES / INDUSTRIAL and BELFAST due to construction. From 12:00am, 28/10/26 to 12:00am, 31/12/27",
+"lanes": "right lane closed",
+"lat": 45.406788,
+"lon": -75.627455,
+"planned_end": "2027-12-31T00:00",
+"planned_start": "2026-10-28T00:00",
+"priority": "HIGH",
+"road": "ST-LAURENT, BOUL",
+"source": "city",
+"updated": "2026-10-28 11:28:00"
+},
+"fp": "0e5023636018"
 }
 }
 }
