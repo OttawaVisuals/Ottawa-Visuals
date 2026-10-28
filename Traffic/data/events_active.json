@@ -3404,28 +3404,28 @@
 },
 "fp": "c7d61ac16130"
 },
-"29726": {
+"29727": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-28 07:54:00",
-"cross_street_1": "Florence",
+"created": "2026-10-28 08:01:00",
+"cross_street_1": "Walkley",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29726",
+"event_id": "29727",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Kent right lane closed at Florence due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.411867,
-"lon": -75.696307,
+"full_closure": true,
+"headline": "Melfort northbound closed at Walkley due to a collision.",
+"lanes": "closed",
+"lat": 45.391881,
+"lon": -75.610565,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Kent",
+"priority": "LOW",
+"road": "Melfort",
 "source": "city",
-"updated": "2026-10-28 07:54:00"
+"updated": "2026-10-28 08:01:00"
 },
-"fp": "6f7d48ffad83"
+"fp": "9d77fc590db1"
 }
 }
 }
