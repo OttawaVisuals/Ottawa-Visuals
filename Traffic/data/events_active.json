@@ -3381,29 +3381,6 @@
 },
 "fp": "531272aebae8"
 },
-"29723": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-27 17:44:00",
-"cross_street_1": "Woodroffe",
-"cross_street_2": "Beatrice",
-"direction": null,
-"event_id": "29723",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Strandherd westbound closed between Woodroffe and Beatrice due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.275205,
-"lon": -75.721181,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Strandherd",
-"source": "city",
-"updated": "2026-10-27 17:53:00"
-},
-"fp": "32c474d3f379"
-},
 "29724": {
 "event": {
 "cause": "",
@@ -3426,6 +3403,29 @@
 "updated": "2026-10-27 19:27:00"
 },
 "fp": "c7d61ac16130"
+},
+"29725": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-10-28 06:24:00",
+"cross_street_1": "Friel",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29725",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Rideau traffic disruptions at Friel due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.430158,
+"lon": -75.682459,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Rideau",
+"source": "city",
+"updated": "2026-10-28 06:24:00"
+},
+"fp": "edfbbffb2270"
 }
 }
 }
