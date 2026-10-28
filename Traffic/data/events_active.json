@@ -2783,29 +2783,6 @@
 },
 "fp": "585e832fe256"
 },
-"29541": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 18:12:00",
-"cross_street_1": "Rossignol",
-"cross_street_2": "Rossignol",
-"direction": null,
-"event_id": "29541",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Jeanne d'Arc closed between Rossignol and Rossignol due to construction. Daily, from 9:30am to 3:00pm, October 27th to 28th.",
-"lanes": "closed",
-"lat": 45.490327,
-"lon": -75.503606,
-"planned_end": "2026-10-28T15:00",
-"planned_start": "2026-10-27T09:30",
-"priority": "MEDIUM",
-"road": "Jeanne d'Arc",
-"source": "city",
-"updated": "2026-10-27 09:28:00"
-},
-"fp": "ca3546e5d58f"
-},
 "29542": {
 "event": {
 "cause": "construction",
@@ -3381,29 +3358,6 @@
 },
 "fp": "531272aebae8"
 },
-"29720": {
-"event": {
-"cause": "construction",
-"created": "2026-10-27 16:55:00",
-"cross_street_1": "Tenth Line",
-"cross_street_2": "Place d'Orl\u00e9ans",
-"direction": null,
-"event_id": "29720",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 westbound reduced to 1 lane between Tenth Line and Place d'Orl\u00e9ans due to construction. From 10:00am to 3:00pm, October 28th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.485984,
-"lon": -75.502607,
-"planned_end": "2026-10-28T15:00",
-"planned_start": "2026-10-28T10:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-28 09:56:00"
-},
-"fp": "ce76e5c64a16"
-},
 "29724": {
 "event": {
 "cause": "",
@@ -3426,29 +3380,6 @@
 "updated": "2026-10-27 19:27:00"
 },
 "fp": "c7d61ac16130"
-},
-"29733": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-28 11:02:00",
-"cross_street_1": "Kent",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29733",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Slater reduced to 1 lane at Kent due to a collision.",
-"lanes": "reduced to 1 lane",
-"lat": 45.418352,
-"lon": -75.702093,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Slater",
-"source": "city",
-"updated": "2026-10-28 11:02:00"
-},
-"fp": "7f48f5d76593"
 },
 "29735": {
 "event": {
@@ -3473,29 +3404,6 @@
 },
 "fp": "0e5023636018"
 },
-"29736": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-28 12:40:00",
-"cross_street_1": "Merivale",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29736",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Prince of Wales southbound reduced to 1 lane at Merivale due to a collision.",
-"lanes": "reduced to 1 lane",
-"lat": 45.295755,
-"lon": -75.701232,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Prince of Wales",
-"source": "city",
-"updated": "2026-10-28 12:40:00"
-},
-"fp": "6d669849f51f"
-},
 "29738": {
 "event": {
 "cause": "a collision",
@@ -3518,6 +3426,29 @@
 "updated": "2026-10-28 13:20:00"
 },
 "fp": "dd5b4a49601f"
+},
+"29739": {
+"event": {
+"cause": "",
+"created": "2026-10-28 14:45:00",
+"cross_street_1": "DILWORTH RD (IC 42)/CR 13",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29739",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 416 Northbound at DILWORTH RD /CR 13 - Collision. left shoulder and left lane closed. ",
+"lanes": "left shoulder and left lane closed",
+"lat": 45.09292,
+"lon": -75.65309,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-28 14:45:00"
+},
+"fp": "563ae0ae1ce6"
 }
 }
 }
