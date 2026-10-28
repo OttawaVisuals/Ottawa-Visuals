@@ -3381,6 +3381,29 @@
 },
 "fp": "531272aebae8"
 },
+"29720": {
+"event": {
+"cause": "construction",
+"created": "2026-10-27 16:55:00",
+"cross_street_1": "Tenth Line",
+"cross_street_2": "Place d'Orl\u00e9ans",
+"direction": null,
+"event_id": "29720",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 westbound reduced to 1 lane between Tenth Line and Place d'Orl\u00e9ans due to construction. From 10:00am to 3:00pm, October 28th.",
+"lanes": "reduced to 1 lane",
+"lat": 45.485984,
+"lon": -75.502607,
+"planned_end": "2026-10-28T15:00",
+"planned_start": "2026-10-28T10:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-10-28 09:56:00"
+},
+"fp": "ce76e5c64a16"
+},
 "29724": {
 "event": {
 "cause": "",
@@ -3426,6 +3449,29 @@
 "updated": "2026-10-28 08:01:00"
 },
 "fp": "9d77fc590db1"
+},
+"29729": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-28 09:33:00",
+"cross_street_1": "Catherine",
+"cross_street_2": "Isabella",
+"direction": null,
+"event_id": "29729",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "O'Connor reduced to 2 lanes between Catherine and Isabella due to a collision.",
+"lanes": "reduced to 2 lanes",
+"lat": 45.410361,
+"lon": -75.689227,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "O'Connor",
+"source": "city",
+"updated": "2026-10-28 09:33:00"
+},
+"fp": "31404c2871be"
 }
 }
 }
