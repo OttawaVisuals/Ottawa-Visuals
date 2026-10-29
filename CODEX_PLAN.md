@@ -73,7 +73,7 @@ TODAY (override): none
 - [x] Day 3: finish/review the charts (done Oct 28 in Claude Code: dot plot and rolling chart render with no console errors; before/phase-in/full values for 311 and electricity match an independent recomputation; no code changes needed. Data last refreshed Oct 17, latest 311 week Oct 5, full-RTO4 window only 4 weeks)
 - [x] Day 4: Tax polish (mid model) (done Oct 28 in Claude Code: all 10 charts render; phone-width event labels no longer overlap on the top-rate chart; canvases given role="img"; no data changes)
 - [x] Day 5: Ontario Costs: swap the 2 news-relayed FAO figures (mid model) (done Oct 28 in Claude Code: Bill 124 $13.7B now cites the FAO Winter 2024 outlook directly; licence fees: FAO has no standalone costing, so card now uses FAO 2018-19 fee revenue $849.1M as a floor, CTV kept for refunds/"around a billion")
-- [ ] Day 6: Oil & Gas polish or PWHL open item (mid model)
+- [x] Day 6: Oil & Gas polish or PWHL open item (mid model) (done Oct 29 in Claude Code: Oil & Gas checked at phone width, no console errors or page overflow, tables scroll in their wrapper; four chart canvases given role="img")
 - (Roads "why was the commute bad?" waits until ~Nov 5 for event logs)
 
 ## Week 2 (Oct 22–28): new pages from data in hand
