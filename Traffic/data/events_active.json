@@ -2507,29 +2507,6 @@
 },
 "fp": "6567065d82c1"
 },
-"29517": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:49:00",
-"cross_street_1": "BAY",
-"cross_street_2": "BOOTH",
-"direction": null,
-"event_id": "29517",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "ALBERT westbound lane reduction between BAY and BOOTH due to construction, from October 28th to 30th.",
-"lanes": "lane reduction",
-"lat": 45.417476,
-"lon": -75.70599,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-27T07:00",
-"priority": "MEDIUM",
-"road": "ALBERT",
-"source": "city",
-"updated": "2026-10-27 13:24:00"
-},
-"fp": "95ed1ccf4bba"
-},
 "29518": {
 "event": {
 "cause": "construction",
@@ -3289,51 +3266,74 @@
 },
 "fp": "d46fc35aaa72"
 },
-"29746": {
+"29750": {
 "event": {
-"cause": "a structural fire",
-"created": "2026-10-29 08:58:00",
-"cross_street_1": "Drummond",
-"cross_street_2": "McGillivray",
+"cause": "construction",
+"created": "2026-10-29 11:23:00",
+"cross_street_1": "STORMWIND / SUMMER DAYS",
+"cross_street_2": "SUMMER SKY",
 "direction": null,
-"event_id": "29746",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Herridge closed between Drummond and McGillivray due to a structural fire. Duration is unknown.",
-"lanes": "closed",
-"lat": null,
-"lon": null,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "Herridge",
-"source": "city",
-"updated": "2026-10-29 08:58:00"
-},
-"fp": "a0cfe396f2cf"
-},
-"29749": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-29 10:40:00",
-"cross_street_1": "Meadowlands",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29749",
-"event_type": "INCIDENT",
+"event_id": "29750",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Merivale lane reduction in both directions at Meadowlands due to a collision.",
-"lanes": "lane reduction in both directions",
-"lat": 45.350934,
-"lon": -75.733506,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Merivale",
+"headline": "PORTOBELLO off-peak lane reduction in both directions between STORMWIND / SUMMER DAYS and SUMMER SKY due to construction, from October 29th to November 12th.",
+"lanes": "off-peak lane reduction in both directions",
+"lat": 45.451628,
+"lon": -75.463263,
+"planned_end": "2026-11-12T17:00",
+"planned_start": "2026-10-29T00:00",
+"priority": "LOW",
+"road": "PORTOBELLO",
 "source": "city",
-"updated": "2026-10-29 10:40:00"
+"updated": "2026-10-29 11:24:00"
 },
-"fp": "473c8f94aafe"
+"fp": "479500bb9a7f"
+},
+"29751": {
+"event": {
+"cause": "construction",
+"created": "2026-10-29 11:26:00",
+"cross_street_1": "HARRY DOUGLAS",
+"cross_street_2": "HAZELDEAN",
+"direction": null,
+"event_id": "29751",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "SWEETNAM off-peak lane reduction in both directions between HARRY DOUGLAS and HAZELDEAN due to construction, from October 29th to November 13th.",
+"lanes": "off-peak lane reduction in both directions",
+"lat": 45.272903,
+"lon": -75.91125,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-29T07:00",
+"priority": "LOW",
+"road": "SWEETNAM",
+"source": "city",
+"updated": "2026-10-29 11:28:00"
+},
+"fp": "46fb64b47b52"
+},
+"29752": {
+"event": {
+"cause": "construction",
+"created": "2026-10-29 11:54:00",
+"cross_street_1": "Cousineau",
+"cross_street_2": "St-Pierre",
+"direction": null,
+"event_id": "29752",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "St-Joseph off-peak lane reductions in both directions between Cousineau and St-Pierre due to construction, from October 26th to December 18th.",
+"lanes": "off-peak lane reductions in both directions",
+"lat": 45.469059,
+"lon": -75.529245,
+"planned_end": "2026-12-18T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "MEDIUM",
+"road": "St-Joseph",
+"source": "city",
+"updated": "2026-10-29 11:56:00"
+},
+"fp": "745590b308b7"
 }
 }
 }
