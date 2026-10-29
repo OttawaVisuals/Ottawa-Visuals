@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ottawa Visuals — V2 design preview</title>
+  <meta name="description" content="Explore Ottawa through open data. Reports on roads, elections, climate, housing and hockey.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/img/avatar.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}</script>
+  <link rel="stylesheet" href="../assets/site-theme.css">
+  <link rel="stylesheet" href="design.css">
+  <script src="../assets/site-theme.js"></script>
+  <script defer src="home.js"></script>
+</head>
+<body class="v2 home">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="preview-bar"><span><b>V2</b> Design preview</span><a href="compare.html">Compare V1 / V2 <span aria-hidden="true">↗</span></a></div>
+  <header class="topbar"><div class="shell masthead">
+    <a class="brand" href="index.html"><span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span><span>Ottawa Visuals</span></a>
+    <nav aria-label="Main"><a href="#reports">Explore reports</a><a href="#about">About</a></nav>
+    <span class="spacer"></span><button id="theme-toggle" aria-label="Toggle theme"></button>
+  </div></header>
+  <main id="main" class="shell">
+    <section class="intro" aria-labelledby="intro-title">
+      <div><p class="eyebrow">An independent data project · Ottawa, Canada</p><h1 id="intro-title">A clearer view<br>of <em>where we live.</em></h1></div>
+      <div class="intro-aside"><p>Local questions.<br>Open data. Room to explore.</p><p class="muted">Interactive reports about Ottawa and beyond, with the sources and assumptions in view.</p><a class="text-link" href="#reports">Find your next question <span aria-hidden="true">↓</span></a></div>
+    </section>
+    <section class="feature" aria-labelledby="feature-title">
+      <div class="feature-story"><p class="eyebrow">In focus / Traffic &amp; roads</p><h2 id="feature-title">Traffic stops.<br>A changing picture<br>of enforcement.</h2><p>Explore how Ottawa’s police traffic stops changed, then look at collisions and camera enforcement.</p><div class="finding"><strong id="traffic-change">—</strong><span id="traffic-period">Loading the recorded change…</span></div><a class="button primary" href="stops.html">Explore the traffic report <span aria-hidden="true">↗</span></a></div>
+      <div class="feature-visual"><div class="figure-heading"><h3>Stops resulting in a charge</h3><span>Ottawa Police</span></div><div id="traffic-preview" class="preview-chart" role="status">Loading source data…</div><p class="chart-foot" id="traffic-caption">Annual stop records · counts, not number of charges</p><details class="preview-data"><summary>Source &amp; chart values</summary><p><a href="../Traffic/data/derived/stops_report/report.json">Prepared traffic data</a> · <a href="stops.html#method-title">Methodology</a>. Change = (last year ÷ first year − 1) × 100. Counts do not establish why enforcement changed.</p><div id="traffic-table"></div></details></div>
+    </section>
+    <section id="reports" class="report-library" aria-labelledby="reports-title">
+      <div class="section-heading"><div><p class="eyebrow">The collection</p><h2 id="reports-title">Follow your curiosity.</h2></div><p>Explore a place. Test a scenario.<br>Look closer at a trend.</p></div>
+      <div class="topic-filters" role="group" aria-label="Filter reports by topic"><button aria-pressed="true" data-topic="all">All topics</button><button aria-pressed="false" data-topic="roads">Traffic &amp; roads</button><button aria-pressed="false" data-topic="elections">Elections</button><button aria-pressed="false" data-topic="climate">Climate</button><button aria-pressed="false" data-topic="tools">Calculators</button><button aria-pressed="false" data-topic="hockey">Hockey</button></div>
+      <p id="filter-count" class="result-count" role="status">8 reports</p>
+      <div class="visual-stories">
+        <article class="story" data-report data-topic="elections"><div class="story-visual"><div class="figure-heading"><h3>Participation, across the city</h3><span>2022</span></div><div id="ward-preview" class="preview-chart">Loading ward results…</div><p class="chart-foot">Ballot turnout · three highest and three lowest wards</p><details class="preview-data"><summary>Source &amp; chart values</summary><p>Ballots cast ÷ registered voters. <a href="../Ottawa_Elections/ward_data.json">Prepared ward results</a>.</p><div id="ward-table"></div></details></div><div class="story-copy"><p class="eyebrow">Elections / Ottawa</p><h3><a href="../Ottawa_Elections/ottawa_ward_elections.html">How did your ward vote? <span aria-hidden="true">↗</span></a></h3><p>Turnout, mayoral votes and councillor results. Explore the history, one ward at a time.</p><span class="story-meta">2010–2022 · Interactive ward explorer</span></div></article>
+        <article class="story" data-report data-topic="climate"><div class="story-visual"><div class="figure-heading"><h3>A longer view of our climate</h3><span>°C</span></div><div id="weather-preview" class="preview-chart">Loading weather records…</div><p class="chart-foot">Annual mean temperature · complete years only</p><details class="preview-data"><summary>Source &amp; chart values</summary><p><a href="../Weather/data/weather_indices.json">Prepared ECCC weather indices</a>. Uses the dataset’s complete-year flag; missing years remain gaps. Station details are in the report.</p><div id="weather-table"></div></details></div><div class="story-copy"><p class="eyebrow">Climate / Ottawa</p><h3><a href="../Weather/weather.html">How has our weather changed? <span aria-hidden="true">↗</span></a></h3><p>Follow the temperature record, seasonal shifts and extremes behind the averages.</p><span class="story-meta">Historical observations · Climate explorer</span></div></article>
+      </div>
+      <div class="report-list">
+        <a data-report data-topic="roads" href="stops.html"><span class="list-topic">Traffic &amp; roads</span><span><strong>How Ottawa really moves</strong><small>Police stops, collisions and camera enforcement</small></span><span class="list-type">Report · V2</span><span aria-hidden="true">↗</span></a>
+        <a data-report data-topic="roads" href="../Traffic/roads.html"><span class="list-topic">Traffic &amp; roads</span><span><strong>Where people get hurt, and where police stop drivers</strong><small>Explore the geography of collisions and enforcement</small></span><span class="list-type">Map &amp; report</span><span aria-hidden="true">↗</span></a>
+        <a data-report data-topic="elections" href="../Ontario_Elections/ONelections.html"><span class="list-topic">Elections</span><span><strong>How much did vote-splitting shape Ontario’s result?</strong><small>Explore turnout and test a 2025 election scenario</small></span><span class="list-type">Scenario explorer</span><span aria-hidden="true">↗</span></a>
+        <a data-report data-topic="tools" href="../Vehicles/road-safety.html"><span class="list-topic">Road safety</span><span><strong>What changes a pedestrian’s risk?</strong><small>Explore vehicle size and impact speed</small></span><span class="list-type">Calculator</span><span aria-hidden="true">↗</span></a>
+        <a data-report data-topic="tools" href="../Mortgage/mortgage.html"><span class="list-topic">Housing</span><span><strong>Can we afford it?</strong><small>Explore mortgage payments, costs and affordability</small></span><span class="list-type">Calculator</span><span aria-hidden="true">↗</span></a>
+        <a data-report data-topic="hockey" href="../PWHL/pwhl.html"><span class="list-topic">Hockey</span><span><strong>A closer look at the PWHL</strong><small>Teams, players, standings and season histories</small></span><span class="list-type">Stats explorer</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+    <section id="about" class="about-block"><div><p class="eyebrow">Behind the visuals</p><h2>Open to exploration.<br>Open about the limits.</h2></div><div><p>Ottawa Visuals is a personal project turning public data into things you can explore and understand.</p><p class="muted">Each report explains its sources, calculations and gaps. A missing observation stays missing. A scenario is labelled as a scenario.</p><a class="text-link" href="mailto:visualsottawa@gmail.com">Questions or ideas? Get in touch ↗</a></div></section>
+  </main>
+  <footer class="v2-footer"><div class="shell"><span>Ottawa Visuals <small>Data, charted simply.</small></span><a href="https://github.com/OttawaVisuals/Ottawa-Visuals">Source code ↗</a><a href="../index.html">Original homepage ↗</a></div></footer>
+</body></html>

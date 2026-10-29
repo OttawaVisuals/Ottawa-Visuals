@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base href="../Traffic/">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Ottawa Really Moves · V2 preview</title>
+<meta name="description" content="Explore Ottawa police traffic stops, driver demographics, collisions and camera violations, with sources and clear data coverage.">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="stops.css">
+<link rel="stylesheet" href="../assets/site-theme.css">
+<script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../v2/design.css">
+<script defer src="../v2/report-design.js"></script>
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script defer src="stops.js"></script>
+</head>
+<body class="v2 report">
+<div class="preview-bar"><span><b>V2</b> Design preview</span><a href="../v2/compare.html?page=traffic">Compare V1 / V2 ↗</a></div>
+<a class="skip" href="../v2/stops.html#main">Skip to report</a>
+<header class="topbar"><div class="shell masthead">
+  <a href="../v2/index.html" class="brand"><span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span><span>Ottawa Visuals</span></a>
+  <nav aria-label="Site"><a href="../v2/index.html#reports">Reports</a><a href="../v2/stops.html" class="active" aria-current="page">Traffic stops</a><a href="roads.html">Roads</a></nav>
+  <span class="spacer"></span><button id="theme-toggle" aria-label="Toggle theme"></button>
+</div></header>
+<main id="main" class="layout">
+  <header class="page-header">
+    <p class="eyebrow">Traffic &amp; roads · Ottawa</p>
+    <h1>How Ottawa <em>really moves</em></h1>
+    <p class="sub">Police stops, collisions and camera enforcement. Explore the records, see what changed, and check how far each source goes.</p>
+    <p class="coverage" id="coverage">Loading official data coverage…</p>
+  </header>
+  <div class="notice" id="update-note">Different sources cover different periods. Detailed records and newer OPS summaries are shown separately.</div>
+  <nav class="report-nav" aria-label="Report sections">
+    <button type="button" data-section="stops" aria-pressed="true">Traffic stops</button>
+    <button type="button" data-section="drivers" aria-pressed="false">Driver demographics</button>
+    <button type="button" data-section="collisions" aria-pressed="false">Collisions</button>
+    <button type="button" data-section="speed" aria-pressed="false">Speed cameras</button>
+    <button type="button" data-section="redlight" aria-pressed="false">Red-light cameras</button>
+  </nav>
+  <div id="load-status" role="status">Loading report…</div>
+  <section id="report" aria-labelledby="section-title" hidden>
+    <div class="section-head"><div><p class="eyebrow" id="section-kicker"></p><h2 id="section-title" tabindex="-1"></h2></div><button type="button" id="download">Download filtered CSV</button></div>
+    <p class="sub" id="section-description"></p>
+    <div class="filters" id="filters"></div>
+    <p class="scope" id="filter-scope"></p>
+    <div class="stats" id="stats" aria-live="polite"></div>
+    <div id="panels"></div>
+  </section>
+  <section class="card methodology" aria-labelledby="method-title">
+    <h2 id="method-title">Sources &amp; method</h2>
+    <p id="checked">Source checks are loading.</p>
+    <details><summary>Coverage, definitions and missing data</summary>
+      <div class="table-wrap"><table><caption>Coverage of the data used on this page</caption><thead><tr><th scope="col">Source</th><th scope="col">Available here</th><th scope="col">Limit</th></tr></thead><tbody id="source-rows"></tbody></table></div>
+      <ul>
+        <li>Police stops are records, not unique drivers. “Charged” counts stops that resulted in a charge, not the number of charges. “Final” stays under its source label: it is not assumed to mean no action. Data-quality records remain visible.</li>
+        <li>Annual, monthly, area and demographic police tables describe the same stops. They are checked against one another, never added together.</li>
+        <li>Demographic percentages divide a category’s stop count by all stops in the selected period and outcome, including unknown categories. These are recorded police categories, not population-adjusted stop rates or evidence of individual behaviour.</li>
+        <li>Collision charts count collision records by severity. Fatal collisions differ from people killed. Parties involved counts recorded vehicles or road users, not injuries. Blank party counts are not included in the sums.</li>
+        <li>Ward assignment for detailed collisions uses the existing Geo_ID join to 2022–2026 ward boundaries. Unmatched records remain an explicit category. Police neighbourhoods are source categories, not wards.</li>
+        <li>Camera totals count reported violations, not unique drivers. A camera can monitor one approach. “Per reporting camera” divides that month’s violations by camera approaches/sites with a published numeric value, including zero; it is not a traffic-volume rate.</li>
+        <li>A missing camera-month stays missing. It may reflect no published value or a camera not yet operating. Latest calendar years can be incomplete. Growing camera networks and changing traffic volumes affect totals.</li>
+        <li>OPS summaries use a separate reporting system and publication cutoff. They are kept out of the detailed City time series. The 2026 comparison uses the same September 19 cutoff in both years.</li>
+        <li>Speed-camera enforcement ended November 14, 2025. November is a shortened operating month. Red-light cameras were not affected. <a href="https://ottawa.ca/en/city-hall/city-news/newsroom/changes-coming-automated-speed-enforcement">City announcement</a>.</li>
+      </ul>
+    </details>
+    <details><summary>Download the source tables &amp; reproduce the report</summary>
+      <p>Data is served from this repository. The weekly workflow refreshes the source CSVs, checks the public catalogues and rebuilds the report. The “checked” date means a successful source check, not the latest event date.</p>
+      <p class="downloads"><a href="data/police/traffic_stops_by_time.csv" download>Police annual/day/hour totals</a><a href="data/police/traffic_stops_monthly.csv" download>Police monthly totals</a><a href="data/police/traffic_stops_by_driver.csv" download>Driver categories</a><a href="data/police/traffic_stops_by_area.csv" download>Police areas</a><a href="data/police/traffic_stops_by_location.csv" download>All police locations</a><a href="data/city/ase_violations.csv" download>Speed-camera violations</a><a href="data/city/red_light_violations.csv" download>Red-light violations</a><a href="data/city/ase_removal_monitoring.csv" download>Monitoring after removal</a><a href="data/derived/stops_report/sources.json" download>Source audit</a><a href="scripts/build_stops_report.py">Rebuild script</a></p>
+      <p>Local rebuild: <code>python Traffic/scripts/build_stops_report.py --refresh</code>. See <a href="README.md">Traffic methodology</a> for collection and matching details.</p>
+    </details>
+  </section>
+  <noscript><p class="notice">JavaScript is needed for the interactive report. Use the source-table download links above to inspect the data.</p></noscript>
+</main>
+<footer class="v2-footer"><div class="shell">Ottawa Visuals · <a href="../v2/index.html#reports">all reports</a> · <a href="roads.html">Roads: risk vs enforcement</a> · <a href="README.md">Method and code</a> · <a id="original-report" href="stops.html">Original report ↗</a></div></footer>
+</body>
+</html>
