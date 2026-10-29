@@ -3334,6 +3334,52 @@
 "updated": "2026-10-29 11:56:00"
 },
 "fp": "745590b308b7"
+},
+"29753": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-29 13:42:00",
+"cross_street_1": "Baseline",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29753",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Woodroffe southbound reduced to 1 lane at Baseline due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.351544,
+"lon": -75.762967,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Woodroffe",
+"source": "city",
+"updated": "2026-10-29 13:42:00"
+},
+"fp": "cb5edae81e81"
+},
+"29754": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-10-29 13:49:00",
+"cross_street_1": "Champlain Bridge",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29754",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Island Park southbound reduced to 1 lane at Champlain Bridge due to a disabled vehicle. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.407692,
+"lon": -75.75651,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Island Park",
+"source": "city",
+"updated": "2026-10-29 13:49:00"
+},
+"fp": "32c7e040fa17"
 }
 }
 }
