@@ -3335,28 +3335,51 @@
 },
 "fp": "745590b308b7"
 },
-"29759": {
+"29760": {
 "event": {
 "cause": "",
-"created": "2026-10-29 16:54:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
+"created": "2026-10-29 17:18:00",
+"cross_street_1": "DILWORTH RD (IC 42)/CR 13",
+"cross_street_2": "3RD LINE RD",
 "direction": null,
-"event_id": "29759",
-"event_type": "INCIDENT",
+"event_id": "29760",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Highway 417 Westbound at MOODIE DR - Collision. 1 centre lane closed. ",
-"lanes": "1 centre lane closed",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": null,
-"planned_start": null,
+"headline": "Highway 416 Northbound from DILWORTH RD /CR 13 to 3RD LINE RD - Nightly Engineering Investigation. 1 Right Lane(s). 2026-11-02 18:00 to 2026-11-03 12:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.09312,
+"lon": -75.65289,
+"planned_end": "2026-11-03T12:00",
+"planned_start": "2026-11-02T18:00",
 "priority": "UNKNOWN",
-"road": "HWY 417",
+"road": "HWY 416",
 "source": "city",
-"updated": "2026-10-29 16:54:00"
+"updated": "2026-10-29 17:18:00"
 },
-"fp": "7fdef06af530"
+"fp": "deb4ac5a30f3"
+},
+"29761": {
+"event": {
+"cause": "",
+"created": "2026-10-29 17:18:00",
+"cross_street_1": "ROGER STEVENS DR (IC 49)/CR 6",
+"cross_street_2": "BANKFIELD RD / BROPHY DR (IC 57) (CR 8)",
+"direction": null,
+"event_id": "29761",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Northbound from ROGER STEVENS DR /CR 6 to BANKFIELD RD / BROPHY DR  - Nightly Engineering Investigation. 1 Right Lane(s). 2026-11-02 18:00 to 2026-11-03 07:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.14599,
+"lon": -75.6806,
+"planned_end": "2026-11-03T07:00",
+"planned_start": "2026-11-02T18:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-29 17:18:00"
+},
+"fp": "b04cf7628d99"
 }
 }
 }
