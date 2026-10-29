@@ -3311,6 +3311,52 @@
 "updated": "2026-10-29 08:58:00"
 },
 "fp": "a0cfe396f2cf"
+},
+"29747": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-10-29 09:21:00",
+"cross_street_1": "Beechwood/ St-Patrick",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29747",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Vanier traffic disruptions at Beechwood/ St-Patrick due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.438289,
+"lon": -75.677772,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Vanier",
+"source": "city",
+"updated": "2026-10-29 09:57:00"
+},
+"fp": "cc60ad4c746f"
+},
+"29748": {
+"event": {
+"cause": "firefighting support operations",
+"created": "2026-10-29 09:54:00",
+"cross_street_1": "Prom Place d'Orl\u00e9ans Dr",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29748",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "St-Joseph westbound right lane closed at Place d'Orl\u00e9ans Dr (west intersection) due to firefighting support operations.",
+"lanes": "right lane closed",
+"lat": 45.4752,
+"lon": -75.517054,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "St-Joseph",
+"source": "city",
+"updated": "2026-10-29 09:54:00"
+},
+"fp": "e5fc10810c6b"
 }
 }
 }
