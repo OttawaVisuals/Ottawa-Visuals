@@ -3253,18 +3253,18 @@
 "event_id": "29735",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "ST-LAURENT, BOUL northbound right lane closed between INNES / INDUSTRIAL and BELFAST due to construction. From 12:00am, 28/10/26 to 12:00am, 31/12/27",
+"headline": "ST-LAURENT, BOUL northbound right lane closed between INNES / INDUSTRIAL and BELFAST due to construction, until October 30th.",
 "lanes": "right lane closed",
 "lat": 45.406788,
 "lon": -75.627455,
-"planned_end": "2027-12-31T00:00",
+"planned_end": "2026-10-30T17:00",
 "planned_start": "2026-10-28T00:00",
 "priority": "HIGH",
 "road": "ST-LAURENT, BOUL",
 "source": "city",
-"updated": "2026-10-28 11:28:00"
+"updated": "2026-10-29 10:47:00"
 },
-"fp": "0e5023636018"
+"fp": "fcc3c7d16899"
 },
 "29742": {
 "event": {
@@ -3312,51 +3312,28 @@
 },
 "fp": "a0cfe396f2cf"
 },
-"29747": {
+"29749": {
 "event": {
-"cause": "traffic signals not working",
-"created": "2026-10-29 09:21:00",
-"cross_street_1": "Beechwood/ St-Patrick",
+"cause": "a collision",
+"created": "2026-10-29 10:40:00",
+"cross_street_1": "Meadowlands",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29747",
+"event_id": "29749",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Vanier traffic disruptions at Beechwood/ St-Patrick due to traffic signals not working.",
-"lanes": "traffic disruptions",
-"lat": 45.438289,
-"lon": -75.677772,
+"headline": "Merivale lane reduction in both directions at Meadowlands due to a collision.",
+"lanes": "lane reduction in both directions",
+"lat": 45.350934,
+"lon": -75.733506,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Vanier",
+"priority": "HIGH",
+"road": "Merivale",
 "source": "city",
-"updated": "2026-10-29 09:57:00"
+"updated": "2026-10-29 10:40:00"
 },
-"fp": "cc60ad4c746f"
-},
-"29748": {
-"event": {
-"cause": "firefighting support operations",
-"created": "2026-10-29 09:54:00",
-"cross_street_1": "Prom Place d'Orl\u00e9ans Dr",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29748",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St-Joseph westbound right lane closed at Place d'Orl\u00e9ans Dr (west intersection) due to firefighting support operations.",
-"lanes": "right lane closed",
-"lat": 45.4752,
-"lon": -75.517054,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "St-Joseph",
-"source": "city",
-"updated": "2026-10-29 09:54:00"
-},
-"fp": "e5fc10810c6b"
+"fp": "473c8f94aafe"
 }
 }
 }
