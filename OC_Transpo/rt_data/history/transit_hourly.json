@@ -1,20 +1,20 @@
 {
  "window": {
   "start": "2026-10-17",
-  "end": "2026-10-28"
+  "end": "2026-10-29"
  },
  "weekday": {
-  "days": 8,
+  "days": 9,
   "cancel_days": 3,
   "hours": [
    {
     "hour": 0,
-    "delays_observed": 1157,
-    "bus_ontime_pct": 65.5,
+    "delays_observed": 1215,
+    "bus_ontime_pct": 66.1,
     "bus_late_pct": 7.2,
-    "bus_early_pct": 27.3,
+    "bus_early_pct": 26.7,
     "bus_within_5min_pct": 89.3,
-    "punctuality_pct": 65.5,
+    "punctuality_pct": 66.1,
     "cancelled_per_day": 0.0
    },
    {
@@ -239,12 +239,12 @@
    },
    {
     "hour": 23,
-    "delays_observed": 2102,
-    "bus_ontime_pct": 65.7,
-    "bus_late_pct": 12.5,
-    "bus_early_pct": 21.8,
-    "bus_within_5min_pct": 84.7,
-    "punctuality_pct": 65.8,
+    "delays_observed": 2251,
+    "bus_ontime_pct": 65.9,
+    "bus_late_pct": 12.2,
+    "bus_early_pct": 21.9,
+    "bus_within_5min_pct": 85.3,
+    "punctuality_pct": 66.0,
     "cancelled_per_day": 0.0
    }
   ]
