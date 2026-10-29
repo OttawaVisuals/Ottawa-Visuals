@@ -394,6 +394,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   index is gitignored, so it lives where search and the PDFs are. Log: `data/weekly_update.log`.
 - **Votes split (2026-10-19):** `split_votes.py` → `data/votes_by_member.csv` (6,188 member votes, one row each; names normalised to "initial. surname"; every tally's stated count matches the names parsed). Run by `weekly_update.py`.
 - **Votes view (2026-10-19):** "Recorded votes" tab on `cityhall.html` (`public/votes.json`, 349 motions with named votes; 189 at Council): per-member table with how often each was on the losing side, click to filter, closest votes first. Callout explains that names are recorded only for contested motions.
+- **Mandate weighting (2026-10-29):** `CityHall_Index/mandates.py` joins the 177 named Council votes since 2022-12-01 to 2022 ward results (winner's ballots, registered electors) → `public/mandates.json` → `council_mandates.html`. 15 of 177 were won by the side whose councillors had fewer ballots behind them (9 by registered electors). Mayor counted in the tally, not the sums. Ward 20 by-election (Skalski) figures are *estimates* derived from press turnout/share, not City-certified: replace when the certified numbers are added. **Next:** the provincial half (MPP divisions × riding turnout) is blocked on data, since ola.org has no export and blocks scripts (Votes search covers Parliament 43–44 only).
 - **Still to do:** add it to the home-page `REPORTS`; PDF full text stays local-only.
 
 ### RTO4 Impact Page — "Ottawa RTO Watch"

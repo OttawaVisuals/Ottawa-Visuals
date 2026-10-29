@@ -152,3 +152,6 @@ while you're signed in). Check it with `Get-ScheduledTaskInfo "OttawaVisuals Cit
 - **RTO / road maintenance** → Transportation & Public Works committee items.
 - **Councillor voting record** → `votes.csv` (a ready-made "how did my councillor vote" dataset).
 - **OC Transpo KPIs** → `attachments.csv` filtered to transit is the input to the Stage-2 KPI extractor in `../OC_Transpo/`.
+
+## Mandate weighting
+`python mandates.py` joins `public/votes.json` (City Council, from 2022-12-01) to `Ottawa_Elections/ward_results.csv` and writes `public/mandates.json` for `council_mandates.html`: per motion, the ballots and registered electors behind each side. Run `export_public.py` first. The Ward 20 by-election figures are estimates (see the script).

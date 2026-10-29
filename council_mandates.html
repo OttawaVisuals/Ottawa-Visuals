@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Council votes by mandate</title>
+<meta name="description" content="Every recorded City Council vote since December 2022, weighted by the ballots that elected each councillor: how often did the side with fewer voters behind it win?">
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#6B7588;
+    --accent:#C9542F; --accent-2:#2F6FB4; --ok:#2E7D4F; --no:#B3402A;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#8A91A5;
+    --accent:#E06B45; --accent-2:#5B9BE0; --ok:#5CBF86; --no:#E8806B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-0.02em; margin:0 0 10px; }
+  h2 { font-size:19px; margin:32px 0 6px; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-2); max-width:70ch; line-height:1.55; margin:0 0 20px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:0 0 8px; }
+  .stat { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat b { display:block; font-size:30px; letter-spacing:-0.02em; line-height:1.1; }
+  .stat span { font-size:13px; color:var(--ink-2); line-height:1.4; }
+  .callout { background:var(--bg-2); border:1px solid var(--line); border-left:3px solid var(--accent-2); border-radius:8px; padding:12px 14px; font-size:13.5px; line-height:1.55; color:var(--ink-2); margin:14px 0; }
+  .controls { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin:12px 0; }
+  .check { display:flex; gap:8px; align-items:center; font-size:13.5px; color:var(--ink-2); }
+  select { font:inherit; font-size:14px; color:var(--ink); background:var(--bg-2); border:1px solid var(--line-2); border-radius:8px; padding:7px 9px; }
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+  .tblwrap { overflow-x:auto; background:var(--bg-2); border:1px solid var(--line); border-radius:10px; margin:12px 0; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th, td { padding:8px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child, td:first-child, th.l, td.l { text-align:left; }
+  th { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); font-weight:500; }
+  tr:last-child td { border-bottom:0; }
+  .est { color:var(--ink-3); }
+  .hit { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
+  .hit h3 { margin:0 0 6px; font-size:15.5px; line-height:1.35; font-weight:600; }
+  .meta { display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; font-size:12.5px; color:var(--ink-3); }
+  .meta a { color:var(--accent-2); text-decoration:none; }
+  .meta a:hover { text-decoration:underline; }
+  .chip { font-family:var(--font-mono); font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line-2); color:var(--ink-2); }
+  .chip.warn { color:var(--accent); border-color:var(--accent); }
+  .split { display:grid; grid-template-columns:1fr; gap:6px; margin-top:10px; }
+  .row { display:grid; grid-template-columns:62px 1fr 150px; gap:10px; align-items:center; font-size:12.5px; color:var(--ink-2); }
+  .track { height:10px; background:var(--bg-3); border-radius:5px; overflow:hidden; }
+  .fill { height:100%; border-radius:5px; }
+  .fill.yes { background:var(--ok); } .fill.no { background:var(--no); }
+  .row .num { font-family:var(--font-mono); font-size:11.5px; text-align:right; }
+  @media (max-width:560px){ .row { grid-template-columns:44px 1fr; } .row .num { grid-column:1/-1; text-align:left; } }
+  .more { display:block; margin:14px auto; font:inherit; font-size:14px; padding:9px 18px; border-radius:8px; border:1px solid var(--line-2); background:var(--bg-2); color:var(--ink); cursor:pointer; }
+  .more[hidden] { display:none; }
+  .note { margin-top:28px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
+  .error-msg { color:var(--no); }
+  #status { color:var(--ink-2); font-size:14px; margin:10px 0; }
+</style>
+<link rel="stylesheet" href="assets/site-theme.css">
+<script src="assets/site-theme.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="cityhall.html" class="active">City Hall</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">City Hall · council votes · Dec 2022 – Sep 2026</p>
+  <h1>Who stood behind each council vote?</h1>
+  <p class="sub">Each councillor was elected by a different number of ballots in a ward of a different size. This page adds up the 2022 ballots behind the councillors on each side of every recorded City Council vote, to see how often the side with fewer voters behind it still won.</p>
+
+  <div class="error-msg" id="err" role="alert"></div>
+  <div class="stats" id="stats"></div>
+
+  <p class="callout"><b>How to read this.</b> "Ballots" means votes cast for the winning councillor in their ward in October 2022 (turnout was 44%). A 13-to-12 vote can be won by the 13 even when the 12 were elected with more total ballots, because wards differ in size and turnout. This is a weighting exercise, not a claim that votes should count by ballots: councillors are elected to represent whole wards, including non-voters.</p>
+
+  <h2>Recorded council votes</h2>
+  <div class="controls">
+    <div class="check"><input type="checkbox" id="fewer"><label for="fewer">Only votes won by the side with fewer ballots behind it</label></div>
+    <div><label for="basis" class="est">Compare by </label>
+      <select id="basis"><option value="ballots">Ballots for the councillors</option><option value="electors">Registered electors in their wards</option></select></div>
+  </div>
+  <p id="status" aria-live="polite">Loading…</p>
+  <div id="results"></div>
+  <button class="more" id="more" hidden>Show more</button>
+
+  <h2>Councillor mandates</h2>
+  <p class="sub">Ballots for the winner in 2022 as a share of registered electors in the ward. Ward 20 is the June 2025 by-election.</p>
+  <div class="tblwrap"><table id="mandates"><thead><tr><th>Councillor</th><th>Ward</th><th>Ballots</th><th>Electors</th><th>Share</th><th>Yes</th><th>No</th></tr></thead><tbody></tbody></table></div>
+
+  <p class="note">Sources: recorded votes from City of Ottawa eScribe minutes (see <a href="cityhall.html">City Hall index</a>); 2022 ward results from <code>Ottawa_Elections/ward_results.csv</code>. The mayor's vote is counted in the tally but not in the sums (elected citywide). Ward 20's by-election figures are estimates derived from reported turnout (24.17% on 6,223 ballots) and the winner's 34.01% share; they replace the City's certified numbers when added. Only motions with a recorded (named) vote are included. Sums use each councillor's full 2022 mandate, including councillors who later left.</p>
+</main>
+
+<script>
+(function(){
+  var PAGE = 15, shown = PAGE, data = null;
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(n){ return n.toLocaleString('en-CA'); };
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function basis(){ return $('basis').value; }
+  function loser(m){ return m.win === 'yes' ? 'no' : 'yes'; }
+  function isFewer(m){ return basis() === 'ballots' ? m.fewer : m.fewerElectors; }
+
+  function stats(d){
+    var s = d.summary, el0 = $('stats');
+    [[s.motions, 'recorded council votes since Dec 2022'],
+     [s.fewerBallots, 'won by the side whose councillors had fewer ballots behind them'],
+     [s.fewerElectors, 'won by the side whose wards held fewer registered electors']].forEach(function(p){
+      var c = el('div', 'stat'); c.appendChild(el('b', null, String(p[0]))); c.appendChild(el('span', null, p[1])); el0.appendChild(c);
+    });
+  }
+
+  function side(label, cls, m, key, max){
+    var b = m[key], v = basis() === 'ballots' ? b.ballots : b.electors;
+    var row = el('div', 'row');
+    row.appendChild(el('span', null, label + ' ' + b.n));
+    var tr = el('div', 'track'), f = el('div', 'fill ' + cls);
+    f.style.width = Math.round(100 * v / max) + '%'; tr.appendChild(f); row.appendChild(tr);
+    row.appendChild(el('span', 'num', fmt(v) + (basis() === 'ballots' ? ' ballots' : ' electors')));
+    return row;
+  }
+
+  function card(m){
+    var c = el('div', 'hit'), h = el('h3', null, m.title); c.appendChild(h);
+    var meta = el('div', 'meta');
+    meta.appendChild(el('span', null, m.date));
+    meta.appendChild(el('span', 'chip', m.result));
+    if (isFewer(m)) meta.appendChild(el('span', 'chip warn', 'won with fewer ' + basis() + ' behind it'));
+    if (m.mayor) meta.appendChild(el('span', null, 'Mayor voted ' + (m.mayor === 'yes' ? 'for' : 'against')));
+    var a = el('a', null, 'Meeting record'); a.href = D.base + m.meeting; a.target = '_blank'; a.rel = 'noopener'; meta.appendChild(a);
+    c.appendChild(meta);
+    var sp = el('div', 'split'), key = basis() === 'ballots' ? 'ballots' : 'electors';
+    var max = Math.max(m.yes[key], m.no[key], 1);
+    sp.appendChild(side('For', 'yes', m, 'yes', max)); sp.appendChild(side('Against', 'no', m, 'no', max));
+    c.appendChild(sp);
+    return c;
+  }
+
+  function render(){
+    var only = $('fewer').checked;
+    var list = D.motions.filter(function(m){ return !only || (m.win && isFewer(m)); });
+    var box = $('results'); box.textContent = '';
+    list.slice(0, shown).forEach(function(m){ box.appendChild(card(m)); });
+    $('status').textContent = list.length + ' vote' + (list.length === 1 ? '' : 's') + (only ? ' won with fewer ' + basis() + ' behind the winning side' : '');
+    $('more').hidden = shown >= list.length;
+  }
+
+  function table(d){
+    var tb = document.querySelector('#mandates tbody');
+    d.council.forEach(function(c){
+      var tr = el('tr'), name = el('td', 'l', c.name + (c.estimated ? ' *' : ''));
+      if (c.estimated) name.className += ' est';
+      tr.appendChild(name);
+      [c.ward, fmt(c.votes), fmt(c.registered), (100 * c.share).toFixed(1) + '%', c.yes, c.no].forEach(function(v){ tr.appendChild(el('td', null, String(v))); });
+      tb.appendChild(tr);
+    });
+  }
+
+  var D;
+  fetch('CityHall_Index/public/mandates.json').then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+    D = d; stats(d); table(d); render();
+    $('fewer').addEventListener('change', function(){ shown = PAGE; render(); });
+    $('basis').addEventListener('change', function(){ shown = PAGE; render(); });
+    $('more').addEventListener('click', function(){ shown += PAGE; render(); });
+  }).catch(function(e){
+    $('err').textContent = 'Could not load the vote data (' + e.message + ').'; $('status').textContent = '';
+  });
+})();
+</script>
+</body>
+</html>
