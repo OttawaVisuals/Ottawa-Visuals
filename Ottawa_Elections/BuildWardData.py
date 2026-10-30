@@ -18,9 +18,11 @@ def pct(numerator, denominator):
 def main():
     source = json.loads((ROOT/'reconciliation/source_results.json').read_text(encoding='utf8'))
     races = {(r['year'], r['ward'], r['office']): r for r in source['races']}
-    # 2026 comes from the City's unofficial results feed (FetchResults2026.py): ward totals only,
-    # so there is no ward-by-ward mayor split.
-    r26 = json.loads((ROOT/'reconciliation/results_2026.json').read_text(encoding='utf8'))
+    # 2026: the City's official Statement of Votes Cast (FetchOfficial2026.py) when present, else the
+    # unofficial election-night feed (FetchResults2026.py). Ward totals only either way, so there is
+    # no ward-by-ward mayor split.
+    official = ROOT/'reconciliation/results_2026_official.json'
+    r26 = json.loads((official if official.exists() else ROOT/'reconciliation/results_2026.json').read_text(encoding='utf8'))
     for r in r26['races']:
         races[(2026, r['ward'], r['office'])] = r
     # Names identify the 2022 map, not a claim about historical boundaries.
@@ -105,7 +107,7 @@ def main():
                     row.update({prefix+'_Registered':r['registered'],prefix+'_Votes':r['valid_votes'],
                                 prefix+'_Ballots_Cast':r['ballots'],prefix+'_Winner':count,
                                 prefix+'_Win_Name':name,prefix+'_Coverage':r['coverage'],
-                                prefix+'_Certification':r['certification'],prefix+'_Source':r.get('source_total','City unofficial results feed')})
+                                prefix+'_Certification':r['certification'],prefix+'_Source':r.get('source_total','City official 2026 Statement of Votes Cast' if r.get('certification')=='official' else 'City unofficial results feed')})
             rows.append(row)
     with (ROOT/'ward_results.csv').open('w',encoding='utf8',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=list(rows[0]))

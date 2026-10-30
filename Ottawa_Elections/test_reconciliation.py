@@ -29,8 +29,10 @@ class ReconciliationTests(unittest.TestCase):
         for r in self.city:
             self.assertEqual(tuple(r[k] for k in ('registered','votes','validVotes','votesMayor','runnerUp')),expected[r['year']])
 
-    def test_2026_unofficial_feed_matches_city_page(self):
-        # Ward controls read from the City's results page (app06.ottawa.ca/election/2026_en.html).
+    def test_2026_official_results_match_city_page(self):
+        # Ward controls read from the City's results page (app06.ottawa.ca/election/2026_en.html);
+        # the official workbook (2026-10-30) agrees with them on every race.
+        self.assertTrue(all(r['certification']=='official' for r in self.city if r['year']==2026))
         w=self.wards
         self.assertEqual(w['1']['history']['councillor_race'][4]['name'],'Matt Luloff')
         self.assertEqual(w['1']['history']['councillor_race'][4]['ballots'],17557)

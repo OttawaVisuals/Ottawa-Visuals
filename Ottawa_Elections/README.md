@@ -6,6 +6,7 @@
 
 | File | Purpose |
 |---|---|
+| `FetchOfficial2026.py` | Reads the City's official 2026 Statement of Votes Cast workbook (open.ottawa.ca item `28d0d0f0d4704ba295dd362a31c07aee`, created 2026-10-30) into `reconciliation/results_2026_official.json`. Ward totals only; identical to the unofficial feed on every race. `BuildWardData.py` prefers this file |
 | `FetchResults2026.py` | Fetches the City's 2026 unofficial results feed (`app06.ottawa.ca/election/2026/results.xml` + `electionevent.xml`) into `reconciliation/results_2026.json`. Ward totals only: no polling-place detail and no mayor split by ward. Re-run after the City certifies or revises results |
 | `ReconcileSources.py` | Downloads the four City-published workbooks, checks precinct/candidate/city controls, and creates normalized source data plus a field comparison |
 | `reconciliation/source_results.json` | All extracted mayor/council candidate totals, source rows, city controls, unallocated special polls, hashes and provenance |
