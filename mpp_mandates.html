@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPP votes by mandate</title>
+<meta name="description" content="Every recorded Ontario Legislature division since 2022, weighted by the ballots that elected each MPP: how much of the electorate stood behind each side?">
+<link rel="icon" type="image/png" href="assets/img/avatar.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script>
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+  :root {
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    --font-body:"Inter",system-ui,sans-serif;
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#6B7588;
+    --accent:#C9542F; --accent-2:#2F6FB4; --ok:#2E7D4F; --no:#B3402A;
+  }
+  [data-theme="dark"] {
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#8A91A5;
+    --accent:#E06B45; --accent-2:#5B9BE0; --ok:#5CBF86; --no:#E8806B;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+  .topbar{position:sticky;top:0;z-index:1000;background:var(--bg-2);border-bottom:1px solid var(--line);height:48px;display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;letter-spacing:-0.01em;color:var(--ink);text-decoration:none;}
+  .brand-logo{width:26px;height:26px;border-radius:999px;background:#1F2530;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line-2);}
+  .brand-logo img{width:110%;height:110%;object-fit:cover;filter:invert(1);}
+  [data-theme="dark"] .brand-logo img{filter:none;}
+  .brand small{font-family:var(--font-mono);font-size:9.5px;font-weight:400;color:var(--ink-3);letter-spacing:0.07em;text-transform:uppercase;margin-left:6px;}
+  .topbar nav{display:flex;gap:2px;}
+  .topbar nav a{padding:5px 9px;color:var(--ink-2);font-size:12.5px;border-radius:6px;text-decoration:none;}
+  .topbar nav a:hover{color:var(--ink);background:var(--bg-3);}
+  .topbar nav a.active{color:var(--accent);font-weight:600;}
+  .topbar .spacer{flex:1;}
+  .icon-btn{width:30px;height:30px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);display:grid;place-items:center;color:var(--ink-2);cursor:pointer;}
+  @media (max-width:720px){ .topbar nav{display:none;} .topbar{padding:0 12px;gap:10px;} }
+
+  .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+  .eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent-2); margin:0 0 6px; }
+  h1 { font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-0.02em; margin:0 0 10px; }
+  h2 { font-size:19px; margin:32px 0 6px; letter-spacing:-0.01em; }
+  .sub { color:var(--ink-2); max-width:70ch; line-height:1.55; margin:0 0 20px; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:0 0 8px; }
+  .stat { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat b { display:block; font-size:30px; letter-spacing:-0.02em; line-height:1.1; }
+  .stat span { font-size:13px; color:var(--ink-2); line-height:1.4; }
+  .callout { background:var(--bg-2); border:1px solid var(--line); border-left:3px solid var(--accent-2); border-radius:8px; padding:12px 14px; font-size:13.5px; line-height:1.55; color:var(--ink-2); margin:14px 0; }
+  .controls { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin:12px 0; }
+  .check { display:flex; gap:8px; align-items:center; font-size:13.5px; color:var(--ink-2); }
+  input[type=search] { font:inherit; font-size:14px; color:var(--ink); background:var(--bg-2); border:1px solid var(--line-2); border-radius:8px; padding:7px 9px; }
+  select { font:inherit; font-size:14px; color:var(--ink); background:var(--bg-2); border:1px solid var(--line-2); border-radius:8px; padding:7px 9px; }
+  a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
+  .tblwrap { overflow-x:auto; background:var(--bg-2); border:1px solid var(--line); border-radius:10px; margin:12px 0; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th, td { padding:8px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child, td:first-child, th.l, td.l { text-align:left; }
+  th { font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-3); font-weight:500; }
+  tr:last-child td { border-bottom:0; }
+  .est { color:var(--ink-3); }
+  .hit { background:var(--bg-2); border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
+  .hit h3 { margin:0 0 6px; font-size:15.5px; line-height:1.35; font-weight:600; }
+  .meta { display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; font-size:12.5px; color:var(--ink-3); }
+  .meta a { color:var(--accent-2); text-decoration:none; }
+  .meta a:hover { text-decoration:underline; }
+  .chip { font-family:var(--font-mono); font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line-2); color:var(--ink-2); }
+  .chip.warn { color:var(--accent); border-color:var(--accent); }
+  .split { display:grid; grid-template-columns:1fr; gap:6px; margin-top:10px; }
+  .row { display:grid; grid-template-columns:62px 1fr 150px; gap:10px; align-items:center; font-size:12.5px; color:var(--ink-2); }
+  .track { height:10px; background:var(--bg-3); border-radius:5px; overflow:hidden; }
+  .fill { height:100%; border-radius:5px; }
+  .fill.yes { background:var(--ok); } .fill.no { background:var(--no); }
+  .row .num { font-family:var(--font-mono); font-size:11.5px; text-align:right; }
+  @media (max-width:560px){ .row { grid-template-columns:44px 1fr; } .row .num { grid-column:1/-1; text-align:left; } }
+  .more { display:block; margin:14px auto; font:inherit; font-size:14px; padding:9px 18px; border-radius:8px; border:1px solid var(--line-2); background:var(--bg-2); color:var(--ink); cursor:pointer; }
+  .more[hidden] { display:none; }
+  .note { margin-top:28px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
+  .error-msg { color:var(--no); }
+  #status { color:var(--ink-2); font-size:14px; margin:10px 0; }
+</style>
+<link rel="stylesheet" href="assets/site-theme.css">
+<script src="assets/site-theme.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-logo"><img src="assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="index.html#reports">Reports</a>
+    <a href="cityhall.html">City Hall</a>
+    <a href="mpp_mandates.html" class="active">MPP votes</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">Queen's Park · recorded divisions · Aug 2022 – Oct 2026</p>
+  <h1>How many voters stood behind each Ontario vote?</h1>
+  <p class="sub">Each MPP was elected by a different number of ballots. This page adds up the ballots that elected the MPPs on each side of every recorded division, and compares them with all registered electors in Ontario.</p>
+
+  <div class="error-msg" id="err" role="alert"></div>
+  <div class="stats" id="stats"></div>
+
+  <p class="callout"><b>What this does and doesn't show.</b> Votes at Queen's Park follow party lines, and the governing party also holds more total ballots than the opposition in the ridings it won, so <b>no vote was won by the side with fewer ballots behind it</b>. What does stand out is how thin the base is: a winning side usually rests on ballots from well under a quarter of registered electors. "Ballots" means votes for the winning candidate in the riding at the 2022 or 2025 general election (votes before the Feb 2025 election use 2022). MPPs elected in by-elections have no mandate here yet: their votes are counted but their ballots are left out, and those divisions are marked "partial".</p>
+
+  <h2>Recorded divisions</h2>
+  <div class="controls">
+    <div><label for="parl" class="est">Parliament </label>
+      <select id="parl"><option value="">Both</option><option>43rd Parliament</option><option>44th Parliament</option></select></div>
+    <div><label for="q" class="est">Title contains </label><input id="q" type="search" placeholder="e.g. Bill 5"></div>
+    <div class="check"><input type="checkbox" id="complete"><label for="complete">Hide partial divisions</label></div>
+  </div>
+  <p id="status" aria-live="polite">Loading…</p>
+  <div id="results"></div>
+  <button class="more" id="more" hidden>Show more</button>
+
+  <h2>MPP mandates</h2>
+  <p class="sub">Ballots for the winner as a share of registered electors in the riding. Lowest share first; by-election MPPs last.</p>
+  <div class="tblwrap"><table id="mandates"><thead><tr><th>MPP</th><th class="l">Riding</th><th class="l">Party</th><th>Election</th><th>Ballots</th><th>Electors</th><th>Share</th><th>Aye</th><th>Nay</th></tr></thead><tbody></tbody></table></div>
+
+  <p class="note">Sources: recorded divisions from the <a href="https://www.ola.org/en/legislative-business/votes-search">Legislative Assembly of Ontario Votes search</a> (collected in a browser, 317 divisions, 43rd and 44th Parliament); riding results from Elections Ontario (<code>Ontario_Elections/Explorer_*.csv</code>). Percentages of electors use the sum of registered electors across all 124 ridings at the relevant election. Rebuild with <code>python Ontario_Votes/mandates.py</code>.</p>
+</main>
+
+<script>
+(function(){
+  var PAGE = 15, shown = PAGE, D;
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = function(n){ return n.toLocaleString('en-CA'); };
+  var pct = function(x){ return (100 * x).toFixed(1) + '%'; };
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function winKey(m){ return m.outcome === 'Carried' ? 'aye' : 'nay'; }
+  function share(m, k){ return m[k].ballots / D.totals[m.election]; }
+
+  function stats(d){
+    var full = d.motions.filter(function(m){ return !m.partial; });
+    var sh = full.map(function(m){ return share(m, winKey(m)); }).sort(function(a, b){ return a - b; });
+    var box = $('stats');
+    [[String(d.summary.votes), 'recorded divisions since Aug 2022'],
+     [String(d.summary.fewer), 'won by the side with fewer ballots behind it'],
+     [pct(sh[Math.floor(sh.length / 2)]), 'median share of all electors behind the winning side (' + full.length + ' complete divisions)']].forEach(function(p){
+      var c = el('div', 'stat'); c.appendChild(el('b', null, p[0])); c.appendChild(el('span', null, p[1])); box.appendChild(c);
+    });
+  }
+
+  function side(label, cls, m, k){
+    var row = el('div', 'row'), s = share(m, k);
+    row.appendChild(el('span', null, label + ' ' + m[k].n));
+    var tr = el('div', 'track'), f = el('div', 'fill ' + cls);
+    f.style.width = Math.min(100, s * 250) + '%'; tr.appendChild(f); row.appendChild(tr);
+    row.appendChild(el('span', 'num', pct(s) + ' of electors'));
+    return row;
+  }
+
+  function card(m){
+    var c = el('div', 'hit'); c.appendChild(el('h3', null, m.title));
+    var meta = el('div', 'meta'), unk = m.aye.unknown + m.nay.unknown;
+    meta.appendChild(el('span', null, m.date));
+    meta.appendChild(el('span', 'chip', m.outcome + ' ' + m.aye.n + '–' + m.nay.n));
+    meta.appendChild(el('span', null, m.parliament));
+    if (m.partial) meta.appendChild(el('span', 'chip warn', 'partial: ' + unk + ' by-election MPP' + (unk === 1 ? '' : 's') + ' not weighted'));
+    var a = el('a', null, 'Official record'); a.href = m.url; a.target = '_blank'; a.rel = 'noopener'; meta.appendChild(a);
+    c.appendChild(meta);
+    var sp = el('div', 'split'); sp.appendChild(side('Aye', 'yes', m, 'aye')); sp.appendChild(side('Nay', 'no', m, 'nay'));
+    c.appendChild(sp); return c;
+  }
+
+  function render(){
+    var p = $('parl').value, q = $('q').value.trim().toLowerCase(), hide = $('complete').checked;
+    var list = D.motions.filter(function(m){
+      return (!p || m.parliament === p) && (!hide || !m.partial) && (!q || m.title.toLowerCase().indexOf(q) >= 0);
+    });
+    var box = $('results'); box.textContent = '';
+    list.slice(0, shown).forEach(function(m){ box.appendChild(card(m)); });
+    $('status').textContent = list.length + ' division' + (list.length === 1 ? '' : 's');
+    $('more').hidden = shown >= list.length;
+  }
+
+  function table(d){
+    var tb = document.querySelector('#mandates tbody');
+    d.members.slice().sort(function(a, b){ return (a.share == null) - (b.share == null) || a.share - b.share; }).forEach(function(r){
+      var tr = el('tr'), cls = r.ballots == null ? 'est' : null;
+      tr.appendChild(el('td', 'l', r.name));
+      tr.appendChild(el('td', 'l', r.riding));
+      tr.appendChild(el('td', 'l', r.party.replace(' of Ontario', '').replace('Ontario ', '')));
+      [r.election, r.ballots == null ? 'by-election' : fmt(r.ballots), fmt(r.registered), r.share == null ? '–' : pct(r.share), r.aye, r.nay].forEach(function(v){ tr.appendChild(el('td', cls, String(v))); });
+      tb.appendChild(tr);
+    });
+  }
+
+  fetch('Ontario_Votes/mandates.json').then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); }).then(function(d){
+    D = d; stats(d); table(d); render();
+    ['parl', 'complete'].forEach(function(id){ $(id).addEventListener('change', function(){ shown = PAGE; render(); }); });
+    $('q').addEventListener('input', function(){ shown = PAGE; render(); });
+    $('more').addEventListener('click', function(){ shown += PAGE; render(); });
+  }).catch(function(e){ $('err').textContent = 'Could not load the vote data (' + e.message + ').'; $('status').textContent = ''; });
+})();
+</script>
+</body>
+</html>
