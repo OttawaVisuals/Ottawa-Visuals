@@ -1689,18 +1689,18 @@
 "event_id": "29184",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Alfred closed between Montfort and Montr\u00e9al rd due to construction, from October 7th to December 18th. Follow the signed detour. Access for local traffic maintained.",
+"headline": "Alfred closed between Montfort and Montreal due to construction, until October 30th. Follow the signed detour. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.439681,
 "lon": -75.655238,
-"planned_end": "2026-12-18T22:00",
+"planned_end": "2026-10-30T17:00",
 "planned_start": "2026-10-05T05:00",
 "priority": "LOW",
 "road": "Alfred",
 "source": "city",
-"updated": "2026-10-05 11:13:00"
+"updated": "2026-10-30 11:47:00"
 },
-"fp": "40c4cc285c78"
+"fp": "fe0b6b7a68a9"
 },
 "29207": {
 "event": {
@@ -1712,18 +1712,18 @@
 "event_id": "29207",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "MONTFORT closed between ALFRED and CANTIN due to construction, from October 7th to December 18th. Follow the signed detour. ",
+"headline": "MONTFORT closed between ALFRED and CANTIN due to construction, until October 30th. Follow the signed detour.",
 "lanes": "closed",
 "lat": 45.439681,
 "lon": -75.655238,
-"planned_end": "2026-12-18T17:00",
+"planned_end": "2026-10-30T17:00",
 "planned_start": "2026-10-02T07:00",
 "priority": "LOW",
 "road": "MONTFORT",
 "source": "city",
-"updated": "2026-10-02 13:32:00"
+"updated": "2026-10-30 11:45:00"
 },
-"fp": "ed51abc09a2c"
+"fp": "9af75afd8c66"
 },
 "29240": {
 "event": {
@@ -3449,6 +3449,29 @@
 "updated": "2026-10-30 10:44:00"
 },
 "fp": "ceae610efa2c"
+},
+"29771": {
+"event": {
+"cause": "construction",
+"created": "2026-10-30 11:38:00",
+"cross_street_1": " Kichi Zibi Mikan on Ramp/Bretelle d'acc\u00e8s Kichi Zibi Mikan",
+"cross_street_2": "EDGEWORTH",
+"direction": null,
+"event_id": "29771",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CARLING eastbound reduced to 1 lane between Kichi Zibi Mikan on Ramp and EDGEWORTH due to construction, from November 2nd to 13th between 9:30am and 3:00pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.363968,
+"lon": -75.784636,
+"planned_end": "2026-11-13T15:00",
+"planned_start": "2026-10-30T00:00",
+"priority": "MEDIUM",
+"road": "CARLING",
+"source": "city",
+"updated": "2026-10-30 11:40:00"
+},
+"fp": "6455d618c42b"
 }
 }
 }
