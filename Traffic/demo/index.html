@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Road safety report · Ottawa Visuals demo</title>
+<link rel="stylesheet" href="demo.css">
+<link rel="stylesheet" href="../../assets/site-theme.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}catch(e){}window.setTheme=function(m){document.documentElement.dataset.theme=m}</script>
+<script src="../../assets/site-theme.js"></script>
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="demo.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to form</a>
+<header class="topbar"><a class="brand" href="../../index.html">Ottawa Visuals <b class="demo-tag">CONCEPT DEMO</b></a><button id="theme-toggle" type="button">Theme</button></header>
+<main id="main">
+<div class="intro"><p class="eyebrow">SAFER STREETS START WITH WHAT WE NOTICE</p><h1>Every close call<br>has a <em>place.</em></h1><p class="lede">A simpler way to record a close call or unsafe road behaviour in Ottawa.</p></div>
+<aside class="notice"><strong>Try the demo. Nothing is submitted.</strong><span>Independent Ottawa Visuals concept, inspired by Vision Zero Ottawa. This is not an official reporting service. Use it once you are safely stopped.</span></aside>
+<noscript><p class="notice">This interactive demo requires JavaScript. No report has been submitted.</p></noscript>
+<div id="app" hidden>
+<ol class="steps" aria-label="Report progress"><li aria-current="step"><span>1</span>Report</li><li><span>2</span>Place & time</li><li><span>3</span>Details</li><li><span>4</span>Review</li></ol>
+<form id="report-form" novalidate>
+<div id="error" class="error" role="alert" hidden></div>
+<section class="panel" data-step="0" aria-labelledby="title-0">
+<p class="step-label">STEP 1 OF 4</p><h2 id="title-0" tabindex="-1">What would you like to record?</h2><p class="hint">Choose the one that best describes what happened.</p>
+<div id="report-types" class="type-grid"></div>
+<p class="small">A close call means a collision nearly happened. You can also record unsafe behaviour without a close call.</p>
+<button type="button" class="text-button" id="example">Try a fictional example →</button>
+</section>
+<section class="panel" data-step="1" aria-labelledby="title-1" hidden>
+<p class="step-label">STEP 2 OF 4</p><h2 id="title-1" tabindex="-1">Where and when?</h2>
+<fieldset><legend>Incident location</legend><p class="hint">Use your current location, choose a point on the map, or enter an intersection.</p>
+<button type="button" class="locate" id="locate">◎ Use my location</button><p id="geo-status" class="small" role="status"></p>
+<label class="field-label" for="address">Street or intersection <span class="muted">(optional if you choose a map point)</span></label><input id="address" name="address" maxlength="180" autocomplete="off" placeholder="e.g. Bank Street at Laurier Avenue">
+<p class="small">Typing an intersection does not move the map. Either option is enough.</p>
+<div id="map" aria-label="Incident map. Tap to place a pin; alternatively enter an intersection above."></div>
+<p id="pin-status" class="small" role="status">No point selected. Tap the map to place a pin.</p>
+<button class="text-button" type="button" id="clear-pin" hidden>Clear map point</button>
+<label class="check-line" id="confirm-location-row" hidden><input type="checkbox" id="confirm-location">This pin marks where the incident happened.</label>
+<p class="small">Map: OpenStreetMap contributors. Map tiles are requested from a third party; no report is sent.</p></fieldset>
+<fieldset><legend>When did it happen?</legend><div class="date-grid"><label>Date<input type="date" id="date" required></label><label>Approximate time<input type="time" id="time"></label></div><label class="check-line"><input type="checkbox" id="unknown-time">I don’t remember the time</label></fieldset>
+</section>
+<section class="panel" data-step="2" aria-labelledby="title-2" hidden>
+<p class="step-label">STEP 3 OF 4</p><h2 id="title-2" tabindex="-1">A few useful details.</h2><p class="hint">Tap your answers. No compass directions or long descriptions needed.</p>
+<fieldset id="role-field"><legend>How were you travelling?</legend><div class="tile-grid" id="modes"></div></fieldset>
+<fieldset><legend>What was involved?</legend><p class="hint">Choose all that apply, including your own vehicle if relevant.</p><div class="tile-grid" id="vehicles"></div></fieldset>
+<fieldset><legend>What did you observe?</legend><p class="hint">Choose all that apply. “Not sure” is okay.</p><div class="choice-grid" id="behaviours"></div></fieldset>
+<fieldset id="outcome-field"><legend>What happened to you?</legend><div class="choice-grid" id="outcomes"></div></fieldset>
+<details><summary>Add optional details</summary><label class="field-label" for="notes">Anything the choices missed?</label><textarea id="notes" maxlength="500" rows="3" placeholder="Avoid names, licence plates and other identifying details."></textarea><p class="small">Up to 500 characters.</p></details>
+</section>
+<section class="panel" data-step="3" aria-labelledby="title-3" hidden>
+<p class="step-label">STEP 4 OF 4</p><h2 id="title-3" tabindex="-1">Does this look right?</h2><p class="hint">You can go back and change any answer.</p><dl id="review"></dl><details><summary>See the structured record</summary><p class="small">Standard categories make reports easier to analyse. This record exists only in this tab.</p><pre id="record"></pre></details>
+<div class="notice inline-notice"><strong>Demo only</strong><span>Finishing shows a confirmation. It does not send a report to Ottawa Visuals, Vision Zero Ottawa, the City or police.</span></div>
+</section>
+<div class="actions"><button type="button" class="secondary" id="back" hidden>← Back</button><button type="submit" class="primary" id="next">Continue →</button></div>
+</form>
+<section id="done" class="panel success" hidden><p class="eyebrow">DEMO COMPLETE</p><h2 tabindex="-1">That’s the whole report.</h2><p>No report was sent or saved. In a future service, this is where you would receive a confirmation.</p><button type="button" class="primary" id="restart">Try another report</button></section>
+</div>
+<footer><p>A concept for discussion, inspired by the <a href="https://visionzeroottawa.ca/posts/closecall/" target="_blank" rel="noopener noreferrer">Vision Zero Ottawa close-call form ↗</a>.</p><p>Unlisted prototype · no account · report entries clear on refresh</p></footer>
+</main>
+</body></html>
