@@ -3058,6 +3058,52 @@
 "updated": "2026-10-30 13:36:00"
 },
 "fp": "bf202b5069af"
+},
+"29782": {
+"event": {
+"cause": "",
+"created": "2026-10-30 17:12:00",
+"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
+"cross_street_2": "WALKLEY RD (IC 110)",
+"direction": null,
+"event_id": "29782",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to WALKLEY RD - Daily Maintenance. 1 Alternating Lane. Alternating lane closures as needed. 2026-11-02 09:00 to 2026-11-06 15:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.42092,
+"lon": -76.37281,
+"planned_end": "2026-11-06T15:00",
+"planned_start": "2026-11-02T09:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-30 17:12:00"
+},
+"fp": "e4aae6da2921"
+},
+"29784": {
+"event": {
+"cause": "a collision",
+"created": "2026-10-30 18:04:00",
+"cross_street_1": "Lemieux",
+"cross_street_2": "Ogilvie",
+"direction": null,
+"event_id": "29784",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "St. Laurent northbound reduced to 2 lanes between Lemieux and Ogilvie due to a collision. Duration is unknown.",
+"lanes": "reduced to 2 lanes",
+"lat": 45.424983,
+"lon": -75.637613,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "St. Laurent",
+"source": "city",
+"updated": "2026-10-30 18:04:00"
+},
+"fp": "f624b4e0dfae"
 }
 }
 }
