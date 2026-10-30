@@ -585,18 +585,18 @@
 "event_id": "27237",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Third Line Rd closed between Roger Stevens and Prince of Wales due to construction from June 29th 6:00am to November 15th 7:00pm. Follow the signed detour. Access for local traffic maintained.",
+"headline": "Third Line Rd closed between Roger Stevens and Prince of Wales due to construction, until December 11th 7:00pm. Follow the signed detour. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.153404,
 "lon": -75.70958,
-"planned_end": "2026-11-15T19:00",
+"planned_end": "2026-12-11T19:00",
 "planned_start": "2026-06-25T00:00",
 "priority": "LOW",
 "road": "Ch Third Line Rd",
 "source": "city",
-"updated": "2026-09-04 08:00:00"
+"updated": "2026-10-30 12:40:00"
 },
-"fp": "03dde78aff70"
+"fp": "b6dbfd5d3895"
 },
 "27406": {
 "event": {
@@ -1091,18 +1091,18 @@
 "event_id": "28689",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Apeldorn - closed between Meadowlands and Normandy due to construction. Until 9:00pm, 31/10/26",
+"headline": "Apeldorn - closed between Meadowlands and Normandy due to construction, until November 23rd. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.364343,
 "lon": -75.707693,
-"planned_end": "2026-10-31T21:00",
+"planned_end": "2026-11-23T21:00",
 "planned_start": "2026-09-03T17:41",
 "priority": "LOW",
-"road": "Apeldorn",
+"road": "Apeldorn - ",
 "source": "city",
-"updated": "2026-09-04 09:35:00"
+"updated": "2026-10-30 12:44:00"
 },
-"fp": "507da7321a8d"
+"fp": "f45f1a8d7b8f"
 },
 "28695": {
 "event": {
@@ -2747,18 +2747,18 @@
 "event_id": "29530",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "PRINCETON closed between ROOSEVELT and EDISON due to construction, until October 30th. Access for local traffic maintained.",
+"headline": "PRINCETON closed between ROOSEVELT and EDISON; Melbourne closed between Kenwood and Avondale due to construction, until December 4th. Access for local traffic maintained.",
 "lanes": "closed",
 "lat": 45.386296,
 "lon": -75.753931,
-"planned_end": "2026-10-30T17:00",
+"planned_end": "2026-12-04T17:00",
 "planned_start": "2026-10-16T00:00",
 "priority": "MEDIUM",
 "road": "PRINCETON",
 "source": "city",
-"updated": "2026-10-16 13:32:00"
+"updated": "2026-10-30 13:05:00"
 },
-"fp": "585e832fe256"
+"fp": "6224d3dba2ba"
 },
 "29560": {
 "event": {
@@ -3472,6 +3472,29 @@
 "updated": "2026-10-30 11:40:00"
 },
 "fp": "6455d618c42b"
+},
+"29773": {
+"event": {
+"cause": "construction",
+"created": "2026-10-30 13:10:00",
+"cross_street_1": "CROYDON",
+"cross_street_2": "FOREST",
+"direction": null,
+"event_id": "29773",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "BOND closed between CROYDON and FOREST due to construction, from November 2nd to 20th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.363712,
+"lon": -75.787353,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-10-30T00:00",
+"priority": "LOW",
+"road": "BOND",
+"source": "city",
+"updated": "2026-10-30 13:12:00"
+},
+"fp": "e33cd01bd705"
 }
 }
 }
