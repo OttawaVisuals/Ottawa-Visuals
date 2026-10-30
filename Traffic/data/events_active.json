@@ -3266,29 +3266,6 @@
 },
 "fp": "fcc3c7d16899"
 },
-"29742": {
-"event": {
-"cause": "",
-"created": "2026-10-28 17:27:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29742",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound On-ramp at MOODIE DR - Continuous Construction. ALL LANES CLOSED. 2026-10-29 23:00 to 2026-10-30 05:00",
-"lanes": "ALL LANES CLOSED",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-10-30T05:00",
-"planned_start": "2026-10-29T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-28 17:27:00"
-},
-"fp": "d46fc35aaa72"
-},
 "29750": {
 "event": {
 "cause": "construction",
@@ -3358,52 +3335,6 @@
 },
 "fp": "745590b308b7"
 },
-"29757": {
-"event": {
-"cause": "construction",
-"created": "2026-10-29 16:47:00",
-"cross_street_1": "Montreal",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29757",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "(LRT) 174 E/B On-ramp closed at Montreal due to construction. From 11:00pm to 5:00am, October 29th to 30th.",
-"lanes": "closed",
-"lat": 45.451553,
-"lon": -75.582736,
-"planned_end": "2026-10-30T05:00",
-"planned_start": "2026-10-29T23:00",
-"priority": "HIGH",
-"road": "174 E/B On-ramp/Bretelle d'acc\u00e8s",
-"source": "city",
-"updated": "2026-10-29 22:56:00"
-},
-"fp": "60cfe33ae1bf"
-},
-"29758": {
-"event": {
-"cause": "construction",
-"created": "2026-10-29 16:50:00",
-"cross_street_1": "Jeanne d'Arc",
-"cross_street_2": "Montreal",
-"direction": null,
-"event_id": "29758",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 reduced to 1 lane in each direction between Jeanne d'Arc and Montreal due to construction. From 8:00pm to 5:00am, October 29th to 30th",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.4511,
-"lon": -75.583499,
-"planned_end": "2026-10-30T05:00",
-"planned_start": "2026-10-29T20:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-10-29 19:56:00"
-},
-"fp": "b2b3aaf72bf6"
-},
 "29760": {
 "event": {
 "cause": "",
@@ -3472,29 +3403,6 @@
 "updated": "2026-10-29 20:19:00"
 },
 "fp": "8808ed4f496e"
-},
-"29763": {
-"event": {
-"cause": "",
-"created": "2026-10-29 22:12:00",
-"cross_street_1": "ROCHESTER ST  (IC 121B)",
-"cross_street_2": "BRONSON AVE (IC 121A)",
-"direction": null,
-"event_id": "29763",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from ROCHESTER ST to BRONSON AVE - Emergency Roadwork. 1 right lane closed. ",
-"lanes": "1 right lane closed",
-"lat": 45.40316,
-"lon": -75.70877,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-29 22:12:00"
-},
-"fp": "36eb5c681f74"
 }
 }
 }
