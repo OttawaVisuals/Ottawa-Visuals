@@ -345,75 +345,6 @@
 },
 "fp": "6f07d27105cc"
 },
-"26673": {
-"event": {
-"cause": "construction",
-"created": "2026-05-01 18:54:00",
-"cross_street_1": "Apolune",
-"cross_street_2": "Seeley's",
-"direction": null,
-"event_id": "26673",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Cambrian periodic lane reductions between Apolune and Seeley's due to construction, May 4th to October 30th.",
-"lanes": "periodic lane reductions",
-"lat": 45.246592,
-"lon": -75.75223,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-05-04T06:00",
-"priority": "MEDIUM",
-"road": "Cambrian",
-"source": "city",
-"updated": "2026-09-04 07:52:00"
-},
-"fp": "8692672a2197"
-},
-"26674": {
-"event": {
-"cause": "construction",
-"created": "2026-05-01 18:58:00",
-"cross_street_1": "Celestial Grove",
-"cross_street_2": "Seeley's Bay",
-"direction": null,
-"event_id": "26674",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Watercolours periodic lane closures between Celestial Grove and Seeley's Bay due to construction, May 4th to October 30th.",
-"lanes": "periodic lane reductions",
-"lat": 45.249354,
-"lon": -75.750926,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-05-04T07:00",
-"priority": "LOW",
-"road": "Watercolours",
-"source": "city",
-"updated": "2026-09-04 09:24:00"
-},
-"fp": "8497cf98f0c0"
-},
-"26675": {
-"event": {
-"cause": "construction",
-"created": "2026-05-01 19:04:00",
-"cross_street_1": "Burbot",
-"cross_street_2": "Celestial Grove",
-"direction": null,
-"event_id": "26675",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Perseus periodic lane reductions between Burbot and Celestial Grove due to construction, May 4th to October 30th.",
-"lanes": "periodic lane reductions",
-"lat": 45.252785,
-"lon": -75.752072,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-05-04T07:00",
-"priority": "MEDIUM",
-"road": "Perseus ",
-"source": "city",
-"updated": "2026-09-04 09:16:00"
-},
-"fp": "352b99b9d790"
-},
 "26676": {
 "event": {
 "cause": "construction",
@@ -482,52 +413,6 @@
 "updated": "2026-09-04 09:08:00"
 },
 "fp": "2b84362452b6"
-},
-"26887": {
-"event": {
-"cause": "construction",
-"created": "2026-05-22 17:49:00",
-"cross_street_1": "Metcalfe",
-"cross_street_2": "Queen Elizabeth",
-"direction": null,
-"event_id": "26887",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Pretoria closed between Metcalfe and Queen Elizabeth due to construction, from may 25th to October 30th.",
-"lanes": "closed",
-"lat": 45.410847,
-"lon": -75.684275,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-05-25T07:00",
-"priority": "MEDIUM",
-"road": "Pretoria",
-"source": "city",
-"updated": "2026-09-04 09:08:00"
-},
-"fp": "2fbfada78fcf"
-},
-"26962": {
-"event": {
-"cause": "construction",
-"created": "2026-05-28 16:52:00",
-"cross_street_1": "Metcalfe",
-"cross_street_2": "Bank",
-"direction": null,
-"event_id": "26962",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Pretoria westbound closed between Metcalfe and Bank due to construction, June 1st to October 30th. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.410031,
-"lon": -75.686291,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-06-01T07:00",
-"priority": "MEDIUM",
-"road": "Pretoria",
-"source": "city",
-"updated": "2026-09-04 09:08:00"
-},
-"fp": "89076267f381"
 },
 "27129": {
 "event": {
@@ -782,29 +667,6 @@
 },
 "fp": "84a14ee13156"
 },
-"28004": {
-"event": {
-"cause": "construction",
-"created": "2026-07-28 13:23:00",
-"cross_street_1": "March",
-"cross_street_2": "Legget",
-"direction": null,
-"event_id": "28004",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Solandt periodic lane reductions during weekends between March and Legget due to construction, from August 10th to October 30th. Flagpersons present. ",
-"lanes": "periodic lane reductions",
-"lat": 45.342902,
-"lon": -75.916966,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-08-07T07:00",
-"priority": "LOW",
-"road": "Solandt",
-"source": "city",
-"updated": "2026-09-04 15:56:00"
-},
-"fp": "79f6bfa50a13"
-},
 "28081": {
 "event": {
 "cause": "construction",
@@ -850,29 +712,6 @@
 "updated": "2026-09-04 16:12:00"
 },
 "fp": "5e7a4b5d60e0"
-},
-"28317": {
-"event": {
-"cause": "construction",
-"created": "2026-08-14 07:44:00",
-"cross_street_1": "Queen",
-"cross_street_2": "Albert",
-"direction": null,
-"event_id": "28317",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Elgin southbound right lane closed between Queen and Albert due to construction, until October 30th. ",
-"lanes": "right lane closed",
-"lat": 45.423068,
-"lon": -75.69478,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-07-20T00:00",
-"priority": "HIGH",
-"road": "Elgin",
-"source": "city",
-"updated": "2026-09-04 08:24:00"
-},
-"fp": "a2be23d255c1"
 },
 "28321": {
 "event": {
@@ -988,29 +827,6 @@
 "updated": "2026-09-04 16:04:00"
 },
 "fp": "6442d7ce23e1"
-},
-"28554": {
-"event": {
-"cause": "construction",
-"created": "2026-08-27 07:11:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "28554",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Centerpointe reduced to 1 lane in each direction at Hemmingwood (West intersection) due to construction, from August 31st to October 30th. Flagpersons present. ",
-"lanes": "",
-"lat": 45.344683,
-"lon": -75.773923,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-08-28T07:00",
-"priority": "MEDIUM",
-"road": null,
-"source": "city",
-"updated": "2026-08-28 13:32:00"
-},
-"fp": "ae48cf817ec2"
 },
 "28610": {
 "event": {
@@ -1380,167 +1196,6 @@
 },
 "fp": "25200d994134"
 },
-"29054": {
-"event": {
-"cause": "construction",
-"created": "2026-09-24 11:03:00",
-"cross_street_1": "Bank",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29054",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Riverside westbound reduced to 1 lane at Bank due to construction, from September 28th to October 30th.\n",
-"lanes": "reduced to 1 lane",
-"lat": 45.388834,
-"lon": -75.677223,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-25T07:00",
-"priority": "HIGH",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-10-09 18:15:00"
-},
-"fp": "827a5962ba92"
-},
-"29116": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 10:40:00",
-"cross_street_1": "CAMPEAU",
-"cross_street_2": "417 W/B off ramp",
-"direction": null,
-"event_id": "29116",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "PALLADIUM off-peak lane reductions in both directions between CAMPEAU and 417 W/B off ramp due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reductions in both directions",
-"lat": 45.297262,
-"lon": -75.942541,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "PALLADIUM",
-"source": "city",
-"updated": "2026-09-28 10:44:00"
-},
-"fp": "b2023ea36923"
-},
-"29118": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 10:59:00",
-"cross_street_1": "CLINTONIA",
-"cross_street_2": "CONDADO",
-"direction": null,
-"event_id": "29118",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "ROUNCEY off-peak lane reduction in both directions between CLINTONIA and CONDADO due to construction. From 12:00am, 28/09/26 to 5:00pm, 30/10/26",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.280828,
-"lon": -75.886571,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "ROUNCEY",
-"source": "city",
-"updated": "2026-09-28 11:00:00"
-},
-"fp": "739fa39f1bd2"
-},
-"29119": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:07:00",
-"cross_street_1": "CARP",
-"cross_street_2": "HOBIN / WILDPINE",
-"direction": null,
-"event_id": "29119",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "STITTSVILLE MAIN off-peak lane reductions in both directions between CARP and HOBIN / WILDPINE due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reductions in both directions",
-"lat": 45.267473,
-"lon": -75.930082,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "STITTSVILLE MAIN",
-"source": "city",
-"updated": "2026-09-28 11:08:00"
-},
-"fp": "79ca85782680"
-},
-"29120": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:11:00",
-"cross_street_1": "Hazeldean",
-"cross_street_2": "Coriolis/Gallantry",
-"direction": null,
-"event_id": "29120",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Huntmar off-peak lane reduction in both directions between Hazeldean and Coriolis/Gallantry due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.283191,
-"lon": -75.911763,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "Huntmar",
-"source": "city",
-"updated": "2026-09-28 11:12:00"
-},
-"fp": "1238758afbb5"
-},
-"29121": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:26:00",
-"cross_street_1": "SOLANDT",
-"cross_street_2": "FARRAR",
-"direction": null,
-"event_id": "29121",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "LEGGET off-peak lane reduction in both directions between SOLANDT and FARRAR due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.344371,
-"lon": -75.91487,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "UNKNOWN",
-"road": "LEGGET",
-"source": "city",
-"updated": "2026-09-28 11:28:00"
-},
-"fp": "cabcc2bb1e16"
-},
-"29122": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:29:00",
-"cross_street_1": "WALDEN",
-"cross_street_2": "KNUDSON",
-"direction": null,
-"event_id": "29122",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "KANATA off-peak lane reduction in both directions between WALDEN and KNUDSON due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.323693,
-"lon": -75.923236,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "KANATA",
-"source": "city",
-"updated": "2026-09-28 11:32:00"
-},
-"fp": "53566d683ba8"
-},
 "29123": {
 "event": {
 "cause": "construction",
@@ -1563,52 +1218,6 @@
 "updated": "2026-10-27 06:14:00"
 },
 "fp": "3d1994afb5e9"
-},
-"29124": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:55:00",
-"cross_street_1": "SAWYER / SUMMITVIEW",
-"cross_street_2": "Old Richmond",
-"direction": null,
-"event_id": "29124",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "STONEHAVEN off-peak lane reductions in both directions between SAWYER / SUMMITVIEW and Old Richmond due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reductions in both directions",
-"lat": 45.2808,
-"lon": -75.84022,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "STONEHAVEN",
-"source": "city",
-"updated": "2026-09-28 11:56:00"
-},
-"fp": "be8d3f863361"
-},
-"29125": {
-"event": {
-"cause": "construction",
-"created": "2026-09-28 11:59:00",
-"cross_street_1": "Castlefrank",
-"cross_street_2": "Irwin Gate",
-"direction": null,
-"event_id": "29125",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Hazeldean off-peak lane reduction in both directions between Castlefrank and Irwin Gate due to construction, from September 28th to October 30th.",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.297488,
-"lon": -75.889562,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-09-28T00:00",
-"priority": "MEDIUM",
-"road": "Hazeldean",
-"source": "city",
-"updated": "2026-09-28 12:00:00"
-},
-"fp": "67811266077c"
 },
 "29147": {
 "event": {
@@ -1679,52 +1288,6 @@
 },
 "fp": "02defa640672"
 },
-"29184": {
-"event": {
-"cause": "construction",
-"created": "2026-10-01 14:59:00",
-"cross_street_1": "Montfort",
-"cross_street_2": "Montreal",
-"direction": null,
-"event_id": "29184",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Alfred closed between Montfort and Montreal due to construction, until October 30th. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.439681,
-"lon": -75.655238,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-05T05:00",
-"priority": "LOW",
-"road": "Alfred",
-"source": "city",
-"updated": "2026-10-30 11:47:00"
-},
-"fp": "fe0b6b7a68a9"
-},
-"29207": {
-"event": {
-"cause": "construction",
-"created": "2026-10-02 13:31:00",
-"cross_street_1": "ALFRED",
-"cross_street_2": "CANTIN",
-"direction": null,
-"event_id": "29207",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "MONTFORT closed between ALFRED and CANTIN due to construction, until October 30th. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.439681,
-"lon": -75.655238,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-02T07:00",
-"priority": "LOW",
-"road": "MONTFORT",
-"source": "city",
-"updated": "2026-10-30 11:45:00"
-},
-"fp": "9af75afd8c66"
-},
 "29240": {
 "event": {
 "cause": "a demonstration",
@@ -1770,29 +1333,6 @@
 "updated": "2026-10-07 11:08:00"
 },
 "fp": "e7d9b3473db1"
-},
-"29346": {
-"event": {
-"cause": "construction",
-"created": "2026-10-08 13:03:00",
-"cross_street_1": "STEVENAGE",
-"cross_street_2": "OVERTON",
-"direction": null,
-"event_id": "29346",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "GLENFIELD closed between STEVENAGE and OVERTON due to construction, until October 30th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.382687,
-"lon": -75.600231,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-08T00:00",
-"priority": "LOW",
-"road": "GLENFIELD",
-"source": "city",
-"updated": "2026-10-14 12:30:00"
-},
-"fp": "ff39c7fdb264"
 },
 "29347": {
 "event": {
@@ -2391,29 +1931,6 @@
 "updated": "2026-10-13 11:16:00"
 },
 "fp": "02883bebdb87"
-},
-"29434": {
-"event": {
-"cause": "construction",
-"created": "2026-10-13 12:33:00",
-"cross_street_1": "STEVENSON",
-"cross_street_2": "CRERAR",
-"direction": null,
-"event_id": "29434",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "CRERAR closed between STEVENSON and CRERAR due to construction, from October 19th to 30th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.38634,
-"lon": -75.726379,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-16T07:00",
-"priority": "MEDIUM",
-"road": "CRERAR",
-"source": "city",
-"updated": "2026-10-16 06:56:00"
-},
-"fp": "aadf35ddcc1a"
 },
 "29437": {
 "event": {
@@ -3035,29 +2552,6 @@
 "updated": "2026-10-23 14:21:00"
 },
 "fp": "85bc9584511c"
-},
-"29667": {
-"event": {
-"cause": "",
-"created": "2026-10-23 20:36:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29667",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound On-ramp at MOODIE DR - Daily Construction. ALL LANES CLOSED. 2026-10-26 07:00 to 2026-10-30 17:00",
-"lanes": "ALL LANES CLOSED",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-26T07:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-23 20:36:00"
-},
-"fp": "5daef0b13366"
 },
 "29671": {
 "event": {
