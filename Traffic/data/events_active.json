@@ -3289,29 +3289,6 @@
 },
 "fp": "c26fafa05dc6"
 },
-"29735": {
-"event": {
-"cause": "construction",
-"created": "2026-10-28 11:24:00",
-"cross_street_1": "INNES / INDUSTRIAL",
-"cross_street_2": "BELFAST",
-"direction": null,
-"event_id": "29735",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "ST-LAURENT, BOUL northbound right lane closed between INNES / INDUSTRIAL and BELFAST due to construction, until October 30th.",
-"lanes": "right lane closed",
-"lat": 45.406788,
-"lon": -75.627455,
-"planned_end": "2026-10-30T17:00",
-"planned_start": "2026-10-28T00:00",
-"priority": "HIGH",
-"road": "ST-LAURENT, BOUL",
-"source": "city",
-"updated": "2026-10-29 10:47:00"
-},
-"fp": "fcc3c7d16899"
-},
 "29750": {
 "event": {
 "cause": "construction",
@@ -3426,29 +3403,6 @@
 "updated": "2026-10-29 17:18:00"
 },
 "fp": "b04cf7628d99"
-},
-"29766": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-30 08:57:00",
-"cross_street_1": "Blohm",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29766",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Hunt Club closed at Blohm due to a collision. Police are directing traffic. Avoid area.",
-"lanes": "closed",
-"lat": 45.372152,
-"lon": -75.602094,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Hunt Club",
-"source": "city",
-"updated": "2026-10-30 09:21:00"
-},
-"fp": "fc8f889944af"
 }
 }
 }
