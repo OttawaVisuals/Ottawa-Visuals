@@ -21,6 +21,11 @@ location is requested only on button click; coordinates are not sent to a report
 service, but centering the map requests tiles for that area. Location permission
 denial/timeouts and missing map assets retain the typed-intersection fallback.
 
+The page uses `strict-origin-when-cross-origin` so tile requests identify the
+site origin, as required by the OSM tile policy, without sharing the page path
+or form entries. Do not replace it with `no-referrer`: OSM may serve blocked
+tile images. See https://operations.osmfoundation.org/policies/tiles/.
+
 Map point requires confirmation because current device location may differ from
 incident location. Typed locations are accepted as descriptions, not geocoded.
 Device accuracy is retained separately from user-adjusted map points. Time is
