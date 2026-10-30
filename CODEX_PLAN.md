@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Simplify road safety demo (Oct 30: one scrolling form, report selection reveals relevant questions, single preview action with edit/reset; inline validation and mobile/browser flow checks)
 - [x] Unlisted road safety demo (Oct 30: Traffic/demo/, separate close-call/witness flows, geolocation and adjustable map pin, structured icon choices and review; no real collection, noindex and no public navigation links; browser checks at phone width, light/dark, validation, map confirmation and reset; live device GPS not tested)
 - [x] Add municipal fee context to recap (Oct 25: water/wastewater/stormwater overall increases, comparable 2025–26 curbside waste fee, dated Downtown street-parking example; nine sourced values, current parking GIS snapshot, funding-change caveat and separate units; expanded PNG/SVG visually checked)
 - [x] Recap image legibility (Oct 25: target lines drawn in front of bars; wider bus bars give percentage labels padding; PNG/SVG rebuilt and visually checked)

@@ -7,13 +7,16 @@ Intentionally absent from homepage, report navigation and public tracker.
 `noindex, nofollow, noarchive` requests exclusion from search engines. This is an
 unlisted public page, not access control; the source is in the public repository.
 
-Buildless HTML/CSS/JS. Four steps: report type, location/time, structured details,
-review. Witness reports omit the reporter's travel mode/evasive action. No compass
+Buildless HTML/CSS/JS. One scrolling form: choosing a report type reveals location,
+time and structured details together, without Continue buttons or automatic scroll
+jumps. One Preview report button opens the review, with Edit answers and Start over.
+Validation appears beside the relevant question and receives keyboard focus.
+Witness reports omit the reporter's travel mode/evasive action. No compass
 direction questions. Multi-select unknown values are exclusive. Optional note is
 limited to 500 characters and rendered with textContent.
 
 Entries exist only in memory; no submission endpoint, analytics, report storage,
-upload or download. Finish clears the form and review; refresh clears entries.
+upload or download. Start over clears the form and review; refresh clears entries.
 The shared site theme stores only theme preference. Shared theme fonts use Google
 Fonts. Leaflet assets use unpkg; map tiles use OpenStreetMap. Tile requests reveal
 the viewed map area and ordinary request metadata to the tile provider. Device
@@ -36,4 +39,6 @@ No aggregate results, danger ranking, measured speeds or collision linkage claim
 Before real collection: agree categories and field meanings with partners, storage
 and retention, consent, moderation, duplicate handling and public-map precision.
 
-Validation (2026-10-30): JavaScript syntax and Git whitespace checks; browser close-call and witness flows through review, finish/reset, 390px mobile layout without horizontal overflow, map pin confirmation, exclusive unknown vehicle choice, light/dark themes, no browser warnings/errors. Actual device GPS permission/success/timeout and physical-phone interaction were not tested.
+Initial validation (2026-10-30): JavaScript syntax and Git whitespace checks; browser close-call and witness flows through review, finish/reset, 390px mobile layout without horizontal overflow, map pin confirmation, exclusive unknown vehicle choice, light/dark themes, no browser warnings/errors. Actual device GPS permission/success/timeout and physical-phone interaction were not tested.
+
+Continuous-form validation (2026-10-30): close-call and witness previews, edit preservation, type switching, reset, inline required-location error with keyboard focus, 390px layout without horizontal overflow, no Continue buttons and no browser errors. No live GPS test added.

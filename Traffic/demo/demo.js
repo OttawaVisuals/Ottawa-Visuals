@@ -32,7 +32,7 @@
   render('vehicles',vehicles,'vehicles','checkbox',true);
   render('behaviours',behaviours,'behaviours','checkbox',false);
   render('outcomes',outcomes,'outcome','radio',false);
-  let step = 0, map, marker, pin = null, locationSource = null, accuracy = null, geoRequest = 0, finished = false;
+  let map, marker, pin = null, locationSource = null, accuracy = null, geoRequest = 0, previewing = false;
   const values = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
   const single = name => values(name)[0] || null;
   const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -59,7 +59,7 @@
     if(!navigator.geolocation){$('geo-status').textContent='Location is unavailable. Enter an intersection or choose a map point.';return;}
     const request=++geoRequest; $('locate').disabled=true;$('geo-status').textContent='Waiting for location permission…';
     navigator.geolocation.getCurrentPosition(p=>{
-      if(request!==geoRequest||finished)return;
+      if(request!==geoRequest||previewing)return;
       pinAt(p.coords.latitude,p.coords.longitude,'device',Math.round(p.coords.accuracy));
       if(map) map.setView([p.coords.latitude,p.coords.longitude],17);
       $('geo-status').textContent=`Device accuracy: approximately ${Math.round(p.coords.accuracy)} m. This is your current location; move the pin if the incident happened elsewhere.`;
@@ -73,7 +73,7 @@
       if(e.target.checked && e.target.value==='unknown') document.querySelectorAll(`input[name="${group}"]`).forEach(i=>{if(i!==e.target)i.checked=false;});
       else if(e.target.checked) document.querySelector(`input[name="${group}"][value="unknown"]`).checked=false;
     }
-    if(e.target.name==='report_type') {const witness=single('report_type')==='witness';$('role-field').hidden=witness;$('outcome-field').hidden=witness;}
+    if(e.target.name==='report_type') show(false,false);
   });
   function record() {
     const witness=single('report_type')==='witness';
@@ -89,23 +89,34 @@
     $('review').replaceChildren();for(const [label,value] of lines){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;$('review').append(dt,dd);}
     $('record').textContent=JSON.stringify(r,null,2);
   }
-  function show(next,focus=true) {
-    step=next;$('error').hidden=true;
-    document.querySelectorAll('[data-step]').forEach((el,i)=>{el.hidden=i!==step;});
-    document.querySelectorAll('.steps li').forEach((el,i)=>{el.removeAttribute('aria-current');el.classList.toggle('complete',i<step);if(i===step)el.setAttribute('aria-current','step');});
-    $('back').hidden=step===0;$('next').textContent=step===3?'Finish demo':'Continue →';
-    if(step===1)initMap();if(step===3)review();
-    if(focus){$('title-'+step).focus();$('app').scrollIntoView({block:'start'});}
+  function show(preview,focus=true) {
+    previewing=preview;$('error').hidden=true;
+    const selected=!!single('report_type'),witness=single('report_type')==='witness';
+    document.querySelectorAll('[data-step]').forEach((el,i)=>{el.hidden=preview?i!==3:(i===3||(i>0&&!selected));});
+    $('role-field').hidden=witness;$('outcome-field').hidden=witness;
+    $('back').hidden=!preview;$('restart').hidden=!preview;$('next').hidden=preview||!selected;
+    if(preview){geoRequest++;$('locate').disabled=false;review();}else if(selected)initMap();
+    if(focus){const heading=$('title-'+(preview?3:0));heading.focus();heading.scrollIntoView({block:'start'});}
   }
   function validation() {
-    if(step===0&&!single('report_type'))return 'Choose a close call or unsafe behaviour witnessed.';
-    if(step===1){if(!pin&&!$('address').value.trim())return 'Enter a street or intersection, or choose a map point.';if(pin&&!$('confirm-location').checked)return 'Confirm that the pin marks the incident location, or clear the map point.';if(!$('date').value||$('date').value>localDate(new Date()))return 'Choose an incident date that is today or earlier.';}
-    if(step===2){if(single('report_type')==='close_call'&&!single('mode'))return 'Choose how you were travelling.';if(!values('vehicles').length)return 'Choose what was involved, or select Not sure.';if(!values('behaviours').length)return 'Choose what you observed, or select Not sure.';if(single('report_type')==='close_call'&&!single('outcome'))return 'Choose what happened to you, or select Not sure / prefer not to say.';}
+    if(!single('report_type'))return ['Choose a close call or unsafe behaviour witnessed.','report-types'];
+    if(!pin&&!$('address').value.trim())return ['Enter a street or intersection, or choose a map point.','address'];
+    if(pin&&!$('confirm-location').checked)return ['Confirm that the pin marks the incident location, or clear the map point.','confirm-location'];
+    if(!$('date').value||$('date').value>localDate(new Date()))return ['Choose an incident date that is today or earlier.','date'];
+    if(single('report_type')==='close_call'&&!single('mode'))return ['Choose how you were travelling.','modes'];
+    if(!values('vehicles').length)return ['Choose what was involved, or select Not sure.','vehicles'];
+    if(!values('behaviours').length)return ['Choose what you observed, or select Not sure.','behaviours'];
+    if(single('report_type')==='close_call'&&!single('outcome'))return ['Choose what happened to you, or select Not sure / prefer not to say.','outcomes'];
     return null;
   }
-  $('report-form').addEventListener('submit',e=>{e.preventDefault();const error=validation();if(error){$('error').textContent=error;$('error').hidden=false;$('error').scrollIntoView({block:'center'});return;}if(step<3)show(step+1);else{finished=true;geoRequest++;$('report-form').hidden=true;document.querySelector('.steps').hidden=true;$('done').hidden=false;$('done').querySelector('h2').focus();$('done').scrollIntoView({block:'center'});$('record').textContent='';$('review').replaceChildren();$('report-form').reset();pin=null;locationSource=null;accuracy=null;if(marker){marker.remove();marker=null;}}});
-  $('back').addEventListener('click',()=>show(step-1));
-  $('restart').addEventListener('click',()=>{finished=false;$('report-form').reset();setNow();$('time').disabled=false;$('done').hidden=true;$('report-form').hidden=false;document.querySelector('.steps').hidden=false;$('role-field').hidden=false;$('outcome-field').hidden=false;$('clear-pin').click();show(0);});
-  $('example').addEventListener('click',()=>{document.querySelector('[name="report_type"][value="close_call"]').click();document.querySelector('[name="mode"][value="cycling"]').click();document.querySelector('[name="vehicles"][value="car"]').click();document.querySelector('[name="behaviours"][value="close_pass"]').click();document.querySelector('[name="outcome"][value="evasive_action"]').click();$('address').value='Fictional example: Bank Street at Laurier Avenue';$('notes').value='Fictional demonstration only. No actual incident.';$('time').value='09:00';show(1);});
-  $('app').hidden=false;show(0,false);
+  $('report-form').addEventListener('submit',e=>{
+    e.preventDefault();if(previewing)return;
+    const error=validation();
+    if(error){const target=$(error[1]);const parent=target.closest('fieldset')||target.closest('section');const legend=parent.querySelector(':scope > legend');if(legend)legend.after($('error'));else parent.prepend($('error'));$('error').textContent=error[0];$('error').hidden=false;$('error').focus();$('error').scrollIntoView({block:'center'});return;}
+    show(true);
+  });
+  $('back').addEventListener('click',()=>show(false));
+  $('restart').addEventListener('click',()=>{$('report-form').reset();setNow();$('time').disabled=false;$('record').textContent='';$('review').replaceChildren();$('clear-pin').click();show(false);});
+  $('example').addEventListener('click',()=>{document.querySelector('[name="report_type"][value="close_call"]').click();document.querySelector('[name="mode"][value="cycling"]').click();document.querySelector('[name="vehicles"][value="car"]').checked=true;document.querySelector('[name="behaviours"][value="close_pass"]').checked=true;document.querySelector('[name="outcome"][value="evasive_action"]').click();document.querySelectorAll('[name="vehicles"][value="unknown"],[name="behaviours"][value="unknown"]').forEach(i=>i.checked=false);$('address').value='Fictional example: Bank Street at Laurier Avenue';$('notes').value='Fictional demonstration only. No actual incident.';$('time').disabled=false;$('unknown-time').checked=false;$('time').value='09:00';show(false,false);$('title-1').scrollIntoView({block:'start'});});
+  $('app').hidden=false;show(false,false);
 })();
