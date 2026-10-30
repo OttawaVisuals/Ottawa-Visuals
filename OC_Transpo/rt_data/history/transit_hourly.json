@@ -5,7 +5,7 @@
  },
  "weekday": {
   "days": 10,
-  "cancel_days": 4,
+  "cancel_days": 5,
   "hours": [
    {
     "hour": 0,
@@ -59,13 +59,13 @@
    },
    {
     "hour": 5,
-    "delays_observed": 2299,
-    "bus_ontime_pct": 72.3,
-    "bus_late_pct": 8.6,
-    "bus_early_pct": 19.1,
-    "bus_within_5min_pct": 90.4,
-    "punctuality_pct": 71.9,
-    "cancelled_per_day": 0.5
+    "delays_observed": 2337,
+    "bus_ontime_pct": 72.9,
+    "bus_late_pct": 8.4,
+    "bus_early_pct": 18.7,
+    "bus_within_5min_pct": 90.9,
+    "punctuality_pct": 72.6,
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 6,
@@ -75,7 +75,7 @@
     "bus_early_pct": 18.8,
     "bus_within_5min_pct": 88.2,
     "punctuality_pct": 68.7,
-    "cancelled_per_day": 0.5
+    "cancelled_per_day": 0.4
    },
    {
     "hour": 7,
@@ -85,7 +85,7 @@
     "bus_early_pct": 16.7,
     "bus_within_5min_pct": 80.8,
     "punctuality_pct": 64.7,
-    "cancelled_per_day": 3.8
+    "cancelled_per_day": 3.0
    },
    {
     "hour": 8,
@@ -95,7 +95,7 @@
     "bus_early_pct": 15.3,
     "bus_within_5min_pct": 72.1,
     "punctuality_pct": 55.0,
-    "cancelled_per_day": 4.8
+    "cancelled_per_day": 3.8
    },
    {
     "hour": 9,
@@ -105,7 +105,7 @@
     "bus_early_pct": 17.7,
     "bus_within_5min_pct": 76.9,
     "punctuality_pct": 58.0,
-    "cancelled_per_day": 0.5
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 10,
@@ -115,7 +115,7 @@
     "bus_early_pct": 20.9,
     "bus_within_5min_pct": 85.1,
     "punctuality_pct": 63.2,
-    "cancelled_per_day": 0.8
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 11,
@@ -125,7 +125,7 @@
     "bus_early_pct": 20.7,
     "bus_within_5min_pct": 84.7,
     "punctuality_pct": 64.7,
-    "cancelled_per_day": 0.5
+    "cancelled_per_day": 0.4
    },
    {
     "hour": 12,
@@ -135,7 +135,7 @@
     "bus_early_pct": 18.9,
     "bus_within_5min_pct": 80.1,
     "punctuality_pct": 61.7,
-    "cancelled_per_day": 0.5
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 13,
@@ -145,7 +145,7 @@
     "bus_early_pct": 20.3,
     "bus_within_5min_pct": 79.9,
     "punctuality_pct": 63.3,
-    "cancelled_per_day": 1.8
+    "cancelled_per_day": 1.6
    },
    {
     "hour": 14,
@@ -155,7 +155,7 @@
     "bus_early_pct": 20.9,
     "bus_within_5min_pct": 79.2,
     "punctuality_pct": 62.0,
-    "cancelled_per_day": 1.5
+    "cancelled_per_day": 1.2
    },
    {
     "hour": 15,
@@ -165,7 +165,7 @@
     "bus_early_pct": 17.9,
     "bus_within_5min_pct": 69.9,
     "punctuality_pct": 54.0,
-    "cancelled_per_day": 11.2
+    "cancelled_per_day": 10.2
    },
    {
     "hour": 16,
@@ -175,7 +175,7 @@
     "bus_early_pct": 15.6,
     "bus_within_5min_pct": 63.3,
     "punctuality_pct": 46.3,
-    "cancelled_per_day": 8.0
+    "cancelled_per_day": 7.4
    },
    {
     "hour": 17,
@@ -185,7 +185,7 @@
     "bus_early_pct": 15.7,
     "bus_within_5min_pct": 66.3,
     "punctuality_pct": 45.6,
-    "cancelled_per_day": 9.5
+    "cancelled_per_day": 8.8
    },
    {
     "hour": 18,
@@ -195,7 +195,7 @@
     "bus_early_pct": 17.4,
     "bus_within_5min_pct": 71.8,
     "punctuality_pct": 50.5,
-    "cancelled_per_day": 2.8
+    "cancelled_per_day": 3.0
    },
    {
     "hour": 19,
@@ -225,7 +225,7 @@
     "bus_early_pct": 19.2,
     "bus_within_5min_pct": 80.5,
     "punctuality_pct": 63.2,
-    "cancelled_per_day": 0.5
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 22,
