@@ -2806,6 +2806,29 @@
 },
 "fp": "d812b86d3a85"
 },
+"29608": {
+"event": {
+"cause": "construction",
+"created": "2026-10-21 06:39:00",
+"cross_street_1": "DALHOUSIE",
+"cross_street_2": "CUMBERLAND",
+"direction": null,
+"event_id": "29608",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "YORK closed between DALHOUSIE and CUMBERLAND due to construction, from November 2nd to 13th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.428854,
+"lon": -75.691118,
+"planned_end": "2026-11-13T17:00",
+"planned_start": "2026-10-30T07:00",
+"priority": "MEDIUM",
+"road": "YORK",
+"source": "city",
+"updated": "2026-10-30 06:56:00"
+},
+"fp": "fc101e2bffd3"
+},
 "29613": {
 "event": {
 "cause": "construction",
@@ -2920,6 +2943,29 @@
 "updated": "2026-10-23 11:24:00"
 },
 "fp": "ee0907e75deb"
+},
+"29652": {
+"event": {
+"cause": "construction",
+"created": "2026-10-23 12:26:00",
+"cross_street_1": "Clover",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29652",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Heron lane reduction at Clover due to construction, from November 2nd to 10th.",
+"lanes": "lane reduction",
+"lat": 45.377853,
+"lon": -75.676565,
+"planned_end": "2026-11-10T17:00",
+"planned_start": "2026-10-30T07:00",
+"priority": "MEDIUM",
+"road": "Heron",
+"source": "city",
+"updated": "2026-10-30 06:56:00"
+},
+"fp": "f617d5749e90"
 },
 "29654": {
 "event": {
@@ -3357,29 +3403,6 @@
 "updated": "2026-10-29 17:18:00"
 },
 "fp": "b04cf7628d99"
-},
-"29762": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-29 20:19:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "29762",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "CUMMINGS AVE closed between DONALD ST and OGILVIE RD due to a collision. Police are directing traffic. Duration is unknown. Avoid area and use other routes.",
-"lanes": "closed",
-"lat": 45.427993,
-"lon": -75.632734,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": null,
-"source": "city",
-"updated": "2026-10-29 20:19:00"
-},
-"fp": "8808ed4f496e"
 }
 }
 }
