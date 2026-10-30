@@ -16,8 +16,8 @@ class ReconciliationTests(unittest.TestCase):
         cls.wards=json.loads((ROOT/'ward_data.json').read_text(encoding='utf8'))
         cls.city=json.loads((ROOT/'mayor_history.json').read_text(encoding='utf8'))
         cls.races={(r['year'],r['ward'],r['office']):r for r in cls.source['races']}
-        r26=json.loads((ROOT/'reconciliation/results_2026.json').read_text(encoding='utf8'))
-        cls.races.update({(r['year'],r['ward'],r['office']):r for r in r26['races'] if r['office']=='councillor'})
+        r26=json.loads((ROOT/'reconciliation/results_2026_official.json').read_text(encoding='utf8'))
+        cls.races.update({(r['year'],r['ward'],r['office']):r for r in r26['races'] if r['ward'] is not None})
 
     def test_independent_city_controls(self):
         # Independent published summary controls, not re-summed page outputs.
@@ -39,7 +39,13 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(w['1']['history']['councillor'][4],39.8)
         for ward in ('16','21'):
             self.assertTrue(w[ward]['history']['councillor_race'][4]['acclaimed'])
-        self.assertTrue(all(v['history']['mayor_race'][4] is None for v in w.values()))
+        # Mayor split by ward comes from the official poll rows and reconciles to the citywide result.
+        self.assertEqual((w['1']['history']['mayor_race'][4]['top_name'],w['1']['history']['mayor_race'][4]['top_votes']),('Mark Sutcliffe',8303))
+        split=[r for (y,wd,o),r in self.races.items() if y==2026 and o=='mayor']
+        self.assertEqual(sum(r['valid_votes'] for r in split),312125)
+        self.assertEqual(sum(r['ballots'] for r in split),314393)
+        self.assertEqual(self.races[(2026,99,'mayor')]['coverage'],'unallocated_citywide_polls')
+        self.assertEqual(self.city[-1]['unallocatedMayorBallots'],30692)
         self.assertEqual(sum(1 for v in w.values() if v['history']['councillor_race'][4].get('acclaimed')),2)
 
     def test_special_votes_are_preserved_without_home_ward_assignment(self):

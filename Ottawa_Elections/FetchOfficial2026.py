@@ -3,10 +3,13 @@ reconciliation/results_2026_official.json, in the same shape as FetchResults2026
 unofficial feed so BuildWardData.py can use either.
 
 Source: open.ottawa.ca item 28d0d0f0d4704ba295dd362a31c07aee (Statement_of_Votes_Cast_Final_2026_BIL.xlsx).
-Only the 'Total' row of each Mayor/Ward sheet is read here; poll rows stay in the workbook.
+Council and citywide mayor use the 'Total' row of each sheet. The mayor's ward split sums the poll rows of
+the Mayor sheet by the ward code in each poll label (advance and special polls included); polls coded 99
+are citywide and stay unallocated, as in 2022.
 Requires openpyxl. Run from any cwd; --refresh re-downloads the workbook.
 """
 import argparse
+import collections
 import hashlib
 import json
 import re
@@ -36,6 +39,38 @@ def race(rows, ward):
     return {'year': 2026, 'ward': ward, 'office': 'mayor' if ward is None else 'councillor',
             'registered': int(total[2]), 'ballots': int(total[1]), 'valid_votes': int(total[valid_col]),
             'acclaimed': False, 'candidates': cands, 'coverage': 'ward_totals', 'certification': 'official'}
+
+
+PRECINCT = re.compile(r'(?<!\d)(\d{2})-\d{3}')
+
+
+def mayor_by_ward(rows):
+    header = next(r for r in rows if r and str(r[0]).startswith('Voting place'))
+    valid_col = next(i for i, v in enumerate(header) if v and 'Total votes' in str(v))
+    cols = [(i, name_of(header[i])) for i in range(7, valid_col) if header[i]]
+    wards = collections.defaultdict(lambda: {'registered': 0, 'ballots': 0, 'valid_votes': 0,
+                                             'candidates': collections.Counter()})
+    for r in rows[rows.index(header) + 1:]:
+        label = str(r[0] or '').strip()
+        m = PRECINCT.search(label)
+        if label == 'Total' or not m:
+            continue
+        w = wards[int(m[1])]
+        w['registered'] += int(r[2] or 0)
+        w['ballots'] += int(r[1] or 0)
+        w['valid_votes'] += int(r[valid_col] or 0)
+        for i, n in cols:
+            w['candidates'][n] += int(r[i] or 0)
+    out = []
+    for ward in sorted(wards):
+        w = wards[ward]
+        assert sum(w['candidates'].values()) == w['valid_votes'], (ward, 'mayor ward sum')
+        out.append({'year': 2026, 'ward': ward, 'office': 'mayor', 'registered': w['registered'],
+                    'ballots': w['ballots'], 'valid_votes': w['valid_votes'], 'acclaimed': False,
+                    'candidates': dict(w['candidates']),
+                    'coverage': 'unallocated_citywide_polls' if ward == 99 else 'ward_coded_polls_only',
+                    'certification': 'official'})
+    return out
 
 
 def main():
@@ -74,14 +109,21 @@ def main():
         if r['acclaimed']:
             r['registered'] = per_ward[r['ward']]
     assert sum(r['registered'] for r in races if r['office'] == 'councillor') == int(city[1]) == races[0]['registered']
+    split = mayor_by_ward(sheets['Mayor_Maire'])
+    city_mayor = races[0]
+    assert sum(r['valid_votes'] for r in split) == city_mayor['valid_votes']
+    assert sum(r['ballots'] for r in split) == city_mayor['ballots']
+    for name, votes in city_mayor['candidates'].items():
+        assert sum(r['candidates'].get(name, 0) for r in split) == votes, name
+    races.extend(split)
     out = {'source': PAGE, 'retrieved': str(date.today()), 'registered': int(city[1]),
            'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
            'note': "City of Ottawa official 2026 Statement of Votes Cast (Elections Office, created 2026-10-30). "
-                   "Ward totals only here; poll rows stay in the workbook.",
+                   "Mayor split by ward is built from the Mayor sheet's poll rows.",
            'races': races}
     (ROOT / 'reconciliation/results_2026_official.json').write_text(
         json.dumps(out, ensure_ascii=False, indent=2) + '\n', encoding='utf8')
-    print(f"mayor ballots {races[0]['ballots']}, {len(races) - 1} council races, registered {out['registered']}")
+    print(f"mayor ballots {races[0]['ballots']}, {len(races) - 1} ward races (council + mayor split), registered {out['registered']}")
 
 
 if __name__ == '__main__':

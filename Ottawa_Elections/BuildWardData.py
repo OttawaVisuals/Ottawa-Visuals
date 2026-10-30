@@ -44,8 +44,7 @@ def main():
                      'validVotes':r['valid_votes'], 'votesMayor':winner[1], 'winnerName':winner[0],
                      'runnerUp':runner[1], 'runnerUpName':runner[0],
                      'turnout':pct(r['ballots'],r['registered']), 'certification':r['certification'],
-                     'unallocatedMayorBallots':next((a['ballots'] for a in source['races']
-                         if a['year']==r['year'] and a['ward']==99 and a['office']=='mayor'),0)})
+                     'unallocatedMayorBallots':(races.get((r['year'],99,'mayor')) or {}).get('ballots',0)})
 
     def council(ward, year):
         r = races.get((year,ward,'councillor'))
@@ -65,8 +64,6 @@ def main():
                 'winner_votes':count, 'certification':r['certification']}
 
     def mayor(ward, year):
-        if year == 2026:
-            return None
         r = races.get((year,ward,'mayor'))
         if r is None:
             return None
