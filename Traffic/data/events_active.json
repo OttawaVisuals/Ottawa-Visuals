@@ -506,29 +506,6 @@
 },
 "fp": "9814c4de6b7f"
 },
-"27831": {
-"event": {
-"cause": "construction",
-"created": "2026-07-17 16:38:00",
-"cross_street_1": "Claymor",
-"cross_street_2": "Valmarie",
-"direction": null,
-"event_id": "27831",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Normandy closed between Claymor and Valmarie due to construction. Follow the signed detour. From 6:00am, 20/07/26 to 7:00pm, 30/10/26",
-"lanes": "closed",
-"lat": 45.361645,
-"lon": -75.706922,
-"planned_end": "2026-10-30T19:00",
-"planned_start": "2026-07-17T06:00",
-"priority": "MEDIUM",
-"road": "Normandy",
-"source": "city",
-"updated": "2026-09-04 09:12:00"
-},
-"fp": "2e0e73bdbfa3"
-},
 "27852": {
 "event": {
 "cause": "construction",
@@ -942,29 +919,6 @@
 "updated": "2026-09-04 09:41:00"
 },
 "fp": "c60fa0209bc5"
-},
-"28702": {
-"event": {
-"cause": "construction",
-"created": "2026-09-04 07:14:00",
-"cross_street_1": "Ivylea",
-"cross_street_2": "Fair Oaks",
-"direction": null,
-"event_id": "28702",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Beechcliffe - closed between Ivylea and Fair Oaks due to construction. Access for local traffic maintained. Until October 30.",
-"lanes": "closed",
-"lat": 45.334147,
-"lon": -75.755888,
-"planned_end": "2026-10-30T19:00",
-"planned_start": "2026-09-04T07:15",
-"priority": "MEDIUM",
-"road": "Beechcliffe",
-"source": "city",
-"updated": "2026-09-04 09:37:00"
-},
-"fp": "1d8d725c24ca"
 },
 "28704": {
 "event": {
@@ -1931,29 +1885,6 @@
 "updated": "2026-10-13 11:16:00"
 },
 "fp": "02883bebdb87"
-},
-"29437": {
-"event": {
-"cause": "construction",
-"created": "2026-10-13 13:18:00",
-"cross_street_1": "ROOSEVELT",
-"cross_street_2": "MELBOURNE",
-"direction": null,
-"event_id": "29437",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "KENWOOD closed between ROOSEVELT and MELBOURNE due to construction. From 6:00am, October 13th to 7:00pm, October 30th.",
-"lanes": "closed",
-"lat": 45.387948,
-"lon": -75.754913,
-"planned_end": "2026-10-30T19:00",
-"planned_start": "2026-10-13T06:00",
-"priority": "MEDIUM",
-"road": "KENWOOD",
-"source": "city",
-"updated": "2026-10-13 13:20:00"
-},
-"fp": "e18ad7f49dc6"
 },
 "29459": {
 "event": {
@@ -3081,29 +3012,6 @@
 "updated": "2026-10-30 17:12:00"
 },
 "fp": "e4aae6da2921"
-},
-"29784": {
-"event": {
-"cause": "a collision",
-"created": "2026-10-30 18:04:00",
-"cross_street_1": "Lemieux",
-"cross_street_2": "Ogilvie",
-"direction": null,
-"event_id": "29784",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St. Laurent northbound reduced to 2 lanes between Lemieux and Ogilvie due to a collision. Duration is unknown.",
-"lanes": "reduced to 2 lanes",
-"lat": 45.424983,
-"lon": -75.637613,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St. Laurent",
-"source": "city",
-"updated": "2026-10-30 18:04:00"
-},
-"fp": "f624b4e0dfae"
 }
 }
 }
