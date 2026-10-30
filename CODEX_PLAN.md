@@ -77,7 +77,7 @@ TODAY (override): none
 - (Roads "why was the commute bad?" waits until ~Nov 5 for event logs)
 
 ## Week 2 (Oct 22–28): new pages from data in hand
-- [ ] Day 1: **RESET 2** — GovContracts stacked-bar page + category filter (strongest model)
+- [x] Day 1: **RESET 2** — GovContracts stacked-bar page + category filter (strongest model) (done Oct 30 in Claude Code: award-method stacked bars 2019–2025 on `govcontracts.html`, 7-category filter, dollars/share toggle, table; sole-source shares match independent recomputation; no console errors, no phone overflow; not yet committed or linked from home page)
 - [ ] Day 2: review/fix GovContracts page
 - [x] Day 3: OC Transpo KPI extraction from PDFs into a time series (strongest model) (done Oct 16 in Claude Code, plus the page `OC_Transpo/octranspo_kpis.html`)
 - [ ] Day 4: review the extracted series

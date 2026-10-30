@@ -24,14 +24,14 @@
     --line:#DCE1E8; --line-2:#C3CAD4;
     --ink:#1F2530; --ink-2:#4E586A; --ink-3:#6B7588;
     --accent:#C9542F; --accent-2:#2F6FB4;
-    --s1:#C9542F; --s2:#2F6FB4; --grid:#E3E7ED;
+    --s1:#C9542F; --s2:#2F6FB4; --s3:#7A5BC0; --s4:#8A91A5; --grid:#E3E7ED;
   }
   [data-theme="dark"] {
     --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
     --line:#2A2F3D; --line-2:#383E4E;
     --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#8A91A5;
     --accent:#E06B45; --accent-2:#5B9BE0;
-    --s1:#E06B45; --s2:#4A86CC; --grid:#262B38;
+    --s1:#E06B45; --s2:#4A86CC; --s3:#A98BE8; --s4:#8A91A5; --grid:#262B38;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
@@ -79,6 +79,13 @@
   .note { margin-top:24px; font-size:12.5px; line-height:1.6; color:var(--ink-3); border-top:1px solid var(--line); padding-top:14px; }
   .error-msg { color:#B3402A; }
   a { color:var(--accent-2); }
+  .controls { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; margin:4px 0 8px; font-size:13px; color:var(--ink-2); }
+  .controls select { font:inherit; color:var(--ink); background:var(--bg-3); border:1px solid var(--line-2); border-radius:6px; padding:8px 10px; min-height:40px; max-width:100%; margin-left:6px; }
+  .seg { display:inline-flex; border:1px solid var(--line-2); border-radius:6px; overflow:hidden; }
+  .seg button { font:inherit; font-size:13px; color:var(--ink-2); background:var(--bg-3); border:0; padding:8px 14px; min-height:40px; cursor:pointer; }
+  .seg button + button { border-left:1px solid var(--line-2); }
+  .seg button[aria-pressed="true"] { background:var(--accent-2); color:#fff; }
+  :focus-visible { outline:2px solid var(--accent-2); outline-offset:2px; }
 </style>
 <link rel="stylesheet" href="assets/site-theme.css">
 <script src="assets/site-theme.js"></script>
@@ -131,6 +138,20 @@
     <p>Contract value for office furniture and furnishings, classed by the contract's own accounting description. This category has stayed between about $70M and $140M a year, and its record count has barely moved, so it works as a yardstick: the same data, a category the coding change doesn't distort.</p>
     <svg class="chart" id="c-furn" viewBox="0 0 700 220" role="img" aria-label="Bars of office furniture contract value by year, 2017 to 2025"></svg>
     <details><summary>Show as table</summary><div class="tblwrap"><table id="t-furn"></table></div></details>
+  </section>
+
+  <section class="card">
+    <h2>How office-related contracts were awarded</h2>
+    <p>Office-related federal contracts (building services, construction consulting, furniture and equipment) split by how they were awarded, 2019–2025. Pick a category, then switch between dollars and share of each year's value. The share view shows whether competition is eroding without the growth in total spend getting in the way.</p>
+    <div class="controls">
+      <label>Category <select id="pt-cat"></select></label>
+      <div class="seg" role="group" aria-label="Chart units"><button type="button" id="pt-usd" aria-pressed="true">Dollars</button><button type="button" id="pt-pct" aria-pressed="false">Share of year</button></div>
+    </div>
+    <div class="legend" id="pt-legend"></div>
+    <svg class="chart" id="c-proc" viewBox="0 0 700 280" role="img" aria-label="Stacked bars of office-related contract value by year and how the contract was awarded, 2019 to 2025"></svg>
+    <p id="pt-sum"></p>
+    <details><summary>Show as table</summary><div class="tblwrap"><table id="t-proc"></table></div></details>
+    <p style="margin-top:10px">Competitive = traditional, open-bidding or selective tender. Non-competitive = sole-source. Advance notice (ACAN) = the department announced its intent to sole-source and a rival could challenge; it counts as competitive only if a challenger qualifies, so it is kept apart. This field is mostly blank before 2017 and only fully filled in from 2019, so earlier years are not shown. The seven categories are picked from each contract's accounting description, and "Office buildings" mixes construction with rent.</p>
   </section>
 
   <p class="callout"><b>What this can't show.</b> (1) <b>IT consulting:</b> we left it out. The old IT codes are a narrow slice of IT work and the new UNSPSC IT family is much broader, so no series spans the 2021 change honestly. (2) <b>2026</b> is left out because the data only reaches June 2026 and recent months are filled in late. (3) <b>Contracts under $10,000</b> are published only as department totals. (4) <b>Counts are disclosure records</b>, and amendments can appear as their own records, so they're not the same as the number of distinct contracts. (5) <b>Coding is by the department.</b> A contract coded as management consulting may not be what a reader would call consulting, and some consulting is coded elsewhere. (6) Nothing here links spending to return-to-office decisions. The 2026 data doesn't yet reach the July mandate.</p>
@@ -212,6 +233,58 @@ fetch('GovContracts/data/page.json').then(r => { if (!r.ok) throw new Error(r.st
   const [yy, mm] = d.last_reliable_month.split('-');
   $('rel').textContent = ['January','February','March','April','May','June','July','August','September','October','November','December'][+mm - 1] + ' ' + yy;
 }).catch(e => { $('err').textContent = 'Could not load the data (' + e.message + ').'; });
+
+// Award method by year, per office-related category.
+(function () {
+  const TYPES = [
+    { key: 'Competitive', name: 'Competitive', color: 'var(--s2)' },
+    { key: 'Non-competitive', name: 'Non-competitive (sole-source)', color: 'var(--s1)' },
+    { key: 'ACAN (notice-based)', name: 'Advance notice (ACAN)', color: 'var(--s3)' },
+    { key: 'Unspecified', name: 'Not stated', color: 'var(--s4)' }
+  ];
+  const ALL = 'All seven categories';
+  const FROM = 2019, TO = 2025;
+  const cap = s => s.replace(/, including parts$/, '').replace(/ - /g, ' – ');
+  let rows = [], mode = 'usd';
+  const sel = $('pt-cat');
+  function draw() {
+    const cat = sel.value, yrs = [];
+    for (let y = FROM; y <= TO; y++) yrs.push(String(y));
+    const val = {};
+    TYPES.forEach(t => { val[t.key] = yrs.map(() => 0); });
+    const cnt = yrs.map(() => 0);
+    rows.forEach(r => {
+      const i = yrs.indexOf(r.year);
+      if (i < 0 || (cat !== ALL && r.category !== cat) || !val[r.procurement_type]) return;
+      val[r.procurement_type][i] += r.spend; cnt[i] += r.count;
+    });
+    const tot = yrs.map((_, i) => TYPES.reduce((s, t) => s + val[t.key][i], 0));
+    const used = TYPES.filter(t => val[t.key].some(v => v > 0));
+    $('pt-legend').innerHTML = used.map(t => '<span><i style="background:' + t.color + '"></i>' + esc(t.name) + '</span>').join('');
+    const series = used.map(t => ({ name: t.name, color: t.color, values: mode === 'usd' ? val[t.key] : val[t.key].map((v, i) => tot[i] ? v / tot[i] : 0) }));
+    const pct = (v, full) => (v * 100).toFixed(full ? 1 : 0) + '%';
+    bars('c-proc', yrs, series, mode === 'usd' ? (v => money(v)) : pct, cat === ALL ? 'all seven categories' : cap(cat));
+    $('c-proc').setAttribute('aria-label', 'Stacked bars of ' + (cat === ALL ? 'office-related' : cap(cat)) + ' contract ' + (mode === 'usd' ? 'value' : 'share') + ' by year and how the contract was awarded, ' + FROM + ' to ' + TO);
+    const sum = TYPES.reduce((s, t) => s + val[t.key].reduce((a, b) => a + b, 0), 0);
+    const sole = val['Non-competitive'].reduce((a, b) => a + b, 0), acan = val['ACAN (notice-based)'].reduce((a, b) => a + b, 0);
+    $('pt-sum').textContent = sum ? (cat === ALL ? 'All seven categories' : cap(cat)) + ', ' + FROM + '–' + TO + ': ' + money(sum) + ' across ' + cnt.reduce((a, b) => a + b, 0).toLocaleString() + ' records. Sole-source: ' + (sole / sum * 100).toFixed(1) + '% of value; advance notice: ' + (acan / sum * 100).toFixed(1) + '%.' : 'No contracts in this category for these years.';
+    table('t-proc', ['Year'].concat(used.map(t => t.name), ['Total', 'Sole-source share']),
+      yrs.map((y, i) => [y].concat(used.map(t => money(val[t.key][i])), [money(tot[i]), tot[i] ? (val['Non-competitive'][i] / tot[i] * 100).toFixed(1) + '%' : '–'])));
+  }
+  function setMode(m) {
+    mode = m;
+    $('pt-usd').setAttribute('aria-pressed', m === 'usd'); $('pt-pct').setAttribute('aria-pressed', m === 'pct');
+    draw();
+  }
+  $('pt-usd').onclick = () => setMode('usd'); $('pt-pct').onclick = () => setMode('pct');
+  sel.onchange = draw;
+  fetch('GovContracts/data/office_footprint_by_year_procurement.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
+    rows = d;
+    const cats = Array.from(new Set(d.map(r => r.category))).sort();
+    sel.innerHTML = [ALL].concat(cats).map(c => '<option value="' + esc(c) + '">' + esc(c === ALL ? c : cap(c)) + '</option>').join('');
+    draw();
+  }).catch(e => { $('err').textContent = 'Could not load the award-method data (' + e.message + ').'; });
+})();
 </script>
 </body>
 </html>
