@@ -3495,6 +3495,75 @@
 "updated": "2026-10-30 13:12:00"
 },
 "fp": "e33cd01bd705"
+},
+"29775": {
+"event": {
+"cause": "construction",
+"created": "2026-10-30 13:27:00",
+"cross_street_1": "Bay",
+"cross_street_2": "Lyon",
+"direction": null,
+"event_id": "29775",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Slater lane reduction between Bay and Lyon due to construction, from November 2nd to 6th.",
+"lanes": "lane reduction",
+"lat": 45.416919,
+"lon": -75.705419,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-30T00:00",
+"priority": "MEDIUM",
+"road": "Slater",
+"source": "city",
+"updated": "2026-10-30 13:28:00"
+},
+"fp": "cee31bc5b0f2"
+},
+"29776": {
+"event": {
+"cause": "",
+"created": "2026-10-30 13:33:00",
+"cross_street_1": "CENTURY RD / PRINCE OF WALES DR (CR 73)",
+"cross_street_2": "L & G RD 43 (IC 34) (KEMPTVILLE)",
+"direction": null,
+"event_id": "29776",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Southbound from CENTURY RD / PRINCE OF WALES DR to L & G RD 43 (KEMPTVILLE) - Daily Construction. 1 Alternating Lane. Will be working in the NB and SB lanes, with alternating left and right lane closures. 2026-11-02 00:00 to 2026-11-08 23:59",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.19425,
+"lon": -75.72434,
+"planned_end": "2026-11-08T23:59",
+"planned_start": "2026-11-02T00:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-30 13:33:00"
+},
+"fp": "306cb70cfe9f"
+},
+"29777": {
+"event": {
+"cause": "",
+"created": "2026-10-30 13:36:00",
+"cross_street_1": "3RD LINE RD",
+"cross_street_2": "ROGER STEVENS DR (IC 49)/CR 6",
+"direction": null,
+"event_id": "29777",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Northbound from 3RD LINE RD to ROGER STEVENS DR /CR 6 - Daily Construction. 1 Left Lane(s). Working NB & SB, left lane closure. 2026-11-02 00:00 to 2026-11-08 23:59",
+"lanes": "1 Left Lane(s)",
+"lat": 45.12595,
+"lon": -75.67518,
+"planned_end": "2026-11-08T23:59",
+"planned_start": "2026-11-02T00:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-10-30 13:36:00"
+},
+"fp": "bf202b5069af"
 }
 }
 }
