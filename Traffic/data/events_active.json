@@ -3266,6 +3266,29 @@
 },
 "fp": "c7d61ac16130"
 },
+"29730": {
+"event": {
+"cause": "construction",
+"created": "2026-10-28 09:37:00",
+"cross_street_1": "ISLAND PARK",
+"cross_street_2": "WOODROFFE",
+"direction": null,
+"event_id": "29730",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Kichi Zibi Mikan reduced to 1 lane in each direction between ISLAND PARK and WOODROFFE due to construction, from November 2nd to 20th between 9:30am and 3:00pm.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.402592,
+"lon": -75.752894,
+"planned_end": "2026-11-20T15:00",
+"planned_start": "2026-10-30T09:30",
+"priority": "MEDIUM",
+"road": "Kichi Zibi Mikan",
+"source": "city",
+"updated": "2026-10-30 09:28:00"
+},
+"fp": "c26fafa05dc6"
+},
 "29735": {
 "event": {
 "cause": "construction",
@@ -3404,28 +3427,28 @@
 },
 "fp": "b04cf7628d99"
 },
-"29765": {
+"29766": {
 "event": {
 "cause": "a collision",
-"created": "2026-10-30 08:16:00",
-"cross_street_1": "Craig Henry",
-"cross_street_2": "Bateman/Bellman",
+"created": "2026-10-30 08:57:00",
+"cross_street_1": "Blohm",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29765",
+"event_id": "29766",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Greenbank lane reductions in both directions between Craig Henry and Bateman/Bellman due to a collision.",
-"lanes": "lane reductions in both directions",
-"lat": 45.326852,
-"lon": -75.779833,
+"full_closure": true,
+"headline": "Hunt Club closed at Blohm due to a collision. Police are directing traffic. Avoid area.",
+"lanes": "closed",
+"lat": 45.372152,
+"lon": -75.602094,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Greenbank",
+"priority": "HIGH",
+"road": "Hunt Club",
 "source": "city",
-"updated": "2026-10-30 08:16:00"
+"updated": "2026-10-30 09:21:00"
 },
-"fp": "d14ee3b38027"
+"fp": "fc8f889944af"
 }
 }
 }
