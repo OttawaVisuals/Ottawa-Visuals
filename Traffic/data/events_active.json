@@ -3335,6 +3335,29 @@
 },
 "fp": "745590b308b7"
 },
+"29757": {
+"event": {
+"cause": "construction",
+"created": "2026-10-29 16:47:00",
+"cross_street_1": "Montreal",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29757",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 174 E/B On-ramp closed at Montreal due to construction. From 11:00pm to 5:00am, October 29th to 30th.",
+"lanes": "closed",
+"lat": 45.451553,
+"lon": -75.582736,
+"planned_end": "2026-10-30T05:00",
+"planned_start": "2026-10-29T23:00",
+"priority": "HIGH",
+"road": "174 E/B On-ramp/Bretelle d'acc\u00e8s",
+"source": "city",
+"updated": "2026-10-29 22:56:00"
+},
+"fp": "60cfe33ae1bf"
+},
 "29758": {
 "event": {
 "cause": "construction",
@@ -3426,6 +3449,29 @@
 "updated": "2026-10-29 20:19:00"
 },
 "fp": "8808ed4f496e"
+},
+"29763": {
+"event": {
+"cause": "",
+"created": "2026-10-29 22:12:00",
+"cross_street_1": "ROCHESTER ST  (IC 121B)",
+"cross_street_2": "BRONSON AVE (IC 121A)",
+"direction": null,
+"event_id": "29763",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from ROCHESTER ST to BRONSON AVE - Emergency Roadwork. 1 right lane closed. ",
+"lanes": "1 right lane closed",
+"lat": 45.40316,
+"lon": -75.70877,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-10-29 22:12:00"
+},
+"fp": "36eb5c681f74"
 }
 }
 }
