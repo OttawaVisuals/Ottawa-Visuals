@@ -3403,6 +3403,52 @@
 "updated": "2026-10-29 17:18:00"
 },
 "fp": "b04cf7628d99"
+},
+"29767": {
+"event": {
+"cause": "a movie filming",
+"created": "2026-10-30 10:37:00",
+"cross_street_1": "LISGAR",
+"cross_street_2": "COOPER",
+"direction": null,
+"event_id": "29767",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "CARTIER southbound lane reduction between LISGAR and COOPER due to a movie filming, from October 30th to November 1st.",
+"lanes": "lane reduction",
+"lat": 45.419998,
+"lon": -75.689547,
+"planned_end": "2026-11-01T20:00",
+"planned_start": "2026-10-30T00:00",
+"priority": "UNKNOWN",
+"road": "CARTIER",
+"source": "city",
+"updated": "2026-10-30 10:40:00"
+},
+"fp": "3875b98758d7"
+},
+"29769": {
+"event": {
+"cause": "a movie filming",
+"created": "2026-10-30 10:42:00",
+"cross_street_1": "CARTIER",
+"cross_street_2": "ELGIN",
+"direction": null,
+"event_id": "29769",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "LEWIS westbound lane reduction between CARTIER and ELGIN due to a movie filming, from October 30th to November 1st.",
+"lanes": "lane reduction",
+"lat": 45.417035,
+"lon": -75.686982,
+"planned_end": "2026-11-01T20:00",
+"planned_start": "2026-10-30T00:00",
+"priority": "LOW",
+"road": "LEWIS",
+"source": "city",
+"updated": "2026-10-30 10:44:00"
+},
+"fp": "ceae610efa2c"
 }
 }
 }
