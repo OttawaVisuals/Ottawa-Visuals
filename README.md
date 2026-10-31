@@ -14,7 +14,7 @@ any bookmarked or shared links.
 ## Sub-projects
 | Folder | What it is |
 |---|---|
-| [`Wealth/`](Wealth/README.md) | Canada's wealth distribution: five wealth quintiles, 2010–2025 Q4 shares, separate PBO top-1% context, source rows and downloads ([`wealth.html`](Wealth/wealth.html)) |
+| [`Wealth/`](Wealth/README.md) | Canada's wealth distribution: wealth shares and all available household-account quarters, SFS surveys, PBO top-wealth history and earlier studies back to 1970, source rows and downloads ([`wealth.html`](Wealth/wealth.html)) |
 | [`Promises/`](Promises/README.md) | Sutcliffe’s original 2022 commitments and results: property taxes, transit fares, bus reliability, housing, Stage 2 LRT and ByWard Market safety; historical trends, targets and source notes ([`promises.html`](Promises/promises.html)) |
 | [`Budget/`](Budget/README.md) | Ottawa budget: 2023–2026 expense changes; operating/capital/funding charts; Lansdowne 2.0; paramedic, transportation-condition and housing KPI series ([`budget.html`](Budget/budget.html)) |
 | [`OPS/`](OPS/README.md) | Published OPS disciplinary records: unique officers, findings/dismissals, penalties, source links and separately listed upcoming hearings ([`ops.html`](OPS/ops.html)); manually reviewed partial snapshot |

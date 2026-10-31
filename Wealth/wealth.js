@@ -34,9 +34,10 @@
   }
 
   function trend() {
+    const points = $('trend-frequency').value === 'all' ? data.observations : years;
     const w = Math.max(260, $('trend').clientWidth), h = 290;
     const left = 38, right = w - 12, top = 16, bottom = h - 36;
-    const x = year => left + (year - years[0].year) / (years.at(-1).year - years[0].year) * (right - left);
+    const x = time => left + (time - points[0].time) / (points.at(-1).time - points[0].time) * (right - left);
     const y = value => bottom - value / 80 * (bottom - top);
     let body = '';
     [0, 20, 40, 60, 80].forEach(v => {
@@ -44,14 +45,14 @@
     });
     const ticks = w < 480 ? [2010, 2015, 2020, 2025] : [2010, 2013, 2016, 2019, 2022, 2025];
     ticks.filter(t => t >= years[0].year && t <= years.at(-1).year).forEach(t => {
-      body += text(x(t), h - 10, t, `text-anchor="${t === years[0].year ? 'start' : t === years.at(-1).year ? 'end' : 'middle'}"`);
+      body += text(x(t+.75), h - 10, t, `text-anchor="${t === years[0].year ? 'start' : t === years.at(-1).year ? 'end' : 'middle'}"`);
     });
-    const selected = Number($('year').value);
+    const selected = Number($('year').value) + .75;
     body += `<line x1="${x(selected)}" x2="${x(selected)}" y1="${top}" y2="${bottom}" stroke="var(--ink-2)" stroke-dasharray="2 4" opacity=".5"/>`;
     [['top20', 'var(--accent)', ''], ['middle40', 'var(--accent-2)', '8 4'], ['bottom40', 'var(--green)', '2 4']].forEach(([key, color, dash]) => {
-      body += `<polyline points="${years.map(d => `${x(d.year)},${y(d[key])}`).join(' ')}" fill="none" stroke="${color}" stroke-width="3" stroke-dasharray="${dash}"/>`;
-      years.forEach(d => {
-        body += `<circle cx="${x(d.year)}" cy="${y(d[key])}" r="${d.year === selected ? 5 : 3}" fill="${color}"><title>${d.year}: ${key === 'top20' ? 'wealthiest 20%' : key === 'middle40' ? 'middle 40%' : 'bottom 40%'} held ${pct(d[key])}</title></circle>`;
+      body += `<polyline points="${points.map(d => `${x(d.time)},${y(d[key])}`).join(' ')}" fill="none" stroke="${color}" stroke-width="3" stroke-dasharray="${dash}"/>`;
+      points.forEach(d => {
+        body += `<circle cx="${x(d.time)}" cy="${y(d[key])}" r="${d.time === selected ? 5 : 3}" fill="${color}"><title>${d.label}: ${key === 'top20' ? 'wealthiest 20%' : key === 'middle40' ? 'middle 40%' : 'bottom 40%'} held ${pct(d[key])}</title></circle>`;
       });
     });
     $('trend').innerHTML = svg(w, h, `Wealth shares from ${years[0].year} to ${years.at(-1).year}. Exact values are in the annual table below.`, body);
@@ -73,9 +74,10 @@
   }
   const first = years[0], last = years.at(-1), change = Math.round((last.gap - first.gap) * 10) / 10;
   $('trend-note').textContent = `The gap between the top 20% and bottom 40% was ${fmt(first.gap)} percentage points in ${first.year} and ${fmt(last.gap)} in ${last.year} — ${change > 0 ? 'up' : change < 0 ? 'down' : 'unchanged by'} ${fmt(Math.abs(change))} points. The groups contain different numbers of households.`;
-  $('annual-values').innerHTML = years.map(d => `<tr><th scope="row">${d.year}</th><td>${pct(d.top20)}</td><td>${pct(d.middle40)}</td><td>${pct(d.bottom40)}</td><td>${fmt(d.gap)}</td></tr>`).join('');
+  $('annual-values').innerHTML = data.observations.map(d => `<tr><th scope="row">${d.label}</th><td>${pct(d.top20)}</td><td>${pct(d.middle40)}</td><td>${pct(d.bottom40)}</td><td>${fmt(d.gap)}</td></tr>`).join('');
   $('retrieved').textContent = `Source downloaded ${data.retrieved_utc.slice(0,10)} (UTC).`;
   $('year').addEventListener('change', render);
+  $('trend-frequency').addEventListener('change', trend);
   window.setTheme = mode => { document.documentElement.dataset.theme = mode; try {localStorage.setItem('ov-theme', mode);} catch(e) {} };
   let frame;
   new ResizeObserver(() => {cancelAnimationFrame(frame); frame = requestAnimationFrame(render);}).observe($('distribution'));

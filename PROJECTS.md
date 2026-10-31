@@ -348,9 +348,9 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ### Canada's wealth distribution
 - **Built Oct 31, 2026; publication pending:** `Wealth/wealth.html`, linked from the local homepage.
-- StatCan 36-10-0660-01: five wealth quintiles, 16 annual Q4 snapshots (2010–2025), year selector, distribution and trend charts, exact tables and CSV/JSON downloads.
-- Standard-library builder retains 288 source rows, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.
-- Separate PBO 2023 family top-1% estimate; no series splice. Scope, mean/median distinction, model uncertainty, group membership changes and annual release schedule documented in `Wealth/README.md`.
+- StatCan household accounts: 34 available observations (2010–2025), Q4/all-quarter trend views; six SFS surveys (1999–2023); PBO 2021/2025 historical variants, percentile snapshots and labelled projections; early-study deciles/Gini back to 1970. Source series remain separate; chart selectors, tables and CSV/JSON downloads.
+- Standard-library builders retain 612 DHEA and 648 SFS source rows plus 366 historical metric records, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.
+- Independent PBO PDF and StatCan HTML transcription audit passes; no series splice. Scope, mean/median distinction, model uncertainty, group membership changes and annual release schedule documented in `Wealth/README.md`.
 
 
 ### Sutcliffe’s 2022 promises

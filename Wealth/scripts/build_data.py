@@ -1,6 +1,6 @@
 """Rebuild the Canada wealth snapshot from StatCan 36-10-0660-01.
 
-Uses Q4 only, so annual comparisons use the same season. No interpolation.
+Retains all available periods; Q4 annual views use the same season. No interpolation.
 Retains the exact source rows, vectors, status flags and source archive hash.
 """
 import csv
@@ -26,7 +26,7 @@ def main():
     selected = [r for r in rows if r['GEO'] == 'Canada'
                 and r['Characteristics'] in GROUPS + ['All households']
                 and r['Wealth'] == 'Net worth (wealth)'
-                and r['REF_DATE'].endswith('-10') and r['VALUE'] != '']
+                and r['VALUE'] != '']
     lookup = {(r['REF_DATE'], r['Characteristics'], r['Statistics']): r for r in selected}
 
     def value(period, group, stat):
@@ -35,7 +35,7 @@ def main():
         assert row['SCALAR_FACTOR'] == ('millions' if stat == 'Value' else 'units')
         return float(row['VALUE'])
 
-    years = []
+    observations = []
     for period in sorted(set(r['REF_DATE'] for r in selected)):
         total = value(period, 'All households', 'Value')
         groups = []
@@ -51,16 +51,21 @@ def main():
         # Combine unrounded totals first, then round, avoiding compounded rounding.
         bottom = round(100 * sum(g['total_millions'] for g in groups[:2]) / total, 1)
         middle = round(100 * sum(g['total_millions'] for g in groups[2:4]) / total, 1)
-        years.append(dict(year=int(period[:4]), period=period, groups=groups,
+        quarter = (int(period[5:7]) - 1) // 3 + 1
+        observations.append(dict(year=int(period[:4]), quarter=quarter,
+                          time=int(period[:4]) + (quarter - 1) / 4,
+                          label=f'{period[:4]} Q{quarter}', period=period, groups=groups,
                           top20=groups[-1]['share'], middle40=middle, bottom40=bottom,
                           gap=round(groups[-1]['share'] - bottom, 1)))
+    years = [d for d in observations if d['quarter'] == 4]
     assert len(years) == years[-1]['year'] - years[0]['year'] + 1
     if years[-1]['year'] == 2025:
         assert (years[-1]['top20'], years[-1]['bottom40'], years[-1]['gap']) == (65.7, 3.0, 62.7)
         assert [g['average_dollars'] for g in years[-1]['groups']] == [-4608, 167907, 526185, 1160145, 3543579]
     data = dict(table='36-10-0660-01', source_url=URL,
                 retrieved_utc=datetime.now(timezone.utc).isoformat(),
-                source_sha256=hashlib.sha256(raw).hexdigest(), years=years)
+                source_sha256=hashlib.sha256(raw).hexdigest(), years=years,
+                observations=observations)
     out = ROOT / 'data'
     out.mkdir(parents=True, exist_ok=True)
     (out / 'wealth.json').write_text(json.dumps(data, indent=2) + '\n', encoding='utf-8')
@@ -73,10 +78,10 @@ def main():
     with (out / 'wealth.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['year', 'period', 'wealth_group', 'share_percent', 'average_net_worth_nominal_cad', 'total_net_worth_millions_cad'])
-        for y in years:
+        for y in observations:
             for g in y['groups']:
-                writer.writerow([y['year'], 'Q4', g['label'], g['share'], int(g['average_dollars']), int(g['total_millions'])])
-    print(f"Validated {len(years)} Q4 observations, {years[0]['year']}–{years[-1]['year']}; {len(selected)} source rows.")
+                writer.writerow([y['year'], f"Q{y['quarter']}", g['label'], g['share'], int(g['average_dollars']), int(g['total_millions'])])
+    print(f"Validated {len(observations)} observations ({len(years)} Q4), {years[0]['year']}–{years[-1]['year']}; {len(selected)} source rows.")
     print('Latest:', {k: years[-1][k] for k in ['top20', 'bottom40', 'gap']})
 
 

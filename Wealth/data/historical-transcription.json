@@ -1,0 +1,37 @@
+{
+  "sources": {
+    "pbo2021": {"title":"PBO, 2021 report", "url":"https://www.pbo-dpb.ca/en/publications/RP-2122-023-M--estimating-top-tail-family-wealth-distribution-in-canada-updates-trends--estimation-extremite-superieure-distribution-patrimoine-familial-canada-mises-jour-tendances", "pdf_url":"https://distribution-a617274656661637473.pbo-dpb.ca/20de98fc3f4d93c5213f8d71fbe7cd89ae69cb1899e9cbf2d3ca4d57f18ab25a", "locator":"Table 3-1, printed p.10; Tables 2-1 to 2-4, pp.6–8", "note":"Public-use SFS microdata. Forbes and Canadian Business variants are separate estimates. Canadian Business missing in 2019; 2005 excluded by PBO because of its smaller sample. The 1999 treatment of missing debt entries can understate concentration."},
+    "pbo2025": {"title":"PBO, 2025 update", "url":"https://www.pbo-dpb.ca/en/publications/RP-2526-009-S--estimating-top-tail-family-wealth-distribution-in-canada-2025-update--estimation-extremite-superieure-distribution-patrimoine-familial-canada-mises-jour-2025", "pdf_url":"https://distribution-a617274656661637473.pbo-dpb.ca/94e59eedd1df221279b80e2f1378103b3d8f81a9388b667f54db173d1d5321a8", "locator":"Figures 1–2, printed pp.11–12; Tables 1–4, pp.7–10", "note":"Full SFS microdata and updated billionaire lists. Not directly comparable with the 2021 report. CB/Maclean's variant missing in 2019. PBO warns that rich-list composition and sampling uncertainty limit interpretation of changes."},
+    "statcan1987": {"title":"StatCan, Changes in the Distribution of Wealth in Canada, 1970–1984", "url":"https://publications.gc.ca/collections/collection_2017/statcan/CS13-588-1.pdf", "locator":"Table 1, printed p.25, All units columns", "note":"Survey of Consumer Finances, all family units (families and unattached individuals). Historical wealth concept excludes insurance and pension rights; do not splice with modern net worth. Original 1984 estimate differs from the later reanalysis."},
+    "statcan2006": {"title":"StatCan, Revisiting wealth inequality", "url":"https://www150.statcan.gc.ca/n1/pub/75-001-x/11206/9543-eng.htm", "table_url":"https://www150.statcan.gc.ca/n1/pub/75-001-x/11206/4096770-eng.htm", "locator":"Table 1, All families, unadjusted share columns; article Gini paragraph", "note":"1984 Assets and Debts Survey and 1999/2005 SFS, reanalysed with employer-sponsored pension wealth excluded for all years. Uses all families, not the top-1%-excluded or age-standardized variants. Decile medians are in 2005 dollars."}
+  },
+  "pbo_history_2021": {
+    "years":[1999,2012,2016,2019],
+    "groups":["Top 0.01%","Top 0.1%","Top 0.5%","Top 1%","Top 5%","Top 10%"],
+    "forbes":[[3.7,4.1,4.3,5.0],[8.3,9.6,9.9,11.2],[15.0,17.3,17.7,19.5],[19.4,22.2,22.7,24.8],[37.7,41.2,41.2,43.5],[51.4,55.4,54.8,56.9]],
+    "cb":[[5.4,5.4,5.6,null],[11.4,11.9,12.2,null],[18.4,20.1,20.5,null],[22.6,25.1,25.6,null],[40.1,43.5,43.5,null],[53.3,57.2,56.5,null]]
+  },
+  "pbo_history_2025": {
+    "years":[2016,2019,2023],
+    "groups":["Top 1%","Top 5%"],
+    "survey":[[14.1,14.8,11.0],[33.3,33.5,29.3]],
+    "forbes":[[21.9,23.4,22.0],[39.8,40.9,39.0]],
+    "enriched":[[25.6,null,23.8],[42.7,null,40.3]]
+  },
+  "percentile_groups":["Top 0.01%","Top 0.1%","Top 0.5%","Top 1%","Top 5%","Top 10%","Top 20%","Middle 40%","Bottom 40%"],
+  "snapshots":[
+    {"id":"2019-estimate","label":"2019 · 2021 report","year":2019,"source":"pbo2021","kind":"estimate","locator":"Table 2-2, p.7","shares":[5.0,11.2,19.5,24.8,43.5,56.9,73.9,25.1,1.1],"threshold_millions":["129.5","28.8","9.9","6.3","2.4","1.6","1.0","0.1–1.0","under 0.1"],"families_thousands":[1.6,16.0,80.2,160.6,800.4,1591.7,3183.7,6365.6,6365.7],"wealth_billions":[583,1309,2285,2903,5088,6653,8643,2931,123]},
+    {"id":"2021-projection","label":"Q2 2021 projection · 2021 report","year":2021,"source":"pbo2021","kind":"projection","locator":"Table 2-4, p.8","shares":[5.1,11.1,19.2,24.3,42.5,55.7,72.6,25.7,1.7],"threshold_millions":["153.2","33.8","11.7","7.3","2.8","1.9","1.2","0.2–1.2","under 0.2"],"families_thousands":[1.6,16.1,80.8,161.7,802.3,1602.4,3207.6,6407.3,6408.6],"wealth_billions":[720,1578,2733,3464,6055,7924,10328,3664,239]},
+    {"id":"2023-estimate","label":"2023 · 2025 report","year":2023,"source":"pbo2025","kind":"estimate","locator":"Table 2, p.8","shares":[5.3,11.4,19.1,23.8,40.3,52.7,69.2,27.6,3.3],"threshold_millions":["171.5","35.8","11.9","7.4","2.8","2.0","1.3","0.3–1.3","under 0.3"],"families_thousands":[1.7,16.9,84.8,169.4,842.9,1685.3,3372.2,6739.0,6740.8],"wealth_billions":[873,1856,3119,3893,6584,8601,11297,4502,542]},
+    {"id":"2024-projection","label":"Q4 2024 projection · 2025 report","year":2024,"source":"pbo2025","kind":"projection","locator":"Table 4, p.10","shares":[5.7,11.7,19.4,24.1,40.6,52.9,69.2,27.4,3.3],"threshold_millions":["175.0","36.5","12.1","7.5","2.9","2.1","1.3","0.3–1.3","under 0.3"],"families_thousands":[1.8,17.6,88.4,176.8,869.3,1758.0,3517.8,7030.0,7031.9],"wealth_billions":[1004,2050,3394,4218,7082,9229,12099,4792,568]}
+  ],
+  "thresholds": {
+    "labels":["$1 billion","$500 million","$250 million","$100 million","$50 million","$25 million","$10 million","$5 million","$2.5 million","$1 million"],
+    "2019":{"source":"pbo2021","locator":"Table 2-3, p.7","shares":[1.6,2.4,3.5,5.7,8.3,11.9,19.3,27.8,41.9,73.0],"families_thousands":[0.1,0.2,0.6,2.4,6.8,19.5,78.4,225.2,722.4,3078.2],"wealth_billions":[185,277,407,668,968,1390,2261,3254,4904,8534]},
+    "2023":{"source":"pbo2025","locator":"Table 3, p.9","shares":[2.2,3.1,4.4,6.9,9.7,13.4,20.6,28.5,45.2,76.5],"families_thousands":[0.1,0.3,1.0,3.7,10.3,28.3,108.0,297.6,1145.4,4439.8],"wealth_billions":[360,513,725,1132,1577,2191,3371,4661,7383,12498]}
+  },
+  "historical_studies":[
+    {"id":"statcan1987","label":"Original study · 1970–1984","years":[1970,1977,1984],"decile_shares":[[-1.0,0.0,0.3,1.3,3.0,5.4,8.3,11.8,17.6,53.3],[-0.6,0.1,0.5,1.6,3.5,5.9,8.6,12.1,17.6,50.7],[-0.4,0.1,0.6,1.8,3.6,5.7,8.2,11.6,17.5,51.3]],"gini":[0.716,0.689,0.686]},
+    {"id":"statcan2006","label":"Reanalysed study · 1984–2005","years":[1984,1999,2005],"decile_shares":[[-0.5,0.1,0.5,1.7,3.5,5.6,8.2,11.5,17.5,51.8],[-0.6,0.0,0.4,1.3,2.8,4.7,7.4,11.0,17.4,55.7],[-0.6,0.0,0.2,1.1,2.5,4.4,6.9,10.5,16.8,58.2]],"gini":[0.691,0.727,0.746],"decile_medians_2005_dollars":[[-2100,780,7770,24630,52260,83130,120690,170210,256740,534980],[-6570,120,6820,26150,57120,93850,148610,221770,344890,723590],[-9600,10,6000,25500,63250,109050,173590,263000,413750,1194000]]}
+  ]
+}

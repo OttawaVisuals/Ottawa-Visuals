@@ -14,7 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
-- [x] Canada wealth distribution (Oct 31: StatCan 2010–2025 Q4 distribution/trend charts, year selector, exact tables, CSV/JSON and retained source rows; separate PBO top-1% context; 16 year selections, phone layouts and themes checked; local homepage/tracker/docs links, publication pending)
+- [x] Canada wealth distribution (Oct 31: StatCan all-period and SFS history, PBO top-wealth variants/percentile snapshots/projections, historical deciles and Gini back to 1970; exact tables, CSV/JSON and source rows; independent source audit, selectors, phone layouts and themes checked; local homepage/tracker/docs links, publication pending)
 - [x] Simplify road safety demo (Oct 30: one scrolling form, report selection reveals relevant questions, single preview action with edit/reset; inline validation and mobile/browser flow checks)
 - [x] Unlisted road safety demo (Oct 30: Traffic/demo/, separate close-call/witness flows, geolocation and adjustable map pin, structured icon choices and review; no real collection, noindex and no public navigation links; browser checks at phone width, light/dark, validation, map confirmation and reset; live device GPS not tested)
 - [x] Add municipal fee context to recap (Oct 25: water/wastewater/stormwater overall increases, comparable 2025–26 curbside waste fee, dated Downtown street-parking example; nine sourced values, current parking GIS snapshot, funding-change caveat and separate units; expanded PNG/SVG visually checked)
