@@ -168,8 +168,9 @@ footer{max-width:1240px;margin:0 auto;padding:18px 24px 36px;color:var(--ink-3);
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="weather">
 
 <!-- TOPBAR -->
 <header class="topbar">
@@ -208,11 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <div class="report">
 
-  <div class="hero">
+  <div class="hero ov-report-hero"><div class="ov-report-copy">
     <h1>Ottawa's changing climate</h1>
     <p>135 years of daily Environment Canada records for Ottawa — temperatures, extremes,
        precipitation and record events, updated automatically.</p>
-  </div>
+  </div><img class="ov-report-art" src="../assets/report-art/weather.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></div>
 
   <div id="load-error">Couldn't load the climate data files. Try refreshing, or check that
     <code>data/weather_indices.json</code> and <code>weather_hourly_indices.json</code>
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- WARMING STRIPES -->
     <div class="section">
       <div class="section-head">
-        <h2>135 years, at a glance</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">135 years, at a glance</h2>
         <p>Each stripe is one year's average temperature, colour-coded from the coldest to the
            hottest year on record. Hover a stripe for the year and value.</p>
       </div>
@@ -242,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- ANNUAL MEAN TEMP -->
     <div class="section">
       <div class="section-head">
-        <h2>Annual mean temperature</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Annual mean temperature</h2>
         <p>Yearly average temperature (thin line) with a 10-year rolling average (bold line)
            to see past the year-to-year noise.</p>
       </div>
@@ -252,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- DAILY TEMPERATURE SPIRAL -->
     <div class="section">
       <div class="section-head">
-        <h2>The shape of a year</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/weather.webp');">The shape of a year</h2>
         <p>Each ring traces one year's daily mean temperature, drawn clockwise from Jan 1 at the
            top — distance from the centre encodes the temperature. The current year draws
            day-by-day in full colour; every year already drawn stays on the chart as a faint
@@ -278,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- SEASONAL -->
     <div class="section">
       <div class="section-head">
-        <h2>Warming isn't even across seasons</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Warming isn't even across seasons</h2>
         <p>Mean temperature by season, each with its own trend line. Winters typically warm
            fastest — worth checking against Ottawa's own record.</p>
       </div>
@@ -288,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- HOT vs COLD EXTREMES -->
     <div class="section">
       <div class="section-head">
-        <h2>Hot extremes are up. Cold extremes are down.</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Hot extremes are up. Cold extremes are down.</h2>
         <p>Count of days per year hitting each threshold. This is the honest "extreme weather"
            story: not a flat increase in all extremes, but a shift in which kind occurs.
            Click a legend item to isolate a line.</p>
@@ -299,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- SNOW -> RAIN -->
     <div class="section">
       <div class="section-head">
-        <h2>The snow-to-rain shift</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">The snow-to-rain shift</h2>
         <p>Rain's share of total precipitation (by water-equivalent volume) — a rising line
            means winters are trending toward more rain and less snow.</p>
       </div>
@@ -309,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- HOURLY EXTREMES -->
     <div class="section">
       <div class="section-head">
-        <h2>Recent extremes, hour by hour <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(1953–present)</span></h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Recent extremes, hour by hour <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(1953–present)</span></h2>
         <p>Wind, humidex and wind-chill only exist at hourly resolution, so this record is
            shorter than the 1889 daily one — but still 70+ years. Hot/tropical are shown as
            <strong>hours</strong> here, not days — the same underlying threshold as the daily
@@ -333,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- LIGHTNING -->
     <div class="section">
       <div class="section-head">
-        <h2>Lightning strikes <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(2021–present)</span></h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/weather.webp');">Lightning strikes <span style="color:var(--ink-3);font-weight:400;font-size:14px;">(2021–present)</span></h2>
         <p>Actual strike counts, not just thunderstorm-day counts — from a different, non-ECCC
            source with a much shorter record. Read the caveat below before drawing a trend from
            this one.</p>
@@ -350,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- RECORDS -->
     <div class="section">
       <div class="section-head">
-        <h2>Records &amp; extremes</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Records &amp; extremes</h2>
         <p>The single most extreme readings on record — and how the whole climate has shifted
            underneath them. All-time temperature, snow and rain records come from the full daily
            history (1889+); humidex, wind chill, wind speed and the hour-by-hour leaderboards only
@@ -374,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- YEAR YOU REMEMBER -->
     <div class="section">
       <div class="section-head">
-        <h2>Pick a year you remember</h2>
+        <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/history.webp');">Pick a year you remember</h2>
         <p>See how that year's climate compares to the most recent complete year on record.</p>
       </div>
       <div class="card">
@@ -390,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <!-- METHODOLOGY -->
     <div class="section" id="methodology">
       <div class="methodology">
-        <h3>Data & methodology</h3>
+        <h3 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">Data & methodology</h3>
         <p>Source: Environment and Climate Change Canada, <a href="https://climate.weather.gc.ca/" target="_blank" rel="noopener" style="color:var(--accent);">climate.weather.gc.ca</a> (public, no API key).</p>
         <ul>
           <li><strong>Daily record (1889–present):</strong> Ottawa CDA station, which is still

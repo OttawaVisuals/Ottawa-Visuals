@@ -32,18 +32,19 @@
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="hockey">
 
 <div id="pwhl-header"></div>
 <script>PWHL.header('home');</script>
 
 <div class="report">
-  <div class="hero">
+  <div class="hero ov-report-hero"><div class="ov-report-copy">
     <span class="eyebrow">Ottawa Visuals · Hockey</span>
     <h1>PWHL Dashboard</h1>
     <p>League-wide stats, standings, leaders, and playoff results across every recorded PWHL season.</p>
-  </div>
+  </div><img class="ov-report-art" src="../assets/report-art/hockey.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></div>
   <p id="page-loading" role="status">Loading PWHL data…</p>
   <div id="load-error">Could not load this page. Check your connection and try again.</div>
 
@@ -51,7 +52,7 @@
     <div class="section">
       <div class="section-head">
         <div>
-          <h2 id="overview-title">League at a glance</h2>
+          <h2 id="overview-title" class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">League at a glance</h2>
           <p id="overview-sub">—</p>
         </div>
       </div>
@@ -67,7 +68,7 @@
     <div class="section">
       <div class="section-head">
         <div>
-          <h2>Standings</h2>
+          <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Standings</h2>
           <p>RW = regulation wins; OTW/SOW = overtime/shootout wins; L = regulation losses. Points: 3 per RW, 2 per OTW/SOW, 1 per OTL/SOL. The season you pick follows you to every page.</p>
         </div>
         <div class="season-picker">
@@ -89,7 +90,7 @@
     <div class="section">
       <div class="section-head">
         <div>
-          <h2>Player leaders</h2>
+          <h2 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Player leaders</h2>
           <p>Top 15 by category, selected season, in team colours. Traded players' club totals are combined. Minimum 5 games played for
              faceoff %. Click a bar for that player's page.</p>
         </div>
@@ -102,7 +103,7 @@
     </div>
 
     <div class="section">
-      <div class="section-head"><div><h2>Explore</h2><p>Everything else, one page each.</p></div></div>
+      <div class="section-head"><div><h2 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/hockey.webp');">Explore</h2><p>Everything else, one page each.</p></div></div>
       <div class="explore">
         <a href="teams.html"><span class="n">01</span><b>Teams</b><span>Every team on one page: records, goals, special teams and attendance, with a page per team.</span></a>
         <a href="players.html"><span class="n">02</span><b>Players</b><span>Find and compare skaters and goalies in sortable season tables. Each name opens a player career page.</span></a>
@@ -117,7 +118,7 @@
     <div class="section">
       <div class="section-head">
         <div>
-          <h2>Playoff bracket</h2>
+          <h2 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/hockey.webp');">Playoff bracket</h2>
           <p>Series results by round.</p>
         </div>
         <div class="tabs" id="bracket-tabs"></div>
@@ -128,7 +129,7 @@
     </div>
 
     <div class="section">
-      <div class="section-head"><div><h2>Random awards</h2><p>Five historical award leaders, refreshed weekly.</p></div></div>
+      <div class="section-head"><div><h2 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/hockey.webp');">Random awards</h2><p>Five historical award leaders, refreshed weekly.</p></div></div>
       <div class="awards-grid home-awards" id="home-awards"></div>
     </div>
   </div>

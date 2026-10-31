@@ -200,6 +200,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
+### Shared public-report artwork
+- **Published Oct 31, 2026:** eleven matching navy/teal/amber illustrations extend the wealth design across all twelve homepage cards, eleven report headers and 59 section labels.
+- No executable report scripts, element IDs, formulas or data changed. Desktop/phone comparisons, all themes, representative controls and asset/syntax checks completed; baseline overflow limitations retained in `assets/report-art/README.md`.
+- Scope is the public homepage report entry pages, excluding hidden reports and individual team/player detail pages. Assets, exact prompts and section manifest: `assets/report-art/`.
+
+
 ### Canada's wealth distribution
 - **Artwork:** approved design 2 (households/assets), homepage/header illustration and six decorative section icons; transparent WebP assets, theme/phone review, data unchanged.
 - **Published Oct 31, 2026:** `Wealth/wealth.html`, linked from the homepage.

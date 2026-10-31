@@ -268,8 +268,9 @@
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="ontario-elections">
 
 <!-- TOPBAR -->
 <header class="topbar">
@@ -290,7 +291,7 @@
 
 <div class="wrap">
 
-  <header class="top">
+  <header class="top ov-report-hero"><div class="ov-report-copy">
     <p class="eyebrow">Ontario elections</p>
     <h1>How much did vote-splitting shape Ontario's 2025 result?</h1>
     <p class="sub">The 2025 general election district by district: the actual result, the seats won with a true
@@ -298,7 +299,7 @@
       arithmetic about vote-splitting, not a forecast or a voting recommendation. Click a district for its own
       numbers. Turnout since 1981 is further down.</p>
     <p class="source mono" id="source"></p>
-  </header>
+  </div><img class="ov-report-art" src="../assets/report-art/ontario-elections.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></header>
 
   <div class="banner" id="sampleBanner" hidden>
     <b>Showing built-in sample data.</b> Run <span class="mono">build_data.py</span> on an Elections Ontario
@@ -307,7 +308,7 @@
   </div>
 
   <section>
-    <p class="sec-label">Results by district</p>
+    <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Results by district</p>
     <div class="lastel">
       <div class="card mapcard">
         <div class="mapcard-head">
@@ -394,7 +395,7 @@
   </section>
 
   <section>
-    <p class="sec-label">Seats at a glance · 0–124</p>
+    <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Seats at a glance · 0–124</p>
     <div class="gauges">
       <div class="card gaugecard">
         <h3>Actual result</h3>
@@ -421,7 +422,7 @@
   </section>
 
   <section>
-    <div class="sec-label">PCP-held seats most sensitive to vote-splitting
+    <div class="sec-label ov-section-marker" style="--ov-marker-art:url('../assets/report-art/ontario-elections.webp');">PCP-held seats most sensitive to vote-splitting
       <details class="info"><summary class="infobtn">?</summary>
         <div class="info-pop">The ten PCP-held ridings where the leading non-PC candidate would overtake PCP with the
           smallest vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the full table below and
@@ -435,7 +436,7 @@
   </section>
 
   <section>
-    <p class="sec-label">Vote coordination · full district table</p>
+    <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../assets/report-art/ontario-elections.webp');">Vote coordination · full district table</p>
     <div class="card">
       <div class="tabletools">
         <input type="search" id="tableSearch" placeholder="Find a district…" aria-label="Filter districts by name">
@@ -466,7 +467,7 @@
   </section>
 
   <section>
-    <p class="sec-label">Province-wide voter turnout, 1981–2025</p>
+    <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Province-wide voter turnout, 1981–2025</p>
     <div class="card">
       <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="Ontario province-wide voter turnout from 1981 to 2025"></svg>
       <div class="turn-stat" id="turnoutHistoryStat"></div>
@@ -475,7 +476,7 @@
   </section>
 
   <section>
-    <p class="sec-label">Methodology</p>
+    <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">Methodology</p>
     <div class="card methodology">
       <h4>Sources</h4>
       <p>Riding-level vote counts and province-wide turnout/seat history come from Elections Ontario's public

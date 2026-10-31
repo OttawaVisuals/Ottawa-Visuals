@@ -277,8 +277,9 @@ h2.ward-name{margin-bottom:0}
 main h2.card-title{font-family:var(--font-body);font-weight:600;letter-spacing:.05em}
 main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:normal}
 </style>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="ottawa-elections">
 
 <!-- TOPBAR -->
 <header class="topbar">
@@ -302,10 +303,10 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
 <main class="page" id="main">
 <div id="sr-status" class="sr-only" aria-live="polite"></div>
 
-  <div class="page-header">
+  <div class="page-header ov-report-hero"><div class="ov-report-copy">
     <h1>Ottawa Municipal Elections — Ward Participation</h1>
     <p>2010–2026 · explore a ward · City of Ottawa workbooks (2026: official results)</p>
-  </div>
+  </div><img class="ov-report-art" src="../assets/report-art/ottawa-elections.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></div>
 
   <form class="ward-finder" id="ward-finder">
     <label for="ward-search">Choose your ward</label>
@@ -320,14 +321,14 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
 
     <div class="card" style="display:flex;flex-direction:column">
       <div class="mh-head">
-        <h2 class="card-title" style="margin:0">Ottawa mayor race — historical context</h2>
+        <h2 class="card-title ov-section-marker" style="margin:0;--ov-marker-art:url('../Wealth/assets/history.webp');">Ottawa mayor race — historical context</h2>
       </div>
       <div class="card-sub" id="mayor-hist-sub">% of all registered voters · 2010–2026</div>
       <div id="ottawa-hist-chart-wrap" style="flex:1;display:flex;flex-direction:column;justify-content:space-between"></div>
     </div>
 
     <div class="card" style="display:flex;flex-direction:column">
-      <h2 class="card-title" id="kpi-title">Ward turnout · 2026</h2>
+      <h2 class="card-title ov-section-marker" id="kpi-title" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Ward turnout · 2026</h2>
       <div class="kpi-grid" style="flex:1;margin-top:6px">
         <div class="kpi-item">
           <div class="kpi-label">Ward average</div>
@@ -384,7 +385,7 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
 
     <div class="card" id="panel">
       <div id="ward-list">
-        <h2 class="card-title" id="wl-title" tabindex="-1">All wards</h2>
+        <h2 class="card-title ov-section-marker" id="wl-title" tabindex="-1" style="--ov-marker-art:url('../assets/report-art/ottawa-elections.webp');">All wards</h2>
         <div class="card-sub">Sort by a heading · tap a ward for candidate details and history</div>
         <div class="wl-scroll">
           <table class="wl-table">
@@ -461,7 +462,7 @@ main h2.ward-name{font-family:var(--font-body);font-weight:600;letter-spacing:no
 
   <!-- Caveats collected at the bottom -->
   <div class="caveats-section" id="caveats-section" style="display:none">
-    <h2 class="card-title" style="margin-bottom:8px">Data notes</h2>
+    <h2 class="card-title ov-section-marker" style="margin-bottom:8px;--ov-marker-art:url('../Wealth/assets/survey.webp');">Data notes</h2>
     <div id="caveats-list"></div>
   </div>
 

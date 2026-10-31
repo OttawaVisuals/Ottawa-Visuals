@@ -1,0 +1,23 @@
+/* Decorative illustrations shared by the public report entry pages. */
+.ov-report-hero{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(140px,230px);align-items:center!important;gap:22px!important}
+.ov-report-copy{min-width:0;text-align:left}
+.ov-report-copy h1{max-width:100%}
+.ov-report-art{display:block;width:100%;height:130px;object-fit:contain;padding:12px;background:#f7f4ee;border:1px solid #d2d8e3;border-radius:14px;box-sizing:border-box;align-self:center}
+.ov-section-marker{position:relative;padding-left:43px!important;min-height:34px;box-sizing:border-box}
+.ov-section-marker::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:32px;height:32px;background:#f7f4ee var(--ov-marker-art) center/28px 28px no-repeat;border:1px solid #d2d8e3;border-radius:7px;box-sizing:border-box;pointer-events:none}
+.ov-report-banner{margin:0;padding:12px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;grid-template-columns:minmax(0,1fr) 124px}
+.ov-report-banner h1{font-size:25px;line-height:1.15;margin:3px 0 6px}
+.ov-report-banner p{font-size:12px;line-height:1.5;margin:0;color:var(--ink-2)}
+.ov-report-banner .ov-report-art{height:82px;padding:6px}
+.card .thumb.report-art{background:#f7f4ee;display:flex;align-items:center;justify-content:center}
+.card .thumb.report-art img{display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;transform:scale(1.1)}
+.card .thumb.report-art::before,.card .thumb.report-art::after{display:none}
+@media(max-width:700px){
+ .ov-report-hero{grid-template-columns:minmax(0,1fr);gap:12px!important}
+ .ov-report-art{width:min(100%,260px);height:112px;padding:10px}
+ .ov-report-banner{grid-template-columns:minmax(0,1fr) 100px;gap:10px!important}
+ .ov-report-banner .ov-report-art{width:100px;height:76px}
+ .ov-report-banner h1{font-size:22px}
+ .ov-section-marker{padding-left:39px!important;min-height:32px}
+ .ov-section-marker::before{width:29px;height:29px;background-size:25px 25px}
+}

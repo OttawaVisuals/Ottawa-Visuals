@@ -28,8 +28,9 @@
 <script defer src="stops.js"></script>
 <script defer src="kpis.js"></script>
 <script defer src="revenue.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="traffic">
 <a class="skip" href="#main">Skip to report</a>
 <header class="topbar">
   <a href="../index.html" class="brand"><span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span><span>Ottawa Visuals<small>data, charted simply</small></span></a>
@@ -37,12 +38,12 @@
   <span class="spacer"></span><button id="theme-toggle" aria-label="Toggle theme"></button>
 </header>
 <main id="main" class="layout">
-  <header class="page-header">
+  <header class="page-header ov-report-hero"><div class="ov-report-copy">
     <p class="eyebrow">Traffic &amp; roads · Ottawa</p>
     <h1>How Ottawa <em>really moves</em></h1>
     <p class="sub">Collisions, where they happen, police stops, camera enforcement and traffic-court outcomes. Explore the records, see what changed, and check how far each source goes.</p>
     <p class="coverage" id="coverage">Loading official data coverage…</p>
-  </header>
+  </div><img class="ov-report-art" src="../assets/report-art/traffic.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></header>
   <div class="notice" id="update-note">Different sources cover different periods. Detailed records and newer OPS summaries are shown separately.</div>
   <nav class="report-nav" aria-label="Report sections">
     <button type="button" data-section="summary" aria-pressed="true">Summary</button>
@@ -57,7 +58,7 @@
   </nav>
   <div id="load-status" role="status">Loading report…</div>
   <section id="summary" aria-labelledby="summary-title" hidden>
-    <div class="section-head"><div><p class="eyebrow">Right now</p><h2 id="summary-title" tabindex="-1">At a glance</h2></div></div>
+    <div class="section-head"><div><p class="eyebrow">Right now</p><h2 id="summary-title" tabindex="-1" class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">At a glance</h2></div></div>
     <p class="sub">Three numbers on how the city is moving, each with its comparison. The sections above hold the detail behind them.</p>
     <div class="kpis">
       <article class="kpi" id="kpi-fatal"><h3 class="kpi-label">Fatal collisions · 2026 so far</h3><div class="stat-val">…</div></article>
@@ -67,7 +68,7 @@
     <div id="kpi-latest" aria-live="polite"></div>
   </section>
   <section id="report" aria-labelledby="section-title" hidden>
-    <div class="section-head"><div><p class="eyebrow" id="section-kicker"></p><h2 id="section-title" tabindex="-1"></h2></div><button type="button" id="download">Download filtered CSV</button></div>
+    <div class="section-head"><div><p class="eyebrow" id="section-kicker"></p><h2 id="section-title" tabindex="-1" class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/traffic.webp');"></h2></div><button type="button" id="download">Download filtered CSV</button></div>
     <p class="sub" id="section-description"></p>
     <div class="filters" id="filters"></div>
     <p class="scope" id="filter-scope"></p>
@@ -75,7 +76,7 @@
     <div id="panels"></div>
   </section>
   <section class="card methodology" aria-labelledby="method-title">
-    <h2 id="method-title">Sources &amp; method</h2>
+    <h2 id="method-title" class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">Sources &amp; method</h2>
     <p id="checked">Source checks are loading.</p>
     <details><summary>Coverage, definitions and missing data</summary>
       <div class="table-wrap"><table><caption>Coverage of the data used on this page</caption><thead><tr><th scope="col">Source</th><th scope="col">Available here</th><th scope="col">Limit</th></tr></thead><tbody id="source-rows"></tbody></table></div>

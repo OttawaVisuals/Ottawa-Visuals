@@ -376,8 +376,9 @@ p{margin:0;}
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="mortgage">
 
 <div id="loading"><div class="spinner"></div><p>Loading data…</p></div>
 
@@ -563,11 +564,11 @@ p{margin:0;}
   </aside>
 
   <!-- ── RESULTS COLUMN ── -->
-  <main class="results-col">
+  <main class="results-col"><header class="ov-report-hero ov-report-banner"><div class="ov-report-copy"><h1>Can we afford it?</h1><p>Explore mortgage payments, household costs and affordability.</p></div><img class="ov-report-art" src="../assets/report-art/mortgage.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></header>
 
     <!-- PAYMENT SUMMARY (top of results) -->
     <div class="rcard" id="pay-summary">
-      <h3 style="display:flex;align-items:center;gap:8px;">Summary
+      <h3 style="display:flex;align-items:center;gap:8px;--ov-marker-art:url('../Wealth/assets/trend.webp');" class="ov-section-marker">Summary
         <select id="displaymode" style="background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:3px 22px 3px 8px;font-family:var(--font-mono);font-size:10px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 7px center;cursor:pointer;">
           <option value="biweekly">Bi-weekly</option>
           <option value="monthly">Monthly</option>
@@ -606,7 +607,7 @@ p{margin:0;}
 
     <!-- ROW 1: Spending breakdown table -->
     <div class="rcard">
-      <h3>Spending breakdown <span class="sub" id="spend-lbl">bi-weekly</span>
+      <h3 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Spending breakdown <span class="sub" id="spend-lbl">bi-weekly</span>
         <span style="margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--ink-3);">shared expenses: <span id="jpct-lbl">70</span>% of net</span>
       </h3>
       <div class="spend-table-wrap">
@@ -653,7 +654,7 @@ p{margin:0;}
 
       <!-- Stress tests -->
       <div class="rcard">
-        <h3>Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span> <span class="tip-btn">?<span class="tip-box" style="width:260px;">OSFI B-20 qualifying rules. Lenders must test that you can afford payments at the higher of your rate + 2% or 5.25%. Blue line = your rate; purple = stress rate.</span></span></h3>
+        <h3 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/mortgage.webp');">Stress tests <span id="stress-badge" class="badge ok" style="margin-left:4px;">—</span> <span class="tip-btn">?<span class="tip-box" style="width:260px;">OSFI B-20 qualifying rules. Lenders must test that you can afford payments at the higher of your rate + 2% or 5.25%. Blue line = your rate; purple = stress rate.</span></span></h3>
         <div id="stress-bands"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
           <div class="li"><div class="ld" style="background:#378ADD;"></div>Actual rate</div>
@@ -663,7 +664,7 @@ p{margin:0;}
 
       <!-- Amortization -->
       <div class="rcard" style="display:flex;flex-direction:column;">
-        <h3>Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span> <span class="tip-btn">?<span class="tip-box" style="width:270px;">Annual cost breakdown over the full amortization. Stacked from bottom: principal repaid, interest paid, shared living expenses (inflation-adjusted), and remaining leeway.</span></span></h3>
+        <h3 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">Amortization — stacked area <span class="sub">all <span id="amort-years-lbl">25</span> yrs</span> <span class="tip-btn">?<span class="tip-box" style="width:270px;">Annual cost breakdown over the full amortization. Stacked from bottom: principal repaid, interest paid, shared living expenses (inflation-adjusted), and remaining leeway.</span></span></h3>
         <div class="chart-wrap" style="flex:1;min-height:160px;">
           <canvas id="amort-chart"></canvas>
         </div>
@@ -680,7 +681,7 @@ p{margin:0;}
 
     <!-- Housing market context -->
     <div class="rcard" id="market-card">
-      <h3>Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
+      <h3 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/mortgage.webp');">Housing market context <span class="sub" id="market-lbl">Ottawa</span></h3>
       <div id="ottawa-ctx" style="min-width:0;overflow:hidden;">
         <div class="ottawa-charts-grid" style="display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-bottom:8px;min-width:0;overflow:hidden;">
           <div>
@@ -720,7 +721,7 @@ p{margin:0;}
 
     <!-- Neighbourhood analysis -->
     <div class="rcard" id="census-card">
-      <h3>Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
+      <h3 class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/mortgage.webp');">Neighbourhood analysis <span class="sub" id="census-lbl">—</span></h3>
       <div id="census-ctx">
         <!-- ROW 1: Income chart + KPIs -->
         <div class="census-income-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;">
@@ -763,7 +764,7 @@ p{margin:0;}
 
     <!-- METHODOLOGY ANCHOR -->
     <div class="rcard" id="methodology">
-      <h3>Methodology & assumptions</h3>
+      <h3 class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">Methodology & assumptions</h3>
       <div style="font-size:12px;color:var(--ink-2);line-height:1.7;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
           <p style="font-weight:600;color:var(--ink);margin-bottom:4px;">Mortgage payment</p>

@@ -8,8 +8,9 @@
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <link rel="stylesheet" href="courts.css"><link rel="stylesheet" href="../assets/site-theme.css">
   <script defer src="../assets/site-theme.js"></script><script defer src="model.js"></script><script defer src="courts.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="courts">
 <a class="skip" href="#main">Skip to report</a>
 <header class="topbar">
   <a class="brand" href="../index.html"><span>Ottawa Visuals <small>Courts</small></span></a>
@@ -17,12 +18,12 @@
   <span class="spacer"></span><button id="theme-toggle" hidden aria-hidden="true" tabindex="-1"></button>
 </header>
 <main id="main">
-  <header class="page-header">
+  <header class="page-header ov-report-hero"><div class="ov-report-copy">
     <p class="eyebrow">Ontario Court of Justice · Ottawa</p>
     <h1>How Ottawa <em>court cases end</em></h1>
     <p class="lede">Guilty pleas, withdrawals and stays, and cases completed following a trial. Explore what the published totals show—and where they stop.</p>
     <p id="coverage" class="small">Loading court statistics…</p>
-  </header>
+  </div><img class="ov-report-art" src="../assets/report-art/courts.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></header>
   <div id="error" class="notice" role="alert" hidden>Data could not be loaded. <button id="retry" type="button">Try again</button> or open the <a href="https://www.ontariocourts.ca/ocj/statistics/">official court statistics</a>.</div>
   <noscript><p>JavaScript is needed for filters and charts. <a href="data/outcomes.json">Download the sourced data</a> or <a href="https://www.ontariocourts.ca/ocj/statistics/">visit the original statistics</a>.</p></noscript>
   <div class="notice"><strong>Completed cases are not all verdicts.</strong> These tables identify guilty pleas, but do not split the results of completed trials into guilty and acquitted. Criminal completions also include cases committed for trial in Superior Court.</div>
@@ -39,7 +40,7 @@
     </div>
   </section>
   <section aria-labelledby="selected-title">
-    <div class="section-head"><h2 id="selected-title">Selected period</h2><p id="selected-period" class="small"></p></div>
+    <div class="section-head"><h2 id="selected-title" class="ov-section-marker" style="--ov-marker-art:url('../assets/report-art/courts.webp');">Selected period</h2><p id="selected-period" class="small"></p></div>
     <p id="period-note" class="small"></p>
     <p id="unavailable" class="notice" role="status" hidden>No published row was found for this subject in the selected period. This is unavailable data, not zero.</p>
     <div class="stats">
@@ -51,7 +52,7 @@
     <details class="source-detail"><summary>See this period’s outcome counts and original source</summary><div id="selected-details"></div></details>
   </section>
   <section class="card history" aria-labelledby="history-title">
-    <div class="section-head"><div><p class="eyebrow">Over time</p><h2 id="history-title">How cases were completed</h2></div><button id="download" type="button" disabled>Download chart data (CSV)</button></div>
+    <div class="section-head"><div><p class="eyebrow">Over time</p><h2 id="history-title" class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/trend.webp');">How cases were completed</h2></div><button id="download" type="button" disabled>Download chart data (CSV)</button></div>
     <div class="chart-controls"><div class="mode" role="group" aria-label="Chart measure"><button id="share" type="button" aria-pressed="true">Share of completions</button><button id="count" type="button" aria-pressed="false">Number completed</button></div><label class="checkbox"><input type="checkbox" id="rolling">Include overlapping, non-calendar periods</label></div>
     <p id="chart-note" class="small">Each bar uses that period’s completed cases as its denominator. Select a period label to see its details above.</p>
     <p id="overlap-note" class="notice" hidden>Additional periods overlap calendar years. Their exact dates are shown. Do not add these bars together or treat them as successive calendar years.</p>
@@ -61,7 +62,7 @@
     <details class="data-table"><summary>View chart data as a table</summary><div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable chart data table"><table id="table"></table></div></details>
   </section>
   <section class="card methodology" aria-labelledby="method-title">
-    <h2 id="method-title">What these numbers mean</h2>
+    <h2 id="method-title" class="ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">What these numbers mean</h2>
     <details open><summary>Counts and percentages</summary><p><strong>Criminal:</strong> a case means the charges on one Information for one accused. Cases are classified by the most serious charge. One person can have several cases; these are not counts of unique people. The all-criminal series includes youth cases.</p><p><strong>Provincial offences:</strong> individual charges under Parts I and III of the Provincial Offences Act, including Highway Traffic Act offences and other statutes. These are charges, not criminal cases or unique people. Parking matters under Part II are outside this series.</p><p><strong>Share:</strong> category count ÷ the published completed total for the same subject and period. A zero completed total has no percentage. Received and pending counts are context only; neither is used as the denominator. No totals are added across reporting periods.</p></details>
     <details><summary>How outcomes are grouped</summary><p>Guilty pleas before trial and at a trial date are combined. For criminal cases, “withdrawn/stayed before trial” remains separate from withdrawals at a trial date. Stays cannot be separated from withdrawals in the pre-trial category. Other dispositions before and at trial dates are combined.</p><p>For provincial offences, prepaid fines, guilty pleas, guilt recorded after failure to respond/attend, withdrawals, other dispositions and completion following trial remain separate categories. “Following a trial” is a process category, not a guilty or acquitted result.</p><p>“At trial date” can mean the matter was resolved without a trial. The page does not label guilty pleas as trial verdicts. No complete conviction/acquittal rate, reason for withdrawal or stay, or finding about police conduct can be calculated from these tables.</p></details>
     <details><summary>Coverage, periods and source limitations</summary><p id="coverage-details"></p><p>The calendar-year view excludes publications with different reporting windows. The criminal file indexed as 2020 covers October 2019–September 2020; the files indexed as 2026 cover April 2025–March 2026. These are complete reporting windows, not 2026 year-to-date. Full dates control the labels, rather than filenames.</p><p>The Court cautions about the accuracy and reliability of pandemic-era ICON data. Changes in legislation, enforcement, offence mix and court operations can affect comparisons. Provincial traffic counts can include automated-camera charges; no adjustment for enforcement volume is made.</p><p>These are Ottawa OCJ location statistics and Ottawa City provincial-offence statistics. They are not all courts in Ottawa, do not identify individual cases or judges, and cannot be linked to named OPS officers. Superior Court case outcomes are not included.</p><p>The Ministry of the Attorney General collects the data on behalf of the Court. The Court does not confirm its accuracy/completeness or endorse this analysis. Newer source workbooks include reuse/audience wording; this report retains the original links and source notices in its audit.</p></details>

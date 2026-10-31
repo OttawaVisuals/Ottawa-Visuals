@@ -404,8 +404,9 @@
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="../assets/site-theme.css">
 <script src="../assets/site-theme.js"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
 </head>
-<body>
+<body data-report-art="road-safety">
 
 <!-- TOPBAR -->
 <header class="topbar">
@@ -425,11 +426,11 @@
   <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
 </header>
 
-<div class="page-header">
+<div class="page-header ov-report-hero"><div class="ov-report-copy">
   <p class="eyebrow">Road safety physics — stage 1</p>
   <h1>Vehicle–pedestrian impact calculator</h1>
   <p class="sub">Injury risk estimates from IIHS crash data, plus the simplified physics of momentum transfer.</p>
-</div>
+</div><img class="ov-report-art" src="../assets/report-art/road-safety.webp" width="512" height="256" alt="" aria-hidden="true" decoding="async"></div>
 
 <div class="layout">
 
@@ -462,7 +463,7 @@
 
   <!-- INJURY RISK -->
   <div class="card">
-    <p class="section-title">Injury risk</p>
+    <p class="section-title ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Injury risk</p>
     <p class="result-note" style="margin-bottom:2px;">Based on IIHS crash data (Monfort &amp; Mueller, 2024/2025) for the selected vehicle's front-end height category.</p>
 
     <div class="risk-row">
@@ -497,7 +498,7 @@
 
   <!-- THE MATH -->
   <div class="card">
-    <p class="section-title">The Math</p>
+    <p class="section-title ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/survey.webp');">The Math</p>
 
     <div class="math-caveat">
       <strong>Simplified model — treat with caution.</strong> These calculations assume a perfectly inelastic collision between two rigid bodies: all momentum transfers instantaneously at the moment of impact. Real collisions deviate substantially. <strong>Crumple zones</strong> deform over ~100–200 ms, absorbing a large fraction of the vehicle's kinetic energy as heat and structural deformation before it reaches the pedestrian — the peak force is spread over time, not delivered all at once. The <strong>human body isn't rigid either</strong>: flesh, fat, joints, and organs deform and redirect force, further breaking the rigid-body assumption. <strong>Contact geometry</strong> also matters — a sedan's hood may catch and partially decelerate the pedestrian; a pickup's high bumper transfers force to the chest rather than the legs; both produce trajectories nothing like the 45° ballistic arc shown below. In practice, pedestrians wrap around hoods or are pushed forward and slide along the ground.
@@ -582,7 +583,7 @@
 
   <!-- CAMERAS: moved to the road-safety report (2026-10-22) -->
   <div class="card">
-    <p class="section-title">Speed and red-light cameras</p>
+    <p class="section-title ov-section-marker" style="--ov-marker-art:url('../assets/report-art/road-safety.webp');">Speed and red-light cameras</p>
     <p class="section-note" style="margin:0">
       The camera charts that used to sit here (photo radar on, then off; tickets per camera; the red-light trade-off) now live with the rest of the city's camera, collision and stop data:
       <a href="../Traffic/stops.html?section=speed">speed cameras</a> ·
@@ -593,7 +594,7 @@
 
   <!-- VEHICLE FLEET -->
   <div class="card">
-    <p class="section-title">
+    <p class="section-title ov-section-marker" style="--ov-marker-art:url('../assets/report-art/road-safety.webp');">
       Ottawa vehicle registrations — cars vs. light trucks
       <span id="fleet-badge" class="data-badge">loading…</span>
     </p>
@@ -614,7 +615,7 @@
 
   <!-- PEDESTRIAN FMI -->
   <div class="card">
-    <p class="section-title">
+    <p class="section-title ov-section-marker" style="--ov-marker-art:url('../assets/report-art/road-safety.webp');">
       Ottawa — pedestrian fatal &amp; major injury collisions
       <span id="fmi-badge" class="data-badge fallback">report figures</span>
     </p>

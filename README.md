@@ -53,6 +53,7 @@ standalone root-level tools not (yet) tied to a specific data folder.
 - Project status: `/tracker.html` and `/PROJECTS.md`
 - About / footer copy: the `#about` and footer sections of `/index.html`
 - Images: `/assets/img/`
+- Report artwork: `assets/report-art.css` + [`assets/report-art/README.md`](assets/report-art/README.md); shared illustrations, homepage cards and decorative section markers for published report entry pages.
 - Styles: inline in each page's `<style>` block, then overridden site-wide by
   `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
