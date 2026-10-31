@@ -14,6 +14,9 @@ using the approved design B board as a style reference. Generated transparent
 PNGs were converted to lossless WebP without resizing or content edits; their
 original files remain in the Codex generated-images directory.
 
+`lightning.svg` is a hand-drawn amber bolt with a navy outline, used for the
+weather report's lightning heading instead of the general weather illustration.
+
 | Asset | Report |
 |---|---|
 | promises.webp | Sutcliffe's 2022 promises |
