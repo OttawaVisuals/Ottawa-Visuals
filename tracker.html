@@ -218,6 +218,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#court-outcomes">Court outcomes</a>
       <a href="#roads">🛣️ Roads (merged)</a>
       <a href="#tax">🧾 Tax</a>
+      <a href="#wealth">Canada wealth</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
       <a href="#ontario-costs">💸 Ontario Costs</a>
       <a href="#octranspo">🚌 OC Transpo KPIs</a>
@@ -308,6 +309,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
   <div class="card">
     <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#wealth">Canada wealth</a></span><span class="pct">Built Oct 31 · publication pending</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#sutcliffe-promises">Sutcliffe’s 2022 promises</a></span><span class="pct">Taxes, transit, housing, LRT &amp; Market · Oct 24</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#budget">Ottawa budget</a></span><span class="pct">Adopted 2026 · Oct 23 snapshot</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#ops">OPS discipline</a></span><span class="pct">Manual snapshot · Oct 23, 2026</span></div>
@@ -944,6 +946,11 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 </section>
 
 <!-- ══════════════════ TAX ══════════════════ -->
+<section id="wealth" class="card">
+  <div class="proj-head"><h2>Canada’s wealth distribution</h2><span class="chip">Built · publication pending</span><a class="live-link" href="Wealth/wealth.html">open the page ↗</a></div>
+  <p>Five wealth quintiles and year-end trends, 2010–2025. Canada-level household net worth, with negative wealth retained, exact tables and CSV/JSON downloads.</p>
+  <p class="small">StatCan 36-10-0660-01; 16 Q4 snapshots and 288 retained source rows. Quintile totals and shares reconciled; latest figures checked against the release. PBO top-1% family estimate is shown separately. <a href="Wealth/README.md">Method, limitations and refresh instructions</a>.</p>
+</section>
 <section id="tax" class="card">
   <div class="proj-head">
     <h2>🧾 Taxing the Top</h2>

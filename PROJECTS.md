@@ -346,6 +346,13 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Canada's wealth distribution
+- **Built Oct 31, 2026; publication pending:** `Wealth/wealth.html`, linked from the local homepage.
+- StatCan 36-10-0660-01: five wealth quintiles, 16 annual Q4 snapshots (2010–2025), year selector, distribution and trend charts, exact tables and CSV/JSON downloads.
+- Standard-library builder retains 288 source rows, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.
+- Separate PBO 2023 family top-1% estimate; no series splice. Scope, mean/median distinction, model uncertainty, group membership changes and annual release schedule documented in `Wealth/README.md`.
+
+
 ### Sutcliffe’s 2022 promises
 - ByWard Market safety added October 24: official OPS neighbourhood aggregates for four selected incident categories, 2018–2025; 32 counts independently checked against 7,893 records without retaining identifiers/points. Original 2022 wording and June 2024 operations-centre opening; separate action/outcome evidence, no safety score. OPS preliminary/time-comparison warning prominent; sources, scope boundary, CSV/JSON and checks included.
 - Dog-park visibility: hidden from public promises HTML/navigation/header and homepage at the user’s request; all research, map data, analysis and exports retained.
