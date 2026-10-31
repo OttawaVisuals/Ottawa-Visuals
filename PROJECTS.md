@@ -200,6 +200,14 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
+### Canada's wealth distribution
+- **Published Oct 31, 2026:** `Wealth/wealth.html`, linked from the homepage.
+- StatCan household accounts: 34 available observations (2010–2025), Q4/all-quarter trend views; six SFS surveys (1999–2023); PBO 2021/2025 historical variants, percentile snapshots and labelled projections; early-study deciles/Gini back to 1970. Source series remain separate; chart selectors, tables and CSV/JSON downloads.
+- Standard-library builders retain 612 DHEA and 648 SFS source rows plus 366 historical metric records, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.
+- Independent PBO PDF and StatCan HTML transcription audit passes; no series splice. Scope, mean/median distinction, model uncertainty, group membership changes and annual release schedule documented in `Wealth/README.md`.
+
+
+
 ### Ottawa Road Safety report — collisions, traffic stops & cameras (`Traffic/stops.html`)
 - **Progress:** ~100% · Native HTML report rebuilt Oct 18, 2026; Power BI removed.
 - **Hub merge (2026-10-22):** the one place for collisions, stops and cameras. `roads.html` became the
@@ -345,12 +353,6 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ---
 
 ## 🔄 In Progress
-
-### Canada's wealth distribution
-- **Built Oct 31, 2026; publication pending:** `Wealth/wealth.html`, linked from the local homepage.
-- StatCan household accounts: 34 available observations (2010–2025), Q4/all-quarter trend views; six SFS surveys (1999–2023); PBO 2021/2025 historical variants, percentile snapshots and labelled projections; early-study deciles/Gini back to 1970. Source series remain separate; chart selectors, tables and CSV/JSON downloads.
-- Standard-library builders retain 612 DHEA and 648 SFS source rows plus 366 historical metric records, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.
-- Independent PBO PDF and StatCan HTML transcription audit passes; no series splice. Scope, mean/median distinction, model uncertainty, group membership changes and annual release schedule documented in `Wealth/README.md`.
 
 
 ### Sutcliffe’s 2022 promises

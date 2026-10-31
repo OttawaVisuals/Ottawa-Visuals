@@ -102,7 +102,7 @@ SFS confidence intervals and quality flags remain available in the source CSV.
 
 DHEA returns to annual releases; 2026 data scheduled April 13, 2027, per the
 [Q4 2025 release](https://www150.statcan.gc.ca/n1/daily-quotidien/260413/dq260413a-eng.htm).
-No automatic refresh or public deployment configured by this change.
+No automatic data refresh configured. Published through the existing GitHub Pages site.
 
 ## Verification
 
@@ -128,4 +128,4 @@ Expanded historical tables and unavailable labels checked. Desktop and 320px/390
 phone layouts reviewed in light, dark and colour-blind themes; no page overflow
 or browser warning/error logs. Fixed dense year ticks after observing a phone
 label collision. All 20 local page links, export counts, JS syntax and whitespace
-checks pass. Public deployment remains untested; publication pending.
+checks pass. Published to GitHub Pages October 31, 2026.
