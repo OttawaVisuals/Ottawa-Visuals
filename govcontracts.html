@@ -174,8 +174,13 @@ function showTip(e, html) {
 const hideTip = () => { tip.style.display = 'none'; };
 
 // Bars: series = [{name, color, values}], stacked, with a 2px surface gap between segments.
+const redraws = {};
 function bars(svgId, years, series, fmt, label) {
-  const svg = $(svgId), W = 700, H = +svg.getAttribute('viewBox').split(' ')[3];
+  const svg = $(svgId), H = +svg.getAttribute('viewBox').split(' ')[3];
+  redraws[svgId] = () => bars(svgId, years, series, fmt, label);
+  // Lay out at the real pixel width so labels keep their size on phones instead of shrinking with the viewBox.
+  const W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 700);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
   const L = 48, R = 8, T = 10, B = 26, pw = W - L - R, ph = H - T - B;
   const totals = years.map((_, i) => series.reduce((s, x) => s + x.values[i], 0));
   const max = Math.max(...totals) * 1.08;
@@ -193,7 +198,7 @@ function bars(svgId, years, series, fmt, label) {
       g += '<rect x="' + (L + i * bw + bw * 0.18) + '" y="' + (y0 - h) + '" width="' + (bw * 0.64) + '" height="' + h + '" rx="3" fill="' + s.color + '" stroke="var(--bg-2)" stroke-width="2"/>';
       y0 -= h;
     });
-    g += '<text x="' + (L + i * bw + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle">' + yr + '</text>';
+    g += '<text x="' + (L + i * bw + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle">' + (bw < 38 ? '’' + String(yr).slice(2) : yr) + '</text>';
     g += '<rect class="hit" data-i="' + i + '" x="' + (L + i * bw) + '" y="' + T + '" width="' + bw + '" height="' + ph + '"/>';
   });
   svg.innerHTML = g;
@@ -205,6 +210,7 @@ function bars(svgId, years, series, fmt, label) {
     r.addEventListener('mouseleave', hideTip);
   });
 }
+let rsz; window.addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(() => Object.values(redraws).forEach(f => f()), 150); });
 function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; }
 function table(id, head, rows) {
   $(id).innerHTML = '<thead><tr>' + head.map(h => '<th>' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +

@@ -25,6 +25,7 @@ TODAY (override): none
 - [x] Public report artwork (Oct 31: 11 matching illustrations, all 12 homepage cards, 11 report headers and 59 section markers; desktop/phone baseline comparisons, themes, controls, scripts/IDs and asset checks; published)
 - [x] Wealth artwork (Oct 31: approved design 2, households-and-assets header/homepage illustration and six section icons; transparent assets, themes and phone layouts checked)
 - [x] Canada wealth distribution (Oct 31: StatCan all-period and SFS history, PBO top-wealth variants/percentile snapshots/projections, historical deciles and Gini back to 1970; exact tables, CSV/JSON and source rows; independent source audit, selectors, phone layouts and themes checked; homepage/tracker/docs links, published to GitHub Pages)
+- [x] Energy suite visual polish (Oct 31: balanced compact tile/header artwork, dark art panels, shared chart/control styling and phone fixes across ten tools; 58 layout/theme cases, 11 interactions and unchanged CEUD/Heat Pump results verified; local, publication pending)
 - [x] Simplify road safety demo (Oct 30: one scrolling form, report selection reveals relevant questions, single preview action with edit/reset; inline validation and mobile/browser flow checks)
 - [x] Unlisted road safety demo (Oct 30: Traffic/demo/, separate close-call/witness flows, geolocation and adjustable map pin, structured icon choices and review; no real collection, noindex and no public navigation links; browser checks at phone width, light/dark, validation, map confirmation and reset; live device GPS not tested)
 - [x] Add municipal fee context to recap (Oct 25: water/wastewater/stormwater overall increases, comparable 2025–26 curbside waste fee, dated Downtown street-parking example; nine sourced values, current parking GIS snapshot, funding-change caveat and separate units; expanded PNG/SVG visually checked)
@@ -89,7 +90,7 @@ TODAY (override): none
 
 ## Week 2 (Oct 22–28): new pages from data in hand
 - [x] Day 1: **RESET 2** — GovContracts stacked-bar page + category filter (strongest model) (done Oct 30 in Claude Code: award-method stacked bars 2019–2025 on `govcontracts.html`, 7-category filter, dollars/share toggle, table; sole-source shares match independent recomputation; no console errors, no phone overflow; not yet committed or linked from home page)
-- [ ] Day 2: review/fix GovContracts page
+- [x] Day 2: review/fix GovContracts page (done Oct 31 in Claude Code: data, filter and share toggle checked, no console errors; fixed chart labels shrinking to ~5px on phones by laying charts out at real pixel width, redrawn on resize, with 2-digit year labels when crowded; tracker row updated; still not linked from home page)
 - [x] Day 3: OC Transpo KPI extraction from PDFs into a time series (strongest model) (done Oct 16 in Claude Code, plus the page `OC_Transpo/octranspo_kpis.html`)
 - [ ] Day 4: review the extracted series
 - [ ] Day 5: Geothermal "Ottawa Case Study" page (Energy repo)
