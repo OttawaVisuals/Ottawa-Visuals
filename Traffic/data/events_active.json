@@ -1955,6 +1955,29 @@
 },
 "fp": "6567065d82c1"
 },
+"29517": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 10:49:00",
+"cross_street_1": "BAY",
+"cross_street_2": "BOOTH",
+"direction": null,
+"event_id": "29517",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT westbound reduced to 1 lane between BAY and BOOTH due to construction, from November 3rd to 6th between 7:00am and 3:00pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.417476,
+"lon": -75.70599,
+"planned_end": "2026-11-06T15:00",
+"planned_start": "2026-10-31T07:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-10-31 06:56:00"
+},
+"fp": "7035b04a0f36"
+},
 "29518": {
 "event": {
 "cause": "construction",
@@ -2345,6 +2368,29 @@
 "updated": "2026-10-22 16:48:00"
 },
 "fp": "9e1fb0bd06cd"
+},
+"29647": {
+"event": {
+"cause": "construction",
+"created": "2026-10-23 09:41:00",
+"cross_street_1": "PERCY",
+"cross_street_2": "BRONSON",
+"direction": null,
+"event_id": "29647",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "GLOUCESTER closed between PERCY and BRONSON due to construction, Tuesday November 3rd from 7:00am to 5:00pm. Follow the signed detour. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.414895,
+"lon": -75.706023,
+"planned_end": "2026-11-03T17:00",
+"planned_start": "2026-10-31T07:00",
+"priority": "MEDIUM",
+"road": "GLOUCESTER",
+"source": "city",
+"updated": "2026-10-31 06:56:00"
+},
+"fp": "08a3defdd5a9"
 },
 "29650": {
 "event": {
@@ -3082,17 +3128,17 @@
 },
 "fp": "e4aae6da2921"
 },
-"29785": {
+"29786": {
 "event": {
 "cause": "",
-"created": "2026-10-31 05:48:00",
+"created": "2026-10-31 07:03:00",
 "cross_street_1": "BRUIN RD",
 "cross_street_2": "BRUIN RD",
 "direction": null,
-"event_id": "29785",
+"event_id": "29786",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Highway 416 Southbound from BRUIN RD to BRUIN RD - Continuous Construction. 1 Alternating Lane. Detailed closure information is as follows: All days: 07:00-17:00. 2026-11-03 07:00 to 2026-11-03 17:00",
+"headline": "Highway 416 Southbound from BRUIN RD to BRUIN RD - Continuous Construction. 1 Alternating Lane. Alternating left and right lane closures NB & SB. 2026-11-03 07:00 to 2026-11-03 17:00",
 "lanes": "1 Alternating Lane(s)",
 "lat": 45.3261,
 "lon": -75.80643,
@@ -3101,9 +3147,9 @@
 "priority": "UNKNOWN",
 "road": "HWY 416",
 "source": "city",
-"updated": "2026-10-31 05:48:00"
+"updated": "2026-10-31 07:03:00"
 },
-"fp": "ccdbf902902e"
+"fp": "7152a1fcb80b"
 }
 }
 }
