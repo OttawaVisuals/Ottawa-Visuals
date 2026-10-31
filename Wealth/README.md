@@ -129,3 +129,15 @@ phone layouts reviewed in light, dark and colour-blind themes; no page overflow
 or browser warning/error logs. Fixed dense year ticks after observing a phone
 label collision. All 20 local page links, export counts, JS syntax and whitespace
 checks pass. Published to GitHub Pages October 31, 2026.
+
+## Artwork
+
+Approved design 2 supplies the homepage/header illustration and six decorative
+section icons. See [asset notes and prompts](assets/README.md). The images do not
+represent measured values; all numeric charts and source data are unchanged.
+
+Artwork QA: seven transparent assets load; six section icons stay decorative.
+Wealth page reviewed at desktop, 390px and 320px in light/dark/colour-blind themes;
+no page overflow. Homepage card fits at phone width. Existing homepage topbar
+overflow at narrow widths is outside this artwork change. Year selection still
+updates the chart; data files are unchanged. Inline JS syntax and local links pass.

@@ -201,6 +201,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ## ✅ Live
 
 ### Canada's wealth distribution
+- **Artwork:** approved design 2 (households/assets), homepage/header illustration and six decorative section icons; transparent WebP assets, theme/phone review, data unchanged.
 - **Published Oct 31, 2026:** `Wealth/wealth.html`, linked from the homepage.
 - StatCan household accounts: 34 available observations (2010–2025), Q4/all-quarter trend views; six SFS surveys (1999–2023); PBO 2021/2025 historical variants, percentile snapshots and labelled projections; early-study deciles/Gini back to 1970. Source series remain separate; chart selectors, tables and CSV/JSON downloads.
 - Standard-library builders retain 612 DHEA and 648 SFS source rows plus 366 historical metric records, source vectors/status flags and archive hash; reconciles quintile totals/shares and latest release figures. Negative net worth retained.

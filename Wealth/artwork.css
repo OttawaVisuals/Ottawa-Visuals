@@ -1,0 +1,13 @@
+/* Design 2: households and assets. Light art wells preserve navy outline contrast. */
+.page-header{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:24px}
+.hero-copy{min-width:0}
+.wealth-hero-art{background:#f7f4ee;border:1px solid #d2d8e3;border-radius:16px;padding:18px 12px;overflow:hidden}
+.wealth-hero-art img{display:block;width:100%;height:auto}
+.kicker{display:flex;align-items:center;gap:10px}
+.section-icon{display:block;flex:0 0 44px;width:44px;height:44px;object-fit:contain;padding:3px;background:#f7f4ee;border:1px solid #d2d8e3;border-radius:9px}
+@media(max-width:700px){
+ .page-header{grid-template-columns:minmax(0,1fr);gap:16px}
+ .wealth-hero-art{width:100%;max-width:380px;padding:10px;margin:0}
+ .section-icon{width:40px;height:40px;flex-basis:40px}
+ .kicker{gap:8px;font-size:10px}
+}

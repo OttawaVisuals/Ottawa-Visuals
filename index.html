@@ -696,6 +696,7 @@
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="assets/site-theme.css">
 <script src="assets/site-theme.js"></script>
+<style>.card .thumb.wealth-art{background:#F7F4EE;display:flex;align-items:center;justify-content:center}.card .thumb.wealth-art img{display:block;width:100%;height:100%;object-fit:contain;padding:8px}.card .thumb.wealth-art::before,.card .thumb.wealth-art::after{display:none}</style>
 </head>
 <body>
 
@@ -1090,7 +1091,8 @@
       readTime: "~ 6 min read",
       tag: "#CanadaWealth",
       page: "Wealth/wealth.html",
-      thumb: "bars",
+      thumb: "wealth-art",
+      artwork: "Wealth/assets/households-assets.webp",
       takeaways: [["65.7%", "of net wealth held by the wealthiest 20% of households · Q4 2025"], ["3.0%", "held by the bottom 40% · Q4 2025"]],
       why: "See how household net worth is distributed, including negative wealth, and how the split changes over time.",
       method: "StatCan household accounts (all 34 observations), six SFS survey years, PBO historical estimates and projections, and earlier studies back to 1970. Source series and report editions remain separate; exact tables and CSV downloads included.",
@@ -1517,7 +1519,7 @@
     const take = r.takeaways && r.takeaways[0];
     c.innerHTML = `
       <div class="num">№ ${String(i+1).padStart(2,"0")}</div>
-      <div class="thumb ${r.thumb}"></div>
+      <div class="thumb ${r.thumb}">${r.artwork ? `<img src="${r.artwork}" alt="" loading="lazy" decoding="async">` : ""}</div>
       <div class="topic">${r.topic}</div>
       <h4>${r.title}</h4>
       <p class="lede">${r.lede}</p>
