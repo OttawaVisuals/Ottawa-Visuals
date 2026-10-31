@@ -414,29 +414,6 @@
 },
 "fp": "2b84362452b6"
 },
-"27129": {
-"event": {
-"cause": "construction",
-"created": "2026-06-11 17:43:00",
-"cross_street_1": "Roger Stevens",
-"cross_street_2": "Lockhead E",
-"direction": null,
-"event_id": "27129",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Rideau Valley closed between Roger Stevens and Lockhead East due to construction, until October 31st. Follow the signed detour. Access for local traffic maintained up to the bridge.",
-"lanes": "closed",
-"lat": 45.158532,
-"lon": -75.651722,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-06-29T07:00",
-"priority": "MEDIUM",
-"road": "Rideau Valley",
-"source": "city",
-"updated": "2026-09-17 17:44:00"
-},
-"fp": "934bbb82572f"
-},
 "27137": {
 "event": {
 "cause": "construction",
@@ -551,29 +528,6 @@
 "updated": "2026-09-21 16:28:00"
 },
 "fp": "db451f0a1695"
-},
-"27919": {
-"event": {
-"cause": "construction",
-"created": "2026-07-23 08:08:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "27919",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Berrett Farm dr closed between Delphinium and Bank due to construction, until October 31st. Access for local traffic maintained. ",
-"lanes": "",
-"lat": 45.32711,
-"lon": -75.599612,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-07-23T00:00",
-"priority": "LOW",
-"road": null,
-"source": "city",
-"updated": "2026-08-28 13:36:00"
-},
-"fp": "d919bf3d6ae4"
 },
 "27944": {
 "event": {
@@ -712,29 +666,6 @@
 "updated": "2026-09-04 08:40:00"
 },
 "fp": "b3fb7218b598"
-},
-"28372": {
-"event": {
-"cause": "construction",
-"created": "2026-08-18 11:01:00",
-"cross_street_1": "Tremblay",
-"cross_street_2": "Bannermount",
-"direction": null,
-"event_id": "28372",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Pl Pickering Place closed between Tremblay and Bannermount due to construction. Access for local traffic maintained. From 12:00am, 17/08/26 to 5:00pm, 31/10/26",
-"lanes": "closed",
-"lat": 45.418443,
-"lon": -75.65046,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-08-17T00:00",
-"priority": "MEDIUM",
-"road": "Pl Pickering Place",
-"source": "city",
-"updated": "2026-09-04 16:04:00"
-},
-"fp": "6538d3779a44"
 },
 "28374": {
 "event": {
@@ -1034,29 +965,6 @@
 "updated": "2026-09-23 16:04:00"
 },
 "fp": "c76053405b42"
-},
-"28899": {
-"event": {
-"cause": "construction",
-"created": "2026-09-17 10:09:00",
-"cross_street_1": "LAWRENCE",
-"cross_street_2": "VICTORIA / SNAKE ISLAND",
-"direction": null,
-"event_id": "28899",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BANK reduced to 1 lane in each direction between LAWRENCE and VICTORIA / SNAKE ISLAND due to construction, from September 21st to October 31st. Flagpersons present.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.160862,
-"lon": -75.462047,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-09-18T07:00",
-"priority": "UNKNOWN",
-"road": "BANK",
-"source": "city",
-"updated": "2026-09-18 06:56:00"
-},
-"fp": "6ddec2432f09"
 },
 "28901": {
 "event": {
@@ -2254,29 +2162,6 @@
 },
 "fp": "f878948d9b78"
 },
-"29600": {
-"event": {
-"cause": "construction",
-"created": "2026-10-20 13:31:00",
-"cross_street_1": "MAIN",
-"cross_street_2": "ROSEMERE",
-"direction": null,
-"event_id": "29600",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "SPRINGHURST closed between MAIN and ROSEMERE due to construction, until october 31st. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.410361,
-"lon": -75.678747,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-10-20T00:00",
-"priority": "MEDIUM",
-"road": "SPRINGHURST",
-"source": "city",
-"updated": "2026-10-20 13:32:00"
-},
-"fp": "d812b86d3a85"
-},
 "29608": {
 "event": {
 "cause": "construction",
@@ -2391,29 +2276,6 @@
 "updated": "2026-10-31 06:56:00"
 },
 "fp": "08a3defdd5a9"
-},
-"29650": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 10:28:00",
-"cross_street_1": "SLATER",
-"cross_street_2": "ALBERT",
-"direction": null,
-"event_id": "29650",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "BAY closed between SLATER and ALBERT due to construction, Saturday October 31st from 7:00am to 5:00pm. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.41686,
-"lon": -75.705433,
-"planned_end": "2026-10-31T17:00",
-"planned_start": "2026-10-28T00:00",
-"priority": "MEDIUM",
-"road": "BAY",
-"source": "city",
-"updated": "2026-10-27 23:56:00"
-},
-"fp": "0b083c76590a"
 },
 "29651": {
 "event": {
