@@ -2852,6 +2852,29 @@
 },
 "fp": "3875b98758d7"
 },
+"29768": {
+"event": {
+"cause": "a movie filming",
+"created": "2026-10-30 10:40:00",
+"cross_street_1": "CARTIER",
+"cross_street_2": "ELGIN",
+"direction": null,
+"event_id": "29768",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "LISGAR westbound lane reduction between CARTIER and ELGIN due to a movie filming, from October 31st to November 1st.",
+"lanes": "lane reduction",
+"lat": 45.419998,
+"lon": -75.689547,
+"planned_end": "2026-11-01T20:00",
+"planned_start": "2026-10-31T00:00",
+"priority": "LOW",
+"road": "LISGAR",
+"source": "city",
+"updated": "2026-10-30 23:56:00"
+},
+"fp": "8e2d80290fb9"
+},
 "29769": {
 "event": {
 "cause": "a movie filming",
@@ -2874,6 +2897,29 @@
 "updated": "2026-10-30 10:44:00"
 },
 "fp": "ceae610efa2c"
+},
+"29770": {
+"event": {
+"cause": "construction",
+"created": "2026-10-30 10:46:00",
+"cross_street_1": "Sussex",
+"cross_street_2": "Parent",
+"direction": null,
+"event_id": "29770",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Murray westbound lane reductions between Sussex and Parent due to construction, Saturday October 31st.",
+"lanes": "lane reductions",
+"lat": 45.428667,
+"lon": -75.696033,
+"planned_end": "2026-10-31T20:00",
+"planned_start": "2026-10-31T00:00",
+"priority": "UNKNOWN",
+"road": "Murray",
+"source": "city",
+"updated": "2026-10-30 23:56:00"
+},
+"fp": "809562e31b03"
 },
 "29771": {
 "event": {
@@ -2920,6 +2966,29 @@
 "updated": "2026-10-30 13:12:00"
 },
 "fp": "e33cd01bd705"
+},
+"29774": {
+"event": {
+"cause": "a movie filming",
+"created": "2026-10-30 13:17:00",
+"cross_street_1": "O'CONNOR",
+"cross_street_2": "BANK",
+"direction": null,
+"event_id": "29774",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "QUEEN westbound lane reduction between O'CONNOR and BANK due to a movie filming, Tuesday November 3rd.",
+"lanes": "lane reduction",
+"lat": 45.421406,
+"lon": -75.698834,
+"planned_end": "2026-11-03T22:00",
+"planned_start": "2026-10-31T00:00",
+"priority": "MEDIUM",
+"road": "QUEEN",
+"source": "city",
+"updated": "2026-10-30 23:56:00"
+},
+"fp": "7879b674a7ba"
 },
 "29775": {
 "event": {
