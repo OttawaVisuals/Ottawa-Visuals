@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Section icon refinement (Oct 31: topic-specific bus, houses, shield, camera, stadium and snow/rain SVGs replace six generic markers; artwork manifest and notes updated)
 - [x] Public report artwork (Oct 31: 11 matching illustrations, all 12 homepage cards, 11 report headers and 59 section markers; desktop/phone baseline comparisons, themes, controls, scripts/IDs and asset checks; published)
 - [x] Wealth artwork (Oct 31: approved design 2, households-and-assets header/homepage illustration and six section icons; transparent assets, themes and phone layouts checked)
 - [x] Canada wealth distribution (Oct 31: StatCan all-period and SFS history, PBO top-wealth variants/percentile snapshots/projections, historical deciles and Gini back to 1970; exact tables, CSV/JSON and source rows; independent source audit, selectors, phone layouts and themes checked; homepage/tracker/docs links, published to GitHub Pages)

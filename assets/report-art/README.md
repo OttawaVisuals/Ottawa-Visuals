@@ -16,6 +16,11 @@ original files remain in the Codex generated-images directory.
 
 `lightning.svg` is a hand-drawn amber bolt with a navy outline, used for the
 weather report's lightning heading instead of the general weather illustration.
+Six additional SVG section icons follow the same navy/teal/amber palette:
+`bus.svg` for fares, `houses.svg` for housing delivery, `shield.svg` for safety,
+`camera.svg` for road enforcement cameras, `stadium.svg` for Lansdowne and
+`snow-rain.svg` for the precipitation shift. These simple vector drawings replace
+general report illustrations or chart icons where a specific topic is clearer.
 
 | Asset | Report |
 |---|---|
