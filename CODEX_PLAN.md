@@ -14,7 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
-- [x] Built by Simon (Nov 1: shared author button/panel and footer credit on all 40 themed pages; existing Energy credentials and new contact link reused; coverage, phone layouts, themes and keyboard closing checked)
+- [x] Built by Simon (Nov 1: shared author button/panel and footer credit on all 40 themed pages; approved Ottawa Visuals public-data bio and contact link; coverage, phone layouts, themes and keyboard closing checked)
 - [x] Contact form (Nov 1: removed unverified Gmail links from homepage and v2 preview; reused Energy's configured contact endpoint; validation, mocked response handling and live CORS checked without sending email)
 - [x] Section icon refinement (Oct 31: topic-specific bus, houses, shield, camera, stadium and snow/rain SVGs replace six generic markers; artwork manifest and notes updated)
 - [x] Public report artwork (Oct 31: 11 matching illustrations, all 12 homepage cards, 11 report headers and 59 section markers; desktop/phone baseline comparisons, themes, controls, scripts/IDs and asset checks; published)

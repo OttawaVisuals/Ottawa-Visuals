@@ -70,9 +70,9 @@
     title.id = 'ov-author-title';
     title.textContent = 'Simon · Ottawa, ON';
     const bio = document.createElement('p');
-    bio.textContent = 'Energy efficiency professional (Certified Energy Manager, RETScreen Expert). I turn public datasets into interactive reports and visualizations to help inform decisions.';
+    bio.textContent = 'I turn public data into interactive charts, maps and tools about Ottawa, Ontario and Canada—making complex topics easier to explore and understand.';
     const note = document.createElement('p');
-    note.textContent = 'These are personal projects. Views are my own. Built with AI as a coding assistant. Each report explains its sources, methods and limitations.';
+    note.textContent = 'Ottawa Visuals is a personal project. Each report explains its sources, methods and limitations. Views are my own. Built with AI as a coding assistant.';
     const links = document.createElement('p');
     links.append(link('All reports', home), ' · ', link('Get in touch', contact));
     panel.append(close, title, bio, note, links);

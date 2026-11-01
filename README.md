@@ -54,7 +54,7 @@ standalone root-level tools not (yet) tied to a specific data folder.
 - About / footer copy: the `#about` and footer sections of `/index.html`
 - Shared author credit: `assets/author-credit.js`, included once on all 40 pages
   using the shared site theme (including PWHL detail pages and previews). Adds
-  “Built by Simon”, an author panel with the existing Energy bio credentials,
+  “Built by Simon”, an author panel focused on public data and visualization,
   and root-relative report/contact destinations resolved from the script URL.
   The header button shortens or hides when space is tight; the footer credit
   remains. Mortgage's credit lives in its scrollable results column.
