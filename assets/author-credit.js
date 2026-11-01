@@ -109,6 +109,9 @@
     window.addEventListener('load', fit);
     if (document.fonts) document.fonts.ready.then(fit);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  // A deferred script runs while readyState is "interactive", before the shared
+  // theme's DOMContentLoaded handler creates its pill. Wait so the author button
+  // consistently goes before the theme switch, rather than racing it.
+  if (document.readyState !== 'complete') document.addEventListener('DOMContentLoaded', build);
   else build();
 })();

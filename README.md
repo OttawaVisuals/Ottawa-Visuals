@@ -73,6 +73,12 @@ standalone root-level tools not (yet) tied to a specific data folder.
   `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
   `tracker.html`, `rto.html` and `dataset_prospector.html` keep their own token names but load it too.
+  Shared header assets use `?v=header-20261101` on all 40 themed pages. The theme
+  pill explicitly resets button padding, flex sizing and SVG dimensions. Report
+  headers use a compact phone row; the homepage keeps its existing header layout.
+  Author initialization waits for the theme control so its button consistently
+  appears before the pill. Nov 1 checks: 13 report/detail phone headers at 390px,
+  wealth/weather/mortgage at 320px, and three-mode selection on four reports.
 
 ## Traffic report
 [`Traffic/stops.html`](Traffic/stops.html) uses native charts and maps, with no

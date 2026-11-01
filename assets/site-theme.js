@@ -14,6 +14,10 @@
 (function () {
   var MODES = ['light', 'dark', 'cb'];
   var root = document.documentElement;
+  var homePath = new URL('../index.html', document.currentScript.src).pathname;
+  if (location.pathname !== homePath && location.pathname !== homePath.replace(/index\.html$/, '')) {
+    root.classList.add('ov-report-header');
+  }
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function put(m) { try { localStorage.setItem('ov-theme', m); localStorage.setItem('theme', m); } catch (e) {} }
 
