@@ -692,10 +692,20 @@
        font-weight: 400 800; font-style: normal; font-display: swap;
      }
      ===================================================================== */
+  .contact-form { position:relative; max-width:60ch; margin-top:20px; }
+  .contact-form label { display:block; color:var(--ink-2); font-size:14px; margin-top:14px; }
+  .contact-form input,.contact-form textarea { display:block; width:100%; box-sizing:border-box; margin-top:6px; padding:10px 12px; font:inherit; color:var(--ink); background:var(--bg-2); border:1px solid var(--line-2); border-radius:7px; }
+  .contact-form textarea { resize:vertical; }
+  .contact-form input:focus-visible,.contact-form textarea:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .contact-form .contact-trap { position:absolute; left:-10000px; width:1px; height:1px; }
+  .contact-actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:16px; }
+  .contact-actions button:disabled { opacity:.6; cursor:wait; }
+  #contact-status { color:var(--ink-2); font-size:14px; }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
 <link rel="stylesheet" href="assets/site-theme.css">
 <script src="assets/site-theme.js"></script>
+<script src="assets/contact.js" defer></script>
 <style>.card .thumb.wealth-art{background:#F7F4EE;display:flex;align-items:center;justify-content:center}.card .thumb.wealth-art img{display:block;width:100%;height:100%;object-fit:contain;padding:8px}.card .thumb.wealth-art::before,.card .thumb.wealth-art::after{display:none}</style>
 <link rel="stylesheet" href="assets/report-art.css">
 </head>
@@ -983,8 +993,8 @@
       </p>
       <p>
         I'm a data enthusiast and a visual learner, and this site is where I share the
-        visuals I make. Questions about the data, or ideas for a new one? Reach me at
-        <a href="mailto:visualsottawa@gmail.com" style="color:var(--accent);">visualsottawa@gmail.com</a>.
+        visuals I make. Questions about the data, or ideas for a new one?
+        <a href="#contact" style="color:var(--accent);">Get in touch</a>.
       </p>
       <div class="about-cta">
         <a class="btn primary" href="#reports">See the reports</a>
@@ -997,7 +1007,27 @@
 <!-- =================================================================
      FOOTER
      ================================================================= -->
-<footer class="site" id="contact">
+<section class="about" id="contact" aria-labelledby="contact-title">
+  <div class="wrap about-grid">
+    <h3 id="contact-title">Get in touch</h3>
+    <div class="about-body">
+      <p>Questions about a report, the data or the methods? Suggestions for a new visual? Your message goes to the site author; your email is used only to reply.</p>
+      <form id="contact-form" class="contact-form" method="post">
+        <label for="contact-name">Name (optional)</label>
+        <input id="contact-name" name="name" maxlength="80" autocomplete="name">
+        <label for="contact-email">Email</label>
+        <input id="contact-email" name="email" type="email" maxlength="120" required autocomplete="email">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" maxlength="2000" rows="4" required></textarea>
+        <input class="contact-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Leave empty">
+        <div class="contact-actions"><button class="btn primary" type="submit" disabled>Send message</button><span id="contact-status" role="status" aria-live="polite"></span></div>
+      </form>
+      <noscript><p><a href="https://energy.madeclear.ca/#contact">Use the contact form on the Energy site</a> (JavaScript required).</p></noscript>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
   <div class="wrap foot-grid">
     <div class="foot-col foot-brand">
       <div class="brand" style="font-size:16px;">
@@ -1022,7 +1052,7 @@
     <div class="foot-col">
       <h5>Elsewhere</h5>
       <a href="https://github.com/OttawaVisuals/Ottawa-Visuals" target="_blank" rel="noopener">GitHub ↗</a>
-      <a href="mailto:visualsottawa@gmail.com">Email ↗</a>
+      <a href="#contact">Get in touch</a>
     </div>
   </div>
   <div class="wrap foot-bottom">

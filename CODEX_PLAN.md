@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Contact form (Nov 1: removed unverified Gmail links from homepage and v2 preview; reused Energy's configured contact endpoint; validation, mocked response handling and live CORS checked without sending email)
 - [x] Section icon refinement (Oct 31: topic-specific bus, houses, shield, camera, stadium and snow/rain SVGs replace six generic markers; artwork manifest and notes updated)
 - [x] Public report artwork (Oct 31: 11 matching illustrations, all 12 homepage cards, 11 report headers and 59 section markers; desktop/phone baseline comparisons, themes, controls, scripts/IDs and asset checks; published)
 - [x] Wealth artwork (Oct 31: approved design 2, households-and-assets header/homepage illustration and six section icons; transparent assets, themes and phone layouts checked)

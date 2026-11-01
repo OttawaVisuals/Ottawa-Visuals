@@ -52,6 +52,12 @@ standalone root-level tools not (yet) tied to a specific data folder.
   `ghg_calculator.html`, `Comparator.html`, `dataset_prospector.html`)
 - Project status: `/tracker.html` and `/PROJECTS.md`
 - About / footer copy: the `#about` and footer sections of `/index.html`
+- Contact: `#contact` in `/index.html` + `assets/contact.js`. Uses Energy's existing
+  `https://energy.madeclear.ca/api/contact` service (GitHub Pages origin is
+  allow-listed); the destination mailbox stays in Energy's server configuration.
+  Name is optional; email/message are required. The v2 preview links to this form.
+  Nov 1 check: live CORS preflight, browser validation, and mocked success/failure/
+  duplicate-submit handling passed. No real email was sent during this check.
 - Images: `/assets/img/`
 - Report artwork: `assets/report-art.css` + [`assets/report-art/README.md`](assets/report-art/README.md); shared illustrations, homepage cards and decorative section markers for published report entry pages.
 - Styles: inline in each page's `<style>` block, then overridden site-wide by
