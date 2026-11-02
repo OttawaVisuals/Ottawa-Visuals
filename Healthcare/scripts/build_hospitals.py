@@ -62,5 +62,5 @@ flat=[dict(hospital=h['name'],**r) for h in data for r in h['financials']]
 write_csv('ottawa-hospitals.csv',flat)
 write_csv('ottawa-staffing.csv',[dict(hospital=h['name'],**r) for h in data for r in h['staffing']])
 (DATA/'ottawa-hospitals.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-(DATA/'hospital-source-excerpts.txt').write_text('\n\n'.join(excerpts),encoding='utf-8')
+(DATA/'hospital-source-excerpts.txt').write_text('\n'.join(line.rstrip() for line in '\n\n'.join(excerpts).splitlines()).rstrip()+'\n',encoding='utf-8')
 print('Built',len(flat),'hospital financial years and',sum(len(h['staffing']) for h in data),'staffing years.')
