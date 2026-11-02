@@ -1,5 +1,11 @@
 # Healthcare verification — November 2, 2026
 
+## Artwork
+
+- Header illustration and all seven decorative markers present at 320/390/1240px in light, dark and colour-blind themes; no document overflow. Homepage healthcare card loads the same illustration.
+- Seven SVGs parse and return HTTP 200. Generated WebP preserves the original PNG's exact RGBA pixels and actual transparency.
+- Existing HTML IDs and controls retained; no scripts, datasets or formulas changed. No browser console errors. Preview: `output/healthcare/artwork-preview.jpg`.
+
 ## Source/data checks
 
 - `python Healthcare/scripts/check_data.py`: **514 source/value checks pass**.

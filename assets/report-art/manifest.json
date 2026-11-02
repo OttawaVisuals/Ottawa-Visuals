@@ -464,5 +464,55 @@
     "page": "Alberta_Elections/ABelections.html",
     "asset": "assets/report-art/alberta-elections.webp",
     "sections": []
+  },
+  {
+    "topic": "healthcare",
+    "report_id": "healthcare",
+    "page": "Healthcare/healthcare.html",
+    "asset": "assets/report-art/healthcare.webp",
+    "sections": [
+      {
+        "tag": "h2",
+        "id": "ontario-title",
+        "label": "Ontario healthcare funding",
+        "asset": "assets/icons/funding.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "capacity-title",
+        "label": "Ontario hospital staff & beds",
+        "asset": "assets/icons/bed.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "ottawa-title",
+        "label": "Ottawa hospital explorer",
+        "asset": "assets/icons/hospital.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "er-title",
+        "label": "How long is the ER visit?",
+        "asset": "assets/icons/er-clock.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "primary-title",
+        "label": "Do people have a regular provider?",
+        "asset": "assets/icons/regular-care.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "private-title",
+        "label": "What about private clinics?",
+        "asset": "assets/icons/clinic.svg"
+      },
+      {
+        "tag": "h2",
+        "id": "sources-title",
+        "label": "Sources, method & gaps",
+        "asset": "assets/icons/sources.svg"
+      }
+    ]
   }
 ]

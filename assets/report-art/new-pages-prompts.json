@@ -7,7 +7,5 @@
     "alberta-elections": "A white ballot box with a teal top and navy slot in the foreground. Three small white ballot papers with teal checkmarks angle toward the one slot to suggest vote consolidation. Behind one edge of the box is a single bold amber wheat ear and a very small low teal foothill silhouette. Wheat is a small secondary motif; the ballot box is the main focus. Nonpartisan Alberta election scenarios, not a result or prediction.",
     "healthcare": "A simple white hospital building with a teal roofline and a single bold teal cross on its front, a small white hospital bed with a teal blanket in the foreground at its lower right, and one compact amber coin stack at its lower left. Communicate public healthcare funding, hospital capacity and staffing. Keep the building, bed and coins as one concise symbol. No red cross, medical-organization emblems, people, stethoscopes, pills, charts or dollar signs."
   },
-  "pending": {
-    "healthcare": "Not generated yet (2026-11-02): needs the built-in image generator; save as assets/report-art/healthcare.webp, then wire the homepage card and page header like member-spending."
-  }
+  "healthcare_prompt_file": "healthcare-prompts.json"
 }

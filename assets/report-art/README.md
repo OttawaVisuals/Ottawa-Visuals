@@ -73,6 +73,14 @@ they are not a new audit of each report's underlying data or mathematical model.
 
 ## New report icons — November 2, 2026
 
+Healthcare now has a matching hospital/bed/funding illustration in `healthcare.webp`,
+generated with built-in image generation using the exact prompt and style reference
+in `healthcare-prompts.json`. The original PNG remains in Codex generated images;
+the project WebP preserves its exact RGBA pixels. Seven original code-native SVG
+section icons live in `../../Healthcare/assets/icons/`. Shared CSS keeps all artwork
+decorative. Header and markers passed nine width/theme checks (320/390/1240px;
+light/dark/colour-blind), without page overflow; homepage card loading verified.
+
 Three matching transparent illustrations extend the existing navy/teal/amber set:
 
 | Asset | Pages |
