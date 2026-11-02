@@ -2839,8 +2839,8 @@
 "event_id": "29794",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Greenbank northbound left lane closed between Lisa and Iris due to a collision.",
-"lanes": "left lane closed",
+"headline": "Greenbank reduced to 1 lane in each direction between Lisa and Iris due to a collision.",
+"lanes": "reduced to 1 lane in each direction",
 "lat": 45.3456,
 "lon": -75.788334,
 "planned_end": null,
@@ -2848,9 +2848,32 @@
 "priority": "MEDIUM",
 "road": "Greenbank",
 "source": "city",
-"updated": "2026-11-02 08:42:00"
+"updated": "2026-11-02 08:53:00"
 },
-"fp": "5267ab57220f"
+"fp": "8008aaae1dde"
+},
+"29795": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-02 09:27:00",
+"cross_street_1": "Westcliffe",
+"cross_street_2": "Fitzgerald",
+"direction": null,
+"event_id": "29795",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Robertson eastbound reduced to 1 lane between Westcliffe and Fitzgerald due to a disabled vehicle.",
+"lanes": "reduced to 1 lane",
+"lat": 45.320214,
+"lon": -75.837855,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Robertson",
+"source": "city",
+"updated": "2026-11-02 09:27:00"
+},
+"fp": "a8b732e88305"
 }
 }
 }
