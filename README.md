@@ -23,6 +23,8 @@ any bookmarked or shared links.
 | [`Weather/`](Weather/README.md) | Ottawa climate history dashboard |
 | [`Vehicles/`](Vehicles/README.md) | Road safety / vehicle-pedestrian impact calculator |
 | [`Ottawa_Elections/`](Ottawa_Elections/README.md) | Ward-by-ward municipal election results |
+| [`BC_Elections/`](BC_Elections/README.md) | BC 2026 preliminary initial-count maps and NDP/Green consolidation scenarios, with 2024 final results retained separately ([`BCelections.html`](BC_Elections/BCelections.html)); published November 1, 2026 |
+| [`Alberta_Elections/`](Alberta_Elections/README.md) | Alberta 2023 riding map, vote-consolidation scenarios, turnout and source reconciliation ([`ABelections.html`](Alberta_Elections/ABelections.html)) |
 | [`Ontario_Elections/`](Ontario_Elections/README.md) | Ontario provincial election + coalition scenarios |
 | [`Ontario_Trials/`](Ontario_Trials/README.md) | How Ottawa court cases end: criminal and provincial/traffic outcomes, offence filters, calendar/non-calendar periods, count/share charts and downloads ([`courts.html`](Ontario_Trials/courts.html)) |
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |

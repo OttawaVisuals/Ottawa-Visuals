@@ -1,0 +1,109 @@
+{
+  "scenarios": [
+    {
+      "transfer": 0,
+      "seats": {
+        "Conservative Party": 44,
+        "BC New Democratic Party": 47,
+        "BC Green Party": 2
+      },
+      "flips": []
+    },
+    {
+      "transfer": 65,
+      "seats": {
+        "Conservative Party": 36,
+        "BC New Democratic Party": 55,
+        "BC Green Party": 2
+      },
+      "flips": [
+        "Columbia River-Revelstoke",
+        "Courtenay-Comox",
+        "Kelowna Centre",
+        "Langley-Willowbrook",
+        "Maple Ridge East",
+        "North Island",
+        "Penticton-Summerland",
+        "Surrey-Cloverdale"
+      ]
+    },
+    {
+      "transfer": 100,
+      "seats": {
+        "Conservative Party": 33,
+        "BC New Democratic Party": 58,
+        "BC Green Party": 2
+      },
+      "flips": [
+        "Boundary-Similkameen",
+        "Columbia River-Revelstoke",
+        "Courtenay-Comox",
+        "Kamloops Centre",
+        "Kelowna Centre",
+        "Langley-Walnut Grove",
+        "Langley-Willowbrook",
+        "Maple Ridge East",
+        "North Island",
+        "Penticton-Summerland",
+        "Surrey-Cloverdale"
+      ]
+    }
+  ],
+  "thresholds": [
+    {
+      "riding": "Courtenay-Comox",
+      "boundary": 1.291307970008331,
+      "firstWinningSliderPercent": 2
+    },
+    {
+      "riding": "Kelowna Centre",
+      "boundary": 3.6003600360036003,
+      "firstWinningSliderPercent": 4
+    },
+    {
+      "riding": "Maple Ridge East",
+      "boundary": 5.9655596555965555,
+      "firstWinningSliderPercent": 6
+    },
+    {
+      "riding": "Penticton-Summerland",
+      "boundary": 21.535326086956523,
+      "firstWinningSliderPercent": 22
+    },
+    {
+      "riding": "North Island",
+      "boundary": 26.65832290362954,
+      "firstWinningSliderPercent": 27
+    },
+    {
+      "riding": "Columbia River-Revelstoke",
+      "boundary": 46.85314685314685,
+      "firstWinningSliderPercent": 47
+    },
+    {
+      "riding": "Surrey-Cloverdale",
+      "boundary": 50.95652173913044,
+      "firstWinningSliderPercent": 51
+    },
+    {
+      "riding": "Langley-Willowbrook",
+      "boundary": 51.91616766467065,
+      "firstWinningSliderPercent": 52
+    },
+    {
+      "riding": "Kamloops Centre",
+      "boundary": 77.12745475548711,
+      "firstWinningSliderPercent": 78
+    },
+    {
+      "riding": "Langley-Walnut Grove",
+      "boundary": 93.46092503987241,
+      "firstWinningSliderPercent": 94
+    },
+    {
+      "riding": "Boundary-Similkameen",
+      "boundary": 98.89958734525447,
+      "firstWinningSliderPercent": 99
+    }
+  ]
+}

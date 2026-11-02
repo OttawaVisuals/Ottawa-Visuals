@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BC 2026 preliminary — turnout and vote-splitting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+
+<!-- Official source workbook, validated and bundled by build_data.py. -->
+<script src="data.js"></script>
+<script src="geo.js"></script>
+<script src="turnout.js"></script>
+
+<style>
+  :root{
+    --font-body:"Inter",system-ui,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    /* light theme (default) */
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --green:#22885F; --amber:#C98A1F; --red:#D0483A; --blue:#2F6FB4; --purple:#6E62C8;
+    /* this page's accent is purple; keep it, sourced from a token so the theme can restyle it */
+    --accent:var(--purple);
+    --accent-soft:color-mix(in srgb,var(--purple) 12%,transparent);
+    --accent-bg:color-mix(in srgb,var(--purple) 10%,transparent); --hl:color-mix(in srgb,var(--purple) 16%,transparent);
+    /* legacy aliases used throughout this page */
+    --panel:var(--bg-2); --muted:var(--ink-3); --nodata:var(--line-2);
+    /* tooltip: always a dark chip — can't reuse --ink, which flips to near-white in dark mode */
+    --tip-bg:#1F2530; --tip-ink:#FFFFFF;
+  }
+  [data-theme="dark"]{
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --green:#2FB584; --amber:#E8A030; --red:#E85A44; --blue:#5B9BE0; --purple:#8F84E8;
+    --tip-bg:#2A3040; --tip-ink:#EEF1F7;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); line-height:1.5; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1440px; margin:0 auto; padding:12px 16px 28px}
+  @media (max-width:600px){ .wrap{padding:10px 10px 24px} }
+  .mono{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+  /* Topbar (site-wide chrome) */
+  .topbar{position:sticky; top:0; z-index:50; background:var(--bg-2); border-bottom:1px solid var(--line); height:48px; display:flex; align-items:center; padding:0 20px; gap:20px}
+  .topbar .brand{display:flex; align-items:center; gap:9px; font-weight:600; font-size:14.5px; letter-spacing:-0.01em; color:var(--ink); text-decoration:none}
+  .brand-logo{width:26px; height:26px; border-radius:999px; background:#1F2530; display:grid; place-items:center; overflow:hidden; border:1px solid var(--line-2)}
+  .brand-logo img{width:110%; height:110%; object-fit:cover; filter:invert(1)}
+  [data-theme="dark"] .brand-logo img{filter:none}
+  .topbar .brand > span:last-child{line-height:1.2}
+  .brand small{display:block; font-family:var(--font-mono); font-size:9.5px; font-weight:400; color:var(--ink-3); letter-spacing:0.07em; text-transform:uppercase}
+  .topbar nav{display:flex; gap:2px}
+  .topbar nav a{padding:5px 9px; color:var(--ink-2); font-size:12.5px; border-radius:6px; text-decoration:none; transition:color .15s, background .15s}
+  .topbar nav a:hover{color:var(--ink); background:var(--bg-3)}
+  .topbar nav a.active{color:var(--accent); font-weight:600}
+  .topbar .spacer{flex:1}
+  .icon-btn{width:30px; height:30px; border-radius:999px; border:1px solid var(--line); background:var(--bg-2); display:grid; place-items:center; color:var(--ink-2); cursor:pointer; transition:border-color .15s, color .15s}
+  .icon-btn:hover{color:var(--ink); border-color:var(--ink-2)}
+  @media (max-width:720px){ .topbar nav{display:none} .topbar{padding:0 12px; gap:10px} }
+
+  header.top{border-bottom:2px solid var(--ink); padding-bottom:8px; margin-bottom:2px}
+  .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 4px}
+  h1{font-family:var(--font-body); font-weight:700; font-size:20px;
+    line-height:1.2; letter-spacing:-.02em; margin:0 0 4px}
+  .sub{color:var(--muted); max-width:68ch; margin:0; font-size:13.5px}
+  .source{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:6px}
+
+  .banner{background:color-mix(in srgb,var(--amber) 12%,var(--bg-2)); border:1px solid color-mix(in srgb,var(--amber) 45%,transparent); color:var(--ink);
+    padding:8px 12px; border-radius:8px; font-size:13px; margin:8px 0 0}
+  .banner b{font-weight:600}
+
+  section{margin-top:14px}
+  .sec-label{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 6px;
+    display:flex; align-items:center; gap:8px}
+  .sec-label::after{content:""; flex:1; height:1px; background:var(--line)}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+
+  /* TURNOUT (top section) */
+  svg.linechart{width:100%; height:auto; display:block}
+  svg.linechart .axis{stroke:var(--line); stroke-width:1}
+  svg.linechart .gridline{stroke:var(--line); stroke-width:1; stroke-dasharray:3 4}
+  svg.linechart .trend{fill:none; stroke:var(--accent); stroke-width:2.5}
+  svg.linechart .pt{fill:var(--accent); cursor:pointer}
+  svg.linechart .bar{cursor:pointer; transition:opacity .15s ease}
+  svg.linechart .bar:hover{opacity:.82}
+  svg.linechart text{font-family:var(--font-mono); font-size:10.5px; fill:var(--muted)}
+  svg.linechart .val{font-weight:600; fill:var(--ink)}
+  .turn-stat{display:flex; gap:14px; margin-top:6px; flex-wrap:wrap}
+  .turn-stat .s{font-family:var(--font-mono); font-size:12.5px; color:var(--muted)}
+  .turn-stat .s b{color:var(--ink); font-size:15px}
+  .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
+
+  /* LAST ELECTION SECTION */
+  .lastel{display:grid; grid-template-columns:1.9fr 1fr; gap:10px; scroll-margin-top:60px}
+  @media (max-width:900px){ .lastel{grid-template-columns:1fr} }
+  .mapcard{position:relative}
+  .mapcard-head{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:6px}
+  .mapcard-head h3{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0}
+  select{font-family:var(--font-body); font-size:13.5px; padding:7px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg-2); color:var(--ink)}
+  svg.map{width:100%; height:auto; display:block}
+  svg.map path{stroke:var(--bg-2); stroke-width:.4; stroke-linejoin:round; transition:fill .35s ease; cursor:pointer}
+  svg.map path:hover{stroke:var(--ink); stroke-width:1}
+  svg.map path.selected{stroke:var(--ink); stroke-width:1.6}
+  .mapempty{color:var(--muted); font-size:13.5px; padding:30px 6px; text-align:center}
+  .clearsel{font-size:12.5px; color:var(--accent); cursor:pointer; background:none; border:0; padding:0;
+    text-decoration:underline; font-family:var(--font-body)}
+  .clearsel:disabled{color:var(--muted); cursor:default; text-decoration:none}
+
+  /* COMPOSITE MAP: main British Columbia map with Metro Vancouver + Victoria area insets layered on top.
+     Each inset's exact screen position/size and the source-CRS crop window it zooms into
+     are set numerically in INSET_CONFIG (see <script> below) — not by these CSS rules. */
+  .mapcomposite{position:relative}
+  .mapinset{position:absolute; display:flex; flex-direction:column; align-items:center}
+  .mapinset-box{border:1px solid var(--line); border-radius:6px; padding:3px; display:block; width:100%; background:var(--panel)}
+  .mapinset-label{display:block; font-family:var(--font-mono); font-weight:600; font-size:9.5px;
+    text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:3px 0 0; text-align:center}
+  .mapinset svg.map path{stroke-width:.5}
+  .mapinset-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+  .mapinset-lines .zoom-line{stroke:var(--muted); stroke-width:1; stroke-dasharray:3 3}
+  .mapinset-lines .zoom-dot{fill:none; stroke:var(--muted); stroke-width:1.4}
+  #mapMain .zoomrect{fill:none; stroke:var(--ink); stroke-width:1.6; stroke-dasharray:4 3; pointer-events:none}
+  /* phones: the overlaid insets shrink to ~180px wide, too small to click Victoria area's
+     dense ridings — stack them full-width under the main map instead (overrides INSET_CONFIG's inline box) */
+  @media (max-width:600px){
+    .mapcomposite{display:flex; flex-direction:column; gap:10px}
+    .mapinset{position:static !important; width:100% !important}
+    .mapinset-lines{display:none}
+  }
+
+  /* slider lives inside the map card, next to the map-mode dropdown it drives */
+  .mapctrl{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 0 10px; margin:0 0 8px}
+  .mapctrl .ctrl{max-width:none}
+
+  .panel-title{font-family:var(--font-body); font-weight:700; font-size:17px; margin:0 0 2px}
+  .panel-sub{font-size:12px; color:var(--muted); margin:0 0 8px}
+  .panel-block{margin-top:10px}
+  .panel-block:first-of-type{margin-top:0}
+  .panel-block h4{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 6px}
+
+  .barlist{display:flex; flex-direction:column; gap:8px}
+  .barrow{display:grid; grid-template-columns:64px minmax(0,1fr) 48px; align-items:center; gap:8px; font-size:12.5px}
+  @media (min-width:420px){ .barrow{grid-template-columns:88px minmax(0,1fr) 56px} }
+  .barrow .nm{display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .barrow .dot{width:9px; height:9px; border-radius:2px; flex:none}
+  .bartrack{height:9px; background:var(--line); border-radius:5px; overflow:hidden}
+  .barfill{display:block; height:100%; border-radius:5px}
+  .barrow .pct{font-family:var(--font-mono); text-align:right}
+
+  .winner-badge{display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; background:var(--accent-soft)}
+  .winner-badge .dot{width:14px; height:14px; border-radius:4px; flex:none}
+  .winner-badge .wn{font-weight:700; font-family:var(--font-body)}
+  .winner-badge .wv{font-size:12px; color:var(--muted); font-family:var(--font-mono)}
+
+  /* SEAT GAUGES */
+  .gauges{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px}
+  @media (max-width:1000px){ .gauges{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .gauges{grid-template-columns:1fr} }
+  .gaugecard{text-align:center}
+  .gaugecard h3{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 2px}
+  .gaugecard p.gsub{font-size:11.5px; color:var(--muted); margin:0 0 6px}
+  svg.gauge{width:100%; max-width:300px; height:auto; display:block; margin:0 auto}
+  .gauge-figure{font-family:var(--font-body); font-weight:800; font-size:clamp(22px,3.4vw,28px); margin:-8px 0 4px}
+  .gauge-figure small{display:block; font-family:var(--font-body); font-weight:500; font-size:12px; color:var(--muted)}
+  .gauge-legend{display:flex; flex-wrap:wrap; justify-content:center; gap:8px 14px; margin-top:6px}
+  .gauge-legend .gl{display:flex; align-items:center; gap:6px; font-size:12.5px}
+  .gauge-legend .dot{width:10px; height:10px; border-radius:3px; flex:none}
+  .gauge-legend .gl b{font-family:var(--font-mono); font-weight:600}
+
+  table.seats{width:100%; border-collapse:collapse; font-size:13px}
+  table.seats th,table.seats td{text-align:left; padding:6px 8px; border-bottom:1px solid var(--line)}
+  table.seats th{font-family:var(--font-mono); font-weight:600; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted)}
+  table.seats td.num{font-family:var(--font-mono); text-align:right}
+
+  .tip{position:fixed; pointer-events:none; z-index:20; background:var(--tip-bg); color:var(--tip-ink);
+    border:1px solid var(--line-2); font-size:12.5px; padding:7px 10px; border-radius:7px; opacity:0; transition:opacity .12s; max-width:240px}
+  .tip b{font-weight:600} .tip .mono{font-size:11.5px; opacity:.85}
+
+  /* ALL-RESULTS TABLE */
+  .ctrl{max-width:680px}
+  .ctrl label{display:flex; justify-content:space-between; font-size:13px; font-weight:500; margin-bottom:6px; gap:10px}
+  .ctrl label .val{font-family:var(--font-mono); color:var(--accent); font-weight:600; flex:none}
+  input[type=range]{width:100%; accent-color:var(--accent)}
+  .hint{font-size:12px; color:var(--muted); margin:4px 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px}
+  .tablewrap{overflow-x:auto; margin-top:10px; max-height:640px; overflow-y:auto; border:1px solid var(--line); border-radius:10px}
+  table.results{width:100%; border-collapse:collapse; font-size:12.5px; min-width:780px}
+  table.results th,table.results td{text-align:right; padding:7px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
+  table.results th:first-child,table.results td:first-child{text-align:left; position:sticky; left:0; background:var(--panel)}
+  table.results thead th{font-family:var(--font-mono); font-weight:600; font-size:10px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--muted); position:sticky; top:0; background:var(--panel); z-index:1}
+  table.results thead th:first-child{z-index:2}
+  table.results td.num{font-family:var(--font-mono)}
+  table.results tbody tr:nth-child(even) td{background:var(--bg-3)}
+  table.results tbody tr:nth-child(even) td:first-child{background:var(--bg-3)}
+  table.results td.win{font-weight:700}
+  .flip-tag{font-family:var(--font-mono); font-size:10px; padding:1px 6px; border-radius:5px;
+    background:color-mix(in srgb,var(--red) 16%,transparent); color:var(--red); margin-left:6px}
+  .tabletools{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .tabletools input[type=search]{font-family:var(--font-body); font-size:13px; padding:6px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg-2); color:var(--ink); width:min(280px,100%)}
+  .tabletools label{font-size:12.5px; color:var(--ink-2); display:flex; align-items:center; gap:6px; cursor:pointer}
+  .tabletools .count{font-family:var(--font-mono); font-size:11.5px; color:var(--muted)}
+
+  /* MOST WINNABLE — compact cards in a responsive grid instead of a 3-column table stretched full width */
+  .winlist{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; list-style:none; margin:0; padding:0}
+  .wincard{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:4px 10px; width:100%;
+    padding:8px 10px; border:1px solid var(--line); border-radius:9px; background:var(--bg-3);
+    font:inherit; color:inherit; text-align:left; cursor:pointer; transition:border-color .15s}
+  .wincard:hover{border-color:var(--accent)}
+  .wincard .rank{font-family:var(--font-mono); font-size:11px; color:var(--muted)}
+  .wincard .dn{font-weight:600; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .wincard .thr{font-family:var(--font-mono); font-weight:600; font-size:14px}
+  .wincard .who{grid-column:2 / 4; display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted)}
+  .wincard .who .dot{width:9px; height:9px; border-radius:2px; flex:none}
+  .wincard .meter{grid-column:1 / 4; height:4px; background:var(--line); border-radius:3px; overflow:hidden; position:relative}
+  .wincard .meter span{display:block; height:100%; background:var(--accent)}
+  .wincard .meter i{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink)}
+  .wincard.flips{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+  .wincard.flips .thr{color:var(--accent)}
+  .caveat{font-size:12.5px; color:var(--muted); margin-top:10px; max-width:74ch}
+  .caveat b{color:var(--ink); font-weight:600}
+
+  /* INFO POPOVER — collapses long explanatory text behind a small "?" so sections stay
+     compact instead of leaving a wall of narrow-column text with empty space beside it */
+  .info{position:relative; display:inline-block; vertical-align:middle}
+  .info summary{list-style:none; display:inline-flex} /* <summary> defaults to display:list-item (block-level) — override or it drops to its own line */
+  .info summary::-webkit-details-marker{display:none}
+  .infobtn{display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px;
+    border-radius:50%; border:1px solid var(--line); background:var(--bg-2); color:var(--muted);
+    font-family:var(--font-mono); font-size:10.5px; cursor:pointer; flex:none; user-select:none}
+  .info-pop{position:absolute; z-index:5; top:24px; left:0; width:340px; max-width:min(80vw,340px);
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+    font-size:12px; line-height:1.5; color:var(--muted); box-shadow:0 8px 22px rgba(20,20,30,.14)}
+  .info-pop b{color:var(--ink)}
+
+  /* METHODOLOGY */
+  .methodology{font-size:12.5px; color:var(--muted); max-width:none}
+  .methodology h4{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--ink); margin:10px 0 4px}
+  .methodology h4:first-child{margin-top:0}
+  .methodology p{margin:0 0 6px; max-width:90ch}
+  .methodology b{color:var(--ink)}
+
+  @media (prefers-reduced-motion:reduce){ svg.map path, .barfill{transition:none} }
+  a{color:var(--accent)}
+
+  .mapcomposite{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  #mapMain{grid-column:1/-1;}
+  .mapinset{position:relative!important;inset:auto!important;width:100%!important;}
+  #mapMain{max-height:530px;}
+  #mapLines,.zoomrect{display:none;}
+  @media(max-width:720px){.mapcomposite{display:block}.mapinset{margin-top:12px}}
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css?v=20261101-keys">
+<script src="../assets/site-theme.js"></script>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../mortgage.html">Mortgage</a>
+    <a href="../weather.html">Weather</a>
+    <a href="BCelections.html" class="active">BC elections</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">British Columbia elections</p>
+    <h1>BC 2026 preliminary: how much could vote consolidation change?</h1>
+    <p class="sub">The October 24, 2026 election’s preliminary initial count, district by district: the leading parties, leads above 50% of counted votes,
+      and a model where NDP and Green votes are combined behind one candidate per riding. It is
+      arithmetic about vote-splitting, not a forecast or a voting recommendation. Click a district for its own
+      numbers. This is a dated preliminary snapshot, subject to corrections and additional ballots at final count. Turnout since 1996 is below.</p>
+    <p class="source mono" id="source"></p>
+  </header>
+
+  <p class="source">Compare provinces: <a href="../Ontario_Elections/ONelections.html">Ontario</a> · <a href="../Alberta_Elections/ABelections.html">Alberta</a> · <b>BC</b></p>
+  <p class="banner" id="dataError" hidden>Election data could not load. Reload this page to try again.</p>
+  <p class="banner"><b>PRELIMINARY · 2026 initial count.</b> Source as of October 26, 2026, 10:34 PST; downloaded November 1. Mail-in and absentee ballots are not yet included. Final count is scheduled for November 6–10. This page is a saved snapshot, not a live feed. <a href="https://results.elections.bc.ca/">Check Elections BC</a>.</p>
+  <p class="source">Election: <b>2026 preliminary</b> · <a href="BCelections-2024.html">2024 final</a></p>
+  <p class="banner" id="scenarioSummary" aria-live="polite"></p>
+  <section>
+    <p class="sec-label">Results by district</p>
+    <label for="ridingPicker">Choose a riding </label><select id="ridingPicker" style="max-width:100%;margin:0 0 10px"><option value="">Province-wide</option></select>
+    <div class="lastel">
+      <div class="card mapcard">
+        <div class="mapcard-head">
+          <h3>British Columbia</h3>
+          <select id="mapMode">
+            <option value="actual">Preliminary leaders</option>
+            <option value="majority">Majority results</option>
+            <option value="model">Modelled results</option>
+          </select>
+        </div>
+        <div class="mapctrl">
+          <div class="ctrl">
+            <label>Vote coordination: share of the dropped candidates' voters who'd back the survivor
+              <span class="val" id="coordVal">65%</span></label>
+            <input type="range" id="coordSlider" min="0" max="100" value="65" aria-label="Vote coordination retention percentage">
+            <div class="hint">How the model works
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop">In every riding, whichever of NDP / Green actually got the most votes becomes
+                  the single "unity" candidate; the other stands aside. The slider controls how many of <i>their</i> voters
+                  would actually follow and vote for the survivor instead of staying home or voting elsewhere — 100% assumes
+                  perfect transfer, which real-world vote consolidation never achieves. Moving it switches the map to
+                  "Modelled results", and it drives the modelled gauge, winnable-seat list and table below.</div>
+              </details>
+              <span aria-hidden="true">·</span> 65% is an illustrative assumption
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop">65% is an illustrative assumption inherited from the Ontario tool.
+                  It is not an estimate of British Columbia voters' preferences. Explore the full 0–100% range to see
+                  how much the result depends on the selected transfer share.</div>
+              </details>
+            </div>
+          </div>
+        </div>
+        <div class="mapcomposite">
+          <svg class="map" id="mapMain" role="img" aria-label="British Columbia electoral districts by winning party"></svg>
+          <div class="mapinset" id="mapinset-METRO">
+            <div class="mapinset-box">
+              <svg class="map" id="mapMetroInset" role="img" aria-label="Metro Vancouver electoral districts, enlarged"></svg>
+            </div>
+            <span class="mapinset-label">Metro Vancouver</span>
+          </div>
+          <div class="mapinset" id="mapinset-CAPITAL">
+            <div class="mapinset-box">
+              <svg class="map" id="mapCapitalInset" role="img" aria-label="Victoria area electoral districts, enlarged"></svg>
+            </div>
+            <span class="mapinset-label">Victoria area</span>
+          </div>
+          <svg class="mapinset-lines" id="mapLines"></svg>
+        </div>
+        <div class="mapempty" id="mapEmpty" hidden></div>
+      </div>
+
+      <div class="card" id="panel">
+        <p class="panel-title" id="panelTitle">British Columbia</p>
+        <p class="panel-sub" id="panelSub">Province-wide · click a district on the map for its own numbers</p>
+
+        <div class="panel-block">
+          <h4>Vote share by party</h4>
+          <div class="barlist" id="voteShare"></div>
+        </div>
+
+        <div class="panel-block">
+          <h4>Provincial turnout · 2026 preliminary</h4>
+          <svg class="linechart" id="turnoutRecent" viewBox="0 0 320 160" role="img" aria-label="Recent provincial turnout, 2026 preliminary; riding turnout unavailable"></svg>
+          <div class="turn-stat" id="turnoutRecentStat"></div>
+        </div>
+
+        <div class="panel-block">
+          <h4 id="resultsLabel">Initial count · ridings leading</h4>
+          <div id="results"></div>
+        </div>
+
+        <div class="panel-block" id="strategicPanel" hidden>
+          <h4>Vote-splitting in this district</h4>
+          <div id="strategicPanelBody"></div>
+        </div>
+
+        <div class="panel-block">
+          <button class="clearsel" id="clearSel" disabled>&larr; back to province-wide</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Seats at a glance · 0–93</p>
+    <div class="gauges">
+      <div class="card gaugecard">
+        <h3>Initial-count leaders</h3>
+        <p class="gsub">Every riding, coloured by its leading party in the preliminary count</p>
+        <svg class="gauge" id="gaugeActual" viewBox="0 0 320 190" role="img" aria-label="Gauge of actual seats won by party"></svg>
+        <p class="gauge-figure" id="gaugeActualFigure"></p>
+        <div class="gauge-legend" id="gaugeActualLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>Leaders above 50% of counted votes</h3>
+        <p class="gsub">Only ridings where the leader has more than 50% of counted valid votes; the rest are grey</p>
+        <svg class="gauge" id="gaugeMajority" viewBox="0 0 320 190" role="img" aria-label="Gauge of riding leaders above 50% of counted votes, by party"></svg>
+        <p class="gauge-figure" id="gaugeMajorityFigure"></p>
+        <div class="gauge-legend" id="gaugeMajorityLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>Modelled result</h3>
+        <p class="gsub">Coloured by whichever party would hold the seat under the vote-coordination slider above, using preliminary votes</p>
+        <svg class="gauge" id="gaugeCoord" viewBox="0 0 320 190" role="img" aria-label="Gauge of hypothetical seats under vote coordination"></svg>
+        <p class="gauge-figure" id="gaugeCoordFigure"></p>
+        <div class="gauge-legend" id="gaugeCoordLegend"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">Conservative-held seats most sensitive to vote-splitting
+      <details class="info"><summary class="infobtn">?</summary>
+        <div class="info-pop">Up to ten CP-held ridings where the leading NDP/Green candidate would overtake CP with the
+          smallest vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the full table below and
+          doesn't depend on the slider; the bar's tick marks the current slider setting, and a highlighted card means the
+          riding flips at that setting. Click a card to open the riding on the map.</div>
+      </details>
+    </div>
+    <div class="card" id="strategicCard">
+      <div id="strategicList"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Vote coordination · full district table</p>
+    <div class="card">
+      <div class="tabletools">
+        <input type="search" id="tableSearch" placeholder="Find a district…" aria-label="Filter districts by name">
+        <label><input type="checkbox" id="flipsOnly"> Flips only</label>
+        <span class="count" id="tableCount"></span>
+      </div>
+      <div class="tablewrap">
+        <table class="results" id="coordTable">
+          <thead>
+            <tr>
+              <th>District</th>
+              <th id="thPC2">CP</th>
+              <th id="thNDP2">NDP</th>
+              <th id="thGRN2">GP</th>
+              <th>Others</th>
+              <th>Survivor</th>
+              <th>Coordinated<br>votes</th>
+              <th>Hypothetical winner</th>
+              <th>Flip threshold</th>
+            </tr>
+          </thead>
+          <tbody id="coordTableBody"></tbody>
+        </table>
+      </div>
+      <p class="caveat" id="coordCaveat"></p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Province-wide voter turnout, 1996–2026 · 2026 preliminary</p>
+    <div class="card">
+      <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="British Columbia province-wide voter turnout from 1996 to 2026"></svg>
+      <div class="turn-stat" id="turnoutHistoryStat"></div>
+      <div class="turn-stat" id="turnoutHistoryLegend" style="margin-top:4px"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Methodology</p>
+    <div class="card methodology">
+      <h4>Preliminary source and scope</h4>
+      <p>The <a href="https://results.elections.bc.ca/">Elections BC party report</a> and <a href="https://results.elections.bc.ca/Results_11684_GE-2026-10-24_Candidate.html">candidate report</a> are saved together as of their October 26, 2026, 10:34 PST timestamp, downloaded November 1. Candidate sums reconcile to all 93 riding totals, provincial party totals and counts of ridings leading. These are leads, not certified seats. Final count is scheduled November 6–10 and will add mail-in and absentee ballots; corrections and recounts may change the totals.</p>
+      <p>Boundaries use the same 93-district 2023 set linked by Elections BC for 2024 and 2026. All riding names match. BC Albers / EPSG:3005, simplified by 60 metres; insets enlarge selected Metro Vancouver and Victoria-area districts. <a href="BCelections-2024.html">The separately retained 2024 final result</a> uses the published Statement of Votes.</p>
+      <h4>Consolidation assumption</h4>
+      <p>In each riding the leading NDP or Green candidate keeps their actual votes. The slider adds the selected share of the other party’s votes to that candidate. Conservatives, independents, unaffiliated candidates and all other parties retain their actual votes. No Liberal/BC United vote pool is created.</p>
+      <p>65% is an illustrative starting setting, with no BC-specific calibration. Untransferred votes remain unallocated; no new voters, candidate effects, campaign effects or turnout responses are estimated. Vote shares use counted valid votes, excluding rejected ballots. Turnout uses the published preliminary registration denominator. This is a consolidation scenario, not a forecast, ranked-ballot count or voting recommendation.</p>
+      <h4>Winners, majorities and ties</h4>
+      <p>Initial-count leaders have the most counted candidate votes; they are not certified winners. A majority requires more than 50% of valid votes; rejected ballots are excluded. “Others” is a display total only: those candidates compete individually in the model. Modelled ties have no assigned winner and do not count as flips.</p>
+      <p>For Conservative-held ridings, the transfer boundary is (Conservative votes − leading selected candidate’s votes) ÷ the other selected party’s votes. The selected candidate must strictly exceed that boundary to win. Ranked cards show the smallest whole-percent slider setting that wins; a boundary at or above 100% is unreachable. Green-held seats keep their leading Green candidate under this scenario. Hypothetical totals can be fractional; the table rounds them for display and the scenario CSV retains unrounded values.</p>
+      <h4>Turnout coverage</h4>
+      <p>1996–2024 are final general-election rates from <a href="https://elections.bc.ca/resources/results/voter-turnout/">Elections BC</a>. The 2026 endpoint is preliminary: 1,799,550 ballots considered ÷ 3,738,182 registered voters = 48.14%, using the published October 14 registration count. It is not directly comparable to completed counts until the outstanding ballots are added. Riding turnout is unavailable here because the preliminary reports do not supply riding-level registration denominators; none are estimated.</p>
+      <h4>Downloads and reproducibility</h4>
+      <p><a href="data/candidates.csv" download>Candidate results CSV</a> · <a href="data/results.json" download>Results JSON</a> · <a href="data/audit.json" download>Source audit</a> · <a href="data/statement-of-votes-2024.pdf">2024 final Statement of Votes</a> · <a href="README.md">Method and rebuild instructions</a>.</p>
+      <p><button type="button" class="clearsel" id="downloadScenario">Download current scenario CSV</button></p>
+    </div>
+  </section>
+
+</div>
+
+<div class="tip" id="tip"></div>
+
+<!-- ============================== APP ============================== -->
+<script>
+(function(){
+  const DATA = window.ELECTION_DATA;
+  if(!DATA || !DATA.ridings || !window.TURNOUT_DATA){ document.getElementById("dataError").hidden=false; return; }
+  const TURNOUT = window.TURNOUT_DATA;
+  // 3 original GeoJSON files (British Columbia.json / Metro Vancouver.json / SouthernBritish Columbia.json), wrapped as-is
+  // into geo.js by build_data.py — no merging between them.
+  const GEO = {
+    BC: window.BC_GEO || null,
+    METRO:  window.METRO_GEO || null,
+    CAPITAL:   window.CAPITAL_GEO || null,
+  };
+  const P = DATA.parties;
+  const PARTY_CODES = Object.keys(P);
+  const N = DATA.ridings.length;
+
+  document.getElementById("source").textContent =
+    "Source: " + DATA.meta.source + " · " + DATA.meta.source_as_of + " · retrieved " + DATA.meta.retrieved;
+
+
+  // ---- name normalisation so results join to boundaries despite dash/case/accents ----
+  function norm(s){
+    return String(s||"").toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g,"")
+      .replace(/['’.]/g,"")
+      .replace(/[‐-―\-]+/g,"-")
+      .replace(/\s*-\s*/g,"-")
+      .replace(/\s+/g," ").trim();
+  }
+  function geoName(props){
+    return props.name || props.ENNAME || props.NAME_ENG || props.ED_NAME || props.DISTRICT || props.ENGLISH_NA || "";
+  }
+
+  // ---- vote model ----
+  function winnerOf(v){
+    const e = Object.keys(v).map(k=>[k,v[k]]).sort((a,b)=>b[1]-a[1]);
+    const total = e.reduce((s,x)=>s+x[1],0) || 1;
+    return { party:e[0][0], votes:e[0][1], total };
+  }
+
+  const ridingByName = {};
+  DATA.ridings.forEach(r=> ridingByName[norm(r.name)] = r);
+
+  // province-wide vote totals & seat tally (computed once, doesn't change with map region)
+  const provinceTotals = {}, seatTally = {};
+  PARTY_CODES.forEach(c=>{provinceTotals[c]=0; seatTally[c]=0;});
+  DATA.ridings.forEach(r=>{
+    PARTY_CODES.forEach(c=>provinceTotals[c]+=(r.votes[c]||0));
+    seatTally[winnerOf(r.votes).party]++;
+  });
+  const PARTY_ORDER = PARTY_CODES.slice().sort((a,b)=>{
+    if(a==="OTH"&&b!=="OTH") return 1; if(b==="OTH"&&a!=="OTH") return -1;
+    return provinceTotals[b]-provinceTotals[a];
+  });
+
+  // Identify the three core parties by name; BC 2026 has no Liberal candidate pool.
+  function findCodeByName(substr){
+    return PARTY_CODES.find(c=> P[c].name.toLowerCase().includes(substr));
+  }
+  const CODE_PC  = findCodeByName("progressive conservative") || findCodeByName("conservative");
+  const CODE_LIB = null;
+  const CODE_NDP = findCodeByName("democratic");
+  const CODE_GRN = findCodeByName("green");
+  const CORE = [CODE_PC, CODE_NDP, CODE_GRN].filter(Boolean);
+  const MERGE_CODES = [CODE_NDP, CODE_GRN].filter(Boolean);
+  const OTHER_CODES = PARTY_CODES.filter(c=>!CORE.includes(c));
+  const sortedRidings = DATA.ridings.slice().sort((a,b)=>a.name.localeCompare(b.name));
+
+  const NO_MAJORITY_COLOR = "#C7CBD4";
+  const OTHERS_COLOR = "#8A8D91";
+
+  // per-riding: the NDP/GP candidate with the most actual votes becomes the survivor;
+  // the other is dropped, and `pct` of their combined votes transfer to the survivor.
+  function computeCoordRow(r, pct){
+    const v=r.votes;
+    const cp = CODE_PC ? (v[CODE_PC]||0) : 0;
+    const lib = CODE_LIB ? (v[CODE_LIB]||0) : 0;
+    const ndp = CODE_NDP ? (v[CODE_NDP]||0) : 0;
+    const grn = CODE_GRN ? (v[CODE_GRN]||0) : 0;
+    const others = OTHER_CODES.reduce((s,c)=>s+(v[c]||0),0);
+
+    const mergeVotes = {}; if(CODE_NDP) mergeVotes[CODE_NDP]=ndp; if(CODE_GRN) mergeVotes[CODE_GRN]=grn;
+    let survivor=null, survivorVotes=-1;
+    for(const c in mergeVotes){ if(mergeVotes[c]>survivorVotes){survivorVotes=mergeVotes[c]; survivor=c;} }
+    const droppedSum = MERGE_CODES.reduce((s,c)=>s + (c===survivor?0:(v[c]||0)), 0);
+    const coordinated = survivorVotes + pct*droppedSum;
+
+    const otherMax = Math.max(0, ...r.candidates.filter(c=>OTHER_CODES.includes(c.party)).map(c=>c.votes));
+    const buckets = [["CP",cp],["SURVIVOR",coordinated],["OTHERS",otherMax]];
+    buckets.sort((a,b)=>b[1]-a[1]);
+    const tied = Math.abs(buckets[0][1]-buckets[1][1]) < 1e-8;
+    const hypoBucket = tied ? "OTHERS" : buckets[0][0];
+    const hypoCode = hypoBucket==="CP" ? CODE_PC : hypoBucket==="SURVIVOR" ? survivor : "OTHERS";
+    const hypoColor = hypoBucket==="OTHERS" ? OTHERS_COLOR : (P[hypoCode]?P[hypoCode].color:OTHERS_COLOR);
+    const hypoLabel = tied ? "Tie — no winner" : hypoBucket==="OTHERS" ? "Others" : (P[hypoCode]?P[hypoCode].name:hypoCode);
+
+    const actual = winnerOf(v).party;
+    const actualBucket = actual===CODE_PC ? "CP" : (MERGE_CODES.includes(actual) ? "SURVIVOR" : "OTHERS");
+    const flipped = !tied && (actualBucket!==hypoBucket || (actualBucket==="SURVIVOR" && actual!==survivor));
+
+    // ---- strategic threshold: the minimum retention % (0-1) at which the survivor's
+    // coordinated total would overtake CP's actual vote count, holding OTHERS aside.
+    // survivorVotes + pctNeeded*droppedSum = cp  =>  pctNeeded = (cp - survivorVotes) / droppedSum.
+    // null = not applicable (CP isn't actually ahead of the survivor, or there's nothing
+    // to consolidate); Infinity = not achievable even at 100% retention.
+    let pctNeeded = null;
+    if(actual===CODE_PC && cp > survivorVotes){
+      pctNeeded = droppedSum>0 ? (cp-survivorVotes)/droppedSum : Infinity;
+    }
+
+    return {r, cp, lib, ndp, grn, others, survivor, survivorVotes, droppedSum, coordinated, hypoBucket, hypoCode, hypoColor, hypoLabel, flipped, pctNeeded, tied};
+  }
+
+  // ---- map building ----
+  const tip = document.getElementById("tip");
+  function ringsOf(geom){
+    if(geom.type==="Polygon") return geom.coordinates;
+    if(geom.type==="MultiPolygon") return geom.coordinates.flat();
+    return [];
+  }
+  // boundsOverride lets an inset crop a specific window of the source CRS (in metres)
+  // instead of auto-fitting to the bounding box of its own feature subset — that's the
+  // "manual zoom" knob used by INSET_CONFIG below.
+  function buildMap(svg, features, padFrac, boundsOverride){
+    // features are in the source shapefile's planar projected CRS (metres), not lon/lat —
+    // plot them as a literal Cartesian plane so hand-cut rectangular district shapes stay
+    // exactly as drawn, with no geographic reprojection or latitude-based skew.
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    features.forEach(f=>ringsOf(f.geometry).forEach(r=>r.forEach(p=>{
+      if(p[0]<minx)minx=p[0];if(p[0]>maxx)maxx=p[0];if(p[1]<miny)miny=p[1];if(p[1]>maxy)maxy=p[1];})));
+    if(boundsOverride){ ({minx,miny,maxx,maxy}=boundsOverride); }
+    const w=maxx-minx, h=maxy-miny;
+    // fit to width only and let height follow the crop's real aspect ratio — viewBox height
+    // used to be forced equal to VB (a hidden square-letterbox bug: offy was derived so that
+    // h*scale + 2*offy always cancelled out to exactly VB), which padded non-square crops
+    // (the Metro Vancouver/Victoria area insets) with empty space on whichever axis was shorter.
+    const VB=1000, pad=VB*(padFrac||0.03);
+    const scale=(VB-2*pad)/w;
+    const offx=pad, offy=pad;
+    const X=x=>offx+(x-minx)*scale;
+    const Y=y=>offy+(maxy-y)*scale;
+    const vh=Math.round(h*scale+2*pad);
+    svg.setAttribute("viewBox",`0 0 ${VB} ${vh}`);
+    svg.innerHTML="";
+    const els=[];
+    features.forEach(f=>{
+      let d="";
+      ringsOf(f.geometry).forEach(ring=>{
+        ring.forEach((p,i)=>{ d += (i?"L":"M")+X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1); });
+        d+="Z";
+      });
+      const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d",d);
+      const key=norm(geoName(f.properties));
+      path._key=key;
+      path.addEventListener("mousemove",e=>showTip(e,key));
+      path.addEventListener("mouseleave",()=>{tip.style.opacity=0;});
+      path.addEventListener("click",()=>selectDistrict(key));
+      svg.appendChild(path); els.push(path);
+    });
+    return {els, X, Y, minx, miny, maxx, maxy, VB, vh};
+  }
+  function showTip(e,key){
+    const r=ridingByName[key];
+    tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+14)+"px"; tip.style.opacity=1;
+    if(!r){ tip.innerHTML=`<b>${key}</b><br><span class="mono">no result matched</span>`; return; }
+    const w=winnerOf(r.votes);
+    tip.innerHTML=`<b>${r.name}</b><br><span class="mono">${P[w.party].name} · `
+      + `${w.votes.toLocaleString()} votes</span>`;
+  }
+
+  // ---- manual placement + zoom for the two insets ----
+  // box: CSS position/size of the inset on top of mapMain (any of top/left/right/bottom + width, as CSS lengths).
+  // bounds: the exact crop window into the source CRS (metres, same units as ELECTORAL_DISTRICT.prj) that the
+  // inset zooms into. Set to null to auto-fit the bounding box of that region's own features (old behaviour);
+  // give explicit {minx,miny,maxx,maxy} to pan/zoom the crop independently of which districts are tagged into it.
+  const INSET_CONFIG = {
+    METRO: {box: {bottom: "0%", right: "0%", width: "39%"}, bounds: null},
+    CAPITAL: {box: {top: "2%", right: "0%", width: "38%"}, bounds: null}
+  };
+
+  function autoBounds(features){
+    let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+    features.forEach(f=>ringsOf(f.geometry).forEach(r=>r.forEach(p=>{
+      if(p[0]<minx)minx=p[0];if(p[0]>maxx)maxx=p[0];if(p[1]<miny)miny=p[1];if(p[1]>maxy)maxy=p[1];})));
+    return {minx,miny,maxx,maxy};
+  }
+
+  function positionInset(el, box){
+    el.style.top=el.style.right=el.style.bottom=el.style.left="auto";
+    Object.keys(box).forEach(k=>{ if(k!=="width") el.style[k]=box[k]; });
+    el.style.width=box.width;
+  }
+
+  // main British Columbia map + Metro Vancouver/Victoria area insets, all built once and repainted together
+  let mapEls=[], ottawaInsetEls=[], southInsetEls=[];
+  let mainMapInfo=null;
+  const mapModeSelect = document.getElementById("mapMode");
+  function colorForMode(r, mode){
+    if(!r) return "var(--nodata)";
+    if(mode==="majority"){
+      const w=winnerOf(r.votes);
+      return w.votes/w.total>0.5 ? P[w.party].color : NO_MAJORITY_COLOR;
+    }
+    if(mode==="model"){
+      const pct = +document.getElementById("coordSlider").value/100;
+      return computeCoordRow(r,pct).hypoColor;
+    }
+    return P[winnerOf(r.votes).party].color;
+  }
+  function paintMap(){
+    const mode = mapModeSelect.value;
+    const colorOf=p=>colorForMode(ridingByName[p._key], mode);
+    [...mapEls, ...ottawaInsetEls, ...southInsetEls].forEach(p=>{
+      p.setAttribute("fill", colorOf(p));
+      p.classList.toggle("selected", !!selectedKey && p._key===selectedKey);
+    });
+  }
+  mapModeSelect.addEventListener("change", paintMap);
+  function loadMaps(){
+    const empty=document.getElementById("mapEmpty");
+    const composite=document.querySelector(".mapcomposite");
+    if(GEO.BC && GEO.BC.features && GEO.BC.features.length){
+      composite.hidden=false; empty.hidden=true;
+      mainMapInfo = buildMap(document.getElementById("mapMain"), GEO.BC.features, 0.03);
+      mapEls = mainMapInfo.els;
+    } else {
+      composite.hidden=true; empty.hidden=false;
+      empty.textContent = `No boundary data loaded. Put geo.js beside this file (see build_data.py), then reload.`;
+      mapEls=[]; mainMapInfo=null;
+    }
+    [["METRO","mapMetroInset","mapinset-METRO"],["CAPITAL","mapCapitalInset","mapinset-CAPITAL"]].forEach(([key,svgId,boxId])=>{
+      const cfg = INSET_CONFIG[key];
+      const insetEl = document.getElementById(boxId);
+      const features = GEO[key] && GEO[key].features;
+      if(features && features.length){
+        insetEl.hidden=false;
+        positionInset(insetEl, cfg.box);
+        const bounds = cfg.bounds || autoBounds(features);
+        const info = buildMap(document.getElementById(svgId), features, 0.015, bounds);
+        if(key==="METRO") ottawaInsetEls = info.els; else southInsetEls = info.els;
+        drawZoomRect(bounds, boxId);
+      } else {
+        insetEl.hidden=true;
+      }
+    });
+    paintMap();
+    syncZoomIndicators();
+  }
+
+  // outlines the inset's crop window directly on mapMain, in mapMain's own viewBox coordinates
+  function drawZoomRect(bounds, boxId){
+    if(!mainMapInfo) return;
+    const {X,Y}=mainMapInfo;
+    const svg=document.getElementById("mapMain");
+    let rect=svg.querySelector(`rect.zoomrect[data-for="${boxId}"]`);
+    if(!rect){
+      rect=document.createElementNS("http://www.w3.org/2000/svg","rect");
+      rect.setAttribute("class","zoomrect");
+      rect.setAttribute("data-for",boxId);
+      svg.appendChild(rect);
+    }
+    const x1=X(bounds.minx), x2=X(bounds.maxx), y1=Y(bounds.maxy), y2=Y(bounds.miny);
+    rect.setAttribute("x",Math.min(x1,x2)); rect.setAttribute("y",Math.min(y1,y2));
+    rect.setAttribute("width",Math.abs(x2-x1)); rect.setAttribute("height",Math.abs(y2-y1));
+  }
+
+  // draws a dot at the centre of each zoom rect on mapMain and a leader line to the
+  // corresponding inset box, in screen pixels (recomputed on resize since the maps are responsive)
+  function syncZoomIndicators(){
+    const composite=document.querySelector(".mapcomposite");
+    const overlay=document.getElementById("mapLines");
+    const cr=composite.getBoundingClientRect();
+    overlay.setAttribute("viewBox",`0 0 ${cr.width} ${cr.height}`);
+    overlay.innerHTML="";
+    const svgNS="http://www.w3.org/2000/svg";
+    ["mapinset-METRO","mapinset-CAPITAL"].forEach(boxId=>{
+      const boxEl=document.getElementById(boxId);
+      const rectEl=document.querySelector(`#mapMain rect.zoomrect[data-for="${boxId}"]`);
+      if(!boxEl || boxEl.hidden || !rectEl) return;
+      const rb=rectEl.getBoundingClientRect(), bb=boxEl.getBoundingClientRect();
+      const cx=rb.left+rb.width/2-cr.left, cy=rb.top+rb.height/2-cr.top;
+      const tx=Math.max(bb.left,Math.min(cx+cr.left,bb.right))-cr.left;
+      const ty=Math.max(bb.top,Math.min(cy+cr.top,bb.bottom))-cr.top;
+      const dot=document.createElementNS(svgNS,"circle");
+      dot.setAttribute("class","zoom-dot");
+      dot.setAttribute("cx",cx); dot.setAttribute("cy",cy); dot.setAttribute("r",4);
+      overlay.appendChild(dot);
+      const line=document.createElementNS(svgNS,"line");
+      line.setAttribute("class","zoom-line");
+      line.setAttribute("x1",cx); line.setAttribute("y1",cy);
+      line.setAttribute("x2",tx); line.setAttribute("y2",ty);
+      overlay.appendChild(line);
+    });
+  }
+  window.addEventListener("resize", ()=>{ if(mainMapInfo) syncZoomIndicators(); });
+
+  // ---- right-hand panel ----
+  let selectedKey=null;
+
+  function barList(votes, total){
+    return PARTY_ORDER.map(code=>{
+      const v=votes[code]||0, pct = total ? v/total*100 : 0;
+      return `<div class="barrow">
+        <span class="nm ov-key" title="${P[code].name}"><span class="ov-swatch" aria-hidden="true" style="background:${P[code].color}"></span><span class="ov-key-label">${code}</span></span>
+        <span class="bartrack"><span class="barfill" style="width:${pct.toFixed(1)}%; background:${P[code].color}"></span></span>
+        <span class="pct">${pct.toFixed(1)}%</span>
+      </div>`;
+    }).join("");
+  }
+
+  function lineChart(svg, points, opts){
+    // points: [{x, y, color?, label?}]. X positions are evenly spaced by index, not by the
+    // real value of x — so a 1996->1985 gap looks the same width as a 2022->2026 gap.
+    opts = opts || {};
+    const W = svg.viewBox.baseVal.width || 320, H = svg.viewBox.baseVal.height || 160;
+    const ml=opts.ml||40, mr=opts.mr||10, mt=opts.mt||16, mb=opts.mb||28;
+    const ys=points.map(p=>p.y);
+    const yMin=Math.max(0,Math.floor(Math.min(...ys)/5)*5-2), yMax=Math.min(100,Math.ceil(Math.max(...ys)/5)*5+2);
+    const X=i=> ml + (points.length>1 ? i/(points.length-1) : 0.5) * (W-ml-mr);
+    const Y=y=> (H-mb) - (y-yMin)/(yMax-yMin || 1) * (H-mb-mt);
+    let s="";
+    const steps=4;
+    for(let i=0;i<=steps;i++){
+      const gy = yMin + (yMax-yMin)*i/steps;
+      const py = Y(gy);
+      s += `<line class="gridline" x1="${ml}" y1="${py.toFixed(1)}" x2="${W-mr}" y2="${py.toFixed(1)}"/>`;
+      s += `<text x="${ml-8}" y="${(py+3).toFixed(1)}" text-anchor="end">${gy.toFixed(0)}%</text>`;
+    }
+    s += `<line class="axis" x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}"/>`;
+    let d="";
+    points.forEach((p,i)=>{ d += (i?"L":"M")+X(i).toFixed(1)+" "+Y(p.y).toFixed(1); });
+    s += `<path class="trend" d="${d}"/>`;
+    const showAllLabels = points.length<=8;
+    points.forEach((p,i)=>{
+      const dotColor = p.color || "var(--accent)";
+      const tip = p.label ? `${p.x}: ${p.y.toFixed(1)}% — ${p.label}` : `${p.x}: ${p.y.toFixed(1)}%`;
+      s += `<circle class="pt" cx="${X(i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4.5" style="fill:${dotColor}"><title>${tip}</title></circle>`;
+      if(showAllLabels || i===0 || i===points.length-1 || i%2===0){
+        const labelText = p.label || (p.y.toFixed(1)+"%");
+        s += `<text class="val" x="${X(i).toFixed(1)}" y="${(Y(p.y)-10).toFixed(1)}" text-anchor="${i===0?'start':i===points.length-1?'end':'middle'}" style="${p.label?('fill:'+dotColor):''}">${labelText}</text>`;
+      }
+      s += `<text x="${X(i).toFixed(1)}" y="${H-mb+18}" text-anchor="${i===0?'start':i===points.length-1?'end':'middle'}">${p.x}</text>`;
+    });
+    svg.innerHTML = s;
+  }
+
+  function barChart(svg, points, opts){
+    // points: [{x, y, color?, label?}], evenly spaced bars, fixed 0-100% scale, with a 50% threshold line
+    opts = opts || {};
+    const W = svg.viewBox.baseVal.width || 1000, H = svg.viewBox.baseVal.height || 320;
+    const ml=opts.ml||46, mr=opts.mr||14, mt=opts.mt||20, mb=opts.mb||30;
+    const innerW=W-ml-mr, innerH=H-mt-mb;
+    const yMin=0, yMax=100;
+    const Y=y=> (H-mb) - (y-yMin)/(yMax-yMin) * innerH;
+    const n=points.length, bandW=innerW/n, barW=Math.min(bandW*0.55, 46);
+    let s="";
+    const steps=4;
+    for(let i=0;i<=steps;i++){
+      const gy = yMin + (yMax-yMin)*i/steps;
+      const py = Y(gy);
+      s += `<line class="gridline" x1="${ml}" y1="${py.toFixed(1)}" x2="${W-mr}" y2="${py.toFixed(1)}"/>`;
+      s += `<text x="${ml-8}" y="${(py+3).toFixed(1)}" text-anchor="end">${gy.toFixed(0)}%</text>`;
+    }
+    s += `<line class="axis" x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}"/>`;
+    points.forEach((p,i)=>{
+      const cx = ml + bandW*(i+0.5);
+      const x = cx-barW/2;
+      const y = Y(p.y);
+      const barH = (H-mb)-y;
+      const color = p.color || "var(--accent)";
+      const tip = p.label ? `${p.x}: ${p.y.toFixed(1)}% — ${p.label}` : `${p.x}: ${p.y.toFixed(1)}%`;
+      s += `<rect class="bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" rx="3" fill="${color}"><title>${tip}</title></rect>`;
+      const labelText = p.label || (p.y.toFixed(1)+"%");
+      s += `<text class="val" x="${cx.toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="middle" style="${p.label?('fill:'+color):''}">${labelText}</text>`;
+      s += `<text x="${cx.toFixed(1)}" y="${H-mb+18}" text-anchor="middle">${p.x}</text>`;
+    });
+    const y50 = Y(50);
+    s += `<line x1="${ml}" y1="${y50.toFixed(1)}" x2="${W-mr}" y2="${y50.toFixed(1)}" stroke="#C0392B" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+    s += `<text x="${W-mr}" y="${(y50-6).toFixed(1)}" text-anchor="end" fill="#C0392B" font-weight="600" font-family="JetBrains Mono,monospace" font-size="11">50%</text>`;
+    svg.innerHTML = s;
+  }
+
+  function statRow(el, points){
+    if(TURNOUT.preliminary){
+      el.innerHTML = `<span class="s"><b>2026 initial count: 48.14%</b> · Outstanding ballots are not included. Compare with completed elections after final count.</span>`;
+      return;
+    }
+    const first=points[0], last=points[points.length-1];
+    const delta=last.y-first.y, cls=delta>0?"up":delta<0?"down":"flat";
+    el.innerHTML = `<span class="s"><b>${first.y.toFixed(1)}%</b><br>${first.x}</span>`
+      + `<span class="s"><b>${last.y.toFixed(1)}%</b><br>${last.x}</span>`
+      + `<span class="s ${cls}"><b>${delta>0?"+":""}${delta.toFixed(1)}pp</b><br>${first.x}&rarr;${last.x}</span>`;
+  }
+
+  function renderPanel(){
+    const tally = seatTally;
+    if(!selectedKey){
+      document.getElementById("strategicPanel").hidden=true;
+      document.getElementById("panelTitle").textContent = "British Columbia";
+      document.getElementById("panelSub").textContent = "Province-wide · click a district on the map for its own numbers";
+      document.getElementById("voteShare").innerHTML = barList(provinceTotals, Object.values(provinceTotals).reduce((a,b)=>a+b,0));
+
+      const recent = (TURNOUT.province && TURNOUT.province.length) ? TURNOUT.province : TURNOUT.provinceAll.slice(-3);
+      lineChart(document.getElementById("turnoutRecent"), recent.map(r=>({x:r.year,y:r.turnoutPct})));
+      statRow(document.getElementById("turnoutRecentStat"), recent.map(r=>({x:r.year,y:r.turnoutPct})));
+
+      document.getElementById("resultsLabel").textContent = "Initial count · ridings leading";
+      const rows = PARTY_ORDER.map(c=>`<tr><td><span class="nm ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c].color}"></span><span class="ov-key-label">${P[c].name}</span></span></td><td class="num">${tally[c]||0}</td></tr>`).join("");
+      document.getElementById("results").innerHTML = `<table class="seats"><thead><tr><th>Party</th><th>Ridings leading</th></tr></thead><tbody>${rows}</tbody></table>`;
+
+      document.getElementById("clearSel").disabled = true;
+    } else {
+      const r = ridingByName[selectedKey];
+      if(!r){ selectedKey=null; renderPanel(); return; }
+      const w = winnerOf(r.votes);
+      document.getElementById("panelTitle").textContent = r.name;
+      document.getElementById("panelSub").textContent = w.total.toLocaleString() + " valid votes";
+      document.getElementById("voteShare").innerHTML = barList(r.votes, w.total);
+
+      const rows = (TURNOUT.districts && TURNOUT.districts[r.name]) || [];
+      if(rows.length>1){
+        lineChart(document.getElementById("turnoutRecent"), rows.map(x=>({x:x.year,y:x.turnoutPct})));
+        statRow(document.getElementById("turnoutRecentStat"), rows.map(x=>({x:x.year,y:x.turnoutPct})));
+      } else {
+        document.getElementById("turnoutRecent").innerHTML = "";
+        document.getElementById("turnoutRecentStat").innerHTML = `<span class="s">Riding turnout unavailable: no 2026 riding-level registration denominator is included in this source snapshot.</span>`;
+      }
+
+      document.getElementById("resultsLabel").textContent = "Initial count · leading party";
+      document.getElementById("results").innerHTML = `<div class="winner-badge">
+        <span class="dot" style="background:${P[w.party].color}"></span>
+        <span><span class="wn">${P[w.party].name}</span><br><span class="wv">${w.votes.toLocaleString()} votes · ${(w.votes/w.total*100).toFixed(1)}%</span></span>
+      </div>`;
+
+      // strategic block: only meaningful for a CP-held seat, where there's an
+      // opposition survivor to potentially consolidate behind.
+      const stratPanel = document.getElementById("strategicPanel");
+      if(w.party===CODE_PC){
+        const pct = +document.getElementById("coordSlider").value/100;
+        const c = computeCoordRow(r, pct);
+        stratPanel.hidden = false;
+        let body;
+        if(c.pctNeeded===null){
+          body = `<p class="caveat" style="margin:0">The leading NDP/Green candidate here already out-polls CP with zero
+            vote transfer under this model, though CP still won on the actual split vote.</p>`;
+        } else if(c.pctNeeded>=1){
+          body = `<p class="caveat" style="margin:0">Full NDP/Green transfer cannot produce a win here. Some ridings have no Green candidate, so there are no votes available to transfer.</p>`;
+        } else {
+          const reachable = c.pctNeeded<1;
+          body = `<div class="winner-badge" style="background:var(--accent-soft)">
+              <span class="dot" style="background:${P[c.survivor].color}"></span>
+              <span><span class="wn">Combined behind ${P[c.survivor].name}</span><br>
+              <span class="wv">would need &gt;${(c.pctNeeded*100).toFixed(2)}% of the other selected party's votes to overtake CP</span></span>
+            </div>
+            <p class="caveat">${reachable
+              ? `Within the model's range — at the current ${document.getElementById("coordSlider").value}% slider setting, this riding `
+                + `${c.coordinated-c.cp>1e-8 ? '<b>changes hands</b>' : 'stays CP; a higher transfer share would change it'}.`
+              : `Doesn't change hands in this model — even 100% transfer falls short.`}</p>`;
+        }
+        document.getElementById("strategicPanelBody").innerHTML = body;
+      } else {
+        stratPanel.hidden = true;
+      }
+
+      document.getElementById("clearSel").disabled = false;
+    }
+    document.getElementById("ridingPicker").value = selectedKey || "";
+    paintMap();
+  }
+
+  function selectDistrict(key){
+    selectedKey = (selectedKey===key) ? null : key;
+    renderPanel();
+  }
+  document.getElementById("clearSel").addEventListener("click", ()=>{ selectedKey=null; renderPanel(); });
+
+  const picker = document.getElementById("ridingPicker");
+  sortedRidings.forEach(r=>{ const o=document.createElement("option"); o.value=norm(r.name); o.textContent=r.name; picker.appendChild(o); });
+  picker.addEventListener("change", ()=>{selectedKey=picker.value||null; renderPanel();});
+  loadMaps();
+  renderPanel();
+
+  // ---- seat gauges: 0-93 semicircle, actual vs. true-majority-only ----
+  function drawGauge(svg, segments, total){
+    const cx=160, cy=160, outerR=140, innerR=92;
+    const pt=(angleDeg,r)=>{ const rad=angleDeg*Math.PI/180; return [cx+r*Math.cos(rad), cy-r*Math.sin(rad)]; };
+    let s="";
+    let acc=0;
+    segments.forEach(seg=>{
+      const t0=acc/total, t1=(acc+seg.value)/total;
+      acc+=seg.value;
+      if(seg.value<=0) return;
+      const a0=180-t0*180, a1=180-t1*180;
+      const [ox0,oy0]=pt(a0,outerR), [ox1,oy1]=pt(a1,outerR);
+      const [ix1,iy1]=pt(a1,innerR), [ix0,iy0]=pt(a0,innerR);
+      const d=`M${ox0.toFixed(1)} ${oy0.toFixed(1)} A${outerR} ${outerR} 0 0 1 ${ox1.toFixed(1)} ${oy1.toFixed(1)} `
+        + `L${ix1.toFixed(1)} ${iy1.toFixed(1)} A${innerR} ${innerR} 0 0 0 ${ix0.toFixed(1)} ${iy0.toFixed(1)} Z`;
+      s += `<path d="${d}" fill="${seg.color}"><title>${seg.label}: ${seg.value}</title></path>`;
+    });
+    // tick marks + end labels
+    s += `<text x="${cx-outerR}" y="${cy+18}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--muted)">0</text>`;
+    s += `<text x="${cx+outerR}" y="${cy+18}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--muted)">${total}</text>`;
+    svg.innerHTML = s;
+  }
+
+  function gaugeLegend(el, segments){
+    el.innerHTML = segments.filter(s=>s.value>0).map(s=>
+      `<span class="gl ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${s.color}"></span><span class="ov-key-label">${s.label} <b>${s.value}</b></span></span>`
+    ).join("");
+  }
+
+  // gauge 1: actual seats by party
+  const actualSegments = PARTY_ORDER.filter(c=>seatTally[c]>0).map(c=>({value:seatTally[c], color:P[c].color, label:c}));
+  drawGauge(document.getElementById("gaugeActual"), actualSegments, N);
+  gaugeLegend(document.getElementById("gaugeActualLegend"), actualSegments);
+  const topParty = PARTY_ORDER.slice().sort((a,b)=>seatTally[b]-seatTally[a])[0];
+  document.getElementById("gaugeActualFigure").innerHTML =
+    `${seatTally[topParty]} <small>${P[topParty].name} ridings leading of ${N}</small>`;
+
+  // gauge 2: riding leaders above 50% of counted votes (>50%), grey + "no majority" for the rest
+  const majorityTally = {}; PARTY_CODES.forEach(c=>majorityTally[c]=0);
+  let noMajorityCount=0;
+  DATA.ridings.forEach(r=>{
+    const w=winnerOf(r.votes);
+    if(w.votes/w.total>0.5) majorityTally[w.party]++; else noMajorityCount++;
+  });
+  const majoritySegments = PARTY_ORDER.filter(c=>majorityTally[c]>0).map(c=>({value:majorityTally[c], color:P[c].color, label:c}));
+  if(noMajorityCount>0) majoritySegments.push({value:noMajorityCount, color:NO_MAJORITY_COLOR, label:"No majority"});
+  drawGauge(document.getElementById("gaugeMajority"), majoritySegments, N);
+  gaugeLegend(document.getElementById("gaugeMajorityLegend"), majoritySegments);
+  const totalMajority = N-noMajorityCount;
+  document.getElementById("gaugeMajorityFigure").innerHTML =
+    `${totalMajority} <small>of ${N} riding leaders above 50% of counted votes</small>`;
+
+  // ---- top section: full province turnout history ----
+  if(TURNOUT.provinceAll && TURNOUT.provinceAll.length){
+    const pts = TURNOUT.provinceAll.map(r=>{
+      const w = r.winner;
+      // prefer this page's own party palette when the code is one we already know, so colours match the rest of the page
+      const color = w ? (P[w.code] ? P[w.code].color : w.color) : null;
+      const label = w ? (P[w.code] ? w.code : w.name) : null;
+      return {x:r.year, y:r.turnoutPct, color, label};
+    });
+    barChart(document.getElementById("turnoutHistory"), pts, {ml:46,mr:14,mt:20,mb:30});
+    statRow(document.getElementById("turnoutHistoryStat"), pts);
+
+    const known = pts.filter(p=>p.label);
+    if(known.length){
+      const seen=new Set();
+      const legendItems = known.filter(p=>{ if(seen.has(p.label)) return false; seen.add(p.label); return true; });
+      document.getElementById("turnoutHistoryLegend").innerHTML =
+        `<span class="s">Dot colour/label = winning party that year (where known)</span>`
+        + legendItems.map(p=>`<span class="gl ov-key" style="margin-left:14px">`
+          + `<span class="ov-swatch" aria-hidden="true" style="background:${p.color}"></span><span class="ov-key-label">${p.label}</span></span>`).join("");
+    }
+  }
+
+  // ---- vote coordination: NDP and GP back their single best-placed candidate ----
+  [["thPC2",CODE_PC],["thNDP2",CODE_NDP],["thGRN2",CODE_GRN]].forEach(([id,code])=>{
+    if(code) document.getElementById(id).textContent = code;
+  });
+
+  const coordSlider = document.getElementById("coordSlider");
+  const coordVal = document.getElementById("coordVal");
+
+  function renderCoordination(){
+    const pct = +coordSlider.value/100;
+    coordVal.textContent = coordSlider.value+"%";
+
+    const computed = sortedRidings.map(r=>computeCoordRow(r,pct));
+    const flipsNow = computed.filter(c=>c.flipped).length;
+    const seatsNow = code=>computed.filter(c=>!c.tied && c.hypoCode===code).length;
+    document.getElementById("scenarioSummary").textContent = `PRELIMINARY scenario · At ${coordSlider.value}% transfer: ${flipsNow} ridings change leading party. NDP ${seatsNow(CODE_NDP)} · Conservative ${seatsNow(CODE_PC)} · Green ${seatsNow(CODE_GRN)}. Initial-count leaders: NDP 28 · Conservative 63 · Green 2. A majority is 47 of 93 seats.`;
+
+    if(mapModeSelect.value==="model") paintMap();
+
+    // ---- strategic list: CP-held ridings ranked by lowest flip threshold ----
+    const winnable = computed
+      .filter(c=> c.pctNeeded!==null && c.pctNeeded<1)
+      .sort((a,b)=> a.pctNeeded-b.pctNeeded)
+      .slice(0,10);
+    const strategicList = document.getElementById("strategicList");
+    if(!winnable.length){
+      strategicList.innerHTML = `<p class="caveat" style="margin:0">No Conservative-held riding changes hands in this
+        model, even at 100% vote transfer.</p>`;
+    } else {
+      // meter: fill = threshold, tick = current slider setting; highlighted when the slider clears it
+      strategicList.innerHTML = `<ol class="winlist">`
+        + winnable.map((c,i)=>{
+            const need=Math.floor(c.pctNeeded*100+1e-8)+1;
+            return `<li><button type="button" class="wincard${c.coordinated-c.cp>1e-8?" flips":""}" data-key="${norm(c.r.name)}"
+                title="${c.r.name}: needs ${need}% vote transfer${c.coordinated-c.cp>1e-8?" — flips at the current setting":""}">
+              <span class="rank">${i+1}</span>
+              <span class="dn">${c.r.name}</span>
+              <span class="thr">${need}%</span>
+              <span class="who ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c.survivor].color}"></span><span class="ov-key-label">Combined behind ${P[c.survivor].name}</span></span>
+              <span class="meter"><span style="width:${need}%"></span><i style="left:calc(${coordSlider.value}% - 1px)"></i></span>
+            </button></li>`;
+          }).join("")
+        + `</ol>
+        <p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the leading
+          NDP/Green candidate to overtake CP's actual vote count — see the Methodology section below for exactly how this is
+          calculated, and its limits.</p>`;
+    }
+
+    // gauge: tally seats by resulting code (CP / NDP / GP / other or tie)
+    const tally = {}; PARTY_CODES.forEach(c=>tally[c]=0); let othersCount=0;
+    computed.forEach(c=>{
+      if(c.hypoBucket==="OTHERS") othersCount++; else tally[c.hypoCode]++;
+    });
+    const segments = PARTY_ORDER.filter(c=>tally[c]>0).map(c=>({value:tally[c], color:P[c].color, label:c}));
+    if(othersCount>0) segments.push({value:othersCount, color:OTHERS_COLOR, label:"Other / tie"});
+    drawGauge(document.getElementById("gaugeCoord"), segments, N);
+    gaugeLegend(document.getElementById("gaugeCoordLegend"), segments);
+    const topSeg = segments.slice().sort((a,b)=>b.value-a.value)[0];
+    document.getElementById("gaugeCoordFigure").innerHTML = `${topSeg.value} <small>${topSeg.label} seats of ${N}</small>`;
+
+    // table
+    let flips=0, reachableCount=0, cpLedCount=0;
+    const rows = computed.map(c=>{
+      if(c.flipped) flips++;
+      const cell=(val,bucket)=> `<td class="num${bucket===c.hypoBucket?" win":""}">${Math.round(val).toLocaleString()}</td>`;
+      let thresholdCell;
+      if(c.pctNeeded===null){
+        thresholdCell = `<td class="num">—</td>`;
+      } else if(c.pctNeeded>=1){
+        cpLedCount++;
+        thresholdCell = `<td class="num">not reachable</td>`;
+      } else {
+        cpLedCount++;
+        if(c.pctNeeded<1) reachableCount++;
+        thresholdCell = `<td class="num">&gt;${(c.pctNeeded*100).toFixed(2)}%</td>`;
+      }
+      return `<tr data-name="${c.r.name.toLowerCase()}"${c.flipped?' data-flip="1"':''}>
+        <td>${c.r.name}</td>
+        ${cell(c.cp,"CP")}
+        <td class="num">${c.ndp.toLocaleString()}</td>
+        <td class="num">${c.grn.toLocaleString()}</td>
+        ${cell(c.others,"OTHERS")}
+        <td>${c.survivor||"—"}</td>
+        ${cell(c.coordinated,"SURVIVOR")}
+        <td><span style="color:${c.hypoColor}; font-weight:600">${c.hypoLabel}</span>${c.flipped?'<span class="flip-tag">flip</span>':''}</td>
+        ${thresholdCell}
+      </tr>`;
+    });
+    document.getElementById("coordTableBody").innerHTML = rows.join("");
+    filterTable();
+    document.getElementById("coordCaveat").innerHTML =
+      `At <b>${coordSlider.value}%</b> retention, <b>${flips}</b> of ${N} ridings would change winner (${computed.filter(c=>c.tied).length} ties have no assigned winner), `
+      + `and <b>${reachableCount}</b> of the ${cpLedCount} CP-led ridings have a flip threshold below 100% at all. `
+      + `"Survivor" is whichever of NDP/GP actually got the most votes in that riding — it varies riding to riding. `
+      + `"Others" bundles every party outside CP/NDP/GP. "Flip threshold" is the minimum vote-transfer share needed for the `
+      + `survivor to overtake CP's actual vote count in that riding, independent of the slider above — see Methodology. `
+      + `This uses preliminary votes in a simple reallocation, not a forecast; every other candidate stays fixed. Outstanding ballots can change both the baseline and scenario.`;
+  }
+  document.getElementById("downloadScenario").addEventListener("click", ()=>{
+    const pct=+coordSlider.value/100;
+    const rows=[["election_year","count_status","source_as_of","district","transfer_percent","cp_votes","ndp_votes","green_votes","other_votes_display_total","survivor","transferred_votes","coordinated_votes","winner","tie","flipped","transfer_boundary_strictly_greater_than"]];
+    sortedRidings.map(r=>computeCoordRow(r,pct)).forEach(c=>rows.push([2026,"preliminary",DATA.meta.source_as_of,c.r.name,pct*100,c.cp,c.ndp,c.grn,c.others,c.survivor,pct*c.droppedSum,c.coordinated,c.hypoLabel,c.tied,c.flipped,c.pctNeeded===null?"":Number.isFinite(c.pctNeeded)?c.pctNeeded:"not reachable"]));
+    const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+    const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    const a=document.createElement("a"); a.href=url; a.download=`bc-2026-preliminary-scenario-${coordSlider.value}pct.csv`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  // ---- table filter: name search + "flips only" (re-applied after every slider re-render) ----
+  const tableSearch = document.getElementById("tableSearch");
+  const flipsOnly = document.getElementById("flipsOnly");
+  function filterTable(){
+    const q = tableSearch.value.trim().toLowerCase();
+    let shown = 0;
+    const trs = document.querySelectorAll("#coordTableBody tr");
+    trs.forEach(tr=>{
+      const ok = (!q || tr.dataset.name.includes(q)) && (!flipsOnly.checked || tr.dataset.flip);
+      tr.hidden = !ok; if(ok) shown++;
+    });
+    document.getElementById("tableCount").textContent = shown===trs.length ? `${trs.length} districts` : `${shown} of ${trs.length} districts`;
+  }
+  tableSearch.addEventListener("input", filterTable);
+  flipsOnly.addEventListener("change", filterTable);
+
+  // winnable cards open their riding on the map
+  document.getElementById("strategicList").addEventListener("click", e=>{
+    const card = e.target.closest(".wincard"); if(!card) return;
+    selectedKey = card.dataset.key;
+    renderPanel();
+    document.querySelector(".lastel").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  coordSlider.addEventListener("input", ()=>{
+    // the slider only shows on the map in "Modelled" mode — switch to it so the change is visible
+    if(mapModeSelect.value!=="model") mapModeSelect.value = "model";
+    renderCoordination(); renderPanel();
+  });
+  renderCoordination();
+})();
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+(function(){
+  const root = document.documentElement;
+  const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  const btn = document.getElementById('theme-toggle');
+  function setIcon(m){ if(btn) btn.innerHTML = m==='dark'?MOON:SUN; }
+  function setTheme(m){ root.setAttribute('data-theme', m); try{ localStorage.setItem('ov-theme', m); }catch(e){} setIcon(m); }
+  let saved = null;
+  try { saved = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!saved) saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  root.setAttribute('data-theme', saved);
+  setIcon(saved);
+  if (btn) btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+})();
+</script>
+<script>
+// Embedded on the homepage inside an iframe (see index.html REPORTS "on-elections"
+// entry) — hide this page's own topbar there since the host page already has one.
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+</script>
+</body>
+</html>

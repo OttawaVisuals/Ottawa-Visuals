@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Publish BC and Alberta elections (Nov 1: BC 2026 preliminary default with dated count status and separate 2024 final archive; Alberta 2023 final; homepage/tracker/docs links and shared chart-key utility; official-source/model checks and responsive preview completed)
 - [x] MP & MPP spending (Nov 1: five official federal quarters and Ontario 2025–26 annual categories; member search/rankings/details, travel-versus-riding-distance scatter, source reconciliation, CSV/JSON, method and local navigation; published November 1, 2026)
 - [x] Report theme-toggle layout (Nov 1: reset shared button/icon sizing, deterministic author-before-toggle order, compact single-row report headers on phones; 13 report/detail phone checks, 320px clipping checks and all three themes on four reports; versioned shared assets)
 - [x] Built by Simon (Nov 1: shared author button/panel and footer credit on all 40 themed pages; approved Ottawa Visuals public-data bio and contact link; coverage, phone layouts, themes and keyboard closing checked)

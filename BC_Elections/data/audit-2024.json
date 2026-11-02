@@ -1,0 +1,47 @@
+{
+  "sources": {
+    "results": "https://catalogue.data.gov.bc.ca/dataset/44914a35-de9a-4830-ac48-870001ef8935/resource/4e7be8e3-0805-4f39-87f3-47c4c29e262d/download/provincial_voting_results_by_voting_place.csv",
+    "statement": "https://elections.bc.ca/docs/rpt/statement-of-votes-2024-provincial-election.pdf",
+    "boundaries": "https://catalogue.data.gov.bc.ca/dataset/1cba4b16-263f-4d42-8d84-f5fecaa03d1a",
+    "boundary_request": "https://openmaps.gov.bc.ca/geo/pub/WHSE_ADMIN_BOUNDARIES.EBC_ELECTORAL_DISTS_BS11_SVW/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=pub:WHSE_ADMIN_BOUNDARIES.EBC_ELECTORAL_DISTS_BS11_SVW&outputFormat=application/json&count=100",
+    "turnout": "https://elections.bc.ca/resources/results/voter-turnout/"
+  },
+  "retrieved": "2026-11-01",
+  "ridings": 93,
+  "candidates": 322,
+  "party_votes": {
+    "CP": 911153,
+    "NDP": 944579,
+    "GP": 173377,
+    "IND": 47117,
+    "UNA": 25464,
+    "LBN": 1380,
+    "FPBC": 1267,
+    "COMM": 639,
+    "CHP": 365
+  },
+  "seats": {
+    "CP": 44,
+    "NDP": 47,
+    "GP": 2
+  },
+  "majority_seats": {
+    "CP": 29,
+    "NDP": 30
+  },
+  "valid_votes": 2105341,
+  "rejected": 4317,
+  "ballots": 2109658,
+  "registered": 3609288,
+  "pdf_districts_reconciled": 93,
+  "pdf_candidates_reconciled": 322,
+  "combined_blank_cells_skipped": 0,
+  "boundary_crs": "EPSG:3005",
+  "boundary_simplification_metres": 60,
+  "sha256": {
+    "boundaries-2023.geojson.gz": "f8b671c82990a0ecbcf53336c973259d1156923411dc121f83778f1f515de53e",
+    "statement-of-votes-2024.pdf": "a5fc8d619d7ef017d02ee0d19c94e82a39e4520d35d1ce7aa9221fa5522fe17f",
+    "turnout.html": "ff1ae2294455c328e6ed2e7870597dcf8ee564bbcd4b7a538a6732d682aadf7a",
+    "voting-place-results.csv": "5bb97786bb664ca8567e90c8486a062bc3f0b18af062ad457eab7cfb3b2e1291"
+  }
+}

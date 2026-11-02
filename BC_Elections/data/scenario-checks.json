@@ -1,0 +1,114 @@
+{
+  "scenarios": [
+    {
+      "transfer": 0,
+      "seats": {
+        "Conservative Party": 63,
+        "BC New Democratic Party": 28,
+        "BC Green Party": 2
+      },
+      "flips": []
+    },
+    {
+      "transfer": 65,
+      "seats": {
+        "Conservative Party": 56,
+        "BC New Democratic Party": 35,
+        "BC Green Party": 2
+      },
+      "flips": [
+        "Burnaby North",
+        "Cowichan Valley",
+        "Juan de Fuca-Malahat",
+        "Penticton-Summerland",
+        "Port Moody-Burquitlam",
+        "Saanich South",
+        "Vancouver-Fraserview"
+      ]
+    },
+    {
+      "transfer": 100,
+      "seats": {
+        "Conservative Party": 51,
+        "BC New Democratic Party": 40,
+        "BC Green Party": 2
+      },
+      "flips": [
+        "Burnaby Centre",
+        "Burnaby North",
+        "Coquitlam-Maillardville",
+        "Cowichan Valley",
+        "Juan de Fuca-Malahat",
+        "North Island",
+        "North Vancouver-Seymour",
+        "Penticton-Summerland",
+        "Port Moody-Burquitlam",
+        "Saanich South",
+        "Vancouver-Fraserview",
+        "Vancouver-Yaletown"
+      ]
+    }
+  ],
+  "thresholds": [
+    {
+      "riding": "Cowichan Valley",
+      "boundary": 4.026666666666666,
+      "firstWinningSliderPercent": 5
+    },
+    {
+      "riding": "Vancouver-Fraserview",
+      "boundary": 16.811468288444832,
+      "firstWinningSliderPercent": 17
+    },
+    {
+      "riding": "Saanich South",
+      "boundary": 17.56621331424481,
+      "firstWinningSliderPercent": 18
+    },
+    {
+      "riding": "Juan de Fuca-Malahat",
+      "boundary": 19.79381443298969,
+      "firstWinningSliderPercent": 20
+    },
+    {
+      "riding": "Burnaby North",
+      "boundary": 48.331273176761435,
+      "firstWinningSliderPercent": 49
+    },
+    {
+      "riding": "Penticton-Summerland",
+      "boundary": 55.096011816838995,
+      "firstWinningSliderPercent": 56
+    },
+    {
+      "riding": "Port Moody-Burquitlam",
+      "boundary": 57.52401280683031,
+      "firstWinningSliderPercent": 58
+    },
+    {
+      "riding": "North Island",
+      "boundary": 66.28131021194605,
+      "firstWinningSliderPercent": 67
+    },
+    {
+      "riding": "Burnaby Centre",
+      "boundary": 66.72369546621043,
+      "firstWinningSliderPercent": 67
+    },
+    {
+      "riding": "Vancouver-Yaletown",
+      "boundary": 67.35833998403831,
+      "firstWinningSliderPercent": 68
+    },
+    {
+      "riding": "North Vancouver-Seymour",
+      "boundary": 87.29203539823008,
+      "firstWinningSliderPercent": 88
+    },
+    {
+      "riding": "Coquitlam-Maillardville",
+      "boundary": 90.58891454965358,
+      "firstWinningSliderPercent": 91
+    }
+  ]
+}

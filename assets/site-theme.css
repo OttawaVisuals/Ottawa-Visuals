@@ -101,6 +101,17 @@ main h2,.card>h2,.section-title,.section-head h2{font-family:var(--font-serif);f
 /* ── Cards pick up the soft Retrofit shadow ── */
 .card{box-shadow:var(--shadow)}
 
+/* Chart keys: marker and text occupy separate boxes at every font/viewport size.
+   Opt in on legend rows; do not restyle unrelated .dot elements (maps, timelines).
+   Keep the label as a child span so truncation never covers the colour marker. */
+.ov-key{display:inline-flex;align-items:center;gap:8px;min-width:0;max-width:100%;vertical-align:middle}
+.ov-key>.ov-swatch{display:inline-block;position:static;flex:0 0 10px;width:10px;height:10px;margin:0;border-radius:2px;vertical-align:middle}
+.ov-key>.ov-key-label{min-width:0;overflow-wrap:anywhere}
+.barrow>.ov-key{display:flex;gap:8px;overflow:visible}
+.barrow>.ov-key>.ov-key-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gauge-legend>.ov-key{flex-wrap:nowrap}
+.seats .ov-key{white-space:normal;text-align:left}
+
 /* ── Footer: full-bleed navy band ── */
 body>footer,body>.footer{background:var(--navy);color:rgba(255,255,255,.55)!important;box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);padding-top:18px!important;padding-bottom:22px!important;margin-top:24px}
 body>footer a,body>.footer a{color:rgba(255,255,255,.75)!important}

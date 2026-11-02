@@ -1,0 +1,4583 @@
+{
+  "meta": {
+    "title": "British Columbia \u2014 2024 general election",
+    "source": "Elections BC \u2014 October 19, 2024 Statement of Votes and DataBC results",
+    "generated": "2026-11-01",
+    "sources": {
+      "results": "https://catalogue.data.gov.bc.ca/dataset/44914a35-de9a-4830-ac48-870001ef8935/resource/4e7be8e3-0805-4f39-87f3-47c4c29e262d/download/provincial_voting_results_by_voting_place.csv",
+      "statement": "https://elections.bc.ca/docs/rpt/statement-of-votes-2024-provincial-election.pdf",
+      "boundaries": "https://catalogue.data.gov.bc.ca/dataset/1cba4b16-263f-4d42-8d84-f5fecaa03d1a",
+      "boundary_request": "https://openmaps.gov.bc.ca/geo/pub/WHSE_ADMIN_BOUNDARIES.EBC_ELECTORAL_DISTS_BS11_SVW/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=pub:WHSE_ADMIN_BOUNDARIES.EBC_ELECTORAL_DISTS_BS11_SVW&outputFormat=application/json&count=100",
+      "turnout": "https://elections.bc.ca/resources/results/voter-turnout/"
+    }
+  },
+  "parties": {
+    "CP": {
+      "name": "Conservative Party",
+      "color": "#2365A0"
+    },
+    "NDP": {
+      "name": "BC New Democratic Party",
+      "color": "#E87524"
+    },
+    "GP": {
+      "name": "BC Green Party",
+      "color": "#378249"
+    },
+    "IND": {
+      "name": "Independent",
+      "color": "#808080"
+    },
+    "UNA": {
+      "name": "Unaffiliated",
+      "color": "#6B7280"
+    },
+    "LBN": {
+      "name": "Libertarian",
+      "color": "#8A7138"
+    },
+    "FPBC": {
+      "name": "Freedom Party of BC",
+      "color": "#836C8C"
+    },
+    "COMM": {
+      "name": "Communist Party of BC",
+      "color": "#A63C49"
+    },
+    "CHP": {
+      "name": "Christian Heritage Party of B.C.",
+      "color": "#76634D"
+    }
+  },
+  "ridings": [
+    {
+      "id": "ABS",
+      "name": "Abbotsford South",
+      "votes": {
+        "CP": 13053,
+        "NDP": 7454,
+        "GP": 0,
+        "IND": 681,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "ABS",
+          "district": "Abbotsford South",
+          "candidate": "Bruce Banman",
+          "party": "CP",
+          "votes": 13053,
+          "elected": true
+        },
+        {
+          "district_id": "ABS",
+          "district": "Abbotsford South",
+          "candidate": "Sarah Kooner",
+          "party": "NDP",
+          "votes": 7454,
+          "elected": false
+        },
+        {
+          "district_id": "ABS",
+          "district": "Abbotsford South",
+          "candidate": "Amandeep Singh",
+          "party": "IND",
+          "votes": 681,
+          "elected": false
+        }
+      ],
+      "valid": 21188,
+      "rejected": 54,
+      "ballots": 21242,
+      "registered": 41068
+    },
+    {
+      "id": "ABW",
+      "name": "Abbotsford West",
+      "votes": {
+        "CP": 11483,
+        "NDP": 7255,
+        "GP": 0,
+        "IND": 940,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "ABW",
+          "district": "Abbotsford West",
+          "candidate": "James Davison",
+          "party": "IND",
+          "votes": 940,
+          "elected": false
+        },
+        {
+          "district_id": "ABW",
+          "district": "Abbotsford West",
+          "candidate": "Graeme Hutchison",
+          "party": "NDP",
+          "votes": 7255,
+          "elected": false
+        },
+        {
+          "district_id": "ABW",
+          "district": "Abbotsford West",
+          "candidate": "Korky Neufeld",
+          "party": "CP",
+          "votes": 11483,
+          "elected": true
+        }
+      ],
+      "valid": 19678,
+      "rejected": 47,
+      "ballots": 19725,
+      "registered": 37833
+    },
+    {
+      "id": "ABM",
+      "name": "Abbotsford-Mission",
+      "votes": {
+        "CP": 13523,
+        "NDP": 10894,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "ABM",
+          "district": "Abbotsford-Mission",
+          "candidate": "Pam Alexis",
+          "party": "NDP",
+          "votes": 10894,
+          "elected": false
+        },
+        {
+          "district_id": "ABM",
+          "district": "Abbotsford-Mission",
+          "candidate": "Reann Gasper",
+          "party": "CP",
+          "votes": 13523,
+          "elected": true
+        }
+      ],
+      "valid": 24417,
+      "rejected": 98,
+      "ballots": 24515,
+      "registered": 42692
+    },
+    {
+      "id": "BDS",
+      "name": "Boundary-Similkameen",
+      "votes": {
+        "CP": 11935,
+        "NDP": 10497,
+        "GP": 1454,
+        "IND": 779,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BDS",
+          "district": "Boundary-Similkameen",
+          "candidate": "Kevin Eastwood",
+          "party": "GP",
+          "votes": 1454,
+          "elected": false
+        },
+        {
+          "district_id": "BDS",
+          "district": "Boundary-Similkameen",
+          "candidate": "Roly Russell",
+          "party": "NDP",
+          "votes": 10497,
+          "elected": false
+        },
+        {
+          "district_id": "BDS",
+          "district": "Boundary-Similkameen",
+          "candidate": "Sean Taylor",
+          "party": "IND",
+          "votes": 779,
+          "elected": false
+        },
+        {
+          "district_id": "BDS",
+          "district": "Boundary-Similkameen",
+          "candidate": "Donegal Wilson",
+          "party": "CP",
+          "votes": 11935,
+          "elected": true
+        }
+      ],
+      "valid": 24665,
+      "rejected": 36,
+      "ballots": 24701,
+      "registered": 39371
+    },
+    {
+      "id": "BLS",
+      "name": "Bulkley Valley-Stikine",
+      "votes": {
+        "CP": 4992,
+        "NDP": 3709,
+        "GP": 604,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 239
+      },
+      "candidates": [
+        {
+          "district_id": "BLS",
+          "district": "Bulkley Valley-Stikine",
+          "candidate": "Nathan Cullen",
+          "party": "NDP",
+          "votes": 3709,
+          "elected": false
+        },
+        {
+          "district_id": "BLS",
+          "district": "Bulkley Valley-Stikine",
+          "candidate": "Sharon L. Hartwell",
+          "party": "CP",
+          "votes": 4992,
+          "elected": true
+        },
+        {
+          "district_id": "BLS",
+          "district": "Bulkley Valley-Stikine",
+          "candidate": "Rod Taylor",
+          "party": "CHP",
+          "votes": 239,
+          "elected": false
+        },
+        {
+          "district_id": "BLS",
+          "district": "Bulkley Valley-Stikine",
+          "candidate": "Gamlakyeltxw Wilhelm Marsden",
+          "party": "GP",
+          "votes": 604,
+          "elected": false
+        }
+      ],
+      "valid": 9544,
+      "rejected": 25,
+      "ballots": 9569,
+      "registered": 14895
+    },
+    {
+      "id": "BNC",
+      "name": "Burnaby Centre",
+      "votes": {
+        "CP": 7294,
+        "NDP": 9780,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BNC",
+          "district": "Burnaby Centre",
+          "candidate": "Dharam Kajal",
+          "party": "CP",
+          "votes": 7294,
+          "elected": false
+        },
+        {
+          "district_id": "BNC",
+          "district": "Burnaby Centre",
+          "candidate": "Anne Kang",
+          "party": "NDP",
+          "votes": 9780,
+          "elected": true
+        }
+      ],
+      "valid": 17074,
+      "rejected": 108,
+      "ballots": 17182,
+      "registered": 34290
+    },
+    {
+      "id": "BNE",
+      "name": "Burnaby East",
+      "votes": {
+        "CP": 8198,
+        "NDP": 10490,
+        "GP": 1544,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BNE",
+          "district": "Burnaby East",
+          "candidate": "Reah Arora",
+          "party": "NDP",
+          "votes": 10490,
+          "elected": true
+        },
+        {
+          "district_id": "BNE",
+          "district": "Burnaby East",
+          "candidate": "Simon Chandler",
+          "party": "CP",
+          "votes": 8198,
+          "elected": false
+        },
+        {
+          "district_id": "BNE",
+          "district": "Burnaby East",
+          "candidate": "Tara Shushtarian",
+          "party": "GP",
+          "votes": 1544,
+          "elected": false
+        }
+      ],
+      "valid": 20232,
+      "rejected": 41,
+      "ballots": 20273,
+      "registered": 36896
+    },
+    {
+      "id": "BNO",
+      "name": "Burnaby North",
+      "votes": {
+        "CP": 8658,
+        "NDP": 10724,
+        "GP": 0,
+        "IND": 754,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BNO",
+          "district": "Burnaby North",
+          "candidate": "Martin Kendell",
+          "party": "IND",
+          "votes": 754,
+          "elected": false
+        },
+        {
+          "district_id": "BNO",
+          "district": "Burnaby North",
+          "candidate": "Janet Routledge",
+          "party": "NDP",
+          "votes": 10724,
+          "elected": true
+        },
+        {
+          "district_id": "BNO",
+          "district": "Burnaby North",
+          "candidate": "Michael Wu",
+          "party": "CP",
+          "votes": 8658,
+          "elected": false
+        }
+      ],
+      "valid": 20136,
+      "rejected": 47,
+      "ballots": 20183,
+      "registered": 37785
+    },
+    {
+      "id": "BNS",
+      "name": "Burnaby South-Metrotown",
+      "votes": {
+        "CP": 6373,
+        "NDP": 7560,
+        "GP": 960,
+        "IND": 142,
+        "UNA": 290,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BNS",
+          "district": "Burnaby South-Metrotown",
+          "candidate": "MichaelAngelo Abc RobinHood",
+          "party": "IND",
+          "votes": 142,
+          "elected": false
+        },
+        {
+          "district_id": "BNS",
+          "district": "Burnaby South-Metrotown",
+          "candidate": "Meiling Chia",
+          "party": "UNA",
+          "votes": 290,
+          "elected": false
+        },
+        {
+          "district_id": "BNS",
+          "district": "Burnaby South-Metrotown",
+          "candidate": "Paul Choi",
+          "party": "NDP",
+          "votes": 7560,
+          "elected": true
+        },
+        {
+          "district_id": "BNS",
+          "district": "Burnaby South-Metrotown",
+          "candidate": "Han Lee",
+          "party": "CP",
+          "votes": 6373,
+          "elected": false
+        },
+        {
+          "district_id": "BNS",
+          "district": "Burnaby South-Metrotown",
+          "candidate": "Carrie McLaren",
+          "party": "GP",
+          "votes": 960,
+          "elected": false
+        }
+      ],
+      "valid": 15325,
+      "rejected": 32,
+      "ballots": 15357,
+      "registered": 31434
+    },
+    {
+      "id": "BNN",
+      "name": "Burnaby-New Westminster",
+      "votes": {
+        "CP": 6161,
+        "NDP": 10647,
+        "GP": 0,
+        "IND": 940,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "BNN",
+          "district": "Burnaby-New Westminster",
+          "candidate": "Daniel Kofi Ampong",
+          "party": "IND",
+          "votes": 940,
+          "elected": false
+        },
+        {
+          "district_id": "BNN",
+          "district": "Burnaby-New Westminster",
+          "candidate": "Raj Chouhan",
+          "party": "NDP",
+          "votes": 10647,
+          "elected": true
+        },
+        {
+          "district_id": "BNN",
+          "district": "Burnaby-New Westminster",
+          "candidate": "Deepak Suri",
+          "party": "CP",
+          "votes": 6161,
+          "elected": false
+        }
+      ],
+      "valid": 17748,
+      "rejected": 89,
+      "ballots": 17837,
+      "registered": 34794
+    },
+    {
+      "id": "CBC",
+      "name": "Cariboo-Chilcotin",
+      "votes": {
+        "CP": 13714,
+        "NDP": 5992,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CBC",
+          "district": "Cariboo-Chilcotin",
+          "candidate": "Lorne Doerkson",
+          "party": "CP",
+          "votes": 13714,
+          "elected": true
+        },
+        {
+          "district_id": "CBC",
+          "district": "Cariboo-Chilcotin",
+          "candidate": "Michael Moses",
+          "party": "NDP",
+          "votes": 5992,
+          "elected": false
+        }
+      ],
+      "valid": 19706,
+      "rejected": 92,
+      "ballots": 19798,
+      "registered": 32975
+    },
+    {
+      "id": "CHN",
+      "name": "Chilliwack North",
+      "votes": {
+        "CP": 11776,
+        "NDP": 8125,
+        "GP": 1187,
+        "IND": 487,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CHN",
+          "district": "Chilliwack North",
+          "candidate": "Tim Cooper",
+          "party": "GP",
+          "votes": 1187,
+          "elected": false
+        },
+        {
+          "district_id": "CHN",
+          "district": "Chilliwack North",
+          "candidate": "Dan Coulter",
+          "party": "NDP",
+          "votes": 8125,
+          "elected": false
+        },
+        {
+          "district_id": "CHN",
+          "district": "Chilliwack North",
+          "candidate": "Dan Grice",
+          "party": "IND",
+          "votes": 487,
+          "elected": false
+        },
+        {
+          "district_id": "CHN",
+          "district": "Chilliwack North",
+          "candidate": "Heather Maahs",
+          "party": "CP",
+          "votes": 11776,
+          "elected": true
+        }
+      ],
+      "valid": 21575,
+      "rejected": 26,
+      "ballots": 21601,
+      "registered": 39227
+    },
+    {
+      "id": "CHC",
+      "name": "Chilliwack-Cultus Lake",
+      "votes": {
+        "CP": 13656,
+        "NDP": 11366,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CHC",
+          "district": "Chilliwack-Cultus Lake",
+          "candidate": "Kelli Paddon",
+          "party": "NDP",
+          "votes": 11366,
+          "elected": false
+        },
+        {
+          "district_id": "CHC",
+          "district": "Chilliwack-Cultus Lake",
+          "candidate": "A'aliya Warbus",
+          "party": "CP",
+          "votes": 13656,
+          "elected": true
+        }
+      ],
+      "valid": 25022,
+      "rejected": 83,
+      "ballots": 25105,
+      "registered": 41587
+    },
+    {
+      "id": "CLR",
+      "name": "Columbia River-Revelstoke",
+      "votes": {
+        "CP": 8768,
+        "NDP": 8098,
+        "GP": 1430,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CLR",
+          "district": "Columbia River-Revelstoke",
+          "candidate": "Calvin Beauchesne",
+          "party": "GP",
+          "votes": 1430,
+          "elected": false
+        },
+        {
+          "district_id": "CLR",
+          "district": "Columbia River-Revelstoke",
+          "candidate": "Andrea Dunlop",
+          "party": "NDP",
+          "votes": 8098,
+          "elected": false
+        },
+        {
+          "district_id": "CLR",
+          "district": "Columbia River-Revelstoke",
+          "candidate": "Scott McInnis",
+          "party": "CP",
+          "votes": 8768,
+          "elected": true
+        }
+      ],
+      "valid": 18296,
+      "rejected": 41,
+      "ballots": 18337,
+      "registered": 31366
+    },
+    {
+      "id": "CQB",
+      "name": "Coquitlam-Burke Mountain",
+      "votes": {
+        "CP": 10652,
+        "NDP": 11020,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CQB",
+          "district": "Coquitlam-Burke Mountain",
+          "candidate": "Stephen Frolek",
+          "party": "CP",
+          "votes": 10652,
+          "elected": false
+        },
+        {
+          "district_id": "CQB",
+          "district": "Coquitlam-Burke Mountain",
+          "candidate": "Jodie Wickens",
+          "party": "NDP",
+          "votes": 11020,
+          "elected": true
+        }
+      ],
+      "valid": 21672,
+      "rejected": 94,
+      "ballots": 21766,
+      "registered": 39801
+    },
+    {
+      "id": "CQM",
+      "name": "Coquitlam-Maillardville",
+      "votes": {
+        "CP": 9146,
+        "NDP": 11972,
+        "GP": 1461,
+        "IND": 535,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CQM",
+          "district": "Coquitlam-Maillardville",
+          "candidate": "Jennifer Blatherwick",
+          "party": "NDP",
+          "votes": 11972,
+          "elected": true
+        },
+        {
+          "district_id": "CQM",
+          "district": "Coquitlam-Maillardville",
+          "candidate": "Ken Holowanky",
+          "party": "IND",
+          "votes": 535,
+          "elected": false
+        },
+        {
+          "district_id": "CQM",
+          "district": "Coquitlam-Maillardville",
+          "candidate": "Hamed Najafi",
+          "party": "CP",
+          "votes": 9146,
+          "elected": false
+        },
+        {
+          "district_id": "CQM",
+          "district": "Coquitlam-Maillardville",
+          "candidate": "Nicola Spurling",
+          "party": "GP",
+          "votes": 1461,
+          "elected": false
+        }
+      ],
+      "valid": 23114,
+      "rejected": 26,
+      "ballots": 23140,
+      "registered": 40666
+    },
+    {
+      "id": "CRC",
+      "name": "Courtenay-Comox",
+      "votes": {
+        "CP": 13481,
+        "NDP": 13388,
+        "GP": 7202,
+        "IND": 647,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CRC",
+          "district": "Courtenay-Comox",
+          "candidate": "Brennan Day",
+          "party": "CP",
+          "votes": 13481,
+          "elected": true
+        },
+        {
+          "district_id": "CRC",
+          "district": "Courtenay-Comox",
+          "candidate": "Arzeena Hamir",
+          "party": "GP",
+          "votes": 7202,
+          "elected": false
+        },
+        {
+          "district_id": "CRC",
+          "district": "Courtenay-Comox",
+          "candidate": "John Hedican",
+          "party": "IND",
+          "votes": 504,
+          "elected": false
+        },
+        {
+          "district_id": "CRC",
+          "district": "Courtenay-Comox",
+          "candidate": "Devin Howell",
+          "party": "IND",
+          "votes": 143,
+          "elected": false
+        },
+        {
+          "district_id": "CRC",
+          "district": "Courtenay-Comox",
+          "candidate": "Ronna-Rae Leonard",
+          "party": "NDP",
+          "votes": 13388,
+          "elected": false
+        }
+      ],
+      "valid": 34718,
+      "rejected": 37,
+      "ballots": 34755,
+      "registered": 50583
+    },
+    {
+      "id": "CWV",
+      "name": "Cowichan Valley",
+      "votes": {
+        "CP": 10946,
+        "NDP": 11795,
+        "GP": 5773,
+        "IND": 341,
+        "UNA": 263,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "CWV",
+          "district": "Cowichan Valley",
+          "candidate": "Jon Coleman",
+          "party": "UNA",
+          "votes": 263,
+          "elected": false
+        },
+        {
+          "district_id": "CWV",
+          "district": "Cowichan Valley",
+          "candidate": "Eden Haythornthwaite",
+          "party": "IND",
+          "votes": 341,
+          "elected": false
+        },
+        {
+          "district_id": "CWV",
+          "district": "Cowichan Valley",
+          "candidate": "John Koury",
+          "party": "CP",
+          "votes": 10946,
+          "elected": false
+        },
+        {
+          "district_id": "CWV",
+          "district": "Cowichan Valley",
+          "candidate": "Cammy Lockwood",
+          "party": "GP",
+          "votes": 5773,
+          "elected": false
+        },
+        {
+          "district_id": "CWV",
+          "district": "Cowichan Valley",
+          "candidate": "Debra Toporowski",
+          "party": "NDP",
+          "votes": 11795,
+          "elected": true
+        }
+      ],
+      "valid": 29118,
+      "rejected": 39,
+      "ballots": 29157,
+      "registered": 45901
+    },
+    {
+      "id": "DLN",
+      "name": "Delta North",
+      "votes": {
+        "CP": 8381,
+        "NDP": 10988,
+        "GP": 1292,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 177,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "DLN",
+          "district": "Delta North",
+          "candidate": "Nick Dickinson-Wilde",
+          "party": "GP",
+          "votes": 1292,
+          "elected": false
+        },
+        {
+          "district_id": "DLN",
+          "district": "Delta North",
+          "candidate": "Ravi Kahlon",
+          "party": "NDP",
+          "votes": 10988,
+          "elected": true
+        },
+        {
+          "district_id": "DLN",
+          "district": "Delta North",
+          "candidate": "Manqoosh Khan",
+          "party": "FPBC",
+          "votes": 177,
+          "elected": false
+        },
+        {
+          "district_id": "DLN",
+          "district": "Delta North",
+          "candidate": "Raj Veauli",
+          "party": "CP",
+          "votes": 8381,
+          "elected": false
+        }
+      ],
+      "valid": 20838,
+      "rejected": 38,
+      "ballots": 20876,
+      "registered": 36062
+    },
+    {
+      "id": "DLS",
+      "name": "Delta South",
+      "votes": {
+        "CP": 14491,
+        "NDP": 11822,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "DLS",
+          "district": "Delta South",
+          "candidate": "Jason McCormick",
+          "party": "NDP",
+          "votes": 11822,
+          "elected": false
+        },
+        {
+          "district_id": "DLS",
+          "district": "Delta South",
+          "candidate": "Ian Paton",
+          "party": "CP",
+          "votes": 14491,
+          "elected": true
+        }
+      ],
+      "valid": 26313,
+      "rejected": 101,
+      "ballots": 26414,
+      "registered": 40611
+    },
+    {
+      "id": "ESC",
+      "name": "Esquimalt-Colwood",
+      "votes": {
+        "CP": 8652,
+        "NDP": 15238,
+        "GP": 5716,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "ESC",
+          "district": "Esquimalt-Colwood",
+          "candidate": "Camille Currie",
+          "party": "GP",
+          "votes": 5716,
+          "elected": false
+        },
+        {
+          "district_id": "ESC",
+          "district": "Esquimalt-Colwood",
+          "candidate": "Darlene Rotchford",
+          "party": "NDP",
+          "votes": 15238,
+          "elected": true
+        },
+        {
+          "district_id": "ESC",
+          "district": "Esquimalt-Colwood",
+          "candidate": "John Wilson",
+          "party": "CP",
+          "votes": 8652,
+          "elected": false
+        }
+      ],
+      "valid": 29606,
+      "rejected": 37,
+      "ballots": 29643,
+      "registered": 46799
+    },
+    {
+      "id": "FRN",
+      "name": "Fraser-Nicola",
+      "votes": {
+        "CP": 10326,
+        "NDP": 6917,
+        "GP": 1761,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "FRN",
+          "district": "Fraser-Nicola",
+          "candidate": "Francyne Joe",
+          "party": "NDP",
+          "votes": 6917,
+          "elected": false
+        },
+        {
+          "district_id": "FRN",
+          "district": "Fraser-Nicola",
+          "candidate": "Tony Luck",
+          "party": "CP",
+          "votes": 10326,
+          "elected": true
+        },
+        {
+          "district_id": "FRN",
+          "district": "Fraser-Nicola",
+          "candidate": "Jonah Timms",
+          "party": "GP",
+          "votes": 1761,
+          "elected": false
+        }
+      ],
+      "valid": 19004,
+      "rejected": 27,
+      "ballots": 19031,
+      "registered": 33542
+    },
+    {
+      "id": "JFM",
+      "name": "Juan de Fuca-Malahat",
+      "votes": {
+        "CP": 9167,
+        "NDP": 9308,
+        "GP": 5522,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "JFM",
+          "district": "Juan de Fuca-Malahat",
+          "candidate": "David Evans",
+          "party": "GP",
+          "votes": 5522,
+          "elected": false
+        },
+        {
+          "district_id": "JFM",
+          "district": "Juan de Fuca-Malahat",
+          "candidate": "Dana Lajeunesse",
+          "party": "NDP",
+          "votes": 9308,
+          "elected": true
+        },
+        {
+          "district_id": "JFM",
+          "district": "Juan de Fuca-Malahat",
+          "candidate": "Marina Sapozhnikov",
+          "party": "CP",
+          "votes": 9167,
+          "elected": false
+        }
+      ],
+      "valid": 23997,
+      "rejected": 32,
+      "ballots": 24029,
+      "registered": 37078
+    },
+    {
+      "id": "KAC",
+      "name": "Kamloops Centre",
+      "votes": {
+        "CP": 12372,
+        "NDP": 10369,
+        "GP": 2597,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KAC",
+          "district": "Kamloops Centre",
+          "candidate": "Kamal Grewal",
+          "party": "NDP",
+          "votes": 10369,
+          "elected": false
+        },
+        {
+          "district_id": "KAC",
+          "district": "Kamloops Centre",
+          "candidate": "Peter Milobar",
+          "party": "CP",
+          "votes": 12372,
+          "elected": true
+        },
+        {
+          "district_id": "KAC",
+          "district": "Kamloops Centre",
+          "candidate": "Randy Sunderman",
+          "party": "GP",
+          "votes": 2597,
+          "elected": false
+        }
+      ],
+      "valid": 25338,
+      "rejected": 36,
+      "ballots": 25374,
+      "registered": 44059
+    },
+    {
+      "id": "KAN",
+      "name": "Kamloops-North Thompson",
+      "votes": {
+        "CP": 17930,
+        "NDP": 9874,
+        "GP": 2209,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KAN",
+          "district": "Kamloops-North Thompson",
+          "candidate": "Tristan Cavers",
+          "party": "GP",
+          "votes": 2209,
+          "elected": false
+        },
+        {
+          "district_id": "KAN",
+          "district": "Kamloops-North Thompson",
+          "candidate": "Maddi Genn",
+          "party": "NDP",
+          "votes": 9874,
+          "elected": false
+        },
+        {
+          "district_id": "KAN",
+          "district": "Kamloops-North Thompson",
+          "candidate": "Ward Stamer",
+          "party": "CP",
+          "votes": 17930,
+          "elected": true
+        }
+      ],
+      "valid": 30013,
+      "rejected": 51,
+      "ballots": 30064,
+      "registered": 48598
+    },
+    {
+      "id": "KEC",
+      "name": "Kelowna Centre",
+      "votes": {
+        "CP": 11033,
+        "NDP": 10993,
+        "GP": 1111,
+        "IND": 0,
+        "UNA": 2613,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KEC",
+          "district": "Kelowna Centre",
+          "candidate": "Michael Humer",
+          "party": "UNA",
+          "votes": 2613,
+          "elected": false
+        },
+        {
+          "district_id": "KEC",
+          "district": "Kelowna Centre",
+          "candidate": "Kristina Loewen",
+          "party": "CP",
+          "votes": 11033,
+          "elected": true
+        },
+        {
+          "district_id": "KEC",
+          "district": "Kelowna Centre",
+          "candidate": "Bryce Tippe",
+          "party": "GP",
+          "votes": 1111,
+          "elected": false
+        },
+        {
+          "district_id": "KEC",
+          "district": "Kelowna Centre",
+          "candidate": "Loyal Wooldridge",
+          "party": "NDP",
+          "votes": 10993,
+          "elected": false
+        }
+      ],
+      "valid": 25750,
+      "rejected": 33,
+      "ballots": 25783,
+      "registered": 45642
+    },
+    {
+      "id": "KLC",
+      "name": "Kelowna-Lake Country-Coldstream",
+      "votes": {
+        "CP": 14303,
+        "NDP": 9350,
+        "GP": 1151,
+        "IND": 1724,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KLC",
+          "district": "Kelowna-Lake Country-Coldstream",
+          "candidate": "Tara Armstrong",
+          "party": "CP",
+          "votes": 14303,
+          "elected": true
+        },
+        {
+          "district_id": "KLC",
+          "district": "Kelowna-Lake Country-Coldstream",
+          "candidate": "Kevin Kraft",
+          "party": "IND",
+          "votes": 1724,
+          "elected": false
+        },
+        {
+          "district_id": "KLC",
+          "district": "Kelowna-Lake Country-Coldstream",
+          "candidate": "Andrew Rose",
+          "party": "GP",
+          "votes": 1151,
+          "elected": false
+        },
+        {
+          "district_id": "KLC",
+          "district": "Kelowna-Lake Country-Coldstream",
+          "candidate": "Anna Warwick Sears",
+          "party": "NDP",
+          "votes": 9350,
+          "elected": false
+        }
+      ],
+      "valid": 26528,
+      "rejected": 32,
+      "ballots": 26560,
+      "registered": 45598
+    },
+    {
+      "id": "KLM",
+      "name": "Kelowna-Mission",
+      "votes": {
+        "CP": 14071,
+        "NDP": 8913,
+        "GP": 1349,
+        "IND": 0,
+        "UNA": 2996,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KLM",
+          "district": "Kelowna-Mission",
+          "candidate": "Harpreet Badohal",
+          "party": "NDP",
+          "votes": 8913,
+          "elected": false
+        },
+        {
+          "district_id": "KLM",
+          "district": "Kelowna-Mission",
+          "candidate": "Gavin Dew",
+          "party": "CP",
+          "votes": 14071,
+          "elected": true
+        },
+        {
+          "district_id": "KLM",
+          "district": "Kelowna-Mission",
+          "candidate": "Ashley Ramsay",
+          "party": "UNA",
+          "votes": 2996,
+          "elected": false
+        },
+        {
+          "district_id": "KLM",
+          "district": "Kelowna-Mission",
+          "candidate": "Billy Young",
+          "party": "GP",
+          "votes": 1349,
+          "elected": false
+        }
+      ],
+      "valid": 27329,
+      "rejected": 43,
+      "ballots": 27372,
+      "registered": 45617
+    },
+    {
+      "id": "KOC",
+      "name": "Kootenay Central",
+      "votes": {
+        "CP": 6967,
+        "NDP": 8716,
+        "GP": 4123,
+        "IND": 2190,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KOC",
+          "district": "Kootenay Central",
+          "candidate": "Brittny Anderson",
+          "party": "NDP",
+          "votes": 8716,
+          "elected": true
+        },
+        {
+          "district_id": "KOC",
+          "district": "Kootenay Central",
+          "candidate": "Nicole Charlwood",
+          "party": "GP",
+          "votes": 4123,
+          "elected": false
+        },
+        {
+          "district_id": "KOC",
+          "district": "Kootenay Central",
+          "candidate": "Corinne Mori",
+          "party": "IND",
+          "votes": 2190,
+          "elected": false
+        },
+        {
+          "district_id": "KOC",
+          "district": "Kootenay Central",
+          "candidate": "Kelly Vandenberghe",
+          "party": "CP",
+          "votes": 6967,
+          "elected": false
+        }
+      ],
+      "valid": 21996,
+      "rejected": 38,
+      "ballots": 22034,
+      "registered": 34278
+    },
+    {
+      "id": "KOM",
+      "name": "Kootenay-Monashee",
+      "votes": {
+        "CP": 7616,
+        "NDP": 10202,
+        "GP": 1785,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KOM",
+          "district": "Kootenay-Monashee",
+          "candidate": "Glen Byle",
+          "party": "CP",
+          "votes": 7616,
+          "elected": false
+        },
+        {
+          "district_id": "KOM",
+          "district": "Kootenay-Monashee",
+          "candidate": "Donovan Cavers",
+          "party": "GP",
+          "votes": 1785,
+          "elected": false
+        },
+        {
+          "district_id": "KOM",
+          "district": "Kootenay-Monashee",
+          "candidate": "Steve Morissette",
+          "party": "NDP",
+          "votes": 10202,
+          "elected": true
+        }
+      ],
+      "valid": 19603,
+      "rejected": 43,
+      "ballots": 19646,
+      "registered": 32732
+    },
+    {
+      "id": "KOR",
+      "name": "Kootenay-Rockies",
+      "votes": {
+        "CP": 8217,
+        "NDP": 4184,
+        "GP": 996,
+        "IND": 5844,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "KOR",
+          "district": "Kootenay-Rockies",
+          "candidate": "Sam Atwal",
+          "party": "NDP",
+          "votes": 4184,
+          "elected": false
+        },
+        {
+          "district_id": "KOR",
+          "district": "Kootenay-Rockies",
+          "candidate": "Pete Davis",
+          "party": "CP",
+          "votes": 8217,
+          "elected": true
+        },
+        {
+          "district_id": "KOR",
+          "district": "Kootenay-Rockies",
+          "candidate": "Tom Shypitka",
+          "party": "IND",
+          "votes": 5844,
+          "elected": false
+        },
+        {
+          "district_id": "KOR",
+          "district": "Kootenay-Rockies",
+          "candidate": "Kerri Wall",
+          "party": "GP",
+          "votes": 996,
+          "elected": false
+        }
+      ],
+      "valid": 19241,
+      "rejected": 21,
+      "ballots": 19262,
+      "registered": 31684
+    },
+    {
+      "id": "LAO",
+      "name": "Ladysmith-Oceanside",
+      "votes": {
+        "CP": 12097,
+        "NDP": 14144,
+        "GP": 2292,
+        "IND": 5559,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "LAO",
+          "district": "Ladysmith-Oceanside",
+          "candidate": "Brett Fee",
+          "party": "CP",
+          "votes": 12097,
+          "elected": false
+        },
+        {
+          "district_id": "LAO",
+          "district": "Ladysmith-Oceanside",
+          "candidate": "Laura Ferreira",
+          "party": "GP",
+          "votes": 2292,
+          "elected": false
+        },
+        {
+          "district_id": "LAO",
+          "district": "Ladysmith-Oceanside",
+          "candidate": "Stephanie Higginson",
+          "party": "NDP",
+          "votes": 14144,
+          "elected": true
+        },
+        {
+          "district_id": "LAO",
+          "district": "Ladysmith-Oceanside",
+          "candidate": "Adam Walker",
+          "party": "IND",
+          "votes": 5559,
+          "elected": false
+        }
+      ],
+      "valid": 34092,
+      "rejected": 24,
+      "ballots": 34116,
+      "registered": 49387
+    },
+    {
+      "id": "LFH",
+      "name": "Langford-Highlands",
+      "votes": {
+        "CP": 8251,
+        "NDP": 11444,
+        "GP": 2368,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "LFH",
+          "district": "Langford-Highlands",
+          "candidate": "Erin Cassels",
+          "party": "GP",
+          "votes": 2368,
+          "elected": false
+        },
+        {
+          "district_id": "LFH",
+          "district": "Langford-Highlands",
+          "candidate": "Mike Harris",
+          "party": "CP",
+          "votes": 8251,
+          "elected": false
+        },
+        {
+          "district_id": "LFH",
+          "district": "Langford-Highlands",
+          "candidate": "Ravi Parmar",
+          "party": "NDP",
+          "votes": 11444,
+          "elected": true
+        }
+      ],
+      "valid": 22063,
+      "rejected": 27,
+      "ballots": 22090,
+      "registered": 37389
+    },
+    {
+      "id": "LLA",
+      "name": "Langley-Abbotsford",
+      "votes": {
+        "CP": 14341,
+        "NDP": 8691,
+        "GP": 1434,
+        "IND": 1104,
+        "UNA": 0,
+        "LBN": 200,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "LLA",
+          "district": "Langley-Abbotsford",
+          "candidate": "John Aldag",
+          "party": "NDP",
+          "votes": 8691,
+          "elected": false
+        },
+        {
+          "district_id": "LLA",
+          "district": "Langley-Abbotsford",
+          "candidate": "Harman Bhangu",
+          "party": "CP",
+          "votes": 14341,
+          "elected": true
+        },
+        {
+          "district_id": "LLA",
+          "district": "Langley-Abbotsford",
+          "candidate": "Alex Joehl",
+          "party": "LBN",
+          "votes": 200,
+          "elected": false
+        },
+        {
+          "district_id": "LLA",
+          "district": "Langley-Abbotsford",
+          "candidate": "Karen Long",
+          "party": "IND",
+          "votes": 1104,
+          "elected": false
+        },
+        {
+          "district_id": "LLA",
+          "district": "Langley-Abbotsford",
+          "candidate": "Melissa Snazell",
+          "party": "GP",
+          "votes": 1434,
+          "elected": false
+        }
+      ],
+      "valid": 25770,
+      "rejected": 66,
+      "ballots": 25836,
+      "registered": 43448
+    },
+    {
+      "id": "LWG",
+      "name": "Langley-Walnut Grove",
+      "votes": {
+        "CP": 12121,
+        "NDP": 10949,
+        "GP": 1254,
+        "IND": 134,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "LWG",
+          "district": "Langley-Walnut Grove",
+          "candidate": "Megan Dykeman",
+          "party": "NDP",
+          "votes": 10949,
+          "elected": false
+        },
+        {
+          "district_id": "LWG",
+          "district": "Langley-Walnut Grove",
+          "candidate": "Rylee Mac Lean",
+          "party": "GP",
+          "votes": 1254,
+          "elected": false
+        },
+        {
+          "district_id": "LWG",
+          "district": "Langley-Walnut Grove",
+          "candidate": "Carlos Suarez Rubio",
+          "party": "IND",
+          "votes": 134,
+          "elected": false
+        },
+        {
+          "district_id": "LWG",
+          "district": "Langley-Walnut Grove",
+          "candidate": "Misty Van Popta",
+          "party": "CP",
+          "votes": 12121,
+          "elected": true
+        }
+      ],
+      "valid": 24458,
+      "rejected": 27,
+      "ballots": 24485,
+      "registered": 42213
+    },
+    {
+      "id": "LWI",
+      "name": "Langley-Willowbrook",
+      "votes": {
+        "CP": 10979,
+        "NDP": 10112,
+        "GP": 1670,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "LWI",
+          "district": "Langley-Willowbrook",
+          "candidate": "Petrina Arnason",
+          "party": "GP",
+          "votes": 1670,
+          "elected": false
+        },
+        {
+          "district_id": "LWI",
+          "district": "Langley-Willowbrook",
+          "candidate": "Andrew Mercier",
+          "party": "NDP",
+          "votes": 10112,
+          "elected": false
+        },
+        {
+          "district_id": "LWI",
+          "district": "Langley-Willowbrook",
+          "candidate": "Jody Toor",
+          "party": "CP",
+          "votes": 10979,
+          "elected": true
+        }
+      ],
+      "valid": 22761,
+      "rejected": 18,
+      "ballots": 22779,
+      "registered": 41088
+    },
+    {
+      "id": "MAE",
+      "name": "Maple Ridge East",
+      "votes": {
+        "CP": 12058,
+        "NDP": 11961,
+        "GP": 1626,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "MAE",
+          "district": "Maple Ridge East",
+          "candidate": "Bob D'Eith",
+          "party": "NDP",
+          "votes": 11961,
+          "elected": false
+        },
+        {
+          "district_id": "MAE",
+          "district": "Maple Ridge East",
+          "candidate": "Lawrence Mok",
+          "party": "CP",
+          "votes": 12058,
+          "elected": true
+        },
+        {
+          "district_id": "MAE",
+          "district": "Maple Ridge East",
+          "candidate": "Kylee Williams",
+          "party": "GP",
+          "votes": 1626,
+          "elected": false
+        }
+      ],
+      "valid": 25645,
+      "rejected": 49,
+      "ballots": 25694,
+      "registered": 44335
+    },
+    {
+      "id": "MAP",
+      "name": "Maple Ridge-Pitt Meadows",
+      "votes": {
+        "CP": 11901,
+        "NDP": 14480,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "MAP",
+          "district": "Maple Ridge-Pitt Meadows",
+          "candidate": "Lisa Beare",
+          "party": "NDP",
+          "votes": 14480,
+          "elected": true
+        },
+        {
+          "district_id": "MAP",
+          "district": "Maple Ridge-Pitt Meadows",
+          "candidate": "Mike Morden",
+          "party": "CP",
+          "votes": 11901,
+          "elected": false
+        }
+      ],
+      "valid": 26381,
+      "rejected": 94,
+      "ballots": 26475,
+      "registered": 44850
+    },
+    {
+      "id": "MPR",
+      "name": "Mid Island-Pacific Rim",
+      "votes": {
+        "CP": 11366,
+        "NDP": 14042,
+        "GP": 3402,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "MPR",
+          "district": "Mid Island-Pacific Rim",
+          "candidate": "Adam Hayduk",
+          "party": "CP",
+          "votes": 11366,
+          "elected": false
+        },
+        {
+          "district_id": "MPR",
+          "district": "Mid Island-Pacific Rim",
+          "candidate": "Josie Osborne",
+          "party": "NDP",
+          "votes": 14042,
+          "elected": true
+        },
+        {
+          "district_id": "MPR",
+          "district": "Mid Island-Pacific Rim",
+          "candidate": "Ross Reid",
+          "party": "GP",
+          "votes": 3402,
+          "elected": false
+        }
+      ],
+      "valid": 28810,
+      "rejected": 58,
+      "ballots": 28868,
+      "registered": 47816
+    },
+    {
+      "id": "NAI",
+      "name": "Nanaimo-Gabriola Island",
+      "votes": {
+        "CP": 9633,
+        "NDP": 14663,
+        "GP": 3502,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NAI",
+          "district": "Nanaimo-Gabriola Island",
+          "candidate": "Shirley Lambrecht",
+          "party": "GP",
+          "votes": 3502,
+          "elected": false
+        },
+        {
+          "district_id": "NAI",
+          "district": "Nanaimo-Gabriola Island",
+          "candidate": "Sheila Malcolmson",
+          "party": "NDP",
+          "votes": 14663,
+          "elected": true
+        },
+        {
+          "district_id": "NAI",
+          "district": "Nanaimo-Gabriola Island",
+          "candidate": "Dale Parker",
+          "party": "CP",
+          "votes": 9633,
+          "elected": false
+        }
+      ],
+      "valid": 27798,
+      "rejected": 57,
+      "ballots": 27855,
+      "registered": 46454
+    },
+    {
+      "id": "NAL",
+      "name": "Nanaimo-Lantzville",
+      "votes": {
+        "CP": 11687,
+        "NDP": 15307,
+        "GP": 2586,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NAL",
+          "district": "Nanaimo-Lantzville",
+          "candidate": "George Anderson",
+          "party": "NDP",
+          "votes": 15307,
+          "elected": true
+        },
+        {
+          "district_id": "NAL",
+          "district": "Nanaimo-Lantzville",
+          "candidate": "Gwen O'Mahony",
+          "party": "CP",
+          "votes": 11687,
+          "elected": false
+        },
+        {
+          "district_id": "NAL",
+          "district": "Nanaimo-Lantzville",
+          "candidate": "Lia Versaevel",
+          "party": "GP",
+          "votes": 2586,
+          "elected": false
+        }
+      ],
+      "valid": 29580,
+      "rejected": 40,
+      "ballots": 29620,
+      "registered": 44879
+    },
+    {
+      "id": "NEC",
+      "name": "Nechako Lakes",
+      "votes": {
+        "CP": 7851,
+        "NDP": 3167,
+        "GP": 622,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NEC",
+          "district": "Nechako Lakes",
+          "candidate": "Murphy Abraham",
+          "party": "NDP",
+          "votes": 3167,
+          "elected": false
+        },
+        {
+          "district_id": "NEC",
+          "district": "Nechako Lakes",
+          "candidate": "Douglas Gook",
+          "party": "GP",
+          "votes": 622,
+          "elected": false
+        },
+        {
+          "district_id": "NEC",
+          "district": "Nechako Lakes",
+          "candidate": "John Rustad",
+          "party": "CP",
+          "votes": 7851,
+          "elected": true
+        }
+      ],
+      "valid": 11640,
+      "rejected": 25,
+      "ballots": 11665,
+      "registered": 18407
+    },
+    {
+      "id": "NMC",
+      "name": "New Westminster-Coquitlam",
+      "votes": {
+        "CP": 6438,
+        "NDP": 12757,
+        "GP": 2380,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NMC",
+          "district": "New Westminster-Coquitlam",
+          "candidate": "Maureen Curran",
+          "party": "GP",
+          "votes": 2380,
+          "elected": false
+        },
+        {
+          "district_id": "NMC",
+          "district": "New Westminster-Coquitlam",
+          "candidate": "Ndellie Massey",
+          "party": "CP",
+          "votes": 6438,
+          "elected": false
+        },
+        {
+          "district_id": "NMC",
+          "district": "New Westminster-Coquitlam",
+          "candidate": "Jennifer Whiteside",
+          "party": "NDP",
+          "votes": 12757,
+          "elected": true
+        }
+      ],
+      "valid": 21575,
+      "rejected": 56,
+      "ballots": 21631,
+      "registered": 40020
+    },
+    {
+      "id": "NOH",
+      "name": "North Coast-Haida Gwaii",
+      "votes": {
+        "CP": 2628,
+        "NDP": 4863,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NOH",
+          "district": "North Coast-Haida Gwaii",
+          "candidate": "Tamara Davidson",
+          "party": "NDP",
+          "votes": 4863,
+          "elected": true
+        },
+        {
+          "district_id": "NOH",
+          "district": "North Coast-Haida Gwaii",
+          "candidate": "Christopher Jason Sankey",
+          "party": "CP",
+          "votes": 2628,
+          "elected": false
+        }
+      ],
+      "valid": 7491,
+      "rejected": 51,
+      "ballots": 7542,
+      "registered": 15518
+    },
+    {
+      "id": "NOI",
+      "name": "North Island",
+      "votes": {
+        "CP": 14100,
+        "NDP": 13461,
+        "GP": 2397,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NOI",
+          "district": "North Island",
+          "candidate": "Michele Babchuk",
+          "party": "NDP",
+          "votes": 13461,
+          "elected": false
+        },
+        {
+          "district_id": "NOI",
+          "district": "North Island",
+          "candidate": "Nic Dedeluk",
+          "party": "GP",
+          "votes": 2397,
+          "elected": false
+        },
+        {
+          "district_id": "NOI",
+          "district": "North Island",
+          "candidate": "Anna Kindy",
+          "party": "CP",
+          "votes": 14100,
+          "elected": true
+        }
+      ],
+      "valid": 29958,
+      "rejected": 31,
+      "ballots": 29989,
+      "registered": 48249
+    },
+    {
+      "id": "NVL",
+      "name": "North Vancouver-Lonsdale",
+      "votes": {
+        "CP": 9073,
+        "NDP": 16759,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NVL",
+          "district": "North Vancouver-Lonsdale",
+          "candidate": "Bowinn Ma",
+          "party": "NDP",
+          "votes": 16759,
+          "elected": true
+        },
+        {
+          "district_id": "NVL",
+          "district": "North Vancouver-Lonsdale",
+          "candidate": "David Splett",
+          "party": "CP",
+          "votes": 9073,
+          "elected": false
+        }
+      ],
+      "valid": 25832,
+      "rejected": 107,
+      "ballots": 25939,
+      "registered": 44034
+    },
+    {
+      "id": "NVS",
+      "name": "North Vancouver-Seymour",
+      "votes": {
+        "CP": 10995,
+        "NDP": 16210,
+        "GP": 1722,
+        "IND": 1794,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "NVS",
+          "district": "North Vancouver-Seymour",
+          "candidate": "Mitchell Baker",
+          "party": "IND",
+          "votes": 1794,
+          "elected": false
+        },
+        {
+          "district_id": "NVS",
+          "district": "North Vancouver-Seymour",
+          "candidate": "Sam Chandola",
+          "party": "CP",
+          "votes": 10995,
+          "elected": false
+        },
+        {
+          "district_id": "NVS",
+          "district": "North Vancouver-Seymour",
+          "candidate": "Susie Chant",
+          "party": "NDP",
+          "votes": 16210,
+          "elected": true
+        },
+        {
+          "district_id": "NVS",
+          "district": "North Vancouver-Seymour",
+          "candidate": "Subhadarshi Tripathy",
+          "party": "GP",
+          "votes": 1722,
+          "elected": false
+        }
+      ],
+      "valid": 30721,
+      "rejected": 39,
+      "ballots": 30760,
+      "registered": 46159
+    },
+    {
+      "id": "OBG",
+      "name": "Oak Bay-Gordon Head",
+      "votes": {
+        "CP": 8542,
+        "NDP": 14519,
+        "GP": 6509,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "OBG",
+          "district": "Oak Bay-Gordon Head",
+          "candidate": "Stephen Andrew",
+          "party": "CP",
+          "votes": 8542,
+          "elected": false
+        },
+        {
+          "district_id": "OBG",
+          "district": "Oak Bay-Gordon Head",
+          "candidate": "Diana Gibson",
+          "party": "NDP",
+          "votes": 14519,
+          "elected": true
+        },
+        {
+          "district_id": "OBG",
+          "district": "Oak Bay-Gordon Head",
+          "candidate": "Lisa Gunderson",
+          "party": "GP",
+          "votes": 6509,
+          "elected": false
+        }
+      ],
+      "valid": 29570,
+      "rejected": 55,
+      "ballots": 29625,
+      "registered": 42442
+    },
+    {
+      "id": "PCN",
+      "name": "Peace River North",
+      "votes": {
+        "CP": 11213,
+        "NDP": 828,
+        "GP": 0,
+        "IND": 3038,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PCN",
+          "district": "Peace River North",
+          "candidate": "Dan Davies",
+          "party": "IND",
+          "votes": 3038,
+          "elected": false
+        },
+        {
+          "district_id": "PCN",
+          "district": "Peace River North",
+          "candidate": "Jordan Kealy",
+          "party": "CP",
+          "votes": 11213,
+          "elected": true
+        },
+        {
+          "district_id": "PCN",
+          "district": "Peace River North",
+          "candidate": "Ian McMahon",
+          "party": "NDP",
+          "votes": 828,
+          "elected": false
+        }
+      ],
+      "valid": 15079,
+      "rejected": 18,
+      "ballots": 15097,
+      "registered": 26413
+    },
+    {
+      "id": "PCS",
+      "name": "Peace River South",
+      "votes": {
+        "CP": 7182,
+        "NDP": 576,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 2525,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PCS",
+          "district": "Peace River South",
+          "candidate": "Mike Bernier",
+          "party": "UNA",
+          "votes": 2525,
+          "elected": false
+        },
+        {
+          "district_id": "PCS",
+          "district": "Peace River South",
+          "candidate": "Marshall Bigsby",
+          "party": "NDP",
+          "votes": 576,
+          "elected": false
+        },
+        {
+          "district_id": "PCS",
+          "district": "Peace River South",
+          "candidate": "Larry Neufeld",
+          "party": "CP",
+          "votes": 7182,
+          "elected": true
+        }
+      ],
+      "valid": 10283,
+      "rejected": 15,
+      "ballots": 10298,
+      "registered": 18206
+    },
+    {
+      "id": "PES",
+      "name": "Penticton-Summerland",
+      "votes": {
+        "CP": 11615,
+        "NDP": 11298,
+        "GP": 1472,
+        "IND": 971,
+        "UNA": 2720,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Bradley Bartsch",
+          "party": "GP",
+          "votes": 1472,
+          "elected": false
+        },
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Amelia Boultbee",
+          "party": "CP",
+          "votes": 11615,
+          "elected": true
+        },
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Roger Harrington",
+          "party": "IND",
+          "votes": 827,
+          "elected": false
+        },
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Tina Lee",
+          "party": "NDP",
+          "votes": 11298,
+          "elected": false
+        },
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Anna Paddon",
+          "party": "IND",
+          "votes": 144,
+          "elected": false
+        },
+        {
+          "district_id": "PES",
+          "district": "Penticton-Summerland",
+          "candidate": "Tracy St Claire",
+          "party": "UNA",
+          "votes": 2720,
+          "elected": false
+        }
+      ],
+      "valid": 28076,
+      "rejected": 29,
+      "ballots": 28105,
+      "registered": 45707
+    },
+    {
+      "id": "POC",
+      "name": "Port Coquitlam",
+      "votes": {
+        "CP": 9967,
+        "NDP": 13843,
+        "GP": 1644,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 244,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "POC",
+          "district": "Port Coquitlam",
+          "candidate": "Keenan Adams",
+          "party": "CP",
+          "votes": 9967,
+          "elected": false
+        },
+        {
+          "district_id": "POC",
+          "district": "Port Coquitlam",
+          "candidate": "Adam Bremner-Akins",
+          "party": "GP",
+          "votes": 1644,
+          "elected": false
+        },
+        {
+          "district_id": "POC",
+          "district": "Port Coquitlam",
+          "candidate": "Lewis Dahlby",
+          "party": "LBN",
+          "votes": 244,
+          "elected": false
+        },
+        {
+          "district_id": "POC",
+          "district": "Port Coquitlam",
+          "candidate": "Mike Farnworth",
+          "party": "NDP",
+          "votes": 13843,
+          "elected": true
+        }
+      ],
+      "valid": 25698,
+      "rejected": 38,
+      "ballots": 25736,
+      "registered": 44601
+    },
+    {
+      "id": "POM",
+      "name": "Port Moody-Burquitlam",
+      "votes": {
+        "CP": 10493,
+        "NDP": 13488,
+        "GP": 1927,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "POM",
+          "district": "Port Moody-Burquitlam",
+          "candidate": "Samantha Agtarap",
+          "party": "GP",
+          "votes": 1927,
+          "elected": false
+        },
+        {
+          "district_id": "POM",
+          "district": "Port Moody-Burquitlam",
+          "candidate": "Rick Glumac",
+          "party": "NDP",
+          "votes": 13488,
+          "elected": true
+        },
+        {
+          "district_id": "POM",
+          "district": "Port Moody-Burquitlam",
+          "candidate": "Kerry van Aswegen",
+          "party": "CP",
+          "votes": 10493,
+          "elected": false
+        }
+      ],
+      "valid": 25908,
+      "rejected": 45,
+      "ballots": 25953,
+      "registered": 44199
+    },
+    {
+      "id": "POR",
+      "name": "Powell River-Sunshine Coast",
+      "votes": {
+        "CP": 10409,
+        "NDP": 14474,
+        "GP": 3932,
+        "IND": 356,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "POR",
+          "district": "Powell River-Sunshine Coast",
+          "candidate": "Chris Hergesheimer",
+          "party": "GP",
+          "votes": 3932,
+          "elected": false
+        },
+        {
+          "district_id": "POR",
+          "district": "Powell River-Sunshine Coast",
+          "candidate": "Chris Moore",
+          "party": "CP",
+          "votes": 10409,
+          "elected": false
+        },
+        {
+          "district_id": "POR",
+          "district": "Powell River-Sunshine Coast",
+          "candidate": "Randene Neill",
+          "party": "NDP",
+          "votes": 14474,
+          "elected": true
+        },
+        {
+          "district_id": "POR",
+          "district": "Powell River-Sunshine Coast",
+          "candidate": "Greg Reid",
+          "party": "IND",
+          "votes": 356,
+          "elected": false
+        }
+      ],
+      "valid": 29171,
+      "rejected": 27,
+      "ballots": 29198,
+      "registered": 44009
+    },
+    {
+      "id": "PRM",
+      "name": "Prince George-Mackenzie",
+      "votes": {
+        "CP": 11307,
+        "NDP": 5242,
+        "GP": 1576,
+        "IND": 0,
+        "UNA": 435,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PRM",
+          "district": "Prince George-Mackenzie",
+          "candidate": "Kiel Giddens",
+          "party": "CP",
+          "votes": 11307,
+          "elected": true
+        },
+        {
+          "district_id": "PRM",
+          "district": "Prince George-Mackenzie",
+          "candidate": "Shar McCrory",
+          "party": "NDP",
+          "votes": 5242,
+          "elected": false
+        },
+        {
+          "district_id": "PRM",
+          "district": "Prince George-Mackenzie",
+          "candidate": "James Steidle",
+          "party": "GP",
+          "votes": 1576,
+          "elected": false
+        },
+        {
+          "district_id": "PRM",
+          "district": "Prince George-Mackenzie",
+          "candidate": "Rachael Weber",
+          "party": "UNA",
+          "votes": 435,
+          "elected": false
+        }
+      ],
+      "valid": 18560,
+      "rejected": 28,
+      "ballots": 18588,
+      "registered": 31239
+    },
+    {
+      "id": "PRO",
+      "name": "Prince George-North Cariboo",
+      "votes": {
+        "CP": 11430,
+        "NDP": 3426,
+        "GP": 866,
+        "IND": 4394,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PRO",
+          "district": "Prince George-North Cariboo",
+          "candidate": "Denice Bardua",
+          "party": "NDP",
+          "votes": 3426,
+          "elected": false
+        },
+        {
+          "district_id": "PRO",
+          "district": "Prince George-North Cariboo",
+          "candidate": "Sheldon Clare",
+          "party": "CP",
+          "votes": 11430,
+          "elected": true
+        },
+        {
+          "district_id": "PRO",
+          "district": "Prince George-North Cariboo",
+          "candidate": "Coralee Oakes",
+          "party": "IND",
+          "votes": 4394,
+          "elected": false
+        },
+        {
+          "district_id": "PRO",
+          "district": "Prince George-North Cariboo",
+          "candidate": "Randy Thompson",
+          "party": "GP",
+          "votes": 866,
+          "elected": false
+        }
+      ],
+      "valid": 20116,
+      "rejected": 18,
+      "ballots": 20134,
+      "registered": 33572
+    },
+    {
+      "id": "PRV",
+      "name": "Prince George-Valemount",
+      "votes": {
+        "CP": 9018,
+        "NDP": 5709,
+        "GP": 1612,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "PRV",
+          "district": "Prince George-Valemount",
+          "candidate": "Rosalyn Bird",
+          "party": "CP",
+          "votes": 9018,
+          "elected": true
+        },
+        {
+          "district_id": "PRV",
+          "district": "Prince George-Valemount",
+          "candidate": "Gwen Johansson",
+          "party": "GP",
+          "votes": 1612,
+          "elected": false
+        },
+        {
+          "district_id": "PRV",
+          "district": "Prince George-Valemount",
+          "candidate": "Clay Pountney",
+          "party": "NDP",
+          "votes": 5709,
+          "elected": false
+        }
+      ],
+      "valid": 16339,
+      "rejected": 43,
+      "ballots": 16382,
+      "registered": 30564
+    },
+    {
+      "id": "RCC",
+      "name": "Richmond Centre",
+      "votes": {
+        "CP": 8426,
+        "NDP": 5961,
+        "GP": 0,
+        "IND": 793,
+        "UNA": 1028,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "RCC",
+          "district": "Richmond Centre",
+          "candidate": "Hon Chan",
+          "party": "CP",
+          "votes": 8426,
+          "elected": true
+        },
+        {
+          "district_id": "RCC",
+          "district": "Richmond Centre",
+          "candidate": "Dickens Cheung",
+          "party": "IND",
+          "votes": 556,
+          "elected": false
+        },
+        {
+          "district_id": "RCC",
+          "district": "Richmond Centre",
+          "candidate": "Sunny Ho",
+          "party": "IND",
+          "votes": 237,
+          "elected": false
+        },
+        {
+          "district_id": "RCC",
+          "district": "Richmond Centre",
+          "candidate": "Henry Yao",
+          "party": "NDP",
+          "votes": 5961,
+          "elected": false
+        },
+        {
+          "district_id": "RCC",
+          "district": "Richmond Centre",
+          "candidate": "Wendy Yuan",
+          "party": "UNA",
+          "votes": 1028,
+          "elected": false
+        }
+      ],
+      "valid": 16208,
+      "rejected": 61,
+      "ballots": 16269,
+      "registered": 33153
+    },
+    {
+      "id": "RCB",
+      "name": "Richmond-Bridgeport",
+      "votes": {
+        "CP": 9908,
+        "NDP": 5921,
+        "GP": 547,
+        "IND": 651,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "RCB",
+          "district": "Richmond-Bridgeport",
+          "candidate": "Glynnis Hoi Sum Chan",
+          "party": "IND",
+          "votes": 519,
+          "elected": false
+        },
+        {
+          "district_id": "RCB",
+          "district": "Richmond-Bridgeport",
+          "candidate": "Linda Li",
+          "party": "NDP",
+          "votes": 5921,
+          "elected": false
+        },
+        {
+          "district_id": "RCB",
+          "district": "Richmond-Bridgeport",
+          "candidate": "Tam\u00e1s Rev\u00f3czi",
+          "party": "GP",
+          "votes": 547,
+          "elected": false
+        },
+        {
+          "district_id": "RCB",
+          "district": "Richmond-Bridgeport",
+          "candidate": "Charlie Smith",
+          "party": "IND",
+          "votes": 132,
+          "elected": false
+        },
+        {
+          "district_id": "RCB",
+          "district": "Richmond-Bridgeport",
+          "candidate": "Teresa Wat",
+          "party": "CP",
+          "votes": 9908,
+          "elected": true
+        }
+      ],
+      "valid": 17027,
+      "rejected": 54,
+      "ballots": 17081,
+      "registered": 35127
+    },
+    {
+      "id": "RCQ",
+      "name": "Richmond-Queensborough",
+      "votes": {
+        "CP": 10052,
+        "NDP": 8713,
+        "GP": 0,
+        "IND": 979,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "RCQ",
+          "district": "Richmond-Queensborough",
+          "candidate": "Steve Kooner",
+          "party": "CP",
+          "votes": 10052,
+          "elected": true
+        },
+        {
+          "district_id": "RCQ",
+          "district": "Richmond-Queensborough",
+          "candidate": "Errol E. Povah",
+          "party": "IND",
+          "votes": 258,
+          "elected": false
+        },
+        {
+          "district_id": "RCQ",
+          "district": "Richmond-Queensborough",
+          "candidate": "Aman Singh",
+          "party": "NDP",
+          "votes": 8713,
+          "elected": false
+        },
+        {
+          "district_id": "RCQ",
+          "district": "Richmond-Queensborough",
+          "candidate": "Cindy Wu",
+          "party": "IND",
+          "votes": 721,
+          "elected": false
+        }
+      ],
+      "valid": 19744,
+      "rejected": 63,
+      "ballots": 19807,
+      "registered": 37364
+    },
+    {
+      "id": "RCS",
+      "name": "Richmond-Steveston",
+      "votes": {
+        "CP": 9848,
+        "NDP": 10332,
+        "GP": 803,
+        "IND": 0,
+        "UNA": 2354,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "RCS",
+          "district": "Richmond-Steveston",
+          "candidate": "Kelly Greene",
+          "party": "NDP",
+          "votes": 10332,
+          "elected": true
+        },
+        {
+          "district_id": "RCS",
+          "district": "Richmond-Steveston",
+          "candidate": "Jackie Lee",
+          "party": "UNA",
+          "votes": 2354,
+          "elected": false
+        },
+        {
+          "district_id": "RCS",
+          "district": "Richmond-Steveston",
+          "candidate": "Michelle Mollineaux",
+          "party": "CP",
+          "votes": 9848,
+          "elected": false
+        },
+        {
+          "district_id": "RCS",
+          "district": "Richmond-Steveston",
+          "candidate": "Elodie Vaudandaine",
+          "party": "GP",
+          "votes": 803,
+          "elected": false
+        }
+      ],
+      "valid": 23337,
+      "rejected": 52,
+      "ballots": 23389,
+      "registered": 39067
+    },
+    {
+      "id": "SAN",
+      "name": "Saanich North and the Islands",
+      "votes": {
+        "CP": 10145,
+        "NDP": 10958,
+        "GP": 12308,
+        "IND": 635,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SAN",
+          "district": "Saanich North and the Islands",
+          "candidate": "Rob Botterell",
+          "party": "GP",
+          "votes": 12308,
+          "elected": true
+        },
+        {
+          "district_id": "SAN",
+          "district": "Saanich North and the Islands",
+          "candidate": "David Busch",
+          "party": "CP",
+          "votes": 10145,
+          "elected": false
+        },
+        {
+          "district_id": "SAN",
+          "district": "Saanich North and the Islands",
+          "candidate": "Amy Haysom",
+          "party": "IND",
+          "votes": 635,
+          "elected": false
+        },
+        {
+          "district_id": "SAN",
+          "district": "Saanich North and the Islands",
+          "candidate": "Sarah Riddell",
+          "party": "NDP",
+          "votes": 10958,
+          "elected": false
+        }
+      ],
+      "valid": 34046,
+      "rejected": 41,
+      "ballots": 34087,
+      "registered": 49437
+    },
+    {
+      "id": "SAS",
+      "name": "Saanich South",
+      "votes": {
+        "CP": 10003,
+        "NDP": 15338,
+        "GP": 5485,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SAS",
+          "district": "Saanich South",
+          "candidate": "Adam Kubel",
+          "party": "CP",
+          "votes": 10003,
+          "elected": false
+        },
+        {
+          "district_id": "SAS",
+          "district": "Saanich South",
+          "candidate": "Lana Popham",
+          "party": "NDP",
+          "votes": 15338,
+          "elected": true
+        },
+        {
+          "district_id": "SAS",
+          "district": "Saanich South",
+          "candidate": "Ned Taylor",
+          "party": "GP",
+          "votes": 5485,
+          "elected": false
+        }
+      ],
+      "valid": 30826,
+      "rejected": 44,
+      "ballots": 30870,
+      "registered": 45655
+    },
+    {
+      "id": "SHU",
+      "name": "Salmon Arm-Shuswap",
+      "votes": {
+        "CP": 16566,
+        "NDP": 9677,
+        "GP": 2250,
+        "IND": 3295,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SHU",
+          "district": "Salmon Arm-Shuswap",
+          "candidate": "Sylvia Lindgren",
+          "party": "NDP",
+          "votes": 9677,
+          "elected": false
+        },
+        {
+          "district_id": "SHU",
+          "district": "Salmon Arm-Shuswap",
+          "candidate": "Greg McCune",
+          "party": "IND",
+          "votes": 2922,
+          "elected": false
+        },
+        {
+          "district_id": "SHU",
+          "district": "Salmon Arm-Shuswap",
+          "candidate": "Sherry Roy",
+          "party": "IND",
+          "votes": 373,
+          "elected": false
+        },
+        {
+          "district_id": "SHU",
+          "district": "Salmon Arm-Shuswap",
+          "candidate": "Jed Wiebe",
+          "party": "GP",
+          "votes": 2250,
+          "elected": false
+        },
+        {
+          "district_id": "SHU",
+          "district": "Salmon Arm-Shuswap",
+          "candidate": "David L. Williams",
+          "party": "CP",
+          "votes": 16566,
+          "elected": true
+        }
+      ],
+      "valid": 31788,
+      "rejected": 31,
+      "ballots": 31819,
+      "registered": 51806
+    },
+    {
+      "id": "SKE",
+      "name": "Skeena",
+      "votes": {
+        "CP": 6243,
+        "NDP": 5419,
+        "GP": 406,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 126
+      },
+      "candidates": [
+        {
+          "district_id": "SKE",
+          "district": "Skeena",
+          "candidate": "Irwin Jeffrey",
+          "party": "CHP",
+          "votes": 126,
+          "elected": false
+        },
+        {
+          "district_id": "SKE",
+          "district": "Skeena",
+          "candidate": "Claire Ratt\u00e9e",
+          "party": "CP",
+          "votes": 6243,
+          "elected": true
+        },
+        {
+          "district_id": "SKE",
+          "district": "Skeena",
+          "candidate": "Teri Young",
+          "party": "GP",
+          "votes": 406,
+          "elected": false
+        },
+        {
+          "district_id": "SKE",
+          "district": "Skeena",
+          "candidate": "Sarah Zimmerman",
+          "party": "NDP",
+          "votes": 5419,
+          "elected": false
+        }
+      ],
+      "valid": 12194,
+      "rejected": 23,
+      "ballots": 12217,
+      "registered": 21885
+    },
+    {
+      "id": "SRC",
+      "name": "Surrey City Centre",
+      "votes": {
+        "CP": 6494,
+        "NDP": 6726,
+        "GP": 877,
+        "IND": 160,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 147,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SRC",
+          "district": "Surrey City Centre",
+          "candidate": "Ryan Abbott",
+          "party": "COMM",
+          "votes": 147,
+          "elected": false
+        },
+        {
+          "district_id": "SRC",
+          "district": "Surrey City Centre",
+          "candidate": "Colin Boyd",
+          "party": "GP",
+          "votes": 877,
+          "elected": false
+        },
+        {
+          "district_id": "SRC",
+          "district": "Surrey City Centre",
+          "candidate": "Saeed Naguib",
+          "party": "IND",
+          "votes": 160,
+          "elected": false
+        },
+        {
+          "district_id": "SRC",
+          "district": "Surrey City Centre",
+          "candidate": "Amna Shah",
+          "party": "NDP",
+          "votes": 6726,
+          "elected": true
+        },
+        {
+          "district_id": "SRC",
+          "district": "Surrey City Centre",
+          "candidate": "Zeeshan Wahla",
+          "party": "CP",
+          "votes": 6494,
+          "elected": false
+        }
+      ],
+      "valid": 14404,
+      "rejected": 26,
+      "ballots": 14430,
+      "registered": 32195
+    },
+    {
+      "id": "SUN",
+      "name": "Surrey North",
+      "votes": {
+        "CP": 7954,
+        "NDP": 6795,
+        "GP": 662,
+        "IND": 125,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 162,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SUN",
+          "district": "Surrey North",
+          "candidate": "Mandeep Dhaliwal",
+          "party": "CP",
+          "votes": 7954,
+          "elected": true
+        },
+        {
+          "district_id": "SUN",
+          "district": "Surrey North",
+          "candidate": "Kiran Hundal",
+          "party": "FPBC",
+          "votes": 162,
+          "elected": false
+        },
+        {
+          "district_id": "SUN",
+          "district": "Surrey North",
+          "candidate": "Hobby Nijjar",
+          "party": "IND",
+          "votes": 125,
+          "elected": false
+        },
+        {
+          "district_id": "SUN",
+          "district": "Surrey North",
+          "candidate": "Sim Sandhu",
+          "party": "GP",
+          "votes": 662,
+          "elected": false
+        },
+        {
+          "district_id": "SUN",
+          "district": "Surrey North",
+          "candidate": "Rachna Singh",
+          "party": "NDP",
+          "votes": 6795,
+          "elected": false
+        }
+      ],
+      "valid": 15698,
+      "rejected": 33,
+      "ballots": 15731,
+      "registered": 31511
+    },
+    {
+      "id": "SUS",
+      "name": "Surrey South",
+      "votes": {
+        "CP": 13056,
+        "NDP": 9136,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SUS",
+          "district": "Surrey South",
+          "candidate": "Brent Chapman",
+          "party": "CP",
+          "votes": 13056,
+          "elected": true
+        },
+        {
+          "district_id": "SUS",
+          "district": "Surrey South",
+          "candidate": "Haroon Ghaffar",
+          "party": "NDP",
+          "votes": 9136,
+          "elected": false
+        }
+      ],
+      "valid": 22192,
+      "rejected": 119,
+      "ballots": 22311,
+      "registered": 39633
+    },
+    {
+      "id": "SRD",
+      "name": "Surrey-Cloverdale",
+      "votes": {
+        "CP": 10268,
+        "NDP": 9682,
+        "GP": 1150,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 153,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SRD",
+          "district": "Surrey-Cloverdale",
+          "candidate": "Pat McCutcheon",
+          "party": "GP",
+          "votes": 1150,
+          "elected": false
+        },
+        {
+          "district_id": "SRD",
+          "district": "Surrey-Cloverdale",
+          "candidate": "Judy Meilleur",
+          "party": "FPBC",
+          "votes": 153,
+          "elected": false
+        },
+        {
+          "district_id": "SRD",
+          "district": "Surrey-Cloverdale",
+          "candidate": "Mike Starchuk",
+          "party": "NDP",
+          "votes": 9682,
+          "elected": false
+        },
+        {
+          "district_id": "SRD",
+          "district": "Surrey-Cloverdale",
+          "candidate": "Elenore Sturko",
+          "party": "CP",
+          "votes": 10268,
+          "elected": true
+        }
+      ],
+      "valid": 21253,
+      "rejected": 16,
+      "ballots": 21269,
+      "registered": 38069
+    },
+    {
+      "id": "SRF",
+      "name": "Surrey-Fleetwood",
+      "votes": {
+        "CP": 9170,
+        "NDP": 9923,
+        "GP": 1321,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SRF",
+          "district": "Surrey-Fleetwood",
+          "candidate": "Tim Binnema",
+          "party": "GP",
+          "votes": 1321,
+          "elected": false
+        },
+        {
+          "district_id": "SRF",
+          "district": "Surrey-Fleetwood",
+          "candidate": "Jagrup Brar",
+          "party": "NDP",
+          "votes": 9923,
+          "elected": true
+        },
+        {
+          "district_id": "SRF",
+          "district": "Surrey-Fleetwood",
+          "candidate": "Avtar Gill",
+          "party": "CP",
+          "votes": 9170,
+          "elected": false
+        }
+      ],
+      "valid": 20414,
+      "rejected": 26,
+      "ballots": 20440,
+      "registered": 37753
+    },
+    {
+      "id": "SRG",
+      "name": "Surrey-Guildford",
+      "votes": {
+        "CP": 8925,
+        "NDP": 8947,
+        "GP": 824,
+        "IND": 370,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SRG",
+          "district": "Surrey-Guildford",
+          "candidate": "Garry Begg",
+          "party": "NDP",
+          "votes": 8947,
+          "elected": true
+        },
+        {
+          "district_id": "SRG",
+          "district": "Surrey-Guildford",
+          "candidate": "Kabir Qurban",
+          "party": "IND",
+          "votes": 370,
+          "elected": false
+        },
+        {
+          "district_id": "SRG",
+          "district": "Surrey-Guildford",
+          "candidate": "Honveer Singh Randhawa",
+          "party": "CP",
+          "votes": 8925,
+          "elected": false
+        },
+        {
+          "district_id": "SRG",
+          "district": "Surrey-Guildford",
+          "candidate": "Manjeet Singh Sahota",
+          "party": "GP",
+          "votes": 824,
+          "elected": false
+        }
+      ],
+      "valid": 19066,
+      "rejected": 24,
+      "ballots": 19090,
+      "registered": 37612
+    },
+    {
+      "id": "SRN",
+      "name": "Surrey-Newton",
+      "votes": {
+        "CP": 6658,
+        "NDP": 7924,
+        "GP": 0,
+        "IND": 189,
+        "UNA": 344,
+        "LBN": 0,
+        "FPBC": 371,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SRN",
+          "district": "Surrey-Newton",
+          "candidate": "Tegjot Bal",
+          "party": "CP",
+          "votes": 6658,
+          "elected": false
+        },
+        {
+          "district_id": "SRN",
+          "district": "Surrey-Newton",
+          "candidate": "Amrit Birring",
+          "party": "FPBC",
+          "votes": 371,
+          "elected": false
+        },
+        {
+          "district_id": "SRN",
+          "district": "Surrey-Newton",
+          "candidate": "Japreet Lehal",
+          "party": "UNA",
+          "votes": 344,
+          "elected": false
+        },
+        {
+          "district_id": "SRN",
+          "district": "Surrey-Newton",
+          "candidate": "Joginder Singh Randhawa",
+          "party": "IND",
+          "votes": 189,
+          "elected": false
+        },
+        {
+          "district_id": "SRN",
+          "district": "Surrey-Newton",
+          "candidate": "Jessie Sunner",
+          "party": "NDP",
+          "votes": 7924,
+          "elected": true
+        }
+      ],
+      "valid": 15486,
+      "rejected": 36,
+      "ballots": 15522,
+      "registered": 30549
+    },
+    {
+      "id": "SUP",
+      "name": "Surrey-Panorama",
+      "votes": {
+        "CP": 8735,
+        "NDP": 8472,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 404,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SUP",
+          "district": "Surrey-Panorama",
+          "candidate": "Paramjit Rai",
+          "party": "FPBC",
+          "votes": 404,
+          "elected": false
+        },
+        {
+          "district_id": "SUP",
+          "district": "Surrey-Panorama",
+          "candidate": "Jinny Sims",
+          "party": "NDP",
+          "votes": 8472,
+          "elected": false
+        },
+        {
+          "district_id": "SUP",
+          "district": "Surrey-Panorama",
+          "candidate": "Bryan Tepper",
+          "party": "CP",
+          "votes": 8735,
+          "elected": true
+        }
+      ],
+      "valid": 17611,
+      "rejected": 41,
+      "ballots": 17652,
+      "registered": 32742
+    },
+    {
+      "id": "SUR",
+      "name": "Surrey-Serpentine River",
+      "votes": {
+        "CP": 9782,
+        "NDP": 9347,
+        "GP": 0,
+        "IND": 554,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SUR",
+          "district": "Surrey-Serpentine River",
+          "candidate": "Baltej Singh Dhillon",
+          "party": "NDP",
+          "votes": 9347,
+          "elected": false
+        },
+        {
+          "district_id": "SUR",
+          "district": "Surrey-Serpentine River",
+          "candidate": "Linda Hepner",
+          "party": "CP",
+          "votes": 9782,
+          "elected": true
+        },
+        {
+          "district_id": "SUR",
+          "district": "Surrey-Serpentine River",
+          "candidate": "Jim McMurtry",
+          "party": "IND",
+          "votes": 554,
+          "elected": false
+        }
+      ],
+      "valid": 19683,
+      "rejected": 39,
+      "ballots": 19722,
+      "registered": 36196
+    },
+    {
+      "id": "SWR",
+      "name": "Surrey-White Rock",
+      "votes": {
+        "CP": 14667,
+        "NDP": 12698,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 671,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "SWR",
+          "district": "Surrey-White Rock",
+          "candidate": "Trevor Halford",
+          "party": "CP",
+          "votes": 14667,
+          "elected": true
+        },
+        {
+          "district_id": "SWR",
+          "district": "Surrey-White Rock",
+          "candidate": "Damyn Tassie",
+          "party": "LBN",
+          "votes": 671,
+          "elected": false
+        },
+        {
+          "district_id": "SWR",
+          "district": "Surrey-White Rock",
+          "candidate": "Darryl Walker",
+          "party": "NDP",
+          "votes": 12698,
+          "elected": false
+        }
+      ],
+      "valid": 28036,
+      "rejected": 106,
+      "ballots": 28142,
+      "registered": 45467
+    },
+    {
+      "id": "VFV",
+      "name": "Vancouver-Fraserview",
+      "votes": {
+        "CP": 7618,
+        "NDP": 11896,
+        "GP": 1290,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VFV",
+          "district": "Vancouver-Fraserview",
+          "candidate": "George Chow",
+          "party": "NDP",
+          "votes": 11896,
+          "elected": true
+        },
+        {
+          "district_id": "VFV",
+          "district": "Vancouver-Fraserview",
+          "candidate": "Francoise Raunet",
+          "party": "GP",
+          "votes": 1290,
+          "elected": false
+        },
+        {
+          "district_id": "VFV",
+          "district": "Vancouver-Fraserview",
+          "candidate": "Jag S Sanghera",
+          "party": "CP",
+          "votes": 7618,
+          "elected": false
+        }
+      ],
+      "valid": 20804,
+      "rejected": 61,
+      "ballots": 20865,
+      "registered": 39801
+    },
+    {
+      "id": "VHA",
+      "name": "Vancouver-Hastings",
+      "votes": {
+        "CP": 5391,
+        "NDP": 14237,
+        "GP": 2409,
+        "IND": 157,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VHA",
+          "district": "Vancouver-Hastings",
+          "candidate": "Jacob Burdge",
+          "party": "CP",
+          "votes": 5391,
+          "elected": false
+        },
+        {
+          "district_id": "VHA",
+          "district": "Vancouver-Hastings",
+          "candidate": "Bridget Burns",
+          "party": "GP",
+          "votes": 2409,
+          "elected": false
+        },
+        {
+          "district_id": "VHA",
+          "district": "Vancouver-Hastings",
+          "candidate": "Zsolt Kiss",
+          "party": "IND",
+          "votes": 157,
+          "elected": false
+        },
+        {
+          "district_id": "VHA",
+          "district": "Vancouver-Hastings",
+          "candidate": "Niki Sharma",
+          "party": "NDP",
+          "votes": 14237,
+          "elected": true
+        }
+      ],
+      "valid": 22194,
+      "rejected": 52,
+      "ballots": 22246,
+      "registered": 41189
+    },
+    {
+      "id": "VKE",
+      "name": "Vancouver-Kensington",
+      "votes": {
+        "CP": 6061,
+        "NDP": 11713,
+        "GP": 1458,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VKE",
+          "district": "Vancouver-Kensington",
+          "candidate": "Mable Elmore",
+          "party": "NDP",
+          "votes": 11713,
+          "elected": true
+        },
+        {
+          "district_id": "VKE",
+          "district": "Vancouver-Kensington",
+          "candidate": "Amy Fox",
+          "party": "GP",
+          "votes": 1458,
+          "elected": false
+        },
+        {
+          "district_id": "VKE",
+          "district": "Vancouver-Kensington",
+          "candidate": "Syed Mohsin",
+          "party": "CP",
+          "votes": 6061,
+          "elected": false
+        }
+      ],
+      "valid": 19232,
+      "rejected": 53,
+      "ballots": 19285,
+      "registered": 37396
+    },
+    {
+      "id": "VLA",
+      "name": "Vancouver-Langara",
+      "votes": {
+        "CP": 8087,
+        "NDP": 8506,
+        "GP": 969,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VLA",
+          "district": "Vancouver-Langara",
+          "candidate": "Bryan Breguet",
+          "party": "CP",
+          "votes": 8087,
+          "elected": false
+        },
+        {
+          "district_id": "VLA",
+          "district": "Vancouver-Langara",
+          "candidate": "Sunita Dhir",
+          "party": "NDP",
+          "votes": 8506,
+          "elected": true
+        },
+        {
+          "district_id": "VLA",
+          "district": "Vancouver-Langara",
+          "candidate": "Scottford Price",
+          "party": "GP",
+          "votes": 969,
+          "elected": false
+        }
+      ],
+      "valid": 17562,
+      "rejected": 39,
+      "ballots": 17601,
+      "registered": 33961
+    },
+    {
+      "id": "VLM",
+      "name": "Vancouver-Little Mountain",
+      "votes": {
+        "CP": 7704,
+        "NDP": 15636,
+        "GP": 1833,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VLM",
+          "district": "Vancouver-Little Mountain",
+          "candidate": "Christine Boyle",
+          "party": "NDP",
+          "votes": 15636,
+          "elected": true
+        },
+        {
+          "district_id": "VLM",
+          "district": "Vancouver-Little Mountain",
+          "candidate": "John Coupar",
+          "party": "CP",
+          "votes": 7704,
+          "elected": false
+        },
+        {
+          "district_id": "VLM",
+          "district": "Vancouver-Little Mountain",
+          "candidate": "Wendy Hayko",
+          "party": "GP",
+          "votes": 1833,
+          "elected": false
+        }
+      ],
+      "valid": 25173,
+      "rejected": 61,
+      "ballots": 25234,
+      "registered": 41259
+    },
+    {
+      "id": "VNP",
+      "name": "Vancouver-Point Grey",
+      "votes": {
+        "CP": 7622,
+        "NDP": 12538,
+        "GP": 1925,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNP",
+          "district": "Vancouver-Point Grey",
+          "candidate": "David Eby",
+          "party": "NDP",
+          "votes": 12538,
+          "elected": true
+        },
+        {
+          "district_id": "VNP",
+          "district": "Vancouver-Point Grey",
+          "candidate": "Paul Ratchford",
+          "party": "CP",
+          "votes": 7622,
+          "elected": false
+        },
+        {
+          "district_id": "VNP",
+          "district": "Vancouver-Point Grey",
+          "candidate": "Devyani Singh",
+          "party": "GP",
+          "votes": 1925,
+          "elected": false
+        }
+      ],
+      "valid": 22085,
+      "rejected": 40,
+      "ballots": 22125,
+      "registered": 34880
+    },
+    {
+      "id": "VNQ",
+      "name": "Vancouver-Quilchena",
+      "votes": {
+        "CP": 11464,
+        "NDP": 8649,
+        "GP": 1729,
+        "IND": 385,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNQ",
+          "district": "Vancouver-Quilchena",
+          "candidate": "Michael Barkusky",
+          "party": "GP",
+          "votes": 1729,
+          "elected": false
+        },
+        {
+          "district_id": "VNQ",
+          "district": "Vancouver-Quilchena",
+          "candidate": "Dallas Brodie",
+          "party": "CP",
+          "votes": 11464,
+          "elected": true
+        },
+        {
+          "district_id": "VNQ",
+          "district": "Vancouver-Quilchena",
+          "candidate": "Callista Ryan",
+          "party": "NDP",
+          "votes": 8649,
+          "elected": false
+        },
+        {
+          "district_id": "VNQ",
+          "district": "Vancouver-Quilchena",
+          "candidate": "Caroline Ying-Mei Wang",
+          "party": "IND",
+          "votes": 385,
+          "elected": false
+        }
+      ],
+      "valid": 22227,
+      "rejected": 32,
+      "ballots": 22259,
+      "registered": 38080
+    },
+    {
+      "id": "VNR",
+      "name": "Vancouver-Renfrew",
+      "votes": {
+        "CP": 5327,
+        "NDP": 10983,
+        "GP": 1064,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNR",
+          "district": "Vancouver-Renfrew",
+          "candidate": "Adrian Dix",
+          "party": "NDP",
+          "votes": 10983,
+          "elected": true
+        },
+        {
+          "district_id": "VNR",
+          "district": "Vancouver-Renfrew",
+          "candidate": "Tom Ikonomou",
+          "party": "CP",
+          "votes": 5327,
+          "elected": false
+        },
+        {
+          "district_id": "VNR",
+          "district": "Vancouver-Renfrew",
+          "candidate": "Lawrence Taylor",
+          "party": "GP",
+          "votes": 1064,
+          "elected": false
+        }
+      ],
+      "valid": 17374,
+      "rejected": 47,
+      "ballots": 17421,
+      "registered": 36116
+    },
+    {
+      "id": "VNS",
+      "name": "Vancouver-South Granville",
+      "votes": {
+        "CP": 6678,
+        "NDP": 17208,
+        "GP": 2872,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNS",
+          "district": "Vancouver-South Granville",
+          "candidate": "Brenda Bailey",
+          "party": "NDP",
+          "votes": 17208,
+          "elected": true
+        },
+        {
+          "district_id": "VNS",
+          "district": "Vancouver-South Granville",
+          "candidate": "Adam Hawk",
+          "party": "GP",
+          "votes": 2872,
+          "elected": false
+        },
+        {
+          "district_id": "VNS",
+          "district": "Vancouver-South Granville",
+          "candidate": "Aron Lageri",
+          "party": "CP",
+          "votes": 6678,
+          "elected": false
+        }
+      ],
+      "valid": 26758,
+      "rejected": 55,
+      "ballots": 26813,
+      "registered": 42014
+    },
+    {
+      "id": "VNT",
+      "name": "Vancouver-Strathcona",
+      "votes": {
+        "CP": 3430,
+        "NDP": 13673,
+        "GP": 2618,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 336,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNT",
+          "district": "Vancouver-Strathcona",
+          "candidate": "Kimball Cariou",
+          "party": "COMM",
+          "votes": 336,
+          "elected": false
+        },
+        {
+          "district_id": "VNT",
+          "district": "Vancouver-Strathcona",
+          "candidate": "Scott Muller",
+          "party": "CP",
+          "votes": 3430,
+          "elected": false
+        },
+        {
+          "district_id": "VNT",
+          "district": "Vancouver-Strathcona",
+          "candidate": "Joan Phillip",
+          "party": "NDP",
+          "votes": 13673,
+          "elected": true
+        },
+        {
+          "district_id": "VNT",
+          "district": "Vancouver-Strathcona",
+          "candidate": "Simon de Weerdt",
+          "party": "GP",
+          "votes": 2618,
+          "elected": false
+        }
+      ],
+      "valid": 20057,
+      "rejected": 64,
+      "ballots": 20121,
+      "registered": 39177
+    },
+    {
+      "id": "VNW",
+      "name": "Vancouver-West End",
+      "votes": {
+        "CP": 5677,
+        "NDP": 13143,
+        "GP": 1893,
+        "IND": 144,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNW",
+          "district": "Vancouver-West End",
+          "candidate": "Spencer Chandra Herbert",
+          "party": "NDP",
+          "votes": 13143,
+          "elected": true
+        },
+        {
+          "district_id": "VNW",
+          "district": "Vancouver-West End",
+          "candidate": "Jon Ellacott",
+          "party": "CP",
+          "votes": 5677,
+          "elected": false
+        },
+        {
+          "district_id": "VNW",
+          "district": "Vancouver-West End",
+          "candidate": "Eoin O'Dwyer",
+          "party": "GP",
+          "votes": 1893,
+          "elected": false
+        },
+        {
+          "district_id": "VNW",
+          "district": "Vancouver-West End",
+          "candidate": "Carl Turnbull",
+          "party": "IND",
+          "votes": 144,
+          "elected": false
+        }
+      ],
+      "valid": 20857,
+      "rejected": 37,
+      "ballots": 20894,
+      "registered": 39011
+    },
+    {
+      "id": "VNY",
+      "name": "Vancouver-Yaletown",
+      "votes": {
+        "CP": 7857,
+        "NDP": 9018,
+        "GP": 1248,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VNY",
+          "district": "Vancouver-Yaletown",
+          "candidate": "Melissa De Genova",
+          "party": "CP",
+          "votes": 7857,
+          "elected": false
+        },
+        {
+          "district_id": "VNY",
+          "district": "Vancouver-Yaletown",
+          "candidate": "Dana-Lyn Mackenzie",
+          "party": "GP",
+          "votes": 1248,
+          "elected": false
+        },
+        {
+          "district_id": "VNY",
+          "district": "Vancouver-Yaletown",
+          "candidate": "Terry Yung",
+          "party": "NDP",
+          "votes": 9018,
+          "elected": true
+        }
+      ],
+      "valid": 18123,
+      "rejected": 32,
+      "ballots": 18155,
+      "registered": 36210
+    },
+    {
+      "id": "VRL",
+      "name": "Vernon-Lumby",
+      "votes": {
+        "CP": 11361,
+        "NDP": 11837,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 4266,
+        "LBN": 265,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VRL",
+          "district": "Vernon-Lumby",
+          "candidate": "Kevin Acton",
+          "party": "UNA",
+          "votes": 4266,
+          "elected": false
+        },
+        {
+          "district_id": "VRL",
+          "district": "Vernon-Lumby",
+          "candidate": "Dennis Giesbrecht",
+          "party": "CP",
+          "votes": 11361,
+          "elected": false
+        },
+        {
+          "district_id": "VRL",
+          "district": "Vernon-Lumby",
+          "candidate": "Robert Johnson",
+          "party": "LBN",
+          "votes": 265,
+          "elected": false
+        },
+        {
+          "district_id": "VRL",
+          "district": "Vernon-Lumby",
+          "candidate": "Harwinder Sandhu",
+          "party": "NDP",
+          "votes": 11837,
+          "elected": true
+        }
+      ],
+      "valid": 27729,
+      "rejected": 56,
+      "ballots": 27785,
+      "registered": 45810
+    },
+    {
+      "id": "VTB",
+      "name": "Victoria-Beacon Hill",
+      "votes": {
+        "CP": 5514,
+        "NDP": 13634,
+        "GP": 9644,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VTB",
+          "district": "Victoria-Beacon Hill",
+          "candidate": "Sonia Furstenau",
+          "party": "GP",
+          "votes": 9644,
+          "elected": false
+        },
+        {
+          "district_id": "VTB",
+          "district": "Victoria-Beacon Hill",
+          "candidate": "Grace Lore",
+          "party": "NDP",
+          "votes": 13634,
+          "elected": true
+        },
+        {
+          "district_id": "VTB",
+          "district": "Victoria-Beacon Hill",
+          "candidate": "Tim Thielmann",
+          "party": "CP",
+          "votes": 5514,
+          "elected": false
+        }
+      ],
+      "valid": 28792,
+      "rejected": 54,
+      "ballots": 28846,
+      "registered": 43860
+    },
+    {
+      "id": "VTS",
+      "name": "Victoria-Swan Lake",
+      "votes": {
+        "CP": 5146,
+        "NDP": 14273,
+        "GP": 5899,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 156,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "VTS",
+          "district": "Victoria-Swan Lake",
+          "candidate": "Robert Crooks",
+          "party": "COMM",
+          "votes": 156,
+          "elected": false
+        },
+        {
+          "district_id": "VTS",
+          "district": "Victoria-Swan Lake",
+          "candidate": "Nina Krieger",
+          "party": "NDP",
+          "votes": 14273,
+          "elected": true
+        },
+        {
+          "district_id": "VTS",
+          "district": "Victoria-Swan Lake",
+          "candidate": "Tim Taylor",
+          "party": "CP",
+          "votes": 5146,
+          "elected": false
+        },
+        {
+          "district_id": "VTS",
+          "district": "Victoria-Swan Lake",
+          "candidate": "Christina Winter",
+          "party": "GP",
+          "votes": 5899,
+          "elected": false
+        }
+      ],
+      "valid": 25474,
+      "rejected": 51,
+      "ballots": 25525,
+      "registered": 40752
+    },
+    {
+      "id": "WKP",
+      "name": "West Kelowna-Peachland",
+      "votes": {
+        "CP": 13475,
+        "NDP": 7394,
+        "GP": 0,
+        "IND": 0,
+        "UNA": 5630,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "WKP",
+          "district": "West Kelowna-Peachland",
+          "candidate": "Stephen Johnston",
+          "party": "UNA",
+          "votes": 5630,
+          "elected": false
+        },
+        {
+          "district_id": "WKP",
+          "district": "West Kelowna-Peachland",
+          "candidate": "Macklin McCall",
+          "party": "CP",
+          "votes": 13475,
+          "elected": true
+        },
+        {
+          "district_id": "WKP",
+          "district": "West Kelowna-Peachland",
+          "candidate": "Krystal Smith",
+          "party": "NDP",
+          "votes": 7394,
+          "elected": false
+        }
+      ],
+      "valid": 26499,
+      "rejected": 34,
+      "ballots": 26533,
+      "registered": 45467
+    },
+    {
+      "id": "WVC",
+      "name": "West Vancouver-Capilano",
+      "votes": {
+        "CP": 12049,
+        "NDP": 7006,
+        "GP": 1435,
+        "IND": 5326,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "WVC",
+          "district": "West Vancouver-Capilano",
+          "candidate": "Lynne Block",
+          "party": "CP",
+          "votes": 12049,
+          "elected": true
+        },
+        {
+          "district_id": "WVC",
+          "district": "West Vancouver-Capilano",
+          "candidate": "Sara Eftekhar",
+          "party": "NDP",
+          "votes": 7006,
+          "elected": false
+        },
+        {
+          "district_id": "WVC",
+          "district": "West Vancouver-Capilano",
+          "candidate": "Archie Kaario",
+          "party": "GP",
+          "votes": 1435,
+          "elected": false
+        },
+        {
+          "district_id": "WVC",
+          "district": "West Vancouver-Capilano",
+          "candidate": "Karin Kirkpatrick",
+          "party": "IND",
+          "votes": 5326,
+          "elected": false
+        }
+      ],
+      "valid": 25816,
+      "rejected": 42,
+      "ballots": 25858,
+      "registered": 44114
+    },
+    {
+      "id": "WVS",
+      "name": "West Vancouver-Sea to Sky",
+      "votes": {
+        "CP": 9762,
+        "NDP": 7213,
+        "GP": 10438,
+        "IND": 0,
+        "UNA": 0,
+        "LBN": 0,
+        "FPBC": 0,
+        "COMM": 0,
+        "CHP": 0
+      },
+      "candidates": [
+        {
+          "district_id": "WVS",
+          "district": "West Vancouver-Sea to Sky",
+          "candidate": "Jen Ford",
+          "party": "NDP",
+          "votes": 7213,
+          "elected": false
+        },
+        {
+          "district_id": "WVS",
+          "district": "West Vancouver-Sea to Sky",
+          "candidate": "Yuri Fulmer",
+          "party": "CP",
+          "votes": 9762,
+          "elected": false
+        },
+        {
+          "district_id": "WVS",
+          "district": "West Vancouver-Sea to Sky",
+          "candidate": "Jeremy Valeriote",
+          "party": "GP",
+          "votes": 10438,
+          "elected": true
+        }
+      ],
+      "valid": 27413,
+      "rejected": 40,
+      "ballots": 27453,
+      "registered": 44308
+    }
+  ]
+}

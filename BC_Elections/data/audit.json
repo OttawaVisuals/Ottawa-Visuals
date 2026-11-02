@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "British Columbia \u2014 2026 preliminary initial count",
+    "source": "Elections BC \u2014 2026 preliminary initial count",
+    "year": 2026,
+    "preliminary": true,
+    "retrieved": "2026-11-01",
+    "source_as_of": "As of October 26, 2026 10:34 PST",
+    "final_count": "November 6\u201310, 2026",
+    "sources": {
+      "party": "https://results.elections.bc.ca/",
+      "candidate": "https://results.elections.bc.ca/Results_11684_GE-2026-10-24_Candidate.html"
+    },
+    "snapshot": true
+  },
+  "candidates": 353,
+  "ridings": 93,
+  "party_votes": {
+    "CP": 862688,
+    "NDP": 670811,
+    "GP": 196896,
+    "IND": 3202,
+    "UNA": 2679,
+    "LBN": 1105,
+    "FPBC": 127,
+    "COMM": 559,
+    "CHP": 459,
+    "CWP": 447,
+    "CENTRE": 29104,
+    "ONE": 27056
+  },
+  "seats": {
+    "CP": 63,
+    "NDP": 28,
+    "GP": 2
+  },
+  "majority_seats": {
+    "CP": 47,
+    "NDP": 7
+  },
+  "valid_votes": 1795133,
+  "ballots": 1799550,
+  "rejected": 4417,
+  "registered": 3738182,
+  "registered_as_of": "2026-10-14",
+  "turnout_pct": 48.14,
+  "riding_registered_voters_available": false,
+  "checks": "All candidate sums reconcile with each of 93 party-report riding rows and provincial party totals/leads.",
+  "sha256": {
+    "preliminary-2026.html": "e00563b4840632be5076b7f736b38fba65d82691aa5bb6988ed1a55ddf323bae",
+    "preliminary-2026-candidates.html": "897392dd32b52662f4babf5fda3ef60e1a87f3146d5588639300d0e8828fdd6d"
+  }
+}

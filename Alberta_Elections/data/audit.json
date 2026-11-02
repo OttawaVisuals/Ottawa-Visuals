@@ -1,0 +1,167 @@
+{
+  "sources": {
+    "results": "https://www.elections.ab.ca/uploads/2023-Provincial-General-Election-Statement-of-Vote.xlsx",
+    "boundaries": "https://www.elections.ab.ca/uploads/2019Boundaries_ED-Shapefiles.zip",
+    "history": "https://www.elections.ab.ca/elections/election-results/historical-results/"
+  },
+  "retrieved": "2026-11-01",
+  "sha256": {
+    "2019-boundaries.zip": "3fccd3331d90a7eadde01debeea4c4f70819d7e0a419ac03bb1ee1e210a8487a",
+    "2023-statement-of-vote.xlsx": "6a43655acf5f76176886e6698aedccf362693c3a1b5347536d8ef6c6cac50da3",
+    "historical-results.html": "40146edc2cbb12cf098ff446228a90f66ccc94a1ce3fda04475452176ddc38a2"
+  },
+  "ridings": 87,
+  "candidates": 349,
+  "party_votes": {
+    "UCP": 928900,
+    "NDP": 777404,
+    "LIB": 4259,
+    "GPA": 13457,
+    "AP": 12576,
+    "APA": 701,
+    "CP-A": 379,
+    "PAPA": 90,
+    "REF": 132,
+    "SM": 4664,
+    "BPA": 106,
+    "TIP": 5045,
+    "WIPA": 820,
+    "WLC": 4220,
+    "IND": 12162
+  },
+  "seats": {
+    "NDP": 38,
+    "UCP": 49
+  },
+  "majority_seats": {
+    "NDP": 31,
+    "UCP": 47
+  },
+  "valid_votes": 1764915,
+  "ballots": 1777315,
+  "registered": 2939762,
+  "unclassified_ballots": 0,
+  "turnout_history": [
+    {
+      "year": 1975,
+      "turnoutPct": 59.6,
+      "registered": 994158,
+      "turnout": 592354
+    },
+    {
+      "year": 1979,
+      "turnoutPct": 58.7,
+      "registered": 1215490,
+      "turnout": 713654
+    },
+    {
+      "year": 1982,
+      "turnoutPct": 66.0,
+      "registered": 1435752,
+      "turnout": 947644
+    },
+    {
+      "year": 1986,
+      "turnoutPct": 47.3,
+      "registered": 1514182,
+      "turnout": 715376
+    },
+    {
+      "year": 1989,
+      "turnoutPct": 53.6,
+      "registered": 1550867,
+      "turnout": 831240
+    },
+    {
+      "year": 1993,
+      "turnoutPct": 60.2,
+      "registered": 1646729,
+      "turnout": 991472
+    },
+    {
+      "year": 1997,
+      "turnoutPct": 53.8,
+      "registered": 1764128,
+      "turnout": 948338
+    },
+    {
+      "year": 2001,
+      "turnoutPct": 53.4,
+      "registered": 1902906,
+      "turnout": 1015844
+    },
+    {
+      "year": 2004,
+      "turnoutPct": 45.1,
+      "registered": 1982843,
+      "turnout": 894591
+    },
+    {
+      "year": 2008,
+      "turnoutPct": 40.6,
+      "registered": 2350045,
+      "turnout": 953777
+    },
+    {
+      "year": 2012,
+      "turnoutPct": 54.4,
+      "registered": 2387485,
+      "turnout": 1298174
+    },
+    {
+      "year": 2015,
+      "turnoutPct": 57.0,
+      "registered": 2622775,
+      "turnout": 1495404
+    },
+    {
+      "year": 2019,
+      "turnoutPct": 67.5,
+      "registered": 2824309,
+      "turnout": 1906366
+    },
+    {
+      "year": 2023,
+      "turnoutPct": 60.5,
+      "turnout": 1777315,
+      "registered": 2939762,
+      "source": "2023 Statement of Vote workbook"
+    }
+  ],
+  "source_discrepancies": {
+    "party_votes": {
+      "UCP": {
+        "workbook": 928900,
+        "historical_web_table": 928896
+      },
+      "NDP": {
+        "workbook": 777404,
+        "historical_web_table": 777397
+      },
+      "GPA": {
+        "workbook": 13457,
+        "historical_web_table": 13458
+      },
+      "APA": {
+        "workbook": 701,
+        "historical_web_table": 707
+      },
+      "TIP": {
+        "workbook": 5045,
+        "historical_web_table": 5228
+      },
+      "IND": {
+        "workbook": 12162,
+        "historical_web_table": 12163
+      }
+    },
+    "historical_web_2023": {
+      "year": 2023,
+      "turnoutPct": 59.5,
+      "registered": 2987208,
+      "turnout": 1777321
+    },
+    "historical_web_party_sum": 1765095,
+    "historical_web_total_row": 1760605
+  }
+}

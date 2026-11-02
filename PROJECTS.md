@@ -200,6 +200,13 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
+### British Columbia Elections Visual (consolidation scenarios)
+- **Published November 1, 2026.** `BC_Elections/BCelections.html` now defaults to the **2026 preliminary initial count**, as of Oct 26 at 10:34 PST, retrieved Nov 1. All 353 candidates reconcile to 93 riding rows and provincial totals/leads: Conservative 63, NDP 28, Green 2. Mail-in/absentee ballots await final count Nov 6–10. NDP/Green consolidation changes seven leads at illustrative 65% transfer (Conservative 56, NDP 35, Green 2) or twelve at full transfer (51/40/2). Preliminary status and timestamp appear on the page and CSVs; unavailable riding turnout is not estimated. The audited 2024 final baseline remains available at `BCelections-2024.html`. See `BC_Elections/README.md` for source and QA details.
+
+### Alberta Elections Visual (consolidation scenarios)
+- **Published November 1, 2026.** `Alberta_Elections/ABelections.html`: official 2023 workbook, 349 candidates and 87 divisions, Calgary/Edmonton insets, transfer slider, exact results and scenario downloads. NDP/Liberal/Green grouping; Alberta Party excluded. No seats change even at full transfer. Workbook-versus-historical-web discrepancies retained in the audit; riding turnout is 2023 only. Data/model checks pass; shared marker spacing checked with Ontario in 18 page/width/theme combinations. See `Alberta_Elections/README.md`.
+
+
 ### MP & MPP spending
 - **Published Nov 1, 2026:** `Member_Spending/spending.html`, linked from the homepage.
 - Five official federal quarters (Apr–Jun 2025 through Apr–Jun 2026) and Ontario’s 2025–26 annual report; category rankings, member details, search, federal province filter, exact tables and CSV/JSON.

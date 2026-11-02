@@ -1,0 +1,5043 @@
+{
+  "meta": {
+    "title": "Alberta \u2014 2023 general election",
+    "source": "Elections Alberta \u2014 May 29, 2023 Statement of Vote",
+    "generated": "2026-11-01",
+    "sample": false,
+    "sources": {
+      "results": "https://www.elections.ab.ca/uploads/2023-Provincial-General-Election-Statement-of-Vote.xlsx",
+      "boundaries": "https://www.elections.ab.ca/uploads/2019Boundaries_ED-Shapefiles.zip",
+      "history": "https://www.elections.ab.ca/elections/election-results/historical-results/"
+    }
+  },
+  "parties": {
+    "UCP": {
+      "name": "United Conservative Party",
+      "color": "#2365A0"
+    },
+    "NDP": {
+      "name": "Alberta New Democratic Party",
+      "color": "#E87524"
+    },
+    "LIB": {
+      "name": "Alberta Liberal Party",
+      "color": "#C93E49"
+    },
+    "GPA": {
+      "name": "Green Party of Alberta",
+      "color": "#378249"
+    },
+    "AP": {
+      "name": "Alberta Party",
+      "color": "#38A3B1"
+    },
+    "APA": {
+      "name": "Advantage Party of Alberta",
+      "color": "#64748B"
+    },
+    "CP-A": {
+      "name": "Communist Party \u2013 Alberta",
+      "color": "#9C3848"
+    },
+    "PAPA": {
+      "name": "Pro-Life Alberta Political Association",
+      "color": "#706296"
+    },
+    "REF": {
+      "name": "Reform Party",
+      "color": "#7C7851"
+    },
+    "SM": {
+      "name": "Solidarity Movement of Alberta",
+      "color": "#836C8C"
+    },
+    "BPA": {
+      "name": "The Buffalo Party of Alberta",
+      "color": "#76634D"
+    },
+    "TIP": {
+      "name": "The Independence Party of Alberta",
+      "color": "#7A8098"
+    },
+    "WIPA": {
+      "name": "Wildrose Independence Party of Alberta",
+      "color": "#6B8070"
+    },
+    "WLC": {
+      "name": "Wildrose Loyalty Coalition",
+      "color": "#877566"
+    },
+    "IND": {
+      "name": "Independent candidates",
+      "color": "#808080"
+    }
+  },
+  "ridings": [
+    {
+      "id": 47,
+      "name": "Airdrie-Cochrane",
+      "votes": {
+        "UCP": 18074,
+        "NDP": 11223,
+        "LIB": 0,
+        "GPA": 393,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 199,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 183,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 47,
+          "district": "Airdrie-Cochrane",
+          "candidate": "Michael Andrusco",
+          "party": "SM",
+          "votes": 199
+        },
+        {
+          "district_id": 47,
+          "district": "Airdrie-Cochrane",
+          "candidate": "Shaun Fluker",
+          "party": "NDP",
+          "votes": 11223
+        },
+        {
+          "district_id": 47,
+          "district": "Airdrie-Cochrane",
+          "candidate": "Michelle Overwater Giles",
+          "party": "GPA",
+          "votes": 393
+        },
+        {
+          "district_id": 47,
+          "district": "Airdrie-Cochrane",
+          "candidate": "Peter Guthrie",
+          "party": "UCP",
+          "votes": 18074
+        },
+        {
+          "district_id": 47,
+          "district": "Airdrie-Cochrane",
+          "candidate": "Ron Voss",
+          "party": "WLC",
+          "votes": 183
+        }
+      ],
+      "valid": 30072,
+      "ballots": 30285,
+      "registered": 45540,
+      "rejected": 201,
+      "declined": 12,
+      "unclassified": 0
+    },
+    {
+      "id": 48,
+      "name": "Airdrie-East",
+      "votes": {
+        "UCP": 15215,
+        "NDP": 8697,
+        "LIB": 0,
+        "GPA": 623,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 48,
+          "district": "Airdrie-East",
+          "candidate": "Michael Jacobsen",
+          "party": "GPA",
+          "votes": 623
+        },
+        {
+          "district_id": 48,
+          "district": "Airdrie-East",
+          "candidate": "Dan Nelles",
+          "party": "NDP",
+          "votes": 8697
+        },
+        {
+          "district_id": 48,
+          "district": "Airdrie-East",
+          "candidate": "Angela Pitt",
+          "party": "UCP",
+          "votes": 15215
+        }
+      ],
+      "valid": 24535,
+      "ballots": 24688,
+      "registered": 39931,
+      "rejected": 136,
+      "declined": 17,
+      "unclassified": 0
+    },
+    {
+      "id": 49,
+      "name": "Athabasca-Barrhead-Westlock",
+      "votes": {
+        "UCP": 15631,
+        "NDP": 5401,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 49,
+          "district": "Athabasca-Barrhead-Westlock",
+          "candidate": "Landen Tischer",
+          "party": "NDP",
+          "votes": 5401
+        },
+        {
+          "district_id": 49,
+          "district": "Athabasca-Barrhead-Westlock",
+          "candidate": "Glenn Van Dijken",
+          "party": "UCP",
+          "votes": 15631
+        }
+      ],
+      "valid": 21032,
+      "ballots": 21199,
+      "registered": 33815,
+      "rejected": 155,
+      "declined": 12,
+      "unclassified": 0
+    },
+    {
+      "id": 50,
+      "name": "Banff-Kananaskis",
+      "votes": {
+        "UCP": 11259,
+        "NDP": 11562,
+        "LIB": 0,
+        "GPA": 336,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 105,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 50,
+          "district": "Banff-Kananaskis",
+          "candidate": "Regan Boychuk",
+          "party": "GPA",
+          "votes": 336
+        },
+        {
+          "district_id": 50,
+          "district": "Banff-Kananaskis",
+          "candidate": "Sarah Elmeligi",
+          "party": "NDP",
+          "votes": 11562
+        },
+        {
+          "district_id": 50,
+          "district": "Banff-Kananaskis",
+          "candidate": "Kyle Jubb",
+          "party": "SM",
+          "votes": 105
+        },
+        {
+          "district_id": 50,
+          "district": "Banff-Kananaskis",
+          "candidate": "Miranda Rosin",
+          "party": "UCP",
+          "votes": 11259
+        }
+      ],
+      "valid": 23262,
+      "ballots": 23514,
+      "registered": 33971,
+      "rejected": 243,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 51,
+      "name": "Bonnyville-Cold Lake-St. Paul",
+      "votes": {
+        "UCP": 13315,
+        "NDP": 4327,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 51,
+          "district": "Bonnyville-Cold Lake-St. Paul",
+          "candidate": "Caitlyn Blake",
+          "party": "NDP",
+          "votes": 4327
+        },
+        {
+          "district_id": 51,
+          "district": "Bonnyville-Cold Lake-St. Paul",
+          "candidate": "Scott Cyr",
+          "party": "UCP",
+          "votes": 13315
+        }
+      ],
+      "valid": 17642,
+      "ballots": 17734,
+      "registered": 33533,
+      "rejected": 89,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 52,
+      "name": "Brooks-Medicine Hat",
+      "votes": {
+        "UCP": 13315,
+        "NDP": 5477,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 1233,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 52,
+          "district": "Brooks-Medicine Hat",
+          "candidate": "Gwendoline Dirk",
+          "party": "NDP",
+          "votes": 5477
+        },
+        {
+          "district_id": 52,
+          "district": "Brooks-Medicine Hat",
+          "candidate": "Barry Morishita",
+          "party": "AP",
+          "votes": 1233
+        },
+        {
+          "district_id": 52,
+          "district": "Brooks-Medicine Hat",
+          "candidate": "Danielle Smith",
+          "party": "UCP",
+          "votes": 13315
+        }
+      ],
+      "valid": 20025,
+      "ballots": 20117,
+      "registered": 34594,
+      "rejected": 89,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 1,
+      "name": "Calgary-Acadia",
+      "votes": {
+        "UCP": 10937,
+        "NDP": 10959,
+        "LIB": 0,
+        "GPA": 293,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 92,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 119,
+        "IND": 162
+      },
+      "candidates": [
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Diana Batten",
+          "party": "NDP",
+          "votes": 10959
+        },
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Paul Bechthold",
+          "party": "GPA",
+          "votes": 293
+        },
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Larry R. Heather",
+          "party": "IND",
+          "votes": 162
+        },
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Linda McClelland",
+          "party": "SM",
+          "votes": 92
+        },
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Donna Kathleen Scott",
+          "party": "WLC",
+          "votes": 119
+        },
+        {
+          "district_id": 1,
+          "district": "Calgary-Acadia",
+          "candidate": "Tyler Shandro",
+          "party": "UCP",
+          "votes": 10937
+        }
+      ],
+      "valid": 22562,
+      "ballots": 22728,
+      "registered": 34828,
+      "rejected": 156,
+      "declined": 10,
+      "unclassified": 0
+    },
+    {
+      "id": 2,
+      "name": "Calgary-Beddington",
+      "votes": {
+        "UCP": 9726,
+        "NDP": 10269,
+        "LIB": 210,
+        "GPA": 0,
+        "AP": 473,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 2,
+          "district": "Calgary-Beddington",
+          "candidate": "Amanda Chapman",
+          "party": "NDP",
+          "votes": 10269
+        },
+        {
+          "district_id": 2,
+          "district": "Calgary-Beddington",
+          "candidate": "Wayne Jackson",
+          "party": "AP",
+          "votes": 473
+        },
+        {
+          "district_id": 2,
+          "district": "Calgary-Beddington",
+          "candidate": "Josephine Pon",
+          "party": "UCP",
+          "votes": 9726
+        },
+        {
+          "district_id": 2,
+          "district": "Calgary-Beddington",
+          "candidate": "Zarnab Shahid Zafar",
+          "party": "LIB",
+          "votes": 210
+        }
+      ],
+      "valid": 20678,
+      "ballots": 20820,
+      "registered": 34507,
+      "rejected": 131,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 17,
+      "name": "Calgary-Bhullar-McCall",
+      "votes": {
+        "UCP": 5261,
+        "NDP": 7265,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 17,
+          "district": "Calgary-Bhullar-McCall",
+          "candidate": "Amanpreet Singh Gill",
+          "party": "UCP",
+          "votes": 5261
+        },
+        {
+          "district_id": 17,
+          "district": "Calgary-Bhullar-McCall",
+          "candidate": "Irfan Sabir",
+          "party": "NDP",
+          "votes": 7265
+        }
+      ],
+      "valid": 12526,
+      "ballots": 12628,
+      "registered": 23457,
+      "rejected": 96,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 3,
+      "name": "Calgary-Bow",
+      "votes": {
+        "UCP": 13175,
+        "NDP": 12552,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 670,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 89,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 3,
+          "district": "Calgary-Bow",
+          "candidate": "Druh Farrell",
+          "party": "NDP",
+          "votes": 12552
+        },
+        {
+          "district_id": 3,
+          "district": "Calgary-Bow",
+          "candidate": "Paul Godard",
+          "party": "AP",
+          "votes": 670
+        },
+        {
+          "district_id": 3,
+          "district": "Calgary-Bow",
+          "candidate": "Demetrios Nicolaides",
+          "party": "UCP",
+          "votes": 13175
+        },
+        {
+          "district_id": 3,
+          "district": "Calgary-Bow",
+          "candidate": "Manuel Santos",
+          "party": "SM",
+          "votes": 89
+        }
+      ],
+      "valid": 26486,
+      "ballots": 26676,
+      "registered": 39963,
+      "rejected": 179,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 4,
+      "name": "Calgary-Buffalo",
+      "votes": {
+        "UCP": 7292,
+        "NDP": 13221,
+        "LIB": 0,
+        "GPA": 349,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 125,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 4,
+          "district": "Calgary-Buffalo",
+          "candidate": "Joe Ceci",
+          "party": "NDP",
+          "votes": 13221
+        },
+        {
+          "district_id": 4,
+          "district": "Calgary-Buffalo",
+          "candidate": "Lona Henry",
+          "party": "SM",
+          "votes": 125
+        },
+        {
+          "district_id": 4,
+          "district": "Calgary-Buffalo",
+          "candidate": "Astrid Kuhn",
+          "party": "UCP",
+          "votes": 7292
+        },
+        {
+          "district_id": 4,
+          "district": "Calgary-Buffalo",
+          "candidate": "Jonathan Parks",
+          "party": "GPA",
+          "votes": 349
+        }
+      ],
+      "valid": 20987,
+      "ballots": 21237,
+      "registered": 36266,
+      "rejected": 241,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 5,
+      "name": "Calgary-Cross",
+      "votes": {
+        "UCP": 7533,
+        "NDP": 7019,
+        "LIB": 0,
+        "GPA": 254,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 202,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 5,
+          "district": "Calgary-Cross",
+          "candidate": "Mickey Amery",
+          "party": "UCP",
+          "votes": 7533
+        },
+        {
+          "district_id": 5,
+          "district": "Calgary-Cross",
+          "candidate": "Gurinder Singh Gill",
+          "party": "NDP",
+          "votes": 7019
+        },
+        {
+          "district_id": 5,
+          "district": "Calgary-Cross",
+          "candidate": "Kathryn Lapp",
+          "party": "SM",
+          "votes": 202
+        },
+        {
+          "district_id": 5,
+          "district": "Calgary-Cross",
+          "candidate": "Aman Sandhu",
+          "party": "GPA",
+          "votes": 254
+        }
+      ],
+      "valid": 15008,
+      "ballots": 15138,
+      "registered": 30000,
+      "rejected": 124,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 6,
+      "name": "Calgary-Currie",
+      "votes": {
+        "UCP": 9181,
+        "NDP": 12261,
+        "LIB": 216,
+        "GPA": 222,
+        "AP": 409,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 83,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Jason Avramenko",
+          "party": "AP",
+          "votes": 409
+        },
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Janet Eremenko",
+          "party": "NDP",
+          "votes": 12261
+        },
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Leila Keith",
+          "party": "LIB",
+          "votes": 216
+        },
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Nicholas Milliken",
+          "party": "UCP",
+          "votes": 9181
+        },
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Dawid Pawlowski",
+          "party": "SM",
+          "votes": 83
+        },
+        {
+          "district_id": 6,
+          "district": "Calgary-Currie",
+          "candidate": "Lane Robson",
+          "party": "GPA",
+          "votes": 222
+        }
+      ],
+      "valid": 22372,
+      "ballots": 22570,
+      "registered": 35379,
+      "rejected": 191,
+      "declined": 7,
+      "unclassified": 0
+    },
+    {
+      "id": 7,
+      "name": "Calgary-East",
+      "votes": {
+        "UCP": 7123,
+        "NDP": 6425,
+        "LIB": 0,
+        "GPA": 403,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 64,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 166,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 7,
+          "district": "Calgary-East",
+          "candidate": "Jayden Baldonado",
+          "party": "GPA",
+          "votes": 403
+        },
+        {
+          "district_id": 7,
+          "district": "Calgary-East",
+          "candidate": "Garry Dirk",
+          "party": "SM",
+          "votes": 166
+        },
+        {
+          "district_id": 7,
+          "district": "Calgary-East",
+          "candidate": "Peter Singh",
+          "party": "UCP",
+          "votes": 7123
+        },
+        {
+          "district_id": 7,
+          "district": "Calgary-East",
+          "candidate": "Jonathan Trautman",
+          "party": "CP-A",
+          "votes": 64
+        },
+        {
+          "district_id": 7,
+          "district": "Calgary-East",
+          "candidate": "Rosman Valencia",
+          "party": "NDP",
+          "votes": 6425
+        }
+      ],
+      "valid": 14181,
+      "ballots": 14322,
+      "registered": 31715,
+      "rejected": 137,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 8,
+      "name": "Calgary-Edgemont",
+      "votes": {
+        "UCP": 11397,
+        "NDP": 11681,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 488,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 64,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 66,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 8,
+          "district": "Calgary-Edgemont",
+          "candidate": "Nan Barron",
+          "party": "WLC",
+          "votes": 66
+        },
+        {
+          "district_id": 8,
+          "district": "Calgary-Edgemont",
+          "candidate": "Julia Hayter",
+          "party": "NDP",
+          "votes": 11681
+        },
+        {
+          "district_id": 8,
+          "district": "Calgary-Edgemont",
+          "candidate": "Prasad Panda",
+          "party": "UCP",
+          "votes": 11397
+        },
+        {
+          "district_id": 8,
+          "district": "Calgary-Edgemont",
+          "candidate": "Allen Schultz",
+          "party": "AP",
+          "votes": 488
+        },
+        {
+          "district_id": 8,
+          "district": "Calgary-Edgemont",
+          "candidate": "Miles Williams",
+          "party": "SM",
+          "votes": 64
+        }
+      ],
+      "valid": 23696,
+      "ballots": 23880,
+      "registered": 36134,
+      "rejected": 178,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 9,
+      "name": "Calgary-Elbow",
+      "votes": {
+        "UCP": 11446,
+        "NDP": 12189,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 1136,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 99,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 9,
+          "district": "Calgary-Elbow",
+          "candidate": "Kerry Cundal",
+          "party": "AP",
+          "votes": 1136
+        },
+        {
+          "district_id": 9,
+          "district": "Calgary-Elbow",
+          "candidate": "Chris Davis",
+          "party": "UCP",
+          "votes": 11446
+        },
+        {
+          "district_id": 9,
+          "district": "Calgary-Elbow",
+          "candidate": "Samir Kayande",
+          "party": "NDP",
+          "votes": 12189
+        },
+        {
+          "district_id": 9,
+          "district": "Calgary-Elbow",
+          "candidate": "Artur Pawlowski",
+          "party": "SM",
+          "votes": 99
+        }
+      ],
+      "valid": 24870,
+      "ballots": 25090,
+      "registered": 36337,
+      "rejected": 215,
+      "declined": 5,
+      "unclassified": 0
+    },
+    {
+      "id": 10,
+      "name": "Calgary-Falconridge",
+      "votes": {
+        "UCP": 5476,
+        "NDP": 7786,
+        "LIB": 0,
+        "GPA": 203,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 91,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 252
+      },
+      "candidates": [
+        {
+          "district_id": 10,
+          "district": "Calgary-Falconridge",
+          "candidate": "Parmeet Singh Boparai",
+          "party": "NDP",
+          "votes": 7786
+        },
+        {
+          "district_id": 10,
+          "district": "Calgary-Falconridge",
+          "candidate": "Ahmed Hassan",
+          "party": "GPA",
+          "votes": 203
+        },
+        {
+          "district_id": 10,
+          "district": "Calgary-Falconridge",
+          "candidate": "Kyle Kennedy",
+          "party": "IND",
+          "votes": 252
+        },
+        {
+          "district_id": 10,
+          "district": "Calgary-Falconridge",
+          "candidate": "Devinder Toor",
+          "party": "UCP",
+          "votes": 5476
+        },
+        {
+          "district_id": 10,
+          "district": "Calgary-Falconridge",
+          "candidate": "Evan Wilson",
+          "party": "SM",
+          "votes": 91
+        }
+      ],
+      "valid": 13808,
+      "ballots": 13917,
+      "registered": 28473,
+      "rejected": 106,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 11,
+      "name": "Calgary-Fish Creek",
+      "votes": {
+        "UCP": 13743,
+        "NDP": 11254,
+        "LIB": 378,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 186,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 11,
+          "district": "Calgary-Fish Creek",
+          "candidate": "Rebecca Bounsall",
+          "party": "NDP",
+          "votes": 11254
+        },
+        {
+          "district_id": 11,
+          "district": "Calgary-Fish Creek",
+          "candidate": "Charlie Heater",
+          "party": "LIB",
+          "votes": 378
+        },
+        {
+          "district_id": 11,
+          "district": "Calgary-Fish Creek",
+          "candidate": "Dave Hughes",
+          "party": "SM",
+          "votes": 186
+        },
+        {
+          "district_id": 11,
+          "district": "Calgary-Fish Creek",
+          "candidate": "Myles McDougall",
+          "party": "UCP",
+          "votes": 13743
+        }
+      ],
+      "valid": 25561,
+      "ballots": 25756,
+      "registered": 36692,
+      "rejected": 191,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 12,
+      "name": "Calgary-Foothills",
+      "votes": {
+        "UCP": 10793,
+        "NDP": 11054,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 105,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 190
+      },
+      "candidates": [
+        {
+          "district_id": 12,
+          "district": "Calgary-Foothills",
+          "candidate": "Kami Dass",
+          "party": "SM",
+          "votes": 105
+        },
+        {
+          "district_id": 12,
+          "district": "Calgary-Foothills",
+          "candidate": "Keenan Demontigny",
+          "party": "IND",
+          "votes": 190
+        },
+        {
+          "district_id": 12,
+          "district": "Calgary-Foothills",
+          "candidate": "Court Ellingson",
+          "party": "NDP",
+          "votes": 11054
+        },
+        {
+          "district_id": 12,
+          "district": "Calgary-Foothills",
+          "candidate": "Jason Luan",
+          "party": "UCP",
+          "votes": 10793
+        }
+      ],
+      "valid": 22142,
+      "ballots": 22304,
+      "registered": 36176,
+      "rejected": 154,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 13,
+      "name": "Calgary-Glenmore",
+      "votes": {
+        "UCP": 12639,
+        "NDP": 12687,
+        "LIB": 0,
+        "GPA": 422,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 13,
+          "district": "Calgary-Glenmore",
+          "candidate": "Nagwan Al-Guneid",
+          "party": "NDP",
+          "votes": 12687
+        },
+        {
+          "district_id": 13,
+          "district": "Calgary-Glenmore",
+          "candidate": "Whitney Issik",
+          "party": "UCP",
+          "votes": 12639
+        },
+        {
+          "district_id": 13,
+          "district": "Calgary-Glenmore",
+          "candidate": "Steven Maffioli",
+          "party": "GPA",
+          "votes": 422
+        }
+      ],
+      "valid": 25748,
+      "ballots": 26000,
+      "registered": 37042,
+      "rejected": 224,
+      "declined": 28,
+      "unclassified": 0
+    },
+    {
+      "id": 14,
+      "name": "Calgary-Hays",
+      "votes": {
+        "UCP": 11807,
+        "NDP": 8987,
+        "LIB": 0,
+        "GPA": 321,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 118,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 14,
+          "district": "Calgary-Hays",
+          "candidate": "Garry Leonhardt",
+          "party": "SM",
+          "votes": 118
+        },
+        {
+          "district_id": 14,
+          "district": "Calgary-Hays",
+          "candidate": "Richard William (Ric) McIver",
+          "party": "UCP",
+          "votes": 11807
+        },
+        {
+          "district_id": 14,
+          "district": "Calgary-Hays",
+          "candidate": "Andrew Stewart",
+          "party": "NDP",
+          "votes": 8987
+        },
+        {
+          "district_id": 14,
+          "district": "Calgary-Hays",
+          "candidate": "Evelyn Tanaka",
+          "party": "GPA",
+          "votes": 321
+        }
+      ],
+      "valid": 21233,
+      "ballots": 21366,
+      "registered": 35009,
+      "rejected": 122,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 15,
+      "name": "Calgary-Klein",
+      "votes": {
+        "UCP": 9697,
+        "NDP": 10564,
+        "LIB": 0,
+        "GPA": 353,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 153,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 15,
+          "district": "Calgary-Klein",
+          "candidate": "Kenneth Drysdale",
+          "party": "GPA",
+          "votes": 353
+        },
+        {
+          "district_id": 15,
+          "district": "Calgary-Klein",
+          "candidate": "Jeremy Nixon",
+          "party": "UCP",
+          "votes": 9697
+        },
+        {
+          "district_id": 15,
+          "district": "Calgary-Klein",
+          "candidate": "Rob Oswin",
+          "party": "SM",
+          "votes": 153
+        },
+        {
+          "district_id": 15,
+          "district": "Calgary-Klein",
+          "candidate": "Lizette Tejada",
+          "party": "NDP",
+          "votes": 10564
+        }
+      ],
+      "valid": 20767,
+      "ballots": 20940,
+      "registered": 34620,
+      "rejected": 161,
+      "declined": 12,
+      "unclassified": 0
+    },
+    {
+      "id": 16,
+      "name": "Calgary-Lougheed",
+      "votes": {
+        "UCP": 9690,
+        "NDP": 6924,
+        "LIB": 369,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 184,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 16,
+          "district": "Calgary-Lougheed",
+          "candidate": "Eric Bouchard",
+          "party": "UCP",
+          "votes": 9690
+        },
+        {
+          "district_id": 16,
+          "district": "Calgary-Lougheed",
+          "candidate": "Nathaniel Pawlowski",
+          "party": "SM",
+          "votes": 184
+        },
+        {
+          "district_id": 16,
+          "district": "Calgary-Lougheed",
+          "candidate": "Venkat Ravulaparthi",
+          "party": "NDP",
+          "votes": 6924
+        },
+        {
+          "district_id": 16,
+          "district": "Calgary-Lougheed",
+          "candidate": "John Roggeveen",
+          "party": "LIB",
+          "votes": 369
+        }
+      ],
+      "valid": 17167,
+      "ballots": 17309,
+      "registered": 28484,
+      "rejected": 139,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 18,
+      "name": "Calgary-Mountain View",
+      "votes": {
+        "UCP": 8468,
+        "NDP": 16516,
+        "LIB": 335,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 90,
+        "REF": 0,
+        "SM": 119,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 18,
+          "district": "Calgary-Mountain View",
+          "candidate": "Kathleen Ganley",
+          "party": "NDP",
+          "votes": 16516
+        },
+        {
+          "district_id": 18,
+          "district": "Calgary-Mountain View",
+          "candidate": "Lucas Hernandez",
+          "party": "PAPA",
+          "votes": 90
+        },
+        {
+          "district_id": 18,
+          "district": "Calgary-Mountain View",
+          "candidate": "Pamela Rath",
+          "party": "UCP",
+          "votes": 8468
+        },
+        {
+          "district_id": 18,
+          "district": "Calgary-Mountain View",
+          "candidate": "Christopher Wedick",
+          "party": "SM",
+          "votes": 119
+        },
+        {
+          "district_id": 18,
+          "district": "Calgary-Mountain View",
+          "candidate": "Frances Woytkiw",
+          "party": "LIB",
+          "votes": 335
+        }
+      ],
+      "valid": 25528,
+      "ballots": 25779,
+      "registered": 38359,
+      "rejected": 243,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 19,
+      "name": "Calgary-North",
+      "votes": {
+        "UCP": 7927,
+        "NDP": 7798,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 19,
+          "district": "Calgary-North",
+          "candidate": "Rajesh Angral",
+          "party": "NDP",
+          "votes": 7798
+        },
+        {
+          "district_id": 19,
+          "district": "Calgary-North",
+          "candidate": "Muhammad Yaseen",
+          "party": "UCP",
+          "votes": 7927
+        }
+      ],
+      "valid": 15725,
+      "ballots": 15839,
+      "registered": 27890,
+      "rejected": 106,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 20,
+      "name": "Calgary-North East",
+      "votes": {
+        "UCP": 9078,
+        "NDP": 11117,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 20,
+          "district": "Calgary-North East",
+          "candidate": "Gurinder Brar",
+          "party": "NDP",
+          "votes": 11117
+        },
+        {
+          "district_id": 20,
+          "district": "Calgary-North East",
+          "candidate": "Inder Grewal",
+          "party": "UCP",
+          "votes": 9078
+        }
+      ],
+      "valid": 20195,
+      "ballots": 20342,
+      "registered": 35035,
+      "rejected": 142,
+      "declined": 5,
+      "unclassified": 0
+    },
+    {
+      "id": 21,
+      "name": "Calgary-North West",
+      "votes": {
+        "UCP": 11921,
+        "NDP": 11778,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 778,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 45,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 153
+      },
+      "candidates": [
+        {
+          "district_id": 21,
+          "district": "Calgary-North West",
+          "candidate": "Alain Habel",
+          "party": "SM",
+          "votes": 45
+        },
+        {
+          "district_id": 21,
+          "district": "Calgary-North West",
+          "candidate": "Michael Lisboa-Smith",
+          "party": "NDP",
+          "votes": 11778
+        },
+        {
+          "district_id": 21,
+          "district": "Calgary-North West",
+          "candidate": "Rajan Sawhney",
+          "party": "UCP",
+          "votes": 11921
+        },
+        {
+          "district_id": 21,
+          "district": "Calgary-North West",
+          "candidate": "Serena Thomsen",
+          "party": "IND",
+          "votes": 153
+        },
+        {
+          "district_id": 21,
+          "district": "Calgary-North West",
+          "candidate": "Jenny Yeremiy",
+          "party": "AP",
+          "votes": 778
+        }
+      ],
+      "valid": 24675,
+      "ballots": 24822,
+      "registered": 35595,
+      "rejected": 138,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 22,
+      "name": "Calgary-Peigan",
+      "votes": {
+        "UCP": 11892,
+        "NDP": 9095,
+        "LIB": 0,
+        "GPA": 626,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 22,
+          "district": "Calgary-Peigan",
+          "candidate": "Tanya Fir",
+          "party": "UCP",
+          "votes": 11892
+        },
+        {
+          "district_id": 22,
+          "district": "Calgary-Peigan",
+          "candidate": "Shaun Pulsifer",
+          "party": "GPA",
+          "votes": 626
+        },
+        {
+          "district_id": 22,
+          "district": "Calgary-Peigan",
+          "candidate": "Denis Ram",
+          "party": "NDP",
+          "votes": 9095
+        }
+      ],
+      "valid": 21613,
+      "ballots": 21752,
+      "registered": 34455,
+      "rejected": 130,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 23,
+      "name": "Calgary-Shaw",
+      "votes": {
+        "UCP": 13970,
+        "NDP": 10591,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 236,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 23,
+          "district": "Calgary-Shaw",
+          "candidate": "Pietro Cervo",
+          "party": "SM",
+          "votes": 236
+        },
+        {
+          "district_id": 23,
+          "district": "Calgary-Shaw",
+          "candidate": "David Cloutier",
+          "party": "NDP",
+          "votes": 10591
+        },
+        {
+          "district_id": 23,
+          "district": "Calgary-Shaw",
+          "candidate": "Rebecca Schulz",
+          "party": "UCP",
+          "votes": 13970
+        }
+      ],
+      "valid": 24797,
+      "ballots": 25000,
+      "registered": 39464,
+      "rejected": 177,
+      "declined": 26,
+      "unclassified": 0
+    },
+    {
+      "id": 24,
+      "name": "Calgary-South East",
+      "votes": {
+        "UCP": 14087,
+        "NDP": 9442,
+        "LIB": 0,
+        "GPA": 318,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 104,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 24,
+          "district": "Calgary-South East",
+          "candidate": "Heinrich Friesen",
+          "party": "SM",
+          "votes": 104
+        },
+        {
+          "district_id": 24,
+          "district": "Calgary-South East",
+          "candidate": "Justin Huseby",
+          "party": "NDP",
+          "votes": 9442
+        },
+        {
+          "district_id": 24,
+          "district": "Calgary-South East",
+          "candidate": "Matt Jones",
+          "party": "UCP",
+          "votes": 14087
+        },
+        {
+          "district_id": 24,
+          "district": "Calgary-South East",
+          "candidate": "Catriona Wright",
+          "party": "GPA",
+          "votes": 318
+        }
+      ],
+      "valid": 23951,
+      "ballots": 24097,
+      "registered": 38310,
+      "rejected": 142,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 25,
+      "name": "Calgary-Varsity",
+      "votes": {
+        "UCP": 9377,
+        "NDP": 13449,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 112,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 141,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 25,
+          "district": "Calgary-Varsity",
+          "candidate": "Jason Copping",
+          "party": "UCP",
+          "votes": 9377
+        },
+        {
+          "district_id": 25,
+          "district": "Calgary-Varsity",
+          "candidate": "Oaklan Davidsen",
+          "party": "WLC",
+          "votes": 141
+        },
+        {
+          "district_id": 25,
+          "district": "Calgary-Varsity",
+          "candidate": "Kent Liang",
+          "party": "SM",
+          "votes": 112
+        },
+        {
+          "district_id": 25,
+          "district": "Calgary-Varsity",
+          "candidate": "Luanne Metz",
+          "party": "NDP",
+          "votes": 13449
+        }
+      ],
+      "valid": 23079,
+      "ballots": 23322,
+      "registered": 32692,
+      "rejected": 233,
+      "declined": 10,
+      "unclassified": 0
+    },
+    {
+      "id": 26,
+      "name": "Calgary-West",
+      "votes": {
+        "UCP": 12793,
+        "NDP": 9468,
+        "LIB": 0,
+        "GPA": 313,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 26,
+          "district": "Calgary-West",
+          "candidate": "Joan Chand'oiseau",
+          "party": "NDP",
+          "votes": 9468
+        },
+        {
+          "district_id": 26,
+          "district": "Calgary-West",
+          "candidate": "Mike Ellis",
+          "party": "UCP",
+          "votes": 12793
+        },
+        {
+          "district_id": 26,
+          "district": "Calgary-West",
+          "candidate": "Jason McKee",
+          "party": "GPA",
+          "votes": 313
+        }
+      ],
+      "valid": 22574,
+      "ballots": 22767,
+      "registered": 34156,
+      "rejected": 179,
+      "declined": 14,
+      "unclassified": 0
+    },
+    {
+      "id": 53,
+      "name": "Camrose",
+      "votes": {
+        "UCP": 13032,
+        "NDP": 5579,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 205,
+        "IND": 1740
+      },
+      "candidates": [
+        {
+          "district_id": 53,
+          "district": "Camrose",
+          "candidate": "Bob Blayone",
+          "party": "IND",
+          "votes": 1740
+        },
+        {
+          "district_id": 53,
+          "district": "Camrose",
+          "candidate": "Richard Bruneau",
+          "party": "NDP",
+          "votes": 5579
+        },
+        {
+          "district_id": 53,
+          "district": "Camrose",
+          "candidate": "Pamela Henson",
+          "party": "WLC",
+          "votes": 205
+        },
+        {
+          "district_id": 53,
+          "district": "Camrose",
+          "candidate": "Jackie Lovely",
+          "party": "UCP",
+          "votes": 13032
+        }
+      ],
+      "valid": 20556,
+      "ballots": 20652,
+      "registered": 32649,
+      "rejected": 83,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 54,
+      "name": "Cardston-Siksika",
+      "votes": {
+        "UCP": 10550,
+        "NDP": 2527,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 35,
+        "BPA": 0,
+        "TIP": 251,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 871
+      },
+      "candidates": [
+        {
+          "district_id": 54,
+          "district": "Cardston-Siksika",
+          "candidate": "Colleen Quintal",
+          "party": "NDP",
+          "votes": 2527
+        },
+        {
+          "district_id": 54,
+          "district": "Cardston-Siksika",
+          "candidate": "Joseph Schow",
+          "party": "UCP",
+          "votes": 10550
+        },
+        {
+          "district_id": 54,
+          "district": "Cardston-Siksika",
+          "candidate": "Angela Tabak",
+          "party": "IND",
+          "votes": 871
+        },
+        {
+          "district_id": 54,
+          "district": "Cardston-Siksika",
+          "candidate": "P\u00e4r Wantenaar",
+          "party": "SM",
+          "votes": 35
+        },
+        {
+          "district_id": 54,
+          "district": "Cardston-Siksika",
+          "candidate": "Terry Wolsey",
+          "party": "TIP",
+          "votes": 251
+        }
+      ],
+      "valid": 14234,
+      "ballots": 14298,
+      "registered": 25472,
+      "rejected": 57,
+      "declined": 7,
+      "unclassified": 0
+    },
+    {
+      "id": 55,
+      "name": "Central Peace-Notley",
+      "votes": {
+        "UCP": 9280,
+        "NDP": 2216,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 166,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 46,
+        "BPA": 0,
+        "TIP": 238,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 55,
+          "district": "Central Peace-Notley",
+          "candidate": "Rodney Bowen",
+          "party": "TIP",
+          "votes": 238
+        },
+        {
+          "district_id": 55,
+          "district": "Central Peace-Notley",
+          "candidate": "Megan Ciurysek",
+          "party": "NDP",
+          "votes": 2216
+        },
+        {
+          "district_id": 55,
+          "district": "Central Peace-Notley",
+          "candidate": "Lynn Lekisch",
+          "party": "AP",
+          "votes": 166
+        },
+        {
+          "district_id": 55,
+          "district": "Central Peace-Notley",
+          "candidate": "Todd Loewen",
+          "party": "UCP",
+          "votes": 9280
+        },
+        {
+          "district_id": 55,
+          "district": "Central Peace-Notley",
+          "candidate": "Nancy O'Neill",
+          "party": "SM",
+          "votes": 46
+        }
+      ],
+      "valid": 11946,
+      "ballots": 12016,
+      "registered": 19380,
+      "rejected": 63,
+      "declined": 7,
+      "unclassified": 0
+    },
+    {
+      "id": 56,
+      "name": "Chestermere-Strathmore",
+      "votes": {
+        "UCP": 15362,
+        "NDP": 6119,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 45,
+        "BPA": 0,
+        "TIP": 264,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 258
+      },
+      "candidates": [
+        {
+          "district_id": 56,
+          "district": "Chestermere-Strathmore",
+          "candidate": "Chantelle De Jonge",
+          "party": "UCP",
+          "votes": 15362
+        },
+        {
+          "district_id": 56,
+          "district": "Chestermere-Strathmore",
+          "candidate": "Raj Jessel",
+          "party": "NDP",
+          "votes": 6119
+        },
+        {
+          "district_id": 56,
+          "district": "Chestermere-Strathmore",
+          "candidate": "Jed Laboucane",
+          "party": "SM",
+          "votes": 45
+        },
+        {
+          "district_id": 56,
+          "district": "Chestermere-Strathmore",
+          "candidate": "Kerry Lambert",
+          "party": "TIP",
+          "votes": 264
+        },
+        {
+          "district_id": 56,
+          "district": "Chestermere-Strathmore",
+          "candidate": "Terry Nicholls",
+          "party": "IND",
+          "votes": 258
+        }
+      ],
+      "valid": 22048,
+      "ballots": 22206,
+      "registered": 37715,
+      "rejected": 133,
+      "declined": 25,
+      "unclassified": 0
+    },
+    {
+      "id": 57,
+      "name": "Cypress-Medicine Hat",
+      "votes": {
+        "UCP": 13489,
+        "NDP": 7697,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 287,
+        "WIPA": 0,
+        "WLC": 322,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 57,
+          "district": "Cypress-Medicine Hat",
+          "candidate": "Cody Ray Both",
+          "party": "TIP",
+          "votes": 287
+        },
+        {
+          "district_id": 57,
+          "district": "Cypress-Medicine Hat",
+          "candidate": "Cathy Hogg",
+          "party": "NDP",
+          "votes": 7697
+        },
+        {
+          "district_id": 57,
+          "district": "Cypress-Medicine Hat",
+          "candidate": "Matt Orr",
+          "party": "WLC",
+          "votes": 322
+        },
+        {
+          "district_id": 57,
+          "district": "Cypress-Medicine Hat",
+          "candidate": "Justin Wright",
+          "party": "UCP",
+          "votes": 13489
+        }
+      ],
+      "valid": 21795,
+      "ballots": 21917,
+      "registered": 38036,
+      "rejected": 120,
+      "declined": 2,
+      "unclassified": 0
+    },
+    {
+      "id": 58,
+      "name": "Drayton Valley-Devon",
+      "votes": {
+        "UCP": 16532,
+        "NDP": 5009,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 189,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 121,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 580,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 58,
+          "district": "Drayton Valley-Devon",
+          "candidate": "Andrew Boitchenko",
+          "party": "UCP",
+          "votes": 16532
+        },
+        {
+          "district_id": 58,
+          "district": "Drayton Valley-Devon",
+          "candidate": "Jon Hokanson",
+          "party": "WLC",
+          "votes": 580
+        },
+        {
+          "district_id": 58,
+          "district": "Drayton Valley-Devon",
+          "candidate": "Harry Singh",
+          "party": "NDP",
+          "votes": 5009
+        },
+        {
+          "district_id": 58,
+          "district": "Drayton Valley-Devon",
+          "candidate": "Gail Tookey",
+          "party": "SM",
+          "votes": 121
+        },
+        {
+          "district_id": 58,
+          "district": "Drayton Valley-Devon",
+          "candidate": "Dale Withers",
+          "party": "APA",
+          "votes": 189
+        }
+      ],
+      "valid": 22431,
+      "ballots": 22562,
+      "registered": 35643,
+      "rejected": 120,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 59,
+      "name": "Drumheller-Stettler",
+      "votes": {
+        "UCP": 15270,
+        "NDP": 2684,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 104,
+        "BPA": 0,
+        "TIP": 382,
+        "WIPA": 0,
+        "WLC": 150,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 59,
+          "district": "Drumheller-Stettler",
+          "candidate": "Carla Evers",
+          "party": "SM",
+          "votes": 104
+        },
+        {
+          "district_id": 59,
+          "district": "Drumheller-Stettler",
+          "candidate": "Juliet Franklin",
+          "party": "NDP",
+          "votes": 2684
+        },
+        {
+          "district_id": 59,
+          "district": "Drumheller-Stettler",
+          "candidate": "Nate Horner",
+          "party": "UCP",
+          "votes": 15270
+        },
+        {
+          "district_id": 59,
+          "district": "Drumheller-Stettler",
+          "candidate": "Shannon Packham",
+          "party": "TIP",
+          "votes": 382
+        },
+        {
+          "district_id": 59,
+          "district": "Drumheller-Stettler",
+          "candidate": "Hannah Stretch Viens",
+          "party": "WLC",
+          "votes": 150
+        }
+      ],
+      "valid": 18590,
+      "ballots": 18693,
+      "registered": 29549,
+      "rejected": 99,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 27,
+      "name": "Edmonton-Beverly-Clareview",
+      "votes": {
+        "UCP": 5690,
+        "NDP": 8510,
+        "LIB": 0,
+        "GPA": 337,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 222
+      },
+      "candidates": [
+        {
+          "district_id": 27,
+          "district": "Edmonton-Beverly-Clareview",
+          "candidate": "Andrzej (Andy) Gudanowski",
+          "party": "IND",
+          "votes": 222
+        },
+        {
+          "district_id": 27,
+          "district": "Edmonton-Beverly-Clareview",
+          "candidate": "Michael Hunter",
+          "party": "GPA",
+          "votes": 337
+        },
+        {
+          "district_id": 27,
+          "district": "Edmonton-Beverly-Clareview",
+          "candidate": "Luke Suvanto",
+          "party": "UCP",
+          "votes": 5690
+        },
+        {
+          "district_id": 27,
+          "district": "Edmonton-Beverly-Clareview",
+          "candidate": "Peggy Wright",
+          "party": "NDP",
+          "votes": 8510
+        }
+      ],
+      "valid": 14759,
+      "ballots": 14861,
+      "registered": 30219,
+      "rejected": 94,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 28,
+      "name": "Edmonton-Castle Downs",
+      "votes": {
+        "UCP": 7286,
+        "NDP": 10044,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 707,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 28,
+          "district": "Edmonton-Castle Downs",
+          "candidate": "Jon Dziadyk",
+          "party": "UCP",
+          "votes": 7286
+        },
+        {
+          "district_id": 28,
+          "district": "Edmonton-Castle Downs",
+          "candidate": "Nicole Goehring",
+          "party": "NDP",
+          "votes": 10044
+        },
+        {
+          "district_id": 28,
+          "district": "Edmonton-Castle Downs",
+          "candidate": "Patrick Stewart",
+          "party": "AP",
+          "votes": 707
+        }
+      ],
+      "valid": 18037,
+      "ballots": 18172,
+      "registered": 33723,
+      "rejected": 124,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 29,
+      "name": "Edmonton-City Centre",
+      "votes": {
+        "UCP": 3691,
+        "NDP": 12431,
+        "LIB": 0,
+        "GPA": 476,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 29,
+          "district": "Edmonton-City Centre",
+          "candidate": "David Clark",
+          "party": "GPA",
+          "votes": 476
+        },
+        {
+          "district_id": 29,
+          "district": "Edmonton-City Centre",
+          "candidate": "David Shepherd",
+          "party": "NDP",
+          "votes": 12431
+        },
+        {
+          "district_id": 29,
+          "district": "Edmonton-City Centre",
+          "candidate": "Richard Wong",
+          "party": "UCP",
+          "votes": 3691
+        }
+      ],
+      "valid": 16598,
+      "ballots": 16793,
+      "registered": 31736,
+      "rejected": 184,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 30,
+      "name": "Edmonton-Decore",
+      "votes": {
+        "UCP": 6326,
+        "NDP": 8109,
+        "LIB": 295,
+        "GPA": 0,
+        "AP": 631,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 30,
+          "district": "Edmonton-Decore",
+          "candidate": "Sayid Ahmed",
+          "party": "UCP",
+          "votes": 6326
+        },
+        {
+          "district_id": 30,
+          "district": "Edmonton-Decore",
+          "candidate": "Sharif Haji",
+          "party": "NDP",
+          "votes": 8109
+        },
+        {
+          "district_id": 30,
+          "district": "Edmonton-Decore",
+          "candidate": "Donald Slater",
+          "party": "LIB",
+          "votes": 295
+        },
+        {
+          "district_id": 30,
+          "district": "Edmonton-Decore",
+          "candidate": "Brent Tyson",
+          "party": "AP",
+          "votes": 631
+        }
+      ],
+      "valid": 15361,
+      "ballots": 15475,
+      "registered": 32339,
+      "rejected": 101,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 31,
+      "name": "Edmonton-Ellerslie",
+      "votes": {
+        "UCP": 6817,
+        "NDP": 11429,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 264,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 31,
+          "district": "Edmonton-Ellerslie",
+          "candidate": "R. Singh Bath",
+          "party": "UCP",
+          "votes": 6817
+        },
+        {
+          "district_id": 31,
+          "district": "Edmonton-Ellerslie",
+          "candidate": "Rod Loyola",
+          "party": "NDP",
+          "votes": 11429
+        },
+        {
+          "district_id": 31,
+          "district": "Edmonton-Ellerslie",
+          "candidate": "Angela Stretch",
+          "party": "WLC",
+          "votes": 264
+        }
+      ],
+      "valid": 18510,
+      "ballots": 18618,
+      "registered": 33278,
+      "rejected": 101,
+      "declined": 7,
+      "unclassified": 0
+    },
+    {
+      "id": 32,
+      "name": "Edmonton-Glenora",
+      "votes": {
+        "UCP": 5056,
+        "NDP": 12443,
+        "LIB": 0,
+        "GPA": 332,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 150,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 32,
+          "district": "Edmonton-Glenora",
+          "candidate": "David John Bohonos",
+          "party": "SM",
+          "votes": 150
+        },
+        {
+          "district_id": 32,
+          "district": "Edmonton-Glenora",
+          "candidate": "Melissa Crane",
+          "party": "UCP",
+          "votes": 5056
+        },
+        {
+          "district_id": 32,
+          "district": "Edmonton-Glenora",
+          "candidate": "Sarah Hoffman",
+          "party": "NDP",
+          "votes": 12443
+        },
+        {
+          "district_id": 32,
+          "district": "Edmonton-Glenora",
+          "candidate": "Julian Schulz",
+          "party": "GPA",
+          "votes": 332
+        }
+      ],
+      "valid": 17981,
+      "ballots": 18137,
+      "registered": 31754,
+      "rejected": 150,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 33,
+      "name": "Edmonton-Gold Bar",
+      "votes": {
+        "UCP": 6174,
+        "NDP": 15508,
+        "LIB": 0,
+        "GPA": 316,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 321
+      },
+      "candidates": [
+        {
+          "district_id": 33,
+          "district": "Edmonton-Gold Bar",
+          "candidate": "Miles Berry",
+          "party": "UCP",
+          "votes": 6174
+        },
+        {
+          "district_id": 33,
+          "district": "Edmonton-Gold Bar",
+          "candidate": "Graham Lettner",
+          "party": "IND",
+          "votes": 321
+        },
+        {
+          "district_id": 33,
+          "district": "Edmonton-Gold Bar",
+          "candidate": "Ernestina Malheiro",
+          "party": "GPA",
+          "votes": 316
+        },
+        {
+          "district_id": 33,
+          "district": "Edmonton-Gold Bar",
+          "candidate": "Marlin Schmidt",
+          "party": "NDP",
+          "votes": 15508
+        }
+      ],
+      "valid": 22319,
+      "ballots": 22463,
+      "registered": 34730,
+      "rejected": 128,
+      "declined": 16,
+      "unclassified": 0
+    },
+    {
+      "id": 34,
+      "name": "Edmonton-Highlands-Norwood",
+      "votes": {
+        "UCP": 3350,
+        "NDP": 9491,
+        "LIB": 0,
+        "GPA": 339,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 102,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 34,
+          "district": "Edmonton-Highlands-Norwood",
+          "candidate": "Janis Irwin",
+          "party": "NDP",
+          "votes": 9491
+        },
+        {
+          "district_id": 34,
+          "district": "Edmonton-Highlands-Norwood",
+          "candidate": "Nick Kalynchuk",
+          "party": "UCP",
+          "votes": 3350
+        },
+        {
+          "district_id": 34,
+          "district": "Edmonton-Highlands-Norwood",
+          "candidate": "Kristine Kowalchuk",
+          "party": "GPA",
+          "votes": 339
+        },
+        {
+          "district_id": 34,
+          "district": "Edmonton-Highlands-Norwood",
+          "candidate": "Naomi Rankin",
+          "party": "CP-A",
+          "votes": 102
+        }
+      ],
+      "valid": 13282,
+      "ballots": 13415,
+      "registered": 29003,
+      "rejected": 118,
+      "declined": 15,
+      "unclassified": 0
+    },
+    {
+      "id": 35,
+      "name": "Edmonton-Manning",
+      "votes": {
+        "UCP": 6769,
+        "NDP": 10547,
+        "LIB": 0,
+        "GPA": 333,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 35,
+          "district": "Edmonton-Manning",
+          "candidate": "Albert Mazzocca",
+          "party": "UCP",
+          "votes": 6769
+        },
+        {
+          "district_id": 35,
+          "district": "Edmonton-Manning",
+          "candidate": "Heather Sweet",
+          "party": "NDP",
+          "votes": 10547
+        },
+        {
+          "district_id": 35,
+          "district": "Edmonton-Manning",
+          "candidate": "Derek Thompson",
+          "party": "GPA",
+          "votes": 333
+        }
+      ],
+      "valid": 17649,
+      "ballots": 17780,
+      "registered": 34851,
+      "rejected": 123,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 36,
+      "name": "Edmonton-McClung",
+      "votes": {
+        "UCP": 6029,
+        "NDP": 9603,
+        "LIB": 0,
+        "GPA": 199,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 309
+      },
+      "candidates": [
+        {
+          "district_id": 36,
+          "district": "Edmonton-McClung",
+          "candidate": "Lorne Dach",
+          "party": "NDP",
+          "votes": 9603
+        },
+        {
+          "district_id": 36,
+          "district": "Edmonton-McClung",
+          "candidate": "Daniel Heikkinen",
+          "party": "UCP",
+          "votes": 6029
+        },
+        {
+          "district_id": 36,
+          "district": "Edmonton-McClung",
+          "candidate": "Andrew J. Lineker",
+          "party": "IND",
+          "votes": 309
+        },
+        {
+          "district_id": 36,
+          "district": "Edmonton-McClung",
+          "candidate": "Terry Syvenky",
+          "party": "GPA",
+          "votes": 199
+        }
+      ],
+      "valid": 16140,
+      "ballots": 16272,
+      "registered": 28275,
+      "rejected": 115,
+      "declined": 17,
+      "unclassified": 0
+    },
+    {
+      "id": 37,
+      "name": "Edmonton-Meadows",
+      "votes": {
+        "UCP": 6378,
+        "NDP": 11013,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 213,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 37,
+          "district": "Edmonton-Meadows",
+          "candidate": "Corinne Benson",
+          "party": "CP-A",
+          "votes": 213
+        },
+        {
+          "district_id": 37,
+          "district": "Edmonton-Meadows",
+          "candidate": "Jasvir Deol",
+          "party": "NDP",
+          "votes": 11013
+        },
+        {
+          "district_id": 37,
+          "district": "Edmonton-Meadows",
+          "candidate": "Amritpal Singh Matharu",
+          "party": "UCP",
+          "votes": 6378
+        }
+      ],
+      "valid": 17604,
+      "ballots": 17720,
+      "registered": 31983,
+      "rejected": 103,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 38,
+      "name": "Edmonton-Mill Woods",
+      "votes": {
+        "UCP": 6869,
+        "NDP": 11063,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 38,
+          "district": "Edmonton-Mill Woods",
+          "candidate": "Raman Athwal",
+          "party": "UCP",
+          "votes": 6869
+        },
+        {
+          "district_id": 38,
+          "district": "Edmonton-Mill Woods",
+          "candidate": "Christina Gray",
+          "party": "NDP",
+          "votes": 11063
+        }
+      ],
+      "valid": 17932,
+      "ballots": 18109,
+      "registered": 31598,
+      "rejected": 156,
+      "declined": 21,
+      "unclassified": 0
+    },
+    {
+      "id": 39,
+      "name": "Edmonton-North West",
+      "votes": {
+        "UCP": 6388,
+        "NDP": 9978,
+        "LIB": 0,
+        "GPA": 335,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 39,
+          "district": "Edmonton-North West",
+          "candidate": "Tyler Beaulac",
+          "party": "GPA",
+          "votes": 335
+        },
+        {
+          "district_id": 39,
+          "district": "Edmonton-North West",
+          "candidate": "David Eggen",
+          "party": "NDP",
+          "votes": 9978
+        },
+        {
+          "district_id": 39,
+          "district": "Edmonton-North West",
+          "candidate": "Ali Haymour",
+          "party": "UCP",
+          "votes": 6388
+        }
+      ],
+      "valid": 16701,
+      "ballots": 16846,
+      "registered": 31788,
+      "rejected": 134,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 40,
+      "name": "Edmonton-Riverview",
+      "votes": {
+        "UCP": 5564,
+        "NDP": 12875,
+        "LIB": 413,
+        "GPA": 347,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 40,
+          "district": "Edmonton-Riverview",
+          "candidate": "Eric Champagne",
+          "party": "LIB",
+          "votes": 413
+        },
+        {
+          "district_id": 40,
+          "district": "Edmonton-Riverview",
+          "candidate": "Robin George",
+          "party": "GPA",
+          "votes": 347
+        },
+        {
+          "district_id": 40,
+          "district": "Edmonton-Riverview",
+          "candidate": "Lori Sigurdson",
+          "party": "NDP",
+          "votes": 12875
+        },
+        {
+          "district_id": 40,
+          "district": "Edmonton-Riverview",
+          "candidate": "Terry Vankka",
+          "party": "UCP",
+          "votes": 5564
+        }
+      ],
+      "valid": 19199,
+      "ballots": 19384,
+      "registered": 30453,
+      "rejected": 180,
+      "declined": 5,
+      "unclassified": 0
+    },
+    {
+      "id": 41,
+      "name": "Edmonton-Rutherford",
+      "votes": {
+        "UCP": 6366,
+        "NDP": 13012,
+        "LIB": 0,
+        "GPA": 624,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 41,
+          "district": "Edmonton-Rutherford",
+          "candidate": "Jodi Calahoo Stonehouse",
+          "party": "NDP",
+          "votes": 13012
+        },
+        {
+          "district_id": 41,
+          "district": "Edmonton-Rutherford",
+          "candidate": "Laine Larson",
+          "party": "UCP",
+          "votes": 6366
+        },
+        {
+          "district_id": 41,
+          "district": "Edmonton-Rutherford",
+          "candidate": "Jordan Wilkie",
+          "party": "GPA",
+          "votes": 624
+        }
+      ],
+      "valid": 20002,
+      "ballots": 20152,
+      "registered": 31392,
+      "rejected": 137,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 42,
+      "name": "Edmonton-South",
+      "votes": {
+        "UCP": 9492,
+        "NDP": 14171,
+        "LIB": 0,
+        "GPA": 369,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 42,
+          "district": "Edmonton-South",
+          "candidate": "Joseph Angeles",
+          "party": "UCP",
+          "votes": 9492
+        },
+        {
+          "district_id": 42,
+          "district": "Edmonton-South",
+          "candidate": "Chryssy Beckmann",
+          "party": "GPA",
+          "votes": 369
+        },
+        {
+          "district_id": 42,
+          "district": "Edmonton-South",
+          "candidate": "Rhiannon Hoyle",
+          "party": "NDP",
+          "votes": 14171
+        }
+      ],
+      "valid": 24032,
+      "ballots": 24206,
+      "registered": 40082,
+      "rejected": 168,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 43,
+      "name": "Edmonton-South West",
+      "votes": {
+        "UCP": 10741,
+        "NDP": 14380,
+        "LIB": 0,
+        "GPA": 323,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 43,
+          "district": "Edmonton-South West",
+          "candidate": "Jeff Cullihall",
+          "party": "GPA",
+          "votes": 323
+        },
+        {
+          "district_id": 43,
+          "district": "Edmonton-South West",
+          "candidate": "Nathan Ip",
+          "party": "NDP",
+          "votes": 14380
+        },
+        {
+          "district_id": 43,
+          "district": "Edmonton-South West",
+          "candidate": "Kaycee Madu",
+          "party": "UCP",
+          "votes": 10741
+        }
+      ],
+      "valid": 25444,
+      "ballots": 25594,
+      "registered": 41428,
+      "rejected": 138,
+      "declined": 12,
+      "unclassified": 0
+    },
+    {
+      "id": 44,
+      "name": "Edmonton-Strathcona",
+      "votes": {
+        "UCP": 3032,
+        "NDP": 13980,
+        "LIB": 0,
+        "GPA": 324,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 106,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 93,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 44,
+          "district": "Edmonton-Strathcona",
+          "candidate": "Emad El-Zein",
+          "party": "UCP",
+          "votes": 3032
+        },
+        {
+          "district_id": 44,
+          "district": "Edmonton-Strathcona",
+          "candidate": "Robert Gooding-Townsend",
+          "party": "GPA",
+          "votes": 324
+        },
+        {
+          "district_id": 44,
+          "district": "Edmonton-Strathcona",
+          "candidate": "Andrew Jacobson",
+          "party": "BPA",
+          "votes": 106
+        },
+        {
+          "district_id": 44,
+          "district": "Edmonton-Strathcona",
+          "candidate": "Robert Nielsen",
+          "party": "WLC",
+          "votes": 93
+        },
+        {
+          "district_id": 44,
+          "district": "Edmonton-Strathcona",
+          "candidate": "Rachel Notley",
+          "party": "NDP",
+          "votes": 13980
+        }
+      ],
+      "valid": 17535,
+      "ballots": 17703,
+      "registered": 29841,
+      "rejected": 154,
+      "declined": 14,
+      "unclassified": 0
+    },
+    {
+      "id": 45,
+      "name": "Edmonton-West Henday",
+      "votes": {
+        "UCP": 7956,
+        "NDP": 11495,
+        "LIB": 391,
+        "GPA": 382,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 45,
+          "district": "Edmonton-West Henday",
+          "candidate": "Brooks Arcand-Paul",
+          "party": "NDP",
+          "votes": 11495
+        },
+        {
+          "district_id": 45,
+          "district": "Edmonton-West Henday",
+          "candidate": "Dan Bildhauer",
+          "party": "LIB",
+          "votes": 391
+        },
+        {
+          "district_id": 45,
+          "district": "Edmonton-West Henday",
+          "candidate": "Slava Cravcenco",
+          "party": "UCP",
+          "votes": 7956
+        },
+        {
+          "district_id": 45,
+          "district": "Edmonton-West Henday",
+          "candidate": "Kristina Howard",
+          "party": "GPA",
+          "votes": 382
+        }
+      ],
+      "valid": 20224,
+      "ballots": 20342,
+      "registered": 35217,
+      "rejected": 110,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 46,
+      "name": "Edmonton-Whitemud",
+      "votes": {
+        "UCP": 7799,
+        "NDP": 12797,
+        "LIB": 370,
+        "GPA": 221,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 46,
+          "district": "Edmonton-Whitemud",
+          "candidate": "Cheri Hawley",
+          "party": "GPA",
+          "votes": 221
+        },
+        {
+          "district_id": 46,
+          "district": "Edmonton-Whitemud",
+          "candidate": "Rakhi Pancholi",
+          "party": "NDP",
+          "votes": 12797
+        },
+        {
+          "district_id": 46,
+          "district": "Edmonton-Whitemud",
+          "candidate": "Raj Sherman",
+          "party": "UCP",
+          "votes": 7799
+        },
+        {
+          "district_id": 46,
+          "district": "Edmonton-Whitemud",
+          "candidate": "Donna Wilson",
+          "party": "LIB",
+          "votes": 370
+        }
+      ],
+      "valid": 21187,
+      "ballots": 21339,
+      "registered": 32841,
+      "rejected": 147,
+      "declined": 5,
+      "unclassified": 0
+    },
+    {
+      "id": 60,
+      "name": "Fort McMurray-Lac La Biche",
+      "votes": {
+        "UCP": 7692,
+        "NDP": 2561,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 202
+      },
+      "candidates": [
+        {
+          "district_id": 60,
+          "district": "Fort McMurray-Lac La Biche",
+          "candidate": "Calan William Simeon Hobbs",
+          "party": "NDP",
+          "votes": 2561
+        },
+        {
+          "district_id": 60,
+          "district": "Fort McMurray-Lac La Biche",
+          "candidate": "Brian Jean",
+          "party": "UCP",
+          "votes": 7692
+        },
+        {
+          "district_id": 60,
+          "district": "Fort McMurray-Lac La Biche",
+          "candidate": "KDM Kevin Johnston",
+          "party": "IND",
+          "votes": 202
+        }
+      ],
+      "valid": 10455,
+      "ballots": 10525,
+      "registered": 23889,
+      "rejected": 67,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 61,
+      "name": "Fort McMurray-Wood Buffalo",
+      "votes": {
+        "UCP": 6483,
+        "NDP": 1884,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 255,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 956
+      },
+      "candidates": [
+        {
+          "district_id": 61,
+          "district": "Fort McMurray-Wood Buffalo",
+          "candidate": "Funky Banjoko",
+          "party": "IND",
+          "votes": 625
+        },
+        {
+          "district_id": 61,
+          "district": "Fort McMurray-Wood Buffalo",
+          "candidate": "Tanika Chaisson",
+          "party": "NDP",
+          "votes": 1884
+        },
+        {
+          "district_id": 61,
+          "district": "Fort McMurray-Wood Buffalo",
+          "candidate": "Bradley Friesen",
+          "party": "AP",
+          "votes": 255
+        },
+        {
+          "district_id": 61,
+          "district": "Fort McMurray-Wood Buffalo",
+          "candidate": "Zulkifl Mujahid",
+          "party": "IND",
+          "votes": 331
+        },
+        {
+          "district_id": 61,
+          "district": "Fort McMurray-Wood Buffalo",
+          "candidate": "Tany Yao",
+          "party": "UCP",
+          "votes": 6483
+        }
+      ],
+      "valid": 9578,
+      "ballots": 9664,
+      "registered": 23034,
+      "rejected": 82,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 62,
+      "name": "Fort Saskatchewan-Vegreville",
+      "votes": {
+        "UCP": 14126,
+        "NDP": 9064,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 227,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 108,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 801
+      },
+      "candidates": [
+        {
+          "district_id": 62,
+          "district": "Fort Saskatchewan-Vegreville",
+          "candidate": "Jackie Armstrong-Homeniuk",
+          "party": "UCP",
+          "votes": 14126
+        },
+        {
+          "district_id": 62,
+          "district": "Fort Saskatchewan-Vegreville",
+          "candidate": "Kathy Flett",
+          "party": "IND",
+          "votes": 801
+        },
+        {
+          "district_id": 62,
+          "district": "Fort Saskatchewan-Vegreville",
+          "candidate": "Granny Margaret Mackay",
+          "party": "SM",
+          "votes": 108
+        },
+        {
+          "district_id": 62,
+          "district": "Fort Saskatchewan-Vegreville",
+          "candidate": "Taneen Rudyk",
+          "party": "NDP",
+          "votes": 9064
+        },
+        {
+          "district_id": 62,
+          "district": "Fort Saskatchewan-Vegreville",
+          "candidate": "Kelly Zeleny",
+          "party": "APA",
+          "votes": 227
+        }
+      ],
+      "valid": 24326,
+      "ballots": 24480,
+      "registered": 40114,
+      "rejected": 142,
+      "declined": 12,
+      "unclassified": 0
+    },
+    {
+      "id": 63,
+      "name": "Grande Prairie",
+      "votes": {
+        "UCP": 10001,
+        "NDP": 4890,
+        "LIB": 0,
+        "GPA": 160,
+        "AP": 242,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 348,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 63,
+          "district": "Grande Prairie",
+          "candidate": "David Braun",
+          "party": "TIP",
+          "votes": 348
+        },
+        {
+          "district_id": 63,
+          "district": "Grande Prairie",
+          "candidate": "Shane Diederich",
+          "party": "GPA",
+          "votes": 160
+        },
+        {
+          "district_id": 63,
+          "district": "Grande Prairie",
+          "candidate": "Nolan Dyck",
+          "party": "UCP",
+          "votes": 10001
+        },
+        {
+          "district_id": 63,
+          "district": "Grande Prairie",
+          "candidate": "Kevin McLean",
+          "party": "NDP",
+          "votes": 4890
+        },
+        {
+          "district_id": 63,
+          "district": "Grande Prairie",
+          "candidate": "Preston Mildenberger",
+          "party": "AP",
+          "votes": 242
+        }
+      ],
+      "valid": 15641,
+      "ballots": 15712,
+      "registered": 31589,
+      "rejected": 67,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 64,
+      "name": "Grande Prairie-Wapiti",
+      "votes": {
+        "UCP": 15093,
+        "NDP": 4063,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 645,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 64,
+          "district": "Grande Prairie-Wapiti",
+          "candidate": "Dustin Archibald",
+          "party": "NDP",
+          "votes": 4063
+        },
+        {
+          "district_id": 64,
+          "district": "Grande Prairie-Wapiti",
+          "candidate": "Brooklyn Biegel",
+          "party": "TIP",
+          "votes": 645
+        },
+        {
+          "district_id": 64,
+          "district": "Grande Prairie-Wapiti",
+          "candidate": "Ron Wiebe",
+          "party": "UCP",
+          "votes": 15093
+        }
+      ],
+      "valid": 19801,
+      "ballots": 19869,
+      "registered": 35678,
+      "rejected": 64,
+      "declined": 4,
+      "unclassified": 0
+    },
+    {
+      "id": 65,
+      "name": "Highwood",
+      "votes": {
+        "UCP": 17990,
+        "NDP": 7540,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 580,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 65,
+          "district": "Highwood",
+          "candidate": "Jessica Hallam",
+          "party": "NDP",
+          "votes": 7540
+        },
+        {
+          "district_id": 65,
+          "district": "Highwood",
+          "candidate": "Mike Lorusso",
+          "party": "WIPA",
+          "votes": 580
+        },
+        {
+          "district_id": 65,
+          "district": "Highwood",
+          "candidate": "R.J. Sigurdson",
+          "party": "UCP",
+          "votes": 17990
+        }
+      ],
+      "valid": 26110,
+      "ballots": 26314,
+      "registered": 39009,
+      "rejected": 183,
+      "declined": 21,
+      "unclassified": 0
+    },
+    {
+      "id": 66,
+      "name": "Innisfail-Sylvan Lake",
+      "votes": {
+        "UCP": 16385,
+        "NDP": 5700,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 132,
+        "SM": 149,
+        "BPA": 0,
+        "TIP": 276,
+        "WIPA": 240,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "Devin Dreeshen",
+          "party": "UCP",
+          "votes": 16385
+        },
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "Jason Heistad",
+          "party": "NDP",
+          "votes": 5700
+        },
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "Jeevan Mangat",
+          "party": "WIPA",
+          "votes": 240
+        },
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "Brandon Pringle",
+          "party": "SM",
+          "votes": 149
+        },
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "David Reid",
+          "party": "TIP",
+          "votes": 276
+        },
+        {
+          "district_id": 66,
+          "district": "Innisfail-Sylvan Lake",
+          "candidate": "Randy Thorsteinson",
+          "party": "REF",
+          "votes": 132
+        }
+      ],
+      "valid": 22882,
+      "ballots": 23016,
+      "registered": 36837,
+      "rejected": 123,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 67,
+      "name": "Lac Ste. Anne-Parkland",
+      "votes": {
+        "UCP": 14923,
+        "NDP": 5868,
+        "LIB": 0,
+        "GPA": 205,
+        "AP": 463,
+        "APA": 182,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 67,
+          "district": "Lac Ste. Anne-Parkland",
+          "candidate": "Marilyn Burns",
+          "party": "APA",
+          "votes": 182
+        },
+        {
+          "district_id": 67,
+          "district": "Lac Ste. Anne-Parkland",
+          "candidate": "Oneil Carlier",
+          "party": "NDP",
+          "votes": 5868
+        },
+        {
+          "district_id": 67,
+          "district": "Lac Ste. Anne-Parkland",
+          "candidate": "Vanessa Diehl",
+          "party": "GPA",
+          "votes": 205
+        },
+        {
+          "district_id": 67,
+          "district": "Lac Ste. Anne-Parkland",
+          "candidate": "Shane Getson",
+          "party": "UCP",
+          "votes": 14923
+        },
+        {
+          "district_id": 67,
+          "district": "Lac Ste. Anne-Parkland",
+          "candidate": "Janet Jabush",
+          "party": "AP",
+          "votes": 463
+        }
+      ],
+      "valid": 21641,
+      "ballots": 21726,
+      "registered": 34609,
+      "rejected": 79,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 68,
+      "name": "Lacombe-Ponoka",
+      "votes": {
+        "UCP": 14324,
+        "NDP": 4995,
+        "LIB": 0,
+        "GPA": 196,
+        "AP": 1167,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 74,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 444,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Myles Chykerda",
+          "party": "AP",
+          "votes": 1167
+        },
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Dave Dale",
+          "party": "NDP",
+          "votes": 4995
+        },
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Daniel Jefferies",
+          "party": "WLC",
+          "votes": 444
+        },
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Jennifer Johnson",
+          "party": "UCP",
+          "votes": 14324
+        },
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Nathan Leslie",
+          "party": "SM",
+          "votes": 74
+        },
+        {
+          "district_id": 68,
+          "district": "Lacombe-Ponoka",
+          "candidate": "Taylor Lowery",
+          "party": "GPA",
+          "votes": 196
+        }
+      ],
+      "valid": 21200,
+      "ballots": 21328,
+      "registered": 34495,
+      "rejected": 108,
+      "declined": 20,
+      "unclassified": 0
+    },
+    {
+      "id": 69,
+      "name": "Leduc-Beaumont",
+      "votes": {
+        "UCP": 14118,
+        "NDP": 10069,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 144,
+        "BPA": 0,
+        "TIP": 257,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 292
+      },
+      "candidates": [
+        {
+          "district_id": 69,
+          "district": "Leduc-Beaumont",
+          "candidate": "Kirk Cayer",
+          "party": "IND",
+          "votes": 292
+        },
+        {
+          "district_id": 69,
+          "district": "Leduc-Beaumont",
+          "candidate": "Cam Heenan",
+          "party": "NDP",
+          "votes": 10069
+        },
+        {
+          "district_id": 69,
+          "district": "Leduc-Beaumont",
+          "candidate": "Bill Kaufmann",
+          "party": "SM",
+          "votes": 144
+        },
+        {
+          "district_id": 69,
+          "district": "Leduc-Beaumont",
+          "candidate": "Brandon Lunty",
+          "party": "UCP",
+          "votes": 14118
+        },
+        {
+          "district_id": 69,
+          "district": "Leduc-Beaumont",
+          "candidate": "Sharon Maclise",
+          "party": "TIP",
+          "votes": 257
+        }
+      ],
+      "valid": 24880,
+      "ballots": 25046,
+      "registered": 39857,
+      "rejected": 156,
+      "declined": 10,
+      "unclassified": 0
+    },
+    {
+      "id": 70,
+      "name": "Lesser Slave Lake",
+      "votes": {
+        "UCP": 5171,
+        "NDP": 2636,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 144,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 70,
+          "district": "Lesser Slave Lake",
+          "candidate": "Danielle Larivee",
+          "party": "NDP",
+          "votes": 2636
+        },
+        {
+          "district_id": 70,
+          "district": "Lesser Slave Lake",
+          "candidate": "Bert (Bertrand) Seatter",
+          "party": "SM",
+          "votes": 144
+        },
+        {
+          "district_id": 70,
+          "district": "Lesser Slave Lake",
+          "candidate": "Scott Sinclair",
+          "party": "UCP",
+          "votes": 5171
+        }
+      ],
+      "valid": 7951,
+      "ballots": 8002,
+      "registered": 15704,
+      "rejected": 49,
+      "declined": 2,
+      "unclassified": 0
+    },
+    {
+      "id": 71,
+      "name": "Lethbridge-East",
+      "votes": {
+        "UCP": 10998,
+        "NDP": 10362,
+        "LIB": 488,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 71,
+          "district": "Lethbridge-East",
+          "candidate": "Helen McMenamin",
+          "party": "LIB",
+          "votes": 488
+        },
+        {
+          "district_id": 71,
+          "district": "Lethbridge-East",
+          "candidate": "Rob Miyashiro",
+          "party": "NDP",
+          "votes": 10362
+        },
+        {
+          "district_id": 71,
+          "district": "Lethbridge-East",
+          "candidate": "Nathan Neudorf",
+          "party": "UCP",
+          "votes": 10998
+        }
+      ],
+      "valid": 21848,
+      "ballots": 22011,
+      "registered": 35495,
+      "rejected": 149,
+      "declined": 14,
+      "unclassified": 0
+    },
+    {
+      "id": 72,
+      "name": "Lethbridge-West",
+      "votes": {
+        "UCP": 9525,
+        "NDP": 12082,
+        "LIB": 375,
+        "GPA": 0,
+        "AP": 425,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 72,
+          "district": "Lethbridge-West",
+          "candidate": "Pat Chizek",
+          "party": "LIB",
+          "votes": 375
+        },
+        {
+          "district_id": 72,
+          "district": "Lethbridge-West",
+          "candidate": "Braham Luddu",
+          "party": "AP",
+          "votes": 425
+        },
+        {
+          "district_id": 72,
+          "district": "Lethbridge-West",
+          "candidate": "Shannon Phillips",
+          "party": "NDP",
+          "votes": 12082
+        },
+        {
+          "district_id": 72,
+          "district": "Lethbridge-West",
+          "candidate": "Cheryl Seaborn",
+          "party": "UCP",
+          "votes": 9525
+        }
+      ],
+      "valid": 22407,
+      "ballots": 22547,
+      "registered": 36642,
+      "rejected": 132,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 73,
+      "name": "Livingstone-Macleod",
+      "votes": {
+        "UCP": 16491,
+        "NDP": 6492,
+        "LIB": 194,
+        "GPA": 0,
+        "AP": 975,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 353,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 130
+      },
+      "candidates": [
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Erik Abildgaard",
+          "party": "IND",
+          "votes": 130
+        },
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Dylin Hauser",
+          "party": "LIB",
+          "votes": 194
+        },
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Chelsae Petrovic",
+          "party": "UCP",
+          "votes": 16491
+        },
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Kevin Todd",
+          "party": "AP",
+          "votes": 975
+        },
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Corrie Reed Toone",
+          "party": "TIP",
+          "votes": 353
+        },
+        {
+          "district_id": 73,
+          "district": "Livingstone-Macleod",
+          "candidate": "Kevin Van Tighem",
+          "party": "NDP",
+          "votes": 6492
+        }
+      ],
+      "valid": 24635,
+      "ballots": 24757,
+      "registered": 37419,
+      "rejected": 115,
+      "declined": 7,
+      "unclassified": 0
+    },
+    {
+      "id": 74,
+      "name": "Maskwacis-Wetaskiwin",
+      "votes": {
+        "UCP": 11640,
+        "NDP": 4801,
+        "LIB": 0,
+        "GPA": 187,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 86,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 520
+      },
+      "candidates": [
+        {
+          "district_id": 74,
+          "district": "Maskwacis-Wetaskiwin",
+          "candidate": "Justin Fuss",
+          "party": "GPA",
+          "votes": 187
+        },
+        {
+          "district_id": 74,
+          "district": "Maskwacis-Wetaskiwin",
+          "candidate": "Suzanne Jubb",
+          "party": "SM",
+          "votes": 86
+        },
+        {
+          "district_id": 74,
+          "district": "Maskwacis-Wetaskiwin",
+          "candidate": "Marie Rittenhouse",
+          "party": "IND",
+          "votes": 520
+        },
+        {
+          "district_id": 74,
+          "district": "Maskwacis-Wetaskiwin",
+          "candidate": "Katherine Swampy",
+          "party": "NDP",
+          "votes": 4801
+        },
+        {
+          "district_id": 74,
+          "district": "Maskwacis-Wetaskiwin",
+          "candidate": "Rick Wilson",
+          "party": "UCP",
+          "votes": 11640
+        }
+      ],
+      "valid": 17234,
+      "ballots": 17289,
+      "registered": 29442,
+      "rejected": 52,
+      "declined": 3,
+      "unclassified": 0
+    },
+    {
+      "id": 75,
+      "name": "Morinville-St. Albert",
+      "votes": {
+        "UCP": 13472,
+        "NDP": 11728,
+        "LIB": 0,
+        "GPA": 230,
+        "AP": 590,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 75,
+          "district": "Morinville-St. Albert",
+          "candidate": "Kurt Klingbeil",
+          "party": "GPA",
+          "votes": 230
+        },
+        {
+          "district_id": 75,
+          "district": "Morinville-St. Albert",
+          "candidate": "Dale Nally",
+          "party": "UCP",
+          "votes": 13472
+        },
+        {
+          "district_id": 75,
+          "district": "Morinville-St. Albert",
+          "candidate": "Wayne Rufiange",
+          "party": "AP",
+          "votes": 590
+        },
+        {
+          "district_id": 75,
+          "district": "Morinville-St. Albert",
+          "candidate": "Karen Shaw",
+          "party": "NDP",
+          "votes": 11728
+        }
+      ],
+      "valid": 26020,
+      "ballots": 26166,
+      "registered": 39597,
+      "rejected": 138,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 76,
+      "name": "Olds-Didsbury-Three Hills",
+      "votes": {
+        "UCP": 18228,
+        "NDP": 4553,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 105,
+        "BPA": 0,
+        "TIP": 1140,
+        "WIPA": 0,
+        "WLC": 183,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 76,
+          "district": "Olds-Didsbury-Three Hills",
+          "candidate": "Judy Bridges",
+          "party": "SM",
+          "votes": 105
+        },
+        {
+          "district_id": 76,
+          "district": "Olds-Didsbury-Three Hills",
+          "candidate": "Nathan Cooper",
+          "party": "UCP",
+          "votes": 18228
+        },
+        {
+          "district_id": 76,
+          "district": "Olds-Didsbury-Three Hills",
+          "candidate": "Cheryl Hunter Loewen",
+          "party": "NDP",
+          "votes": 4553
+        },
+        {
+          "district_id": 76,
+          "district": "Olds-Didsbury-Three Hills",
+          "candidate": "Katherine Kowalchuk",
+          "party": "TIP",
+          "votes": 1140
+        },
+        {
+          "district_id": 76,
+          "district": "Olds-Didsbury-Three Hills",
+          "candidate": "Cam Tatlock",
+          "party": "WLC",
+          "votes": 183
+        }
+      ],
+      "valid": 24209,
+      "ballots": 24347,
+      "registered": 38173,
+      "rejected": 115,
+      "declined": 23,
+      "unclassified": 0
+    },
+    {
+      "id": 77,
+      "name": "Peace River",
+      "votes": {
+        "UCP": 8236,
+        "NDP": 2587,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 194,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 290
+      },
+      "candidates": [
+        {
+          "district_id": 77,
+          "district": "Peace River",
+          "candidate": "Sharon Noullett",
+          "party": "TIP",
+          "votes": 194
+        },
+        {
+          "district_id": 77,
+          "district": "Peace River",
+          "candidate": "Conrad Nunweiler",
+          "party": "IND",
+          "votes": 290
+        },
+        {
+          "district_id": 77,
+          "district": "Peace River",
+          "candidate": "Liana Paiva",
+          "party": "NDP",
+          "votes": 2587
+        },
+        {
+          "district_id": 77,
+          "district": "Peace River",
+          "candidate": "Dan Williams",
+          "party": "UCP",
+          "votes": 8236
+        }
+      ],
+      "valid": 11307,
+      "ballots": 11365,
+      "registered": 23146,
+      "rejected": 58,
+      "declined": 0,
+      "unclassified": 0
+    },
+    {
+      "id": 78,
+      "name": "Red Deer-North",
+      "votes": {
+        "UCP": 10629,
+        "NDP": 7144,
+        "LIB": 0,
+        "GPA": 257,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 183,
+        "BPA": 0,
+        "TIP": 281,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 78,
+          "district": "Red Deer-North",
+          "candidate": "Vicky Bayford",
+          "party": "TIP",
+          "votes": 281
+        },
+        {
+          "district_id": 78,
+          "district": "Red Deer-North",
+          "candidate": "Kallie Dyck",
+          "party": "SM",
+          "votes": 183
+        },
+        {
+          "district_id": 78,
+          "district": "Red Deer-North",
+          "candidate": "Adriana LaGrange",
+          "party": "UCP",
+          "votes": 10629
+        },
+        {
+          "district_id": 78,
+          "district": "Red Deer-North",
+          "candidate": "Heather Morigeau",
+          "party": "GPA",
+          "votes": 257
+        },
+        {
+          "district_id": 78,
+          "district": "Red Deer-North",
+          "candidate": "Jaelene Tweedle",
+          "party": "NDP",
+          "votes": 7144
+        }
+      ],
+      "valid": 18494,
+      "ballots": 18624,
+      "registered": 33382,
+      "rejected": 121,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 79,
+      "name": "Red Deer-South",
+      "votes": {
+        "UCP": 13469,
+        "NDP": 9976,
+        "LIB": 0,
+        "GPA": 274,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 146,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 160,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 79,
+          "district": "Red Deer-South",
+          "candidate": "Michelle Baer",
+          "party": "NDP",
+          "votes": 9976
+        },
+        {
+          "district_id": 79,
+          "district": "Red Deer-South",
+          "candidate": "Pamela Liebenberg",
+          "party": "SM",
+          "votes": 146
+        },
+        {
+          "district_id": 79,
+          "district": "Red Deer-South",
+          "candidate": "Ashley MacDonald",
+          "party": "GPA",
+          "votes": 274
+        },
+        {
+          "district_id": 79,
+          "district": "Red Deer-South",
+          "candidate": "Jason Stephan",
+          "party": "UCP",
+          "votes": 13469
+        },
+        {
+          "district_id": 79,
+          "district": "Red Deer-South",
+          "candidate": "Jesse Stretch",
+          "party": "WLC",
+          "votes": 160
+        }
+      ],
+      "valid": 24025,
+      "ballots": 24180,
+      "registered": 38696,
+      "rejected": 142,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 80,
+      "name": "Rimbey-Rocky Mountain House-Sundre",
+      "votes": {
+        "UCP": 15571,
+        "NDP": 3118,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 103,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 96,
+        "IND": 3528
+      },
+      "candidates": [
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Vance Buchwald",
+          "party": "NDP",
+          "votes": 3118
+        },
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Tim Hoven",
+          "party": "IND",
+          "votes": 3393
+        },
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Jason Nixon",
+          "party": "UCP",
+          "votes": 15571
+        },
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Carol Nordlund Kinsey",
+          "party": "APA",
+          "votes": 103
+        },
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Fred Schwieger",
+          "party": "IND",
+          "votes": 135
+        },
+        {
+          "district_id": 80,
+          "district": "Rimbey-Rocky Mountain House-Sundre",
+          "candidate": "Tami Tatlock",
+          "party": "WLC",
+          "votes": 96
+        }
+      ],
+      "valid": 22416,
+      "ballots": 22558,
+      "registered": 34215,
+      "rejected": 131,
+      "declined": 11,
+      "unclassified": 0
+    },
+    {
+      "id": 81,
+      "name": "Sherwood Park",
+      "votes": {
+        "UCP": 11447,
+        "NDP": 13108,
+        "LIB": 225,
+        "GPA": 0,
+        "AP": 1293,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 81,
+          "district": "Sherwood Park",
+          "candidate": "Kyle Kasawski",
+          "party": "NDP",
+          "votes": 13108
+        },
+        {
+          "district_id": 81,
+          "district": "Sherwood Park",
+          "candidate": "Jacob Stacey",
+          "party": "LIB",
+          "votes": 225
+        },
+        {
+          "district_id": 81,
+          "district": "Sherwood Park",
+          "candidate": "Sue Timanson",
+          "party": "AP",
+          "votes": 1293
+        },
+        {
+          "district_id": 81,
+          "district": "Sherwood Park",
+          "candidate": "Jordan Walker",
+          "party": "UCP",
+          "votes": 11447
+        }
+      ],
+      "valid": 26073,
+      "ballots": 26201,
+      "registered": 37284,
+      "rejected": 118,
+      "declined": 10,
+      "unclassified": 0
+    },
+    {
+      "id": 82,
+      "name": "Spruce Grove-Stony Plain",
+      "votes": {
+        "UCP": 14365,
+        "NDP": 10197,
+        "LIB": 0,
+        "GPA": 422,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 223,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 82,
+          "district": "Spruce Grove-Stony Plain",
+          "candidate": "Daniel Birrell",
+          "party": "GPA",
+          "votes": 422
+        },
+        {
+          "district_id": 82,
+          "district": "Spruce Grove-Stony Plain",
+          "candidate": "Darlene Clarke",
+          "party": "SM",
+          "votes": 223
+        },
+        {
+          "district_id": 82,
+          "district": "Spruce Grove-Stony Plain",
+          "candidate": "Chantal Saramaga-McKenzie",
+          "party": "NDP",
+          "votes": 10197
+        },
+        {
+          "district_id": 82,
+          "district": "Spruce Grove-Stony Plain",
+          "candidate": "Searle Turton",
+          "party": "UCP",
+          "votes": 14365
+        }
+      ],
+      "valid": 25207,
+      "ballots": 25315,
+      "registered": 41208,
+      "rejected": 100,
+      "declined": 8,
+      "unclassified": 0
+    },
+    {
+      "id": 83,
+      "name": "St. Albert",
+      "votes": {
+        "UCP": 10200,
+        "NDP": 15021,
+        "LIB": 0,
+        "GPA": 455,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 83,
+          "district": "St. Albert",
+          "candidate": "Cameron Jefferies",
+          "party": "GPA",
+          "votes": 455
+        },
+        {
+          "district_id": 83,
+          "district": "St. Albert",
+          "candidate": "Marie Renaud",
+          "party": "NDP",
+          "votes": 15021
+        },
+        {
+          "district_id": 83,
+          "district": "St. Albert",
+          "candidate": "Angela Wood",
+          "party": "UCP",
+          "votes": 10200
+        }
+      ],
+      "valid": 25676,
+      "ballots": 25837,
+      "registered": 38774,
+      "rejected": 148,
+      "declined": 13,
+      "unclassified": 0
+    },
+    {
+      "id": 84,
+      "name": "Strathcona-Sherwood Park",
+      "votes": {
+        "UCP": 13865,
+        "NDP": 11646,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 614
+      },
+      "candidates": [
+        {
+          "district_id": 84,
+          "district": "Strathcona-Sherwood Park",
+          "candidate": "Jody Balanko",
+          "party": "IND",
+          "votes": 614
+        },
+        {
+          "district_id": 84,
+          "district": "Strathcona-Sherwood Park",
+          "candidate": "Nate Glubish",
+          "party": "UCP",
+          "votes": 13865
+        },
+        {
+          "district_id": 84,
+          "district": "Strathcona-Sherwood Park",
+          "candidate": "Bill Tonita",
+          "party": "NDP",
+          "votes": 11646
+        }
+      ],
+      "valid": 26125,
+      "ballots": 26284,
+      "registered": 37569,
+      "rejected": 153,
+      "declined": 6,
+      "unclassified": 0
+    },
+    {
+      "id": 85,
+      "name": "Taber-Warner",
+      "votes": {
+        "UCP": 12379,
+        "NDP": 2817,
+        "LIB": 0,
+        "GPA": 239,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 124,
+        "BPA": 0,
+        "TIP": 129,
+        "WIPA": 0,
+        "WLC": 754,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Brent Ginther",
+          "party": "SM",
+          "votes": 124
+        },
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Paul Hinman",
+          "party": "WLC",
+          "votes": 754
+        },
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Jazminn Hintz",
+          "party": "NDP",
+          "votes": 2817
+        },
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Joel Hunt",
+          "party": "GPA",
+          "votes": 239
+        },
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Grant Hunter",
+          "party": "UCP",
+          "votes": 12379
+        },
+        {
+          "district_id": 85,
+          "district": "Taber-Warner",
+          "candidate": "Frank Kast",
+          "party": "TIP",
+          "votes": 129
+        }
+      ],
+      "valid": 16442,
+      "ballots": 16521,
+      "registered": 28859,
+      "rejected": 70,
+      "declined": 9,
+      "unclassified": 0
+    },
+    {
+      "id": 86,
+      "name": "Vermilion-Lloydminster-Wainwright",
+      "votes": {
+        "UCP": 13097,
+        "NDP": 3075,
+        "LIB": 0,
+        "GPA": 146,
+        "AP": 475,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 460,
+        "IND": 351
+      },
+      "candidates": [
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Tigra-Lee Campbell",
+          "party": "GPA",
+          "votes": 146
+        },
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Darrell Dunn",
+          "party": "AP",
+          "votes": 475
+        },
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Dawn Flaata",
+          "party": "NDP",
+          "votes": 3075
+        },
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Danny Hozack",
+          "party": "WLC",
+          "votes": 460
+        },
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Matthew Powell",
+          "party": "IND",
+          "votes": 351
+        },
+        {
+          "district_id": 86,
+          "district": "Vermilion-Lloydminster-Wainwright",
+          "candidate": "Garth Rowswell",
+          "party": "UCP",
+          "votes": 13097
+        }
+      ],
+      "valid": 17604,
+      "ballots": 17677,
+      "registered": 32123,
+      "rejected": 68,
+      "declined": 5,
+      "unclassified": 0
+    },
+    {
+      "id": 87,
+      "name": "West Yellowhead",
+      "votes": {
+        "UCP": 14456,
+        "NDP": 5679,
+        "LIB": 0,
+        "GPA": 0,
+        "AP": 0,
+        "APA": 0,
+        "CP-A": 0,
+        "PAPA": 0,
+        "REF": 0,
+        "SM": 0,
+        "BPA": 0,
+        "TIP": 0,
+        "WIPA": 0,
+        "WLC": 0,
+        "IND": 0
+      },
+      "candidates": [
+        {
+          "district_id": 87,
+          "district": "West Yellowhead",
+          "candidate": "Fred Kreiner",
+          "party": "NDP",
+          "votes": 5679
+        },
+        {
+          "district_id": 87,
+          "district": "West Yellowhead",
+          "candidate": "Martin Long",
+          "party": "UCP",
+          "votes": 14456
+        }
+      ],
+      "valid": 20135,
+      "ballots": 20291,
+      "registered": 35526,
+      "rejected": 138,
+      "declined": 18,
+      "unclassified": 0
+    }
+  ]
+}

@@ -209,6 +209,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#rto">🚦 RTO Watch</a>
       <a href="#ottawa-elections">🗳️ Ward Elections</a>
       <a href="#ontario-elections">🏛️ Ontario Elections</a>
+      <a href="#alberta-elections">Alberta Elections</a>
+      <a href="#bc-elections">BC Elections</a>
       <a href="#mortgage">🏡 Mortgage</a>
       <a href="#weather">🌡️ Weather</a>
       <a href="#road-safety">🚗 Road Safety</a>
@@ -311,6 +313,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
   <div class="card">
     <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <p><a href="#bc-elections">BC elections</a> · 2026 preliminary snapshot · published Nov 1</p>
+    <p><a href="#alberta-elections">Alberta elections</a> · 2023 final results · published Nov 1</p>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="index.html#reports">Report artwork</a></span><span class="pct">12 cards · 11 headers · 59 section icons · Oct 31</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#wealth">Canada wealth</a></span><span class="pct">Published Oct 31, 2026</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#member-spending">MP &amp; MPP spending</a></span><span class="pct">Published Nov 1, 2026</span></div>
@@ -610,6 +614,19 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 </section>
 
 <!-- ══════════════════ ONTARIO ELECTIONS ══════════════════ -->
+<section id="bc-elections" class="card">
+  <div class="proj-head"><h2>BC elections · consolidation scenarios</h2><span class="chip">Published Nov 1, 2026</span><a class="live-link" href="BC_Elections/BCelections.html">open the tool ↗</a></div>
+  <p><b>2026 preliminary initial count</b>: source as of Oct 26, 10:34 PST, retrieved Nov 1. All 353 candidate totals reconcile to 93 riding rows and provincial party totals/leads. Seven leads change at 65% NDP/Green transfer; twelve at full transfer. Mail-in/absentee ballots await final count Nov 6–10. <a href="BC_Elections/BCelections-2024.html">2024 final results</a> remain separate.</p>
+  <p><a href="BC_Elections/README.md">Sources, method and verification limits</a>. Published November 1, 2026.</p>
+</section>
+
+<section id="alberta-elections" class="card">
+  <div class="proj-head"><h2>Alberta elections · consolidation scenarios</h2><span class="chip">Published Nov 1, 2026</span><a class="live-link" href="Alberta_Elections/ABelections.html">open the tool ↗</a></div>
+  <p>May 29, 2023: 87 riding map, Calgary/Edmonton detail, NDP/Liberal/Green transfer slider, turnout and downloads. All 349 candidate totals reconcile to voting-location rows. No seats change even at full transfer; Alberta Party excluded. Historical web-table discrepancies are retained in the source audit.</p>
+  <p>Model checks pass; Ontario and Alberta marker layouts checked at 320/390/1280 px in all three themes. <a href="Alberta_Elections/README.md">Method, sources and verification limits</a>.</p>
+</section>
+
+
 <section id="ontario-elections" class="card">
   <div class="proj-head">
     <h2>🏛️ Ontario Elections (coalition scenarios)</h2>
