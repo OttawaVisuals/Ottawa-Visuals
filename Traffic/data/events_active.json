@@ -2806,29 +2806,6 @@
 },
 "fp": "7152a1fcb80b"
 },
-"29791": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-02 07:03:00",
-"cross_street_1": "Ralph Hennessy",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29791",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Earl Armstrong eastbound lane reduction in both directions at Ralph Hennessy due to a collision.",
-"lanes": "lane reduction in both directions",
-"lat": 45.274608,
-"lon": -75.683786,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Earl Armstrong",
-"source": "city",
-"updated": "2026-11-02 07:03:00"
-},
-"fp": "679df4c54936"
-},
 "29792": {
 "event": {
 "cause": "a disabled vehicle",
@@ -2852,28 +2829,28 @@
 },
 "fp": "66de170e36b8"
 },
-"29793": {
+"29794": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-02 07:42:00",
-"cross_street_1": "Coventry",
-"cross_street_2": "417 W/B on-ramp",
+"created": "2026-11-02 08:42:00",
+"cross_street_1": "Lisa",
+"cross_street_2": "Iris",
 "direction": null,
-"event_id": "29793",
+"event_id": "29794",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Vanier southbound lane reduction between Coventry and 417 W/B on-ramp due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.420711,
-"lon": -75.657736,
+"headline": "Greenbank northbound left lane closed between Lisa and Iris due to a collision.",
+"lanes": "left lane closed",
+"lat": 45.3456,
+"lon": -75.788334,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Vanier",
+"road": "Greenbank",
 "source": "city",
-"updated": "2026-11-02 07:42:00"
+"updated": "2026-11-02 08:42:00"
 },
-"fp": "df6281e181ab"
+"fp": "5267ab57220f"
 }
 }
 }
