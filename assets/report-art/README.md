@@ -73,6 +73,10 @@ they are not a new audit of each report's underlying data or mathematical model.
 
 ## New report icons — November 2, 2026
 
+Education uses an original code-native school SVG (`../../Education/assets/school.svg`)
+in the same navy/teal/amber palette for its header and homepage card. It is decorative;
+no chart values or official school emblems appear in the artwork.
+
 Healthcare now has a matching hospital/bed/funding illustration in `healthcare.webp`,
 generated with built-in image generation using the exact prompt and style reference
 in `healthcare-prompts.json`. The original PNG remains in Codex generated images;

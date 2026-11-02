@@ -374,11 +374,16 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Ontario education + Ottawa-area class sizes — built locally, publication pending (Nov 2, 2026)
+- Page: `Education/education.html`; provincial funding, public/private financing and public/private education expenditure are separate views. StatCan history through 2023–24, optional approximate school-year CPI adjustment and methodology breaks.
+- Actual September elementary class rows, 2007–08 to 2025–26; all-class/upper-grade coverage starts in 2014–15. Four Ottawa-area board histories and searchable school names, with suppressed cells kept as bounds and ambiguous name/class keys omitted from school lines.
+- Source hashes, financial vectors, aggregate numerator/denominator CSV/JSON, reproducible builders and verification scripts. Secondary/private-school class-size histories and school-level teacher counts are not established.
+
 ### Ontario healthcare + Ottawa hospitals — built locally, publication pending (Nov 2, 2026)
 - Page: `Healthcare/healthcare.html`; Ontario spending 1975–2025 (2024–25 forecasts optional), public/private financing, nominal/health-price-adjusted and total/per-resident controls.
 - Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
 - Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
-- Schools follow after healthcare; school page not started.
+- Education follow-up: `Education/education.html`, built locally with actual elementary class-size history and separate spending/funding views.
 - Access extension (Nov 2): 312 monthly ER records (five Ottawa sites + Ontario, Aug 2025–Aug 2026), separate FAO annual history back to 2008–09, and 11 regular-provider survey estimates. Confidence intervals, partial years and age/definition breaks are explicit; 700 source-record/hash reconciliations pass. Local, publication pending.
 
 

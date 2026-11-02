@@ -224,6 +224,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
       <a href="#wealth">Canada wealth</a>
       <a href="#member-spending">MP &amp; MPP spending</a>
       <a href="#healthcare">Healthcare</a>
+      <a href="#education">Education</a>
       <a href="#oilgas">🛢️ Oil &amp; Gas</a>
       <a href="#ontario-costs">💸 Ontario Costs</a>
       <a href="#octranspo">🚌 OC Transpo KPIs</a>
@@ -239,6 +240,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <!-- ══════════════════ OVERVIEW ══════════════════ -->
 <section id="overview">
   <p class="small"><a href="#healthcare"><b>Healthcare — built locally, publication pending:</b></a> Ontario funding, staff/beds, Ottawa hospital finances and ER waits, plus regular-provider access. Official-source snapshot reviewed Nov 2, 2026.</p>
+  <p class="small"><a href="#education"><b>Education — built locally, publication pending:</b></a> School funding/spending and actual elementary class sizes, with four Ottawa-area boards, school search and suppression ranges. Reviewed Nov 2, 2026.</p>
   <div class="tldr">
     <b>TL;DR:</b> Five tools are live on the homepage, plus five more live but not (yet) featured
     there. Four projects are actively being built. Two collector pipelines (TomTom commutes,
@@ -970,6 +972,11 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 </section>
 
 <!-- ══════════════════ TAX ══════════════════ -->
+<section id="education" class="card">
+  <div class="proj-head"><h2>Education: funding &amp; class sizes</h2><span class="chip">Built · publication pending</span><a class="live-link" href="Education/education.html">open the page ↗</a></div>
+  <p>Ontario provincial funding, financing sources and public/private education spending through 2023–24. Actual elementary class-size records through 2025–26, four Ottawa-area boards and searchable school-name histories.</p>
+  <p class="small">Suppressed cells remain ranges; all-class/upper-grade history starts in 2014–15. Board territories are broader than Ottawa, ambiguous school identifiers stay unjoined, and secondary/private class-size gaps are explicit. <a href="Education/README.md">Method, rebuild and verification notes</a>.</p>
+</section>
 <section id="healthcare" class="card">
   <div class="proj-head"><h2>Healthcare: money, staff &amp; capacity</h2><span class="chip">Built · publication pending</span><a class="live-link" href="Healthcare/healthcare.html">open the page ↗</a></div>
   <p class="small">Access extension: five Ottawa ER sites versus Ontario (13 monthly periods), separate annual history back to 2008–09 and regular-provider survey estimates with confidence intervals. Partial years and age/definition changes remain separate; 700 source-record/hash checks pass.</p>

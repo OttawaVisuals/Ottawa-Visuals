@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Education (Nov 2: separate provincial funding/public-private financing and education spending histories; actual elementary class sizes through 2025–26 for Ontario/four Ottawa-area boards, school-name search, suppression bounds and coverage breaks; 6,488 checks plus control/download/responsive verification; local, publication pending)
 - [x] Healthcare artwork (Nov 2: transparent hospital illustration in header/homepage; seven SVG section icons; 320/390/1240px and three themes checked; exact prompt and assets retained; local, publication pending)
 - [x] Healthcare access (Nov 2: five Ottawa ER sites versus Ontario, first assessment/full stay and average/90th percentile; separate annual Ontario history to 2008–09; regular-provider access with confidence intervals and explicit age/definition breaks; source reconciliation and responsive/control checks; local, publication pending)
 - [x] Ontario healthcare + Ottawa hospitals (Nov 2: CIHI spending 1975–2025 with optional forecasts and health-price/per-resident controls; staff/beds 2014–15 to 2023–24; four Ottawa hospital financial histories and scoped TOH headcounts; source reconciliation, downloads and responsive/theme checks; local, publication pending)
