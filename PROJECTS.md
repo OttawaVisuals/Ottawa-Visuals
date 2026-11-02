@@ -379,6 +379,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
 - Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
 - Schools follow after healthcare; school page not started.
+- Access extension (Nov 2): 312 monthly ER records (five Ottawa sites + Ontario, Aug 2025–Aug 2026), separate FAO annual history back to 2008–09, and 11 regular-provider survey estimates. Confidence intervals, partial years and age/definition breaks are explicit; 700 source-record/hash reconciliations pass. Local, publication pending.
 
 
 

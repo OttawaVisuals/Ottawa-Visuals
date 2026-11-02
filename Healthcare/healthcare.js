@@ -1,7 +1,7 @@
 /* No external chart dependency. Original values and source references stay downloadable. */
 (() => {
 'use strict';
-const D=window.HEALTHCARE_DATA,$=id=>document.getElementById(id);
+const D=window.HEALTHCARE_DATA,A=window.HEALTHCARE_ACCESS,$=id=>document.getElementById(id);
 if(!D){$('error').hidden=false;return;}
 const nf=new Intl.NumberFormat('en-CA',{maximumFractionDigits:1}),integer=new Intl.NumberFormat('en-CA',{maximumFractionDigits:0});
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -10,13 +10,13 @@ const pct=(a,b)=>`${b>=a?'+':''}${fmt((b/a-1)*100)}%`;
 const colours=()=>{const s=getComputedStyle(document.documentElement);return [s.getPropertyValue('--blue').trim(),s.getPropertyValue('--teal').trim(),s.getPropertyValue('--orange').trim()];};
 function table(id,heads,rows){$(id).innerHTML=`<table><thead><tr>${heads.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>i===0?`<th scope="row">${v}</th>`:`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
 function stats(id,items){$(id).innerHTML=items.map(([label,value,note])=>`<article class="stat"><p>${esc(label)}</p><strong class="value">${esc(value)}</strong><p>${esc(note)}</p></article>`).join('');}
-function chart(id,series,{readout,unit,format=n=>nf.format(n),label='Chart'}={}){
+function chart(id,series,{readout,unit,format=n=>nf.format(n),label='Chart',ceiling}={}){
  const el=$(id),width=Math.max(290,Math.round(el.getBoundingClientRect().width)),height=width>650?300:245;
  const margin={l:width>650?66:57,r:18,t:18,b:38},pw=width-margin.l-margin.r,ph=height-margin.t-margin.b;
  const pts=series.flatMap(s=>s.points).filter(p=>p.value!==null&&Number.isFinite(p.value));
  if(!pts.length){el.innerHTML='<div class="empty"><strong>Not available in this release</strong>No comparable historical series has been established. Missing values are not zero.</div>';if(readout)$(readout).textContent='';return;}
  const xs=[...new Set(pts.map(p=>p.x))].sort((a,b)=>a-b),lo=xs[0],hi=xs.at(-1);
- let ymax=Math.max(...pts.map(p=>p.value))*1.13;const raw=ymax/4,pow=10**Math.floor(Math.log10(raw)),step=[1,2,2.5,5,10].find(v=>v*pow>=raw)*pow;ymax=Math.ceil(ymax/step)*step;
+ let ymax=Math.max(...pts.flatMap(p=>[p.value,p.high].filter(Number.isFinite)),0.1)*1.13;const raw=ymax/4,pow=10**Math.floor(Math.log10(raw));let step=[1,2,2.5,5,10].find(v=>v*pow>=raw)*pow;ymax=Math.ceil(ymax/step)*step;if(ceiling&&ymax>ceiling){ymax=ceiling;step=ceiling/4;}
  const x=v=>margin.l+(hi===lo?.5:(v-lo)/(hi-lo))*pw,y=v=>margin.t+ph*(1-v/ymax);
  const ticks=width<480?4:6,selected=xs.filter((_,i)=>i===0||i===xs.length-1||i%Math.ceil((xs.length-1)/(ticks-1))===0);
  let svg=`<svg viewBox="0 0 ${width} ${height}" role="group" aria-label="${esc(label)}"><title>${esc(label)}</title>`;
@@ -27,13 +27,16 @@ function chart(id,series,{readout,unit,format=n=>nf.format(n),label='Chart'}={})
   const cc=colours()[si%3];let last=null;
   s.points.forEach(p=>{
    if(p.value===null||!Number.isFinite(p.value)){last=null;return;}
-   if(last)svg+=`<path class="data-line" stroke="${cc}" ${p.forecast||last.forecast?'stroke-dasharray="6 5"':''} d="M${x(last.x)},${y(last.value)} L${x(p.x)},${y(p.value)}"/>`;
+   if(p.breakBefore)last=null;
+   if(last)svg+=`<path class="data-line" stroke="${cc}" ${p.forecast||last.forecast||p.partial||last.partial?'stroke-dasharray="6 5"':''} d="M${x(last.x)},${y(last.value)} L${x(p.x)},${y(p.value)}"/>`;
    last=p;
   });
   s.points.forEach(p=>{
    if(p.value===null||!Number.isFinite(p.value))return;
-   const text=`${p.label||p.x} · ${s.name}: ${format(p.value)} ${unit||''}${p.forecast?' · Forecast':''}`;
-   svg+=`<circle class="point" tabindex="0" role="button" aria-label="${esc(text)}" data-point="${pointIndex++}" cx="${x(p.x)}" cy="${y(p.value)}" r="3.6" fill="${p.forecast?'var(--bg-2)':cc}" style="stroke:${cc}"><title>${esc(text)}</title></circle>`;
+   const hasCI=Number.isFinite(p.low)&&Number.isFinite(p.high);
+   const text=`${p.label||p.x} · ${s.name}: ${format(p.value)} ${unit||''}${hasCI?` · 95% CI ${format(p.low)}–${format(p.high)}`:''}${p.forecast?' · Forecast':''}${p.partial?' · Partial period':''}${p.note?' · '+p.note:''}`;
+   if(hasCI)svg+=`<path class="confidence" stroke="${cc}" fill="none" d="M${x(p.x)},${y(p.low)}V${y(p.high)} M${x(p.x)-5},${y(p.low)}H${x(p.x)+5} M${x(p.x)-5},${y(p.high)}H${x(p.x)+5}"/>`;
+   svg+=`<circle class="point" tabindex="0" role="button" aria-label="${esc(text)}" data-point="${pointIndex++}" cx="${x(p.x)}" cy="${y(p.value)}" r="3.6" fill="${p.forecast||p.partial?'var(--bg-2)':cc}" style="stroke:${cc}"><title>${esc(text)}</title></circle>`;
    lookup.push(text);
   });
  });
@@ -86,17 +89,69 @@ function hospital(){
  if(h.staffing.length)table('hospital-staff-table',['Fiscal year','Employees','Nurses','Scope','Source'],h.staffing.map(r=>[r.fiscal_year,integer.format(r.employees),integer.format(r.nurses),'TOH + Heart Institute',`<a href="${esc(r.source_url)}">Annual report</a>`]));
  else $('hospital-staff-table').innerHTML='<p>Comparable historical staffing data not established for this hospital in this release.</p>';
 }
+function legend(id,names,extra=''){$(id).innerHTML=names.map((name,i)=>`<span><i class="key" style="background:${colours()[i]}"></i>${esc(name)}</span>`).join('')+extra;}
+const optional=(v,places=1)=>v===null||v===undefined?'Unavailable':fmt(v,places);
+const monthLabel=month=>new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(4))-1,1)).toLocaleDateString('en-CA',{month:'short',year:'numeric',timeZone:'UTC'});
+function emergency(){
+ if(!A){$('access-error').hidden=false;return;}
+ const siteId=Number($('er-site').value),site=A.er_sites.find(s=>s.id===siteId),stat=$('er-statistic').value,group=$('er-group').value;
+ const groups={A:'admitted patients',NAH:'high urgency · not admitted',L:'low urgency · not admitted'};
+ const months=[...new Set(A.er.map(r=>r.month))].sort();
+ const points=(id,metric)=>months.map(month=>{const r=A.er.find(r=>r.site_id===id&&r.metric===metric&&r.month===month);return {x:Number(month.slice(0,4))*12+Number(month.slice(4)),value:r?r[stat]:null,label:monthLabel(month),short:monthLabel(month).replace(' 20',' ’')};});
+ const series=metric=>[{name:site.name,points:points(siteId,metric)},{name:'Ontario',points:points(-354,metric)}];
+ const last=months.at(-1),latest=metric=>A.er.find(r=>r.site_id===siteId&&r.metric===metric&&r.month===last);
+ const assessment=latest('PIA'),stay=latest(group),name=stat==='mean_hours'?'Average':'90th percentile';
+ $('er-period').textContent=`${monthLabel(months[0])}–${monthLabel(last)} · ${months.length} monthly periods · current reporting vintage · reviewed ${A.reviewed}`;
+ stats('er-stats',[[`${name} · first assessment`,assessment&&assessment[stat]!==null?`${fmt(assessment[stat])} h`:'Unavailable',`${site.name} · ${monthLabel(last)}`],[`${name} · full ER stay`,stay&&stay[stat]!==null?`${fmt(stay[stat])} h`:'Unavailable',`${groups[group]} · ${monthLabel(last)}`]]);
+ $('er-stay-title').textContent=`Full ER stay · ${groups[group]}`;
+ chart('er-assessment-chart',series('PIA'),{readout:'er-assessment-readout',unit:'hours',format:n=>fmt(n),label:`${name} time to first assessment: ${site.name} and Ontario`});
+ chart('er-stay-chart',series(group),{readout:'er-stay-readout',unit:'hours',format:n=>fmt(n),label:`${name} full ER stay, ${groups[group]}: ${site.name} and Ontario`});
+ legend('er-legend',[site.name,'Ontario']);
+ $('er-statistic-note').textContent=stat==='mean_hours'?'Average = total eligible time divided by eligible visits. Averages can be influenced by very long stays. No average is calculated by averaging hospital averages.':'90th percentile = 90% of eligible visits took this long or less; 10% took longer. It is not the average or a maximum, and it is not calculated from monthly averages.';
+ const rows=A.er.filter(r=>[siteId,-354].includes(r.site_id)&&['PIA',group].includes(r.metric));
+ table('er-table',['Month','Site','Measure','Average hours','90th percentile hours','Visits','Source'],rows.map(r=>[monthLabel(r.month),esc(r.site),r.metric==='PIA'?'First assessment':esc(groups[r.metric]),optional(r.mean_hours),optional(r.p90_hours),optional(r.visits,0),`<a href="${esc(r.source_url)}">Source JSON</a> · row ${r.source_index+1}`]));
+ emergencyHistory();
+}
+function emergencyHistory(){
+ if(!A||!$('er-history-details').open)return;
+ const group=$('er-history-group').value,rows=A.er_history.filter(r=>r.group===group);
+ $('er-history-title').textContent=`Ontario · average full ER stay · ${group.toLowerCase()}`;
+ chart('er-history-chart',[{name:group,points:rows.map(r=>({x:r.fiscal_start,value:r.mean_hours,label:r.period,short:r.period.slice(2),partial:r.partial,note:r.coverage}))}],{readout:'er-history-readout',unit:'hours',format:n=>fmt(n),label:`FAO 2023 vintage: Ontario average ER length of stay for ${group.toLowerCase()}`});
+ table('er-history-table',['Fiscal year','Average hours','Period coverage','Source'],rows.map(r=>[r.period,fmt(r.mean_hours),esc(r.coverage),`<a href="${esc(r.source_url)}">FAO ${r.source_table}</a>`]));
+}
+function primaryCare(){
+ if(!A)return;
+ const recent=$('provider-series').value==='recent',measure=$('provider-measure').value,without=measure==='without';
+ const rows=A.provider.filter(r=>r.series===(recent?'Recent Ontario adults':'Historical Ottawa comparison')),geos=recent?['Ontario']:['Ottawa','Ontario'];
+ const lastPeriod=rows.map(r=>r.period).sort().at(-1),last=geos.map(g=>rows.find(r=>r.geography===g&&r.period===lastPeriod));
+ const percent=r=>r[measure+'_percent'];
+ stats('provider-stats',recent?[[`Ontario · ${lastPeriod}`,`${fmt(percent(last[0]))}%`,without?'Without a primary-care provider':'With a primary-care provider'],['Survey population','Ages 18+','Adults · household survey'],['Definitions','Changed','2023, 2024 and 2025 remain separate']]:[[`Ottawa · ${lastPeriod}`,`${fmt(percent(last[0]))}%`,without?'Without a regular provider':'With a regular provider'],[`Ontario · ${lastPeriod}`,`${fmt(percent(last[1]))}%`,'Same age group and survey period'],['Survey population','Ages 12+','Two calendar years pooled per point']]);
+ $('provider-definition').textContent=recent?'Separate snapshots: adults aged 18+. The listed provider categories changed in 2024; 2025 asks about a primary-care professional/team and excludes private-pay models. Points are deliberately unconnected. These are not directly comparable with the older ages-12+ Ottawa series.':'Historical comparison: ages 12+, two calendar years per estimate. Pandemic collection disruption affects 2019/20. The 2021/22 point combines different collection methods and response rates; the line breaks before it. The latest Ottawa estimate shown is 2021/22, not a current estimate.';
+ $('provider-chart-title').textContent=without?'People without a regular / primary-care provider':'People with a regular / primary-care provider';
+ const series=geos.map(name=>({name,points:rows.filter(r=>r.geography===name).map(r=>({x:r.period_start,value:percent(r),low:r[measure+'_low'],high:r[measure+'_high'],label:r.period,short:recent?r.period:r.period.replace('/20','/'),breakBefore:r.break_before,note:recent?r.definition:(r.status?`Source flag ${r.status}`:'')}))}));
+ chart('provider-chart',series,{readout:'provider-readout',unit:'%',format:n=>fmt(n),ceiling:100,label:`${without?'Without':'With'} a regular or primary-care provider; ${recent?'Ontario adults 2023–2025, separate definitions':'Ottawa versus Ontario, ages 12+, pooled survey periods'}`});
+ legend('provider-legend',geos,'<span>┤ 95% confidence intervals</span>');
+ table('provider-table',['Period','Geography','Age','With %','95% CI · with','Without %','95% CI · without','Source flag','Source'],rows.map(r=>[r.period,r.geography,esc(r.age),optional(r.has_percent),`${optional(r.has_low)}–${optional(r.has_high)}`,optional(r.without_percent),`${optional(r.without_low)}–${optional(r.without_high)}`,esc(r.status||'None'),`<a href="${esc(r.source_url)}">${esc(r.source_table)}</a> · ${esc(r.source_vector||r.source_coordinate)}`]));
+}
 function download(){
  const keys=Object.keys(currentView[0]),quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
  const csv=[keys,...currentView.map(r=>keys.map(k=>r[k]))].map(r=>r.map(quote).join(',')).join('\r\n');
  const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='ontario-healthcare-selected-view.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-function render(){spending();capacity();hospital();}
+function render(){spending();capacity();hospital();emergency();primaryCare();}
 try{
  $('hospital').innerHTML=D.hospitals.map(h=>`<option value="${esc(h.id)}">${esc(h.name)}</option>`).join('');
  ['category','funding','measure','prices','start','forecasts'].forEach(id=>$(id).addEventListener('change',spending));
  ['capacity-measure','bed-type'].forEach(id=>$(id).addEventListener('change',capacity));
  ['hospital','hospital-metric','hospital-staff'].forEach(id=>$(id).addEventListener('change',hospital));
+ if(A){
+  $('er-site').innerHTML=A.er_sites.filter(s=>s.id!==-354).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  $('er-site').value=String(A.er_sites.find(s=>s.name.includes('General Site')).id);
+  ['er-site','er-statistic','er-group'].forEach(id=>$(id).addEventListener('change',emergency));
+  ['provider-series','provider-measure'].forEach(id=>$(id).addEventListener('change',primaryCare));
+  $('er-history-group').addEventListener('change',emergencyHistory);
+  $('er-history-details').addEventListener('toggle',emergencyHistory);
+ }
  $('download-view').addEventListener('click',download);
  window.setTheme=mode=>{document.documentElement.dataset.theme=mode;localStorage.setItem('ov-theme',mode);render();};
  let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100);});
