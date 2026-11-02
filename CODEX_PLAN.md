@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Ontario healthcare + Ottawa hospitals (Nov 2: CIHI spending 1975–2025 with optional forecasts and health-price/per-resident controls; staff/beds 2014–15 to 2023–24; four Ottawa hospital financial histories and scoped TOH headcounts; source reconciliation, downloads and responsive/theme checks; local, publication pending)
 - [x] New-report text widths (Nov 2: removed prose-width caps from BC, BC 2024 archive, Alberta and MP/MPP spending; explanation paragraphs fill their chart/card width)
 - [x] New-page icons (Nov 2: generated matching transparent MP/MPP spending, BC election and Alberta election illustrations; homepage cards and four page headers, including the BC 2024 archive; exact prompts and lossless assets retained)
 - [x] Publish BC and Alberta elections (Nov 1: BC 2026 preliminary default with dated count status and separate 2024 final archive; Alberta 2023 final; homepage/tracker/docs links and shared chart-key utility; official-source/model checks and responsive preview completed)

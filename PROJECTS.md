@@ -374,6 +374,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### Ontario healthcare + Ottawa hospitals — built locally, publication pending (Nov 2, 2026)
+- Page: `Healthcare/healthcare.html`; Ontario spending 1975–2025 (2024–25 forecasts optional), public/private financing, nominal/health-price-adjusted and total/per-resident controls.
+- Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
+- Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
+- Schools follow after healthcare; school page not started.
+
 
 
 
