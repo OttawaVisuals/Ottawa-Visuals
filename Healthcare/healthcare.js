@@ -18,11 +18,11 @@ function chart(id,series,{readout,unit,format=n=>nf.format(n),label='Chart',ceil
  const xs=[...new Set(pts.map(p=>p.x))].sort((a,b)=>a-b),lo=xs[0],hi=xs.at(-1);
  let ymax=Math.max(...pts.flatMap(p=>[p.value,p.high].filter(Number.isFinite)),0.1)*1.13;const raw=ymax/4,pow=10**Math.floor(Math.log10(raw));let step=[1,2,2.5,5,10].find(v=>v*pow>=raw)*pow;ymax=Math.ceil(ymax/step)*step;if(ceiling&&ymax>ceiling){ymax=ceiling;step=ceiling/4;}
  const x=v=>margin.l+(hi===lo?.5:(v-lo)/(hi-lo))*pw,y=v=>margin.t+ph*(1-v/ymax);
- const ticks=width<480?4:6,selected=xs.filter((_,i)=>i===0||i===xs.length-1||i%Math.ceil((xs.length-1)/(ticks-1))===0);
+ const ticks=width<480?4:6,every=Math.ceil((xs.length-1)/(ticks-1)),selected=xs.filter((_,i)=>i===0||i===xs.length-1||(i%every===0&&xs.length-1-i>=every*.6));
  let svg=`<svg viewBox="0 0 ${width} ${height}" role="group" aria-label="${esc(label)}"><title>${esc(label)}</title>`;
  for(let v=0;v<=ymax+step/10;v+=step){svg+=`<line class="grid" x1="${margin.l}" x2="${width-margin.r}" y1="${y(v)}" y2="${y(v)}"/><text x="${margin.l-10}" y="${y(v)+4}" text-anchor="end">${esc(nf.format(v))}</text>`;}
  selected.forEach(v=>{const p=pts.find(p=>p.x===v);svg+=`<text x="${x(v)}" y="${height-12}" text-anchor="middle">${esc(p.short||v)}</text>`;});
- let pointIndex=0;const lookup=[];
+ let pointIndex=0,initial;const lookup=[];
  series.forEach((s,si)=>{
   const cc=colours()[si%3];let last=null;
   s.points.forEach(p=>{
@@ -34,16 +34,16 @@ function chart(id,series,{readout,unit,format=n=>nf.format(n),label='Chart',ceil
   s.points.forEach(p=>{
    if(p.value===null||!Number.isFinite(p.value))return;
    const hasCI=Number.isFinite(p.low)&&Number.isFinite(p.high);
-   const text=`${p.label||p.x} · ${s.name}: ${format(p.value)} ${unit||''}${hasCI?` · 95% CI ${format(p.low)}–${format(p.high)}`:''}${p.forecast?' · Forecast':''}${p.partial?' · Partial period':''}${p.note?' · '+p.note:''}`;
+   const text=`${p.label||p.x} · ${s.name}: ${format(p.value)}${unit?' '+unit:''}${hasCI?` · 95% CI ${format(p.low)}–${format(p.high)}`:''}${p.forecast?' · Forecast':''}${p.partial?' · Partial period':''}${p.note?' · '+p.note:''}`;
    if(hasCI)svg+=`<path class="confidence" stroke="${cc}" fill="none" d="M${x(p.x)},${y(p.low)}V${y(p.high)} M${x(p.x)-5},${y(p.low)}H${x(p.x)+5} M${x(p.x)-5},${y(p.high)}H${x(p.x)+5}"/>`;
    svg+=`<circle class="point" tabindex="0" role="button" aria-label="${esc(text)}" data-point="${pointIndex++}" cx="${x(p.x)}" cy="${y(p.value)}" r="3.6" fill="${p.forecast||p.partial?'var(--bg-2)':cc}" style="stroke:${cc}"><title>${esc(text)}</title></circle>`;
-   lookup.push(text);
+   lookup.push(text);if(si===0)initial=text;
   });
  });
  el.innerHTML=svg+'</svg>';
  const show=t=>{if(readout)$(readout).textContent=t;};
  el.querySelectorAll('[data-point]').forEach(p=>{const fn=()=>show(lookup[Number(p.dataset.point)]);['pointerenter','focus','click'].forEach(e=>p.addEventListener(e,fn));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn();}});});
- if(readout)show(lookup.at(-1));
+ if(readout)show(initial??lookup.at(-1));
 }
 let currentView=[];
 function spending(){
@@ -68,8 +68,8 @@ function capacity(){
  const staffKey=rate?'fte_per_1000':'fte',bedKey=(acute?'acute_beds':'all_beds')+(rate?'_per_1000':'');
  const points=k=>D.workforce.map(r=>({x:r.fiscal_start,value:r[k],label:r.fiscal_year,short:String(r.fiscal_start).slice(-2)+'–'+String(r.fiscal_start+1).slice(-2)}));
  $('staff-unit').textContent=rate?'FTE per 1,000 residents':'Calculated FTE';$('beds-unit').textContent=rate?'Beds per 1,000 residents':'Staffed beds';$('beds-title').textContent=acute?'Acute-care beds':'All hospital beds';
- chart('staff-chart',[{name:'Hospital staffing',points:points(staffKey)}],{readout:'staff-readout',unit:$('staff-unit').textContent,format:n=>fmt(n,rate?2:1),label:'Ontario hospital staffing by fiscal year'});
- chart('beds-chart',[{name:acute?'Acute-care beds':'All hospital beds',points:points(bedKey)}],{readout:'beds-readout',unit:$('beds-unit').textContent,format:n=>fmt(n,rate?2:0),label:'Ontario staffed hospital beds by fiscal year'});
+ chart('staff-chart',[{name:'Hospital staffing',points:points(staffKey)}],{readout:'staff-readout',unit:rate?'FTE per 1,000 residents':'calculated FTE',format:n=>fmt(n,rate?2:1),label:'Ontario hospital staffing by fiscal year'});
+ chart('beds-chart',[{name:acute?'Acute-care beds':'All hospital beds',points:points(bedKey)}],{readout:'beds-readout',unit:rate?'beds per 1,000 residents':'staffed beds',format:n=>fmt(n,rate?2:0),label:'Ontario staffed hospital beds by fiscal year'});
  table('capacity-table',['Fiscal year','Calculated FTE','FTE / 1,000','Acute beds','Acute / 1,000','All beds','All / 1,000','Organizations'],D.workforce.map(r=>[r.fiscal_year,fmt(r.fte),fmt(r.fte_per_1000,3),integer.format(r.acute_beds),fmt(r.acute_beds_per_1000,3),integer.format(r.all_beds),fmt(r.all_beds_per_1000,3),r.reporting_organizations]));
 }
 function hospital(){
@@ -80,7 +80,7 @@ function hospital(){
  const staffingLast=h.staffing.at(-1);
  stats('hospital-stats',[[`${last.fiscal_year} · ${title}`,`$${fmt(last[metric]/1e6)}M`,'Nominal dollars'],[`${first.fiscal_year} → ${last.fiscal_year}`,pct(first[metric],last[metric]),'Nominal change; scope notes apply'],[staff==='employees'?'Reported employees':'Reported nurses',staffingLast?integer.format(staffingLast[staff]):'Unavailable',staffingLast?`${staffingLast.fiscal_year} · TOH + Heart Institute`:'Comparable history not established']]);
  const p=r=>({x:r.fiscal_end,value:r[metric]/1e6,label:r.fiscal_year,short:String(r.fiscal_end-1).slice(-2)+'–'+String(r.fiscal_end).slice(-2)});
- chart('hospital-chart',[{name:title,points:h.financials.map(p)}],{readout:'hospital-readout',unit:'CAD million',format:n=>'$'+fmt(n,3),label:`${h.name}: ${title} by fiscal year`});
+ chart('hospital-chart',[{name:title,points:h.financials.map(p)}],{readout:'hospital-readout',unit:'',format:n=>'$'+fmt(n)+'M',label:`${h.name}: ${title} by fiscal year`});
  $('hospital-staff-title').textContent=staff==='employees'?'Reported employee headcount':'Reported nurse headcount';
  chart('hospital-staff-chart',[{name:staff==='employees'?'Employees':'Nurses',points:h.staffing.map(r=>({x:r.fiscal_end,value:r[staff],label:r.fiscal_year,short:String(r.fiscal_end-1).slice(-2)+'–'+String(r.fiscal_end).slice(-2)}))}],{readout:'hospital-staff-readout',unit:'people · TOH + Heart Institute',format:n=>integer.format(n),label:`${h.name}: reported ${staff} headcount`});
  if(!h.staffing.length)$('hospital-staff-readout').textContent='Staff counts are not inferred from salaries or funding.';
@@ -91,11 +91,15 @@ function hospital(){
 }
 function legend(id,names,extra=''){$(id).innerHTML=names.map((name,i)=>`<span><i class="key" style="background:${colours()[i]}"></i>${esc(name)}</span>`).join('')+extra;}
 const optional=(v,places=1)=>v===null||v===undefined?'Unavailable':fmt(v,places);
+// Display names only; the downloads keep Ontario Health's site names.
+const siteNames={'Ottawa Hospital (The)-Civic Site':'The Ottawa Hospital – Civic','Ottawa Hospital (The)-General Site':'The Ottawa Hospital – General',"Children's Hospital Of Eastern Ontario":'CHEO','Queensway-Carleton Hospital':'Queensway Carleton','Hopital Montfort':'Hôpital Montfort'};
+const siteName=name=>siteNames[name]||name;
 const monthLabel=month=>new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(4))-1,1)).toLocaleDateString('en-CA',{month:'short',year:'numeric',timeZone:'UTC'});
 function emergency(){
  if(!A){$('access-error').hidden=false;return;}
- const siteId=Number($('er-site').value),site=A.er_sites.find(s=>s.id===siteId),stat=$('er-statistic').value,group=$('er-group').value;
+ const siteId=Number($('er-site').value),site={...A.er_sites.find(s=>s.id===siteId)},stat=$('er-statistic').value,group=$('er-group').value;
  const groups={A:'admitted patients',NAH:'high urgency · not admitted',L:'low urgency · not admitted'};
+ site.name=siteName(site.name);
  const months=[...new Set(A.er.map(r=>r.month))].sort();
  const points=(id,metric)=>months.map(month=>{const r=A.er.find(r=>r.site_id===id&&r.metric===metric&&r.month===month);return {x:Number(month.slice(0,4))*12+Number(month.slice(4)),value:r?r[stat]:null,label:monthLabel(month),short:monthLabel(month).replace(' 20',' ’')};});
  const series=metric=>[{name:site.name,points:points(siteId,metric)},{name:'Ontario',points:points(-354,metric)}];
@@ -109,14 +113,14 @@ function emergency(){
  legend('er-legend',[site.name,'Ontario']);
  $('er-statistic-note').textContent=stat==='mean_hours'?'Average = total eligible time divided by eligible visits. Averages can be influenced by very long stays. No average is calculated by averaging hospital averages.':'90th percentile = 90% of eligible visits took this long or less; 10% took longer. It is not the average or a maximum, and it is not calculated from monthly averages.';
  const rows=A.er.filter(r=>[siteId,-354].includes(r.site_id)&&['PIA',group].includes(r.metric));
- table('er-table',['Month','Site','Measure','Average hours','90th percentile hours','Visits','Source'],rows.map(r=>[monthLabel(r.month),esc(r.site),r.metric==='PIA'?'First assessment':esc(groups[r.metric]),optional(r.mean_hours),optional(r.p90_hours),optional(r.visits,0),`<a href="${esc(r.source_url)}">Source JSON</a> · row ${r.source_index+1}`]));
+ table('er-table',['Month','Site','Measure','Average hours','90th percentile hours','Visits','Source'],rows.map(r=>[monthLabel(r.month),esc(siteName(r.site)),r.metric==='PIA'?'First assessment':esc(groups[r.metric]),optional(r.mean_hours),optional(r.p90_hours),optional(r.visits,0),`<a href="${esc(r.source_url)}">Source JSON</a> · row ${r.source_index+1}`]));
  emergencyHistory();
 }
 function emergencyHistory(){
  if(!A||!$('er-history-details').open)return;
  const group=$('er-history-group').value,rows=A.er_history.filter(r=>r.group===group);
  $('er-history-title').textContent=`Ontario · average full ER stay · ${group.toLowerCase()}`;
- chart('er-history-chart',[{name:group,points:rows.map(r=>({x:r.fiscal_start,value:r.mean_hours,label:r.period,short:r.period.slice(2),partial:r.partial,note:r.coverage}))}],{readout:'er-history-readout',unit:'hours',format:n=>fmt(n),label:`FAO 2023 vintage: Ontario average ER length of stay for ${group.toLowerCase()}`});
+ chart('er-history-chart',[{name:group,points:rows.map(r=>({x:r.fiscal_start,value:r.mean_hours,label:r.period.replace('-','–'),short:r.period.slice(2).replace('-','–'),partial:r.partial,note:r.coverage}))}],{readout:'er-history-readout',unit:'hours',format:n=>fmt(n),label:`FAO 2023 vintage: Ontario average ER length of stay for ${group.toLowerCase()}`});
  table('er-history-table',['Fiscal year','Average hours','Period coverage','Source'],rows.map(r=>[r.period,fmt(r.mean_hours),esc(r.coverage),`<a href="${esc(r.source_url)}">FAO ${r.source_table}</a>`]));
 }
 function primaryCare(){
@@ -145,7 +149,7 @@ try{
  ['capacity-measure','bed-type'].forEach(id=>$(id).addEventListener('change',capacity));
  ['hospital','hospital-metric','hospital-staff'].forEach(id=>$(id).addEventListener('change',hospital));
  if(A){
-  $('er-site').innerHTML=A.er_sites.filter(s=>s.id!==-354).map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  $('er-site').innerHTML=A.er_sites.filter(s=>s.id!==-354).map(s=>`<option value="${s.id}">${esc(siteName(s.name))}</option>`).join('');
   $('er-site').value=String(A.er_sites.find(s=>s.name.includes('General Site')).id);
   ['er-site','er-statistic','er-group'].forEach(id=>$(id).addEventListener('change',emergency));
   ['provider-series','provider-measure'].forEach(id=>$(id).addEventListener('change',primaryCare));

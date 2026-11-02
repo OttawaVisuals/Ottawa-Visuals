@@ -7,3 +7,4 @@ tbody th{position:static;background:transparent;font-weight:500;font-size:12px}t
 @media(max-width:450px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.controls select{padding-right:22px;font-size:11px}}
 @media(max-width:560px){.topbar .back{display:none}.topbar .brand{font-size:14px;flex:0 0 auto}.topbar{gap:8px}.topbar .spacer{min-width:0}}
 #er-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#er-stats .stat{grid-column:auto}.chart .confidence{stroke-width:1.5;opacity:.85}#provider-legend{margin-bottom:12px}
+@media(max-width:700px){.controls label.wide{min-width:100%}}
