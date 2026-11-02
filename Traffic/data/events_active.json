@@ -2852,29 +2852,6 @@
 },
 "fp": "66de170e36b8"
 },
-"29795": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-02 09:27:00",
-"cross_street_1": "Westcliffe",
-"cross_street_2": "Fitzgerald",
-"direction": null,
-"event_id": "29795",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Robertson eastbound reduced to 1 lane between Westcliffe and Fitzgerald due to a disabled vehicle.",
-"lanes": "reduced to 1 lane",
-"lat": 45.320214,
-"lon": -75.837855,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Robertson",
-"source": "city",
-"updated": "2026-11-02 09:27:00"
-},
-"fp": "a8b732e88305"
-},
 "29796": {
 "event": {
 "cause": "construction",
@@ -2943,6 +2920,52 @@
 "updated": "2026-11-02 11:04:00"
 },
 "fp": "51b3837d4805"
+},
+"29799": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 12:42:00",
+"cross_street_1": "ELGIN",
+"cross_street_2": "METCALFE",
+"direction": null,
+"event_id": "29799",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT lane reduction between ELGIN and METCALFE due to construction, from October 29th to January 26th.",
+"lanes": "lane reduction",
+"lat": 45.422497,
+"lon": -75.694293,
+"planned_end": "2027-01-26T17:00",
+"planned_start": "2026-10-29T00:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-11-02 12:44:00"
+},
+"fp": "e776bfa0c856"
+},
+"29801": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 13:09:00",
+"cross_street_1": "417 overpass",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29801",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Moodie southbound reduced to 1 lane at 417 overpass due to construction, from November 4th to 9th between 6:00 and 2:30pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.3404,
+"lon": -75.841769,
+"planned_end": "2026-11-09T14:30",
+"planned_start": "2026-11-02T06:00",
+"priority": "MEDIUM",
+"road": "Moodie",
+"source": "city",
+"updated": "2026-11-02 13:12:00"
+},
+"fp": "fb32961b03e7"
 }
 }
 }
