@@ -158,8 +158,8 @@
     text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 6px}
 
   .barlist{display:flex; flex-direction:column; gap:8px}
-  .barrow{display:grid; grid-template-columns:64px 1fr 48px; align-items:center; gap:8px; font-size:12.5px}
-  @media (min-width:420px){ .barrow{grid-template-columns:88px 1fr 56px} }
+  .barrow{display:grid; grid-template-columns:64px minmax(0,1fr) 48px; align-items:center; gap:8px; font-size:12.5px}
+  @media (min-width:420px){ .barrow{grid-template-columns:88px minmax(0,1fr) 56px} }
   .barrow .nm{display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .barrow .dot{width:9px; height:9px; border-radius:2px; flex:none}
   .bartrack{height:9px; background:var(--line); border-radius:5px; overflow:hidden}
@@ -850,7 +850,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
     return PARTY_ORDER.map(code=>{
       const v=votes[code]||0, pct = total ? v/total*100 : 0;
       return `<div class="barrow">
-        <span class="nm"><span class="dot" style="background:${P[code].color}"></span>${code}</span>
+        <span class="nm ov-key" title="${P[code].name}"><span class="ov-swatch" aria-hidden="true" style="background:${P[code].color}"></span><span class="ov-key-label">${code}</span></span>
         <span class="bartrack"><span class="barfill" style="width:${pct.toFixed(1)}%; background:${P[code].color}"></span></span>
         <span class="pct">${pct.toFixed(1)}%</span>
       </div>`;
@@ -886,9 +886,9 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       s += `<circle class="pt" cx="${X(i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4.5" style="fill:${dotColor}"><title>${tip}</title></circle>`;
       if(showAllLabels || i===0 || i===points.length-1 || i%2===0){
         const labelText = p.label || (p.y.toFixed(1)+"%");
-        s += `<text class="val" x="${X(i).toFixed(1)}" y="${(Y(p.y)-10).toFixed(1)}" text-anchor="middle" style="${p.label?('fill:'+dotColor):''}">${labelText}</text>`;
+        s += `<text class="val" x="${X(i).toFixed(1)}" y="${(Y(p.y)-10).toFixed(1)}" text-anchor="${i===0?'start':i===points.length-1?'end':'middle'}" style="${p.label?('fill:'+dotColor):''}">${labelText}</text>`;
       }
-      s += `<text x="${X(i).toFixed(1)}" y="${H-mb+18}" text-anchor="middle">${p.x}</text>`;
+      s += `<text x="${X(i).toFixed(1)}" y="${H-mb+18}" text-anchor="${i===0?'start':i===points.length-1?'end':'middle'}">${p.x}</text>`;
     });
     svg.innerHTML = s;
   }
@@ -949,7 +949,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       statRow(document.getElementById("turnoutRecentStat"), recent.map(r=>({x:r.year,y:r.turnoutPct})));
 
       document.getElementById("resultsLabel").textContent = "Results · seats by party";
-      const rows = PARTY_ORDER.map(c=>`<tr><td><span class="nm"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${P[c].color}"></span> ${P[c].name}</span></td><td class="num">${tally[c]||0}</td></tr>`).join("");
+      const rows = PARTY_ORDER.map(c=>`<tr><td><span class="nm ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c].color}"></span><span class="ov-key-label">${P[c].name}</span></span></td><td class="num">${tally[c]||0}</td></tr>`).join("");
       document.getElementById("results").innerHTML = `<table class="seats"><thead><tr><th>Party</th><th>Seats</th></tr></thead><tbody>${rows}</tbody></table>`;
 
       document.getElementById("clearSel").disabled = true;
@@ -1046,7 +1046,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
 
   function gaugeLegend(el, segments){
     el.innerHTML = segments.filter(s=>s.value>0).map(s=>
-      `<span class="gl"><span class="dot" style="background:${s.color}"></span>${s.label} <b>${s.value}</b></span>`
+      `<span class="gl ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${s.color}"></span><span class="ov-key-label">${s.label} <b>${s.value}</b></span></span>`
     ).join("");
   }
 
@@ -1091,8 +1091,8 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
       const legendItems = known.filter(p=>{ if(seen.has(p.label)) return false; seen.add(p.label); return true; });
       document.getElementById("turnoutHistoryLegend").innerHTML =
         `<span class="s">Dot colour/label = winning party that year (where known)</span>`
-        + legendItems.map(p=>`<span class="gl" style="display:inline-flex;align-items:center;gap:6px;margin-left:14px">`
-          + `<span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${p.color}"></span>${p.label}</span>`).join("");
+        + legendItems.map(p=>`<span class="gl ov-key" style="margin-left:14px">`
+          + `<span class="ov-swatch" aria-hidden="true" style="background:${p.color}"></span><span class="ov-key-label">${p.label}</span></span>`).join("");
     }
   }
 
@@ -1131,7 +1131,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
               <span class="rank">${i+1}</span>
               <span class="dn">${c.r.name}</span>
               <span class="thr">${need}%</span>
-              <span class="who"><span class="dot" style="background:${P[c.survivor].color}"></span>Combined behind ${P[c.survivor].name}</span>
+              <span class="who ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c.survivor].color}"></span><span class="ov-key-label">Combined behind ${P[c.survivor].name}</span></span>
               <span class="meter"><span style="width:${need}%"></span><i style="left:calc(${coordSlider.value}% - 1px)"></i></span>
             </button></li>`;
           }).join("")
