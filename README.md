@@ -14,6 +14,7 @@ any bookmarked or shared links.
 ## Sub-projects
 | Folder | What it is |
 |---|---|
+| [`Member_Spending/`](Member_Spending/README.md) | Federal MP and Ontario MPP office spending by category; travel spending versus riding-centroid distance, exact values and downloads ([`spending.html`](Member_Spending/spending.html)); published November 1, 2026 |
 | [`Wealth/`](Wealth/README.md) | Canada's wealth distribution: wealth shares and all available household-account quarters, SFS surveys, PBO top-wealth history and earlier studies back to 1970, source rows and downloads ([`wealth.html`](Wealth/wealth.html)) |
 | [`Promises/`](Promises/README.md) | Sutcliffe’s original 2022 commitments and results: property taxes, transit fares, bus reliability, housing, Stage 2 LRT and ByWard Market safety; historical trends, targets and source notes ([`promises.html`](Promises/promises.html)) |
 | [`Budget/`](Budget/README.md) | Ottawa budget: 2023–2026 expense changes; operating/capital/funding charts; Lansdowne 2.0; paramedic, transportation-condition and housing KPI series ([`budget.html`](Budget/budget.html)) |

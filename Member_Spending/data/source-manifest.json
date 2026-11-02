@@ -1,0 +1,86 @@
+[
+  {
+    "url": "https://www.elections.ca/res/cir/mapsCorner/edb/FederalElectoralDistricts_SHP.zip",
+    "file": "tmp/federal-boundaries.zip",
+    "sha256": "61e7a57dfe879bfbdc5f91ff46717a8afa97462afcb1db862ad87c570c341904",
+    "bytes": 10249051
+  },
+  {
+    "url": "https://www.elections.ca/content.aspx?section=res&dir=cir/red/343list&document=index&lang=e",
+    "file": "data/sources/federal-district-names.html.gz",
+    "sha256": "03eb26b3ffe256c9e15f6e5d4fb2c5047eeef56c31185ebe64e93790a1fe7626",
+    "bytes": 12601
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2027/1",
+    "file": "data/sources/federal-2027-q1.html.gz",
+    "sha256": "66001594f7f947af31fa4dba51b2f060b57ade95cd4030834d5ff86891cd2f6f",
+    "bytes": 55632
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/9d297d77-146f-49ce-8e8a-3a3d634feaf3/csv",
+    "file": "data/sources/federal-2027-q1.csv",
+    "sha256": "24b822e42b13e4232cd4753bad224589d56f52732f91852d4fae728fdc06941a",
+    "bytes": 31336
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2026/4",
+    "file": "data/sources/federal-2026-q4.html.gz",
+    "sha256": "347df9b532b34c2fa527551dd52c45fbebe6f8b9b9d68cbb74288ea9d28e0ec8",
+    "bytes": 63316
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/19e42a29-5c76-4004-b593-25658a646847/csv",
+    "file": "data/sources/federal-2026-q4.csv",
+    "sha256": "2a694c7207b3c673d6bcb6cd13700ed2c8b50d90232cdb63ff202bbb33da6222",
+    "bytes": 37853
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2026/3",
+    "file": "data/sources/federal-2026-q3.html.gz",
+    "sha256": "2cdcc6e1ced38f07315c047b65340d8b245456b331db3aa5536049a58ce92085",
+    "bytes": 59856
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2b0d1a58-f2f2-46c1-bdcd-c6076f38a32e/csv",
+    "file": "data/sources/federal-2026-q3.csv",
+    "sha256": "d87a1d37a5ae04aea583a11d99504b2db832c59946a739662207429c8fdcfc6d",
+    "bytes": 34890
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2026/2",
+    "file": "data/sources/federal-2026-q2.html.gz",
+    "sha256": "242971a8b79cf8607ef947c5c58c70ee4f94b9319a8c2593d2c9a666674405a7",
+    "bytes": 63336
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/988e39a9-f20b-4c19-adc6-f0b7e41cf5de/csv",
+    "file": "data/sources/federal-2026-q2.csv",
+    "sha256": "b6034b392527aec54d3163704439d3ac7140a447ee941be0334b01a05ee0a776",
+    "bytes": 37899
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/2026/1",
+    "file": "data/sources/federal-2026-q1.html.gz",
+    "sha256": "916d7d8113ed6d6403fe12119906a8a316d05d8ff67d0872bb298342b954122f",
+    "bytes": 62517
+  },
+  {
+    "url": "https://www.ourcommons.ca/proactivedisclosure/en/members/3e191254-0ae8-4188-93d7-458d02baf8b0/csv",
+    "file": "data/sources/federal-2026-q1.csv",
+    "sha256": "6a24fc587496e69386d55750585e2d30d75bc44bec44f3b310c895c8e1d4bbee",
+    "bytes": 37545
+  },
+  {
+    "url": "https://www.elections.on.ca/content/dam/NGW/sitecontent/2017/preo/shapefiles/Polling%20Division%20Shapefile%20-%202025%20General%20Election.zip",
+    "file": "tmp/ontario-boundaries.zip",
+    "sha256": "5a9be7c8d1722466d3e5d14d3667e428f561f60e9dae4d56f03eb18754fcdbf7",
+    "bytes": 9100400
+  },
+  {
+    "url": "https://www.ola.org/sites/default/files/common/pdf/2025-2026-individual-members-expenditures.pdf",
+    "file": "data/sources/ontario-2025-2026.pdf",
+    "sha256": "7bfcdf7892339d8c5a3a0cb83d17404d44337eb260298c027a61079f55a39186",
+    "bytes": 761667
+  }
+]

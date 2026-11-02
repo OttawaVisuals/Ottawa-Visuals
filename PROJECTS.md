@@ -361,6 +361,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
+### MP & MPP spending
+- **Built Nov 1, 2026; published November 1, 2026:** `Member_Spending/spending.html`, linked from the homepage.
+- Five official federal quarters (Apr–Jun 2025 through Apr–Jun 2026) and Ontario’s 2025–26 annual report; category rankings, member details, search, federal province filter, exact tables and CSV/JSON.
+- Travel-versus-distance scatter uses official district boundaries and geometric centroids to Parliament Hill/Queen’s Park. Renamed federal districts join by official codes/names; April–June 2025 distance comparisons are disabled across redistribution. Missing distances remain missing. Ontario bundled travel/hospitality, partial service, closing costs and different reporting periods are explicit.
+- Ontario PDF monetary columns reconciled against published totals; accommodation overages counted once. Original source files, SHA-256 manifest, reproducible builder and six data checks retained. See `Member_Spending/README.md` for methodology and verification.
+
 
 ### Sutcliffe’s 2022 promises
 - ByWard Market safety added October 24: official OPS neighbourhood aggregates for four selected incident categories, 2018–2025; 32 counts independently checked against 7,893 records without retaining identifiers/points. Original 2022 wording and June 2024 operations-centre opening; separate action/outcome evidence, no safety score. OPS preliminary/time-comparison warning prominent; sources, scope boundary, CSV/JSON and checks included.

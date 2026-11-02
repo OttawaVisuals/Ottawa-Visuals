@@ -1,0 +1,2 @@
+# Preserve official source bytes so recorded SHA-256 hashes survive checkout.
+data/sources/* -text -whitespace
