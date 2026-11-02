@@ -200,6 +200,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
+### MP & MPP spending
+- **Published Nov 1, 2026:** `Member_Spending/spending.html`, linked from the homepage.
+- Five official federal quarters (Apr–Jun 2025 through Apr–Jun 2026) and Ontario’s 2025–26 annual report; category rankings, member details, search, federal province filter, exact tables and CSV/JSON.
+- Travel-versus-distance scatter uses official district boundaries and geometric centroids to Parliament Hill/Queen’s Park. Renamed federal districts join by official codes/names; April–June 2025 distance comparisons are disabled across redistribution. Missing distances remain missing. Ontario bundled travel/hospitality, partial service, closing costs and different reporting periods are explicit.
+- Ontario PDF monetary columns reconciled against published totals; accommodation overages counted once. Original source files, SHA-256 manifest, reproducible builder and six data checks retained. See `Member_Spending/README.md` for methodology and verification.
+
 ### Shared public-report artwork
 - **Published Oct 31, 2026:** eleven matching navy/teal/amber illustrations extend the wealth design across all twelve homepage cards, eleven report headers and 59 section labels.
 - No executable report scripts, element IDs, formulas or data changed. Desktop/phone comparisons, all themes, representative controls and asset/syntax checks completed; baseline overflow limitations retained in `assets/report-art/README.md`.
@@ -361,11 +367,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
-### MP & MPP spending
-- **Built Nov 1, 2026; published November 1, 2026:** `Member_Spending/spending.html`, linked from the homepage.
-- Five official federal quarters (Apr–Jun 2025 through Apr–Jun 2026) and Ontario’s 2025–26 annual report; category rankings, member details, search, federal province filter, exact tables and CSV/JSON.
-- Travel-versus-distance scatter uses official district boundaries and geometric centroids to Parliament Hill/Queen’s Park. Renamed federal districts join by official codes/names; April–June 2025 distance comparisons are disabled across redistribution. Missing distances remain missing. Ontario bundled travel/hospitality, partial service, closing costs and different reporting periods are explicit.
-- Ontario PDF monetary columns reconciled against published totals; accommodation overages counted once. Original source files, SHA-256 manifest, reproducible builder and six data checks retained. See `Member_Spending/README.md` for methodology and verification.
+
 
 
 ### Sutcliffe’s 2022 promises
