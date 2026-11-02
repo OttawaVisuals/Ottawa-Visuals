@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] New-report text widths (Nov 2: removed prose-width caps from BC, BC 2024 archive, Alberta and MP/MPP spending; explanation paragraphs fill their chart/card width)
 - [x] New-page icons (Nov 2: generated matching transparent MP/MPP spending, BC election and Alberta election illustrations; homepage cards and four page headers, including the BC 2024 archive; exact prompts and lossless assets retained)
 - [x] Publish BC and Alberta elections (Nov 1: BC 2026 preliminary default with dated count status and separate 2024 final archive; Alberta 2023 final; homepage/tracker/docs links and shared chart-key utility; official-source/model checks and responsive preview completed)
 - [x] MP & MPP spending (Nov 1: five official federal quarters and Ontario 2025–26 annual categories; member search/rankings/details, travel-versus-riding-distance scatter, source reconciliation, CSV/JSON, method and local navigation; published November 1, 2026)
