@@ -123,18 +123,20 @@ function downloadFinance(){
 const T=window.EDUCATION_THRESHOLDS;
 function thresholds(){
  if(!T){$('threshold-error').hidden=false;return;}
- const geo=$('threshold-board').value,year=Number($('threshold-year').value),rule=T.rules.find(r=>r.id===$('threshold-rule').value),share=$('threshold-measure').value==='share';
- const rows=T.counts.filter(r=>r.geo===geo&&r.rule===rule.id&&r.year<=year),last=rows.at(-1),area=geo==='ontario'?'Ontario combined':boardLabels[geo];
+ const geo=$('threshold-board').value,year=Number($('threshold-year').value),rule=T.rules.find(r=>r.id===$('threshold-rule').value),share=$('threshold-measure').value==='share',oecd=rule.family==='oecd',scope=$('threshold-scope').value;
+ $('threshold-scope-control').hidden=!oecd;
+ const rows=T.counts.filter(r=>r.geo===geo&&r.rule===rule.id&&r.year<=year&&r.scope===(oecd?scope:'rule')),last=rows.at(-1),area=geo==='ontario'?'Ontario combined':boardLabels[geo];
  const percent=r=>r.classes?[100*r.above_low/r.classes,100*r.above_high/r.classes]:[null,null];
  const [pl,ph]=percent(last);
- $('threshold-definition').textContent=`${rule.kind}. ${rule.note} ${geo==='ontario'?'Ontario totals combine boards; a combined share or average cannot establish board-level compliance.':D.boards[geo]+' · Entire board territory.'}`;
- stats('threshold-stats',[[`${schoolYear(year)} · above ${rule.limit}`,range(last.above_low,last.above_high,0),'Classes certainly above → possibly above'],['Eligible reported classes',fmt(last.classes,0),last.classes?range(pl,ph)+'% above reference':'No eligible rows in this selection'],['Reference',`${rule.limit} students`,rule.kind]]);
+ $('threshold-definition').textContent=`${rule.kind}. ${rule.note} ${oecd?'Ontario comparison scope: '+T.scopes[scope]+'. ':''}${geo==='ontario'?'Ontario totals combine boards; a combined share or average cannot establish board-level compliance.':D.boards[geo]+' · Entire board territory.'}`;
+ stats('threshold-stats',[[`${schoolYear(year)} · above ${rule.limit}`,range(last.above_low,last.above_high,0),'Classes certainly above → possibly above'],[oecd?'Comparison classes':'Eligible reported classes',fmt(last.classes,0),last.classes?range(pl,ph)+'% above reference':'No eligible rows in this selection'],[oecd?'OECD published average':'Reference',`${rule.limit} students`,rule.kind]]);
  const unit=share?'% of eligible reported classes':'reported classes';
  $('threshold-chart-title').textContent=rule.label;$('threshold-unit').textContent=unit;
  chart('threshold-chart',[{name:area,points:rows.map(r=>{const [low,high]=share?percent(r):[r.above_low,r.above_high];return {year:r.year,low,high,label:range(low,high,share?1:0)};})}],{readout:'threshold-readout',unit,title:`${rule.label} · ${area} · fixed reference`,integerAxis:!share,reference:share&&rule.share_limit&&geo!=='ontario'?{value:rule.share_limit,label:'10% board-share reference'}:null});
- $('threshold-share-note').textContent=rule.share_limit?`Board-share reference: no more than ${rule.share_limit}% above ${rule.limit}. ${rule.id==='k29'?'That allowance requires specified exception conditions, and never permits a JK/K-only class above 32.':'Classes of 21–23 can be allowed within the board-share rule.'} No compliance verdict is calculated from these source rows.`:'An above-reference count is a source-data flag for review. Union proposal counts are not legal violations.';
- const all=T.counts.filter(r=>r.geo===geo&&r.year===year);
- table('threshold-table',['Reference','Type','Eligible classes','Above · count range','Above · share range'],T.rules.map(r=>{const a=all.find(a=>a.rule===r.id);return [esc(r.label),esc(r.kind),fmt(a.classes,0),a.classes?range(a.above_low,a.above_high,0):'Unavailable',a.classes?range(...percent(a))+'%':'Unavailable'];}));
+ $('threshold-share-note').textContent=oecd?'Descriptive comparison only. Above the OECD average does not mean above a recommended maximum or a legal limit.':rule.share_limit?`Board-share reference: no more than ${rule.share_limit}% above ${rule.limit}. ${rule.id==='k29'?'That allowance requires specified exception conditions, and never permits a JK/K-only class above 32.':'Classes of 21–23 can be allowed within the board-share rule.'} No compliance verdict is calculated from these source rows.`:'An above-reference count is a source-data flag for review. Union proposal counts are not legal violations.';
+ const all=T.counts.filter(r=>r.geo===geo&&r.year===year&&(r.scope==='rule'||r.scope===scope));
+ table('threshold-table',['Reference','Type / class scope','Eligible classes','Above · count range','Above · share range'],T.rules.map(r=>{const a=all.find(a=>a.rule===r.id);return [esc(r.label),esc(r.kind+(r.family==='oecd'?' · '+T.scopes[scope]:'')),fmt(a.classes,0),a.classes?range(a.above_low,a.above_high,0):'Unavailable',a.classes?range(...percent(a))+'%':'Unavailable'];}));
+ $('threshold-oecd-note').textContent=`OECD rows use ${T.scopes[scope]}. The OECD primary average covers grades 1–6; lower secondary covers grades 7–9. Ontario combines grades 4–8, so these counts compare with fixed published averages rather than matching the OECD grade populations. The 2024 averages are held fixed across this history; they are not each year's OECD average.`;
  const avgs=T.averages.filter(r=>r.geo===geo&&r.year===year);
  table('average-reference-table',['Population','Reported class rows','Average · range','Board-average reference','Comparison scope'],avgs.map(r=>[r.group==='kindergarten'?'All classes containing JK/K · fractional denominator':'All classes containing grades 4–8',fmt(r.classes,0),range(r.average_low,r.average_high),fmt(r.reference),geo==='ontario'?'Combined boards · descriptive only':'Source rows only · not a compliance verdict']));
 }
@@ -148,9 +150,10 @@ try{
  if(T){
   $('threshold-board').innerHTML=Object.entries(boardLabels).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('')+'<option value="ontario">Ontario combined · descriptive</option>';
   $('threshold-year').innerHTML=T.years.map(y=>`<option value="${y}">${schoolYear(y)}</option>`).join('');$('threshold-year').value=String(T.years.at(-1));
-  const shortRules={primary23:'Primary >23 · hard cap',primary20:'Primary >20 · 90% rule',mixed23:'Mixed primary/upper >23',k29:'Kindergarten >29 · exceptions',k32:'Kindergarten >32 · ceiling',etfo24:'Grades 4–8 >24 · ETFO proposal',etfo26:'Kindergarten >26 · ETFO proposal'};
+  $('threshold-scope').innerHTML=Object.entries(T.scopes).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('');
+  const shortRules={primary23:'Primary >23 · hard cap',primary20:'Primary >20 · 90% rule',mixed23:'Mixed primary/upper >23',k29:'Kindergarten >29 · exceptions',k32:'Kindergarten >32 · ceiling',etfo24:'Grades 4–8 >24 · ETFO proposal',etfo26:'Kindergarten >26 · ETFO proposal',oecd21:'OECD primary average · 21',oecd23:'OECD lower-secondary average · 23'};
   $('threshold-rule').innerHTML=T.rules.map(r=>`<option value="${r.id}">${esc(shortRules[r.id])}</option>`).join('');
-  ['threshold-board','threshold-year','threshold-rule','threshold-measure'].forEach(id=>$(id).addEventListener('change',thresholds));
+  ['threshold-board','threshold-year','threshold-rule','threshold-measure','threshold-scope'].forEach(id=>$(id).addEventListener('change',thresholds));
  }
  window.setTheme=mode=>{document.documentElement.dataset.theme=mode;localStorage.setItem('ov-theme',mode);render();};
  let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100);});

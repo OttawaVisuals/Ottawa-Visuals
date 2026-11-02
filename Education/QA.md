@@ -32,3 +32,12 @@ Built and committed locally; no publication or collector changes.
 - 320/390/768/1240px × three themes with the average table expanded: no document overflow, data errors or invalid paths. Two average rows and the share-reference line remain present. Browser CSV download matches all 245 exported rows exactly; JSON/JS payloads agree, local assets/anchors resolve and existing IDs are retained. No browser JavaScript errors.
 - A long initial 490-case UI batch exceeded the tool time limit; the completed 140-case boundary sweep and seven cutoff checks above are the reported UI coverage. This was a test-run timeout, not a page error.
 - Threshold benchmarks are screening references held constant, not a historical compliance audit. The original `<5` = 1–4 positive-cell assumption continues to apply. Source flags cannot identify excluded self-contained classes or prove exception eligibility.
+
+
+## OECD comparison extension
+
+- `check_thresholds.py`: **2,062 checks pass**, including independent XML reconciliation of all latest OECD counts/scopes, population identities and nested 21/23 counts. The 245 prior count rows and 70 average rows are unchanged in values; scope metadata is added.
+- Two published rounded OECD 2024 averages (21 primary, 23 lower secondary), each with three Ontario comparison scopes, add 210 rows: 455 total. All JK/K-containing classes are excluded. No exact OECD-grade or special-needs population match is claimed; averages are descriptive, held fixed across history.
+- Browser: all six OECD reference/scope combinations verified for Ontario 2025–26 with nine reference-table rows; legacy primary-23 values and hidden scope control checked. Percentage mode and the first-year single-point history checked. Latest Ontario grades 1–8 above 21 = 27,941–28,185 / 50,890; above 23 = 20,250–20,287 / 50,890.
+- New OECD controls checked at 320/390/1240px with no document overflow or invalid paths. Downloaded CSV is byte-identical to the 455-row export; JSON/JS agree. JS syntax passes. Screenshot: `output/education/oecd-preview.jpg` (local/untracked).
+- An attempted larger UI sweep timed out; only the completed checks above are claimed. Existing financial/class-size exports remain unchanged. Local, publication pending.

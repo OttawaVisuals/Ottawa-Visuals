@@ -1,2 +1,3 @@
 .page-header{max-width:none}.controls input{min-height:42px;min-width:0;width:100%;font:inherit;font-size:12px;border:1px solid var(--line);color:var(--ink);background:var(--bg-2);padding:8px 10px;border-radius:6px}.chart .range{stroke-width:2;opacity:.8}.chart .bounds-line{stroke-width:1.5;stroke-dasharray:3 3;fill:none}.stats .value{font-size:clamp(24px,3vw,32px)}.controls label.wide{flex:2;min-width:220px}.chart:empty{min-height:230px}.methodology li,#gaps li{margin-bottom:10px}.chart .range-area{opacity:.12}.readout{overflow-wrap:anywhere}
 @media(max-width:700px){.controls label.wide{min-width:100%}.stat .value{font-size:25px}}
+.oecd-scope[hidden]{display:none!important}

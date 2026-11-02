@@ -15,7 +15,10 @@ RULES=[
  dict(id='k32',group='kindergarten',limit=32,label='Kindergarten classes above 32',kind='Provincial absolute-cap reference',note='JK/K-only classes above the 32-student exception ceiling. These are source-row flags, not verified violations.'),
  dict(id='etfo24',group='upper',limit=24,label='Grades 4–8-only classes above 24',kind='ETFO proposed cap · 2025–26 submission',note='Union recommendation, not an individual-class legal maximum. Mixed primary/upper classes are tracked separately against 23.'),
  dict(id='etfo26',group='kindergarten',limit=26,label='Kindergarten classes above 26',kind='ETFO proposed cap · 2025–26 submission',note='Union recommendation for individual JK/K-only classes. The provincial 26-student requirement is a board average, not this individual cap.'),
+ dict(id='oecd21',group='oecd',family='oecd',limit=21,label='Classes above OECD primary average (21)',kind='OECD observed average · 2024',note='Published rounded average: 21 students per primary class, corresponding to grades 1–6 in the Canadian mapping. The selected Ontario class scope is a descriptive comparison, not a matched OECD-level estimate or recommended maximum.'),
+ dict(id='oecd23',group='oecd',family='oecd',limit=23,label='Classes above OECD lower-secondary average (23)',kind='OECD observed average · 2024',note='Published rounded average: 23 students per lower-secondary class, corresponding to grades 7–9 in the Canadian mapping. The selected Ontario class scope is a descriptive comparison, not a matched OECD-level estimate or recommended maximum.'),
 ]
+SCOPES={'grades1to8':'Grades 1–8 · excludes all JK/K classes','grades1to3':'Grades 1–3 only','grades4to8':'Grades 4–8 only'}
 
 def bounds(value):
     if value=='<5':return 1,4
@@ -51,9 +54,13 @@ for filename,sources in by_file.items():
             geo=ALIASES.get(row[1]);geos=['ontario']+([geo] if geo else [])
             for area in geos:
                 for rule in RULES:
-                    if rule['group']!=group:continue
-                    a=counts[(year,area,rule['id'])]
-                    a['classes']+=1;a['above_low']+=low>rule['limit'];a['above_high']+=high>rule['limit'];a['suppressed_classes']+=low!=high
+                    scopes=[]
+                    if rule.get('family')=='oecd' and not kind:
+                        scopes=['grades1to8']+(['grades1to3'] if primary and not upper else [])+(['grades4to8'] if upper and not primary else [])
+                    elif rule['group']==group:scopes=['rule']
+                    for scope in scopes:
+                        a=counts[(year,area,rule['id'],scope)]
+                        a['classes']+=1;a['above_low']+=low>rule['limit'];a['above_high']+=high>rule['limit'];a['suppressed_classes']+=low!=high
                 if upper:
                     a=averages[(year,area,'upper')];a['classes']+=1
                     a['students_low']+=low;a['students_high']+=high
@@ -74,19 +81,23 @@ rows=[]
 for year in range(2019,2026):
     for geo in ['ontario',*BASE['boards']]:
         for rule in RULES:
-            rows.append(dict(year=year,geo=geo,rule=rule['id'],**counts[(year,geo,rule['id'])]))
+            for scope in SCOPES if rule.get('family')=='oecd' else ['rule']:
+                rows.append(dict(year=year,geo=geo,rule=rule['id'],scope=scope,**counts[(year,geo,rule['id'],scope)]))
 avgs=[]
 for (year,geo,group),a in sorted(averages.items()):
     avgs.append(dict(year=year,geo=geo,group=group,reference=26 if group=='kindergarten' else 24.5,
                      average_low=a['students_low']/a['class_equivalents_high'],
                      average_high=a['students_high']/a['class_equivalents_low'],**a))
-data=dict(reviewed='2026-11-02',years=list(range(2019,2026)),rules=RULES,counts=rows,averages=avgs,coverage=coverage,
-          reference_basis='Fixed provincial numeric references and dated ETFO proposals, held constant across the displayed history. Not a historical compliance audit.')
+data=dict(reviewed='2026-11-02',years=list(range(2019,2026)),rules=RULES,scopes=SCOPES,counts=rows,averages=avgs,coverage=coverage,
+          oecd=dict(reference_year=2024,publication_year=2026,primary=21,lower_secondary=23,
+                    source_url='https://www.oecd.org/en/publications/education-at-a-glance-2026_b4968bbc-en/full-report/how-do-student-teacher-ratios-and-class-sizes-vary-across-education-levels_30c0e06c.html',
+                    mapping_url='https://gpseducation.oecd.org/Content/EAGCountryNotes/EAG2023_CN_CAN_pdf.pdf#page=9'),
+          reference_basis='Fixed provincial numeric references, dated ETFO proposals and OECD 2024 rounded observed averages, held constant across the displayed history. Not a historical compliance audit or best-practice assessment.')
 for filename,prefix,suffix in [('thresholds.json','','\n'),('threshold-data.js','window.EDUCATION_THRESHOLDS=',';\n')]:
     (ROOT/'data'/filename).write_text(prefix+json.dumps(data,ensure_ascii=False,separators=(',',':'))+suffix,encoding='utf-8')
 rule_by_id={r['id']:r for r in RULES}
 csv_counts=[dict(**r,reference_label=rule_by_id[r['rule']]['label'],reference_type=rule_by_id[r['rule']]['kind'],
-                 threshold_students=rule_by_id[r['rule']]['limit'],comparison='strictly greater than') for r in rows]
+                 scope_label=SCOPES.get(r['scope'],'Rule-defined population'),threshold_students=rule_by_id[r['rule']]['limit'],comparison='strictly greater than') for r in rows]
 for filename,records in [('class-thresholds.csv',csv_counts),('board-average-references.csv',avgs)]:
     with (ROOT/'data'/filename).open('w',encoding='utf-8-sig',newline='') as f:
         writer=csv.DictWriter(f,fieldnames=list(records[0]));writer.writeheader();writer.writerows(records)

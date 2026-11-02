@@ -375,6 +375,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ## 🔄 In Progress
 
 ### Ontario education + Ottawa-area class sizes — built locally, publication pending (Nov 2, 2026)
+- OECD extension: 2024 observed primary/lower-secondary averages of 21/23, three Ontario comparison scopes excluding JK/K, explicit grade mismatch and fixed-reference history; 455 count rows and 2,062 source/population checks. Descriptive averages, not recommended caps.
 - Threshold extension: seven separate provincial/ETFO numeric references; count/share history 2019–20 to 2025–26, correct mixed-class populations, separate board-average bounds and 1,192 source/population checks. Source-row flags, not confirmed violations; exception/property fields remain unavailable.
 - Page: `Education/education.html`; provincial funding, public/private financing and public/private education expenditure are separate views. StatCan history through 2023–24, optional approximate school-year CPI adjustment and methodology breaks.
 - Actual September elementary class rows, 2007–08 to 2025–26; all-class/upper-grade coverage starts in 2014–15. Four Ottawa-area board histories and searchable school names, with suppressed cells kept as bounds and ambiguous name/class keys omitted from school lines.
