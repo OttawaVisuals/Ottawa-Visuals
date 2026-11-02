@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Education class-size thresholds (Nov 2: seven separate provincial/ETFO references, counts/shares for 2019–20 to 2025–26, suppression ranges, conditional limits and board-average inputs; 1,192 source/population checks plus UI/download/theme checks; screening flags, not compliance findings; local, publication pending)
 - [x] Education (Nov 2: separate provincial funding/public-private financing and education spending histories; actual elementary class sizes through 2025–26 for Ontario/four Ottawa-area boards, school-name search, suppression bounds and coverage breaks; 6,488 checks plus control/download/responsive verification; local, publication pending)
 - [x] Healthcare artwork (Nov 2: transparent hospital illustration in header/homepage; seven SVG section icons; 320/390/1240px and three themes checked; exact prompt and assets retained; local, publication pending)
 - [x] Healthcare access (Nov 2: five Ottawa ER sites versus Ontario, first assessment/full stay and average/90th percentile; separate annual Ontario history to 2008–09; regular-provider access with confidence intervals and explicit age/definition breaks; source reconciliation and responsive/control checks; local, publication pending)

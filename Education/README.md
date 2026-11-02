@@ -24,6 +24,21 @@ OCDSB, OCSB, CEPEO and CECCE are whole board territories; French-language boards
 
 Secondary/private-school class sizes, teachers by school and matched spending-per-student denominators are not established in this release. No proxy is substituted. Kindergarten changes, pandemic remote arrangements, reporting coverage and student needs can affect comparisons; the report makes no causal claim about funding and class size.
 
+## Classes above references
+
+The threshold section counts source rows above seven numeric references from 2019–20 to 2025–26 for Ontario and the four boards. These are **screening flags, not confirmed violations**. Provincial individual caps, conditional/share rules and dated ETFO proposals stay separate. Numeric references are held constant across the graph; this is not a reconstruction of each year's official compliance findings. Categories overlap and must not be summed.
+
+- Primary eligibility: grades 1–3 present, optionally with JK/K, and no grades 4–8. Count strictly above 20 and strictly above 23 separately. At least 90% at/below 20 permits some classes of 21–23.
+- Mixed primary/upper eligibility: JK/K or grades 1–3 present together with grades 4–8; compare the entire class with 23. JK/K is part of the primary division for this screening population.
+- Kindergarten-only: compare with 29 and the 32-student exception ceiling separately. Above 29 can be permitted within the board-share rule under specified conditions. Exception approvals/class-property fields are missing.
+- ETFO proposals: count JK/K-only classes above 26 and grades-4–8-only classes above 24. These are recommendations in the [2025–26 submission](https://www.etfo.ca/getmedia/84a55402-86e9-46d8-a372-44e9cfaa422b/241112_EducationFundingSubmission.pdf#page=19), not legal individual caps.
+
+Average references (26 for kindergarten; 24.5 for grades 4–8) are a separate table. The upper population includes every class with a grades-4–8 student, including mixed classes. Kindergarten uses all classes with JK/K: numerator = JK/K pupils; denominator = sum of each class's JK/K fraction. For a suppressed mixed class with K in [kl,kh] and other pupils in [ol,oh], its fraction lies in [kl/(kl+oh), kh/(kh+ol)]. The combined mean is conservatively bounded by total K-low / denominator-high and total K-high / denominator-low. No midpoint is imputed. Formal reporting rounds averages to one decimal and uses unavailable class-property fields; no compliance verdict is calculated. Ontario combined averages/shares do not establish board-level compliance.
+
+References: [O. Reg. 132/12, ss. 2–10](https://www.ontario.ca/laws/regulation/120132), [2018–19 reporting requirements](https://efis.fma.csc.gov.on.ca/faab/Memos/SB2018/SB14_EN.pdf) (documents the 29/32, 20/23 and average structure), and the [2025–26 reporting guide](https://efis.fma.csc.gov.on.ca/faab/Memos/SB2025/SB04_Attach_EN_1.pdf). Exception details and historical board provisions can vary. The public file cannot support a legal audit or secondary-school screening.
+
+`thresholds.json` / `threshold-data.js` retain rule definitions, 245 area/year/reference count rows, 70 average rows, input bounds, workbook URLs and source hashes. The count CSV includes the reference label/type and strict-greater-than comparison; average inputs are separate. Existing financial/class-size datasets are unchanged by this extension.
+
 ## Rebuild
 
 Python 3; `check_data.py` also uses `openpyxl` for an independent read-only source import. No workbook is authored or changed.
@@ -32,6 +47,8 @@ Python 3; `check_data.py` also uses `openpyxl` for an independent read-only sour
 python Education/scripts/fetch_sources.py
 python Education/scripts/build_data.py
 python Education/scripts/check_data.py
+python Education/scripts/build_thresholds.py
+python Education/scripts/check_thresholds.py
 node --check Education/education.js
 ```
 

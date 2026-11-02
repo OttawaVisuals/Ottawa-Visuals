@@ -17,17 +17,19 @@ function range(low,high,d=1){
 function table(id,heads,rows){$(id).innerHTML=`<table><thead><tr>${heads.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<${i?'td':'th scope="row"'}>${v}</${i?'td':'th'}>`).join('')}</tr>`).join('')}</tbody></table>`;}
 function stats(id,items){$(id).innerHTML=items.map(([label,value,note])=>`<article class="stat"><p>${esc(label)}</p><strong class="value">${esc(value)}</strong><p>${esc(note)}</p></article>`).join('');}
 function legend(id,names){$(id).innerHTML=names.map((name,i)=>`<span><i class="key" style="background:${colour(i)}"></i>${esc(name)}</span>`).join('');}
-function chart(id,series,{readout,unit,format=n=>fmt(n),title}){
+function chart(id,series,{readout,unit,format=n=>fmt(n),title,integerAxis=false,reference=null}){
  const el=$(id),valid=series.flatMap(s=>s.points).filter(p=>Number.isFinite(p.low));
- if(!valid.length){el.innerHTML='<div class="empty"><strong>No comparable class records for this selection</strong>Try another class group or school name. Missing records are not zero.</div>';$(readout).textContent='';return;}
+ if(!valid.length){el.innerHTML='<div class="empty"><strong>No comparable records for this selection</strong>Try another selection. Missing records are not zero.</div>';$(readout).textContent='';return;}
  const width=Math.max(240,Math.round(el.getBoundingClientRect().width)),height=width>650?300:245,m={l:53,r:18,t:20,b:40},pw=width-m.l-m.r,ph=height-m.t-m.b;
  const years=[...new Set(valid.map(p=>p.year))].sort((a,b)=>a-b),first=years[0],last=years.at(-1);
- const max=Math.max(...valid.map(p=>p.high),.1)*1.13,raw=max/4,pow=10**Math.floor(Math.log10(raw)),step=[1,2,2.5,5,10].find(v=>v*pow>=raw)*pow,ymax=Math.ceil(max/step)*step;
+ const max=Math.max(...valid.map(p=>p.high),reference?.value||0,.1)*1.13,raw=max/4,pow=10**Math.floor(Math.log10(raw)),niceStep=[1,2,2.5,5,10].find(v=>v*pow>=raw)*pow,step=integerAxis?Math.max(1,niceStep):niceStep,ymax=Math.ceil(max/step)*step;
  const x=y=>m.l+(first===last?.5:(y-first)/(last-first))*pw,y=v=>m.t+ph*(1-v/ymax);
  const tickYears=years.filter((v,i)=>i===0||i===years.length-1||((i%Math.ceil((years.length-1)/(width<600?3:5)))===0&&x(last)-x(v)>65));
  let svg=`<svg viewBox="0 0 ${width} ${height}" role="group" aria-label="${esc(title)}"><title>${esc(title)}</title>`;
- for(let v=0;v<=ymax+step/10;v+=step)svg+=`<line class="grid" x1="${m.l}" x2="${width-m.r}" y1="${y(v)}" y2="${y(v)}"/><text x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v,v!==0&&v<1?1:0)}</text>`;
+ const tickDecimals=Number.isInteger(step)?0:Math.max(1,-Math.floor(Math.log10(step)));
+ for(let v=0;v<=ymax+step/10;v+=step)svg+=`<line class="grid" x1="${m.l}" x2="${width-m.r}" y1="${y(v)}" y2="${y(v)}"/><text x="${m.l-8}" y="${y(v)+4}" text-anchor="end">${fmt(v,tickDecimals)}</text>`;
  tickYears.forEach(v=>{const label=width<600?`${String(v).slice(-2)}–${String(v+1).slice(-2)}`:schoolYear(v);svg+=`<text x="${x(v)}" y="${height-12}" text-anchor="${v===first?'start':v===last?'end':'middle'}">${label}</text>`;});
+ if(reference)svg+=`<line class="reference-line" x1="${m.l}" x2="${width-m.r}" y1="${y(reference.value)}" y2="${y(reference.value)}" stroke="var(--ink-2)" stroke-dasharray="5 5"/><text x="${m.l+3}" y="${y(reference.value)-6}">${esc(reference.label)}</text>`;
  let initial,lookup=[];
  series.forEach((s,i)=>{
   let previous=null;
@@ -118,13 +120,38 @@ function downloadFinance(){
  const text=[keys,...currentFinance.map(r=>keys.map(k=>r[k]))].map(r=>r.map(quote).join(',')).join('\r\n');
  const url=URL.createObjectURL(new Blob(['\uFEFF'+text],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='ontario-education-selected-view.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-function render(){finances();classHistory();schoolHistory();}
+const T=window.EDUCATION_THRESHOLDS;
+function thresholds(){
+ if(!T){$('threshold-error').hidden=false;return;}
+ const geo=$('threshold-board').value,year=Number($('threshold-year').value),rule=T.rules.find(r=>r.id===$('threshold-rule').value),share=$('threshold-measure').value==='share';
+ const rows=T.counts.filter(r=>r.geo===geo&&r.rule===rule.id&&r.year<=year),last=rows.at(-1),area=geo==='ontario'?'Ontario combined':boardLabels[geo];
+ const percent=r=>r.classes?[100*r.above_low/r.classes,100*r.above_high/r.classes]:[null,null];
+ const [pl,ph]=percent(last);
+ $('threshold-definition').textContent=`${rule.kind}. ${rule.note} ${geo==='ontario'?'Ontario totals combine boards; a combined share or average cannot establish board-level compliance.':D.boards[geo]+' · Entire board territory.'}`;
+ stats('threshold-stats',[[`${schoolYear(year)} · above ${rule.limit}`,range(last.above_low,last.above_high,0),'Classes certainly above → possibly above'],['Eligible reported classes',fmt(last.classes,0),last.classes?range(pl,ph)+'% above reference':'No eligible rows in this selection'],['Reference',`${rule.limit} students`,rule.kind]]);
+ const unit=share?'% of eligible reported classes':'reported classes';
+ $('threshold-chart-title').textContent=rule.label;$('threshold-unit').textContent=unit;
+ chart('threshold-chart',[{name:area,points:rows.map(r=>{const [low,high]=share?percent(r):[r.above_low,r.above_high];return {year:r.year,low,high,label:range(low,high,share?1:0)};})}],{readout:'threshold-readout',unit,title:`${rule.label} · ${area} · fixed reference`,integerAxis:!share,reference:share&&rule.share_limit&&geo!=='ontario'?{value:rule.share_limit,label:'10% board-share reference'}:null});
+ $('threshold-share-note').textContent=rule.share_limit?`Board-share reference: no more than ${rule.share_limit}% above ${rule.limit}. ${rule.id==='k29'?'That allowance requires specified exception conditions, and never permits a JK/K-only class above 32.':'Classes of 21–23 can be allowed within the board-share rule.'} No compliance verdict is calculated from these source rows.`:'An above-reference count is a source-data flag for review. Union proposal counts are not legal violations.';
+ const all=T.counts.filter(r=>r.geo===geo&&r.year===year);
+ table('threshold-table',['Reference','Type','Eligible classes','Above · count range','Above · share range'],T.rules.map(r=>{const a=all.find(a=>a.rule===r.id);return [esc(r.label),esc(r.kind),fmt(a.classes,0),a.classes?range(a.above_low,a.above_high,0):'Unavailable',a.classes?range(...percent(a))+'%':'Unavailable'];}));
+ const avgs=T.averages.filter(r=>r.geo===geo&&r.year===year);
+ table('average-reference-table',['Population','Reported class rows','Average · range','Board-average reference','Comparison scope'],avgs.map(r=>[r.group==='kindergarten'?'All classes containing JK/K · fractional denominator':'All classes containing grades 4–8',fmt(r.classes,0),range(r.average_low,r.average_high),fmt(r.reference),geo==='ontario'?'Combined boards · descriptive only':'Source rows only · not a compliance verdict']));
+}
+function render(){finances();classHistory();schoolHistory();thresholds();}
 try{
  for(const id of ['class-board','school-board'])$(id).innerHTML=Object.entries(boardLabels).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('');
  ['finance-view','prices','finance-start'].forEach(id=>$(id).addEventListener('change',finances));
  ['class-board','class-group','class-measure'].forEach(id=>$(id).addEventListener('change',classHistory));
  $('school-board').addEventListener('change',()=>{$('school-search').value='';schoolOptions();});$('school-search').addEventListener('input',schoolOptions);
  ['school-name','school-group'].forEach(id=>$(id).addEventListener('change',schoolHistory));$('download-finance').addEventListener('click',downloadFinance);
+ if(T){
+  $('threshold-board').innerHTML=Object.entries(boardLabels).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('')+'<option value="ontario">Ontario combined · descriptive</option>';
+  $('threshold-year').innerHTML=T.years.map(y=>`<option value="${y}">${schoolYear(y)}</option>`).join('');$('threshold-year').value=String(T.years.at(-1));
+  const shortRules={primary23:'Primary >23 · hard cap',primary20:'Primary >20 · 90% rule',mixed23:'Mixed primary/upper >23',k29:'Kindergarten >29 · exceptions',k32:'Kindergarten >32 · ceiling',etfo24:'Grades 4–8 >24 · ETFO proposal',etfo26:'Kindergarten >26 · ETFO proposal'};
+  $('threshold-rule').innerHTML=T.rules.map(r=>`<option value="${r.id}">${esc(shortRules[r.id])}</option>`).join('');
+  ['threshold-board','threshold-year','threshold-rule','threshold-measure'].forEach(id=>$(id).addEventListener('change',thresholds));
+ }
  window.setTheme=mode=>{document.documentElement.dataset.theme=mode;localStorage.setItem('ov-theme',mode);render();};
  let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100);});
  schoolOptions();render();
