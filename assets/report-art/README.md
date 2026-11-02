@@ -70,3 +70,30 @@ keep navy outlines legible in light, dark and colour-blind themes.
 
 These checks verify the artwork integration and representative interactions;
 they are not a new audit of each report's underlying data or mathematical model.
+
+## New report icons — November 2, 2026
+
+Three matching transparent illustrations extend the existing navy/teal/amber set:
+
+| Asset | Pages |
+|---|---|
+| member-spending.webp | MP & MPP spending |
+| bc-elections.webp | BC 2026 preliminary and the 2024 final archive |
+| alberta-elections.webp | Alberta 2023 election scenarios |
+
+Created with built-in image generation. Exact prompts are in
+`new-pages-prompts.json`. Original transparent PNGs remain in the Codex generated-images
+directory. Project WebP files preserve every RGBA pixel (lossless, exact conversion;
+no crop or resize). Header illustrations are decorative (`alt=""`); homepage cards
+reuse the same assets. Mountain/coast and wheat motifs distinguish the election
+reports without implying official maps, election results or party affiliations.
+
+
+Checks: the four report pages passed 24 page/width/theme combinations at 1280px
+and 390px (light, dark and colour-blind); every icon loaded, remained in bounds
+and added no page overflow. The three homepage cards were checked in six
+width/theme combinations. Homepage phone-header overflow is unchanged from the
+fully loaded pre-change index.html at the same URL (456px document at a 390px
+viewport); the new card images themselves remain in bounds. Report scripts,
+control IDs and all data/formulas remain unchanged. These are artwork checks,
+not a new audit of election or expenditure data.

@@ -440,5 +440,29 @@
         "asset": "../Wealth/assets/survey.webp"
       }
     ]
+  },
+  {
+    "topic": "member-spending",
+    "report_id": "member-spending",
+    "page": "Member_Spending/spending.html",
+    "asset": "assets/report-art/member-spending.webp",
+    "sections": []
+  },
+  {
+    "topic": "bc-elections",
+    "report_id": "bc-elections",
+    "page": "BC_Elections/BCelections.html",
+    "asset": "assets/report-art/bc-elections.webp",
+    "sections": [],
+    "related_pages": [
+      "BC_Elections/BCelections-2024.html"
+    ]
+  },
+  {
+    "topic": "alberta-elections",
+    "report_id": "ab-elections",
+    "page": "Alberta_Elections/ABelections.html",
+    "asset": "assets/report-art/alberta-elections.webp",
+    "sections": []
   }
 ]
