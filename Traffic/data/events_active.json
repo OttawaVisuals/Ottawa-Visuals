@@ -2484,6 +2484,29 @@
 },
 "fp": "c26fafa05dc6"
 },
+"29731": {
+"event": {
+"cause": "construction",
+"created": "2026-10-28 09:49:00",
+"cross_street_1": "Trim",
+"cross_street_2": "Tenth Line",
+"direction": null,
+"event_id": "29731",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "174 westbound reduced to 1 lane between Trim and Tenth Line due to construction, from November 5th to 12th between 10:00am and 3:00pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.486602,
+"lon": -75.500405,
+"planned_end": "2026-11-12T15:00",
+"planned_start": "2026-11-02T10:00",
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-11-02 09:56:00"
+},
+"fp": "c4b93fb4be2b"
+},
 "29750": {
 "event": {
 "cause": "construction",
@@ -2829,29 +2852,6 @@
 },
 "fp": "66de170e36b8"
 },
-"29794": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-02 08:42:00",
-"cross_street_1": "Lisa",
-"cross_street_2": "Iris",
-"direction": null,
-"event_id": "29794",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Greenbank reduced to 1 lane in each direction between Lisa and Iris due to a collision.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.3456,
-"lon": -75.788334,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Greenbank",
-"source": "city",
-"updated": "2026-11-02 08:53:00"
-},
-"fp": "8008aaae1dde"
-},
 "29795": {
 "event": {
 "cause": "a disabled vehicle",
@@ -2874,6 +2874,52 @@
 "updated": "2026-11-02 09:27:00"
 },
 "fp": "a8b732e88305"
+},
+"29796": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 10:05:00",
+"cross_street_1": "Place d'Orl\u00e9ans N/B and E/B",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29796",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.",
+"lanes": "closed",
+"lat": 45.480337,
+"lon": -75.513553,
+"planned_end": "2026-11-22T17:00",
+"planned_start": "2026-11-02T07:00",
+"priority": "HIGH",
+"road": "174 E/B On-ramp",
+"source": "city",
+"updated": "2026-11-02 10:08:00"
+},
+"fp": "b0fd64d053e9"
+},
+"29797": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 10:32:00",
+"cross_street_1": "COLE",
+"cross_street_2": "ROOSEVELT",
+"direction": null,
+"event_id": "29797",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "KENWOOD closed between COLE and ROOSEVELT due to construction, from November 2nd 6:00am to November 23rd 7:00pm.",
+"lanes": "closed",
+"lat": 45.387632,
+"lon": -75.75597,
+"planned_end": "2026-11-23T19:00",
+"planned_start": "2026-11-02T06:00",
+"priority": "MEDIUM",
+"road": "KENWOOD",
+"source": "city",
+"updated": "2026-11-02 10:36:00"
+},
+"fp": "5d8176de9934"
 }
 }
 }
