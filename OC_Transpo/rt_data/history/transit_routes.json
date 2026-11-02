@@ -2,7 +2,7 @@
  "window": {
   "start": "2026-10-23",
   "end": "2026-11-02",
-  "otranspo_days": 9
+  "otranspo_days": 10
  },
  "routes": [
   {
@@ -306,8 +306,8 @@
    "mean_delay_min": 10.4,
    "cancelled": 2,
    "cancel_notices": 8,
-   "otranspo_within_5min_pct": 79.8,
-   "otranspo_observations": 10629
+   "otranspo_within_5min_pct": 81.3,
+   "otranspo_observations": 11691
   },
   {
    "route": "618",
@@ -338,8 +338,8 @@
    "mean_delay_min": 9.7,
    "cancelled": 2,
    "cancel_notices": 3,
-   "otranspo_within_5min_pct": 66.2,
-   "otranspo_observations": 32615
+   "otranspo_within_5min_pct": 65.5,
+   "otranspo_observations": 35560
   },
   {
    "route": "51",
@@ -354,8 +354,8 @@
    "mean_delay_min": 9.5,
    "cancelled": 2,
    "cancel_notices": 3,
-   "otranspo_within_5min_pct": 63.3,
-   "otranspo_observations": 32007
+   "otranspo_within_5min_pct": 62.7,
+   "otranspo_observations": 35094
   },
   {
    "route": "13",
@@ -377,33 +377,33 @@
    "route": "11",
    "school": false,
    "days": 11,
-   "observations": 6517,
-   "bus_minutes": 61845,
-   "ontime_pct": 44.4,
+   "observations": 6519,
+   "bus_minutes": 61875,
+   "ontime_pct": 44.3,
    "late_pct": 42.7,
    "early_pct": 13.0,
    "within_5min_pct": 55.9,
    "mean_delay_min": 9.9,
    "cancelled": 1,
    "cancel_notices": 6,
-   "otranspo_within_5min_pct": 62.2,
-   "otranspo_observations": 59909
+   "otranspo_within_5min_pct": 61.0,
+   "otranspo_observations": 64212
   },
   {
    "route": "12",
    "school": false,
    "days": 11,
-   "observations": 6478,
-   "bus_minutes": 62780,
-   "ontime_pct": 48.1,
-   "late_pct": 42.1,
+   "observations": 6481,
+   "bus_minutes": 62870,
+   "ontime_pct": 48.0,
+   "late_pct": 42.2,
    "early_pct": 9.8,
    "within_5min_pct": 56.5,
-   "mean_delay_min": 9.4,
+   "mean_delay_min": 9.5,
    "cancelled": 12,
    "cancel_notices": 22,
-   "otranspo_within_5min_pct": 62.9,
-   "otranspo_observations": 67832
+   "otranspo_within_5min_pct": 62.1,
+   "otranspo_observations": 73362
   },
   {
    "route": "615",
@@ -434,8 +434,8 @@
    "mean_delay_min": 9.4,
    "cancelled": 5,
    "cancel_notices": 13,
-   "otranspo_within_5min_pct": 63.3,
-   "otranspo_observations": 70956
+   "otranspo_within_5min_pct": 62.8,
+   "otranspo_observations": 77083
   },
   {
    "route": "20",
@@ -450,24 +450,24 @@
    "mean_delay_min": 9.9,
    "cancelled": 2,
    "cancel_notices": 8,
-   "otranspo_within_5min_pct": 64.0,
-   "otranspo_observations": 30315
+   "otranspo_within_5min_pct": 63.2,
+   "otranspo_observations": 33153
   },
   {
    "route": "53",
    "school": false,
    "days": 11,
-   "observations": 4011,
-   "bus_minutes": 34300,
+   "observations": 4012,
+   "bus_minutes": 34315,
    "ontime_pct": 52.5,
    "late_pct": 41.0,
    "early_pct": 6.5,
    "within_5min_pct": 58.7,
-   "mean_delay_min": 9.9,
+   "mean_delay_min": 10.0,
    "cancelled": 9,
    "cancel_notices": 27,
-   "otranspo_within_5min_pct": 65.4,
-   "otranspo_observations": 43614
+   "otranspo_within_5min_pct": 63.6,
+   "otranspo_observations": 47240
   },
   {
    "route": "680",
@@ -498,8 +498,8 @@
    "mean_delay_min": 11.8,
    "cancelled": 1,
    "cancel_notices": 2,
-   "otranspo_within_5min_pct": 81.4,
-   "otranspo_observations": 5450
+   "otranspo_within_5min_pct": 82.6,
+   "otranspo_observations": 5840
   },
   {
    "route": "23",
@@ -536,9 +536,9 @@
   {
    "route": "14",
    "school": false,
-   "days": 10,
-   "observations": 5113,
-   "bus_minutes": 46390,
+   "days": 11,
+   "observations": 5114,
+   "bus_minutes": 46405,
    "ontime_pct": 51.0,
    "late_pct": 38.0,
    "early_pct": 11.0,
@@ -546,8 +546,8 @@
    "mean_delay_min": 7.5,
    "cancelled": 6,
    "cancel_notices": 13,
-   "otranspo_within_5min_pct": 68.7,
-   "otranspo_observations": 50133
+   "otranspo_within_5min_pct": 69.3,
+   "otranspo_observations": 53196
   },
   {
    "route": "32",
@@ -578,8 +578,24 @@
    "mean_delay_min": 8.4,
    "cancelled": 1,
    "cancel_notices": 9,
-   "otranspo_within_5min_pct": 68.2,
-   "otranspo_observations": 26381
+   "otranspo_within_5min_pct": 67.0,
+   "otranspo_observations": 28776
+  },
+  {
+   "route": "6",
+   "school": false,
+   "days": 11,
+   "observations": 7112,
+   "bus_minutes": 67170,
+   "ontime_pct": 51.2,
+   "late_pct": 37.6,
+   "early_pct": 11.2,
+   "within_5min_pct": 61.4,
+   "mean_delay_min": 8.3,
+   "cancelled": 4,
+   "cancel_notices": 14,
+   "otranspo_within_5min_pct": 66.4,
+   "otranspo_observations": 69791
   },
   {
    "route": "31",
@@ -594,24 +610,8 @@
    "mean_delay_min": 9.7,
    "cancelled": 1,
    "cancel_notices": 11,
-   "otranspo_within_5min_pct": 71.4,
-   "otranspo_observations": 28511
-  },
-  {
-   "route": "6",
-   "school": false,
-   "days": 11,
-   "observations": 7110,
-   "bus_minutes": 67140,
-   "ontime_pct": 51.3,
-   "late_pct": 37.5,
-   "early_pct": 11.2,
-   "within_5min_pct": 61.4,
-   "mean_delay_min": 8.3,
-   "cancelled": 4,
-   "cancel_notices": 14,
-   "otranspo_within_5min_pct": 67.2,
-   "otranspo_observations": 64808
+   "otranspo_within_5min_pct": 72.1,
+   "otranspo_observations": 31007
   },
   {
    "route": "624",
@@ -674,8 +674,8 @@
    "mean_delay_min": 8.0,
    "cancelled": 14,
    "cancel_notices": 38,
-   "otranspo_within_5min_pct": 68.7,
-   "otranspo_observations": 19832
+   "otranspo_within_5min_pct": 70.1,
+   "otranspo_observations": 21472
   },
   {
    "route": "81",
@@ -690,8 +690,8 @@
    "mean_delay_min": 8.5,
    "cancelled": 4,
    "cancel_notices": 10,
-   "otranspo_within_5min_pct": 68.0,
-   "otranspo_observations": 48627
+   "otranspo_within_5min_pct": 66.5,
+   "otranspo_observations": 53048
   },
   {
    "route": "648",
@@ -745,17 +745,17 @@
    "route": "70",
    "school": false,
    "days": 11,
-   "observations": 4676,
-   "bus_minutes": 39690,
+   "observations": 4677,
+   "bus_minutes": 39705,
    "ontime_pct": 54.7,
    "late_pct": 33.2,
    "early_pct": 12.2,
-   "within_5min_pct": 66.4,
+   "within_5min_pct": 66.3,
    "mean_delay_min": 8.1,
    "cancelled": 6,
    "cancel_notices": 10,
-   "otranspo_within_5min_pct": 71.7,
-   "otranspo_observations": 50263
+   "otranspo_within_5min_pct": 71.4,
+   "otranspo_observations": 54300
   },
   {
    "route": "279",
@@ -786,8 +786,8 @@
    "mean_delay_min": 6.0,
    "cancelled": 0,
    "cancel_notices": 10,
-   "otranspo_within_5min_pct": 72.3,
-   "otranspo_observations": 61434
+   "otranspo_within_5min_pct": 72.7,
+   "otranspo_observations": 64561
   },
   {
    "route": "678",
@@ -834,8 +834,8 @@
    "mean_delay_min": 6.1,
    "cancelled": 4,
    "cancel_notices": 12,
-   "otranspo_within_5min_pct": 71.4,
-   "otranspo_observations": 43450
+   "otranspo_within_5min_pct": 71.3,
+   "otranspo_observations": 45997
   },
   {
    "route": "673",
@@ -866,8 +866,8 @@
    "mean_delay_min": 8.4,
    "cancelled": 4,
    "cancel_notices": 7,
-   "otranspo_within_5min_pct": 75.9,
-   "otranspo_observations": 28548
+   "otranspo_within_5min_pct": 77.2,
+   "otranspo_observations": 31560
   },
   {
    "route": "15",
@@ -914,8 +914,8 @@
    "mean_delay_min": 8.2,
    "cancelled": 1,
    "cancel_notices": 4,
-   "otranspo_within_5min_pct": 76.7,
-   "otranspo_observations": 15671
+   "otranspo_within_5min_pct": 76.5,
+   "otranspo_observations": 17110
   },
   {
    "route": "679",
@@ -932,6 +932,22 @@
    "cancel_notices": 0,
    "otranspo_within_5min_pct": null,
    "otranspo_observations": 0
+  },
+  {
+   "route": "45",
+   "school": false,
+   "days": 11,
+   "observations": 358,
+   "bus_minutes": 4110,
+   "ontime_pct": 57.9,
+   "late_pct": 29.3,
+   "early_pct": 12.8,
+   "within_5min_pct": 70.7,
+   "mean_delay_min": 14.4,
+   "cancelled": 2,
+   "cancel_notices": 23,
+   "otranspo_within_5min_pct": 91.6,
+   "otranspo_observations": 8060
   },
   {
    "route": "667",
@@ -1001,8 +1017,8 @@
    "route": "25",
    "school": false,
    "days": 11,
-   "observations": 4580,
-   "bus_minutes": 42265,
+   "observations": 4581,
+   "bus_minutes": 42280,
    "ontime_pct": 63.8,
    "late_pct": 27.8,
    "early_pct": 8.4,
@@ -1010,8 +1026,8 @@
    "mean_delay_min": 6.7,
    "cancelled": 4,
    "cancel_notices": 8,
-   "otranspo_within_5min_pct": 76.9,
-   "otranspo_observations": 49452
+   "otranspo_within_5min_pct": 76.4,
+   "otranspo_observations": 52674
   },
   {
    "route": "620",
@@ -1030,22 +1046,6 @@
    "otranspo_observations": 0
   },
   {
-   "route": "45",
-   "school": false,
-   "days": 11,
-   "observations": 355,
-   "bus_minutes": 4020,
-   "ontime_pct": 59.2,
-   "late_pct": 27.7,
-   "early_pct": 13.1,
-   "within_5min_pct": 72.3,
-   "mean_delay_min": 13.4,
-   "cancelled": 2,
-   "cancel_notices": 23,
-   "otranspo_within_5min_pct": 92.3,
-   "otranspo_observations": 7439
-  },
-  {
    "route": "111",
    "school": false,
    "days": 10,
@@ -1058,8 +1058,8 @@
    "mean_delay_min": 6.0,
    "cancelled": 3,
    "cancel_notices": 13,
-   "otranspo_within_5min_pct": 78.0,
-   "otranspo_observations": 38250
+   "otranspo_within_5min_pct": 77.9,
+   "otranspo_observations": 40417
   },
   {
    "route": "563",
@@ -1090,24 +1090,24 @@
    "mean_delay_min": 7.1,
    "cancelled": 2,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 80.5,
-   "otranspo_observations": 22001
+   "otranspo_within_5min_pct": 79.7,
+   "otranspo_observations": 23884
   },
   {
    "route": "57",
    "school": false,
    "days": 11,
-   "observations": 3556,
-   "bus_minutes": 31725,
+   "observations": 3558,
+   "bus_minutes": 31755,
    "ontime_pct": 60.5,
-   "late_pct": 26.9,
+   "late_pct": 27.0,
    "early_pct": 12.5,
-   "within_5min_pct": 72.2,
-   "mean_delay_min": 5.9,
+   "within_5min_pct": 72.1,
+   "mean_delay_min": 6.0,
    "cancelled": 0,
    "cancel_notices": 7,
-   "otranspo_within_5min_pct": 74.5,
-   "otranspo_observations": 33466
+   "otranspo_within_5min_pct": 74.7,
+   "otranspo_observations": 35205
   },
   {
    "route": "33",
@@ -1122,8 +1122,8 @@
    "mean_delay_min": 5.9,
    "cancelled": 2,
    "cancel_notices": 8,
-   "otranspo_within_5min_pct": 82.5,
-   "otranspo_observations": 24370
+   "otranspo_within_5min_pct": 83.2,
+   "otranspo_observations": 26278
   },
   {
    "route": "168",
@@ -1138,8 +1138,8 @@
    "mean_delay_min": 7.3,
    "cancelled": 2,
    "cancel_notices": 6,
-   "otranspo_within_5min_pct": 80.5,
-   "otranspo_observations": 36961
+   "otranspo_within_5min_pct": 81.1,
+   "otranspo_observations": 40328
   },
   {
    "route": "266",
@@ -1186,8 +1186,8 @@
    "mean_delay_min": 3.6,
    "cancelled": 0,
    "cancel_notices": 9,
-   "otranspo_within_5min_pct": 73.4,
-   "otranspo_observations": 37926
+   "otranspo_within_5min_pct": 73.1,
+   "otranspo_observations": 38891
   },
   {
    "route": "606",
@@ -1234,8 +1234,8 @@
    "mean_delay_min": 6.2,
    "cancelled": 6,
    "cancel_notices": 14,
-   "otranspo_within_5min_pct": 78.4,
-   "otranspo_observations": 37840
+   "otranspo_within_5min_pct": 78.9,
+   "otranspo_observations": 40275
   },
   {
    "route": "42",
@@ -1250,8 +1250,8 @@
    "mean_delay_min": 7.5,
    "cancelled": 0,
    "cancel_notices": 2,
-   "otranspo_within_5min_pct": 80.7,
-   "otranspo_observations": 18445
+   "otranspo_within_5min_pct": 80.9,
+   "otranspo_observations": 19845
   },
   {
    "route": "163",
@@ -1266,8 +1266,8 @@
    "mean_delay_min": 7.2,
    "cancelled": 0,
    "cancel_notices": 0,
-   "otranspo_within_5min_pct": 76.0,
-   "otranspo_observations": 19151
+   "otranspo_within_5min_pct": 73.4,
+   "otranspo_observations": 20763
   },
   {
    "route": "265",
@@ -1298,24 +1298,24 @@
    "mean_delay_min": 5.7,
    "cancelled": 17,
    "cancel_notices": 28,
-   "otranspo_within_5min_pct": 79.9,
-   "otranspo_observations": 30341
+   "otranspo_within_5min_pct": 80.5,
+   "otranspo_observations": 32247
   },
   {
    "route": "85",
    "school": false,
    "days": 11,
-   "observations": 6543,
-   "bus_minutes": 61265,
-   "ontime_pct": 56.0,
-   "late_pct": 23.9,
-   "early_pct": 20.1,
-   "within_5min_pct": 75.2,
-   "mean_delay_min": 6.5,
+   "observations": 6547,
+   "bus_minutes": 61370,
+   "ontime_pct": 55.9,
+   "late_pct": 24.1,
+   "early_pct": 20.0,
+   "within_5min_pct": 75.0,
+   "mean_delay_min": 6.6,
    "cancelled": 4,
    "cancel_notices": 13,
-   "otranspo_within_5min_pct": 81.5,
-   "otranspo_observations": 70178
+   "otranspo_within_5min_pct": 81.8,
+   "otranspo_observations": 76039
   },
   {
    "route": "261",
@@ -1378,8 +1378,8 @@
    "mean_delay_min": 5.7,
    "cancelled": 1,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 81.5,
-   "otranspo_observations": 38323
+   "otranspo_within_5min_pct": 81.6,
+   "otranspo_observations": 41212
   },
   {
    "route": "622",
@@ -1430,6 +1430,22 @@
    "otranspo_observations": 0
   },
   {
+   "route": "39",
+   "school": false,
+   "days": 11,
+   "observations": 2994,
+   "bus_minutes": 32790,
+   "ontime_pct": 64.5,
+   "late_pct": 21.5,
+   "early_pct": 14.0,
+   "within_5min_pct": 77.8,
+   "mean_delay_min": 8.0,
+   "cancelled": 4,
+   "cancel_notices": 19,
+   "otranspo_within_5min_pct": 83.0,
+   "otranspo_observations": 30539
+  },
+  {
    "route": "687",
    "school": true,
    "days": 6,
@@ -1446,6 +1462,38 @@
    "otranspo_observations": 0
   },
   {
+   "route": "61",
+   "school": false,
+   "days": 11,
+   "observations": 4818,
+   "bus_minutes": 51110,
+   "ontime_pct": 51.7,
+   "late_pct": 21.2,
+   "early_pct": 27.1,
+   "within_5min_pct": 75.8,
+   "mean_delay_min": 6.5,
+   "cancelled": 2,
+   "cancel_notices": 6,
+   "otranspo_within_5min_pct": 86.5,
+   "otranspo_observations": 45777
+  },
+  {
+   "route": "10",
+   "school": false,
+   "days": 11,
+   "observations": 4697,
+   "bus_minutes": 43095,
+   "ontime_pct": 56.8,
+   "late_pct": 21.0,
+   "early_pct": 22.2,
+   "within_5min_pct": 76.1,
+   "mean_delay_min": 5.5,
+   "cancelled": 5,
+   "cancel_notices": 15,
+   "otranspo_within_5min_pct": 79.1,
+   "otranspo_observations": 39941
+  },
+  {
    "route": "44",
    "school": false,
    "days": 10,
@@ -1458,8 +1506,8 @@
    "mean_delay_min": 5.4,
    "cancelled": 6,
    "cancel_notices": 9,
-   "otranspo_within_5min_pct": 82.3,
-   "otranspo_observations": 40438
+   "otranspo_within_5min_pct": 82.1,
+   "otranspo_observations": 43110
   },
   {
    "route": "68",
@@ -1474,8 +1522,8 @@
    "mean_delay_min": 6.0,
    "cancelled": 1,
    "cancel_notices": 9,
-   "otranspo_within_5min_pct": 84.2,
-   "otranspo_observations": 52850
+   "otranspo_within_5min_pct": 84.4,
+   "otranspo_observations": 56892
   },
   {
    "route": "637",
@@ -1492,54 +1540,6 @@
    "cancel_notices": 0,
    "otranspo_within_5min_pct": null,
    "otranspo_observations": 0
-  },
-  {
-   "route": "10",
-   "school": false,
-   "days": 10,
-   "observations": 4696,
-   "bus_minutes": 43080,
-   "ontime_pct": 56.8,
-   "late_pct": 20.9,
-   "early_pct": 22.2,
-   "within_5min_pct": 76.1,
-   "mean_delay_min": 5.5,
-   "cancelled": 5,
-   "cancel_notices": 15,
-   "otranspo_within_5min_pct": 79.1,
-   "otranspo_observations": 37148
-  },
-  {
-   "route": "39",
-   "school": false,
-   "days": 11,
-   "observations": 2986,
-   "bus_minutes": 32535,
-   "ontime_pct": 65.1,
-   "late_pct": 20.8,
-   "early_pct": 14.1,
-   "within_5min_pct": 78.4,
-   "mean_delay_min": 7.6,
-   "cancelled": 4,
-   "cancel_notices": 19,
-   "otranspo_within_5min_pct": 82.5,
-   "otranspo_observations": 27952
-  },
-  {
-   "route": "61",
-   "school": false,
-   "days": 11,
-   "observations": 4809,
-   "bus_minutes": 50840,
-   "ontime_pct": 51.9,
-   "late_pct": 20.8,
-   "early_pct": 27.3,
-   "within_5min_pct": 76.2,
-   "mean_delay_min": 6.2,
-   "cancelled": 2,
-   "cancel_notices": 6,
-   "otranspo_within_5min_pct": 86.5,
-   "otranspo_observations": 42060
   },
   {
    "route": "677",
@@ -1571,7 +1571,7 @@
    "cancelled": 1,
    "cancel_notices": 3,
    "otranspo_within_5min_pct": 84.7,
-   "otranspo_observations": 32074
+   "otranspo_observations": 34769
   },
   {
    "route": "90",
@@ -1586,8 +1586,8 @@
    "mean_delay_min": 5.8,
    "cancelled": 2,
    "cancel_notices": 6,
-   "otranspo_within_5min_pct": 85.9,
-   "otranspo_observations": 47293
+   "otranspo_within_5min_pct": 83.8,
+   "otranspo_observations": 50628
   },
   {
    "route": "690",
@@ -1618,8 +1618,8 @@
    "mean_delay_min": 5.4,
    "cancelled": 0,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 84.7,
-   "otranspo_observations": 22511
+   "otranspo_within_5min_pct": 84.4,
+   "otranspo_observations": 24166
   },
   {
    "route": "234",
@@ -1650,8 +1650,8 @@
    "mean_delay_min": 5.1,
    "cancelled": 1,
    "cancel_notices": 7,
-   "otranspo_within_5min_pct": 83.2,
-   "otranspo_observations": 26137
+   "otranspo_within_5min_pct": 83.7,
+   "otranspo_observations": 28166
   },
   {
    "route": "187",
@@ -1682,8 +1682,8 @@
    "mean_delay_min": 6.1,
    "cancelled": 0,
    "cancel_notices": 1,
-   "otranspo_within_5min_pct": 84.0,
-   "otranspo_observations": 24591
+   "otranspo_within_5min_pct": 84.1,
+   "otranspo_observations": 26166
   },
   {
    "route": "116",
@@ -1698,8 +1698,8 @@
    "mean_delay_min": 7.4,
    "cancelled": 1,
    "cancel_notices": 4,
-   "otranspo_within_5min_pct": 88.6,
-   "otranspo_observations": 8488
+   "otranspo_within_5min_pct": 88.8,
+   "otranspo_observations": 9429
   },
   {
    "route": "36",
@@ -1714,8 +1714,8 @@
    "mean_delay_min": 6.0,
    "cancelled": 1,
    "cancel_notices": 3,
-   "otranspo_within_5min_pct": 85.1,
-   "otranspo_observations": 19618
+   "otranspo_within_5min_pct": 85.7,
+   "otranspo_observations": 21237
   },
   {
    "route": "117",
@@ -1746,8 +1746,8 @@
    "mean_delay_min": 5.7,
    "cancelled": 1,
    "cancel_notices": 9,
-   "otranspo_within_5min_pct": 87.1,
-   "otranspo_observations": 36024
+   "otranspo_within_5min_pct": 87.2,
+   "otranspo_observations": 39211
   },
   {
    "route": "99",
@@ -1762,8 +1762,8 @@
    "mean_delay_min": 5.5,
    "cancelled": 1,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 82.9,
-   "otranspo_observations": 13637
+   "otranspo_within_5min_pct": 83.6,
+   "otranspo_observations": 14874
   },
   {
    "route": "88",
@@ -1778,8 +1778,8 @@
    "mean_delay_min": 5.6,
    "cancelled": 2,
    "cancel_notices": 10,
-   "otranspo_within_5min_pct": 84.8,
-   "otranspo_observations": 55062
+   "otranspo_within_5min_pct": 84.1,
+   "otranspo_observations": 58852
   },
   {
    "route": "299",
@@ -1810,8 +1810,8 @@
    "mean_delay_min": 5.6,
    "cancelled": 2,
    "cancel_notices": 4,
-   "otranspo_within_5min_pct": 84.8,
-   "otranspo_observations": 35771
+   "otranspo_within_5min_pct": 84.1,
+   "otranspo_observations": 38307
   },
   {
    "route": "173",
@@ -1826,8 +1826,8 @@
    "mean_delay_min": 7.9,
    "cancelled": 0,
    "cancel_notices": 0,
-   "otranspo_within_5min_pct": 94.2,
-   "otranspo_observations": 16584
+   "otranspo_within_5min_pct": 94.7,
+   "otranspo_observations": 18124
   },
   {
    "route": "74",
@@ -1842,8 +1842,8 @@
    "mean_delay_min": 4.4,
    "cancelled": 12,
    "cancel_notices": 20,
-   "otranspo_within_5min_pct": 83.9,
-   "otranspo_observations": 27592
+   "otranspo_within_5min_pct": 83.8,
+   "otranspo_observations": 29037
   },
   {
    "route": "277",
@@ -1865,17 +1865,17 @@
    "route": "75",
    "school": false,
    "days": 11,
-   "observations": 7894,
-   "bus_minutes": 76745,
-   "ontime_pct": 62.2,
-   "late_pct": 18.1,
-   "early_pct": 19.7,
-   "within_5min_pct": 81.2,
-   "mean_delay_min": 6.0,
+   "observations": 7905,
+   "bus_minutes": 77045,
+   "ontime_pct": 61.9,
+   "late_pct": 18.5,
+   "early_pct": 19.6,
+   "within_5min_pct": 80.9,
+   "mean_delay_min": 6.2,
    "cancelled": 4,
    "cancel_notices": 19,
-   "otranspo_within_5min_pct": 88.1,
-   "otranspo_observations": 48601
+   "otranspo_within_5min_pct": 88.4,
+   "otranspo_observations": 52536
   },
   {
    "route": "698",
@@ -1894,6 +1894,22 @@
    "otranspo_observations": 0
   },
   {
+   "route": "47",
+   "school": false,
+   "days": 11,
+   "observations": 226,
+   "bus_minutes": 1690,
+   "ontime_pct": 72.8,
+   "late_pct": 18.0,
+   "early_pct": 9.2,
+   "within_5min_pct": 80.8,
+   "mean_delay_min": 4.4,
+   "cancelled": 0,
+   "cancel_notices": 1,
+   "otranspo_within_5min_pct": 86.0,
+   "otranspo_observations": 3708
+  },
+  {
    "route": "35",
    "school": false,
    "days": 10,
@@ -1906,8 +1922,8 @@
    "mean_delay_min": 5.8,
    "cancelled": 2,
    "cancel_notices": 8,
-   "otranspo_within_5min_pct": 88.2,
-   "otranspo_observations": 20560
+   "otranspo_within_5min_pct": 88.9,
+   "otranspo_observations": 22253
   },
   {
    "route": "63",
@@ -1922,8 +1938,8 @@
    "mean_delay_min": 4.8,
    "cancelled": 2,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 88.4,
-   "otranspo_observations": 35558
+   "otranspo_within_5min_pct": 88.6,
+   "otranspo_observations": 38151
   },
   {
    "route": "237",
@@ -1974,6 +1990,22 @@
    "otranspo_observations": 0
   },
   {
+   "route": "105",
+   "school": false,
+   "days": 11,
+   "observations": 2317,
+   "bus_minutes": 26685,
+   "ontime_pct": 56.2,
+   "late_pct": 16.7,
+   "early_pct": 27.2,
+   "within_5min_pct": 81.2,
+   "mean_delay_min": 6.2,
+   "cancelled": 2,
+   "cancel_notices": 9,
+   "otranspo_within_5min_pct": 87.8,
+   "otranspo_observations": 23164
+  },
+  {
    "route": "162",
    "school": false,
    "days": 7,
@@ -1986,8 +2018,8 @@
    "mean_delay_min": 24.9,
    "cancelled": 2,
    "cancel_notices": 2,
-   "otranspo_within_5min_pct": 82.7,
-   "otranspo_observations": 7357
+   "otranspo_within_5min_pct": 82.9,
+   "otranspo_observations": 7989
   },
   {
    "route": "275",
@@ -2019,7 +2051,7 @@
    "cancelled": 0,
    "cancel_notices": 4,
    "otranspo_within_5min_pct": 90.7,
-   "otranspo_observations": 24778
+   "otranspo_observations": 27164
   },
   {
    "route": "640",
@@ -2038,22 +2070,6 @@
    "otranspo_observations": 0
   },
   {
-   "route": "105",
-   "school": false,
-   "days": 11,
-   "observations": 2312,
-   "bus_minutes": 26520,
-   "ontime_pct": 56.5,
-   "late_pct": 16.1,
-   "early_pct": 27.3,
-   "within_5min_pct": 81.7,
-   "mean_delay_min": 5.8,
-   "cancelled": 2,
-   "cancel_notices": 9,
-   "otranspo_within_5min_pct": 88.2,
-   "otranspo_observations": 20949
-  },
-  {
    "route": "165",
    "school": false,
    "days": 10,
@@ -2066,8 +2082,8 @@
    "mean_delay_min": 5.3,
    "cancelled": 0,
    "cancel_notices": 5,
-   "otranspo_within_5min_pct": 86.5,
-   "otranspo_observations": 6067
+   "otranspo_within_5min_pct": 86.8,
+   "otranspo_observations": 6433
   },
   {
    "route": "628",
@@ -2131,23 +2147,7 @@
    "cancelled": 2,
    "cancel_notices": 10,
    "otranspo_within_5min_pct": 85.8,
-   "otranspo_observations": 16633
-  },
-  {
-   "route": "47",
-   "school": false,
-   "days": 10,
-   "observations": 225,
-   "bus_minutes": 1630,
-   "ontime_pct": 75.5,
-   "late_pct": 15.0,
-   "early_pct": 9.5,
-   "within_5min_pct": 83.7,
-   "mean_delay_min": 2.4,
-   "cancelled": 0,
-   "cancel_notices": 1,
-   "otranspo_within_5min_pct": 86.0,
-   "otranspo_observations": 3708
+   "otranspo_observations": 17822
   },
   {
    "route": "38",
@@ -2162,8 +2162,8 @@
    "mean_delay_min": 5.5,
    "cancelled": 0,
    "cancel_notices": 12,
-   "otranspo_within_5min_pct": 90.9,
-   "otranspo_observations": 18269
+   "otranspo_within_5min_pct": 91.1,
+   "otranspo_observations": 19813
   },
   {
    "route": "645",
@@ -2290,8 +2290,8 @@
    "mean_delay_min": 4.1,
    "cancelled": 0,
    "cancel_notices": 4,
-   "otranspo_within_5min_pct": 92.9,
-   "otranspo_observations": 11321
+   "otranspo_within_5min_pct": 93.3,
+   "otranspo_observations": 12161
   },
   {
    "route": "26",
@@ -2338,8 +2338,8 @@
    "mean_delay_min": 4.5,
    "cancelled": 0,
    "cancel_notices": 0,
-   "otranspo_within_5min_pct": 93.3,
-   "otranspo_observations": 18560
+   "otranspo_within_5min_pct": 92.8,
+   "otranspo_observations": 19549
   },
   {
    "route": "153",
@@ -2354,8 +2354,8 @@
    "mean_delay_min": 4.1,
    "cancelled": 0,
    "cancel_notices": 0,
-   "otranspo_within_5min_pct": 94.2,
-   "otranspo_observations": 2327
+   "otranspo_within_5min_pct": 94.4,
+   "otranspo_observations": 2474
   },
   {
    "route": "263",
@@ -2387,7 +2387,7 @@
    "cancelled": 2,
    "cancel_notices": 2,
    "otranspo_within_5min_pct": 86.9,
-   "otranspo_observations": 14194
+   "otranspo_observations": 14857
   },
   {
    "route": "197",
@@ -2402,8 +2402,8 @@
    "mean_delay_min": 4.0,
    "cancelled": 0,
    "cancel_notices": 2,
-   "otranspo_within_5min_pct": 93.4,
-   "otranspo_observations": 2209
+   "otranspo_within_5min_pct": 93.7,
+   "otranspo_observations": 2344
   },
   {
    "route": "670",
@@ -2434,8 +2434,8 @@
    "mean_delay_min": 2.4,
    "cancelled": 1,
    "cancel_notices": 1,
-   "otranspo_within_5min_pct": 88.4,
-   "otranspo_observations": 8339
+   "otranspo_within_5min_pct": 88.0,
+   "otranspo_observations": 8888
   },
   {
    "route": "633",
@@ -2514,8 +2514,8 @@
    "mean_delay_min": 1.3,
    "cancelled": 0,
    "cancel_notices": 10,
-   "otranspo_within_5min_pct": 91.0,
-   "otranspo_observations": 12107
+   "otranspo_within_5min_pct": 91.6,
+   "otranspo_observations": 13335
   },
   {
    "route": "641",
