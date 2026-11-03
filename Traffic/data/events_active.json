@@ -3013,120 +3013,51 @@
 },
 "fp": "c2de2dc1298b"
 },
-"29808": {
+"29813": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-03 07:11:00",
-"cross_street_1": "Hunt Club",
+"cause": "traffic signals not working",
+"created": "2026-11-03 09:08:00",
+"cross_street_1": "Connaught",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29808",
+"event_id": "29813",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Riverside northbound left-turn lane closed at Hunt Club due to a disabled vehicle.",
-"lanes": "left-turn lane closed",
-"lat": 45.334356,
-"lon": -75.693255,
+"headline": "Carling traffic disruptions at Connaught due to traffic signals not working. Expect delays.",
+"lanes": "traffic disruptions",
+"lat": 45.363696,
+"lon": -75.785474,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Riverside",
+"priority": "HIGH",
+"road": "Carling",
 "source": "city",
-"updated": "2026-11-03 07:12:00"
+"updated": "2026-11-03 09:08:00"
 },
-"fp": "89c2794087d4"
+"fp": "a6c1d9749ec8"
 },
-"29809": {
+"29814": {
 "event": {
 "cause": "a disabled vehicle",
-"created": "2026-11-03 07:32:00",
-"cross_street_1": "Gatineau",
-"cross_street_2": "Ottawa",
-"direction": null,
-"event_id": "29809",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Portage Bridge southbound bus lane reduced between Gatineau and Ottawa due to a disabled vehicle.",
-"lanes": "bus lane closed",
-"lat": 45.420236,
-"lon": -75.712393,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Pont du Portage Bridge",
-"source": "city",
-"updated": "2026-11-03 07:32:00"
-},
-"fp": "3bf93d46b654"
-},
-"29810": {
-"event": {
-"cause": "high volume",
-"created": "2026-11-03 08:52:00",
-"cross_street_1": "Blair",
-"cross_street_2": "Nicholas",
-"direction": null,
-"event_id": "29810",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "174 westbound traffic heavy & slow between Blair and Nicholas due to high volume. Expect delays.",
-"lanes": "traffic heavy & slow",
-"lat": 45.454013,
-"lon": -75.581711,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "174",
-"source": "city",
-"updated": "2026-11-03 08:52:00"
-},
-"fp": "6c99f6b33c14"
-},
-"29811": {
-"event": {
-"cause": "high volume",
-"created": "2026-11-03 08:53:00",
-"cross_street_1": "174",
-"cross_street_2": "Nicholas",
-"direction": null,
-"event_id": "29811",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "417 westbound traffic heavy & slow between 174 and Nicholas due to high volume.",
-"lanes": "traffic heavy & slow",
-"lat": 45.413055,
-"lon": -75.604405,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "417",
-"source": "city",
-"updated": "2026-11-03 08:53:00"
-},
-"fp": "fb9844e6005e"
-},
-"29812": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-03 09:00:00",
-"cross_street_1": "Robert Grant",
+"created": "2026-11-03 09:18:00",
+"cross_street_1": "Tyndall",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29812",
+"event_id": "29814",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Hazeldean lane reductions in both directions at Robert Grant due to a disabled vehicle.",
-"lanes": "lane reductions in both directions",
-"lat": 45.285294,
-"lon": -75.908501,
+"headline": "Parkdale lane reduction in both directions at Tyndall due to a disabled bus.",
+"lanes": "lane reduction in both directions",
+"lat": 45.398229,
+"lon": -75.727596,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Hazeldean",
+"priority": "HIGH",
+"road": "Parkdale",
 "source": "city",
-"updated": "2026-11-03 09:00:00"
+"updated": "2026-11-03 09:18:00"
 },
-"fp": "510bd977980d"
+"fp": "4b6271d73a0a"
 }
 }
 }
