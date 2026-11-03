@@ -15,7 +15,7 @@
   function chartTitle(el) {
     return clean(el.dataset.shareTitle || el.getAttribute('aria-label') ||
       el.querySelector('title')?.textContent || el.closest('article,section,.card,.panel,.rcard')?.querySelector('h3,h2')?.textContent || 'Chart')
-      .replace(/[.;]?\s*(A data table follows|values in the data table below)\.?$/i, '');
+      .replace(/[.;]?\s*(A data table follows|values in the data table below|Values follow the chart)\.?$/i, '');
   }
   function chartLink(el) {
     const url = new URL(location.href);
@@ -30,7 +30,7 @@
   }
   function context(el) {
     const local = el.closest('article,figure,.chart-panel,.rcard,.card,section') || el.parentElement;
-    const scope = el.closest('section') || local;
+    const scope = el.closest('section,.section') || local;
     const paragraphs = [...scope.querySelectorAll('p,.notice,.inset,.callout,.section-note,.chart-sub')]
       .filter(p => visible(p) && !p.closest('details,.stats,.stat,.ov-chart-share,.readout') &&
         !p.querySelector('p') && !p.matches('.eyebrow,.q,.readout'));
@@ -43,7 +43,8 @@
       labelNode?.querySelectorAll('select,input,button').forEach(node => node.remove());
       const label = clean(labelNode?.textContent || c.getAttribute('aria-label') || c.id);
       const name = c.tagName === 'SELECT' ? clean(c.selectedOptions[0]?.textContent) :
-        ['checkbox','radio'].includes(c.type) ? (c.checked ? 'Yes' : 'No') : c.value;
+        ['checkbox','radio'].includes(c.type) ? (c.checked ? 'Yes' : 'No') :
+        c.id === 'spiral-slider' ? clean(document.getElementById('spiral-year')?.textContent) : c.value;
       return `${label}: ${name}`;
     });
     // Legends live outside the canvas in several reports. Retain their colours.

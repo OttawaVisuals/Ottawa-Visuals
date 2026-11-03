@@ -33,7 +33,7 @@ const cases = [
         await chart.waitFor({state:'visible'});
         const chartId = await chart.getAttribute('id');
         await page.waitForFunction(id => [...document.querySelectorAll('.ov-chart-share button')].some(b=>b.getAttribute('aria-label')?.includes('Share chart:')) && document.getElementById(id), chartId);
-        const trigger = page.getByRole('button',{name:'Share chart: '+await chart.evaluate(el=>(el.dataset.shareTitle||el.getAttribute('aria-label')||el.querySelector('title')?.textContent||el.closest('article,section,.card,.panel,.rcard')?.querySelector('h3,h2')?.textContent||'Chart').replace(/[.;]?\s*(A data table follows|values in the data table below)\.?$/i,'')),exact:true}).first();
+        const trigger = page.getByRole('button',{name:'Share chart: '+await chart.evaluate(el=>(el.dataset.shareTitle||el.getAttribute('aria-label')||el.querySelector('title')?.textContent||el.closest('article,section,.card,.panel,.rcard')?.querySelector('h3,h2')?.textContent||'Chart').replace(/[.;]?\s*(A data table follows|values in the data table below|Values follow the chart)\.?$/i,'')),exact:true}).first();
         await trigger.click();
         await page.locator('.ov-share-download').waitFor({state:'visible'});
         await page.locator('.ov-share-preview').evaluate(img=>img.decode());
