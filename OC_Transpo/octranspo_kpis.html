@@ -240,6 +240,18 @@
     <p class="note" id="otp-note"></p>
   </section>
 
+  <section class="card" id="recent-official">
+    <p class="q">Newer official measures</p>
+    <h2 class="section-title">Bus service through September 2026</h2>
+    <p class="section-note">The October 14 staff publication measures on-time <b>trip starts</b> across scheduled bus trips, including missed trips as not on time. The older punctuality measure above covers major stops on less-frequent routes. Their definitions differ, so these figures stay separate.</p>
+    <div class="table-wrap" id="t-recent-snapshot" tabindex="0" role="region" aria-label="Latest official bus and Para figures"></div>
+    <p class="chart-sub" style="margin-top:20px">Scheduled bus trips missed, %, September 2025 – September 2026</p>
+    <div class="chart-wrap short"><canvas id="c-recent-missed" aria-label="Share of scheduled bus trips missed, September 2025 to September 2026"></canvas></div>
+    <p class="note">This broader missed-trip measure includes trips not run, trips that did not depart their origin, trips over 20 minutes late, and trips started but not completed. It cannot be used as the complement of the older trips-delivered series. Printed totals and components can differ by 0.1 percentage point through rounding.</p>
+    <details><summary>Show the monthly numbers</summary><div class="table-wrap" id="t-recent-monthly"></div></details>
+    <p class="note">Source: <a href="https://glengower.ca/wp-content/uploads/2026/10/Transit-KPIs-October-2026.pdf">OC Transpo staff KPI charts, October 14, 2026</a>, pages 1–4, retained on Councillor Glen Gower's site. Only printed labels are extracted; intermediate on-time curve values are unavailable. <a href="kpi_history/recent_publications.csv" download>Download these separate measures (CSV)</a>.</p>
+  </section>
+
   <!-- 5. LIVE -->
   <section class="card" id="live">
     <p class="q">Measured live</p>
@@ -276,10 +288,15 @@
     <p class="q">About the data</p>
     <h2 class="section-title">Where these numbers come from</h2>
     <ul class="plain">
-      <li><b>Sources:</b> OC Transpo performance reports (2020, mid-2021, 2021), the September 2023 OC Transpo update, the 5-Year Roadmap scorecards (2024, 2025, 2026 editions), and inquiry answers to Transit Committee, all from the City's eScribe meeting records.</li>
-      <li><b>Gaps are real:</b> after 2021, OC Transpo's monthly charts are published as images, so their values can't be read. Monthly figures for 2022 onward exist only where a presentation printed the numbers.</li>
+      <li><b>Sources:</b> OC Transpo performance reports (2020, mid-2021, 2021), the September 2023 OC Transpo update, the 5-Year Roadmap scorecards (2024, 2025, 2026 editions), and inquiry answers from the City's eScribe records; Open Ottawa spreadsheets; and the linked 2026 staff presentations retained on Councillor Glen Gower's site.</li>
+      <li><b>Gaps are real:</b> many later monthly charts have no printed labels. Values are included only where labels, tables or Open Ottawa spreadsheets provide them; missing months stay blank.</li>
       <li><b>Revisions:</b> when two reports give the same month different values, the later report is used. <span id="n-conflicts"></span> Every figure is listed with its source report and page in <a href="kpi_history/kpi_observations.csv">kpi_observations.csv</a>.</li>
     </ul>
+    <details><summary>Review of all six differing historical figures</summary>
+      <p class="note">Reviewed November 3, 2026. The meeting-count error has an explicit source correction. Other changed or conflicting figures remain visible below. A selected value follows the archive's publication/rounding rule; it does not establish which conflicting source is correct.</p>
+      <div class="table-wrap" id="t-source-conflicts" tabindex="0" role="region" aria-label="Historical source differences and decisions"></div>
+    </details>
+    <p class="note"><a href="KPI_REVIEW.md">Review scope, findings and remaining gaps</a> · <a href="kpi_history/source_review.json">Source evidence (JSON)</a>. The review reconciled all 104 spreadsheet cells, checked the six differing historical figures and corroborated three Line 1 values. It did not re-audit every historical PDF cell.</p>
   </section>
 </main>
 
@@ -290,7 +307,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const DATA_URL = 'kpi_history/kpi_series.csv';
-let ROWS = null, IDX = {};
+let ROWS = null, IDX = {}, REVIEW = null, RECENT = [];
 const charts = {};
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTH = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -505,7 +522,7 @@ function renderMonthly() {
   const l1dips = since.filter(p => V('trips_delivered', 'line1', p) < 95);
   $('deliv-m-note').innerHTML = `Line 1 dropped to <b>${pct(V('trips_delivered', 'line1', '2023-07'))}</b> in July 2023 and ${pct(V('trips_delivered', 'line1', '2023-08'))} in August, when it closed from July 17 to August 8 for wheel-bearing and rail repairs (it ran 99.4% before the closure). ` +
     `Since April 2025 buses have run ${rng('bus')} of scheduled trips and Lines 2 & 4 ${rng('line2_4')}, never reaching the 99.5% target. ` +
-    (l1dips.length ? `Line 1 was close to target through 2025, then fell to <b>${l1dips.map(p => pct(V('trips_delivered', 'line1', p))).join(', ')}</b> in ${l1dips.map(p => MONTH[+p.slice(5) - 1]).join(', ')} ${l1dips[0].slice(0, 4)}. OC Transpo's KPI file doesn't give a reason, and the 12-month summary printed in the same file (98.5%) doesn't match these months, so treat them as provisional.` : '');
+    (l1dips.length ? `Line 1 was close to target through 2025, then fell to <b>${l1dips.map(p => pct(V('trips_delivered', 'line1', p))).join(', ')}</b> in ${l1dips.map(p => MONTH[+p.slice(5) - 1]).join(', ')} ${l1dips[0].slice(0, 4)}. These monthly values are independently confirmed by the February, March and April 2026 staff presentations (see the <a href="KPI_REVIEW.md#line-1">source review</a>). The workbook's 98.5% summary also refers to March 2025 and appears stale; it is not evidence that the monthly cells are wrong.` : '');
 
   // Punctuality + regularity, monthly since 2025
   const m4 = months('2025-01', lastP('punctuality_less_frequent_routes', 'bus'));
@@ -547,14 +564,31 @@ function renderMonthly() {
     m4.map((p, i) => `<tr><td>${mLabel(p)}</td><td class="num">${pct(pu[i])}</td><td class="num">${pct(rg[i])}</td></tr>`).join('') + '</tbody></table>';
 }
 
+function renderReview() {
+  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+  $('t-source-conflicts').innerHTML = '<table><thead><tr><th>Measure / period</th><th>Selected / alternatives</th><th>Decision</th><th>Source evidence</th></tr></thead><tbody>' + REVIEW.conflicts.map(r =>
+    `<tr><td>${escape(r.metric.replaceAll('_', ' '))} · ${escape(r.mode)} · ${escape(r.period)}</td><td>${r.value.toLocaleString()} / ${escape(r.alternatives)}${r.metric === 'service_availability' || r.metric === 'bus_operator_availability' ? '%' : ''}</td><td>${escape(r.decision)}</td><td>${r.sources.map(s => `<a href="${escape(s.url)}#page=${s.page}">${escape(s.date)} p${s.page}</a>: ${s.value.toLocaleString()}`).join('<br>')}</td></tr>`).join('') + '</tbody></table>';
+  const value = (metric, period) => RECENT.find(r => r.metric === metric && r.period === period)?.value;
+  const snapshot = [['Bus on-time trip starts', 'bus_on_time_trip_starts'], ['Bus missed trips', 'bus_missed_trips'], ['Para eligible pickups within 30-minute window', 'para_eligible_pickups_on_time']];
+  table('t-recent-snapshot', snapshot.map(r => r[0]), ['2025-09', '2026-09'].map(p => ({label:mLabel(p), data:snapshot.map(r => value(r[1], p))})), pct);
+  const monthly = RECENT.filter(r => r.metric === 'bus_missed_trips');
+  const options = baseOpts({yTick:v => v+'%', min:0, max:15});
+  options.plugins.tooltip.callbacks = {label:c => ` Missed trips: ${pct(c.parsed.y)}`};
+  make('c-recent-missed', {data:{labels:monthly.map(r => mLabel(r.period).replace(' 20', " '")), datasets:[bar('Missed trips', monthly.map(r => r.value), css('--s1'))]}, options});
+  table('t-recent-monthly', monthly.map(r => mLabel(r.period)), [['Total missed trips','bus_missed_trips'], ['Trips not delivered (source label)','bus_trips_not_delivered_new'], ['Trips >20 min late','bus_trips_over_20min_late']].map(([label,metric]) => ({label,data:monthly.map(r => value(metric,r.period))})), pct);
+}
+
 function renderAll() {
   renderHero(); renderRidership(); renderTod(); renderScore(); renderMonthly();
+  renderReview();
   const n = ROWS.filter(r => r.other_values).length;
   $('n-conflicts').textContent = `${n} figures differ between reports (for example, December 2020 open-data API calls were revised from 60.7M to 62.7M).`;
 }
 
-fetch(DATA_URL).then(r => { if (!r.ok) throw new Error(`kpi_series.csv: HTTP ${r.status}`); return r.text(); })
-  .then(t => {
+Promise.all([DATA_URL, 'kpi_history/source_review.json', 'kpi_history/recent_publications.csv'].map(url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`); return r.text(); })))
+  .then(([t, review, recent]) => {
+    REVIEW = JSON.parse(review);
+    RECENT = parseCSV(recent).map(r => ({...r, value:+r.value}));
     ROWS = parseCSV(t);
     ROWS.forEach(r => { IDX[[r.metric, r.mode, r.breakdown, r.period].join('|')] = r; });
     renderAll();

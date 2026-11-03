@@ -100,7 +100,7 @@ TODAY (override): none
 - [x] Day 1: **RESET 2** — GovContracts stacked-bar page + category filter (strongest model) (done Oct 30 in Claude Code: award-method stacked bars 2019–2025 on `govcontracts.html`, 7-category filter, dollars/share toggle, table; sole-source shares match independent recomputation; no console errors, no phone overflow; not yet committed or linked from home page)
 - [x] Day 2: review/fix GovContracts page (done Oct 31 in Claude Code: data, filter and share toggle checked, no console errors; fixed chart labels shrinking to ~5px on phones by laying charts out at real pixel width, redrawn on resize, with 2-digit year labels when crowded; tracker row updated; still not linked from home page)
 - [x] Day 3: OC Transpo KPI extraction from PDFs into a time series (strongest model) (done Oct 16 in Claude Code, plus the page `OC_Transpo/octranspo_kpis.html`)
-- [ ] Day 4: review the extracted series
+- [x] Day 4: review the extracted series (Nov 3: 104 workbook cells reconciled, six differing historical keys checked, three Line 1 labels corroborated in staff slides; fixed spreadsheet provenance, full archive reproduced; separate newer bus definitions through Sep 2026; targeted scope and gaps in OC_Transpo/KPI_REVIEW.md)
 - [ ] Day 5: Geothermal "Ottawa Case Study" page (Energy repo)
 - [ ] Day 6–7: buffer / catch-up
 

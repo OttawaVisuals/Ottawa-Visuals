@@ -390,8 +390,11 @@ def snapshots(log):
                     if v is None:
                         continue
                     period = f"20{m.group(2)}-{MONTHS[m.group(1).lower()]:02d}"
-                    out.append(rec(doc, sheet, "snapshot", metric, mode, "", period, "month",
-                                   int(round(v * scale)) if scale != 1 else v, unit, note, prec * scale))
+                    row = rec(doc, sheet, "snapshot", metric, mode, "", period, "month",
+                              int(round(v * scale)) if scale != 1 else v, unit, note, prec * scale)
+                    # rec() defaults to PDF provenance; snapshots are real XLSX files.
+                    row["source_file"] = f.relative_to(ROOT).as_posix()
+                    out.append(row)
                     found += 1
         wb.close()
         log.append(f"[{found:4d}] {doc.key}.xlsx (Open Ottawa snapshot)")

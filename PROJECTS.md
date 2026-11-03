@@ -331,12 +331,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   lookup was case-sensitive, silently dropping every attachment on any page using the lowercase form —
   it turned out **every 2019–2021 meeting** hit this, contributing 0 of the original 82 downloaded files.
   Fixed to a case-insensitive lookup; a scoped re-run recovered 27 more files and now covers 2019 onward.
-- **Extracted (2026-10-16):** `OC_Transpo/scripts/extract_kpis.py` pulls the numbers out of the extracts with one
+- **Historical extraction + snapshots:** `OC_Transpo/scripts/extract_kpis.py` pulls the numbers out of the extracts with one
   explicit spec per document (11 of 65 English PDFs carry KPIs; the rest are logged with a reason) →
-  `OC_Transpo/kpi_history/` (1,114 observations → 828 series points, 6 source conflicts logged). After 2021 the
+  `OC_Transpo/kpi_history/` (1,218 observations → 932 series points, 6 source conflicts logged). After 2021 the
   monthly charts are images, so 2022+ monthly values exist only where a deck printed them.
-- **Still to do:** add recent months from the Open Ottawa KPI snapshots (`rt_data/kpi_snapshots/`, since Jul 2026),
-  after checking their definitions match the report measures; add new scorecards/decks as specs when published.
+- **Reviewed November 3:** all 104 snapshot cells reconciled; six differing historical keys checked (one explicit correction), three Line 1 drops confirmed in staff slides. Fixed `.xlsx` provenance; values unchanged. Separate October staff-publication section through September 2026, with new bus definitions kept apart. Scope/limits: `OC_Transpo/KPI_REVIEW.md`.
+- **Follow-up:** ingest further reviewed decks/scorecards; exact values unavailable from unlabeled curves. Historical gaps and unresolved source disagreements remain.
 
 ### Ottawa Ward Elections
 - **Progress:** ~90% (live, iterating) · Interactive ward-level election map/visual.
@@ -600,7 +600,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## 🔄 In Progress
 
-- **OC Transpo:** review the extracted KPI series, then add compatible recent snapshots/decks. The page is already live and deliberately unlisted from the homepage.
+- **OC Transpo:** targeted source review completed November 3; continue adding reviewed source decks, keeping changed definitions separate. The page is already live and deliberately unlisted from the homepage.
 - **Geothermal (Energy repo):** write the Ottawa Case Study narrative. The Ottawa suitability map already exists; national expansion is separate.
 - **RTO/roads:** event-context work is queued around Nov 5; commute/transit before–after comparisons still need suitable backfill and official KPI coverage.
 - **GovContracts:** refresh disclosure coverage before testing the post-July-2026 RTO period; review exploratory vendor/keyword candidates before publishing them.

@@ -1,0 +1,250 @@
+{
+  "review_date": "2026-11-03",
+  "observations": 1218,
+  "series_points": 932,
+  "snapshot_cells_checked": 104,
+  "snapshots": [
+    {
+      "path": "rt_data/kpi_snapshots/service_ridership_kpis_2026-07-11.xlsx",
+      "sha256": "cde2dda2bc5d2af9ae678a47d647ff63c8ce83dc71a631efb72c11f2f536b481",
+      "cells_checked": 104
+    }
+  ],
+  "conflicts": [
+    {
+      "metric": "bus_operator_availability",
+      "mode": "bus",
+      "breakdown": "",
+      "period": "2024",
+      "period_type": "year",
+      "value": 85.0,
+      "alternatives": "88.0",
+      "decision": "Unresolved source disagreement: latest scorecard retained (85%); reliability narrative says 88%.",
+      "sources": [
+        {
+          "value": 85.0,
+          "date": "2025-04-10",
+          "file": "2025-04-10_Transit Committee/Document 1 - English - 5-Year Roadmap.pdf",
+          "page": 4,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=229827",
+          "sha256": "7b0ff50078e5412b90045d8ca89c15ee497c6034651bffe3300c74c23c256948"
+        },
+        {
+          "value": 88.0,
+          "date": "2025-09-11",
+          "file": "2025-09-11_Transit Committee/Improving Bus Service Reliability - English.pdf",
+          "page": 10,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=256927",
+          "sha256": "aeef7f569870d84eab63fc2d1c557592b747cb11edec2c62e376c314cdea802b"
+        },
+        {
+          "value": 85.0,
+          "date": "2026-05-14",
+          "file": "2026-05-14_Transit Committee/English Document 1 - Transit Services 5-Year Roadmap Scorecard 2025.pdf",
+          "page": 4,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=312626",
+          "sha256": "edd14aac344c1d7b10580f013260071695ce10dcc5f60e7adebef8548bb4bc48"
+        }
+      ]
+    },
+    {
+      "metric": "info_open_data_api_calls",
+      "mode": "info",
+      "breakdown": "",
+      "period": "2020-12",
+      "period_type": "month",
+      "value": 62736000.0,
+      "alternatives": "60736000.0",
+      "decision": "Later table retained; reason for the changed value is not stated.",
+      "sources": [
+        {
+          "value": 60736000.0,
+          "date": "2021-04-21",
+          "file": "2021-04-21_Transit Commission/Report - OC Transpo Performance 2020 EN.pdf",
+          "page": 16,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=59241",
+          "sha256": "fe94837c02803be01c1783a51515ba1483a47b2c4de8dc61ad0929ed6a596304"
+        },
+        {
+          "value": 62736000.0,
+          "date": "2021-10-20",
+          "file": "2021-10-20_Transit Commission/Document 1 - OC Transpo Performance Report for Period Ending June 2021 EN.pdf",
+          "page": 7,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=87702",
+          "sha256": "1ab01f1c619eb548c7a570e4968e78037470312c65d87f5d15f8828b9160475a"
+        }
+      ]
+    },
+    {
+      "metric": "info_website_pageviews",
+      "mode": "info",
+      "breakdown": "",
+      "period": "2021-01",
+      "period_type": "month",
+      "value": 200000.0,
+      "alternatives": "198000.0",
+      "decision": "Later table retained; reason for the changed value is not stated.",
+      "sources": [
+        {
+          "value": 198000.0,
+          "date": "2021-10-20",
+          "file": "2021-10-20_Transit Commission/Document 1 - OC Transpo Performance Report for Period Ending June 2021 EN.pdf",
+          "page": 7,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=87702",
+          "sha256": "1ab01f1c619eb548c7a570e4968e78037470312c65d87f5d15f8828b9160475a"
+        },
+        {
+          "value": 200000.0,
+          "date": "2022-05-18",
+          "file": "2022-05-18_Transit Commission/04 - ACS2022-TSD-TS-0002 - OC Transpo Performance Report for the Period Ending December 2021 EN.pdf",
+          "page": 18,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=74246",
+          "sha256": "599a907d57e9acb19c4ef83d84360537583f2eb6574161ad10f355a0ee7e59b4"
+        }
+      ]
+    },
+    {
+      "metric": "service_availability",
+      "mode": "line1",
+      "breakdown": "",
+      "period": "2020",
+      "period_type": "year",
+      "value": 95.2,
+      "alternatives": "95.6",
+      "decision": "Unresolved table/chart disagreement. Later rounded 95% agrees with 95.2% under the existing rounding rule; 95.6% remains an alternative.",
+      "sources": [
+        {
+          "value": 95.6,
+          "date": "2021-04-21",
+          "file": "2021-04-21_Transit Commission/Report - OC Transpo Performance 2020 EN.pdf",
+          "page": 17,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=59241",
+          "sha256": "fe94837c02803be01c1783a51515ba1483a47b2c4de8dc61ad0929ed6a596304"
+        },
+        {
+          "value": 95.2,
+          "date": "2021-04-21",
+          "file": "2021-04-21_Transit Commission/Report - OC Transpo Performance 2020 EN.pdf",
+          "page": 18,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=59241",
+          "sha256": "fe94837c02803be01c1783a51515ba1483a47b2c4de8dc61ad0929ed6a596304"
+        },
+        {
+          "value": 95.0,
+          "date": "2022-05-18",
+          "file": "2022-05-18_Transit Commission/04 - ACS2022-TSD-TS-0002 - OC Transpo Performance Report for the Period Ending December 2021 EN.pdf",
+          "page": 23,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=74246",
+          "sha256": "599a907d57e9acb19c4ef83d84360537583f2eb6574161ad10f355a0ee7e59b4"
+        }
+      ]
+    },
+    {
+      "metric": "service_availability",
+      "mode": "system",
+      "breakdown": "",
+      "period": "2020",
+      "period_type": "year",
+      "value": 98.2,
+      "alternatives": "98.3",
+      "decision": "Unresolved disagreement within one report; table retained ahead of chart by the existing method priority.",
+      "sources": [
+        {
+          "value": 98.2,
+          "date": "2021-04-21",
+          "file": "2021-04-21_Transit Commission/Report - OC Transpo Performance 2020 EN.pdf",
+          "page": 17,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=59241",
+          "sha256": "fe94837c02803be01c1783a51515ba1483a47b2c4de8dc61ad0929ed6a596304"
+        },
+        {
+          "value": 98.3,
+          "date": "2021-04-21",
+          "file": "2021-04-21_Transit Commission/Report - OC Transpo Performance 2020 EN.pdf",
+          "page": 18,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=59241",
+          "sha256": "fe94837c02803be01c1783a51515ba1483a47b2c4de8dc61ad0929ed6a596304"
+        }
+      ]
+    },
+    {
+      "metric": "survey_review_meetings",
+      "mode": "org",
+      "breakdown": "",
+      "period": "2023",
+      "period_type": "year",
+      "value": 32.0,
+      "alternatives": "132.0",
+      "decision": "Explicit correction: the 2025 scorecard footnote says 132 was erroneous and the correct number is 32.",
+      "sources": [
+        {
+          "value": 132.0,
+          "date": "2024-04-11",
+          "file": "2024-04-11_Transit Commission/Document 1 English - Transit Services 5-Year Roadmap Scorecard.pdf",
+          "page": 2,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=176399",
+          "sha256": "a88531594c511161e2c1a8ea0af3fa73379e8c1eb28f18dd0597a3f5254ae5c4"
+        },
+        {
+          "value": 32.0,
+          "date": "2025-04-10",
+          "file": "2025-04-10_Transit Committee/Document 1 - English - 5-Year Roadmap.pdf",
+          "page": 2,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=229827",
+          "sha256": "7b0ff50078e5412b90045d8ca89c15ee497c6034651bffe3300c74c23c256948"
+        },
+        {
+          "value": 32.0,
+          "date": "2026-05-14",
+          "file": "2026-05-14_Transit Committee/English Document 1 - Transit Services 5-Year Roadmap Scorecard 2025.pdf",
+          "page": 2,
+          "url": "https://pub-ottawa.escribemeetings.com/filestream.ashx?DocumentId=312626",
+          "sha256": "edd14aac344c1d7b10580f013260071695ce10dcc5f60e7adebef8548bb4bc48"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "2026-02-12-update",
+      "url": "https://glengower.ca/wp-content/uploads/2026/02/5.1-OC-Transpo-Update-Feb-12-2026-TC_EN.pdf",
+      "sha256": "9a2bd92303543b66a71f1680f821ec814bfe0e5a9258b685b27656e8daa545b8"
+    },
+    {
+      "id": "2026-03-12-update",
+      "url": "https://glengower.ca/wp-content/uploads/2026/03/4.1-OC-Transpo-Update-March-12-2026-TC_EN.pdf",
+      "sha256": "a16ff34583e2c5328c09870e6a86dcbecab5889a6038b3f58b6bdb0e05c1d0b9"
+    },
+    {
+      "id": "2026-04-09-update",
+      "url": "https://glengower.ca/wp-content/uploads/2026/04/6.1-OC-Transpo-Update-EN.pdf",
+      "sha256": "10997904c01a6901dd62f489f886a374e4cc5da4445c0b4836addc8239b00644"
+    },
+    {
+      "id": "2026-10-14-kpis",
+      "url": "https://glengower.ca/wp-content/uploads/2026/10/Transit-KPIs-October-2026.pdf",
+      "sha256": "8896a4e0dc1070be53d4e49c7a7b4e2c79fc7c1015fbfa2940efd587c63c54c5"
+    }
+  ],
+  "line1_corroboration": [
+    {
+      "period": "2026-01",
+      "value": 87.8,
+      "source_id": "2026-02-12-update",
+      "page": 28
+    },
+    {
+      "period": "2026-02",
+      "value": 67.2,
+      "source_id": "2026-03-12-update",
+      "page": 31
+    },
+    {
+      "period": "2026-03",
+      "value": 61.8,
+      "source_id": "2026-04-09-update",
+      "page": 42
+    }
+  ],
+  "scope": "Targeted source review of all snapshot cells, all six differing series keys, and three Line 1 anomalies; deterministic rebuild and integrity checks of the full archive. Not a fresh cell-by-cell audit of all historical PDF observations."
+}

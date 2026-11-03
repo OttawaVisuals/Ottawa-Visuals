@@ -320,11 +320,14 @@ compliance audits, marketing — each listed with a reason in the log):**
   values between Aug 2023 and Mar 2025 are missing, and monthly 2020–2021
   ridership is chart-only as well. From Apr 2025 the Open Ottawa snapshots fill
   in; they're rolling ~13-month windows, so each new snapshot extends the series
-  only if the Pi's weekly job keeps archiving them.
+  only if the weekly snapshot job keeps archiving them (now GitHub Actions,
+  `.github/workflows/kpi_snapshots.yml`).
 - Line 1 delivery in the 2026-07-11 snapshot drops to 87.8 / 67.2 / 61.8% in
   Jan–Mar 2026, while the same file's summary text still says "12-month
   average 98.5%" (it also cites "March 2025", so that text looks stale). The
-  monthly values are kept as published and flagged as provisional on the page.
+  monthly values match the February/March/April 2026 staff slides exactly.
+  They are confirmed published figures, not a workbook parsing error. See
+  [KPI_REVIEW.md](KPI_REVIEW.md#line-1) for links and pages.
 - *Service availability* (hours delivered, 2020–21 reports) and *trips
   delivered* (2023+ deck and scorecards) are different measures — kept as
   separate metrics, don't splice them.
@@ -334,3 +337,20 @@ compliance audits, marketing — each listed with a reason in the log):**
   Dec 2020 API calls were revised from 60.7 M to 62.7 M.
 - Line 1 2021 numbers include the Aug and Sep–Nov derailment closures (Oct
   2021 = 100% not delivered).
+
+
+## Source review — November 3, 2026
+
+[KPI_REVIEW.md](KPI_REVIEW.md) records the targeted review: 104 snapshot cells,
+all six differing historical series keys, three independently published Line 1
+labels, and a deterministic rebuild of 1,218 observations / 932 series points.
+The snapshot source extension bug was fixed in the extractor and CSVs regenerated;
+no KPI values changed. One historical difference (132 vs 32 meetings) is an
+explicit source correction; the other differences remain documented.
+
+The page now shows a separate October staff-publication section through September
+2026. Its bus trip-start punctuality and broader missed-trip measures are not
+spliced into legacy series. Exact printed labels only: 43 observations in
+`kpi_history/recent_publications.csv`, with source URLs and PDF pages.
+`scripts/review_kpis.py --check-current` reproduces checks and compact evidence.
+No collector-health assessment was made during this source review.

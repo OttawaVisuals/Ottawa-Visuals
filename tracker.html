@@ -1161,7 +1161,7 @@ li.checked .a-body{opacity:1}
     <a class="live-link" href="OC_Transpo/octranspo_kpis.html" target="_blank">open the page ↗</a>
   </div>
   <p><b>In one sentence:</b> OC Transpo ridership, reliability against its own targets, and when people ride,
-  2019–2026, from every figure OC Transpo reported to Transit Committee.</p>
+  2019–2026, from selected official reports, source spreadsheets and staff presentations.</p>
 
   <h3>Where the data comes from</h3>
   <div class="srcs">
@@ -1172,6 +1172,8 @@ li.checked .a-body{opacity:1}
     <div class="src">Our own GTFS-RT collector (collect.yml), since 2026-10-16<small>"Measured live" section: daily and hourly bus on-time, cancelled trips, most-late routes</small></div>
     <div class="src">otranspo.ca public API (MIT, attribution required), since 2026-08-01<small>independent daily ±5 min on-time, network and per route, as a cross-check</small></div>
   </div>
+
+  <p><b>Source review, November 3:</b> 1,218 observations / 932 historical series points; 104 spreadsheet cells reconciled, six differing keys checked, three Line 1 monthly drops corroborated. Fixed spreadsheet source extensions; values unchanged. New staff charts through September 2026 use separate measures. <a href="OC_Transpo/KPI_REVIEW.md">Scope, evidence and remaining gaps</a>.</p>
 
   <h3>How it was built</h3>
   <div class="pipe">
@@ -1187,7 +1189,7 @@ li.checked .a-body{opacity:1}
     <ul class="assump">
       <li><input type="checkbox" data-key="octranspo-latest-wins" aria-labelledby="assumption-octranspo-latest-wins"><div class="a-body">
         <span class="tag choice">judgment call</span><b id="assumption-octranspo-latest-wins">When reports disagree, the later report wins (unless the older one is the same figure, more precisely).</b>
-        <p>6 points conflict, e.g. 2024 bus operator availability is 85% in both scorecards but 88% in the Sept 2025 reliability report. All are listed in extract_log.txt.</p>
+        <p>6 series keys differ (one explicitly corrected), e.g. 2024 bus operator availability is 85% in both scorecards but 88% in the Sept 2025 reliability report. Source pages and decisions are listed in the page and KPI_REVIEW.md.</p>
         <div class="where">OC_Transpo/scripts/extract_kpis.py pick(); OC_Transpo/kpi_history/extract_log.txt.</div>
       </div></li>
       <li><input type="checkbox" data-key="octranspo-sums" aria-labelledby="assumption-octranspo-sums"><div class="a-body">
@@ -1197,7 +1199,7 @@ li.checked .a-body{opacity:1}
       </div></li>
       <li><input type="checkbox" data-key="octranspo-images" aria-labelledby="assumption-octranspo-images"><div class="a-body">
         <span class="tag data">source limit</span><b id="assumption-octranspo-images">After 2021 the monthly charts are images, so most 2022+ monthly values can't be read.</b>
-        <p>Monthly data exists for 2020–21 and Aug 2022–Aug 2023 only; everything else is annual.</p>
+        <p>Coverage also includes April 2025–April 2026 spreadsheets. The October 2026 staff publication is shown separately because the new bus definitions differ. Unlabeled curve values are not estimated.</p>
         <div class="where">OC_Transpo/README.md, "KPI history" coverage table.</div>
       </div></li>
       <li><input type="checkbox" data-key="octranspo-live-compare" aria-labelledby="assumption-octranspo-live-compare"><div class="a-body">
@@ -1425,13 +1427,12 @@ li.checked .a-body{opacity:1}
   <p class="small muted">From <a href="PROJECTS.md">PROJECTS.md</a>'s planned/scoped and backlog lists.</p>
   <div class="remain-scroll" tabindex="0" role="region" aria-label="Remaining project work"><table class="remain">
     <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
-    <tr><td>1</td><td><b>OC Transpo KPI review</b></td><td>The <a href="OC_Transpo/octranspo_kpis.html">page is built</a>. Review extracted series and add newer official observations only where definitions match.</td><td>Review</td></tr>
-    <tr><td>2</td><td><b>Geothermal Ottawa Case Study</b></td><td>Write the plain-language narrative in the Energy repo. The Ottawa map is already live; national expansion is separate.</td><td>Narrative</td></tr>
-    <tr><td>3</td><td><b>Road-event and RTO context</b></td><td>Event-log interpretation queued around Nov 5. Commute/transit before–after comparisons still need suitable backfill and official KPI coverage.</td><td>Data-dependent</td></tr>
-    <tr><td>4</td><td><b>Mandate completeness</b></td><td>Replace estimated Ward 20 results and fill missing MPP by-election mandates. <a href="council_mandates.html">Council</a> · <a href="mpp_mandates.html">MPPs</a></td><td>Source review</td></tr>
-    <tr><td>5</td><td><b>GovContracts follow-up</b></td><td>The <a href="govcontracts.html">page and category/share charts are built</a>. Refresh disclosure coverage before a post-July-2026 RTO comparison; review exploratory candidates before publishing them.</td><td>Data-dependent</td></tr>
-    <tr><td>6</td><td><b>Actual screen-reader sessions</b></td><td>Automated rules and representative keyboard/accessibility-tree checks passed. NVDA/JAWS/VoiceOver sessions remain unverified; <a href="SITE_AUDIT.md">audit limits</a>.</td><td>Manual check</td></tr>
-    <tr><td>7</td><td><b>Future ideas</b></td><td>Real-estate dashboard, cross-sector Ontario comparison, car/gas sales versus GHG targets and national geothermal expansion remain separate ideas. <a href="PROJECTS.md">Full roadmap</a>.</td><td>Unscoped</td></tr>
+    <tr><td>1</td><td><b>Geothermal Ottawa Case Study</b></td><td>Write the plain-language narrative in the Energy repo. The Ottawa map is already live; national expansion is separate.</td><td>Narrative</td></tr>
+    <tr><td>2</td><td><b>Road-event and RTO context</b></td><td>Event-log interpretation queued around Nov 5. Commute/transit before–after comparisons still need suitable backfill and official KPI coverage.</td><td>Data-dependent</td></tr>
+    <tr><td>3</td><td><b>Mandate completeness</b></td><td>Replace estimated Ward 20 results and fill missing MPP by-election mandates. <a href="council_mandates.html">Council</a> · <a href="mpp_mandates.html">MPPs</a></td><td>Source review</td></tr>
+    <tr><td>4</td><td><b>GovContracts follow-up</b></td><td>The <a href="govcontracts.html">page and category/share charts are built</a>. Refresh disclosure coverage before a post-July-2026 RTO comparison; review exploratory candidates before publishing them.</td><td>Data-dependent</td></tr>
+    <tr><td>5</td><td><b>Actual screen-reader sessions</b></td><td>Automated rules and representative keyboard/accessibility-tree checks passed. NVDA/JAWS/VoiceOver sessions remain unverified; <a href="SITE_AUDIT.md">audit limits</a>.</td><td>Manual check</td></tr>
+    <tr><td>6</td><td><b>Future ideas</b></td><td>Real-estate dashboard, cross-sector Ontario comparison, car/gas sales versus GHG targets and national geothermal expansion remain separate ideas. <a href="PROJECTS.md">Full roadmap</a>.</td><td>Unscoped</td></tr>
   </table></div>
 </section>
 
