@@ -1725,29 +1725,6 @@
 },
 "fp": "aca181cc3c7c"
 },
-"29481": {
-"event": {
-"cause": "construction",
-"created": "2026-10-15 06:21:00",
-"cross_street_1": "Clare",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29481",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Westhaven (west) closed at Clare due to construction, from October 27th to November 2nd between 6:00am and 7:00pm. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.38883,
-"lon": -75.743739,
-"planned_end": "2026-11-02T19:00",
-"planned_start": "2026-10-23T06:00",
-"priority": "LOW",
-"road": "Westhaven (west/ouest)",
-"source": "city",
-"updated": "2026-10-27 13:28:00"
-},
-"fp": "189017de5e76"
-},
 "29513": {
 "event": {
 "cause": "construction",
@@ -2139,29 +2116,6 @@
 },
 "fp": "6f737aff4d8c"
 },
-"29637": {
-"event": {
-"cause": "",
-"created": "2026-10-22 16:48:00",
-"cross_street_1": "GALETTA SIDE RD/CR 22",
-"cross_street_2": "GALETTA SIDE RD/CR 22",
-"direction": null,
-"event_id": "29637",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from GALETTA SIDE RD/CR 22 to GALETTA SIDE RD/CR 22 - Daily Construction. 1 Left Lane(s). 2026-10-26 07:00 to 2026-11-02 17:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.40349,
-"lon": -76.28879,
-"planned_end": "2026-11-02T17:00",
-"planned_start": "2026-10-26T07:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-22 16:48:00"
-},
-"fp": "9e1fb0bd06cd"
-},
 "29647": {
 "event": {
 "cause": "construction",
@@ -2253,6 +2207,29 @@
 "updated": "2026-10-26 06:56:00"
 },
 "fp": "c145a3298688"
+},
+"29684": {
+"event": {
+"cause": "construction",
+"created": "2026-10-26 12:26:00",
+"cross_street_1": "Metcalfe",
+"cross_street_2": "Elgin",
+"direction": null,
+"event_id": "29684",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Sparks sidewalk south side closed between Metcalfe and Elgin due to construction, Friday November 6th from 7:00am to 5:00pm.",
+"lanes": "sidewalk south side closed",
+"lat": 45.423357,
+"lon": -75.696228,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-11-03T07:00",
+"priority": "MEDIUM",
+"road": "Sparks",
+"source": "city",
+"updated": "2026-11-03 06:56:00"
+},
+"fp": "39284928f4af"
 },
 "29685": {
 "event": {
@@ -2438,6 +2415,29 @@
 },
 "fp": "531272aebae8"
 },
+"29713": {
+"event": {
+"cause": "construction",
+"created": "2026-10-27 13:06:00",
+"cross_street_1": "TERRY FOX",
+"cross_street_2": "TEMPLEFORD",
+"direction": null,
+"event_id": "29713",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "COPE closed between TERRY FOX and TEMPLEFORD due to construction, from November 6th to 16th. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.276371,
+"lon": -75.872956,
+"planned_end": "2026-11-16T17:00",
+"planned_start": "2026-11-03T07:00",
+"priority": "HIGH",
+"road": "COPE",
+"source": "city",
+"updated": "2026-11-03 06:56:00"
+},
+"fp": "4abf70f5acf6"
+},
 "29724": {
 "event": {
 "cause": "",
@@ -2483,6 +2483,29 @@
 "updated": "2026-10-30 09:28:00"
 },
 "fp": "c26fafa05dc6"
+},
+"29731": {
+"event": {
+"cause": "construction",
+"created": "2026-10-28 09:49:00",
+"cross_street_1": "Trim",
+"cross_street_2": "Tenth Line",
+"direction": null,
+"event_id": "29731",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "174 westbound reduced to 1 lane between Trim and Tenth Line due to construction, from November 5th to 12th between 10:00am and 3:00pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.486602,
+"lon": -75.500405,
+"planned_end": "2026-11-12T15:00",
+"planned_start": "2026-11-02T10:00",
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-11-02 09:56:00"
+},
+"fp": "c4b93fb4be2b"
 },
 "29750": {
 "event": {
@@ -2575,29 +2598,6 @@
 "updated": "2026-10-29 17:18:00"
 },
 "fp": "deb4ac5a30f3"
-},
-"29761": {
-"event": {
-"cause": "",
-"created": "2026-10-29 17:18:00",
-"cross_street_1": "ROGER STEVENS DR (IC 49)/CR 6",
-"cross_street_2": "BANKFIELD RD / BROPHY DR (IC 57) (CR 8)",
-"direction": null,
-"event_id": "29761",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 416 Northbound from ROGER STEVENS DR /CR 6 to BANKFIELD RD / BROPHY DR  - Nightly Engineering Investigation. 1 Right Lane(s). 2026-11-02 18:00 to 2026-11-03 07:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.14599,
-"lon": -75.6806,
-"planned_end": "2026-11-03T07:00",
-"planned_start": "2026-11-02T18:00",
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-10-29 17:18:00"
-},
-"fp": "b04cf7628d99"
 },
 "29771": {
 "event": {
@@ -2806,51 +2806,258 @@
 },
 "fp": "7152a1fcb80b"
 },
-"29792": {
+"29796": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-02 07:15:00",
-"cross_street_1": "Ch Montr\u00e9al Rd",
+"cause": "construction",
+"created": "2026-11-02 10:05:00",
+"cross_street_1": "Place d'Orl\u00e9ans N/B and E/B",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29792",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St-Laurent southbound right lane closed at Montr\u00e9al Rd due to a disabled heavy vehicle.",
-"lanes": "right lane closed",
-"lat": 45.441578,
-"lon": -75.64703,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "St-Laurent",
+"event_id": "29796",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.",
+"lanes": "closed",
+"lat": 45.480337,
+"lon": -75.513553,
+"planned_end": "2026-11-22T17:00",
+"planned_start": "2026-11-02T07:00",
+"priority": "HIGH",
+"road": "174 E/B On-ramp",
 "source": "city",
-"updated": "2026-11-02 07:15:00"
+"updated": "2026-11-02 10:08:00"
 },
-"fp": "66de170e36b8"
+"fp": "b0fd64d053e9"
 },
-"29794": {
+"29797": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-02 08:42:00",
-"cross_street_1": "Lisa",
-"cross_street_2": "Iris",
+"cause": "construction",
+"created": "2026-11-02 10:32:00",
+"cross_street_1": "COLE",
+"cross_street_2": "ROOSEVELT",
 "direction": null,
-"event_id": "29794",
+"event_id": "29797",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "KENWOOD closed between COLE and ROOSEVELT due to construction, from November 2nd 6:00am to November 23rd 7:00pm.",
+"lanes": "closed",
+"lat": 45.387632,
+"lon": -75.75597,
+"planned_end": "2026-11-23T19:00",
+"planned_start": "2026-11-02T06:00",
+"priority": "MEDIUM",
+"road": "KENWOOD",
+"source": "city",
+"updated": "2026-11-02 10:36:00"
+},
+"fp": "5d8176de9934"
+},
+"29798": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 11:01:00",
+"cross_street_1": "Lloyd",
+"cross_street_2": "Fleet",
+"direction": null,
+"event_id": "29798",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Lett lane reductions between Lloyd and Fleet due to construction, from October 28th to January 25th.",
+"lanes": "lane reductions",
+"lat": 45.415017,
+"lon": -75.712804,
+"planned_end": "2027-01-25T00:00",
+"planned_start": "2026-10-28T00:00",
+"priority": "LOW",
+"road": "Lett",
+"source": "city",
+"updated": "2026-11-02 11:04:00"
+},
+"fp": "51b3837d4805"
+},
+"29799": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 12:42:00",
+"cross_street_1": "ELGIN",
+"cross_street_2": "METCALFE",
+"direction": null,
+"event_id": "29799",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ALBERT lane reduction between ELGIN and METCALFE due to construction, from October 29th to January 26th.",
+"lanes": "lane reduction",
+"lat": 45.422497,
+"lon": -75.694293,
+"planned_end": "2027-01-26T17:00",
+"planned_start": "2026-10-29T00:00",
+"priority": "MEDIUM",
+"road": "ALBERT",
+"source": "city",
+"updated": "2026-11-02 12:44:00"
+},
+"fp": "e776bfa0c856"
+},
+"29801": {
+"event": {
+"cause": "construction",
+"created": "2026-11-02 13:09:00",
+"cross_street_1": "417 overpass",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29801",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Moodie southbound reduced to 1 lane at 417 overpass due to construction, from November 4th to 9th between 6:00 and 2:30pm.",
+"lanes": "reduced to 1 lane",
+"lat": 45.3404,
+"lon": -75.841769,
+"planned_end": "2026-11-09T14:30",
+"planned_start": "2026-11-02T06:00",
+"priority": "MEDIUM",
+"road": "Moodie",
+"source": "city",
+"updated": "2026-11-02 13:12:00"
+},
+"fp": "fb32961b03e7"
+},
+"29802": {
+"event": {
+"cause": "",
+"created": "2026-11-02 14:12:00",
+"cross_street_1": "VANIER PKWY/RIVERSIDE  (IC 117)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29802",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound On-ramp at VANIER PKWY/RIVERSIDE - Continuous Construction. ALL LANES CLOSED. 2026-11-04 20:00 to 2026-11-05 05:00",
+"lanes": "ALL LANES CLOSED",
+"lat": 45.41762,
+"lon": -75.65658,
+"planned_end": "2026-11-05T05:00",
+"planned_start": "2026-11-04T20:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-02 14:12:00"
+},
+"fp": "9ce8be8cef22"
+},
+"29803": {
+"event": {
+"cause": "",
+"created": "2026-11-02 14:48:00",
+"cross_street_1": "PANMURE RD (IC 163)",
+"cross_street_2": "KINBURN SIDE RD (IC 169)/CR 20",
+"direction": null,
+"event_id": "29803",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from PANMURE RD to KINBURN SIDE RD /CR 20 - Daily Maintenance. 1 Right Lane(s). 2026-11-03 08:00 to 2026-11-04 15:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.33268,
+"lon": -76.16183,
+"planned_end": "2026-11-04T15:00",
+"planned_start": "2026-11-03T08:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-02 14:48:00"
+},
+"fp": "9781bfbf5772"
+},
+"29805": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 06:39:00",
+"cross_street_1": "CLEARY",
+"cross_street_2": "WOODROFFE",
+"direction": null,
+"event_id": "29805",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "RICHMOND westbound lane reduction between CLEARY and WOODROFFE due to construction, until November 6th.",
+"lanes": "lane reduction",
+"lat": 45.381662,
+"lon": -75.770332,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-10-26T00:00",
+"priority": "MEDIUM",
+"road": "RICHMOND",
+"source": "city",
+"updated": "2026-11-03 06:40:00"
+},
+"fp": "801e6ac3a6ce"
+},
+"29807": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 07:07:00",
+"cross_street_1": "March",
+"cross_street_2": "Moodie",
+"direction": null,
+"event_id": "29807",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "417 eastbound HOV lane closed between March and Moodie due to construction, from October 27th to November 6th between 10:00am and 2:00pm.",
+"lanes": "center lane closed",
+"lat": 45.321081,
+"lon": -75.883666,
+"planned_end": "2026-11-06T14:00",
+"planned_start": "2026-10-27T10:00",
+"priority": "HIGH",
+"road": "417",
+"source": "city",
+"updated": "2026-11-03 07:08:00"
+},
+"fp": "c2de2dc1298b"
+},
+"29813": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-03 09:08:00",
+"cross_street_1": "Connaught",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29813",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Greenbank northbound left lane closed between Lisa and Iris due to a collision.",
-"lanes": "left lane closed",
-"lat": 45.3456,
-"lon": -75.788334,
+"headline": "Carling traffic disruptions at Connaught due to traffic signals not working. Expect delays.",
+"lanes": "traffic disruptions",
+"lat": 45.363696,
+"lon": -75.785474,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Greenbank",
+"priority": "HIGH",
+"road": "Carling",
 "source": "city",
-"updated": "2026-11-02 08:42:00"
+"updated": "2026-11-03 09:08:00"
 },
-"fp": "5267ab57220f"
+"fp": "a6c1d9749ec8"
+},
+"29814": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-03 09:18:00",
+"cross_street_1": "Tyndall",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29814",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Parkdale lane reduction in both directions at Tyndall due to a disabled bus.",
+"lanes": "lane reduction in both directions",
+"lat": 45.398229,
+"lon": -75.727596,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Parkdale",
+"source": "city",
+"updated": "2026-11-03 09:18:00"
+},
+"fp": "4b6271d73a0a"
 }
 }
 }
