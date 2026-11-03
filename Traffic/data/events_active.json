@@ -2438,6 +2438,29 @@
 },
 "fp": "4abf70f5acf6"
 },
+"29714": {
+"event": {
+"cause": "construction",
+"created": "2026-10-27 13:16:00",
+"cross_street_1": "woodroffe",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29714",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "BRTL westbound closed at woodroffe due to construction, Friday November 6th between 1:00pm and 5:00pm.",
+"lanes": "closed",
+"lat": 45.360573,
+"lon": -75.770613,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-11-03T13:00",
+"priority": "MEDIUM",
+"road": "BRTL",
+"source": "city",
+"updated": "2026-11-03 12:56:00"
+},
+"fp": "73b05dae2ea2"
+},
 "29724": {
 "event": {
 "cause": "",
@@ -2793,7 +2816,7 @@
 "event_id": "29796",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.",
+"headline": "(LRT) 174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.\n",
 "lanes": "closed",
 "lat": 45.480337,
 "lon": -75.513553,
@@ -2802,9 +2825,9 @@
 "priority": "HIGH",
 "road": "174 E/B On-ramp",
 "source": "city",
-"updated": "2026-11-02 10:08:00"
+"updated": "2026-11-03 13:06:00"
 },
-"fp": "b0fd64d053e9"
+"fp": "8cda8f7fe891"
 },
 "29797": {
 "event": {
@@ -2990,29 +3013,6 @@
 },
 "fp": "c2de2dc1298b"
 },
-"29813": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-03 09:08:00",
-"cross_street_1": "Connaught",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29813",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Carling traffic disruptions at Connaught due to traffic signals not working. Expect delays.",
-"lanes": "traffic disruptions",
-"lat": 45.363696,
-"lon": -75.785474,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Carling",
-"source": "city",
-"updated": "2026-11-03 12:35:00"
-},
-"fp": "49a09a386152"
-},
 "29819": {
 "event": {
 "cause": "construction",
@@ -3035,6 +3035,75 @@
 "updated": "2026-11-03 12:24:00"
 },
 "fp": "eace90c3bcdc"
+},
+"29820": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 13:02:00",
+"cross_street_1": "ROOSEVELT",
+"cross_street_2": "MELBOURNE",
+"direction": null,
+"event_id": "29820",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "KENWOOD closed between ROOSEVELT and MELBOURNE due to construction, until December 4th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.387948,
+"lon": -75.754913,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-03T00:00",
+"priority": "MEDIUM",
+"road": "KENWOOD",
+"source": "city",
+"updated": "2026-11-03 13:04:00"
+},
+"fp": "126eba8a1d47"
+},
+"29821": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-03 13:10:00",
+"cross_street_1": "Hunt Club",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29821",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Greenbank northbound reduced to 1 lane at Hunt Club due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.321569,
+"lon": -75.776538,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Greenbank",
+"source": "city",
+"updated": "2026-11-03 13:10:00"
+},
+"fp": "d616e3702e54"
+},
+"29822": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 13:17:00",
+"cross_street_1": "CHRISTIE",
+"cross_street_2": "GLADSTONE",
+"direction": null,
+"event_id": "29822",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BRONSON southbound lane reduction between CHRISTIE and GLADSTONE due to construction, Friday November 6th.",
+"lanes": "lane reduction",
+"lat": 45.409692,
+"lon": -75.704722,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-11-03T00:00",
+"priority": "UNKNOWN",
+"road": "BRONSON",
+"source": "city",
+"updated": "2026-11-03 13:20:00"
+},
+"fp": "96228b76444e"
 }
 }
 }
