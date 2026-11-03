@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Chart sharing (Nov 3: shared PNG preview/download, image and chart-link copying for native canvas/SVG charts; current selections, legends, notes and credit; sharper canvas export, layered Weather capture, clipboard fallbacks and keyboard access; desktop/phone and three-theme checks, targeted filter/link/accessibility checks)
 - [x] Publish audited site (Nov 3: accessibility/layout fixes plus Education and Healthcare reports; merged automated data updates; GitHub Pages deployment and live checks)
 - [x] Alberta OECD class-size comparison (Nov 2: separate 2025–26 snapshot, 88,932 published rows/61 authorities, four grade bands and count/share comparison with 21/23; suppressed under-10 rows retained, scope differences labelled; 310 aggregates independently reconciled; published Nov 3, 2026)
 - [x] OECD class-size comparisons (Nov 2: observed 2024 averages of 21/23, three explicit Ontario class scopes excluding JK/K, count/share history and CSV; grade mismatch labelled; 2,062 source/population checks; published Nov 3, 2026)

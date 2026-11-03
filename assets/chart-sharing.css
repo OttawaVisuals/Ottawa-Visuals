@@ -1,0 +1,17 @@
+/* Isolated from report-specific button, dialog and image rules. */
+.ov-chart-share{display:flex;justify-content:flex-end;clear:both;margin:8px 0;max-width:100%}
+.ov-chart-share[hidden]{display:none!important}
+.ov-chart-share button,.ov-share-dialog button,.ov-share-dialog .ov-share-download{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;min-height:40px;padding:8px 13px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--blue-text,var(--ink));font:600 13px/1.4 Arial,sans-serif;text-decoration:none;cursor:pointer;letter-spacing:normal;white-space:normal}
+.ov-chart-share button:hover,.ov-share-dialog button:hover,.ov-share-dialog .ov-share-download:hover{background:var(--bg-3)}
+.ov-share-dialog button:disabled{opacity:.55;cursor:default}
+.ov-chart-share button:focus-visible,.ov-share-dialog :focus-visible{outline:3px solid var(--blue-text,var(--ink));outline-offset:3px}
+.ov-share-dialog{box-sizing:border-box;position:fixed;inset:0;width:min(880px,calc(100% - 24px));max-width:880px;height:auto;max-height:calc(100dvh - 24px);margin:auto;padding:20px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:14px/1.5 Arial,sans-serif;text-align:left;z-index:10000}
+.ov-share-dialog::backdrop{background:rgba(0,0,0,.65)}
+.ov-share-head,.ov-share-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ov-share-dialog .ov-share-head h2{margin:0;font:600 23px/1.3 Arial,sans-serif;color:var(--ink)}
+.ov-share-dialog p{margin:12px 0;color:var(--ink-2);font:14px/1.5 Arial,sans-serif}
+.ov-share-dialog .ov-share-actions{justify-content:flex-start}
+.ov-share-dialog .ov-share-preview{display:block;width:100%;max-width:100%;height:auto;margin:16px 0 0;border:1px solid var(--line);border-radius:4px}
+.ov-share-dialog .ov-share-link{box-sizing:border-box;display:block;width:100%;min-width:0;padding:9px;border:1px solid var(--line);border-radius:4px;background:var(--bg-2);color:var(--ink);font:13px/1.5 Arial,sans-serif}
+.ov-share-dialog [hidden]{display:none!important}
+@media print{.ov-chart-share,.ov-share-dialog{display:none!important}}

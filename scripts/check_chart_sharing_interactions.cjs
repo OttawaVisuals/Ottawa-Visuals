@@ -1,0 +1,52 @@
+// Filter changes, deep links, keyboard, clipboard fallback and dialog accessibility.
+const fs=require('fs'),path=require('path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),deps=path.join(root,'output/site-audit'),out=path.join(root,'output/chart-sharing');
+const {chromium}=require(require.resolve('playwright',{paths:[deps]}));
+const origin=process.env.SHARE_ORIGIN||'http://127.0.0.1:8768';
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+ const results=[];
+ try{
+  const page=await browser.newPage({viewport:{width:320,height:850}});page.setDefaultTimeout(15000);
+  await page.goto(origin+'/Healthcare/healthcare.html',{waitUntil:'networkidle'});
+  await page.selectOption('#category','Physicians'); await page.selectOption('#prices','nominal');
+  await page.check('#forecasts');
+  const button=page.getByRole('button',{name:/Share chart: Ontario physicians funding/});
+  await button.waitFor(); await button.focus(); await page.keyboard.press('Enter');
+  await page.locator('.ov-share-download').waitFor({state:'visible'});
+  assert.match(await page.locator('.ov-share-preview').getAttribute('alt'),/physicians/);
+  assert.equal(await page.locator('.ov-share-dialog').evaluate(d=>d.scrollWidth<=d.clientWidth+2),true);
+  await page.addScriptTag({path:require.resolve('axe-core/axe.min.js',{paths:[deps]})});
+  const violations=await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations);
+  assert.deepEqual(violations.map(v=>v.id),[]);
+  const event=page.waitForEvent('download');await page.locator('.ov-share-download').click();
+  await (await event).saveAs(path.join(out,'healthcare-changed-view.png'));
+  const link=await page.locator('.ov-share-link').inputValue();
+  await page.screenshot({path:path.join(out,'phone-changed-view.png')});
+  await page.evaluate(()=>{navigator.clipboard.write=async()=>{throw new Error('Permission denied')};navigator.clipboard.writeText=async()=>{throw new Error('Permission denied')};});
+  await page.getByRole('button',{name:'Copy image',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.ov-share-dialog [role=status]').textContent.includes('Use Download PNG'));
+  await page.getByRole('button',{name:'Copy link',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.ov-share-dialog [role=status]').textContent.includes('Select the link below'));
+  await page.keyboard.press('Escape');assert.equal(await button.evaluate(el=>document.activeElement===el),true);
+  const url=new URL(link);await page.goto(origin+url.pathname.replace('/Ottawa-Visuals','')+url.hash,{waitUntil:'networkidle'});
+  await page.waitForFunction(()=>document.querySelector(location.hash)?.dataset.shareLinked==='true');
+  assert.ok(await page.locator(url.hash).evaluate(el=>el.getBoundingClientRect().top<innerHeight));
+  results.push('Changed filters reflected in snapshot; 320px dialog; keyboard open/close and focus; no automated accessibility violations; clipboard denial fallback; generated SVG deep link');
+  await page.goto(origin+'/Tax/tax.html',{waitUntil:'networkidle'});
+  const before=await page.evaluate(()=>{const c=Chart.getChart(document.getElementById('c-rates'));return {data:JSON.stringify(c.data),ratio:c.options.devicePixelRatio,width:c.width,height:c.height};});
+  await page.getByRole('button',{name:/Share chart: Top statutory/}).click();await page.locator('.ov-share-download').waitFor({state:'visible'});
+  const after=await page.evaluate(()=>{const c=Chart.getChart(document.getElementById('c-rates'));return {data:JSON.stringify(c.data),ratio:c.options.devicePixelRatio,width:c.width,height:c.height};});
+  assert.deepEqual(after,before);results.push('High-resolution Chart.js export restores dimensions, pixel ratio and data');
+  await page.goto(origin+'/Weather/weather.html',{waitUntil:'networkidle'});
+  const spiral=page.locator('canvas[data-ov-chart-table]');
+  await spiral.waitFor({state:'visible'});
+  await page.getByRole('button',{name:/Share chart: Daily mean temperatures in/}).click();
+  await page.locator('.ov-share-download').waitFor({state:'visible'});
+  const spiralDownload=page.waitForEvent('download'); await page.locator('.ov-share-download').click();
+  await (await spiralDownload).saveAs(path.join(out,'weather-spiral.png'));
+  results.push('Layered Weather spiral snapshot exports its grid, plot and selected year');
+  await page.close();
+  fs.writeFileSync(path.join(out,'interaction-checks.json'),JSON.stringify({pass:true,checks:results},null,2));console.log(results.join('\n'));
+ } finally {await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

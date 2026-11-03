@@ -81,12 +81,38 @@ standalone root-level tools not (yet) tied to a specific data folder.
   `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
   `tracker.html`, `rto.html` and `dataset_prospector.html` keep their own token names but load it too.
-  Shared theme CSS/JS use `?v=a11y-20261103`; author credit uses `?v=audit-20261103`. The theme
+  Shared theme CSS uses `?v=a11y-20261103`, JS uses `?v=share-20261103`;
+  author credit uses `?v=audit-20261103`. The theme
   pill explicitly resets button padding, flex sizing and SVG dimensions. Report
   headers use a compact phone row; the homepage keeps its existing header layout.
   Author initialization waits for the theme control so its button consistently
   appears before the pill. Nov 1 checks: 13 report/detail phone headers at 390px,
   wealth/weather/mortgage at 320px, and three-mode selection on four reports.
+
+## Chart sharing
+
+Native canvas and SVG charts gain a **Share chart** button through
+`assets/chart-sharing.js`, loaded by the shared theme. It previews a local PNG
+with the current chart, selections, nearby legends/notes, report link and Ottawa
+Visuals credit. Readers can download it, copy the image (supported browsers), or
+copy a chart link. Nothing is uploaded. Clipboard failures retain the download
+and a selectable link.
+
+Links preserve existing report query parameters and jump to the chart; they do
+not add filter-state persistence. Charts without a local source label refer to
+the full report for sources and methods. This is a snapshot of the rendered
+view, including its current theme/mobile layout; external embeds and Leaflet
+maps are excluded. Animated Weather snapshots pause playback.
+
+Optional `data-share-title`, `data-share-source` and `data-share-note` attributes
+on the chart supply explicit export text. Chart.js snapshots temporarily use a
+higher pixel ratio and restore the original chart dimensions and data. SVG
+exports inline their paint/text styles to retain colours and hidden-series state.
+
+Local checks (with the temporary dependencies described in `SITE_AUDIT.md` and
+an HTTP server on port 8768): `node scripts/check_chart_sharing.cjs` and
+`node scripts/check_chart_sharing_interactions.cjs`. Evidence stays in
+`output/chart-sharing/`.
 
 ## Traffic report
 [`Traffic/stops.html`](Traffic/stops.html) uses native charts and maps, with no
