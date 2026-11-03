@@ -1,6 +1,6 @@
 # Healthcare: money, staff & capacity
 
-Page: [`healthcare.html`](healthcare.html). Static, buildless, shared Ottawa Visuals themes. Built locally November 2, 2026; publication pending. Schools are a separate follow-up.
+Page: [`healthcare.html`](healthcare.html). Static, buildless, shared Ottawa Visuals themes. Built November 2, 2026; published November 3, 2026. Schools are a separate follow-up.
 
 Decorative artwork: shared hospital illustration in the header/homepage and seven original SVG section icons in `assets/icons/`. Prompt and provenance: [`healthcare-prompts.json`](../assets/report-art/healthcare-prompts.json). Icons use the site's navy/teal/amber palette; they do not represent data values.
 

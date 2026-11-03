@@ -200,6 +200,24 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 
 ## ✅ Live
 
+### Ontario education + Ottawa-area class sizes — published Nov 3, 2026
+- Alberta extension: separate Nov 24, 2025 classroom snapshot; 88,932 published rows, 61 authorities, four grade bands, counts/shares above OECD 21/23 and CSV/JSON. All 310 aggregates independently reconcile to source XML. Grade/definition/coverage differences from Ontario labelled; no time series inferred.
+- OECD extension: 2024 observed primary/lower-secondary averages of 21/23, three Ontario comparison scopes excluding JK/K, explicit grade mismatch and fixed-reference history; 455 count rows and 2,062 source/population checks. Descriptive averages, not recommended caps.
+- Threshold extension: seven separate provincial/ETFO numeric references; count/share history 2019–20 to 2025–26, correct mixed-class populations, separate board-average bounds and 1,192 source/population checks. Source-row flags, not confirmed violations; exception/property fields remain unavailable.
+- Page: `Education/education.html`; provincial funding, public/private financing and public/private education expenditure are separate views. StatCan history through 2023–24, optional approximate school-year CPI adjustment and methodology breaks.
+- Actual September elementary class rows, 2007–08 to 2025–26; all-class/upper-grade coverage starts in 2014–15. Four Ottawa-area board histories and searchable school names, with suppressed cells kept as bounds and ambiguous name/class keys omitted from school lines.
+- Source hashes, financial vectors, aggregate numerator/denominator CSV/JSON, reproducible builders and verification scripts. Secondary/private-school class-size histories and school-level teacher counts are not established.
+
+### Ontario healthcare + Ottawa hospitals — published Nov 3, 2026
+- Page: `Healthcare/healthcare.html`; Ontario spending 1975–2025 (2024–25 forecasts optional), public/private financing, nominal/health-price-adjusted and total/per-resident controls.
+- Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
+- Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
+- Education follow-up: `Education/education.html`, built locally with actual elementary class-size history and separate spending/funding views.
+- Access extension (Nov 2): 312 monthly ER records (five Ottawa sites + Ontario, Aug 2025–Aug 2026), separate FAO annual history back to 2008–09, and 11 regular-provider survey estimates. Confidence intervals, partial years and age/definition breaks are explicit; 700 source-record/hash reconciliations pass. Published November 3, 2026.
+
+
+
+
 ### British Columbia Elections Visual (consolidation scenarios)
 - **Published November 1, 2026.** `BC_Elections/BCelections.html` now defaults to the **2026 preliminary initial count**, as of Oct 26 at 10:34 PST, retrieved Nov 1. All 353 candidates reconcile to 93 riding rows and provincial totals/leads: Conservative 63, NDP 28, Green 2. Mail-in/absentee ballots await final count Nov 6–10. NDP/Green consolidation changes seven leads at illustrative 65% transfer (Conservative 56, NDP 35, Green 2) or twelve at full transfer (51/40/2). Preliminary status and timestamp appear on the page and CSVs; unavailable riding turnout is not estimated. The audited 2024 final baseline remains available at `BCelections-2024.html`. See `BC_Elections/README.md` for source and QA details.
 
@@ -373,24 +391,6 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 ---
 
 ## 🔄 In Progress
-
-### Ontario education + Ottawa-area class sizes — built locally, publication pending (Nov 2, 2026)
-- Alberta extension: separate Nov 24, 2025 classroom snapshot; 88,932 published rows, 61 authorities, four grade bands, counts/shares above OECD 21/23 and CSV/JSON. All 310 aggregates independently reconcile to source XML. Grade/definition/coverage differences from Ontario labelled; no time series inferred.
-- OECD extension: 2024 observed primary/lower-secondary averages of 21/23, three Ontario comparison scopes excluding JK/K, explicit grade mismatch and fixed-reference history; 455 count rows and 2,062 source/population checks. Descriptive averages, not recommended caps.
-- Threshold extension: seven separate provincial/ETFO numeric references; count/share history 2019–20 to 2025–26, correct mixed-class populations, separate board-average bounds and 1,192 source/population checks. Source-row flags, not confirmed violations; exception/property fields remain unavailable.
-- Page: `Education/education.html`; provincial funding, public/private financing and public/private education expenditure are separate views. StatCan history through 2023–24, optional approximate school-year CPI adjustment and methodology breaks.
-- Actual September elementary class rows, 2007–08 to 2025–26; all-class/upper-grade coverage starts in 2014–15. Four Ottawa-area board histories and searchable school names, with suppressed cells kept as bounds and ambiguous name/class keys omitted from school lines.
-- Source hashes, financial vectors, aggregate numerator/denominator CSV/JSON, reproducible builders and verification scripts. Secondary/private-school class-size histories and school-level teacher counts are not established.
-
-### Ontario healthcare + Ottawa hospitals — built locally, publication pending (Nov 2, 2026)
-- Page: `Healthcare/healthcare.html`; Ontario spending 1975–2025 (2024–25 forecasts optional), public/private financing, nominal/health-price-adjusted and total/per-resident controls.
-- Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
-- Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
-- Education follow-up: `Education/education.html`, built locally with actual elementary class-size history and separate spending/funding views.
-- Access extension (Nov 2): 312 monthly ER records (five Ottawa sites + Ontario, Aug 2025–Aug 2026), separate FAO annual history back to 2008–09, and 11 regular-provider survey estimates. Confidence intervals, partial years and age/definition breaks are explicit; 700 source-record/hash reconciliations pass. Local, publication pending.
-
-
-
 
 ### Sutcliffe’s 2022 promises
 - ByWard Market safety added October 24: official OPS neighbourhood aggregates for four selected incident categories, 2018–2025; 32 counts independently checked against 7,893 records without retaining identifiers/points. Original 2022 wording and June 2024 operations-centre opening; separate action/outcome evidence, no safety score. OPS preliminary/time-comparison warning prominent; sources, scope boundary, CSV/JSON and checks included.

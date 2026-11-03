@@ -1,6 +1,6 @@
 # Education: funding & class sizes
 
-Page: [education.html](education.html). Static, buildless Ottawa Visuals report. Built locally November 2, 2026; publication pending. Shares the healthcare page layout and site themes. School artwork is an original decorative SVG in the existing navy/teal/amber palette.
+Page: [education.html](education.html). Static, buildless Ottawa Visuals report. Built November 2, 2026; published November 3, 2026. Shares the healthcare page layout and site themes. School artwork is an original decorative SVG in the existing navy/teal/amber palette.
 
 ## Measures
 

@@ -1,6 +1,6 @@
 # Site audit — November 3, 2026
 
-Status: identified findings fixed locally and committed. No publication or WCAG
+Status: identified findings fixed and published November 3, 2026. No WCAG
 conformance certification is implied. Actual screen-reader application testing
 remains unverified (see Limits).
 
