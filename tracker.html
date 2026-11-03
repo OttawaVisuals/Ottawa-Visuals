@@ -239,6 +239,7 @@ li.checked .a-body{opacity:1}
       <a href="#octranspo">🚌 OC Transpo KPIs</a>
       <a href="#pwhl">🏒 PWHL</a>
       <a href="#cityhall">🏛️ City Hall Index</a>
+      <a href="#govcontracts">Federal contracts</a>
       <a href="#todo">🗺️ What's left</a>
     </nav>
   </div>
@@ -248,6 +249,7 @@ li.checked .a-body{opacity:1}
 
 <!-- ══════════════════ OVERVIEW ══════════════════ -->
 <section id="overview">
+  <p class="small">Catalogue synced November 3, 2026. Live means a deployed page; research follow-ups and deliberate homepage omissions are tracked separately. Collector health retains its own dated check below.</p>
   <p class="small"><a href="#healthcare"><b>Healthcare — published Nov 3:</b></a> Ontario funding, staff/beds, Ottawa hospital finances and ER waits, plus regular-provider access. Official-source snapshot reviewed Nov 2, 2026.</p>
   <p class="small"><a href="#education"><b>Education — published Nov 3:</b></a> School funding/spending and actual elementary class sizes, with four Ottawa-area boards, school search and suppression ranges. Reviewed Nov 2, 2026.</p>
   <div class="tldr">
@@ -327,6 +329,11 @@ li.checked .a-body{opacity:1}
 
   <div class="card">
     <h2 style="margin-bottom:.6rem">Progress at a glance</h2>
+    <p><a href="#education">Education</a> · published Nov 3 · funding, class sizes and comparisons</p>
+    <p><a href="#healthcare">Healthcare</a> · published Nov 3 · spending, capacity and access</p>
+    <p><a href="#cityhall">City Hall search</a> · live · homepage link added Nov 3</p>
+    <p><a href="#govcontracts">Federal contracts</a> · live · homepage link added Nov 3</p>
+    <p><a href="SITE_AUDIT.md">Site audit and accessibility fixes</a> · published Nov 3 · screen-reader applications remain unverified</p>
     <p><a href="#bc-elections">BC elections</a> · 2026 preliminary snapshot · published Nov 1</p>
     <p><a href="#alberta-elections">Alberta elections</a> · 2023 final results · published Nov 1</p>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="index.html#reports">Report artwork</a></span><span class="pct">12 cards · 11 headers · 59 section icons · Oct 31</span></div>
@@ -347,15 +354,11 @@ li.checked .a-body{opacity:1}
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 OC Transpo KPIs</span><div class="track"><div class="fill f-done" style="width:65%"></div></div><span class="pct">65%</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏒 PWHL Dashboard</span><div class="track"><div class="fill f-done" style="width:85%"></div></div><span class="pct">85% · multi-page</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ Ontario Elections</span><div class="track"><div class="fill f-done" style="width:95%"></div></div><span class="pct">95%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚦 RTO Watch (Traffic)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🚌 RTO Watch (Transit)</span><div class="track"><div class="fill f-build" style="width:35%"></div></div><span class="pct">35%</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:60%"></div></div><span class="pct">search + PDFs</span></div>
-    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#court-outcomes">Ottawa court outcomes</a></span><span class="pct">Built · Oct 23, 2026</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#rto">RTO Watch</a></span><div class="track"><div class="fill f-build" style="width:45%"></div></div><span class="pct">45%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🏛️ City Hall Index</span><div class="track"><div class="fill f-build" style="width:75%"></div></div><span class="pct">75%</span></div>
+    <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem"><a href="#court-outcomes">Ottawa court outcomes</a></span><span class="pct">Live · checked Nov 3</span></div>
     <div class="pb"><span style="min-width:13em;font-weight:600;font-size:.85rem">🌍 Geothermal (Ottawa, Energy repo)</span><div class="track"><div class="fill f-done" style="width:100%"></div></div><span class="pct">live ↗</span></div>
-    <p class="small muted" style="margin-top:.6rem">Status as of 2026-09-03. RTO Watch (<code>rto.html</code>) folds
-    together the TomTom commute collector and the OC Transpo GTFS-RT collector — both run continuously
-    on a Pi, and the page's before/after story fills in as more days of data accumulate. The Geothermal
-    row was corrected this pass — it previously showed 15% and described a "national" map; the real
+    <p class="small muted" style="margin-top:.6rem">Historical note, 2026-09-03: RTO Watch (<code>rto.html</code>) combined the TomTom commute and OC Transpo feeds, then collected on the Pi. Collection moved to Cloudflare-triggered GitHub Actions in October; see the separately dated collector notes above. The Geothermal row was corrected in September — it previously showed 15% and described a "national" map; the real
     project (<code>C:\Energy\Geothermal</code>) is an already-live, Ottawa-scoped GSHP suitability map at
     <a href="https://ottawavisuals.github.io/Energy/Geothermal/output/" target="_blank">ottawavisuals.github.io/Energy/Geothermal</a> —
     a true national version doesn't exist and would be a separate, largely unstarted effort (WWIS well
@@ -776,7 +779,7 @@ li.checked .a-body{opacity:1}
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Compare the calculator's qualifying math against OSFI's B-20 guideline text (or CMHC's public explainer) for the GDS/TDS ceilings and the qualifying-rate rule.</li>
         </ol></div>
-        <div class="where">index.html REPORTS[] "mortgage" §method; Mortgage/Pipeline/build_json.py.</div>
+        <div class="where">index.html ALL_REPORTS[] "mortgage" §method; Mortgage/Pipeline/build_json.py.</div>
       </div></li>
       <li><input type="checkbox" data-key="mg-hpi" aria-labelledby="assumption-mg-hpi"><div class="a-body">
         <span class="tag choice">judgment call</span><b id="assumption-mg-hpi">Ottawa home prices use CREA's benchmark (HPI), not a raw average/median sale price.</b>
@@ -891,7 +894,7 @@ li.checked .a-body{opacity:1}
 
 <!-- ══════════════════ ROADS: RISK VS ENFORCEMENT ══════════════════ -->
 <section id="court-outcomes" class="card">
-  <div class="proj-head"><h2>How Ottawa court cases end</h2><span class="chip build">Built · Oct 23, 2026</span><a class="live-link" href="Ontario_Trials/courts.html">open the page ↗</a></div>
+  <div class="proj-head"><h2>How Ottawa court cases end</h2><span class="chip done">Live · checked Nov 3, 2026</span><a class="live-link" href="Ontario_Trials/courts.html">open the page ↗</a></div>
   <p>Criminal cases and provincial/traffic charges kept separate. Offence/group filters, reporting periods, count/share bars, accessible tables, shareable filters and CSV/JSON. Latest calendar year: 2025.</p>
   <p><b>Source audit:</b> 27 official publications, 903 extracted Ottawa rows. Each row’s outcome components reconcile. The 2016 provincial source has a verified subtotal discrepancy; printed totals are retained and the differences flagged.</p>
   <p><b>Limits:</b> criminal completions include committals to Superior Court; trial results are not split into guilty/acquitted. Withdrawals/stays have no recorded reasons. Criminal “2020” and both “2026” files have non-calendar periods, excluded from the default calendar chart. No named-case or OPS-officer linkage. Source reuse wording and local publication status documented in <a href="Ontario_Trials/README.md">the method notes</a>.</p>
@@ -1094,11 +1097,9 @@ li.checked .a-body{opacity:1}
         <p class="alt"><b>Other options:</b> one entry per Auditor General value-for-money chapter (complete but hundreds of items, mostly not costed).</p>
         <div class="where">Ontario_Costs/README.md.</div>
       </div></li>
-      <li><input type="checkbox" data-key="onc-relayed" aria-labelledby="assumption-onc-relayed"><div class="a-body">
-        <span class="tag data">source limit</span><b id="assumption-onc-relayed">Two FAO figures are linked through news reports, and one figure comes from the Public Accounts rather than a watchdog.</b>
-        <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
-          <li>Find the Bill 124 ($13.7B) and licence-fee (≈$1B/yr) estimates on fao-on.org and compare.</li>
-        </ol></div>
+      <li><input type="checkbox" data-key="onc-fao-scope" aria-labelledby="assumption-onc-fao-scope"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-onc-fao-scope">Bill 124 cites the FAO directly; licence-fee revenue is a documented floor, not a standalone costing of ending the fee.</b>
+        <p>The October 28 source update retained CTV for refund context and the “around a billion” remark. Renewable-contract spending comes from Public Accounts rather than a watchdog.</p>
         <div class="where">Ontario_Costs/data/decisions.json, ids bill124, plates, renewables.</div>
       </div></li>
     </ul>
@@ -1249,7 +1250,7 @@ li.checked .a-body{opacity:1}
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Compare the tool's risk-at-a-given-speed-and-height output against the IIHS study's own published figures for a couple of reference points.</li>
         </ol></div>
-        <div class="where">index.html REPORTS[] "road-safety" §method.</div>
+        <div class="where">index.html ALL_REPORTS[] "road-safety" §method.</div>
       </div></li>
       <li><input type="checkbox" data-key="rs-collisions" aria-labelledby="assumption-rs-collisions"><div class="a-body">
         <span class="tag data">source limit</span><b id="assumption-rs-collisions">The pedestrian fatal/major-injury chart still uses the City's Road Safety Action Plan figures, not the open collision data.</b>
@@ -1307,7 +1308,7 @@ li.checked .a-body{opacity:1}
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Check a player with under 5 games in the raw CSVs — confirm they're absent from rate-stat leaderboards but present in raw box scores.</li>
         </ol></div>
-        <div class="where">index.html REPORTS[] "pwhl" §method.</div>
+        <div class="where">index.html ALL_REPORTS[] "pwhl" §method.</div>
       </div></li>
       <li><input type="checkbox" data-key="pw-goal-onice" aria-labelledby="assumption-pw-goal-onice"><div class="a-body">
         <span class="tag data">source limit</span><b id="assumption-pw-goal-onice">Who was on the ice at a goal comes from the goal's plus/minus list, not the feed's on-ice list.</b>
@@ -1341,13 +1342,15 @@ li.checked .a-body{opacity:1}
 <section id="cityhall" class="card">
   <div class="proj-head">
     <h2>🏛️ City Hall eScribe Indexer</h2>
-    <span class="chip build">🔨 Search + PDF tools built · no public page yet</span>
+    <span class="chip done">Live · homepage link added Nov 3</span>
+    <a class="live-link" href="cityhall.html">open search ↗</a>
   </div>
   <p><b>In one sentence:</b> a structured, queryable CSV index of what every City of Ottawa
   committee/council/commission discussed and decided — meetings, agenda items, motions, votes,
   attachments and each item's full page text — straight from the public eScribe portal, with a
   full-text search on top and a route for making downloaded PDFs searchable too.</p>
 
+  <p>Public search and recorded votes: <a href="cityhall.html">What did council decide?</a>. Related views: <a href="council_mandates.html">Council mandate weights</a> and <a href="mpp_mandates.html">MPP mandate weights</a>. The mandate views retain their documented estimated or missing by-election results; PDF full text stays local.</p>
   <h3>Where the data comes from</h3>
   <div class="srcs">
     <div class="src">City of Ottawa eScribe portal<small>calendar API back to ~2019, agenda/minutes pages per meeting</small></div>
@@ -1365,7 +1368,7 @@ li.checked .a-body{opacity:1}
     <div class="arr">→</div>
     <div class="step"><b>5 · PDFs</b><span>--pdf-list → download in a browser → ingest_pdfs.py → searchable per page</span></div>
     <div class="arr">→</div>
-    <div class="step"><b>6 · Weekly</b><span>weekly_update.py: new meetings + minutes posted since</span></div>
+    <div class="step"><b>6 · Public export</b><span>export_public.py → items.json/votes.json → browser search and recorded-vote tables; weekly_update.py refreshes the local index, with exported JSON committed separately</span></div>
   </div>
 
   <details class="method"><summary>Full methodology, in plain language</summary><div class="d-inner">
@@ -1385,11 +1388,10 @@ li.checked .a-body{opacity:1}
         <span class="tag data">source limit</span><b id="assumption-ch-depth">The calendar API only reaches back to ~2019 — older meetings likely live in a separate archive.</b>
         <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
       </div></li>
-      <li><input type="checkbox" data-key="ch-voters" aria-labelledby="assumption-ch-voters"><div class="a-body">
-        <span class="tag choice">judgment call</span><b id="assumption-ch-voters">Recorded votes are captured as one name-string per tally, not exploded to one row per councillor.</b>
-        <p>Good enough for "how did the vote go", but a clean "how did my councillor vote" dataset needs a further parsing pass on that string.</p>
-        <p class="alt"><b>Other options:</b> explode to per-councillor rows immediately — held off until the name-string format is validated across more committees, to avoid silently mis-splitting names.</p>
-        <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
+      <li><input type="checkbox" data-key="ch-voters-split" aria-labelledby="assumption-ch-voters-split"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-ch-voters-split">Named vote tallies are split into per-member rows; only explicitly recorded names are included.</b>
+        <p>split_votes.py validates parsed names against the stated tally. The public Recorded votes tab does not cover every motion or infer how unnamed members voted.</p>
+        <div class="where">CityHall_Index/split_votes.py; CityHall_Index/public/votes.json.</div>
       </div></li>
       <li><input type="checkbox" data-key="ch-pre2022" aria-labelledby="assumption-ch-pre2022"><div class="a-body">
         <span class="tag data">source limit</span><b id="assumption-ch-pre2022">Before about mid-2022, meetings have no item breakdown: each is searchable as one whole-page text.</b>
@@ -1411,30 +1413,32 @@ li.checked .a-body{opacity:1}
   </div>
 </section>
 
+<section id="govcontracts" class="card">
+  <div class="proj-head"><h2>Federal consulting &amp; procurement</h2><span class="chip done">Live · homepage link added Nov 3</span><a class="live-link" href="govcontracts.html">open the page ↗</a></div>
+  <p>Disclosed management-consulting contract values, departments and a furniture yardstick, plus 2019–2025 procurement-method bars across seven office-related categories. Category and dollars/share controls are built and were reviewed October 31.</p>
+  <p class="small">The October 19 download reliably covers contracts through June 2026. Post-July RTO comparisons remain blocked on disclosure coverage; contract values are not proof of duplication, waste or an RTO effect. Exploratory vendor and keyword candidates need further review before publication. <a href="GovContracts/README.md">Sources and next steps</a>.</p>
+</section>
+
 <!-- ══════════════════ REMAINING ══════════════════ -->
 <section id="todo" class="card">
   <h2>🗺️ What's left, in roughly the recommended order</h2>
   <p class="small muted">From <a href="PROJECTS.md">PROJECTS.md</a>'s planned/scoped and backlog lists.</p>
   <div class="remain-scroll" tabindex="0" role="region" aria-label="Remaining project work"><table class="remain">
     <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
-    <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b> ✅</td><td>Done 2026-10-16: <a href="OC_Transpo/octranspo_kpis.html">octranspo_kpis.html</a>, built from <code>OC_Transpo/kpi_history/</code> (numbers extracted from the harvested PDFs). See the <a href="#octranspo">OC Transpo KPIs</a> section.</td><td>done</td></tr>
-    <tr><td>2</td><td><b>Ottawa City Finances / Budget Dashboard</b></td><td>Municipal spending; ties into the property-tax / quality-of-life narrative. eScribe index (<code>CityHall_Index/</code>) is a candidate input.</td><td>2–3 sessions</td></tr>
-    <tr><td>3</td><td><b>Ottawa court outcomes</b></td><td>Built Oct 23, 2026: <a href="Ontario_Trials/courts.html">How Ottawa court cases end</a>, official-source extraction and source audit. Manual refresh; see the <a href="#court-outcomes">project notes</a>.</td><td>built</td></tr>
-    <tr><td>4</td><td><b>Ottawa Real Estate Dashboard</b></td><td>Weekly-refreshed real-estate trends — prototyped in chat, not yet built.</td><td>2 sessions</td></tr>
-    <tr><td>5</td><td><b>Province Spending by Category</b></td><td>Ontario spending across healthcare, education, etc.</td><td>2 sessions</td></tr>
-    <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>
-    <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>The Ottawa version of this is already live (see Progress at a glance, above) — this row is specifically the <em>national</em> expansion, which is essentially unstarted: WWIS well data is Ontario-only, so a national version needs a different well-data source per province, not just a bigger bounding box on the existing pipeline.</td><td>3+ sessions</td></tr>
-    <tr><td>8</td><td><b>Federal Consulting Spend / GovContracts page</b></td><td>Page built (<a href="govcontracts.html">govcontracts.html</a>): consulting spend by year, departments, furniture yardstick and award-method stacked bars; reviewed Oct 31, not yet linked from the home page. Still blocked on one thing: the RTO-mandate-spike check needs a contracts.csv refresh that covers Jul 2026+ (current data only reaches Jun 2026). See <a href="GovContracts/README.md">GovContracts/README.md</a> for the full methodology and exact next steps.</td><td>1–2 sessions</td></tr>
+    <tr><td>1</td><td><b>OC Transpo KPI review</b></td><td>The <a href="OC_Transpo/octranspo_kpis.html">page is built</a>. Review extracted series and add newer official observations only where definitions match.</td><td>Review</td></tr>
+    <tr><td>2</td><td><b>Geothermal Ottawa Case Study</b></td><td>Write the plain-language narrative in the Energy repo. The Ottawa map is already live; national expansion is separate.</td><td>Narrative</td></tr>
+    <tr><td>3</td><td><b>Road-event and RTO context</b></td><td>Event-log interpretation queued around Nov 5. Commute/transit before–after comparisons still need suitable backfill and official KPI coverage.</td><td>Data-dependent</td></tr>
+    <tr><td>4</td><td><b>Mandate completeness</b></td><td>Replace estimated Ward 20 results and fill missing MPP by-election mandates. <a href="council_mandates.html">Council</a> · <a href="mpp_mandates.html">MPPs</a></td><td>Source review</td></tr>
+    <tr><td>5</td><td><b>GovContracts follow-up</b></td><td>The <a href="govcontracts.html">page and category/share charts are built</a>. Refresh disclosure coverage before a post-July-2026 RTO comparison; review exploratory candidates before publishing them.</td><td>Data-dependent</td></tr>
+    <tr><td>6</td><td><b>Actual screen-reader sessions</b></td><td>Automated rules and representative keyboard/accessibility-tree checks passed. NVDA/JAWS/VoiceOver sessions remain unverified; <a href="SITE_AUDIT.md">audit limits</a>.</td><td>Manual check</td></tr>
+    <tr><td>7</td><td><b>Future ideas</b></td><td>Real-estate dashboard, cross-sector Ontario comparison, car/gas sales versus GHG targets and national geothermal expansion remain separate ideas. <a href="PROJECTS.md">Full roadmap</a>.</td><td>Unscoped</td></tr>
   </table></div>
 </section>
 
 <!-- ══════════════════ ABOUT ══════════════════ -->
 <section id="about" class="card">
   <h2>About this page</h2>
-  <p class="small">Generated by Claude on <b>2026-07-19</b> by reading every project's README, build
-  script and <code>PROJECTS.md</code> entry in this repo, plus the git commit history for build
-  dates. Regenerate it by asking Claude to re-read those documents after major changes.
-  Your ✓ checkmarks are stored in this browser only (localStorage).</p>
+  <p class="small">Originally assembled July 19; catalogue and remaining-work list synced November 3, 2026 against the report pages, README and <code>PROJECTS.md</code>. Source review dates and collector verification dates stay separate from this catalogue update. Your ✓ checkmarks are stored in this browser only.</p>
   <button class="reset-btn" id="reset-checks">Reset all my verification checkmarks</button>
 </section>
 

@@ -434,7 +434,8 @@
     border-bottom: 1px solid var(--line);
     overflow: hidden;
   }
-  .featured-card .preview svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .featured-card .preview img { display:block; width:100%; height:100%; object-fit:contain; padding:28px; background:#f7f4ee; box-sizing:border-box; }
+  .featured-card .featured-open{color:var(--blue-text)}
   .featured-card .preview .tag {
     position: absolute; top: 14px; left: 14px;
     font-family: var(--font-mono); font-size: 10px;
@@ -912,29 +913,7 @@
         <a class="featured-card" href="#reports" id="featured-link">
           <div class="preview">
             <span class="tag" id="featured-tag">#traffic</span>
-            <svg class="featured-svg" viewBox="0 0 320 200" preserveAspectRatio="none">
-              <!-- gridlines -->
-              <line class="grid" x1="0"   y1="50"  x2="320" y2="50"/>
-              <line class="grid" x1="0"   y1="100" x2="320" y2="100"/>
-              <line class="grid" x1="0"   y1="150" x2="320" y2="150"/>
-              <!-- area under curve -->
-              <path class="area" d="M 0 160 L 30 150 L 60 140 L 90 120 L 120 130 L 150 100 L 180 90 L 210 70 L 240 80 L 270 50 L 300 40 L 320 35 L 320 200 L 0 200 Z"/>
-              <!-- line -->
-              <path class="line" d="M 0 160 L 30 150 L 60 140 L 90 120 L 120 130 L 150 100 L 180 90 L 210 70 L 240 80 L 270 50 L 300 40 L 320 35"/>
-              <!-- dots -->
-              <circle class="dot" cx="60"  cy="140" r="2.5"/>
-              <circle class="dot" cx="150" cy="100" r="2.5"/>
-              <circle class="dot" cx="240" cy="80"  r="2.5"/>
-              <circle class="dot" cx="320" cy="35" r="3.5"/>
-              <!-- ticks -->
-              <text class="tick" x="4"    y="194">2019</text>
-              <text class="tick" x="148"  y="194">2022</text>
-              <text class="tick" x="288"  y="194">2026</text>
-            </svg>
-            <div class="corner-stat" id="featured-stat">
-              <div class="k">+38%</div>
-              <div class="v">since 2019</div>
-            </div>
+            <img id="featured-art" src="Education/assets/school.svg" alt="" aria-hidden="true" width="512" height="256">
           </div>
           <div class="body">
             <div class="eyebrow"><span class="accent">●</span> &nbsp; Latest report</div>
@@ -942,7 +921,7 @@
             <p id="featured-lede">A visual of previous elections, showing turnout and vote shares</p>
             <div class="meta">
               <span id="featured-date">Updated June 2026</span>
-              <a href="#reports">Open report →</a>
+              <span class="featured-open">Open report →</span>
             </div>
           </div>
         </a>
@@ -1100,7 +1079,8 @@
        topic     — short topic label shown on the tile
        title     — main headline
        lede      — one-paragraph intro
-       date      — "Updated <Month YYYY>"
+       date      — displayed publication, review or listing date
+       publishedAt — optional ISO publication date used by the latest-report card
        readTime  — minutes label
        tag       — single hashtag shown in meta
        page      — the report's own page (each report is a standalone page;
@@ -1110,8 +1090,8 @@
        takeaways — array of [ "BIG VALUE", "explanation" ]; the first one
                    is shown on the tile (optional)
        thumb     — visual style for the card thumbnail: "bars" | "line" | "donut"
-       hidden    — true keeps the report off the home page until it has had a
-                   full review (its page still exists; old #report- links work)
+       hidden    — true keeps the report off the home page; the deployed page
+                   and old #report- links remain available
      ================================================================= -->
 <script>
   const ALL_REPORTS = [
@@ -1120,7 +1100,8 @@
       topic: "Education",
       title: "Funding & class sizes",
       lede: "Ontario school spending and actual elementary class sizes, with Ottawa-area board comparisons and a searchable school history.",
-      date: "Reviewed Nov 2, 2026",
+      date: "Published Nov 3, 2026",
+      publishedAt: "2026-11-03",
       readTime: "~ 5 min explore",
       tag: "#OntarioEducation",
       page: "Education/education.html",
@@ -1135,7 +1116,8 @@
       topic: "Health care",
       title: "Money, staff & room to care",
       lede: "Explore Ontario healthcare funding, hospital staffing and beds, Ottawa hospital finances and ER waits, and access to a regular healthcare provider.",
-      date: "Reviewed Nov 2, 2026",
+      date: "Published Nov 3, 2026",
+      publishedAt: "2026-11-03",
       readTime: "~ 5 min explore",
       tag: "#OntarioHealthcare",
       page: "Healthcare/healthcare.html",
@@ -1254,6 +1236,34 @@
       ],
       thumb: "report-art",
       artwork: "assets/report-art/police.webp",
+    },
+    {
+      id: "cityhall",
+      topic: "City Hall",
+      title: "What did council decide?",
+      lede: "Search Ottawa council and committee agenda items, decisions and recorded votes, then open the official record.",
+      date: "Listed Nov 3, 2026",
+      readTime: "~ 4 min explore",
+      tag: "#OttawaCouncil",
+      page: "cityhall.html",
+      thumb: "bars",
+      why: "Find the decision and its source without reading every meeting agenda.",
+      method: "Client-side search of exported eScribe agenda records and named votes. Recorded votes are a subset; pre-2022 item coverage differs and PDF full text stays local.",
+      sources: [{name: "City Hall sources and update method", meta: "eScribe index and export", url: "CityHall_Index/README.md"}]
+    },
+    {
+      id: "govcontracts",
+      topic: "Federal spending",
+      title: "Federal consulting & procurement",
+      lede: "Explore disclosed management-consulting contract values and competitive versus non-competitive award methods across seven office-related categories.",
+      date: "Listed Nov 3, 2026",
+      readTime: "~ 4 min explore",
+      tag: "#FederalContracts",
+      page: "govcontracts.html",
+      thumb: "bars",
+      why: "Compare contract values and award methods while keeping coding changes and disclosure delays visible.",
+      method: "Management consulting uses GSIN and UNSPSC categories. Award-method charts cover 2019–2025. The October 19 snapshot does not support a post-July-2026 RTO comparison or prove duplication of in-house work.",
+      sources: [{name: "Government of Canada — Proactive Disclosure of Contracts", meta: "Snapshot downloaded Oct 19, 2026", url: "https://open.canada.ca/data/en/dataset/d8f85d91-7dec-4fd1-8055-483b77225d8b"}]
     },
     {
       id: "rto",
@@ -1684,12 +1694,12 @@
       .forEach(b => b.classList.toggle("cur", b.dataset.val === v));
   }
   function refreshFeatured() {
-    const when = r => { const m = /(\w{3})\w* (\d{4})/.exec(r.date); return m ? new Date(`${m[1]} 1, ${m[2]}`).getTime() : 0; };
+    const when = r => { if (r.publishedAt) return Date.parse(r.publishedAt + "T12:00:00"); const m = /(\w{3})\w* (?:(\d{1,2}),? )?(\d{4})/.exec(r.date); return m ? new Date(`${m[1]} ${m[2] || 1}, ${m[3]}`).getTime() : 0; };
     const r = REPORTS.reduce((a, b) => when(b) > when(a) ? b : a);
     document.getElementById("featured-link").href = r.page;
-    // The "Open report" link is nested in the card's <a>, which the parser splits apart.
-    const open = document.querySelector(".variant.featured .meta a");
-    if (open) open.href = r.page;
+    const art = document.getElementById("featured-art");
+    art.hidden = !r.artwork;
+    if (r.artwork) art.src = r.artwork;
     document.getElementById("featured-tag").textContent   = r.tag;
     document.getElementById("featured-title").textContent = r.title;
     document.getElementById("featured-lede").textContent  = r.lede;

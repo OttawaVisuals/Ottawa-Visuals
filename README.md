@@ -6,6 +6,9 @@
 A static site served straight from `index.html` on GitHub Pages (no Jekyll — see
 `.nojekyll`). Each report is a standalone HTML page; the homepage shows one tile per report linking to it
 (old `#report-<id>` links redirect to the page).
+Deployed reports may be deliberately unlisted: `hidden` in `ALL_REPORTS` controls
+homepage visibility without removing the page or its existing links.
+
 Each sub-project lives in its own folder (data, scripts, README) with its
 page inside that folder — e.g. `Mortgage/mortgage.html`, `Weather/weather.html`.
 A thin redirect stub is kept at the old root path (e.g. `/mortgage.html`) for
@@ -21,15 +24,15 @@ any bookmarked or shared links.
 | [`Promises/`](Promises/README.md) | Sutcliffe’s original 2022 commitments and results: property taxes, transit fares, bus reliability, housing, Stage 2 LRT and ByWard Market safety; historical trends, targets and source notes ([`promises.html`](Promises/promises.html)) |
 | [`Budget/`](Budget/README.md) | Ottawa budget: 2023–2026 expense changes; operating/capital/funding charts; Lansdowne 2.0; paramedic, transportation-condition and housing KPI series ([`budget.html`](Budget/budget.html)) |
 | [`OPS/`](OPS/README.md) | Published OPS disciplinary records: unique officers, findings/dismissals, penalties, source links and separately listed upcoming hearings ([`ops.html`](OPS/ops.html)); manually reviewed partial snapshot |
-| [`Mortgage/`](Mortgage/README.md) | Mortgage affordability calculator |
-| [`Weather/`](Weather/README.md) | Ottawa climate history dashboard |
-| [`Vehicles/`](Vehicles/README.md) | Road safety / vehicle-pedestrian impact calculator |
-| [`Ottawa_Elections/`](Ottawa_Elections/README.md) | Ward-by-ward municipal election results |
+| [`Mortgage/`](Mortgage/README.md) | Mortgage affordability calculator ([`mortgage.html`](Mortgage/mortgage.html)) |
+| [`Weather/`](Weather/README.md) | Ottawa climate history dashboard ([`weather.html`](Weather/weather.html)) |
+| [`Vehicles/`](Vehicles/README.md) | Road safety / vehicle-pedestrian impact calculator ([`road-safety.html`](Vehicles/road-safety.html)) |
+| [`Ottawa_Elections/`](Ottawa_Elections/README.md) | Ward-by-ward municipal election results ([`ottawa_ward_elections.html`](Ottawa_Elections/ottawa_ward_elections.html)) |
 | [`BC_Elections/`](BC_Elections/README.md) | BC 2026 preliminary initial-count maps and NDP/Green consolidation scenarios, with 2024 final results retained separately ([`BCelections.html`](BC_Elections/BCelections.html)); published November 1, 2026 |
 | [`Alberta_Elections/`](Alberta_Elections/README.md) | Alberta 2023 riding map, vote-consolidation scenarios, turnout and source reconciliation ([`ABelections.html`](Alberta_Elections/ABelections.html)) |
-| [`Ontario_Elections/`](Ontario_Elections/README.md) | Ontario provincial election + coalition scenarios |
+| [`Ontario_Elections/`](Ontario_Elections/README.md) | Ontario provincial election + coalition scenarios ([`ONelections.html`](Ontario_Elections/ONelections.html)) |
 | [`Ontario_Trials/`](Ontario_Trials/README.md) | How Ottawa court cases end: criminal and provincial/traffic outcomes, offence filters, calendar/non-calendar periods, count/share charts and downloads ([`courts.html`](Ontario_Trials/courts.html)) |
-| [`PWHL/`](PWHL/README.md) | PWHL stats dashboard |
+| [`PWHL/`](PWHL/README.md) | PWHL stats dashboard ([`pwhl.html`](PWHL/pwhl.html)) |
 | [`Energy/`](Energy/README.md) | Geothermal feasibility (companion to the separate Energy repo) |
 | [`Traffic/`](Traffic/README.md) | TomTom commute-time, parking and road-event collectors (feed RTO Watch), plus weekly City/Police road datasets behind the road-safety report [`stops.html`](Traffic/stops.html) (its Where tab replaced `roads.html`) and the impact calculator |
 | [`OC_Transpo/`](OC_Transpo/README.md) | OC Transpo GTFS-RT + KPI collector (feeds RTO Watch), plus KPI history 2019–2026 extracted from Transit Committee reports ([`octranspo_kpis.html`](OC_Transpo/octranspo_kpis.html)) |
@@ -39,7 +42,7 @@ any bookmarked or shared links.
 | [`Tax/`](Tax/README.md) | Taxing the top: top income-tax rate since 1920 vs top-1% share, who grew in high- vs low-tax eras, donations by neighbourhood income ([`tax.html`](Tax/tax.html)) |
 | [`Ontario_Costs/`](Ontario_Costs/README.md) | Ontario decisions the Auditor General / FAO costed or criticized, 2009–2024, each with what the figure measures ([`ontario_costs.html`](Ontario_Costs/ontario_costs.html)) |
 | [`OilGas/`](OilGas/README.md) | Canada's oil & gas industry since 2002: profits, dividends, corporate income tax and jobs, in 2025 dollars ([`oilgas.html`](OilGas/oilgas.html)) |
-| [`GovContracts/`](GovContracts/README.md) | Federal Proactive Disclosure contracts — management-consulting spend ([`govcontracts.html`](govcontracts.html)) |
+| [`GovContracts/`](GovContracts/README.md) | Federal disclosed management-consulting contract values and 2019–2025 award-method charts with category/dollars/share controls ([`govcontracts.html`](govcontracts.html)); homepage link added Nov 3, 2026 |
 
 [`rto.html`](rto.html) — **Ottawa RTO Watch**, the return-to-office page — sits at
 the root because it draws on three folders at once: `Traffic/` and `OC_Transpo/`
@@ -51,13 +54,13 @@ for our own live collection, and `RTO4/` for everything published by others. See
 standalone root-level tools not (yet) tied to a specific data folder.
 
 ## Edit points
-- Home page tiles: `/index.html` (edit the `REPORTS` array near the bottom; `page` is the report's own page)
+- Home page tiles: `/index.html` (edit `ALL_REPORTS` near the bottom; `page` is the report's own page)
 - Report pages: each sub-project's own folder (e.g. `Mortgage/mortgage.html`,
   `Weather/weather.html`) plus root-level standalone pages (`rto.html`,
   `ghg_calculator.html`, `Comparator.html`, `dataset_prospector.html`)
 - Project status: `/tracker.html` and `/PROJECTS.md`
 - About / footer copy: the `#about` and footer sections of `/index.html`
-- Shared author credit: `assets/author-credit.js`, included once on all 40 pages
+- Shared author credit: `assets/author-credit.js`, included once on each page
   using the shared site theme (including PWHL detail pages and previews). Adds
   “Built by Simon”, an author panel focused on public data and visualization,
   and root-relative report/contact destinations resolved from the script URL.
@@ -99,3 +102,5 @@ November 3, 2026: audit and follow-up fixes; 282 phone/desktop/theme cases pass 
 Coverage, screen-reader testing limits and repeat instructions: [SITE_AUDIT.md](SITE_AUDIT.md).
 
 `assets/chart-accessibility.js` loads through the shared theme script. It supplies missing skip links and expandable chart values/series controls, retaining report-specific data tables where already present.
+
+Catalogue sync, November 3, 2026: City Hall search and GovContracts added to the homepage; live/publication status and remaining work aligned with PROJECTS.md and tracker.html. Existing hidden reports remain unlisted.

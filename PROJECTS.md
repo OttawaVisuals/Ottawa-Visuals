@@ -5,7 +5,11 @@
 > + Claude Code session history.
 > Progress % is a rough self-estimate, not a hard metric.
 
-Legend: ✅ live · 🔄 in progress · 🧪 prototype/exploration · 💡 idea/planned · ☐ backlog
+Legend: ✅ live · 🔄 follow-up work · 🧪 prototype/exploration · 💡 idea/planned · ☐ backlog
+
+Catalogue synced November 3, 2026. A live page can still have unfinished research
+or be deliberately unlisted from the homepage; publication is not a completion score.
+Collector status below retains its own dated verification history.
 
 **Overall theme:** open-data visuals about Ottawa, Ontario, and Canada — leaning
 toward civic accountability (RTO mandates, transit, budgets, traffic safety) with
@@ -212,7 +216,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - Page: `Healthcare/healthcare.html`; Ontario spending 1975–2025 (2024–25 forecasts optional), public/private financing, nominal/health-price-adjusted and total/per-resident controls.
 - Hospital staffing and staffed beds 2014–15 to 2023–24; 28 financial years across TOH, CHEO, QCH and Montfort; six TOH + Heart Institute headcount years. Financial and staffing scopes remain separate.
 - Exact source cells/PDF pages, CSV/JSON, reproducible import, source hashes and reconciliation checks. Complete private-clinic funding and staffing history remains unestablished; no ownership split is inferred.
-- Education follow-up: `Education/education.html`, built locally with actual elementary class-size history and separate spending/funding views.
+- Education follow-up: `Education/education.html`, published with actual elementary class-size history and separate spending/funding views.
 - Access extension (Nov 2): 312 monthly ER records (five Ottawa sites + Ontario, Aug 2025–Aug 2026), separate FAO annual history back to 2008–09, and 11 regular-provider survey estimates. Confidence intervals, partial years and age/definition breaks are explicit; 700 source-record/hash reconciliations pass. Published November 3, 2026.
 
 
@@ -269,12 +273,11 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Data:** weekly City + Police pull → Geo_ID join → `stories.json` (see `Traffic/README.md`).
   The same pull also feeds the camera before/after cards, which moved from the road-safety page to the
   Speed and Red-light tabs of `stops.html` on 2026-10-22 (photo-radar on/off, red-light trade-off).
-- **Outcomes + movers tabs (2026-10-19):** `public/motions.json` (7.8k substantive motions tagged by topic via `topics.py`: title keywords, then the committee; ~1/3 of Council motions stay "Other"; 975 mover/seconder pairs parsed from `item_text`). Topics are keyword guesses and routine motions are excluded by title pattern.
 - **Still to do:** the "why was the commute bad?" section, once ~4 weeks of `events_log.csv`
   (Pi, since 2026-10-08) overlap the TomTom readings.
 
 ### Taxing the Top — income tax, inequality & donations (Canada)
-- **Progress:** ~80% (live Oct 2026) · `Tax/tax.html`, also a home-page report (`#report-tax`).
+- **Progress:** ~80% (live Oct 2026) · `Tax/tax.html`; deployed but currently unlisted from the homepage (legacy `#report-tax` links remain).
 - Top fed+ON rate 1920–2026 vs average rate actually paid (top 0.01% / top 1% / bottom 50%);
   top-1% share vs top rate (r = −0.58 postwar); real income growth by group, 1950–80 vs
   1980–2019; Elections Canada individual donations by FSA income decile (richest tenth gives
@@ -286,17 +289,17 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   ban 2017) if the open data has postal codes.
 
 ### Ontario's costly decisions (watchdog-costed)
-- **Progress:** ~70% (live Oct 2026) · `Ontario_Costs/ontario_costs.html`, also a home-page report (`#report-ontario-costs`).
+- **Progress:** ~70% (live Oct 2026) · `Ontario_Costs/ontario_costs.html`; deployed but currently unlisted from the homepage (legacy `#report-ontario-costs` links remain).
 - 12 decisions, 3 Liberal (eHealth, gas plants, Fair Hydro financing) and 9 PC (cap-and-trade,
   renewable contracts, Bill 124, Ontario Place, licence fees, Greenbelt, ads, early alcohol
   expansion, $200 rebate). Each card: official figure, what it measures, watchdog finding,
   government response, source. Filters by government / type; never totals unlike figures.
 - **Data:** hand-curated `Ontario_Costs/data/decisions.json`, sources checked 2026-10-10.
-- **Still to do:** swap the two news-relayed FAO figures (Bill 124, licence fees) for the FAO
-  reports; consider Ornge, smart meters, Skills Development Fund, Highway 413.
+- **Source follow-up completed October 28:** Bill 124 now links directly to the FAO Winter 2024 outlook. Licence fees use FAO 2018–19 revenue as a floor, not a standalone policy costing; CTV remains for refund context.
+- **Possible additions:** Ornge, smart meters, Skills Development Fund, Highway 413.
 
 ### Oil & Gas — profits, tax, jobs (Canada)
-- **Progress:** ~60% (live Oct 2026) · `OilGas/oilgas.html`, also a home-page report (`#report-oilgas`).
+- **Progress:** ~60% (live Oct 2026) · `OilGas/oilgas.html`; deployed but currently unlisted from the homepage (legacy `#report-oilgas` links remain).
 - Net profit and dividends 2002–2025 (record $53B in 2022, 2025 dollars; $179B over 2021–25);
   employees down 20% from the 2014 peak while real revenue is up 8%; federal + provincial
   corporate income tax ($4.4B in 2022); jobs by province.
@@ -307,7 +310,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   Sturgeon, orphan wells), Environmental Defence / IISD / Auditor General 2023 tallies.
 
 ### OC Transpo Ridership + Service KPIs (2019–2026)
-- **Progress:** ~65% (live Oct 2026) · `OC_Transpo/octranspo_kpis.html`, also a home-page report (`#report-octranspo`).
+- **Progress:** ~65% (live Oct 2026) · `OC_Transpo/octranspo_kpis.html`; deployed but currently unlisted from the homepage (legacy `#report-octranspo` links remain).
 - Ridership 2019 vs 2022–25 (2025 = ~72% of 2019), weekday ridership share by time of day (a.m. peak
   26% → 23%, midday 29% → 34%, winter 2020 vs 2026), 2023–25 scorecard reliability vs targets, and the
   published monthly figures (Line 1 service not delivered 2020–21, trips delivered Aug 2022–Aug 2023,
@@ -341,12 +344,12 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - 2026-10-16 (pre-election): map gained a 2010/2014/2018/2022 year selector (`?year=` in the URL), a "Mayor race: largest group" map mode (`?map=mayor`; didn't-vote / elected mayor / other candidates as % of registered voters; "Didn't vote" is the largest group in every ward in all four elections), a "ward winner (voters only)" mode (`?map=winner`; e.g. 2022: Sutcliffe 19 wards, McKenney 5), a turnout colour scale fitted to 30–55%, working nav links, dark-mode labels and a mobile layout. A sortable ward list (turnout, change vs previous election, top mayoral candidate) fills the side panel until a ward is picked. The ward panel also lists who won the council seat in each election 2010–2022, with vote share and re-elected/new tags. The mayor chart can switch from % of registered voters to % of all residents (StatCan population and under-18 estimates; ?basis=residents): in 2022 the mayor was elected with the votes of 14.9% of residents.
 - 2026-10-27: added the 2026 election (default year) from the City's unofficial results feed via `Ottawa_Elections/FetchResults2026.py` (all 824 tabulators; mayor + 24 council races, 2 acclaimed). Ward totals only, so ward-level mayor views stop at 2022; 2022→2026 ward changes are shown (same boundaries). Re-run the fetch + `BuildWardData.py` once the City certifies or publishes poll-level workbooks.
 - 2026-10-30: the City published the official 2026 Statement of Votes Cast (open.ottawa.ca, poll-by-poll workbook). `Ottawa_Elections/FetchOfficial2026.py` reads it; **all 25 races (mayor + 24 wards) match the election-night feed exactly**, so no council numbers moved. 2026 is now labelled official and the **mayor split by ward is on the page** (summed from the workbook's poll rows; each candidate and the 312,125 valid / 314,393 ballot totals reconcile to the citywide result; 30,489 valid votes from citywide special polls, ward 99, stay unallocated like 2022); `BuildWardData.py` prefers `results_2026_official.json`.
-- **Page:** `/ottawa_ward_elections`
+- **Page:** `Ottawa_Elections/ottawa_ward_elections.html` (legacy root redirect retained).
 
 ### Ottawa Mortgage / Housing Affordability Tool
 - **Progress:** ~90% (live, iterating) · Federal-employee-focused affordability + retirement-planning calculator.
 - Census-data context for home buyers; spending breakdown; mobile-friendly.
-- **Page:** `/mortgage`
+- **Page:** `Mortgage/mortgage.html` (legacy root redirect retained).
 
 ### Retrofit Explorer (Energy repo)
 - **Progress:** ~85% · Static site (`retrofits.html`, vanilla JS + Chart.js) of EnerGuide home-energy retrofit data per province/FSA.
@@ -389,8 +392,6 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   [`PWHL/README.md`](PWHL/README.md).
 
 ---
-
-## 🔄 In Progress
 
 ### Sutcliffe’s 2022 promises
 - ByWard Market safety added October 24: official OPS neighbourhood aggregates for four selected incident categories, 2018–2025; 32 counts independently checked against 7,893 records without retaining identifiers/points. Original 2022 wording and June 2024 operations-centre opening; separate action/outcome evidence, no safety score. OPS preliminary/time-comparison warning prominent; sources, scope boundary, CSV/JSON and checks included.
@@ -441,13 +442,14 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   index is gitignored, so it lives where search and the PDFs are. Log: `data/weekly_update.log`.
 - **Votes split (2026-10-19):** `split_votes.py` → `data/votes_by_member.csv` (6,188 member votes, one row each; names normalised to "initial. surname"; every tally's stated count matches the names parsed). Run by `weekly_update.py`.
 - **Votes view (2026-10-19):** "Recorded votes" tab on `cityhall.html` (`public/votes.json`, 349 motions with named votes; 189 at Council): per-member table with how often each was on the losing side, click to filter, closest votes first. Callout explains that names are recorded only for contested motions.
+- **Outcomes + movers tabs (2026-10-19):** `public/motions.json` (7.8k substantive motions tagged by topic via `topics.py`: title keywords, then the committee; ~1/3 of Council motions stay "Other"; 975 mover/seconder pairs parsed from `item_text`). Topics are keyword guesses and routine motions are excluded by title pattern.
 - **Mandate weighting (2026-10-29):** `CityHall_Index/mandates.py` joins the 177 named Council votes since 2022-12-01 to 2022 ward results (winner's ballots, registered electors) → `public/mandates.json` → `council_mandates.html`. 15 of 177 were won by the side whose councillors had fewer ballots behind them (9 by registered electors). Mayor counted in the tally, not the sums. Ward 20 by-election (Skalski) figures are *estimates* derived from press turnout/share, not City-certified: replace when the certified numbers are added. Provincial half: see the next entry.
 - **MPP mandate weighting (2026-10-29):** `Ontario_Votes/` (README inside) → `mpp_mandates.html`. 317 Legislature divisions (43rd + 44th Parliament) collected via a console script run in the user's own browser (ola.org returns 403 to scripts; no official export exists), joined to 2022/2025 riding results. **No division was won by the side with fewer ballots behind it**; median winning side rests on ~12.5% of all registered electors (185 complete divisions). **Open:** MPPs elected in by-elections (10) have no mandate yet, so 132 divisions are marked partial; add their by-election results (as estimated for Ottawa Ward 20) to complete them.
-- **Still to do:** add it to the home-page `REPORTS`; PDF full text stays local-only.
+- **Homepage:** City Hall search added to `ALL_REPORTS` in the Nov 3 catalogue sync. Council/MPP mandate companions are linked from the tracker and README; their documented by-election gaps remain. PDF full text stays local-only.
 
 ### RTO4 Impact Page — "Ottawa RTO Watch"
 - **Progress:** ~45% · Live dashboard at `/rto.html` (roads + OC Transpo live sections;
-  former `Traffic/traffic.html`, which now redirects).
+  former `Traffic/traffic.html`, which now redirects). Deliberately unlisted from the homepage.
 - **Before/after charts (2026-10-17):** section 5 now compares 311 (central wards, roads,
   parking, all) and the IESO weekday÷weekend ratio with the *same weeks a year earlier*, in
   three windows: 12 weeks before RTO4, phase-in (Jul 6–Sep 13), full RTO4 (week of Sep 14 on).
@@ -465,7 +467,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   "what if the opposition consolidated" scenario model, per-riding survivor logic,
   strategic-candidate flip-threshold analysis, turnout/gauge charts.
 - Combined multi-zoom GeoJSON filled map (main + 2 zoom insets, custom placement).
-- **Live:** [`Ontario_Elections/ONelections.html`](Ontario_Elections/ONelections.html), embedded on the homepage.
+- **Live:** [`Ontario_Elections/ONelections.html`](Ontario_Elections/ONelections.html), linked from the homepage.
 - **What changed 2026-10-09 (design pass):** reframed the headline around the coalition question
   and reordered the page (map → gauges → winnable seats → table → turnout history → methodology);
   moved the coordination slider into the map card (moving it switches the map to "Modelled");
@@ -492,7 +494,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Built October 23, 2026:** `Ontario_Trials/courts.html`, linked from the homepage. Separate criminal cases and provincial/traffic charges, offence/group filters, reporting-period picker, count/share stacked bars, accessible table, source links and CSV/JSON.
 - **Data:** 903 Ottawa rows from 27 official publications (criminal indexed 2012–2026; provincial offences 2015–2026). Latest calendar year is 2025. Reproducible PDF/XLSX extraction with row-level partitions and hierarchy reconciliation.
 - **Period safeguards:** criminal “2020” is October 2019–September 2020, and both “2026” files are April 2025–March 2026. Overlapping periods are separate from the default calendar chart; no cross-period total.
-- **Limits:** completed cases can include committals to Superior Court; trial outcomes are not split into guilty/acquitted; no reasons for withdrawals/stays or links to individual officers. 2016 provincial subtotals have a visually verified source discrepancy, retained and flagged. Source reuse wording is documented; built/committed locally, no public deployment verified.
+- **Limits:** completed cases can include committals to Superior Court; trial outcomes are not split into guilty/acquitted; no reasons for withdrawals/stays or links to individual officers. 2016 provincial subtotals have a visually verified source discrepancy, retained and flagged. Source reuse wording is documented; live page verified during the November 3 publication.
 - **Method/update:** `Ontario_Trials/README.md`; manual refresh, no scheduled collector.
 
 ### Ottawa Geothermal Suitability Map — live (this entry was stale; corrected 2026-09-03)
@@ -524,43 +526,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   own output. Recorded there as recovered, but worth confirming directly rather than assuming it stayed
   fixed.
 
----
-
-## 💡 Big Idea — Ottawa Quality of Life Over Time
-*(Largest planned project; intended to inform the next mayoral election — "get people out to vote to improve Ottawa's quality of life.")*
-- **Progress:** ~10% (data scoped, no build yet).
-- **Narrative goals:**
-  - RTO (return-to-office) decisions have made life worse for people.
-  - "No property-tax increase" → worse outcomes (road quality, services).
-  - Some decisions benefited only a few (downtown parking costs, commercial landlords).
-- **Candidate metrics / data:**
-  - Traffic + traffic incidents (TomTom Area Analytics 30-day trial = historical commute times; Google mobility/sustainability insights).
-  - 311 / 911 service calls (volume of reports, not just resolutions).
-  - Ottawa GHG inventory dashboard (emissions rising).
-  - Day-parking prices over time (Parkopedia + Wayback Machine).
-  - Office rents / commercial building assessed values (COVID dip → RTO rise).
-- **Sibling chats:** "Public data sources for quality-of-life metrics" (surveys/approval polls), "Ottawa data visualization sources" (road conditions, traffic, budget).
-
----
-
-## 💡 Planned / Scoped Ideas
-
-### Ottawa City Finances / Budget Dashboard
-- Municipal spending; ties into the property-tax / quality-of-life narrative.
-
-### Ottawa Real Estate Dashboard (weekly auto-updates)
-- Real-estate trends with a weekly refresh pipeline. (Prototyped in chat.)
-
-### Province Spending by Category
-- Provincial spending across healthcare, education, etc. *(also on site roadmap)*
-
-### Canada Car & Gas Sales vs. GHG Targets
-- Vehicle + gasoline sales vs. GHG reduction targets. *(also on site roadmap)*
-
-### Visualizing Voter Apathy Across Canadian Elections
-- Historical participation rates, province-wide + per district.
-
-### Federal Consulting Spend / In-House Duplication  🔄 ~20%
+### Federal consulting spend and procurement methods
 - Government of Canada Proactive Disclosure of Contracts dataset, mined for consulting/IT
   spend that plausibly duplicates in-house public-service capacity, plus an RTO-keyword pass —
   a federal-level companion to the RTO4 narrative (NCR federal headcount is a big share of
@@ -618,26 +584,64 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
   $6.97B competitive vs. $110M non-competitive vs. $6.9M ACAN) — worth checking whether that
   holds *per category* (Architectural/Engineering likely skew more sole-sourced than Furniture)
   before this becomes a chart.
-- **Page built (2026-10-19):** `govcontracts.html` (management consulting 2017–2025, records, top departments, office-furniture yardstick). IT consulting left out: the 2021 switch from GSIN to UNSPSC codes broke the series (details in `GovContracts/README.md`). Not yet linked from the home page.
-- **Not yet built (original idea):** the page. Presentation idea floated but not built: stacked bar per year
-  (segments = procurement type) with a category filter, ideally paired with a 100%-stacked
-  version to isolate the competitive-share trend from raw dollar growth, plus small multiples
-  per category. See "Next steps" below.
+- **Page built (2026-10-19):** `govcontracts.html` (management consulting 2017–2025, records, top departments, office-furniture yardstick). IT consulting left out: the 2021 switch from GSIN to UNSPSC codes broke the series (details in `GovContracts/README.md`). Homepage listing added in the November 3 catalogue sync.
+- **Award-method charts completed October 30; reviewed October 31:** annual 2019–2025 stacked bars, seven-category filter, dollars/share toggle and exact table. Phone labels and resize handling were checked.
+- **Research still open:** the RTO timing comparison requires a newer disclosure snapshot; vendor/keyword candidates are exploratory and are not presented as proof of duplication or an RTO effect.
 
 **Next steps to pick this back up:**
 1. Watch for the dataset's next quarterly refresh; re-download `contracts.csv`, check
    `data_coverage.json`'s `last_reliable_month` reaches past Jul 2026, then compare
    `office_footprint_by_month.json` pre- vs. post-RTO4-mandate.
-2. Build the actual chart(s) — stacked bar by year × procurement type, category filter, informed
-   by the `dataviz` skill for styling. Data is ready in `GovContracts/data/`.
+2. Review procurement differences per category using the built dollars/share chart; small multiples are optional follow-up, not a missing first chart.
 3. Split the broad "Office buildings" category (capital construction mixed with plain leasing) if
    isolating "we pay rent" from "we built a building" turns out to matter for the narrative.
 4. Second human read of `rto_candidates.json` / `office_footprint_top_vendors.json` /
-   `top_vendors.json` before any of this becomes a public-facing page.
+   `top_vendors.json` before publishing those exploratory candidate lists or stronger claims.
 
-### Political Spending / Transparency
-- MP expense reports (all parties, House of Commons proactive disclosure); Alberta oil-company profits & capital flows
-  (industry-level profits/tax/jobs now live in `OilGas/`; company-level capital flows still open).
+## 🔄 In Progress
+
+- **OC Transpo:** review the extracted KPI series, then add compatible recent snapshots/decks. The page is already live and deliberately unlisted from the homepage.
+- **Geothermal (Energy repo):** write the Ottawa Case Study narrative. The Ottawa suitability map already exists; national expansion is separate.
+- **RTO/roads:** event-context work is queued around Nov 5; commute/transit before–after comparisons still need suitable backfill and official KPI coverage.
+- **GovContracts:** refresh disclosure coverage before testing the post-July-2026 RTO period; review exploratory vendor/keyword candidates before publishing them.
+- **Mandate companions:** replace estimated Ottawa Ward 20 results and fill missing MPP by-election mandates. Partial/estimated flags stay visible.
+- **Accessibility:** identified findings are fixed; actual NVDA/JAWS/VoiceOver sessions remain unverified. See [SITE_AUDIT.md](SITE_AUDIT.md).
+
+---
+
+## 💡 Big Idea — Ottawa Quality of Life Over Time
+*(Largest planned project; intended to inform the next mayoral election — "get people out to vote to improve Ottawa's quality of life.")*
+- **Progress:** ~10% (data scoped, no build yet).
+- **Narrative goals:**
+  - RTO (return-to-office) decisions have made life worse for people.
+  - "No property-tax increase" → worse outcomes (road quality, services).
+  - Some decisions benefited only a few (downtown parking costs, commercial landlords).
+- **Candidate metrics / data:**
+  - Traffic + traffic incidents (TomTom Area Analytics 30-day trial = historical commute times; Google mobility/sustainability insights).
+  - 311 / 911 service calls (volume of reports, not just resolutions).
+  - Ottawa GHG inventory dashboard (emissions rising).
+  - Day-parking prices over time (Parkopedia + Wayback Machine).
+  - Office rents / commercial building assessed values (COVID dip → RTO rise).
+- **Sibling chats:** "Public data sources for quality-of-life metrics" (surveys/approval polls), "Ottawa data visualization sources" (road conditions, traffic, budget).
+
+---
+
+## 💡 Planned / Scoped Ideas
+
+### Ottawa Real Estate Dashboard (weekly auto-updates)
+- Real-estate trends with a weekly refresh pipeline. (Prototyped in chat.)
+
+### Cross-sector Ontario spending comparison
+- Healthcare and Education now have separate published reports. A combined comparison across additional provincial spending categories remains an idea, not a built page.
+
+### Canada Car & Gas Sales vs. GHG Targets
+- Vehicle + gasoline sales vs. GHG reduction targets. *(also on site roadmap)*
+
+### Visualizing Voter Apathy Across Canadian Elections
+- Historical participation rates, province-wide + per district.
+
+### Company-level oil-company capital flows
+- MP/MPP expense reports are published in `Member_Spending/`. Industry-level profits/tax/jobs are available in `OilGas/`; company-level capital flows remain open.
 
 ---
 
@@ -647,7 +651,7 @@ the before/after comparison depends entirely on the TomTom MOVE backfill
 - **Ottawa Biking** — % of commute vs. % of city roadway; city spending; NCC vs. City. *(site roadmap)*
 - **RTO Road Maintenance** — spending on road maintenance; office permits. *(site roadmap)*
 - **Ottawa Building Permits** — permit data analysis/visual.
-- **Bike Collision / Traffic Collision Map** — Ottawa collision data.
+- **Bicycle-specific collision analysis** — build on the existing road-safety collision map rather than treating the general map as unbuilt.
 - **Stop-sign / speed compliance monitoring** — Raspberry Pi camera at a local intersection.
 - **Natural gas / electricity grid emissions** — Ontario gas distribution, Yukon hourly grid emissions, IESO data.
 

@@ -231,7 +231,9 @@ carry a higher sole-source share than furniture or building cleaning, and
 that's the more interesting number for an accountability narrative than the
 combined total.
 
-**Presentation idea (not yet built):** a stacked bar chart, one bar per year,
+**Presentation built October 30; reviewed October 31:** the annual stacked bars, seven-category filter and dollars/share toggle are available in [`govcontracts.html`](../govcontracts.html), with phone label/resize checks. Homepage listing added November 3. The original design note below is retained for context; small multiples remain optional.
+
+**Original design note:** a stacked bar chart, one bar per year,
 segments = procurement type, with a category filter/dropdown to switch
 between "all 7 combined" and any single category. Pair with a 100%-stacked
 (normalized) version to isolate the competitive-share *trend* from raw
@@ -302,18 +304,14 @@ detail so a future session doesn't have to re-derive it:
    check `data_coverage.json.last_reliable_month` reaches past Jul 2026, then
    compare `office_footprint_by_month.json` pre- vs. post-RTO4-mandate. This
    is the single most promising untested lead in the whole project.
-2. **Build the actual chart(s).** Stacked bar per year × procurement type
-   with a category filter, plus a 100%-stacked version — see "Presentation
-   idea" above. Data is ready (`office_footprint_by_year_procurement.json`);
-   pull in the `dataviz` skill for styling/palette work when building it.
-3. **Check the competitive/non-competitive split *per category*, not just
-   combined** — architectural/engineering services are the most likely to
-   show a materially different sole-source rate than furniture or cleaning,
-   and that's the sharper accountability number.
-4. **Split "Office buildings"** (capital construction mixed with plain
+2. **Use the built chart to review category differences.** The 2019–2025
+   category filter and dollars/share views are complete. Small multiples are
+   optional follow-up if the existing views do not make differences clear.
+3. **Split "Office buildings"** (capital construction mixed with plain
    leasing) if isolating "we pay rent" from "we built a building" turns out
    to matter for the narrative.
-5. **Second human read** of `rto_candidates.json`,
+4. **Second human read** of `rto_candidates.json`,
    `office_footprint_top_vendors.json`, and `top_vendors.json` — the
    category/keyword lists in `scripts/build_aggregates.py` are still a first
-   pass — before any of this becomes a public-facing page.
+   pass — before those exploratory lists or stronger RTO/duplication claims
+   are published. The reviewed aggregate page is already available.

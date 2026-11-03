@@ -107,7 +107,7 @@ TODAY (override): none
 ## Week 3 (Oct 29–31): audit + wrap-up
 - [x] Day 1: **RESET 3** — audit all live pages: mobile, dark mode, accessibility, links (Nov 3: 47 entry points/188 browser cases; local links, all three phone themes and automated accessibility; targeted fixes and remaining contrast work in SITE_AUDIT.md; reset not used)
 - [x] Day 2: fix remaining audit findings (Nov 3: contrast, keyboard/skip access, chart value alternatives, Ontario riding picker and V2 traffic loading; 282 phone/desktop/theme cases plus keyboard/data checks; actual screen-reader applications unverified — SITE_AUDIT.md)
-- [ ] Day 3: smallest model syncs `PROJECTS.md`, `tracker.html`, `README.md`, `index.html` tiles
+- [x] Day 3: sync `PROJECTS.md`, `tracker.html`, `README.md`, `index.html` tiles (Nov 3: live vs follow-up status, City Hall/GovContracts links, current work queue, publication-aware latest card; deliberate hidden reports and dated collector checks preserved)
 
 ## Model tiers (verify in the picker; names change)
 - Strongest reasoning, high effort: long builds, PDF/data extraction
