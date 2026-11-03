@@ -2989,6 +2989,75 @@
 "updated": "2026-11-03 06:40:00"
 },
 "fp": "801e6ac3a6ce"
+},
+"29807": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 07:07:00",
+"cross_street_1": "March",
+"cross_street_2": "Moodie",
+"direction": null,
+"event_id": "29807",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "417 eastbound HOV lane closed between March and Moodie due to construction, from October 27th to November 6th between 10:00am and 2:00pm.",
+"lanes": "center lane closed",
+"lat": 45.321081,
+"lon": -75.883666,
+"planned_end": "2026-11-06T14:00",
+"planned_start": "2026-10-27T10:00",
+"priority": "HIGH",
+"road": "417",
+"source": "city",
+"updated": "2026-11-03 07:08:00"
+},
+"fp": "c2de2dc1298b"
+},
+"29808": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-03 07:11:00",
+"cross_street_1": "Hunt Club",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29808",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Riverside northbound left-turn lane closed at Hunt Club due to a disabled vehicle.",
+"lanes": "left-turn lane closed",
+"lat": 45.334356,
+"lon": -75.693255,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Riverside",
+"source": "city",
+"updated": "2026-11-03 07:12:00"
+},
+"fp": "89c2794087d4"
+},
+"29809": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-03 07:32:00",
+"cross_street_1": "Gatineau",
+"cross_street_2": "Ottawa",
+"direction": null,
+"event_id": "29809",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Portage Bridge southbound bus lane reduced between Gatineau and Ottawa due to a disabled vehicle.",
+"lanes": "bus lane closed",
+"lat": 45.420236,
+"lon": -75.712393,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Pont du Portage Bridge",
+"source": "city",
+"updated": "2026-11-03 07:32:00"
+},
+"fp": "3bf93d46b654"
 }
 }
 }
