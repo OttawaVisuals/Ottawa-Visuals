@@ -3058,6 +3058,75 @@
 "updated": "2026-11-03 07:32:00"
 },
 "fp": "3bf93d46b654"
+},
+"29810": {
+"event": {
+"cause": "high volume",
+"created": "2026-11-03 08:52:00",
+"cross_street_1": "Blair",
+"cross_street_2": "Nicholas",
+"direction": null,
+"event_id": "29810",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound traffic heavy & slow between Blair and Nicholas due to high volume. Expect delays.",
+"lanes": "traffic heavy & slow",
+"lat": 45.454013,
+"lon": -75.581711,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "174",
+"source": "city",
+"updated": "2026-11-03 08:52:00"
+},
+"fp": "6c99f6b33c14"
+},
+"29811": {
+"event": {
+"cause": "high volume",
+"created": "2026-11-03 08:53:00",
+"cross_street_1": "174",
+"cross_street_2": "Nicholas",
+"direction": null,
+"event_id": "29811",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "417 westbound traffic heavy & slow between 174 and Nicholas due to high volume.",
+"lanes": "traffic heavy & slow",
+"lat": 45.413055,
+"lon": -75.604405,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "417",
+"source": "city",
+"updated": "2026-11-03 08:53:00"
+},
+"fp": "fb9844e6005e"
+},
+"29812": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-03 09:00:00",
+"cross_street_1": "Robert Grant",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29812",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hazeldean lane reductions in both directions at Robert Grant due to a disabled vehicle.",
+"lanes": "lane reductions in both directions",
+"lat": 45.285294,
+"lon": -75.908501,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Hazeldean",
+"source": "city",
+"updated": "2026-11-03 09:00:00"
+},
+"fp": "510bd977980d"
 }
 }
 }
