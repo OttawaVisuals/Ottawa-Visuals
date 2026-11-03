@@ -89,9 +89,9 @@
   .error-msg { color:var(--no); }
   #status { color:var(--ink-2); font-size:14px; margin:10px 0; }
 </style>
-<link rel="stylesheet" href="assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
 <script src="assets/site-theme.js?v=header-20261101"></script>
-<script defer src="assets/author-credit.js?v=header-20261101"></script>
+<script defer src="assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
 <header class="topbar">
@@ -131,7 +131,7 @@
 
   <h2>MPP mandates</h2>
   <p class="sub">Ballots for the winner as a share of registered electors in the riding. Lowest share first; by-election MPPs last.</p>
-  <div class="tblwrap"><table id="mandates"><thead><tr><th>MPP</th><th class="l">Riding</th><th class="l">Party</th><th>Election</th><th>Ballots</th><th>Electors</th><th>Share</th><th>Aye</th><th>Nay</th></tr></thead><tbody></tbody></table></div>
+  <div class="tblwrap" tabindex="0" role="region" aria-label="Legislature division results"><table id="mandates"><thead><tr><th>MPP</th><th class="l">Riding</th><th class="l">Party</th><th>Election</th><th>Ballots</th><th>Electors</th><th>Share</th><th>Aye</th><th>Nay</th></tr></thead><tbody></tbody></table></div>
 
   <p class="note">Sources: recorded divisions from the <a href="https://www.ola.org/en/legislative-business/votes-search">Legislative Assembly of Ontario Votes search</a> (collected in a browser, 317 divisions, 43rd and 44th Parliament); riding results from Elections Ontario (<code>Ontario_Elections/Explorer_*.csv</code>). Percentages of electors use the sum of registered electors across all 124 ridings at the relevant election. Rebuild with <code>python Ontario_Votes/mandates.py</code>.</p>
 </main>

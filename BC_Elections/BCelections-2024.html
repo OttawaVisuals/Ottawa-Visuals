@@ -273,7 +273,7 @@
   @media(max-width:720px){.mapcomposite{display:block}.mapinset{margin-top:12px}}
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=20261101-keys">
+<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
 <script src="../assets/site-theme.js"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
 </head>
@@ -319,7 +319,7 @@
       <div class="card mapcard">
         <div class="mapcard-head">
           <h3>British Columbia</h3>
-          <select id="mapMode">
+          <select id="mapMode" aria-label="Map results mode">
             <option value="actual">Actual results</option>
             <option value="majority">Majority results</option>
             <option value="model">Modelled results</option>
@@ -447,7 +447,7 @@
         <label><input type="checkbox" id="flipsOnly"> Flips only</label>
         <span class="count" id="tableCount"></span>
       </div>
-      <div class="tablewrap">
+      <div class="tablewrap" tabindex="0" role="region" aria-label="District results table">
         <table class="results" id="coordTable">
           <thead>
             <tr>

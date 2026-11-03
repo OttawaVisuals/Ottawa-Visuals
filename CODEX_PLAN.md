@@ -104,8 +104,8 @@ TODAY (override): none
 - [ ] Day 6–7: buffer / catch-up
 
 ## Week 3 (Oct 29–31): audit + wrap-up
-- [ ] Day 1: **RESET 3** — audit all live pages: mobile, dark mode, accessibility, links (mid model)
-- [ ] Day 2: fix audit findings
+- [x] Day 1: **RESET 3** — audit all live pages: mobile, dark mode, accessibility, links (Nov 3: 47 entry points/188 browser cases; local links, all three phone themes and automated accessibility; targeted fixes and remaining contrast work in SITE_AUDIT.md; reset not used)
+- [ ] Day 2: fix remaining audit findings (Nov 3: navigation, labels, keyboard-scroll access and phone layout fixes applied; report-specific contrast and manual screen-reader review remain — SITE_AUDIT.md)
 - [ ] Day 3: smallest model syncs `PROJECTS.md`, `tracker.html`, `README.md`, `index.html` tiles
 
 ## Model tiers (verify in the picker; names change)

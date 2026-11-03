@@ -20,7 +20,7 @@
 })();
 </script>
 <style>
-  /* Surfaces/text = Retrofit Explorer palette (shared assets/site-theme.css);
+  /* Surfaces/text = Retrofit Explorer palette (shared assets/site-theme.css?v=audit-20261103);
      series + status colours unchanged (validated dataviz palette). */
   :root {
     --plane:      #F7F4EE;
@@ -235,13 +235,13 @@
   }
 </style>
 <!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
-<link rel="stylesheet" href="assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
 <script>
 // Charts and map read CSS variables, so switching is just the attribute + saved choice.
 function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
 </script>
 <script src="assets/site-theme.js?v=header-20261101"></script>
-<script defer src="assets/author-credit.js?v=header-20261101"></script>
+<script defer src="assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
 <header class="topbar">
@@ -485,7 +485,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 
     <div class="chart-card" id="volCard" style="display:none">
       <div class="spark-head"><h2>Surveyed intersection volumes by edition</h2></div>
-      <div class="scroller"><table class="data" id="volTable"></table></div>
+      <div class="scroller" tabindex="0" role="region" aria-label="Traffic volume observations"><table class="data" id="volTable"></table></div>
       <p class="cap">AADT of all motorized vehicles across surveyed intersections. The site list
         changes between editions, so <b>median per site</b> is the comparable column — not the total.</p>
       <p class="cap"><b>* 2025 is not comparable with earlier editions.</b> The City changed the

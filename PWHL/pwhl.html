@@ -30,9 +30,9 @@
 </script>
 <link rel="stylesheet" href="pwhl.css?v=mobile-audit-20261023">
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
 <script src="../assets/site-theme.js?v=header-20261101"></script>
-<script defer src="../assets/author-credit.js?v=header-20261101"></script>
+<script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
 </head>
 <body data-report-art="hockey">
@@ -61,7 +61,7 @@
       <p class="note">Cumulative totals across completed regular-season, preseason and playoff games. Attendance counts reported visits; player ice time sums individual players' logged time.</p>
       <div class="card season-summary-card">
         <div class="card-title">Season-by-season league summary</div>
-        <div class="table-scroll"><table class="tbl" id="season-summary-table"></table></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="League standings"><table class="tbl" id="season-summary-table"></table></div>
         <p class="note">Season totals use completed games and player game logs. Player counts are unique players with logs in each season; attendance adds reported visits, and missing attendance is unavailable.</p>
       </div>
     </div>
@@ -125,7 +125,7 @@
         <div class="tabs" id="bracket-tabs"></div>
       </div>
       <div class="card">
-        <div class="bracket-rounds" id="bracket-rounds"></div>
+        <div class="bracket-rounds" id="bracket-rounds" tabindex="0" role="region" aria-label="Playoff bracket"></div>
       </div>
     </div>
 

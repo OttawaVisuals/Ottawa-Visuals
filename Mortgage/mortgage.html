@@ -374,9 +374,9 @@ p{margin:0;}
 }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
 <script src="../assets/site-theme.js?v=header-20261101"></script>
-<script defer src="../assets/author-credit.js?v=header-20261101"></script>
+<script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
 </head>
 <body data-report-art="mortgage">
@@ -390,10 +390,10 @@ p{margin:0;}
     <span>Ottawa Visuals<small>data, charted simply</small></span>
   </a>
   <nav>
-    <a href="index.html#reports">Reports</a>
+    <a href="../index.html#reports">Reports</a>
     <a href="mortgage.html" class="active">Mortgage</a>
-    <a href="weather.html">Weather</a>
-    <a href="index.html#about">About</a>
+    <a href="../Weather/weather.html">Weather</a>
+    <a href="../index.html#about">About</a>
   </nav>
   <span class="spacer"></span>
   <div style="display:flex;gap:6px;align-items:center;">
@@ -423,22 +423,22 @@ p{margin:0;}
           <div class="person-label">Person 1</div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
-            <div class="input-wrap"><input type="text" id="p1salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p1salary" aria-label="Person 1 gross salary, CAD" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
-            <div class="input-wrap"><input type="number" id="p1wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
+            <div class="input-wrap"><input type="number" id="p1wage" aria-label="Person 1 annual wage growth, percent" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
           </div>
         </div>
         <div class="person-col">
           <div class="person-label">Person 2 <span style="font-size:9px;color:var(--ink-3);">(optional)</span></div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Gross salary</span><span class="funit">CAD</span></div>
-            <div class="input-wrap"><input type="text" id="p2salary" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+            <div class="input-wrap"><input type="text" id="p2salary" aria-label="Person 2 gross salary, CAD" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
           </div>
           <div class="field">
             <div class="field-label-row"><span class="flbl">Wage growth <span class="tip-btn">?<span class="tip-box">Expected annual raise. Canada avg ~2–3%/yr. Affects amortization chart only.</span></span></span><span class="funit">%/yr</span></div>
-            <div class="input-wrap"><input type="number" id="p2wage" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
+            <div class="input-wrap"><input type="number" id="p2wage" aria-label="Person 2 annual wage growth, percent" value="2.5" min="0" max="15" step="0.5"><span class="iunit">%/yr</span></div>
           </div>
         </div>
       </div>
@@ -459,11 +459,11 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:0;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Number of kids</span><span class="funit">count</span></div>
-          <div class="input-wrap"><input type="number" id="numkids" value="0" min="0" max="10" step="1"><span class="iunit">kids</span></div>
+          <div class="input-wrap"><input type="number" id="numkids" aria-label="Number of children" value="0" min="0" max="10" step="1"><span class="iunit">kids</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Cost basis</span><span class="funit">income</span></div>
-          <select id="childcost">
+          <select id="childcost" aria-label="Child cost income basis">
             <option value="low">Lower income (&lt;$83k)</option>
             <option value="mid" selected>Middle income ($83–136k)</option>
             <option value="high">Higher income (&gt;$136k)</option>
@@ -485,38 +485,38 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Down payment</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="downpay" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="downpay" aria-label="Down payment, CAD" value="75,000" data-raw="75000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Rate</span><span class="funit">%</span></div>
-          <div class="input-wrap"><input type="number" id="rate" value="4.5" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
+          <div class="input-wrap"><input type="number" id="rate" aria-label="Mortgage interest rate, percent" value="4.5" min="0.5" max="15" step="0.05"><span class="iunit">%</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Amortization</span><span class="funit">yrs</span></div>
-          <div class="input-wrap"><input type="number" id="amort" value="25" min="5" max="30"><span class="iunit">yrs</span></div>
+          <div class="input-wrap"><input type="number" id="amort" aria-label="Amortization, years" value="25" min="5" max="30"><span class="iunit">yrs</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Lump sum</span><span class="funit">CAD/yr</span></div>
-          <div class="input-wrap"><input type="text" id="lumpsum" value="0" data-raw="0"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="lumpsum" aria-label="Annual lump sum payment, CAD" value="0" data-raw="0"><span class="iunit">CAD</span></div>
           <div id="lump-warn" style="font-family:var(--font-mono);font-size:9px;margin-top:3px;display:none;"></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Inflation</span><span class="funit">%/yr</span></div>
-          <div class="input-wrap"><input type="number" id="inflation" value="2.5" min="0" max="10" step="0.5"><span class="iunit">%/yr</span></div>
+          <div class="input-wrap"><input type="number" id="inflation" aria-label="Annual inflation, percent" value="2.5" min="0" max="10" step="0.5"><span class="iunit">%/yr</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Shared expenses</span><span class="funit">%</span></div>
-          <div class="input-wrap"><input type="number" id="jointpct" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
+          <div class="input-wrap"><input type="number" id="jointpct" aria-label="Shared expenses, percent of net income" value="70" min="0" max="100" step="5"><span class="iunit">%</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:0;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Other debt</span><span class="funit">$/mo</span></div>
-          <div class="input-wrap"><input type="text" id="otherdebt" value="0" data-raw="0"><span class="iunit">$/mo</span></div>
+          <div class="input-wrap"><input type="text" id="otherdebt" aria-label="Other debt payments, CAD per month" value="0" data-raw="0"><span class="iunit">$/mo</span></div>
         </div>
         <div style="display:flex;align-items:flex-end;padding-bottom:2px;">
           <div id="cmhc-notice" style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);line-height:1.4;display:none;">
@@ -533,7 +533,7 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">House price</span><span class="funit">CAD</span></div>
-          <div class="input-wrap"><input type="text" id="hprice" value="500,000" data-raw="500000"><span class="iunit">CAD</span></div>
+          <div class="input-wrap"><input type="text" id="hprice" aria-label="House price, CAD" value="500,000" data-raw="500000"><span class="iunit">CAD</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Postal code</span><span class="funit">3 chars</span></div>
@@ -543,17 +543,17 @@ p{margin:0;}
       <div class="grid-2" style="margin-bottom:6px;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Heat <span class="tip-btn">?<span class="tip-box">Used by CMHC in GDS stress test. Standard estimate $150–$200/month. Does not affect your mortgage payment.</span></span></span><span class="funit">CAD/mo</span></div>
-          <div class="input-wrap"><input type="text" id="heat" value="150" data-raw="150"><span class="iunit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="heat" aria-label="Heating, CAD per month" value="150" data-raw="150"><span class="iunit">CAD/mo</span></div>
         </div>
         <div class="field">
           <div class="field-label-row"><span class="flbl">Property tax</span><span class="funit">CAD/yr</span></div>
-          <div class="input-wrap"><input type="text" id="proptax" value="6,000" data-raw="6000"><span class="iunit">CAD/yr</span></div>
+          <div class="input-wrap"><input type="text" id="proptax" aria-label="Property tax, CAD per year" value="6,000" data-raw="6000"><span class="iunit">CAD/yr</span></div>
         </div>
       </div>
       <div class="grid-2" style="margin-bottom:0;">
         <div class="field">
           <div class="field-label-row"><span class="flbl">Condo fee <span class="tip-btn">?<span class="tip-box">Monthly condo/strata fee. Included in GDS/TDS stress tests per CMHC rules (50% of condo fee counts toward GDS). Leave at 0 for freehold.</span></span></span><span class="funit">CAD/mo</span></div>
-          <div class="input-wrap"><input type="text" id="condofee" value="0" data-raw="0"><span class="iunit">CAD/mo</span></div>
+          <div class="input-wrap"><input type="text" id="condofee" aria-label="Condo fee, CAD per month" value="0" data-raw="0"><span class="iunit">CAD/mo</span></div>
         </div>
         <div></div>
         </div>
@@ -570,7 +570,7 @@ p{margin:0;}
     <!-- PAYMENT SUMMARY (top of results) -->
     <div class="rcard" id="pay-summary">
       <h3 style="display:flex;align-items:center;gap:8px;--ov-marker-art:url('../Wealth/assets/trend.webp');" class="ov-section-marker">Summary
-        <select id="displaymode" style="background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:3px 22px 3px 8px;font-family:var(--font-mono);font-size:10px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 7px center;cursor:pointer;">
+        <select id="displaymode" aria-label="Summary payment period" style="background:var(--bg-3);border:1px solid var(--line-2);border-radius:6px;padding:3px 22px 3px 8px;font-family:var(--font-mono);font-size:10px;color:var(--ink-2);outline:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%225%22><polyline points=%220,0 4,4 8,0%22 fill=%22none%22 stroke=%22%237a8094%22 stroke-width=%221.5%22/></svg>');background-repeat:no-repeat;background-position:right 7px center;cursor:pointer;">
           <option value="biweekly">Bi-weekly</option>
           <option value="monthly">Monthly</option>
           <option value="annual">Annual</option>
@@ -1441,7 +1441,7 @@ function renderSpendTable(p1sal, p2sal, bwMort, proptax, heat, jointPct, mode, p
         const bwVal   = catVals[c.id] || 0;
         const dispVal = Math.round(bwVal * pf(mode));
         const factor  = pf(mode);
-        return `<td class="${isLast ? 'div-r' : ''}" style="${isFirst ? divLStyle : ''}"><input type="number" id="${c.id}" value="${dispVal}" min="0" step="10"
+        return `<td class="${isLast ? 'div-r' : ''}" style="${isFirst ? divLStyle : ''}"><input type="number" id="${c.id}" aria-label="${c.label} ${mode} spending, CAD" value="${dispVal}" min="0" step="10"
           style="width:62px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
           onchange="catVals['${c.id}']=(parseFloat(this.value)||0)/${factor};calculate()"></td>`;
       }
@@ -2629,7 +2629,7 @@ function renderMobileSpendCards(rows, d, mode, province) {
       <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v1}</td>
       <td style="font-family:var(--font-mono);font-size:11px;text-align:right;padding:4px 6px;border-bottom:1px dashed var(--line);color:var(--ink-3);">${v2}</td>
       <td style="padding:4px 6px;border-bottom:1px dashed var(--line);text-align:right;">
-        <input id="${catId}-mob" type="number" value="${dispVal}" min="0" step="10"
+        <input id="${catId}-mob" aria-label="${label} ${mode} spending, CAD" type="number" value="${dispVal}" min="0" step="10"
           style="width:64px;background:var(--bg-3);border:1px solid var(--line-2);border-radius:4px;padding:2px 4px;font-family:var(--font-mono);font-size:11px;color:var(--ink);text-align:center;outline:none;"
           onchange="catVals['${catId}']=(parseFloat(this.value)||0)/${factor};document.getElementById('${catId}').value=this.value;calculate()">
       </td>

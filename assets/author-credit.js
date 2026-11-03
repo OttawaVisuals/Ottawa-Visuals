@@ -96,10 +96,14 @@
       if (!panel.hidden && !panel.contains(e.target) && !button.contains(e.target)) hide();
     });
     function fit() {
+      const brand = header.querySelector('.brand');
+      const crowded = () => header.scrollWidth > header.clientWidth + baselineOverflow + 1 ||
+        (brand && (brand.scrollWidth > brand.clientWidth + 1 ||
+          brand.getBoundingClientRect().right + 6 > button.getBoundingClientRect().left));
       button.hidden = false;
       button.textContent = 'Built by Simon';
-      if (header.scrollWidth > header.clientWidth + baselineOverflow + 1) button.textContent = 'Simon';
-      if (header.scrollWidth > header.clientWidth + baselineOverflow + 1) {
+      if (crowded()) button.textContent = 'Simon';
+      if (crowded()) {
         button.hidden = true;
         hide();
       }

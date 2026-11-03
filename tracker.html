@@ -16,8 +16,8 @@
   })();
 </script>
 <style>
-/* Palette = Retrofit Explorer (Energy repo assets/site-theme.css); the shared
-   assets/site-theme.css adds the font + light/dark/colour-blind switch. */
+/* Palette = Retrofit Explorer (Energy repo assets/site-theme.css?v=audit-20261103); the shared
+   assets/site-theme.css?v=audit-20261103 adds the font + light/dark/colour-blind switch. */
 :root{
   --navy:#0B2545; --amber:#A86E0F; --cream:#F7F4EE; --card:#FFFFFF;
   --ink:#1C2B3A; --muted:#5C6E82; --line:#D2D8E3;
@@ -183,15 +183,16 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
 .footer-note{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1rem}
 .reset-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:.3rem .7rem;font-size:.78rem;color:var(--muted);cursor:pointer;font-family:var(--sans)}
 .reset-btn:hover{border-color:var(--warn);color:var(--warn)}
+main{overflow-wrap:anywhere}code{overflow-wrap:anywhere}.chip{white-space:normal;max-width:100%}.remain-scroll{max-width:100%;overflow-x:auto}
 </style>
 <!-- Shared Retrofit-style theme: font + light/dark/colour-blind switch (this page keeps its own token names above) -->
-<link rel="stylesheet" href="assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
 <script>
 // No charts here to redraw, so switching is just the attribute + saved choice.
 function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
 </script>
 <script src="assets/site-theme.js?v=header-20261101"></script>
-<script defer src="assets/author-credit.js?v=header-20261101"></script>
+<script defer src="assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
 
@@ -370,7 +371,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <!-- ══════════════════ TIMELINE ══════════════════ -->
 <section id="timeline" class="card">
   <h2>Build timeline <span class="small muted">(from git history — dates are approximate for uncommitted work)</span></h2>
-  <div class="tl-wrap">
+  <div class="tl-wrap" tabindex="0" role="region" aria-label="Project build timeline">
   <svg class="tl-svg" viewBox="0 0 900 450" role="img" aria-label="Timeline of project builds from August 2025 to July 2026">
     <line x1="60" y1="410" x2="880" y2="410" stroke="#9098AC" stroke-width="1" opacity="0.4"/>
     <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#8890A0">
@@ -510,8 +511,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="rto-sample"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Traffic numbers come from 5 corridors + 15 segments, not the whole city network.</b>
+      <li><input type="checkbox" data-key="rto-sample" aria-labelledby="assumption-rto-sample"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-rto-sample">Traffic numbers come from 5 corridors + 15 segments, not the whole city network.</b>
         <p>Chosen to stay well inside TomTom's free-tier request limits (20,000/API/month) while still tracking commute-relevant routes.</p>
         <p class="alt"><b>Other options:</b> TomTom's Area Analytics product covers the whole network but only as a paid 30-day trial with no ongoing free tier — usable for a one-time historical backfill (see <a href="PROJECTS.md">PROJECTS.md</a>), not a permanent forward-looking feed.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
@@ -519,29 +520,29 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">Traffic/README.md §"What it collects".</div>
       </div></li>
-      <li><input type="checkbox" data-key="rto-nodelay"><div class="a-body">
-        <span class="tag data">source limit</span><b>The transit feed has no delay fields — true on-time performance isn't in the live CSV.</b>
+      <li><input type="checkbox" data-key="rto-nodelay" aria-labelledby="assumption-rto-nodelay"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-rto-nodelay">The transit feed has no delay fields — true on-time performance isn't in the live CSV.</b>
         <p>Confirmed by inspecting the live feed directly, not assumed. The live CSV tracks cancellations and fleet activity only; on-time % has to be derived later from the raw archive.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Pull the live feed yourself (a free key from the Azure API portal, see OC_Transpo/README.md §Setup) and check that every <code>TripUpdate</code>'s <code>HasDelay</code> flag is false.</li>
         </ol></div>
         <div class="where">OC_Transpo/README.md §"GTFS-RT collector (Raspberry Pi)".</div>
       </div></li>
-      <li><input type="checkbox" data-key="rto-window"><div class="a-body">
-        <span class="tag data">source limit</span><b>OC Transpo's own KPI spreadsheets are rolling ~13-month windows.</b>
+      <li><input type="checkbox" data-key="rto-window" aria-labelledby="assumption-rto-window"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-rto-window">OC Transpo's own KPI spreadsheets are rolling ~13-month windows.</b>
         <p>Without the weekly snapshotter, months older than ~13 would silently vanish from the official source as new ones are published.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Open the current KPI spreadsheet on Open Ottawa and check its earliest month — then check <code>OC_Transpo/rt_data/kpi_snapshots/</code> for a dated copy from before that.</li>
         </ol></div>
         <div class="where">OC_Transpo/README.md §"snapshot_kpis.py".</div>
       </div></li>
-      <li><input type="checkbox" data-key="rto-ontime"><div class="a-body">
-        <span class="tag std">standard factor</span><b>On-time definition: early = &gt;1 min early, on-time = 1 min early…5 min late, late = &gt;5 min late.</b>
+      <li><input type="checkbox" data-key="rto-ontime" aria-labelledby="assumption-rto-ontime"><div class="a-body">
+        <span class="tag std">standard factor</span><b id="assumption-rto-ontime">On-time definition: early = &gt;1 min early, on-time = 1 min early…5 min late, late = &gt;5 min late.</b>
         <p>Mirrors OC Transpo's own published punctuality definition for less-frequent routes.</p>
         <div class="where">OC_Transpo/README.md, "On-time definition used wherever delays are computed".</div>
       </div></li>
-      <li><input type="checkbox" data-key="rto-unavailable"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>When a KPI can't be computed, the visual must show "unavailable," never 0%.</b>
+      <li><input type="checkbox" data-key="rto-unavailable" aria-labelledby="assumption-rto-unavailable"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-rto-unavailable">When a KPI can't be computed, the visual must show "unavailable," never 0%.</b>
         <p>A missing collector run, a gap in the raw-archive window, or a route with no matched delay observations is not the same as zero cancellations or perfect on-time performance — silently rendering it as 0% would make real outages and coverage gaps invisible. Decided ahead of building the RTO visual so it's built in from the start rather than patched in later.</p>
         <div class="where">Applied in OC_Transpo/octranspo_kpis.html (built 2026-10-16): unpublished years show "n/a" and missing months are left as gaps. Still applies to the RTO Watch transit section.</div>
       </div></li>
@@ -597,8 +598,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & judgment calls — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="oe-w24"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Ward 24's 2010–2018 history is an estimate: a 60/40 weighted average of two old wards, not real results.</b>
+      <li><input type="checkbox" data-key="oe-w24" aria-labelledby="assumption-oe-w24"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-oe-w24">Ward 24's 2010–2018 history is an estimate: a 60/40 weighted average of two old wards, not real results.</b>
         <p>The 60/40 split is an approximation of the 2022 population/territory split, weighted by each source ward's registered-voter count per year.</p>
         <p class="alt"><b>Other options:</b> show no history at all for Ward 24 (loses a trend line entirely), or a straight unweighted 50/50 average (ignores that the two source wards have different sizes).</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
@@ -606,8 +607,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">Ottawa_Elections/BuildWardData.py, <code>NEW_CAVEAT</code> dict; surfaced as <code>caveat</code> in ward_data.json.</div>
       </div></li>
-      <li><input type="checkbox" data-key="oe-split"><div class="a-body">
-        <span class="tag data">source limit</span><b>Wards 3 and 22's historical figures reflect a larger area than their current 2022 boundary.</b>
+      <li><input type="checkbox" data-key="oe-split" aria-labelledby="assumption-oe-split"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-oe-split">Wards 3 and 22's historical figures reflect a larger area than their current 2022 boundary.</b>
         <p>No estimation is involved here — the raw historical numbers are simply for the old, bigger ward.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Open Ward 3 (Barrhaven) or Ward 22 (Riverside South–Findlay Creek) and read the split caveat — it names exactly which neighbourhoods moved out.</li>
@@ -684,8 +685,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & judgment calls — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="on-consolidation"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>The consolidation model reallocates opposition votes mechanically, holding turnout fixed.</b>
+      <li><input type="checkbox" data-key="on-consolidation" aria-labelledby="assumption-on-consolidation"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-on-consolidation">The consolidation model reallocates opposition votes mechanically, holding turnout fixed.</b>
         <p>It's a "same votes, one ballot line" counterfactual, not a behavioural prediction of how people would have actually voted under a merged party.</p>
         <p class="alt"><b>Other options:</b> a swing model that assumes some fraction of consolidated voters would defect to the PCs (adds a second, harder-to-justify assumption); or no what-if model at all (simpler, but loses the "how close was it really" framing).</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
@@ -693,16 +694,16 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">Ontario_Elections/ONelections.html "what if" panel; Ontario_Elections/build_data.py header comment.</div>
       </div></li>
-      <li><input type="checkbox" data-key="on-projection"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>The map uses the source shapefile's own projected coordinates, unreprojected.</b>
+      <li><input type="checkbox" data-key="on-projection" aria-labelledby="assumption-on-projection"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-on-projection">The map uses the source shapefile's own projected coordinates, unreprojected.</b>
         <p>Gives the map its distinctive clean rectangular riding shapes; the alternative (true lat/lon) would look more "normal" geographically but less crisp.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Compare a riding's shape on the tool against the same riding on a standard lat/lon map (e.g. Google Maps) — the rotation difference is the tell.</li>
         </ol></div>
         <div class="where">Ontario_Elections/build_data.py, comment above <code>geo_sources</code>.</div>
       </div></li>
-      <li><input type="checkbox" data-key="on-partymatch"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Pre-2025 province-wide winners are matched from party name text, not a maintained ID table.</b>
+      <li><input type="checkbox" data-key="on-partymatch" aria-labelledby="assumption-on-partymatch"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-on-partymatch">Pre-2025 province-wide winners are matched from party name text, not a maintained ID table.</b>
         <p>A small keyword matcher (substring checks like "progressive conservative", "liberal") turns each year's top-seat party name into a code — good enough since party names have been stable, but it would silently miss a genuinely new party name.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Check the turnout chart's winner colour/label against Wikipedia's list of Ontario general elections for a couple of older years (e.g. 1990, 1995) — they should match.</li>
@@ -761,24 +762,24 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & judgment calls — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="mg-stress"><div class="a-body">
-        <span class="tag std">standard factor</span><b>Stress test: GDS ≤ 39%, TDS ≤ 44%, at rate + 2% or 5.25%, whichever is higher.</b>
+      <li><input type="checkbox" data-key="mg-stress" aria-labelledby="assumption-mg-stress"><div class="a-body">
+        <span class="tag std">standard factor</span><b id="assumption-mg-stress">Stress test: GDS ≤ 39%, TDS ≤ 44%, at rate + 2% or 5.25%, whichever is higher.</b>
         <p>This is OSFI's own published B-20 rule, not a house assumption.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Compare the calculator's qualifying math against OSFI's B-20 guideline text (or CMHC's public explainer) for the GDS/TDS ceilings and the qualifying-rate rule.</li>
         </ol></div>
         <div class="where">index.html REPORTS[] "mortgage" §method; Mortgage/Pipeline/build_json.py.</div>
       </div></li>
-      <li><input type="checkbox" data-key="mg-hpi"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Ottawa home prices use CREA's benchmark (HPI), not a raw average/median sale price.</b>
+      <li><input type="checkbox" data-key="mg-hpi" aria-labelledby="assumption-mg-hpi"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-mg-hpi">Ottawa home prices use CREA's benchmark (HPI), not a raw average/median sale price.</b>
         <p class="alt"><b>Other options:</b> average sale price (simpler, but swings with the mix of homes that happened to sell that month) or median sale price (more robust than average, but still mix-sensitive). HPI is CREA's own quality-adjusted alternative.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Compare a recent month's benchmark price in the tool against CREA's own published MLS HPI figure for Ottawa — they should match.</li>
         </ol></div>
         <div class="where">Mortgage/README.md §"Method"; Mortgage/Static/crea_benchmarks_latest.csv.</div>
       </div></li>
-      <li><input type="checkbox" data-key="mg-fallback"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Income/spending data falls back FSA → province → national when a finer figure doesn't exist.</b>
+      <li><input type="checkbox" data-key="mg-fallback" aria-labelledby="assumption-mg-fallback"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-mg-fallback">Income/spending data falls back FSA → province → national when a finer figure doesn't exist.</b>
         <p>Keeps the calculator working for every postal code, at the cost of some FSAs showing a coarser (provincial or national) figure without it being obvious at a glance.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Enter a smaller/rural Ottawa-area FSA and a downtown one — compare whether the household-spending figure shown actually differs between them (it won't, if both fell back to the same provincial number).</li>
@@ -847,32 +848,32 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & judgment calls — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="wx-normals"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>The climate-shift KPIs compare two 30-year normals, not first-vs-last decade.</b>
+      <li><input type="checkbox" data-key="wx-normals" aria-labelledby="assumption-wx-normals"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-wx-normals">The climate-shift KPIs compare two 30-year normals, not first-vs-last decade.</b>
         <p class="alt"><b>Other options:</b> a simple first-decade-vs-last-decade delta (what many casual comparisons use) — rejected because it's noisy for daytime heat and can show a trend that's really a decade-endpoint artifact.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>In the dashboard's year-picker, compare hot-day counts across a few individual decades — notice how much they bounce around versus the smoother 30-year normals used for the headline KPIs.</li>
         </ol></div>
         <div class="where">Weather/README.md §"Records & extremes"; Weather/ottawa_weather_records.py.</div>
       </div></li>
-      <li><input type="checkbox" data-key="wx-splice"><div class="a-body">
-        <span class="tag data">source limit</span><b>Both series are spliced from two ECCC stations, filling gaps day-by-day rather than a hard cutover.</b>
+      <li><input type="checkbox" data-key="wx-splice" aria-labelledby="assumption-wx-splice"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-wx-splice">Both series are spliced from two ECCC stations, filling gaps day-by-day rather than a hard cutover.</b>
         <p>Ottawa's official record isn't one continuous station — it moved over the decades. The splice is a standard practice for long Canadian climate series, not unique to this project.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Look up ECCC station 4333 vs 49568 (or 4337 vs 49568 for hourly) on climate.weather.gc.ca and confirm their active date ranges match the splice points described in Weather/README.md.</li>
         </ol></div>
         <div class="where">Weather/README.md §"Daily" and §"Hourly".</div>
       </div></li>
-      <li><input type="checkbox" data-key="wx-lightning"><div class="a-body">
-        <span class="tag data">source limit</span><b>Lightning counts may rise partly because the volunteer sensor network grew, not just because of more real lightning.</b>
+      <li><input type="checkbox" data-key="wx-lightning" aria-labelledby="assumption-wx-lightning"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-wx-lightning">Lightning counts may rise partly because the volunteer sensor network grew, not just because of more real lightning.</b>
         <p>Explicitly flagged as the weakest source in the dashboard — supplementary colour, not a calibrated trend.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Compare early-2021 daily coverage gaps (visible as missing days in <code>data/raw/lightning_strikes/</code>) against later, denser years — the network-growth effect is visible directly in file coverage.</li>
         </ol></div>
         <div class="where">Weather/README.md §"Lightning strikes" — "Why this is a weaker source than everything else in this repo".</div>
       </div></li>
-      <li><input type="checkbox" data-key="wx-precip"><div class="a-body">
-        <span class="tag data">source limit</span><b>No hourly rainfall-intensity index — the hourly station essentially never records precipitation amount.</b>
+      <li><input type="checkbox" data-key="wx-precip" aria-labelledby="assumption-wx-precip"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-wx-precip">No hourly rainfall-intensity index — the hourly station essentially never records precipitation amount.</b>
         <p>Checked across every decade and both hourly stations before concluding this, rather than assumed.</p>
         <div class="where">Weather/README.md §"Hourly" note.</div>
       </div></li>
@@ -949,21 +950,21 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="roads-index"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>"Stops vs harm" = a neighbourhood's share of police stops ÷ its share of injury collisions, over 2017–2024 without 2023.</b>
+      <li><input type="checkbox" data-key="roads-index" aria-labelledby="assumption-roads-index"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-roads-index">"Stops vs harm" = a neighbourhood's share of police stops ÷ its share of injury collisions, over 2017–2024 without 2023.</b>
         <p>Stops include every reason an officer pulls someone over, not only moving violations. Neighbourhoods with fewer than 20 injury collisions get no index. Alternatives were stops per resident (penalises highway corridors with few residents) or per collision of any severity.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 10 min<ol>
           <li>Pick one neighbourhood in <code>Traffic/data/derived/stories.json</code> → <code>enforcement_vs_harm</code> and recompute share_stops ÷ share_injury by hand.</li>
         </ol></div>
         <div class="where">Traffic/scripts/build_stories.py enforcement_vs_harm().</div>
       </div></li>
-      <li><input type="checkbox" data-key="roads-snap"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Police stop locations are matched to City intersections within 60 m, or 150 m when both street names agree.</b>
+      <li><input type="checkbox" data-key="roads-snap" aria-labelledby="assumption-roads-snap"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-roads-snap">Police stop locations are matched to City intersections within 60 m, or 150 m when both street names agree.</b>
         <p>This matches 84% of stops at intersections; the rest are street addresses or highway ramps with no City node. Neighbourhood totals don't depend on this: they use the police's own neighbourhood field.</p>
         <div class="where">Traffic/scripts/build_geo_index.py SNAP_M, NAME_CONFIRMED_M.</div>
       </div></li>
-      <li><input type="checkbox" data-key="roads-volume"><div class="a-body">
-        <span class="tag data">source limit</span><b>"Is traffic back?" compares each counted intersection with its own 2015–19 average.</b>
+      <li><input type="checkbox" data-key="roads-volume" aria-labelledby="assumption-roads-volume"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-roads-volume">"Is traffic back?" compares each counted intersection with its own 2015–19 average.</b>
         <p>The City counts different intersections each year (often 8-hour studies scaled to 24 h), and 2025 uses a slightly different method. The median across 50–400 intersections a year is the headline; the band shows the middle half.</p>
         <div class="where">Traffic/scripts/build_stories.py volume_index().</div>
       </div></li>
@@ -1025,21 +1026,21 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="tax-splice"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>"Average rate paid" splices Saez &amp; Veall (to 2000) onto StatCan 11-10-0055 (2001+).</b>
+      <li><input type="checkbox" data-key="tax-splice" aria-labelledby="assumption-tax-splice"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-tax-splice">"Average rate paid" splices Saez &amp; Veall (to 2000) onto StatCan 11-10-0055 (2001+).</b>
         <p>They agree within about 1 pt in 2000, but differ by about 4 pts in 1982 (different income definitions and ranking). Splicing at 1982 would put a false step in the line.</p>
         <div class="where">Tax/scripts/build_data.py main(), paid_top1 / paid_top001.</div>
       </div></li>
-      <li><input type="checkbox" data-key="tax-wid"><div class="a-body">
-        <span class="tag data">source limit</span><b>WID's pre-1980 bottom-50 / middle-40 incomes are modelled, and its published middle-40 average is about 4× too high.</b>
+      <li><input type="checkbox" data-key="tax-wid" aria-labelledby="assumption-tax-wid"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-tax-wid">WID's pre-1980 bottom-50 / middle-40 incomes are modelled, and its published middle-40 average is about 4× too high.</b>
         <p>Group averages are rebuilt from shares × the overall average. Before 1980 the bottom and middle grow at identical rates by construction, so the "shared growth" finding is indicative there.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 5 min<ol>
           <li>In WID_data_CA.csv compare <code>aptinci992 p50p90</code> with <code>sptinci992 p50p90 × aptinci992 p0p100 ÷ 0.4</code> for any year.</li>
         </ol></div>
         <div class="where">Tax/scripts/build_data.py wid().</div>
       </div></li>
-      <li><input type="checkbox" data-key="tax-donations"><div class="a-body">
-        <span class="tag data">source limit</span><b>Donations are itemized gifts over $200 (about 80% of dollars), located by the donor's postal code.</b>
+      <li><input type="checkbox" data-key="tax-donations" aria-labelledby="assumption-tax-donations"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-tax-donations">Donations are itemized gifts over $200 (about 80% of dollars), located by the donor's postal code.</b>
         <p>Postal codes can be offices (K1P downtown is an outlier). FSA income is CRA's 2021 average total income per filer, not the median. "Gifts per 1k filers" counts contribution rows, not unique people.</p>
         <div class="where">Tax/scripts/aggregate_contributions.py, build_data.py donations().</div>
       </div></li>
@@ -1074,19 +1075,19 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="onc-kinds"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Figures of different kinds sit side by side but are never added up.</b>
+      <li><input type="checkbox" data-key="onc-kinds" aria-labelledby="assumption-onc-kinds"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-onc-kinds">Figures of different kinds sit side by side but are never added up.</b>
         <p>Spending, revenue given up, extra interest and value to landowners aren't the same thing. Each card states what its number measures; grey bars mark figures that aren't public spending or are per year.</p>
         <div class="where">Ontario_Costs/ontario_costs.html isOther(); decisions.json "kind".</div>
       </div></li>
-      <li><input type="checkbox" data-key="onc-selection"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>A short list of well-documented cases, not a full audit; 9 PC vs 3 Liberal reflects the cases chosen.</b>
+      <li><input type="checkbox" data-key="onc-selection" aria-labelledby="assumption-onc-selection"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-onc-selection">A short list of well-documented cases, not a full audit; 9 PC vs 3 Liberal reflects the cases chosen.</b>
         <p>"Costed" is labelled separately from "criticized", and two entries are plain policy choices included for scale.</p>
         <p class="alt"><b>Other options:</b> one entry per Auditor General value-for-money chapter (complete but hundreds of items, mostly not costed).</p>
         <div class="where">Ontario_Costs/README.md.</div>
       </div></li>
-      <li><input type="checkbox" data-key="onc-relayed"><div class="a-body">
-        <span class="tag data">source limit</span><b>Two FAO figures are linked through news reports, and one figure comes from the Public Accounts rather than a watchdog.</b>
+      <li><input type="checkbox" data-key="onc-relayed" aria-labelledby="assumption-onc-relayed"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-onc-relayed">Two FAO figures are linked through news reports, and one figure comes from the Public Accounts rather than a watchdog.</b>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Find the Bill 124 ($13.7B) and licence-fee (≈$1B/yr) estimates on fao-on.org and compare.</li>
         </ol></div>
@@ -1124,18 +1125,18 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="oilgas-quarterly"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>2025 comes from summed quarters; earlier years from the annual table.</b>
+      <li><input type="checkbox" data-key="oilgas-quarterly" aria-labelledby="assumption-oilgas-quarterly"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-oilgas-quarterly">2025 comes from summed quarters; earlier years from the annual table.</b>
         <p>Where both exist (2022–24) the quarterly sums run 1–5% higher on revenue and net income. The page flags 2025 with an asterisk.</p>
         <div class="where">OilGas/scripts/build_data.py main(), finance_overlap_check in oilgas.json.</div>
       </div></li>
-      <li><input type="checkbox" data-key="oilgas-royalties"><div class="a-body">
-        <span class="tag data">source limit</span><b>"Tax" is corporate income tax only; royalties are an expense inside these figures.</b>
+      <li><input type="checkbox" data-key="oilgas-royalties" aria-labelledby="assumption-oilgas-royalties"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-oilgas-royalties">"Tax" is corporate income tax only; royalties are an expense inside these figures.</b>
         <p>The government take is understated until royalties are added. The page says so next to the tax chart.</p>
         <div class="where">OilGas/oilgas.html, tax section.</div>
       </div></li>
-      <li><input type="checkbox" data-key="oilgas-naics213"><div class="a-body">
-        <span class="tag data">source limit</span><b>Jobs include NAICS 213 support activities, which also covers mining support.</b>
+      <li><input type="checkbox" data-key="oilgas-naics213" aria-labelledby="assumption-oilgas-naics213"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-oilgas-naics213">Jobs include NAICS 213 support activities, which also covers mining support.</b>
         <p>Slight national overcount; pipelines (NAICS 486) excluded because SEPH suppresses them after 2002.</p>
         <div class="where">OilGas/scripts/build_data.py JOBS_NAICS.</div>
       </div></li>
@@ -1175,28 +1176,28 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions &amp; known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="octranspo-latest-wins"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>When reports disagree, the later report wins (unless the older one is the same figure, more precisely).</b>
+      <li><input type="checkbox" data-key="octranspo-latest-wins" aria-labelledby="assumption-octranspo-latest-wins"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-octranspo-latest-wins">When reports disagree, the later report wins (unless the older one is the same figure, more precisely).</b>
         <p>6 points conflict, e.g. 2024 bus operator availability is 85% in both scorecards but 88% in the Sept 2025 reliability report. All are listed in extract_log.txt.</p>
         <div class="where">OC_Transpo/scripts/extract_kpis.py pick(); OC_Transpo/kpi_history/extract_log.txt.</div>
       </div></li>
-      <li><input type="checkbox" data-key="octranspo-sums"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>2019 and 2022 yearly ridership are sums of monthly chart labels rounded to 0.1M.</b>
+      <li><input type="checkbox" data-key="octranspo-sums" aria-labelledby="assumption-octranspo-sums"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-octranspo-sums">2019 and 2022 yearly ridership are sums of monthly chart labels rounded to 0.1M.</b>
         <p>No annual total was published for those years in these reports; the page marks them as derived (grey bars).</p>
         <div class="where">OC_Transpo/octranspo_kpis.html annualRiders().</div>
       </div></li>
-      <li><input type="checkbox" data-key="octranspo-images"><div class="a-body">
-        <span class="tag data">source limit</span><b>After 2021 the monthly charts are images, so most 2022+ monthly values can't be read.</b>
+      <li><input type="checkbox" data-key="octranspo-images" aria-labelledby="assumption-octranspo-images"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-octranspo-images">After 2021 the monthly charts are images, so most 2022+ monthly values can't be read.</b>
         <p>Monthly data exists for 2020–21 and Aug 2022–Aug 2023 only; everything else is annual.</p>
         <div class="where">OC_Transpo/README.md, "KPI history" coverage table.</div>
       </div></li>
-      <li><input type="checkbox" data-key="octranspo-live-compare"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Our ±5 figure and otranspo.ca's sit on one chart, but they aren't the same measurement.</b>
+      <li><input type="checkbox" data-key="octranspo-live-compare" aria-labelledby="assumption-octranspo-live-compare"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-octranspo-live-compare">Our ±5 figure and otranspo.ca's sit on one chart, but they aren't the same measurement.</b>
         <p>We score each running bus at its next timepoint, weighted by sample time; otranspo.ca scores one settled prediction per stop arrival at every stop. The page says so; agreement is a sanity check, not proof.</p>
         <div class="where">OC_Transpo/octranspo_kpis.html renderLive(); OC_Transpo/README.md GTFS-RT section.</div>
       </div></li>
-      <li><input type="checkbox" data-key="octranspo-cancel-rule"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>A cancelled trip only counts if its notice stayed up and no bus was seen running it.</b>
+      <li><input type="checkbox" data-key="octranspo-cancel-rule" aria-labelledby="assumption-octranspo-cancel-rule"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-octranspo-cancel-rule">A cancelled trip only counts if its notice stayed up and no bus was seen running it.</b>
         <p>Same rule as otranspo.ca. Polls are 5–15 min apart, so a trip run without a vehicle position, or a notice up for a few minutes only, can be missed either way.</p>
         <div class="where">OC_Transpo/scripts/poll_gtfsrt.py update_cancellations().</div>
       </div></li>
@@ -1234,24 +1235,24 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions & known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="rs-height"><div class="a-body">
-        <span class="tag std">standard factor</span><b>Injury/fatality risk is keyed to a vehicle's front-end height, per IIHS's own published curves.</b>
+      <li><input type="checkbox" data-key="rs-height" aria-labelledby="assumption-rs-height"><div class="a-body">
+        <span class="tag std">standard factor</span><b id="assumption-rs-height">Injury/fatality risk is keyed to a vehicle's front-end height, per IIHS's own published curves.</b>
         <p>Not a house-modelled risk curve — taken directly from Monfort &amp; Mueller's published research.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 15 min<ol>
           <li>Compare the tool's risk-at-a-given-speed-and-height output against the IIHS study's own published figures for a couple of reference points.</li>
         </ol></div>
         <div class="where">index.html REPORTS[] "road-safety" §method.</div>
       </div></li>
-      <li><input type="checkbox" data-key="rs-collisions"><div class="a-body">
-        <span class="tag data">source limit</span><b>The pedestrian fatal/major-injury chart still uses the City's Road Safety Action Plan figures, not the open collision data.</b>
+      <li><input type="checkbox" data-key="rs-collisions" aria-labelledby="assumption-rs-collisions"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-rs-collisions">The pedestrian fatal/major-injury chart still uses the City's Road Safety Action Plan figures, not the open collision data.</b>
         <p>The report reaches back to 2013 and includes 2023; the open collision data covers 2017–2024 and has no 2023 file. Since Oct 2026 the page checks the report figures against the open data on every load and shows "verified vs open data" (all 7 overlapping years match) or flags the mismatch.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
           <li>Open the road-safety page and read the badge on the pedestrian card: "verified vs open data" or "check mismatch".</li>
         </ol></div>
         <div class="where">Vehicles/road-safety.html renderFMICheck(); Traffic/scripts/build_stories.py ped_fmi().</div>
       </div></li>
-      <li><input type="checkbox" data-key="rs-ase"><div class="a-body">
-        <span class="tag data">source limit</span><b>Speed data reflects camera locations only, not fleet-wide driving speeds.</b>
+      <li><input type="checkbox" data-key="rs-ase" aria-labelledby="assumption-rs-ase"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-rs-ase">Speed data reflects camera locations only, not fleet-wide driving speeds.</b>
         <p>ASE cameras are sited at specific locations chosen by the City (school zones, community safety zones) — a real but non-random sample of Ottawa driving.</p>
         <div class="where">Vehicles/README.md §"Method".</div>
       </div></li>
@@ -1291,8 +1292,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Assumptions — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="pw-minimum"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Rate-stat leaderboards require a 5-game minimum.</b>
+      <li><input type="checkbox" data-key="pw-minimum" aria-labelledby="assumption-pw-minimum"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-pw-minimum">Rate-stat leaderboards require a 5-game minimum.</b>
         <p>Keeps small-sample outliers (one great game) off the leaderboards; a player with 4 games and a hot streak won't appear no matter how good the rate looks.</p>
         <p class="alt"><b>Other options:</b> no minimum (surfaces small-sample flukes) or a higher bar like 10 games (excludes more players, especially mid-season call-ups).</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
@@ -1300,8 +1301,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">index.html REPORTS[] "pwhl" §method.</div>
       </div></li>
-      <li><input type="checkbox" data-key="pw-goal-onice"><div class="a-body">
-        <span class="tag data">source limit</span><b>Who was on the ice at a goal comes from the goal's plus/minus list, not the feed's on-ice list.</b>
+      <li><input type="checkbox" data-key="pw-goal-onice" aria-labelledby="assumption-pw-goal-onice"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-pw-goal-onice">Who was on the ice at a goal comes from the goal's plus/minus list, not the feed's on-ice list.</b>
         <p>On goals the feed's on-ice lists often hold 7-10 names a side (both sides of a line change). Before 2026-10-10 that made the 5v5 ratings skip about half of all even-strength goals; fixing it moved the median rating by ~0.1 goals.</p>
         <p class="alt"><b>Other options:</b> drop goal shots from the 5v5 model (the old, biased behaviour) or keep the union lists (credits players who weren't on).</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 3 min<ol>
@@ -1310,8 +1311,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">PWHL/scripts/build_models.py fix_goal_onice(); methodology.html.</div>
       </div></li>
-      <li><input type="checkbox" data-key="pw-takeover"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>A "Takeover Tour" game is any home game outside the home team's own market.</b>
+      <li><input type="checkbox" data-key="pw-takeover" aria-labelledby="assumption-pw-takeover"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-pw-takeover">A "Takeover Tour" game is any home game outside the home team's own market.</b>
         <p>Ottawa in Calgary counts as takeover; Ottawa at Canadian Tire Centre counts as a home-market game. % of capacity uses the venue list's hockey capacity, so a sellout can read slightly above or below 100%.</p>
         <p class="alt"><b>Other options:</b> use the league's own Takeover Tour schedule list, or treat every non-regular arena (incl. big in-market arenas) as special.</p>
         <div class="verify"><b>✅ Verify it yourself</b> ⏱️ 2 min<ol>
@@ -1319,8 +1320,8 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
         </ol></div>
         <div class="where">PWHL/scripts/build_dashboard_json.py HOME_MARKETS; PWHL/data/PWHL_Venues.csv.</div>
       </div></li>
-      <li><input type="checkbox" data-key="pw-lines"><div class="a-body">
-        <span class="tag data">source limit</span><b>Line ice time is estimated from on-ice lists between events.</b>
+      <li><input type="checkbox" data-key="pw-lines" aria-labelledby="assumption-pw-lines"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-pw-lines">Line ice time is estimated from on-ice lists between events.</b>
         <p>The feed has no shift data, so the gap between two events is split between the units on ice at either end. Good for ranking which trios and pairs played most together; not an exact minute count.</p>
         <div class="where">PWHL/scripts/build_models.py unit_stints(), line_combos().</div>
       </div></li>
@@ -1372,28 +1373,28 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
   <div class="assump-box">
     <h3>⚠️ Known limitations — check these</h3>
     <ul class="assump">
-      <li><input type="checkbox" data-key="ch-depth"><div class="a-body">
-        <span class="tag data">source limit</span><b>The calendar API only reaches back to ~2019 — older meetings likely live in a separate archive.</b>
+      <li><input type="checkbox" data-key="ch-depth" aria-labelledby="assumption-ch-depth"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-ch-depth">The calendar API only reaches back to ~2019 — older meetings likely live in a separate archive.</b>
         <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
       </div></li>
-      <li><input type="checkbox" data-key="ch-voters"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Recorded votes are captured as one name-string per tally, not exploded to one row per councillor.</b>
+      <li><input type="checkbox" data-key="ch-voters" aria-labelledby="assumption-ch-voters"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-ch-voters">Recorded votes are captured as one name-string per tally, not exploded to one row per councillor.</b>
         <p>Good enough for "how did the vote go", but a clean "how did my councillor vote" dataset needs a further parsing pass on that string.</p>
         <p class="alt"><b>Other options:</b> explode to per-councillor rows immediately — held off until the name-string format is validated across more committees, to avoid silently mis-splitting names.</p>
         <div class="where">CityHall_Index/README.md §"Notes &amp; limits".</div>
       </div></li>
-      <li><input type="checkbox" data-key="ch-pre2022"><div class="a-body">
-        <span class="tag data">source limit</span><b>Before about mid-2022, meetings have no item breakdown: each is searchable as one whole-page text.</b>
+      <li><input type="checkbox" data-key="ch-pre2022" aria-labelledby="assumption-ch-pre2022"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-ch-pre2022">Before about mid-2022, meetings have no item breakdown: each is searchable as one whole-page text.</b>
         <p>Those pages are Word-exported minutes with no agenda-item structure, so there are no per-item decisions, motions or votes for 2020–21.</p>
         <div class="where">CityHall_Index/escribe_indexer.py _page_text().</div>
       </div></li>
-      <li><input type="checkbox" data-key="ch-pdfs"><div class="a-body">
-        <span class="tag data">source limit</span><b>PDF contents only exist for PDFs someone downloaded in a browser.</b>
+      <li><input type="checkbox" data-key="ch-pdfs" aria-labelledby="assumption-ch-pdfs"><div class="a-body">
+        <span class="tag data">source limit</span><b id="assumption-ch-pdfs">PDF contents only exist for PDFs someone downloaded in a browser.</b>
         <p>eScribe answers scripts with a "Verifying your browser" check on PDF links. Bypassing it is off the table; bulk access would have to come from the City Clerk.</p>
         <div class="where">CityHall_Index/README.md §"PDFs".</div>
       </div></li>
-      <li><input type="checkbox" data-key="ch-pdfmatch"><div class="a-body">
-        <span class="tag choice">judgment call</span><b>Downloaded PDFs are matched to items by filename first; about a third of attachment names are shared ("Document 1 (EN)").</b>
+      <li><input type="checkbox" data-key="ch-pdfmatch" aria-labelledby="assumption-ch-pdfmatch"><div class="a-body">
+        <span class="tag choice">judgment call</span><b id="assumption-ch-pdfmatch">Downloaded PDFs are matched to items by filename first; about a third of attachment names are shared ("Document 1 (EN)").</b>
         <p>Shared names are narrowed by the requested-PDF list and by report numbers found in the PDF; anything still ambiguous stays searchable without meeting details.</p>
         <p class="alt"><b>Other options:</b> match on content alone (report numbers): fails for appendices that don't repeat the number.</p>
         <div class="where">CityHall_Index/ingest_pdfs.py.</div>
@@ -1406,7 +1407,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
 <section id="todo" class="card">
   <h2>🗺️ What's left, in roughly the recommended order</h2>
   <p class="small muted">From <a href="PROJECTS.md">PROJECTS.md</a>'s planned/scoped and backlog lists.</p>
-  <table class="remain">
+  <div class="remain-scroll" tabindex="0" role="region" aria-label="Remaining project work"><table class="remain">
     <tr><th>Order</th><th>What</th><th>Why / notes</th><th>Size</th></tr>
     <tr><td>1</td><td><b>OC Transpo ridership + service KPIs visual</b> ✅</td><td>Done 2026-10-16: <a href="OC_Transpo/octranspo_kpis.html">octranspo_kpis.html</a>, built from <code>OC_Transpo/kpi_history/</code> (numbers extracted from the harvested PDFs). See the <a href="#octranspo">OC Transpo KPIs</a> section.</td><td>done</td></tr>
     <tr><td>2</td><td><b>Ottawa City Finances / Budget Dashboard</b></td><td>Municipal spending; ties into the property-tax / quality-of-life narrative. eScribe index (<code>CityHall_Index/</code>) is a candidate input.</td><td>2–3 sessions</td></tr>
@@ -1416,7 +1417,7 @@ function setTheme(m){ document.documentElement.setAttribute('data-theme', m); tr
     <tr><td>6</td><td><b>Canada Car &amp; Gas Sales vs. GHG Targets</b></td><td>Vehicle + gasoline sales vs. GHG reduction targets.</td><td>1–2 sessions</td></tr>
     <tr><td>7</td><td><b>Canada Geothermal Feasibility Map</b></td><td>The Ottawa version of this is already live (see Progress at a glance, above) — this row is specifically the <em>national</em> expansion, which is essentially unstarted: WWIS well data is Ontario-only, so a national version needs a different well-data source per province, not just a bigger bounding box on the existing pipeline.</td><td>3+ sessions</td></tr>
     <tr><td>8</td><td><b>Federal Consulting Spend / GovContracts page</b></td><td>Page built (<a href="govcontracts.html">govcontracts.html</a>): consulting spend by year, departments, furniture yardstick and award-method stacked bars; reviewed Oct 31, not yet linked from the home page. Still blocked on one thing: the RTO-mandate-spike check needs a contracts.csv refresh that covers Jul 2026+ (current data only reaches Jun 2026). See <a href="GovContracts/README.md">GovContracts/README.md</a> for the full methodology and exact next steps.</td><td>1–2 sessions</td></tr>
-  </table>
+  </table></div>
 </section>
 
 <!-- ══════════════════ ABOUT ══════════════════ -->

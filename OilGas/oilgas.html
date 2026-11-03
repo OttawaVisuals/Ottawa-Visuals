@@ -83,7 +83,8 @@
   .stat-val { font-family:var(--font-mono); font-size:20px; font-weight:500; color:var(--ink); }
   .stat-lbl { font-size:11.5px; color:var(--ink-3); margin-top:3px; line-height:1.4; }
 
-  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
+  .grid2 > * { min-width:0; }
   @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
 
   .legend { display:flex; flex-wrap:wrap; gap:14px; margin:4px 0 6px; font-size:12px; color:var(--ink-2); }
@@ -108,9 +109,9 @@
   footer a { color:var(--ink-2); }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
 <script src="../assets/site-theme.js?v=header-20261101"></script>
-<script defer src="../assets/author-credit.js?v=header-20261101"></script>
+<script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
 
@@ -202,7 +203,7 @@
   <section class="card">
     <p class="q">The numbers</p>
     <h2 class="section-title">Year by year</h2>
-    <div class="table-wrap scroll"><table id="t-years"></table></div>
+    <div class="table-wrap scroll" tabindex="0" role="region" aria-label="Oil and gas data table"><table id="t-years"></table></div>
   </section>
 </main>
 

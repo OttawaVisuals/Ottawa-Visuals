@@ -117,9 +117,9 @@
   footer a { color:var(--ink-2); }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=header-20261101">
+<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
 <script src="../assets/site-theme.js?v=header-20261101"></script>
-<script defer src="../assets/author-credit.js?v=header-20261101"></script>
+<script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
 
@@ -265,7 +265,7 @@
       </div>
     </div>
     <p class="chart-sub" style="margin-top:20px">Routes most often more than 5 minutes late <span id="rt-window"></span></p>
-    <div class="table-wrap" id="t-routes"></div>
+    <div class="table-wrap" id="t-routes" tabindex="0" role="region" aria-label="Route punctuality table"></div>
     <p class="note" id="routes-note"></p>
     <details><summary>Show the numbers</summary><div class="table-wrap" id="t-live"></div></details>
     <p class="note"><b>How it's measured:</b> every 5 minutes at peak and every 15 off-peak, each running bus's predicted departure from its next timepoint (the major stops OC Transpo measures at) is compared with the timetable. Each bus counts for the minutes its sample stands for; individual buses aren't stored. <b>On time</b> uses OC Transpo's window, 1 minute early to 5 minutes late; <b>within ±5 min</b> is otranspo.ca's window. otranspo.ca scores one settled prediction per stop arrival at every stop, so its figure isn't the same measurement, but it's independent. A trip counts as <b>cancelled</b> once per day if a cancellation notice was posted and no bus later ran it. Bus only: the feed doesn't cover the O-Train. Comparison figures: <a href="https://otranspo.ca/en/insights/reports">otranspo.ca</a>, an independent riders' site (MIT licence); transit data © OC Transpo open data.</p>
