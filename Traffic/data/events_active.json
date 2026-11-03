@@ -2576,29 +2576,6 @@
 },
 "fp": "745590b308b7"
 },
-"29760": {
-"event": {
-"cause": "",
-"created": "2026-10-29 17:18:00",
-"cross_street_1": "DILWORTH RD (IC 42)/CR 13",
-"cross_street_2": "3RD LINE RD",
-"direction": null,
-"event_id": "29760",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 416 Northbound from DILWORTH RD /CR 13 to 3RD LINE RD - Nightly Engineering Investigation. 1 Right Lane(s). 2026-11-02 18:00 to 2026-11-03 12:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.09312,
-"lon": -75.65289,
-"planned_end": "2026-11-03T12:00",
-"planned_start": "2026-11-02T18:00",
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-10-29 17:18:00"
-},
-"fp": "deb4ac5a30f3"
-},
 "29771": {
 "event": {
 "cause": "construction",
@@ -3032,32 +3009,32 @@
 "priority": "HIGH",
 "road": "Carling",
 "source": "city",
-"updated": "2026-11-03 09:08:00"
+"updated": "2026-11-03 12:35:00"
 },
-"fp": "a6c1d9749ec8"
+"fp": "49a09a386152"
 },
-"29814": {
+"29819": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-03 09:18:00",
-"cross_street_1": "Tyndall",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-11-03 12:22:00",
+"cross_street_1": "Aero",
+"cross_street_2": "Richmond",
 "direction": null,
-"event_id": "29814",
-"event_type": "INCIDENT",
+"event_id": "29819",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Parkdale lane reduction in both directions at Tyndall due to a disabled bus.",
-"lanes": "lane reduction in both directions",
-"lat": 45.398229,
-"lon": -75.727596,
-"planned_end": null,
-"planned_start": null,
+"headline": "(LRT) Holly Acres lane reductions in both directions between Aero and Richmond due to construction, from November 2nd 9:00pm to December 4th 9:00pm.",
+"lanes": "lane reductions in both directions",
+"lat": 45.342209,
+"lon": -75.812583,
+"planned_end": "2026-12-04T21:00",
+"planned_start": "2026-11-02T21:00",
 "priority": "HIGH",
-"road": "Parkdale",
+"road": "Holly Acres",
 "source": "city",
-"updated": "2026-11-03 09:18:00"
+"updated": "2026-11-03 12:24:00"
 },
-"fp": "4b6271d73a0a"
+"fp": "eace90c3bcdc"
 }
 }
 }
