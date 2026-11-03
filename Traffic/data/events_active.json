@@ -506,29 +506,6 @@
 },
 "fp": "53de62308665"
 },
-"27880": {
-"event": {
-"cause": "construction",
-"created": "2026-07-21 11:34:00",
-"cross_street_1": "Wilbrod",
-"cross_street_2": "Stewart",
-"direction": null,
-"event_id": "27880",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Cumberland closed between Wilbrod and Stewart due to construction. Access for local traffic maintained. From 7:00am, 18/09/26 to 5:00pm, 03/11/26",
-"lanes": "closed",
-"lat": 45.426069,
-"lon": -75.685984,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-09-18T07:00",
-"priority": "MEDIUM",
-"road": "Cumberland",
-"source": "city",
-"updated": "2026-09-21 16:28:00"
-},
-"fp": "db451f0a1695"
-},
 "27944": {
 "event": {
 "cause": "construction",
@@ -2116,29 +2093,6 @@
 },
 "fp": "6f737aff4d8c"
 },
-"29647": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 09:41:00",
-"cross_street_1": "PERCY",
-"cross_street_2": "BRONSON",
-"direction": null,
-"event_id": "29647",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "GLOUCESTER closed between PERCY and BRONSON due to construction, Tuesday November 3rd from 7:00am to 5:00pm. Follow the signed detour. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.414895,
-"lon": -75.706023,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-10-31T07:00",
-"priority": "MEDIUM",
-"road": "GLOUCESTER",
-"source": "city",
-"updated": "2026-10-31 06:56:00"
-},
-"fp": "08a3defdd5a9"
-},
 "29651": {
 "event": {
 "cause": "a movie filming",
@@ -2783,29 +2737,6 @@
 },
 "fp": "e4aae6da2921"
 },
-"29786": {
-"event": {
-"cause": "",
-"created": "2026-10-31 07:03:00",
-"cross_street_1": "BRUIN RD",
-"cross_street_2": "BRUIN RD",
-"direction": null,
-"event_id": "29786",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 416 Southbound from BRUIN RD to BRUIN RD - Continuous Construction. 1 Alternating Lane. Alternating left and right lane closures NB & SB. 2026-11-03 07:00 to 2026-11-03 17:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.3261,
-"lon": -75.80643,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-11-03T07:00",
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-10-31 07:03:00"
-},
-"fp": "7152a1fcb80b"
-},
 "29796": {
 "event": {
 "cause": "construction",
@@ -3081,6 +3012,29 @@
 "updated": "2026-11-03 13:20:00"
 },
 "fp": "96228b76444e"
+},
+"29829": {
+"event": {
+"cause": "",
+"created": "2026-11-03 17:42:00",
+"cross_street_1": "MAITLAND AVE (IC 126)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29829",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at MAITLAND AVE - Collision. left shoulder and 2 lanes closed. ",
+"lanes": "left shoulder and 2 lanes closed",
+"lat": 45.37022,
+"lon": -75.75477,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-03 17:42:00"
+},
+"fp": "3baea6684ae4"
 }
 }
 }
