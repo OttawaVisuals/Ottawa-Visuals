@@ -41,6 +41,14 @@ References: [O. Reg. 132/12, ss. 2–10](https://www.ontario.ca/laws/regulation/
 
 `thresholds.json` / `threshold-data.js` retain rule definitions, 455 area/year/reference/scope count rows, 70 average rows, input bounds, workbook URLs and source hashes. The count CSV includes the reference label/type and strict-greater-than comparison; average inputs are separate. Existing financial/class-size datasets are unchanged by this extension.
 
+## Alberta OECD comparison
+
+The separate `#alberta` panel imports the [2025–26 Alberta Classroom Insights release](https://open.alberta.ca/opendata/alberta-class-size), as of November 24, 2025: **88,932 published classroom rows, 61 authorities**. Province/authority and K–3, 4–6, 7–9, 10–12 filters show counts and shares strictly above the same fixed 2024 OECD 21/23 averages. Grades 4–6 default to 21; users can select either reference. The all-band row includes K–12 and is not a matched OECD education level.
+
+A classroom means a teacher with a unique student group for a portion of time; students can recur across rows. Public, separate and francophone authorities are covered; alternative, outreach/online and special-purpose schools and special-education subjects are excluded. Published enrolments are 1–60. All 3,723 suppressed (*) sizes are below 10, hence below either cutoff: keep these rows in the denominator without imputing enrolment. Counts are exact within the published rows, not a census of all Alberta classes or unique pupils. K–3 cannot be separated to exclude kindergarten. Grade bands and observation dates differ from Ontario; no province ranking is calculated.
+
+Only this snapshot is imported. The older provincial series ending in 2018–19 is not spliced into it. `alberta.json` / `alberta-data.js` retain 310 aggregate rows, original metadata, source URL and SHA-256; `alberta-class-thresholds.csv` exports the same counts. Originals stay in ignored `data/raw/alberta/`. The builder checks unique classroom identifiers, source values, band/authority reconciliation and nested threshold counts. `check_alberta.py` independently reads workbook XML and reconciles all 310 rows plus CSV/JSON/JS.
+
 ## Rebuild
 
 Python 3; `check_data.py` also uses `openpyxl` for an independent read-only source import. No workbook is authored or changed.
@@ -51,6 +59,8 @@ python Education/scripts/build_data.py
 python Education/scripts/check_data.py
 python Education/scripts/build_thresholds.py
 python Education/scripts/check_thresholds.py
+python Education/scripts/build_alberta.py
+python Education/scripts/check_alberta.py
 node --check Education/education.js
 ```
 

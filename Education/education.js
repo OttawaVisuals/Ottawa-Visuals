@@ -140,7 +140,17 @@ function thresholds(){
  const avgs=T.averages.filter(r=>r.geo===geo&&r.year===year);
  table('average-reference-table',['Population','Reported class rows','Average · range','Board-average reference','Comparison scope'],avgs.map(r=>[r.group==='kindergarten'?'All classes containing JK/K · fractional denominator':'All classes containing grades 4–8',fmt(r.classes,0),range(r.average_low,r.average_high),fmt(r.reference),geo==='ontario'?'Combined boards · descriptive only':'Source rows only · not a compliance verdict']));
 }
-function render(){finances();classHistory();schoolHistory();thresholds();}
+function alberta(){
+ const A=window.ALBERTA_CLASSES;if(!A)return;
+ const geo=$('alberta-area').value,group=$('alberta-group').value,limit=Number($('alberta-reference').value),row=A.counts.find(r=>r.geo===geo&&r.group===group),above=row['above'+limit],share=row.classes?100*above/row.classes:null;
+ $('alberta-scope').textContent=`${A.areas[geo]} · ${A.groups[group]} · 2025–26 only. Counts are published classroom rows, not unique pupils. The 2024 OECD average is held fixed for this comparison.`;
+ stats('alberta-stats',[[`Classes above ${limit}`,fmt(above,0),row.classes?fmt(share)+'% of published classrooms':'No published rows for this band'],['Published classrooms',fmt(row.classes,0),fmt(row.suppressed,0)+' have suppressed sizes below 10'],['OECD published average',limit+' students','Observed average · 2024; not a maximum']]);
+ $('alberta-bar-title').textContent=`Share above ${limit} students · ${A.groups[group]}`;
+ $('alberta-bars').innerHTML=row.classes?`<div class="ab-track" role="img" aria-label="${esc(fmt(share))}% above ${limit}; ${esc(fmt(100-share))}% at or below"><span style="width:${share}%"></span></div><p class="small">${fmt(share)}% above · ${fmt(100-share)}% at or below</p>`:'<p>No published classroom rows for this band.</p>';
+ const rows=A.counts.filter(r=>r.geo===geo);
+ table('alberta-table',['Grade band','Published classes','Above 21 · count (%)','Above 23 · count (%)','Suppressed <10'],rows.map(r=>[esc(A.groups[r.group]),fmt(r.classes,0),r.classes?`${fmt(r.above21,0)} (${fmt(100*r.above21/r.classes)}%)`:'Unavailable',r.classes?`${fmt(r.above23,0)} (${fmt(100*r.above23/r.classes)}%)`:'Unavailable',fmt(r.suppressed,0)]));
+}
+function render(){finances();classHistory();schoolHistory();thresholds();alberta();}
 try{
  for(const id of ['class-board','school-board'])$(id).innerHTML=Object.entries(boardLabels).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('');
  ['finance-view','prices','finance-start'].forEach(id=>$(id).addEventListener('change',finances));
@@ -154,6 +164,12 @@ try{
   const shortRules={primary23:'Primary >23 · hard cap',primary20:'Primary >20 · 90% rule',mixed23:'Mixed primary/upper >23',k29:'Kindergarten >29 · exceptions',k32:'Kindergarten >32 · ceiling',etfo24:'Grades 4–8 >24 · ETFO proposal',etfo26:'Kindergarten >26 · ETFO proposal',oecd21:'OECD primary average · 21',oecd23:'OECD lower-secondary average · 23'};
   $('threshold-rule').innerHTML=T.rules.map(r=>`<option value="${r.id}">${esc(shortRules[r.id])}</option>`).join('');
   ['threshold-board','threshold-year','threshold-rule','threshold-measure','threshold-scope'].forEach(id=>$(id).addEventListener('change',thresholds));
+ }
+ if(window.ALBERTA_CLASSES){
+  const A=window.ALBERTA_CLASSES;
+  $('alberta-area').innerHTML=Object.entries(A.areas).sort(([a,x],[b,y])=>a==='alberta'?-1:b==='alberta'?1:x.localeCompare(y)).map(([v,n])=>`<option value="${esc(v)}">${esc(n)}</option>`).join('');
+  $('alberta-group').innerHTML=Object.entries(A.groups).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('');$('alberta-group').value='G4-6';
+  ['alberta-area','alberta-group','alberta-reference'].forEach(id=>$(id).addEventListener('change',alberta));
  }
  window.setTheme=mode=>{document.documentElement.dataset.theme=mode;localStorage.setItem('ov-theme',mode);render();};
  let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100);});

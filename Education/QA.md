@@ -41,3 +41,11 @@ Built and committed locally; no publication or collector changes.
 - Browser: all six OECD reference/scope combinations verified for Ontario 2025–26 with nine reference-table rows; legacy primary-23 values and hidden scope control checked. Percentage mode and the first-year single-point history checked. Latest Ontario grades 1–8 above 21 = 27,941–28,185 / 50,890; above 23 = 20,250–20,287 / 50,890.
 - New OECD controls checked at 320/390/1240px with no document overflow or invalid paths. Downloaded CSV is byte-identical to the 455-row export; JSON/JS agree. JS syntax passes. Screenshot: `output/education/oecd-preview.jpg` (local/untracked).
 - An attempted larger UI sweep timed out; only the completed checks above are claimed. Existing financial/class-size exports remain unchanged. Local, publication pending.
+
+
+## Alberta snapshot extension
+
+- Original Alberta 2025–26 workbook metadata and source URL/hash retained; 88,932 unique classroom identifiers across 61 authorities. Band and authority totals reconcile; all threshold counts nest correctly. 3,723 suppressed sizes below 10 remain in denominators and cannot exceed either 21 or 23. No enrolment midpoint is imputed.
+- `check_alberta.py`: all **310 aggregates** independently reproduce from original workbook XML (builder uses openpyxl), including exact count/suppression/above-21/above-23 fields. Source hash and CSV/JSON/JS consistency pass.
+- Browser: all 10 province band/reference combinations render with five table rows and no invalid values. Calgary and Edmonton authority filters checked. New section at 320/390/1240px: no document overflow. Downloaded 310-row CSV is byte-identical. Local assets/download links and unique HTML IDs pass; JS syntax passes and no console errors observed. Proof: `output/education/alberta-preview.jpg` (local/untracked).
+- Separate single-year panel; no Ontario caps applied to Alberta and no province ranking claimed. K–3 includes kindergarten; unique pupils, physical rooms and teachers are not derived. Excluded school/program types and duplicate student participation across instructional groups are explicit. Only 2025–26 imported; older series not spliced. Ontario datasets are unchanged. Local, publication pending.

@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Alberta OECD class-size comparison (Nov 2: separate 2025–26 snapshot, 88,932 published rows/61 authorities, four grade bands and count/share comparison with 21/23; suppressed under-10 rows retained, scope differences labelled; 310 aggregates independently reconciled; local, publication pending)
 - [x] OECD class-size comparisons (Nov 2: observed 2024 averages of 21/23, three explicit Ontario class scopes excluding JK/K, count/share history and CSV; grade mismatch labelled; 2,062 source/population checks; local, publication pending)
 - [x] Education class-size thresholds (Nov 2: seven separate provincial/ETFO references, counts/shares for 2019–20 to 2025–26, suppression ranges, conditional limits and board-average inputs; 1,192 source/population checks plus UI/download/theme checks; screening flags, not compliance findings; local, publication pending)
 - [x] Education (Nov 2: separate provincial funding/public-private financing and education spending histories; actual elementary class sizes through 2025–26 for Ontario/four Ottawa-area boards, school-name search, suppression bounds and coverage breaks; 6,488 checks plus control/download/responsive verification; local, publication pending)
