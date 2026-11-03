@@ -20,7 +20,7 @@
 })();
 </script>
 <style>
-  /* Surfaces/text = Retrofit Explorer palette (shared assets/site-theme.css?v=audit-20261103);
+  /* Surfaces/text = Retrofit Explorer palette (shared assets/site-theme.css?v=a11y-20261103
      series + status colours unchanged (validated dataviz palette). */
   :root {
     --plane:      #F7F4EE;
@@ -28,7 +28,7 @@
     --surface-2:  #EDF1F7;
     --text-primary:   #1C2B3A;
     --text-secondary: #5C6E82;
-    --text-muted:     #74859A;
+    --text-muted:     var(--ink-3);
     --hairline:   #D2D8E3;
     --border:     rgba(11,37,69,0.12);
     --series-1:   #2a78d6;
@@ -40,7 +40,7 @@
     --good:     #0ca30c;
     --warning:  #d98b00;
     --serious:  #c85c30;
-    --critical: #d03b3b;
+    --critical: #a52e2e;
   }
   :root[data-theme="dark"] {
       --plane:      #0E1621;
@@ -48,7 +48,7 @@
       --surface-2:  #1B2735;
       --text-primary:   #E4EBF4;
       --text-secondary: #A3B2C4;
-      --text-muted:     #7E90A4;
+      --text-muted:     var(--ink-3);
       --hairline:   #2C3A4B;
       --border:     rgba(255,255,255,0.10);
       --series-1:   #3987e5;
@@ -235,12 +235,12 @@
   }
 </style>
 <!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
-<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
+<link rel="stylesheet" href="assets/site-theme.css?v=a11y-20261103">
 <script>
 // Charts and map read CSS variables, so switching is just the attribute + saved choice.
 function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
 </script>
-<script src="assets/site-theme.js?v=header-20261101"></script>
+<script src="assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
@@ -843,6 +843,8 @@ function lineChart(svg, opts){
 
   out += `<rect x="${padL}" y="${padT}" width="${W-padL-padR}" height="${H-padT-padB}" fill="transparent"/>`;
   svg.innerHTML = out;
+  const tableDates = [...new Set(series.flatMap(s=>s.points.map(p=>p.x)))].sort();
+  svg.ovChartTable = {headers:['Date',...series.map(s=>s.label)],rows:tableDates.map(date=>[date,...series.map(s=>{const point=s.points.find(p=>p.x===date);return point?.y==null?'Unavailable':s.fmt?s.fmt(point.y):point.y;})])};
 
   // shared-x hover: report every series at the nearest date
   const tip = document.getElementById("tip");
@@ -879,6 +881,7 @@ function drawSpark(svg, rows, getVal, tipFor){
     `<path d="${line}" fill="none" stroke="var(--series-1)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`+
     `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="var(--series-1)"/>`+
     `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>`;
+  svg.ovChartTable = {headers:['Observation'],rows:rows.map(row=>[tipFor(row)])};
   const tip = document.getElementById("tip");
   svg.onmousemove = ev => {
     const rect = svg.getBoundingClientRect(); const rel=(ev.clientX-rect.left)/rect.width;

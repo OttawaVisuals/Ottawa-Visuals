@@ -167,8 +167,8 @@ footer{max-width:1240px;margin:0 auto;padding:18px 24px 36px;color:var(--ink-3);
 #load-error{display:none;background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;padding:14px 16px;color:var(--ink);}
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
-<script src="../assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
 </head>
@@ -265,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="card">
         <div class="spiral-wrap">
           <div class="spiral-canvases">
-            <canvas id="chart-spiral-bg" width="520" height="520"></canvas>
-            <canvas id="chart-spiral-fg" width="520" height="520"></canvas>
+            <canvas aria-hidden="true" id="chart-spiral-bg" width="520" height="520"></canvas>
+            <canvas role="img" aria-label="Selected year daily mean temperatures" data-ov-chart-table id="chart-spiral-fg" width="520" height="520"></canvas>
           </div>
           <div class="spiral-year" id="spiral-year">—</div>
         </div>
@@ -732,11 +732,21 @@ function drawSweepMarker(ctx, pt) {
   ctx.fill();
 }
 
+function spiralAccessibleValues(year) {
+  const canvas = document.getElementById('chart-spiral-fg');
+  canvas.setAttribute('aria-label', `Daily mean temperatures in ${year}; February 29 excluded. Values follow the chart.`);
+  document.getElementById('spiral-slider').setAttribute('aria-valuetext', String(year));
+  canvas.ovChartTable = {headers:['Date (February 29 excluded)','Daily mean temperature (°C)'], rows:(dailySeries[String(year)] || []).map((value,index)=>[`${year}-${new Date(Date.UTC(2001,0,index+1)).toISOString().slice(5,10)}`,value])};
+  canvas.ovChartContainer = canvas.closest('.spiral-wrap');
+  canvas.ovPauseChart = () => { spiralSetPlaying(false); spiralGoToInstant(spiralIndex); };
+}
+
 // Animates one year's trace being drawn day-by-day on the foreground layer.
 function sweepYear(index, onDone) {
   const fg = document.getElementById('chart-spiral-fg');
   const ctx = fg.getContext('2d');
   const temps = dailySeries[String(spiralYearsList[index])] || [];
+  spiralAccessibleValues(spiralYearsList[index]);
   document.getElementById('spiral-year').textContent = spiralYearsList[index];
   document.getElementById('spiral-slider').value = index;
   const start = performance.now();
@@ -771,6 +781,8 @@ function spiralPlayNext() {
 
 function spiralSetPlaying(playing) {
   spiralPlaying = playing;
+  document.getElementById('spiral-play').setAttribute('aria-label', playing ? 'Pause temperature spiral' : 'Play temperature spiral');
+  document.getElementById('spiral-play').setAttribute('aria-pressed', String(playing));
   document.getElementById('spiral-play').textContent = playing ? '⏸' : '▶';
   if (spiralAnimHandle) { cancelAnimationFrame(spiralAnimHandle); spiralAnimHandle = null; }
   if (spiralTimer) { clearTimeout(spiralTimer); spiralTimer = null; }
@@ -793,6 +805,7 @@ function spiralGoToInstant(index) {
   clearForeground();
   const temps = dailySeries[String(spiralYearsList[spiralIndex])] || [];
   strokeYearGradient(ctx, fg.width, fg.height, temps, 364);
+  spiralAccessibleValues(spiralYearsList[spiralIndex]);
   document.getElementById('spiral-year').textContent = spiralYearsList[spiralIndex];
   document.getElementById('spiral-slider').value = spiralIndex;
 }
@@ -821,7 +834,7 @@ function buildSpiral() {
   document.getElementById('spiral-play').addEventListener('click', () => spiralSetPlaying(!spiralPlaying));
   rebakeBackgroundUpTo(0);
   spiralGoToInstant(0);
-  spiralSetPlaying(true);
+  spiralSetPlaying(!matchMedia("(prefers-reduced-motion: reduce)").matches);
 }
 
 // ================================================================

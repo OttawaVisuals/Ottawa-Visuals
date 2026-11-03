@@ -105,7 +105,7 @@ TODAY (override): none
 
 ## Week 3 (Oct 29–31): audit + wrap-up
 - [x] Day 1: **RESET 3** — audit all live pages: mobile, dark mode, accessibility, links (Nov 3: 47 entry points/188 browser cases; local links, all three phone themes and automated accessibility; targeted fixes and remaining contrast work in SITE_AUDIT.md; reset not used)
-- [ ] Day 2: fix remaining audit findings (Nov 3: navigation, labels, keyboard-scroll access and phone layout fixes applied; report-specific contrast and manual screen-reader review remain — SITE_AUDIT.md)
+- [x] Day 2: fix remaining audit findings (Nov 3: contrast, keyboard/skip access, chart value alternatives, Ontario riding picker and V2 traffic loading; 282 phone/desktop/theme cases plus keyboard/data checks; actual screen-reader applications unverified — SITE_AUDIT.md)
 - [ ] Day 3: smallest model syncs `PROJECTS.md`, `tracker.html`, `README.md`, `index.html` tiles
 
 ## Model tiers (verify in the picker; names change)

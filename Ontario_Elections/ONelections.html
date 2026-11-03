@@ -266,8 +266,8 @@
   a{color:var(--accent)}
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
-<script src="../assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
 </head>
@@ -310,10 +310,12 @@
 
   <section>
     <p class="sec-label ov-section-marker" style="--ov-marker-art:url('../Wealth/assets/distribution.webp');">Results by district</p>
+    <label for="ridingPicker">Choose a riding</label><select style="max-width:100%;margin-bottom:10px" id="ridingPicker"><option value="">Province-wide</option></select>
     <div class="lastel">
       <div class="card mapcard">
         <div class="mapcard-head">
           <h3>Ontario</h3>
+
           <select id="mapMode" aria-label="Map results mode">
             <option value="actual">Actual results</option>
             <option value="majority">Majority results</option>
@@ -1009,6 +1011,7 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
 
       document.getElementById("clearSel").disabled = false;
     }
+    document.getElementById("ridingPicker").value = selectedKey || "";
     paintMap();
   }
 
@@ -1018,6 +1021,9 @@ const SAMPLE_TURNOUT = {"meta":{"title":"Sample turnout"},"provinceAll":[{"year"
   }
   document.getElementById("clearSel").addEventListener("click", ()=>{ selectedKey=null; renderPanel(); });
 
+  const picker = document.getElementById("ridingPicker");
+  sortedRidings.forEach(r=>{const option=document.createElement("option");option.value=norm(r.name);option.textContent=r.name;picker.appendChild(option);});
+  picker.addEventListener("change",()=>{selectedKey=picker.value||null;renderPanel();});
   loadMaps();
   renderPanel();
 

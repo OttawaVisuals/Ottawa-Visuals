@@ -374,10 +374,18 @@ p{margin:0;}
 }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
-<script src="../assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 <link rel="stylesheet" href="../assets/report-art.css">
+<style>
+#ab-tax{background:#40546a!important}#ab-housing{background:#9c332b!important}#ab-shared{background:#654098!important}#ab-left{background:#176142!important}
+.afford-seg span{color:#fff!important;opacity:1!important;text-shadow:none!important}
+.distribution-label{background:var(--bg-2);color:var(--ink)!important;opacity:1;border-radius:2px}
+.band-bar>span{color:var(--ink)!important}#m-bank-max{color:var(--blue-text)!important}
+:root:not([data-theme="dark"]) td[colspan="4"]{color:#1c2b3a!important}
+.spend-table th[colspan]{background:#314e6a!important;color:#fff!important}
+</style>
 </head>
 <body data-report-art="mortgage">
 
@@ -1964,7 +1972,7 @@ function renderCensusBarCharts(fsaData, provData, canData) {
           ? `${g.label} ${tip}`
           : showPct ? tip : '';
         return `<div title="${g.label}: ${tip}" data-tip="${g.label}: ${tip}" style="width:${w}%;background:${g.color};height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .35s;">` +
-          (innerTxt ? `<span style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.92);pointer-events:none;white-space:nowrap;overflow:hidden;padding:0 3px;text-overflow:clip;">${innerTxt}</span>` : '') +
+          (innerTxt ? `<span class="distribution-label" style="font-family:var(--font-mono);font-size:8px;color:rgba(255,255,255,0.92);pointer-events:none;white-space:nowrap;overflow:hidden;padding:0 3px;text-overflow:clip;">${innerTxt}</span>` : '') +
           `</div>`;
       }).join('');
       return `<div style="display:grid;grid-template-columns:52px 1fr;align-items:center;gap:6px;margin-bottom:3px;">
@@ -1991,6 +1999,7 @@ function renderCensusBarCharts(fsaData, provData, canData) {
       <div style="font-family:var(--font-cond);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid var(--line);">${title}</div>
       <div style="margin-bottom:6px;line-height:2;">${legend}</div>
       ${stackedBar(groups, fd, pd, cd)}
+      <details class="ov-chart-values"><summary>View distribution values</summary><div class="ov-chart-table" tabindex="0" role="region" aria-label="Distribution values"><table><caption>${title} · percent</caption><thead><tr><th scope="col">Category</th><th scope="col">FSA</th><th scope="col">Province</th><th scope="col">Canada</th></tr></thead><tbody>${groups.map((g,i)=>`<tr><th scope="row">${g.label}</th>${[fd,pd,cd].map(values=>`<td>${values?.[i]==null?'Unavailable':values[i].toFixed(1)+'%'}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>
     </div>`;
   }
 
@@ -2042,7 +2051,7 @@ function renderCensusBarCharts(fsaData, provData, canData) {
         <span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:52px;text-align:right;flex-shrink:0;">${lbl}</span>
         <div style="flex:1;height:14px;border-radius:3px;background:var(--bg-3);overflow:hidden;position:relative;">
           <div style="width:${w}%;height:100%;background:${col};border-radius:3px;transition:width .35s;display:flex;align-items:center;">
-            ${+w >= 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.9);padding-left:5px;">${pctStr(v)}</span>` : ''}
+            ${+w >= 20 ? `<span class="distribution-label" style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.9);padding-left:5px;">${pctStr(v)}</span>` : ''}
           </div>
         </div>
         ${+w < 20 ? `<span style="font-family:var(--font-mono);font-size:9px;color:var(--ink-3);width:36px;text-align:left;">${pctStr(v)}</span>` : '<span style="width:36px;"></span>'}

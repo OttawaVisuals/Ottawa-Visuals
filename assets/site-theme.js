@@ -12,6 +12,10 @@
      that hidden button (light <-> dark) or a reload (to/from colour-blind),
      since a reload makes every chart re-read the CSS tokens. */
 (function () {
+  var chartAccess = document.createElement('script');
+  chartAccess.src = new URL('chart-accessibility.js?v=a11y-20261103', document.currentScript.src);
+  chartAccess.defer = true;
+  document.head.appendChild(chartAccess);
   var MODES = ['light', 'dark', 'cb'];
   var root = document.documentElement;
   var homePath = new URL('../index.html', document.currentScript.src).pathname;

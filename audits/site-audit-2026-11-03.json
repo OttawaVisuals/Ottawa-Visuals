@@ -1,1912 +1,3532 @@
 {
   "date": "2026-11-03",
-  "scope": "Local working tree; excludes source snapshots, exhaustive external links and manual screen-reader review",
+  "scope": "Local working tree; default report states and valid PWHL player/team fixtures; no NVDA/JAWS/VoiceOver session or deployment verification",
   "pages": 47,
-  "cases": 188,
+  "cases": 282,
+  "viewports": [
+    320,
+    1280
+  ],
+  "themes": [
+    "light",
+    "dark",
+    "cb"
+  ],
+  "history": {
+    "initialDesktopLightFlaggedNodes": 2337,
+    "afterFirstFixesDesktopLightFlaggedNodes": 441
+  },
+  "finalFlaggedNodes": 0,
   "errors": [],
   "overflow": [],
   "brokenImages": [],
-  "desktopLight": {
-    "baselineFlaggedNodes": 2337,
-    "finalFlaggedNodes": 441
-  },
-  "casesWithFindings": [
-    {
-      "file": "Alberta_Elections/ABelections.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 18,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"banff-kananaskis\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-beddington\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-elbow\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Alberta_Elections/ABelections.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 18,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"banff-kananaskis\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-beddington\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-elbow\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Alberta_Elections/ABelections.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 25,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"banff-kananaskis\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-acadia\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.99 (foreground color: #e87524, background color: #ffffff, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-beddington\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">Alberta New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Alberta_Elections/ABelections.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 25,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"airdrie-east\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">United Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"brooks-medicine hat\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">United Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"calgary-bow\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">United Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections-2024.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 36,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby centre\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby east\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.99 (foreground color: #e87524, background color: #ffffff, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections-2024.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 22,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"abbotsford west\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"boundary-similkameen\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"chilliwack north\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections-2024.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 31,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby centre\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby-new westminster\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections-2024.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 31,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby centre\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby-new westminster\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 21,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span:nth-child(1)"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.37 (foreground color: #c1521a, background color: #e6d8d4, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby-new westminster\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 32,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"abbotsford west\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"boundary-similkameen\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby centre\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#2365A0; font-weight:600\">Conservative Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #2365a0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 21,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span:nth-child(1)"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby-new westminster\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "BC_Elections/BCelections.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 25,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"burnaby east\"] > td:nth-child(8) > span"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.99 (foreground color: #e87524, background color: #ffffff, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > span:nth-child(1)"
-              ],
-              "html": "<span style=\"color:#E87524; font-weight:600\">BC New Democratic Party</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #e87524, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"burnaby north\"] > td:nth-child(8) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Comparator.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 13,
-          "examples": [
-            {
-              "target": [
-                ".sidebar-logo > span"
-              ],
-              "html": "<span>Stand?</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.55 (foreground color: #2f6fb4, background color: #12141a, font size: 13.5pt (18px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".sidebar-tagline"
-              ],
-              "html": "<div class=\"sidebar-tagline\">Canada FSA Comparator</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #717276, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#statusText"
-              ],
-              "html": "<span id=\"statusText\">Data ready</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #595b5f, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Comparator.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 13,
-          "examples": [
-            {
-              "target": [
-                ".sidebar-logo > span"
-              ],
-              "html": "<span>Stand?</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.55 (foreground color: #2f6fb4, background color: #12141a, font size: 13.5pt (18px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".sidebar-tagline"
-              ],
-              "html": "<div class=\"sidebar-tagline\">Canada FSA Comparator</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #717276, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#statusText"
-              ],
-              "html": "<span id=\"statusText\">Data ready</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #595b5f, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Comparator.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 13,
-          "examples": [
-            {
-              "target": [
-                ".sidebar-tagline"
-              ],
-              "html": "<div class=\"sidebar-tagline\">Canada FSA Comparator</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #717276, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#statusText"
-              ],
-              "html": "<span id=\"statusText\">Data ready</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #595b5f, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "label[for=\"inputFSA\"]"
-              ],
-              "html": "<label class=\"field-label\" for=\"inputFSA\">FSA (Postal Code Prefix)</label>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #717276, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Comparator.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 13,
-          "examples": [
-            {
-              "target": [
-                ".sidebar-logo > span"
-              ],
-              "html": "<span>Stand?</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.55 (foreground color: #0072b2, background color: #12141a, font size: 13.5pt (18px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".sidebar-tagline"
-              ],
-              "html": "<div class=\"sidebar-tagline\">Canada FSA Comparator</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.83 (foreground color: #717276, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#statusText"
-              ],
-              "html": "<span id=\"statusText\">Data ready</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.7 (foreground color: #595b5f, background color: #12141a, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Education/education.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 14,
-          "examples": [
-            {
-              "target": [
-                ".download[href$=\"spending.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/spending.csv\" download=\"\">Financial CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#classes > .section-head > .download[href$=\"class-sizes.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/class-sizes.csv\" download=\"\">Board &amp; Ontario CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"class-thresholds.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/class-thresholds.csv\" download=\"\">Threshold counts CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Education/education.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 14,
-          "examples": [
-            {
-              "target": [
-                ".download[href$=\"spending.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/spending.csv\" download=\"\">Financial CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#classes > .section-head > .download[href$=\"class-sizes.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/class-sizes.csv\" download=\"\">Board &amp; Ontario CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"class-thresholds.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/class-thresholds.csv\" download=\"\">Threshold counts CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Healthcare/healthcare.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 26,
-          "examples": [
-            {
-              "target": [
-                ".download[href$=\"ontario-spending.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ontario-spending.csv\" download=\"\">Source CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"ontario-workforce.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ontario-workforce.csv\" download=\"\">Source CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"ottawa-hospitals.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ottawa-hospitals.csv\" download=\"\">Financial CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Healthcare/healthcare.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 26,
-          "examples": [
-            {
-              "target": [
-                ".download[href$=\"ontario-spending.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ontario-spending.csv\" download=\"\">Source CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"ontario-workforce.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ontario-workforce.csv\" download=\"\">Source CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".download[href$=\"ottawa-hospitals.csv\"][download=\"\"]"
-              ],
-              "html": "<a class=\"download\" href=\"data/ottawa-hospitals.csv\" download=\"\">Financial CSV ↓</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Mortgage/mortgage.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 8,
-          "examples": [
-            {
-              "target": [
-                "a[href$=\"mortgage.html#methodology\"]"
-              ],
-              "html": "<a href=\"mortgage.html#methodology\" style=\"font-family:var(--font-mono);font-size:10px;color:var(--ink-3);padding:4px 8px;border:1px solid var(--line);border-radius:6px;\">Methodology</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#cmhc-notice > span:nth-child(1)"
-              ],
-              "html": "<span style=\"color:var(--amber);\">⚠ CMHC</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #c8881a, background color: #edf1f7, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "th[colspan=\"2\"]:nth-child(2)"
-              ],
-              "html": "<th colspan=\"2\" style=\"background:rgba(55,138,221,0.5);color:#fff;text-align:center;border-radius:3px 3px 0 0;border-left:1.5px solid rgba(255,255,255,0.18);\">Salary</th>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.8 (foreground color: #ffffff, background color: #9bc5ee, font size: 7.5pt (10px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Mortgage/mortgage.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 91,
-          "examples": [
-            {
-              "target": [
-                "#ab-tax > .as-name"
-              ],
-              "html": "<span class=\"as-name\">Tax + deductions</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.52 (foreground color: #f2f4f6, background color: #738395, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#ab-tax > .as-val"
-              ],
-              "html": "<span class=\"as-val\">$1,653</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.99 between the foreground and shadow color (foreground color: #ffffff, text-shadow color: #718193, font size: 11.3pt (15px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#ab-tax > .as-pct"
-              ],
-              "html": "<span class=\"as-pct\">29%</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.34 (foreground color: #eceef1, background color: #728395, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Mortgage/mortgage.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 89,
-          "examples": [
-            {
-              "target": [
-                "#m-expenses"
-              ],
-              "html": "<div class=\"mv amber\" id=\"m-expenses\">$1,400</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #c8881a, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#m-interest"
-              ],
-              "html": "<div class=\"mv amber\" id=\"m-interest\">$287,813</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3 (foreground color: #c8881a, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#m-bank-max"
-              ],
-              "html": "<div class=\"mv blue\" id=\"m-bank-max\">$687,676</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Mortgage/mortgage.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 91,
-          "examples": [
-            {
-              "target": [
-                "#ab-shared > .as-name"
-              ],
-              "html": "<span class=\"as-name\">Shared costs</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.3 (foreground color: #faf2f6, background color: #ba6e98, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#ab-shared > .as-val"
-              ],
-              "html": "<span class=\"as-val\">$1,400</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.74 between the foreground and shadow color (foreground color: #ffffff, text-shadow color: #b76c96, font size: 11.3pt (15px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#ab-shared > .as-pct"
-              ],
-              "html": "<span class=\"as-pct\">24%</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.15 (foreground color: #f7ebf2, background color: #b96e98, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Ontario_Elections/ONelections.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 27,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"bay of quinte\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.37 (foreground color: #c1521a, background color: #e6d8d4, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"cambridge\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.37 (foreground color: #c1521a, background color: #e6d8d4, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"haldimand—norfolk\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#8A8D91; font-weight:600\">Others</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.94 (foreground color: #8a8d91, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Ontario_Elections/ONelections.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 57,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"algoma—manitoulin\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#1A4FA0; font-weight:600\">Progressive Conservative</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.92 (foreground color: #1a4fa0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"barrie—innisfil\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#1A4FA0; font-weight:600\">Progressive Conservative</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.92 (foreground color: #1a4fa0, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"bay of quinte\"] > td:nth-child(9) > span:nth-child(1)"
-              ],
-              "html": "<span style=\"color:#D71920; font-weight:600\">Liberal</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.91 (foreground color: #d71920, background color: #1b2735, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Ontario_Elections/ONelections.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 28,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"bay of quinte\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"cambridge\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"davenport\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#F37021; font-weight:600\">New Democratic</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.93 (foreground color: #f37021, background color: #ffffff, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Ontario_Elections/ONelections.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 27,
-          "examples": [
-            {
-              "target": [
-                "tr[data-name=\"bay of quinte\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"cambridge\"] > td:nth-child(9) > .flip-tag"
-              ],
-              "html": "<span class=\"flip-tag\">flip</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #b33a2e, background color: #e4d4d7, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "tr[data-name=\"haldimand—norfolk\"] > td:nth-child(9) > span"
-              ],
-              "html": "<span style=\"color:#8A8D91; font-weight:600\">Others</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.94 (foreground color: #8a8d91, background color: #edf1f7, font size: 9.4pt (12.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "PWHL/players.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "button[data-kind=\"skaters\"]"
-              ],
-              "html": "<button class=\"tab-btn active\" data-kind=\"skaters\">Skaters</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "PWHL/pwhl.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 2,
-          "examples": [
-            {
-              "target": [
-                "button[data-stat=\"points\"]"
-              ],
-              "html": "<button class=\"tab-btn active\" data-stat=\"points\">Points</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "button[data-season=\"9\"]"
-              ],
-              "html": "<button class=\"tab-btn active\" data-season=\"9\">2026 Playoffs</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "PWHL/recap.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "#recap-play"
-              ],
-              "html": "<button type=\"button\" class=\"tab-btn active\" id=\"recap-play\">Play</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "PWHL/superlatives.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "button[data-mode=\"total\"]"
-              ],
-              "html": "<button class=\"tab-btn active\" data-mode=\"total\">Totals</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "PWHL/travel.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "#travel-play"
-              ],
-              "html": "<button type=\"button\" class=\"tab-btn active\" id=\"travel-play\">Play</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.19 (foreground color: #ffffff, background color: #e8a124, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Promises/promises.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "a[href=\"../index.html\"]:nth-child(2)"
-              ],
-              "html": "<a href=\"../index.html\">All reports ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.96 (foreground color: #0072b2, background color: #10263d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Promises/promises.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "a[href=\"../index.html\"]:nth-child(2)"
-              ],
-              "html": "<a href=\"../index.html\">All reports ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.97 (foreground color: #2f6fb4, background color: #0b2545, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Promises/promises.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "a[href=\"../index.html\"]:nth-child(2)"
-              ],
-              "html": "<a href=\"../index.html\">All reports ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.97 (foreground color: #2f6fb4, background color: #0b2545, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
+  "casesWithFindings": [],
+  "keyboardChecks": [
     {
       "file": "Weather/weather.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 6,
-          "examples": [
-            {
-              "target": [
-                ".meth-link"
-              ],
-              "html": "<a href=\"#methodology\" class=\"meth-link\">Methodology</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".shift:nth-child(4) > .shift-delta.down"
-              ],
-              "html": "<div class=\"shift-delta down\">-8</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".shift:nth-child(6) > .shift-delta.down"
-              ],
-              "html": "<div class=\"shift-delta down\">-57</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
+      "errors": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Skip to main content"
+      },
+      "skipTarget": "ov-main",
+      "chartTable": {
+        "rows": 272,
+        "caption": "Annual mean (°C) / 10-yr rolling avg",
+        "first": [
+          "Annual mean (°C)",
+          "1890",
+          "4.71"
+        ]
+      },
+      "tableTree": "- group:\n  - text: \"View chart values: Annual mean (°C) / 10-yr rolling avg\"\n  - group \"Visible series\":\n    - text: Visible series\n    - checkbox \"Annual mean (°C)\" [checked]\n    - text: Annual mean (°C)\n    - checkbox \"10-yr rolling avg\" [checked]\n    - text: 10-yr rolling avg\n  - region \"Annual mean (°C) / 10-yr rolling avg values\":\n    - table \"Annual mean (°C) / 10-yr rolling avg\":\n      - caption: Annual mean (°C) / 10-yr rolling avg\n      - rowgroup:\n        - row \"Series Label / x Value / y\":\n          - columnheader \"Series\"\n          - columnheader \"Label / x\"\n          - columnheader \"Value / y\"\n      - rowgroup:\n        - row \"Annual mean (°C) 1890 4.71\":\n          - cell \"Annual mean (°C)\"\n          - cell \"1890\"\n          - cell \"4.71\"\n        - row \"Annual mean (°C) 1891 6.19\":\n          - cell \"Annual mean (°C)\"\n          - cell \"1891\"\n          - cell \"6.19\"\n        - row \"Annual mean (°C) 1892 5.11\":\n          - cell \"Annual mean (°C)\"\n          - cell \"1892\"\n        ",
+      "displayedErrors": []
     },
     {
-      "file": "Weather/weather.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 5,
-          "examples": [
-            {
-              "target": [
-                ".shift:nth-child(4) > .shift-delta.down"
-              ],
-              "html": "<div class=\"shift-delta down\">-8</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".shift:nth-child(6) > .shift-delta.down"
-              ],
-              "html": "<div class=\"shift-delta down\">-57</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.59 (foreground color: #378add, background color: #ffffff, font size: 12.8pt (17px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".compare-cell:nth-child(3) > .d.down"
-              ],
-              "html": "<div class=\"d down\">-7 vs 2025</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.17 (foreground color: #378add, background color: #edf1f7, font size: 7.9pt (10.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "Weather/weather.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 3,
-          "examples": [
-            {
-              "target": [
-                ".compare-cell:nth-child(1) > .d.up"
-              ],
-              "html": "<div class=\"d up\">+2.7°C vs 2025</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #c1521a, background color: #edf1f7, font size: 7.9pt (10.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".compare-cell:nth-child(2) > .d.up"
-              ],
-              "html": "<div class=\"d up\">+17 vs 2025</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #c1521a, background color: #edf1f7, font size: 7.9pt (10.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".compare-cell:nth-child(5) > .d.up"
-              ],
-              "html": "<div class=\"d up\">+29 days vs 2025</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.12 (foreground color: #c1521a, background color: #edf1f7, font size: 7.9pt (10.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "dataset_prospector.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 60,
-          "examples": [
-            {
-              "target": [
-                ".tierlabel:nth-child(1) > b"
-              ],
-              "html": "<b>Tier 1</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.73 (foreground color: #c8881a, background color: #f7f4ee, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .analyze.badge"
-              ],
-              "html": "<span class=\"badge analyze\">🔬 analyze</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.45 (foreground color: #c8881a, background color: #f6e7c8, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .display.badge"
-              ],
-              "html": "<span class=\"badge display\">🖥️ display</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.13 (foreground color: #2f6fb4, background color: #d6e8f8, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "dataset_prospector.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 60,
-          "examples": [
-            {
-              "target": [
-                ".tierlabel:nth-child(1) > b"
-              ],
-              "html": "<b>Tier 1</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.73 (foreground color: #c8881a, background color: #f7f4ee, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .analyze.badge"
-              ],
-              "html": "<span class=\"badge analyze\">🔬 analyze</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.45 (foreground color: #c8881a, background color: #f6e7c8, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .display.badge"
-              ],
-              "html": "<span class=\"badge display\">🖥️ display</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.13 (foreground color: #2f6fb4, background color: #d6e8f8, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "dataset_prospector.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 60,
-          "examples": [
-            {
-              "target": [
-                ".tierlabel:nth-child(1) > b"
-              ],
-              "html": "<b>Tier 1</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.05 (foreground color: #e69f00, background color: #f7f4ee, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .analyze.badge"
-              ],
-              "html": "<span class=\"badge analyze\">🔬 analyze</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.82 (foreground color: #e69f00, background color: #f7e6bf, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "article[data-usage=\"analyze display\"][data-theme=\"energy\"][data-t=\"1\"]:nth-child(1) > .body > .cardtop > .badges > .display.badge"
-              ],
-              "html": "<span class=\"badge display\">🖥️ display</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.93 (foreground color: #0072b2, background color: #cce4f0, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "govcontracts.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "#pt-usd"
-              ],
-              "html": "<button type=\"button\" id=\"pt-usd\" aria-pressed=\"true\">Dollars</button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.59 (foreground color: #ffffff, background color: #5fa6e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "index.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 7,
-          "examples": [
-            {
-              "target": [
-                ".foot-brand > .brand > span:nth-child(2) > small"
-              ],
-              "html": "<small>data, charted simply</small>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-brand > p"
-              ],
-              "html": "<p>A personal data project about Ottawa, Ontario. Hosted on GitHub Pages.</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.56 (foreground color: #536579, background color: #0b2545, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-col:nth-child(2) > h5"
-              ],
-              "html": "<h5>Reports</h5>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "index.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 7,
-          "examples": [
-            {
-              "target": [
-                ".foot-brand > .brand > span:nth-child(2) > small"
-              ],
-              "html": "<small>data, charted simply</small>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #10263d, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-brand > p"
-              ],
-              "html": "<p>A personal data project about Ottawa, Ontario. Hosted on GitHub Pages.</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.56 (foreground color: #536579, background color: #10263d, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-col:nth-child(2) > h5"
-              ],
-              "html": "<h5>Reports</h5>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #10263d, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "index.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 7,
-          "examples": [
-            {
-              "target": [
-                ".foot-brand > .brand > span:nth-child(2) > small"
-              ],
-              "html": "<small>data, charted simply</small>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 7.1pt (9.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-brand > p"
-              ],
-              "html": "<p>A personal data project about Ottawa, Ontario. Hosted on GitHub Pages.</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.56 (foreground color: #536579, background color: #0b2545, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".foot-col:nth-child(2) > h5"
-              ],
-              "html": "<h5>Reports</h5>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.76 (foreground color: #586a7e, background color: #0b2545, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "progress.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 26,
-          "examples": [
-            {
-              "target": [
-                ".active"
-              ],
-              "html": "<button data-f=\"all\" class=\"active\">All <span style=\"opacity:.6\">24</span></button>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.2 (foreground color: #ffffff, background color: #e4ebf4, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".active > span"
-              ],
-              "html": "<span style=\"opacity:.6\">24</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.11 (foreground color: #f4f7fb, background color: #e4ebf4, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(1) > h3 > .badge"
-              ],
-              "html": "<span class=\"badge\" style=\"background:var(--live)\">Live</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.92 (foreground color: #ffffff, background color: #3fa97c, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "progress.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 14,
-          "examples": [
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(1) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/#report-traffic\" target=\"_blank\" rel=\"noopener\">/#report-traffic ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(2) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/ottawa_ward_elections\" target=\"_blank\" rel=\"noopener\">/ottawa_ward_elections ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(3) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/mortgage\" target=\"_blank\" rel=\"noopener\">/mortgage ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "progress.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 8,
-          "examples": [
-            {
-              "target": [
-                "div[data-status=\"proto\"] > h3 > .badge"
-              ],
-              "html": "<span class=\"badge\" style=\"background:var(--proto)\">Prototype</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.06 (foreground color: #ffffff, background color: #cc79a7, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"idea\"]:nth-child(9) > h3 > .badge"
-              ],
-              "html": "<span class=\"badge\" style=\"background:var(--idea)\">Planned</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.25 (foreground color: #ffffff, background color: #e69f00, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"idea\"]:nth-child(10) > h3 > .badge"
-              ],
-              "html": "<span class=\"badge\" style=\"background:var(--idea)\">Planned</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.25 (foreground color: #ffffff, background color: #e69f00, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "progress.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 14,
-          "examples": [
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(1) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/#report-traffic\" target=\"_blank\" rel=\"noopener\">/#report-traffic ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(2) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/ottawa_ward_elections\" target=\"_blank\" rel=\"noopener\">/ottawa_ward_elections ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".card[data-status=\"live\"]:nth-child(3) > .meta > .chip:nth-child(1) > a[target=\"_blank\"][rel=\"noopener\"]"
-              ],
-              "html": "<a href=\"https://ottawavisuals.github.io/Ottawa-Visuals/mortgage\" target=\"_blank\" rel=\"noopener\">/mortgage ↗</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.27 (foreground color: #378add, background color: #f7f4ee, font size: 8.6pt (11.5px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
+      "file": "Mortgage/mortgage.html",
+      "errors": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Skip to main content"
+      },
+      "skipTarget": "ov-main",
+      "chartTable": {
+        "rows": 100,
+        "caption": "Amortization — stacked area all 25 yrs",
+        "first": [
+          "Principal",
+          "Yr 1",
+          "9736"
+        ]
+      },
+      "tableTree": "- group:\n  - text: \"View chart values: Amortization — stacked area all 25 yrs\"\n  - group \"Visible series\":\n    - text: Visible series\n    - checkbox \"Principal\" [checked]\n    - text: Principal\n    - checkbox \"Interest\" [checked]\n    - text: Interest\n    - checkbox \"Shared exp.\" [checked]\n    - text: Shared exp.\n    - checkbox \"Leeway\" [checked]\n    - text: Leeway\n  - region \"Amortization — stacked area all 25 yrs values\":\n    - table \"Amortization — stacked area all 25 yrs\":\n      - caption: Amortization — stacked area all 25 yrs\n      - rowgroup:\n        - row \"Series Label / x Value / y\":\n          - columnheader \"Series\"\n          - columnheader \"Label / x\"\n          - columnheader \"Value / y\"\n      - rowgroup:\n        - row \"Principal Yr 1 9736\":\n          - cell \"Principal\"\n          - cell \"Yr 1\"\n          - cell \"9736\"\n        - row \"Principal Yr 2 10179\":\n          - cell \"Principal\"\n          - cell \"Yr 2\"\n          - cell \"10179\"\n        - row \"Principal Yr 3 10642\":\n        ",
+      "displayedErrors": []
     },
     {
       "file": "rto.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 65,
-          "examples": [
-            {
-              "target": [
-                "#updated"
-              ],
-              "html": "<p class=\"updated\" id=\"updated\"><span class=\"dot\" style=\"background:var(--critical)\"></span>Newest reading Mon, Nov 2, 08:45 AM</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.6pt (12.8px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#mandate > .part-head > .note"
-              ],
-              "html": "<span class=\"note\">policy timeline</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.1pt (12.16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                ".key:nth-child(1) > .when"
-              ],
-              "html": "<div class=\"when\">Sep 9, 2024</div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.1pt (12.16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
+      "errors": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Skip to main content"
+      },
+      "skipTarget": "ov-main",
+      "chartTable": {
+        "rows": 52,
+        "caption": "AM peak commute minutes by day and corridor",
+        "first": [
+          "2026-07-06",
+          "34 min",
+          "28 min",
+          "39 min",
+          "16 min",
+          "30 min"
+        ]
+      },
+      "tableTree": "- group:\n  - text: \"View chart values: AM peak commute minutes by day and corridor\"\n  - region \"AM peak commute minutes by day and corridor values\":\n    - table \"AM peak commute minutes by day and corridor\":\n      - caption: AM peak commute minutes by day and corridor\n      - rowgroup:\n        - row \"Date Kanata Orléans Barrhaven Gatineau Riverside South\":\n          - columnheader \"Date\"\n          - columnheader \"Kanata\"\n          - columnheader \"Orléans\"\n          - columnheader \"Barrhaven\"\n          - columnheader \"Gatineau\"\n          - columnheader \"Riverside South\"\n      - rowgroup:\n        - row \"2026-07-06 34 min 28 min 39 min 16 min 30 min\":\n          - cell \"2026-07-06\"\n          - cell \"34 min\"\n          - cell \"28 min\"\n          - cell \"39 min\"\n          - cell \"16 min\"\n          - cell \"30 min\"\n        - row \"2026-07-07 35 min 30 min 41 min 18 min 34 min\":\n          - cell \"2026-07-07\"\n          - cell \"35 min\"\n          - cell \"30 min\"\n          - cell \"41 min\"\n          - ",
+      "displayedErrors": []
     },
     {
-      "file": "rto.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 66,
-          "examples": [
-            {
-              "target": [
-                "#updated"
-              ],
-              "html": "<p class=\"updated\" id=\"updated\"><span class=\"dot\" style=\"background:var(--critical)\"></span>Newest reading Mon, Nov 2, 08:45 AM</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.6pt (12.8px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#stale > b"
-              ],
-              "html": "<b>Collection has stalled.</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.91 (foreground color: #d03b3b, background color: #f4e5e0, font size: 10.1pt (13.44px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#mandate > .part-head > .note"
-              ],
-              "html": "<span class=\"note\">policy timeline</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.1pt (12.16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "rto.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 69,
-          "examples": [
-            {
-              "target": [
-                "#updated"
-              ],
-              "html": "<p class=\"updated\" id=\"updated\"><span class=\"dot\" style=\"background:var(--critical)\"></span>Newest reading Mon, Nov 2, 08:45 AM</p>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.6pt (12.8px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#stale > b"
-              ],
-              "html": "<b>Collection has stalled.</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.91 (foreground color: #d03b3b, background color: #f4e5e0, font size: 10.1pt (13.44px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#mandate > .part-head > .note"
-              ],
-              "html": "<span class=\"note\">policy timeline</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.43 (foreground color: #74859a, background color: #f7f4ee, font size: 9.1pt (12.16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "tracker.html",
-      "width": 320,
-      "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 108,
-          "examples": [
-            {
-              "target": [
-                ".htitle > .build.chip"
-              ],
-              "html": "<span class=\"chip build\" style=\"font-size:.7rem\">v1 · every project, how it was built</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.38 (foreground color: #966700, background color: #fbf0da, font size: 8.4pt (11.2px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "li:nth-child(5) > a[href$=\"PROJECTS.md\"]"
-              ],
-              "html": "<a href=\"PROJECTS.md\">PROJECTS.md</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.96 (foreground color: #0072b2, background color: #10263d, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "a[href$=\"PI_SETUP.md\"]"
-              ],
-              "html": "<a href=\"Traffic/PI_SETUP.md\">Traffic/PI_SETUP.md §7</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.96 (foreground color: #0072b2, background color: #10263d, font size: 10.0pt (13.28px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "tracker.html",
-      "width": 1280,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 109,
-          "examples": [
-            {
-              "target": [
-                ".htitle > .build.chip"
-              ],
-              "html": "<span class=\"chip build\" style=\"font-size:.7rem\">v1 · every project, how it was built</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.18 (foreground color: #9a6a00, background color: #fbf0da, font size: 8.4pt (11.2px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "b > code"
-              ],
-              "html": "<code>collect.yml</code>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #c8881a, background color: #1b324d, font size: 10.3pt (13.76px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "li:nth-child(5) > a[href$=\"PROJECTS.md\"]"
-              ],
-              "html": "<a href=\"PROJECTS.md\">PROJECTS.md</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.97 (foreground color: #2f6fb4, background color: #0b2545, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "tracker.html",
-      "width": 320,
-      "theme": "dark",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 42,
-          "examples": [
-            {
-              "target": [
-                "#rto > .assump-box > .assump > li:nth-child(1) > .a-body > .verify > b"
-              ],
-              "html": "<b>✅ Verify it yourself</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.25 (foreground color: #3fc087, background color: #34483c, font size: 11.0pt (14.72px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#rto > .assump-box > .assump > li:nth-child(2) > .a-body > .data.tag"
-              ],
-              "html": "<span class=\"tag data\">source limit</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.61 (foreground color: #9098ac, background color: #3e4040, font size: 8.4pt (11.2px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "#rto > .assump-box > .assump > li:nth-child(2) > .a-body > .verify > b"
-              ],
-              "html": "<b>✅ Verify it yourself</b>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.25 (foreground color: #3fc087, background color: #34483c, font size: 11.0pt (14.72px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "tracker.html",
-      "width": 320,
-      "theme": "light",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 109,
-          "examples": [
-            {
-              "target": [
-                ".htitle > .build.chip"
-              ],
-              "html": "<span class=\"chip build\" style=\"font-size:.7rem\">v1 · every project, how it was built</span>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.18 (foreground color: #9a6a00, background color: #fbf0da, font size: 8.4pt (11.2px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "b > code"
-              ],
-              "html": "<code>collect.yml</code>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.34 (foreground color: #c8881a, background color: #1b324d, font size: 10.3pt (13.76px), font weight: bold). Expected contrast ratio of 4.5:1"
-            },
-            {
-              "target": [
-                "li:nth-child(5) > a[href$=\"PROJECTS.md\"]"
-              ],
-              "html": "<a href=\"PROJECTS.md\">PROJECTS.md</a>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.97 (foreground color: #2f6fb4, background color: #0b2545, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
+      "file": "Ontario_Elections/ONelections.html",
+      "errors": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Skip to main content"
+      },
+      "skipTarget": "ov-main",
+      "selection": {
+        "value": "ajax",
+        "panel": "41,142 votes cast"
+      },
+      "displayedErrors": []
     },
     {
       "file": "v2/stops.html",
+      "errors": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Skip to report"
+      },
+      "skipTarget": "main",
+      "displayedErrors": []
+    }
+  ],
+  "chartInteractionChecks": {
+    "firstValueMatches": true,
+    "hideRestoreSeries": true,
+    "focusPreserved": true,
+    "rows": 272,
+    "violations": []
+  },
+  "trafficLoadChecks": [
+    {
+      "file": "v2/stops.html",
+      "section": "stops",
+      "reportVisible": true,
+      "summaryVisible": false,
+      "charts": 5
+    },
+    {
+      "file": "v2/stops.html?section=summary",
+      "section": "stops",
+      "reportVisible": true,
+      "summaryVisible": false,
+      "charts": 5
+    },
+    {
+      "file": "Traffic/stops.html",
+      "section": "summary",
+      "reportVisible": false,
+      "summaryVisible": true,
+      "charts": 0
+    }
+  ],
+  "caseResults": [
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
       "width": 320,
       "theme": "cb",
-      "issues": [
-        {
-          "id": "color-contrast",
-          "impact": "serious",
-          "flaggedNodes": 1,
-          "examples": [
-            {
-              "target": [
-                "#load-status"
-              ],
-              "html": "<div id=\"load-status\" role=\"status\" class=\"error\">Report could not load: Cannot set properties of null (setting 'hidden'). <button type=\"button\">Retry</button></div>",
-              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.25 (foreground color: #c1521a, background color: #f7f4ed, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ]
-        }
-      ]
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Alberta_Elections/ABelections.html",
+      "url": "http://127.0.0.1:8767/Alberta_Elections/ABelections.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections-2024.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections-2024.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "BC_Elections/BCelections.html",
+      "url": "http://127.0.0.1:8767/BC_Elections/BCelections.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&view=operating&year=2026&funding=all&unit=dollars&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city&view=operating&year=2026&funding=all&unit=dollars",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&view=operating&year=2026&funding=all&unit=dollars&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&view=operating&year=2026&funding=all&unit=dollars&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&view=operating&year=2026&funding=all&unit=dollars&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Budget/budget.html",
+      "url": "http://127.0.0.1:8767/Budget/budget.html?prices=nominal&view=operating&year=2026&funding=all&unit=dollars&from=2023&to=2026&rank=dollars&kpi=paramedics&metric=ctas1-city&region=city",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Comparator.html",
+      "url": "http://127.0.0.1:8767/Comparator.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Education/education.html",
+      "url": "http://127.0.0.1:8767/Education/education.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Healthcare/healthcare.html",
+      "url": "http://127.0.0.1:8767/Healthcare/healthcare.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Member_Spending/spending.html",
+      "url": "http://127.0.0.1:8767/Member_Spending/spending.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 321,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 321,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 321,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Mortgage/mortgage.html",
+      "url": "http://127.0.0.1:8767/Mortgage/mortgage.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OC_Transpo/octranspo_kpis.html",
+      "url": "http://127.0.0.1:8767/OC_Transpo/octranspo_kpis.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OPS/ops.html",
+      "url": "http://127.0.0.1:8767/OPS/ops.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "OilGas/oilgas.html",
+      "url": "http://127.0.0.1:8767/OilGas/oilgas.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Costs/ontario_costs.html",
+      "url": "http://127.0.0.1:8767/Ontario_Costs/ontario_costs.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Elections/ONelections.html",
+      "url": "http://127.0.0.1:8767/Ontario_Elections/ONelections.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ontario_Trials/courts.html",
+      "url": "http://127.0.0.1:8767/Ontario_Trials/courts.html?series=crim&period=crim-2025&offence=all&mode=share",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Ottawa_Elections/ottawa_ward_elections.html",
+      "url": "http://127.0.0.1:8767/Ottawa_Elections/ottawa_ward_elections.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/methodology.html",
+      "url": "http://127.0.0.1:8767/PWHL/methodology.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/movement.html",
+      "url": "http://127.0.0.1:8767/PWHL/movement.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/origins.html",
+      "url": "http://127.0.0.1:8767/PWHL/origins.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/player.html",
+      "url": "http://127.0.0.1:8767/PWHL/player.html?id=1&season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/players.html",
+      "url": "http://127.0.0.1:8767/PWHL/players.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/pwhl.html",
+      "url": "http://127.0.0.1:8767/PWHL/pwhl.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/recap.html",
+      "url": "http://127.0.0.1:8767/PWHL/recap.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/superlatives.html",
+      "url": "http://127.0.0.1:8767/PWHL/superlatives.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/team.html",
+      "url": "http://127.0.0.1:8767/PWHL/team.html?code=OTT&season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/teams.html",
+      "url": "http://127.0.0.1:8767/PWHL/teams.html?season=8",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "PWHL/travel.html",
+      "url": "http://127.0.0.1:8767/PWHL/travel.html?team=OTT",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Promises/promises.html",
+      "url": "http://127.0.0.1:8767/Promises/promises.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Tax/tax.html",
+      "url": "http://127.0.0.1:8767/Tax/tax.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/demo/index.html",
+      "url": "http://127.0.0.1:8767/Traffic/demo/index.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Traffic/stops.html",
+      "url": "http://127.0.0.1:8767/Traffic/stops.html?section=summary",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Vehicles/road-safety.html",
+      "url": "http://127.0.0.1:8767/Vehicles/road-safety.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Wealth/wealth.html",
+      "url": "http://127.0.0.1:8767/Wealth/wealth.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "Weather/weather.html",
+      "url": "http://127.0.0.1:8767/Weather/weather.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "cityhall.html",
+      "url": "http://127.0.0.1:8767/cityhall.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "council_mandates.html",
+      "url": "http://127.0.0.1:8767/council_mandates.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "dataset_prospector.html",
+      "url": "http://127.0.0.1:8767/dataset_prospector.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "ghg_calculator.html",
+      "url": "http://127.0.0.1:8767/ghg_calculator.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "govcontracts.html",
+      "url": "http://127.0.0.1:8767/govcontracts.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "index.html",
+      "url": "http://127.0.0.1:8767/index.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "mpp_mandates.html",
+      "url": "http://127.0.0.1:8767/mpp_mandates.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "progress.html",
+      "url": "http://127.0.0.1:8767/progress.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "rto.html",
+      "url": "http://127.0.0.1:8767/rto.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "tracker.html",
+      "url": "http://127.0.0.1:8767/tracker.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=v2",
+      "width": 320,
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=v2",
+      "width": 320,
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=v2",
+      "width": 320,
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=split",
+      "width": 1280,
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=split",
+      "width": 1280,
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/compare.html",
+      "url": "http://127.0.0.1:8767/v2/compare.html?page=home&view=split",
+      "width": 1280,
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/index.html",
+      "url": "http://127.0.0.1:8767/v2/index.html",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 320,
+      "theme": "light",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 320,
+      "theme": "dark",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 320,
+      "theme": "cb",
+      "documentWidth": 320,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 1280,
+      "theme": "light",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 1280,
+      "theme": "dark",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
+    },
+    {
+      "file": "v2/stops.html",
+      "url": "http://127.0.0.1:8767/v2/stops.html?section=stops&year=all&outcome=all",
+      "width": 1280,
+      "theme": "cb",
+      "documentWidth": 1280,
+      "violations": [],
+      "pageErrors": [],
+      "displayedErrors": [],
+      "brokenImages": [],
+      "unlabelledInformativeCharts": []
     }
-  ]
+  ],
+  "unlabelledInformativeCharts": [],
+  "spiralChecks": {
+    "reducedMotionPaused": true,
+    "keyboardYear": "2025",
+    "rows": 365,
+    "dateLabelsVerified": true,
+    "overflow": false,
+    "violations": []
+  }
 }

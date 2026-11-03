@@ -21,9 +21,9 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=mobile-audit-20261023">
-<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
-<script src="../assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="pwhl.css?v=a11y-20261103">
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
@@ -89,8 +89,8 @@
 
       <div class="section">
         <div class="section-head"><div><h2>Roster stats</h2><p>Everyone who played for the team this season. Stats include only games with this club. Click a column to sort.</p></div></div>
-        <div class="card"><div class="card-title">Skaters</div><div style="overflow-x:auto;"><table class="tbl" id="t-skaters"></table></div></div>
-        <div class="card"><div class="card-title">Goalies</div><div style="overflow-x:auto;"><table class="tbl" id="t-goalies"></table></div></div>
+        <div class="card"><div class="card-title">Skaters</div><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="t-skaters"></table></div></div>
+        <div class="card"><div class="card-title">Goalies</div><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="t-goalies"></table></div></div>
       </div>
 
       <div class="section" id="team-awards-section">
@@ -100,14 +100,14 @@
 
       <div class="section">
         <div class="section-head"><div><h2>Game log</h2><p id="games-sub"></p></div></div>
-        <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="t-games"></table></div></div>
+        <div class="card"><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="t-games"></table></div></div>
       </div>
     </div>
 
     <section class="section" id="team-season-archive">
       <div class="section-head"><div><h2>Season by season</h2>
         <p>Regular-season record, finish and leading scorer. Pick a year to open its full results and roster stats.</p></div></div>
-      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="t-season-history"></table></div></div>
+      <div class="card"><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="t-season-history"></table></div></div>
     </section>
 
     <div class="section">

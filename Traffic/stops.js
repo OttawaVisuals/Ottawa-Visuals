@@ -10,7 +10,8 @@ const outcomes = ['Charged','Warning (T-Stop)','Final','Data Quality'];
 const outcomeLabel = x => x === 'Warning (T-Stop)' ? 'Warning' : x;
 const params = new URLSearchParams(location.search);
 const sections = ['summary','collisions','where','stops','drivers','speed','redlight','court','revenue'];
-let section = sections.includes(params.get('section')) ? params.get('section') : 'summary';
+const defaultSection = document.querySelector('[data-section][aria-pressed="true"]')?.dataset.section || 'summary';
+let section = sections.includes(params.get('section')) && (params.get('section') !== 'summary' || $('summary')) ? params.get('section') : defaultSection;
 const initialSection = section;
 let data, audit, charts = [], maps = [], exports = [], generation = 0;
 const settings = {}, collisionCache = new Map();
@@ -508,7 +509,7 @@ async function render() {
   charts.forEach(c=>c.destroy()); charts=[];
   maps.forEach(m=>m.remove()); maps=[];
   document.querySelectorAll('[data-section]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.section===section)));
-  $('summary').hidden = section!=='summary';
+  if ($('summary')) $('summary').hidden = section!=='summary';
   $('report').hidden = section==='summary';
   $('download').disabled=false;
   if (section==='summary') { saveState(); return; }

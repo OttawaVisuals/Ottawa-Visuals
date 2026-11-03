@@ -20,9 +20,9 @@
   document.documentElement.setAttribute('data-theme', t);
 })();
 </script>
-<link rel="stylesheet" href="pwhl.css?v=mobile-audit-20261023">
-<link rel="stylesheet" href="../assets/site-theme.css?v=audit-20261103">
-<script src="../assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="pwhl.css?v=a11y-20261103">
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="../assets/author-credit.js?v=audit-20261103"></script>
 </head>
 <body>
@@ -64,7 +64,7 @@
     <div class="grid-2">
       <div class="card">
         <div class="card-title">Home and away</div>
-        <div style="overflow-x:auto;"><table class="tbl" id="split-table"></table></div>
+        <div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="split-table"></table></div>
       </div>
       <div class="card">
         <div class="card-title"><span id="best-title">Top games</span></div>
@@ -76,12 +76,12 @@
       <div class="section-head"><div><h2>Career by season</h2>
         <p>Every stat line in the feed: regular season, playoffs and preseason. A mid-season
            trade shows as one line per team. Click a row to switch season.</p></div></div>
-      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="career-table"></table></div></div>
+      <div class="card"><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="career-table"></table></div></div>
     </div>
 
     <div class="section">
       <div class="section-head"><div><h2 id="games-title">Game log</h2></div></div>
-      <div class="card"><div style="overflow-x:auto;"><table class="tbl" id="games-table"></table></div></div>
+      <div class="card"><div style="overflow-x:auto;" tabindex="0" role="region" aria-label="Statistics table"><table class="tbl" id="games-table"></table></div></div>
     </div>
   </div>
 </div>

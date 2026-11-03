@@ -16,8 +16,8 @@
   })();
 </script>
 <style>
-/* Palette = Retrofit Explorer (Energy repo assets/site-theme.css?v=audit-20261103); the shared
-   assets/site-theme.css?v=audit-20261103 adds the font + light/dark/colour-blind switch. */
+/* Palette = Retrofit Explorer (Energy repo assets/site-theme.css?v=a11y-20261103 the shared
+   assets/site-theme.css?v=a11y-20261103 adds the font + light/dark/colour-blind switch. */
 :root{
   --navy:#0B2545; --amber:#A86E0F; --cream:#F7F4EE; --card:#FFFFFF;
   --ink:#1C2B3A; --muted:#5C6E82; --line:#D2D8E3;
@@ -186,13 +186,21 @@ table.remain tr td:first-child{font-weight:700;color:var(--navy);white-space:now
 main{overflow-wrap:anywhere}code{overflow-wrap:anywhere}.chip{white-space:normal;max-width:100%}.remain-scroll{max-width:100%;overflow-x:auto}
 </style>
 <!-- Shared Retrofit-style theme: font + light/dark/colour-blind switch (this page keeps its own token names above) -->
-<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
+<link rel="stylesheet" href="assets/site-theme.css?v=a11y-20261103">
 <script>
 // No charts here to redraw, so switching is just the attribute + saved choice.
 function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
 </script>
-<script src="assets/site-theme.js?v=header-20261101"></script>
+<script src="assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="assets/author-credit.js?v=audit-20261103"></script>
+<style>
+:root{--build:#805600;--muted:#45576a;--data-navy:var(--blue-text)}
+:root[data-theme="cb"]{--build:#795200;--data-navy:var(--blue-text)}
+:root[data-theme="dark"]{--plan:#c1cadc;--done:#81dbb0;--muted:#bfcede}
+.tag,.src,.verify>b{color:var(--ink)!important}
+.tldr b{color:#f1bf67}.tldr a{color:#a9d1ff}
+li.checked .a-body{opacity:1}
+</style>
 </head>
 <body>
 

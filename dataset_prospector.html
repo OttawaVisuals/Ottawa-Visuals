@@ -16,7 +16,7 @@
 })();
 </script>
 <style>
-/* Palette = Retrofit Explorer (shared assets/site-theme.css?v=audit-20261103). "teal" is this
+/* Palette = Retrofit Explorer (shared assets/site-theme.css?v=a11y-20261103 "teal" is this
    page's secondary role; it maps to the Retrofit blue. */
 :root{
   --paper:#F7F4EE;
@@ -138,13 +138,19 @@ footer{max-width:1180px;margin:0 auto;padding:26px 24px 46px;font-family:var(--m
 @media(max-width:640px){.search{min-width:0;width:100%;margin-left:0}.grid{grid-template-columns:1fr}}
 </style>
 <!-- Shared Retrofit-style theme: top bar + type + light/dark/colour-blind switch -->
-<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
+<link rel="stylesheet" href="assets/site-theme.css?v=a11y-20261103">
 <script>
 // No canvas charts here, so switching is just the attribute + saved choice.
 function setTheme(m){ document.documentElement.setAttribute('data-theme', m); try { localStorage.setItem('ov-theme', m); } catch(e){} }
 </script>
-<script src="assets/site-theme.js?v=header-20261101"></script>
+<script src="assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="assets/author-credit.js?v=audit-20261103"></script>
+<style>
+.combo .cn,.tierlabel b,.badge.analyze{color:var(--amber-text)}
+.badge.display{color:var(--blue-text)}
+.chip.on.amber,.chip.on.teal{color:var(--ink);background:var(--bg-3);border-color:currentColor}
+:root[data-theme="dark"] .chip.on{color:var(--bg-2)}
+</style>
 </head>
 <body>
 

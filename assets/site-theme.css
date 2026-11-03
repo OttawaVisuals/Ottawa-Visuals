@@ -119,3 +119,27 @@ body>footer a:hover,body>.footer a:hover{color:var(--amber2)!important}
 
 /* Prose links need a cue beyond colour, including source and method notes. */
 p a,li a{ text-decoration:underline; text-underline-offset:3px }
+
+/* Text colours are separate from series fills and status swatches. */
+:root{--blue-text:#235f98;--amber-text:#805300;--red-text:#9c3428;--on-accent:#fff}
+:root[data-theme="dark"]{--blue-text:#91c6f6;--amber-text:#f1bf67;--red-text:#f4a398;--on-accent:#0b2545}
+:root[data-theme="cb"]{--blue-text:#005b8e;--amber-text:#795200;--red-text:#973b0e}
+.topbar a[href*="#methodology"],.topbar>a:not(.brand){color:#d5dfeb!important}
+footer .brand small,footer .foot-brand>p,footer .foot-col h5,footer .foot-bottom{color:#bdcbdc}
+.download,.downloads a,.text-button,.shift-delta.down,.compare-cell .d.down,.mv.blue{color:var(--blue-text)}
+.compare-cell .d.up{color:var(--red-text)}
+.mv.amber,#cmhc-notice>span:first-child{color:var(--amber-text)!important}
+.results td>span[style*="color:"]{color:var(--ink)!important}
+.flip-tag{color:var(--ink)!important}
+:root :focus-visible{outline:3px solid var(--accent-2)!important;outline-offset:3px}
+.ov-skip{position:fixed;left:12px;top:-100px;z-index:10001;padding:10px 14px;background:var(--bg-2);color:var(--ink);border:2px solid var(--accent-2)}
+.ov-skip:focus{top:8px}
+.ov-chart-values{margin:12px 0;font:12px/1.5 "Inter",system-ui,sans-serif;color:var(--ink);clear:both}
+.ov-chart-values>summary{cursor:pointer;padding:7px 0;color:var(--blue-text);overflow-wrap:anywhere}
+.ov-chart-table{max-width:100%;max-height:420px;overflow:auto}
+.ov-chart-table table{width:100%;border-collapse:collapse;font-size:12px}
+.ov-chart-table caption{text-align:left;color:var(--ink);padding:8px}
+.ov-chart-table th,.ov-chart-table td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:normal;overflow-wrap:anywhere;color:var(--ink);background:var(--bg-2)}
+.ov-chart-table th{background:var(--bg-3)}
+.ov-chart-values fieldset{display:flex;flex-wrap:wrap;gap:8px 16px;border:1px solid var(--line);margin:8px 0;padding:8px 12px}
+.ov-chart-values fieldset label{display:flex;align-items:center;gap:6px;color:var(--ink);font:inherit}

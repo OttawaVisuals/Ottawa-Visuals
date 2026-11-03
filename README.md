@@ -78,7 +78,7 @@ standalone root-level tools not (yet) tied to a specific data folder.
   `assets/site-theme.css` + `assets/site-theme.js` (Retrofit Explorer look: navy bar,
   cream, Fraunces, light/dark/colour-blind switch). Change brand colours there, not per page.
   `tracker.html`, `rto.html` and `dataset_prospector.html` keep their own token names but load it too.
-  Shared CSS and author-credit script use `?v=audit-20261103`; the theme script retains its existing version. The theme
+  Shared theme CSS/JS use `?v=a11y-20261103`; author credit uses `?v=audit-20261103`. The theme
   pill explicitly resets button padding, flex sizing and SVG dimensions. Report
   headers use a compact phone row; the homepage keeps its existing header layout.
   Author initialization waits for the theme control so its button consistently
@@ -95,5 +95,7 @@ are documented in [`Traffic/README.md`](Traffic/README.md).
 - Keep large files out of the repo.
 
 ## Site audit
-November 3, 2026: local mobile/theme/link/accessibility audit and first fixes.
-Coverage, remaining contrast work, limitations and repeat instructions: [SITE_AUDIT.md](SITE_AUDIT.md).
+November 3, 2026: audit and follow-up fixes; 282 phone/desktop/theme cases pass automated accessibility checks. Keyboard access and chart value alternatives were also checked.
+Coverage, screen-reader testing limits and repeat instructions: [SITE_AUDIT.md](SITE_AUDIT.md).
+
+`assets/chart-accessibility.js` loads through the shared theme script. It supplies missing skip links and expandable chart values/series controls, retaining report-specific data tables where already present.

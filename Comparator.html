@@ -197,9 +197,17 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 }
 </style>
 <!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
-<link rel="stylesheet" href="assets/site-theme.css?v=audit-20261103">
-<script src="assets/site-theme.js?v=header-20261101"></script>
+<link rel="stylesheet" href="assets/site-theme.css?v=a11y-20261103">
+<script src="assets/site-theme.js?v=a11y-20261103"></script>
 <script defer src="assets/author-credit.js?v=audit-20261103"></script>
+<style>
+.sidebar{--red-light:#96c8f5}
+.sidebar-tagline,.data-status,.field-label,.field-hint,.sidebar-footer,.sidebar-footer a{color:#b9c7d8}
+.sidebar .field-input::placeholder{color:#aebed0}
+.sidebar .btn-calculate{background:#8c321b;color:#fff}
+.sidebar .field-label span{opacity:1!important;color:#b9c7d8!important}
+.sidebar :focus-visible{outline-color:#f1bf67}
+</style>
 </head>
 <body>
 
