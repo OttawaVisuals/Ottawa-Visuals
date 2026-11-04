@@ -2139,29 +2139,6 @@
 },
 "fp": "f617d5749e90"
 },
-"29671": {
-"event": {
-"cause": "a movie filming",
-"created": "2026-10-26 06:27:00",
-"cross_street_1": "Fairbank",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29671",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "Thessaly lane reductions at Fairbank due to a movie filming, from October 29th to November 3rd.",
-"lanes": "lane reductions",
-"lat": 45.389924,
-"lon": -75.6547,
-"planned_end": "2026-11-03T23:00",
-"planned_start": "2026-10-26T07:00",
-"priority": "UNKNOWN",
-"road": "Thessaly",
-"source": "city",
-"updated": "2026-10-26 06:56:00"
-},
-"fp": "c145a3298688"
-},
 "29684": {
 "event": {
 "cause": "construction",
@@ -2897,6 +2874,29 @@
 "updated": "2026-11-03 06:40:00"
 },
 "fp": "801e6ac3a6ce"
+},
+"29806": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 06:55:00",
+"cross_street_1": "Moodie Northbound",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29806",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 417 W/B on-ramp closed at night at Moodie Northbound due to construction from November 4th 11:00pm to November 5th 5:00am",
+"lanes": "closed",
+"lat": 45.339327,
+"lon": -75.841358,
+"planned_end": "2026-11-05T05:00",
+"planned_start": "2026-11-03T23:00",
+"priority": "HIGH",
+"road": "417 W/B on-ramp",
+"source": "city",
+"updated": "2026-11-03 22:56:00"
+},
+"fp": "f719b7ba8681"
 },
 "29807": {
 "event": {
