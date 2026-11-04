@@ -2070,6 +2070,29 @@
 },
 "fp": "8a690d058726"
 },
+"29625": {
+"event": {
+"cause": "construction",
+"created": "2026-10-22 10:41:00",
+"cross_street_1": "BANK",
+"cross_street_2": "HAWTHORNE",
+"direction": null,
+"event_id": "29625",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "RIDEAU Road closed between BANK and HAWTHORNE due to construction, from November 6th to 8th. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.296846,
+"lon": -75.579863,
+"planned_end": "2026-11-08T17:00",
+"planned_start": "2026-11-04T07:00",
+"priority": "HIGH",
+"road": "RIDEAU",
+"source": "city",
+"updated": "2026-11-04 06:56:00"
+},
+"fp": "148e41673c34"
+},
 "29629": {
 "event": {
 "cause": "construction",
@@ -3009,9 +3032,32 @@
 "priority": "MEDIUM",
 "road": "Parkdale",
 "source": "city",
-"updated": "2026-11-04 06:11:00"
+"updated": "2026-11-04 07:17:00"
 },
-"fp": "153ad9cf6ef9"
+"fp": "59d68277727a"
+},
+"29834": {
+"event": {
+"cause": "",
+"created": "2026-11-04 07:30:00",
+"cross_street_1": "METCALFE ST (IC 119A)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29834",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at METCALFE ST - Disabled Vehicle. right lane and right shoulder closed. ",
+"lanes": "right lane and right shoulder closed",
+"lat": 45.41076,
+"lon": -75.68728,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-04 07:30:00"
+},
+"fp": "2c7743c0d83c"
 }
 }
 }
