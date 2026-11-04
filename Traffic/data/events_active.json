@@ -3013,28 +3013,97 @@
 },
 "fp": "96228b76444e"
 },
-"29838": {
+"29840": {
+"event": {
+"cause": "construction",
+"created": "2026-11-04 09:49:00",
+"cross_street_1": "Woodfield/Roydon",
+"cross_street_2": "Viewmount",
+"direction": null,
+"event_id": "29840",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Merivale northbound right lane closed between Woodfield/Roydon and Viewmount due to construction, until December 14th.",
+"lanes": "right lane closed",
+"lat": 45.338024,
+"lon": -75.725972,
+"planned_end": "2026-12-14T17:00",
+"planned_start": "2026-10-23T00:00",
+"priority": "HIGH",
+"road": "Merivale",
+"source": "city",
+"updated": "2026-11-04 09:52:00"
+},
+"fp": "4d3b71ebfe5f"
+},
+"29841": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-04 08:23:00",
-"cross_street_1": "Constellation",
+"created": "2026-11-04 10:20:00",
+"cross_street_1": "Colonel By",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29838",
+"event_id": "29841",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Baseline westbound right lane closed at Constellation due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.350097,
-"lon": -75.766182,
+"full_closure": true,
+"headline": "Hogs Back westbound closed at Colonel By due to a collision. Police are directing traffic. Avoid area.",
+"lanes": "closed",
+"lat": 45.36997,
+"lon": -75.698299,
 "planned_end": null,
 "planned_start": null,
-"priority": "LOW",
-"road": "Baseline",
+"priority": "HIGH",
+"road": "Hogs Back",
 "source": "city",
-"updated": "2026-11-04 09:19:00"
+"updated": "2026-11-04 10:20:00"
 },
-"fp": "7af91314381d"
+"fp": "44ffebf17084"
+},
+"29842": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 10:22:00",
+"cross_street_1": "Colonel By",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29842",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Hogs Back westbound closed at Colonel By due to a collision. Avoid area.",
+"lanes": "closed",
+"lat": 45.373121,
+"lon": -75.691011,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "Hogs Back",
+"source": "city",
+"updated": "2026-11-04 10:22:00"
+},
+"fp": "856258516dd2"
+},
+"29843": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 10:26:00",
+"cross_street_1": "Hogs Back",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29843",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Colonel By southbound right-turn lane closed at Hogs Back due to a collision.",
+"lanes": "right-turn lane closed",
+"lat": 45.378815,
+"lon": -75.701348,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Colonel By",
+"source": "city",
+"updated": "2026-11-04 10:26:00"
+},
+"fp": "0cbfb0db8e35"
 }
 }
 }
