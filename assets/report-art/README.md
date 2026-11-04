@@ -1,5 +1,20 @@
 # Public report artwork
 
+## Council and contract icons — November 4, 2026
+
+`cityhall.webp` (civic building, agenda and search) and `govcontracts.webp`
+(contract, briefcase and coins) replace the last two default graphics among
+visible homepage reports. Both report headers reuse the same decorative images.
+Generated with built-in image_gen, using `member-spending.webp` as a style
+reference; exact prompts are in `council-contracts-prompts.json`. Transparent
+1774 × 887 PNGs were converted to lossless WebP with alpha preserved and no
+resizing. Hidden reports retain their existing artwork and visibility.
+
+Checks: 18 page/width/theme cases (homepage and two reports; 390/1280px;
+light/dark/colour-blind). Images loaded, stayed within the viewport and had
+empty decorative alt text; no page overflow. Header screenshots reviewed.
+Report scripts, IDs and data remain unchanged. These are artwork checks only.
+
 Approved visual direction: the wealth page's design 2, extended to the other
 eleven reports visible on the homepage. Navy outlines, white interiors, teal and
 amber fills. All illustrations are decorative, qualitative imagery; none encodes
