@@ -3082,74 +3082,74 @@
 },
 "fp": "e90b82568dee"
 },
-"29856": {
+"29862": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 17:58:00",
+"cross_street_1": "Laurier",
+"cross_street_2": "417",
+"direction": null,
+"event_id": "29862",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Nicholas southbound reduced to 1 lane between Laurier and 417 due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.419087,
+"lon": -75.679756,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Nicholas",
+"source": "city",
+"updated": "2026-11-04 17:58:00"
+},
+"fp": "c331ae3c3b0b"
+},
+"29863": {
+"event": {
+"cause": "",
+"created": "2026-11-04 18:00:00",
+"cross_street_1": "VANIER PKWY/RIVERSIDE  (IC 117)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29863",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at VANIER PKWY/RIVERSIDE - Collision. left shoulder and 2 left lanes closed. ",
+"lanes": "left shoulder and 2 left lanes closed",
+"lat": 45.41742,
+"lon": -75.65678,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-04 18:15:00"
+},
+"fp": "63c694afa9b4"
+},
+"29864": {
 "event": {
 "cause": "a disabled vehicle",
-"created": "2026-11-04 16:33:00",
-"cross_street_1": "Island Park",
+"created": "2026-11-04 18:07:00",
+"cross_street_1": "Innes",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29856",
+"event_id": "29864",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Kichi Z\u012bb\u012b M\u012bkan eastbound reduced to 1 left-turn lane at Island Park due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 left-turn lane",
-"lat": 45.402325,
-"lon": -75.752943,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Kichi Z\u012bb\u012b M\u012bkan",
-"source": "city",
-"updated": "2026-11-04 16:33:00"
-},
-"fp": "54ba899df712"
-},
-"29858": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 16:52:00",
-"cross_street_1": "Orchardview/Esprit",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29858",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Innes westbound reduced to 1 lane at Orchardview/Esprit due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"headline": "Jeanne d'Arc southbound reduced to 1 lane at Innes due to a disabled vehicle. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.464406,
-"lon": -75.476403,
+"lat": 45.456066,
+"lon": -75.504951,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Innes",
+"road": "Jeanne d'Arc",
 "source": "city",
-"updated": "2026-11-04 16:52:00"
+"updated": "2026-11-04 18:07:00"
 },
-"fp": "ed4e4bcc1e80"
-},
-"29860": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 17:07:00",
-"cross_street_1": "Hillside",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29860",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Montreal westbound reduced to 1 lane at Hillside due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.441829,
-"lon": -75.644839,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Montreal",
-"source": "city",
-"updated": "2026-11-04 17:07:00"
-},
-"fp": "fcbb8c98bfc5"
+"fp": "76eddc66c4ac"
 }
 }
 }
