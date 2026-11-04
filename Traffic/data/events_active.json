@@ -3013,51 +3013,74 @@
 },
 "fp": "96228b76444e"
 },
-"29832": {
+"29836": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-04 06:11:00",
-"cross_street_1": "Wellington",
-"cross_street_2": null,
+"created": "2026-11-04 08:08:00",
+"cross_street_1": "Fox Crescent",
+"cross_street_2": "Woodroffe",
 "direction": null,
-"event_id": "29832",
+"event_id": "29836",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Parkdale lane reductions in both directions at Wellington due to a collision.",
-"lanes": "lane reductions in both directions",
-"lat": 45.40077,
-"lon": -75.729129,
+"headline": "Carling eastbound right lane closed between Fox Crescent and Woodroffe due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.368478,
+"lon": -75.774446,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Parkdale",
+"road": "Carling",
 "source": "city",
-"updated": "2026-11-04 07:17:00"
+"updated": "2026-11-04 08:08:00"
 },
-"fp": "59d68277727a"
+"fp": "699d2703cb08"
 },
-"29834": {
+"29837": {
 "event": {
-"cause": "",
-"created": "2026-11-04 07:30:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": null,
+"cause": "high volume",
+"created": "2026-11-04 08:16:00",
+"cross_street_1": "Moodie",
+"cross_street_2": "Rochester",
 "direction": null,
-"event_id": "29834",
+"event_id": "29837",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Eastbound at METCALFE ST - Disabled Vehicle. right lane and right shoulder closed. ",
-"lanes": "right lane and right shoulder closed",
-"lat": 45.41076,
-"lon": -75.68728,
+"headline": "417 eastbound traffic heavy & slow between Moodie and Rochester due to high volume. Expect delays.",
+"lanes": "traffic heavy & slow",
+"lat": 45.339643,
+"lon": -75.838062,
 "planned_end": null,
 "planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "HIGH",
+"road": "417",
 "source": "city",
-"updated": "2026-11-04 07:30:00"
+"updated": "2026-11-04 08:16:00"
 },
-"fp": "2c7743c0d83c"
+"fp": "55ad0c5f42fa"
+},
+"29838": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 08:23:00",
+"cross_street_1": "Constellation",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29838",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Baseline westbound right lane closed at Constellation due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.350097,
+"lon": -75.766182,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Baseline",
+"source": "city",
+"updated": "2026-11-04 08:23:00"
+},
+"fp": "cfb46f1fd7b0"
 }
 }
 }
