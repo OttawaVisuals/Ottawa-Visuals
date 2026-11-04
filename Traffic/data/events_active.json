@@ -3036,52 +3036,6 @@
 },
 "fp": "4d3b71ebfe5f"
 },
-"29841": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 10:20:00",
-"cross_street_1": "Colonel By",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29841",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Hogs Back westbound closed at Colonel By due to a collision. Police are directing traffic. Avoid area.",
-"lanes": "closed",
-"lat": 45.36997,
-"lon": -75.698299,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Hogs Back",
-"source": "city",
-"updated": "2026-11-04 10:20:00"
-},
-"fp": "44ffebf17084"
-},
-"29843": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 10:26:00",
-"cross_street_1": "Hogs Back",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29843",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Colonel By southbound right-turn lane closed at Hogs Back due to a collision.",
-"lanes": "right-turn lane closed",
-"lat": 45.378815,
-"lon": -75.701348,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Colonel By",
-"source": "city",
-"updated": "2026-11-04 10:26:00"
-},
-"fp": "0cbfb0db8e35"
-},
 "29844": {
 "event": {
 "cause": "a disabled vehicle",
@@ -3104,6 +3058,75 @@
 "updated": "2026-11-04 10:53:00"
 },
 "fp": "0a93b903174e"
+},
+"29845": {
+"event": {
+"cause": "a special event",
+"created": "2026-11-04 11:29:00",
+"cross_street_1": "SUSSEX",
+"cross_street_2": "BY WARD MARKET",
+"direction": null,
+"event_id": "29845",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "GEORGE eastbound lane reduction between SUSSEX and BY WARD MARKET sq due to a special event, from October 29th to January 27th.",
+"lanes": "lane reduction",
+"lat": 45.426326,
+"lon": -75.69397,
+"planned_end": "2027-01-27T17:00",
+"planned_start": "2026-10-29T00:00",
+"priority": "MEDIUM",
+"road": "GEORGE",
+"source": "city",
+"updated": "2026-11-04 11:32:00"
+},
+"fp": "38065786cb27"
+},
+"29847": {
+"event": {
+"cause": "construction",
+"created": "2026-11-04 11:51:00",
+"cross_street_1": "SLATER",
+"cross_street_2": "ALBERT",
+"direction": null,
+"event_id": "29847",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BAY lane reduction between SLATER and ALBERT due to construction, from November 1st to December 15th.",
+"lanes": "lane reduction",
+"lat": 45.41686,
+"lon": -75.705433,
+"planned_end": "2026-12-15T17:00",
+"planned_start": "2026-11-01T00:00",
+"priority": "MEDIUM",
+"road": "BAY",
+"source": "city",
+"updated": "2026-11-04 11:52:00"
+},
+"fp": "5bed5c7c36aa"
+},
+"29848": {
+"event": {
+"cause": "maintenance",
+"created": "2026-11-04 12:06:00",
+"cross_street_1": "Blair",
+"cross_street_2": "Prom Place d'Orl\u00e9ans Dr",
+"direction": null,
+"event_id": "29848",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "174 lane reduction in both directions between Blair and Place d'Orl\u00e9ans Dr due to maintenance, from November 4th 8:00pm to November 5th 6:00am.",
+"lanes": "lane reduction in both directions",
+"lat": 45.431875,
+"lon": -75.605275,
+"planned_end": "2026-11-05T06:00",
+"planned_start": "2026-11-04T00:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-11-04 12:08:00"
+},
+"fp": "b067fba5688d"
 }
 }
 }
