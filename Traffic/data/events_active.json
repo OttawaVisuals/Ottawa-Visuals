@@ -3013,29 +3013,6 @@
 },
 "fp": "4d3b71ebfe5f"
 },
-"29844": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-04 10:53:00",
-"cross_street_1": "Johnston",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29844",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Conroy southbound lane reduction at Johnston due to a disabled vehicle.",
-"lanes": "lane reduction",
-"lat": 45.373335,
-"lon": -75.624392,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Conroy",
-"source": "city",
-"updated": "2026-11-04 10:53:00"
-},
-"fp": "0a93b903174e"
-},
 "29845": {
 "event": {
 "cause": "a special event",
@@ -3104,6 +3081,52 @@
 "updated": "2026-11-04 12:58:00"
 },
 "fp": "e90b82568dee"
+},
+"29854": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 16:00:00",
+"cross_street_1": "Fallowfield",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29854",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Woodroffe northbound reduced to 1 left-turn lane at Fallowfield due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 left-turn lane",
+"lat": 45.298377,
+"lon": -75.731153,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Woodroffe",
+"source": "city",
+"updated": "2026-11-04 16:00:00"
+},
+"fp": "e647c68e242b"
+},
+"29855": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 16:23:00",
+"cross_street_1": "King Edward",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29855",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Greenfield westbound reduced to 1 lane at King Edward due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.418447,
+"lon": -75.678334,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Greenfield",
+"source": "city",
+"updated": "2026-11-04 16:23:00"
+},
+"fp": "e7d0aff9ef21"
 }
 }
 }
