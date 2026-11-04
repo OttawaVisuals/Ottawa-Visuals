@@ -14,7 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
-- [x] Remaining public-page icons (Nov 4: generated matching City Hall and federal consulting/contract illustrations; homepage cards and report headers; transparent lossless assets and exact prompts retained; 18 phone/desktop/theme layout checks; local, publication pending)
+- [x] Remaining public-page icons (Nov 4: generated matching City Hall and federal consulting/contract illustrations; homepage cards and report headers; transparent lossless assets and exact prompts retained; 18 phone/desktop/theme layout checks; published Nov 4, 2026, live pages and both assets verified)
 - [x] Chart sharing (Nov 3: shared PNG preview/download, image and chart-link copying for native canvas/SVG charts; current selections, legends, notes and credit; sharper canvas export, layered Weather capture, clipboard fallbacks and keyboard access; desktop/phone and three-theme checks, targeted filter/link/accessibility checks)
 - [x] Publish audited site (Nov 3: accessibility/layout fixes plus Education and Healthcare reports; merged automated data updates; GitHub Pages deployment and live checks)
 - [x] Alberta OECD class-size comparison (Nov 2: separate 2025–26 snapshot, 88,932 published rows/61 authorities, four grade bands and count/share comparison with 21/23; suppressed under-10 rows retained, scope differences labelled; 310 aggregates independently reconciled; published Nov 3, 2026)
