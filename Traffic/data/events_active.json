@@ -3082,51 +3082,74 @@
 },
 "fp": "e90b82568dee"
 },
-"29854": {
+"29856": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-04 16:00:00",
-"cross_street_1": "Fallowfield",
+"cause": "a disabled vehicle",
+"created": "2026-11-04 16:33:00",
+"cross_street_1": "Island Park",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29854",
+"event_id": "29856",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Woodroffe northbound reduced to 1 left-turn lane at Fallowfield due to a collision. Duration is unknown.",
+"headline": "Kichi Z\u012bb\u012b M\u012bkan eastbound reduced to 1 left-turn lane at Island Park due to a disabled vehicle. Duration is unknown.",
 "lanes": "reduced to 1 left-turn lane",
-"lat": 45.298377,
-"lon": -75.731153,
+"lat": 45.402325,
+"lon": -75.752943,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Woodroffe",
+"road": "Kichi Z\u012bb\u012b M\u012bkan",
 "source": "city",
-"updated": "2026-11-04 16:00:00"
+"updated": "2026-11-04 16:33:00"
 },
-"fp": "e647c68e242b"
+"fp": "54ba899df712"
 },
-"29855": {
+"29858": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-04 16:23:00",
-"cross_street_1": "King Edward",
+"created": "2026-11-04 16:52:00",
+"cross_street_1": "Orchardview/Esprit",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29855",
+"event_id": "29858",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Greenfield westbound reduced to 1 lane at King Edward due to a collision. Duration is unknown.",
+"headline": "Innes westbound reduced to 1 lane at Orchardview/Esprit due to a collision. Firefighters are directing traffic. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.418447,
-"lon": -75.678334,
+"lat": 45.464406,
+"lon": -75.476403,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Greenfield",
+"road": "Innes",
 "source": "city",
-"updated": "2026-11-04 16:23:00"
+"updated": "2026-11-04 16:52:00"
 },
-"fp": "e7d0aff9ef21"
+"fp": "ed4e4bcc1e80"
+},
+"29860": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 17:07:00",
+"cross_street_1": "Hillside",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29860",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Montreal westbound reduced to 1 lane at Hillside due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.441829,
+"lon": -75.644839,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Montreal",
+"source": "city",
+"updated": "2026-11-04 17:07:00"
+},
+"fp": "fcbb8c98bfc5"
 }
 }
 }
