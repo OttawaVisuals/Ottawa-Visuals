@@ -3059,29 +3059,6 @@
 },
 "fp": "44ffebf17084"
 },
-"29842": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 10:22:00",
-"cross_street_1": "Colonel By",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29842",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Hogs Back westbound closed at Colonel By due to a collision. Avoid area.",
-"lanes": "closed",
-"lat": 45.373121,
-"lon": -75.691011,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "Hogs Back",
-"source": "city",
-"updated": "2026-11-04 10:22:00"
-},
-"fp": "856258516dd2"
-},
 "29843": {
 "event": {
 "cause": "a collision",
@@ -3104,6 +3081,29 @@
 "updated": "2026-11-04 10:26:00"
 },
 "fp": "0cbfb0db8e35"
+},
+"29844": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-04 10:53:00",
+"cross_street_1": "Johnston",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29844",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Conroy southbound lane reduction at Johnston due to a disabled vehicle.",
+"lanes": "lane reduction",
+"lat": 45.373335,
+"lon": -75.624392,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Conroy",
+"source": "city",
+"updated": "2026-11-04 10:53:00"
+},
+"fp": "0a93b903174e"
 }
 }
 }
