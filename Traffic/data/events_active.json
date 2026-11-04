@@ -506,29 +506,6 @@
 },
 "fp": "53de62308665"
 },
-"27880": {
-"event": {
-"cause": "construction",
-"created": "2026-07-21 11:34:00",
-"cross_street_1": "Wilbrod",
-"cross_street_2": "Stewart",
-"direction": null,
-"event_id": "27880",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Cumberland closed between Wilbrod and Stewart due to construction. Access for local traffic maintained. From 7:00am, 18/09/26 to 5:00pm, 03/11/26",
-"lanes": "closed",
-"lat": 45.426069,
-"lon": -75.685984,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-09-18T07:00",
-"priority": "MEDIUM",
-"road": "Cumberland",
-"source": "city",
-"updated": "2026-09-21 16:28:00"
-},
-"fp": "db451f0a1695"
-},
 "27944": {
 "event": {
 "cause": "construction",
@@ -2093,6 +2070,29 @@
 },
 "fp": "8a690d058726"
 },
+"29625": {
+"event": {
+"cause": "construction",
+"created": "2026-10-22 10:41:00",
+"cross_street_1": "BANK",
+"cross_street_2": "HAWTHORNE",
+"direction": null,
+"event_id": "29625",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "RIDEAU Road closed between BANK and HAWTHORNE due to construction, from November 6th to 8th. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.296846,
+"lon": -75.579863,
+"planned_end": "2026-11-08T17:00",
+"planned_start": "2026-11-04T07:00",
+"priority": "HIGH",
+"road": "RIDEAU",
+"source": "city",
+"updated": "2026-11-04 06:56:00"
+},
+"fp": "148e41673c34"
+},
 "29629": {
 "event": {
 "cause": "construction",
@@ -2115,29 +2115,6 @@
 "updated": "2026-10-29 23:56:00"
 },
 "fp": "6f737aff4d8c"
-},
-"29647": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 09:41:00",
-"cross_street_1": "PERCY",
-"cross_street_2": "BRONSON",
-"direction": null,
-"event_id": "29647",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "GLOUCESTER closed between PERCY and BRONSON due to construction, Tuesday November 3rd from 7:00am to 5:00pm. Follow the signed detour. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.414895,
-"lon": -75.706023,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-10-31T07:00",
-"priority": "MEDIUM",
-"road": "GLOUCESTER",
-"source": "city",
-"updated": "2026-10-31 06:56:00"
-},
-"fp": "08a3defdd5a9"
 },
 "29651": {
 "event": {
@@ -2184,29 +2161,6 @@
 "updated": "2026-10-30 06:56:00"
 },
 "fp": "f617d5749e90"
-},
-"29671": {
-"event": {
-"cause": "a movie filming",
-"created": "2026-10-26 06:27:00",
-"cross_street_1": "Fairbank",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29671",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "Thessaly lane reductions at Fairbank due to a movie filming, from October 29th to November 3rd.",
-"lanes": "lane reductions",
-"lat": 45.389924,
-"lon": -75.6547,
-"planned_end": "2026-11-03T23:00",
-"planned_start": "2026-10-26T07:00",
-"priority": "UNKNOWN",
-"road": "Thessaly",
-"source": "city",
-"updated": "2026-10-26 06:56:00"
-},
-"fp": "c145a3298688"
 },
 "29684": {
 "event": {
@@ -2517,18 +2471,18 @@
 "event_id": "29731",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "174 westbound reduced to 1 lane between Trim and Tenth Line due to construction, from November 5th to 12th between 10:00am and 3:00pm.",
+"headline": "(LRT) 174 westbound reduced to 1 lane between Trim and Tenth Line due to construction, from November 3rd to 12th between 10:00am and 3:00pm.",
 "lanes": "reduced to 1 lane",
-"lat": 45.486602,
-"lon": -75.500405,
+"lat": 45.496899,
+"lon": -75.479575,
 "planned_end": "2026-11-12T15:00",
 "planned_start": "2026-11-02T10:00",
 "priority": "MEDIUM",
 "road": "174",
 "source": "city",
-"updated": "2026-11-02 09:56:00"
+"updated": "2026-11-03 15:31:00"
 },
-"fp": "c4b93fb4be2b"
+"fp": "8fedd6b58710"
 },
 "29750": {
 "event": {
@@ -2668,29 +2622,6 @@
 },
 "fp": "e33cd01bd705"
 },
-"29774": {
-"event": {
-"cause": "a movie filming",
-"created": "2026-10-30 13:17:00",
-"cross_street_1": "O'CONNOR",
-"cross_street_2": "BANK",
-"direction": null,
-"event_id": "29774",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "QUEEN westbound lane reduction between O'CONNOR and BANK due to a movie filming, Tuesday November 3rd.",
-"lanes": "lane reduction",
-"lat": 45.421406,
-"lon": -75.698834,
-"planned_end": "2026-11-03T22:00",
-"planned_start": "2026-10-31T00:00",
-"priority": "MEDIUM",
-"road": "QUEEN",
-"source": "city",
-"updated": "2026-10-30 23:56:00"
-},
-"fp": "7879b674a7ba"
-},
 "29775": {
 "event": {
 "cause": "construction",
@@ -2783,29 +2714,6 @@
 },
 "fp": "e4aae6da2921"
 },
-"29786": {
-"event": {
-"cause": "",
-"created": "2026-10-31 07:03:00",
-"cross_street_1": "BRUIN RD",
-"cross_street_2": "BRUIN RD",
-"direction": null,
-"event_id": "29786",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 416 Southbound from BRUIN RD to BRUIN RD - Continuous Construction. 1 Alternating Lane. Alternating left and right lane closures NB & SB. 2026-11-03 07:00 to 2026-11-03 17:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.3261,
-"lon": -75.80643,
-"planned_end": "2026-11-03T17:00",
-"planned_start": "2026-11-03T07:00",
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-10-31 07:03:00"
-},
-"fp": "7152a1fcb80b"
-},
 "29796": {
 "event": {
 "cause": "construction",
@@ -2818,16 +2726,16 @@
 "full_closure": true,
 "headline": "(LRT) 174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.\n",
 "lanes": "closed",
-"lat": 45.480337,
-"lon": -75.513553,
+"lat": 45.480347,
+"lon": -75.513555,
 "planned_end": "2026-11-22T17:00",
 "planned_start": "2026-11-02T07:00",
 "priority": "HIGH",
 "road": "174 E/B On-ramp",
 "source": "city",
-"updated": "2026-11-03 13:06:00"
+"updated": "2026-11-03 15:17:00"
 },
-"fp": "8cda8f7fe891"
+"fp": "21a66f30ba13"
 },
 "29797": {
 "event": {
@@ -2990,6 +2898,29 @@
 },
 "fp": "801e6ac3a6ce"
 },
+"29806": {
+"event": {
+"cause": "construction",
+"created": "2026-11-03 06:55:00",
+"cross_street_1": "Moodie Northbound",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29806",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 417 W/B on-ramp closed at night at Moodie Northbound due to construction from November 4th 11:00pm to November 5th 5:00am",
+"lanes": "closed",
+"lat": 45.339327,
+"lon": -75.841358,
+"planned_end": "2026-11-05T05:00",
+"planned_start": "2026-11-03T23:00",
+"priority": "HIGH",
+"road": "417 W/B on-ramp",
+"source": "city",
+"updated": "2026-11-03 22:56:00"
+},
+"fp": "f719b7ba8681"
+},
 "29807": {
 "event": {
 "cause": "construction",
@@ -3059,29 +2990,6 @@
 },
 "fp": "126eba8a1d47"
 },
-"29821": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-03 13:10:00",
-"cross_street_1": "Hunt Club",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29821",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Greenbank northbound reduced to 1 lane at Hunt Club due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.321569,
-"lon": -75.776538,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Greenbank",
-"source": "city",
-"updated": "2026-11-03 13:10:00"
-},
-"fp": "d616e3702e54"
-},
 "29822": {
 "event": {
 "cause": "construction",
@@ -3104,6 +3012,29 @@
 "updated": "2026-11-03 13:20:00"
 },
 "fp": "96228b76444e"
+},
+"29838": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-04 08:23:00",
+"cross_street_1": "Constellation",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29838",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Baseline westbound right lane closed at Constellation due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.350097,
+"lon": -75.766182,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Baseline",
+"source": "city",
+"updated": "2026-11-04 09:19:00"
+},
+"fp": "7af91314381d"
 }
 }
 }
