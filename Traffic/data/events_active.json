@@ -3013,29 +3013,6 @@
 },
 "fp": "5bed5c7c36aa"
 },
-"29862": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-04 17:58:00",
-"cross_street_1": "Laurier",
-"cross_street_2": "417",
-"direction": null,
-"event_id": "29862",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Nicholas southbound reduced to 1 lane between Laurier and 417 due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.419087,
-"lon": -75.679756,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Nicholas",
-"source": "city",
-"updated": "2026-11-04 17:58:00"
-},
-"fp": "c331ae3c3b0b"
-},
 "29865": {
 "event": {
 "cause": "",
@@ -3081,29 +3058,6 @@
 "updated": "2026-11-04 19:18:00"
 },
 "fp": "11af454d2713"
-},
-"29869": {
-"event": {
-"cause": "construction",
-"created": "2026-11-05 06:54:00",
-"cross_street_1": "REDWOOD",
-"cross_street_2": "ROWANWOOD",
-"direction": null,
-"event_id": "29869",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BYRON eastbound lane reduction between REDWOOD and ROWANWOOD due to construction, from November 4th to 9th.",
-"lanes": "lane reduction",
-"lat": 45.382226,
-"lon": -75.769619,
-"planned_end": "2026-11-09T17:00",
-"planned_start": "2026-11-04T00:00",
-"priority": "HIGH",
-"road": "BYRON",
-"source": "city",
-"updated": "2026-11-05 06:56:00"
-},
-"fp": "ae366ee51256"
 }
 }
 }
