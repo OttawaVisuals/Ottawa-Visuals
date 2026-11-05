@@ -2576,29 +2576,6 @@
 },
 "fp": "6455d618c42b"
 },
-"29772": {
-"event": {
-"cause": "construction",
-"created": "2026-10-30 12:59:00",
-"cross_street_1": "CUMBERLAND",
-"cross_street_2": "WALLER",
-"direction": null,
-"event_id": "29772",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "STEWART lane reduction between CUMBERLAND and WALLER due to construction, Thursday November 5th.",
-"lanes": "lane reduction",
-"lat": 45.426121,
-"lon": -75.686026,
-"planned_end": "2026-11-05T17:00",
-"planned_start": "2026-11-02T07:00",
-"priority": "MEDIUM",
-"road": "STEWART",
-"source": "city",
-"updated": "2026-11-02 06:56:00"
-},
-"fp": "71f02d07d572"
-},
 "29773": {
 "event": {
 "cause": "construction",
@@ -3105,51 +3082,120 @@
 },
 "fp": "b8e3c7714cf5"
 },
-"29889": {
+"29891": {
+"event": {
+"cause": "",
+"created": "2026-11-05 16:48:00",
+"cross_street_1": "WOODROFFE AVE (IC 127)",
+"cross_street_2": "PINECREST AVE / GREENBANK RD (IC 129)",
+"direction": null,
+"event_id": "29891",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from WOODROFFE AVE to PINECREST AVE / GREENBANK RD - Continuous Engineering Investigation. 1 Right Lane(s). Traffic will encounter a right lane closure EB & WB. 2026-11-06 08:30 to 2026-11-06 17:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.36114,
+"lon": -75.76829,
+"planned_end": "2026-11-06T17:00",
+"planned_start": "2026-11-06T08:30",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-05 16:48:00"
+},
+"fp": "2442ba353378"
+},
+"29892": {
 "event": {
 "cause": "a disabled vehicle",
-"created": "2026-11-05 16:19:00",
-"cross_street_1": "Lacasse",
+"created": "2026-11-05 16:50:00",
+"cross_street_1": "Navan",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29889",
+"event_id": "29892",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Montreal westbound reduced to 1 lane at Lacasse due to a disabled vehicle. Duration is unknown.",
+"headline": "Renaud eastbound lane reduction at Navan due to a disabled vehicle. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.430334,
+"lon": -75.515647,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Renaud",
+"source": "city",
+"updated": "2026-11-05 16:50:00"
+},
+"fp": "d47cbbd19c1c"
+},
+"29895": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-05 17:17:00",
+"cross_street_1": "Carling",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29895",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Merivale closed at Carling due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.386794,
+"lon": -75.732671,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Merivale",
+"source": "city",
+"updated": "2026-11-05 17:17:00"
+},
+"fp": "9096071a6746"
+},
+"29896": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-05 17:17:00",
+"cross_street_1": "Merivale",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29896",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Carling westbound reduced to 1 lane at Merivale due to a collision. Firefighters are directing traffic. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.437452,
-"lon": -75.657794,
+"lat": 45.386844,
+"lon": -75.732628,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Montreal",
+"road": "Carling",
 "source": "city",
-"updated": "2026-11-05 16:19:00"
+"updated": "2026-11-05 17:17:00"
 },
-"fp": "a0680f90a4f6"
+"fp": "849721bc9b5e"
 },
-"29890": {
+"29897": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-05 16:25:00",
-"cross_street_1": "Johnston",
+"cause": "a medical emergency",
+"created": "2026-11-05 17:21:00",
+"cross_street_1": "Carling",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29890",
+"event_id": "29897",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Bank southbound left lane closed at Johnston due to a disabled vehicle. Duration is unknown.",
-"lanes": "left lane closed",
-"lat": 45.360408,
-"lon": -75.656877,
+"headline": "Kirkwood northbound reduced to 1 lane at Carling due to a medical emergency. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.38352,
+"lon": -75.739526,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Bank",
+"road": "Kirkwood",
 "source": "city",
-"updated": "2026-11-05 16:25:00"
+"updated": "2026-11-05 17:21:00"
 },
-"fp": "e42a1790cf3e"
+"fp": "6d063c89b926"
 }
 }
 }
