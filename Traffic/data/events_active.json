@@ -3104,6 +3104,52 @@
 "updated": "2026-11-05 12:44:00"
 },
 "fp": "b8e3c7714cf5"
+},
+"29889": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-05 16:19:00",
+"cross_street_1": "Lacasse",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29889",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Montreal westbound reduced to 1 lane at Lacasse due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.437452,
+"lon": -75.657794,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Montreal",
+"source": "city",
+"updated": "2026-11-05 16:19:00"
+},
+"fp": "a0680f90a4f6"
+},
+"29890": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-05 16:25:00",
+"cross_street_1": "Johnston",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29890",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bank southbound left lane closed at Johnston due to a disabled vehicle. Duration is unknown.",
+"lanes": "left lane closed",
+"lat": 45.360408,
+"lon": -75.656877,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Bank",
+"source": "city",
+"updated": "2026-11-05 16:25:00"
+},
+"fp": "e42a1790cf3e"
 }
 }
 }
