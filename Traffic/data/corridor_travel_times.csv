@@ -48989,3 +48989,23 @@ timestamp_utc,timestamp_local,corridor_id,direction,travel_time_s,traffic_delay_
 2026-11-04T23:15:56Z,2026-11-04T18:15:56-0500,gatineau,from_downtown,991,0,9998,
 2026-11-04T23:15:56Z,2026-11-04T18:15:56-0500,riverside,to_downtown,1735,102,19269,
 2026-11-04T23:15:56Z,2026-11-04T18:15:56-0500,riverside,from_downtown,1749,0,17322,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,kanata,to_downtown,1351,137,22983,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,kanata,from_downtown,1399,293,22526,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,orleans,to_downtown,1217,0,18013,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,orleans,from_downtown,1365,110,19261,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,barrhaven,to_downtown,1872,137,22509,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,barrhaven,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,gatineau,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,gatineau,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,riverside,to_downtown,1605,0,17546,
+2026-11-04T23:30:53Z,2026-11-04T18:30:53-0500,riverside,from_downtown,1816,201,17322,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,kanata,to_downtown,1181,0,22983,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,kanata,from_downtown,1068,0,22526,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,orleans,to_downtown,1226,0,18664,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,orleans,from_downtown,1156,0,19244,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,barrhaven,to_downtown,1666,0,22509,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,barrhaven,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,gatineau,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,gatineau,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,riverside,to_downtown,1527,0,17546,
+2026-11-05T00:00:55Z,2026-11-04T19:00:55-0500,riverside,from_downtown,,,,HTTP Error 429: Too Many Requests
