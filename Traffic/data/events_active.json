@@ -3059,28 +3059,28 @@
 },
 "fp": "11af454d2713"
 },
-"29873": {
+"29876": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-05 09:22:00",
-"cross_street_1": "Greenbank",
-"cross_street_2": "Ventnor",
+"created": "2026-11-05 11:26:00",
+"cross_street_1": "Waterbridge/Winding way",
+"cross_street_2": "Crestway/Heathwood",
 "direction": null,
-"event_id": "29873",
+"event_id": "29876",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Malvern closed between Greenbank and Ventnor due to a collision.",
-"lanes": "closed",
-"lat": 45.283245,
-"lon": -75.754239,
+"full_closure": false,
+"headline": "Prince of Wales northbound lane reduction between Waterbridge/Winding way and Crestway/Heathwood due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.285151,
+"lon": -75.702574,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Malvern",
+"road": "Prince of Wales",
 "source": "city",
-"updated": "2026-11-05 09:37:00"
+"updated": "2026-11-05 11:26:00"
 },
-"fp": "5f16427c316f"
+"fp": "22e3fab95427"
 }
 }
 }
