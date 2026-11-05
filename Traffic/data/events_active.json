@@ -3059,29 +3059,6 @@
 },
 "fp": "11af454d2713"
 },
-"29877": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-05 12:21:00",
-"cross_street_1": "Nepean Sportsplex South Entrance",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29877",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Woodroffe northbound left lane closed at Nepean Sportsplex South Entrance due to a collision.",
-"lanes": "left lane closed",
-"lat": 45.325541,
-"lon": -75.746975,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Woodroffe",
-"source": "city",
-"updated": "2026-11-05 13:24:00"
-},
-"fp": "1e975e91be7c"
-},
 "29878": {
 "event": {
 "cause": "construction",
@@ -3127,52 +3104,6 @@
 "updated": "2026-11-05 12:44:00"
 },
 "fp": "b8e3c7714cf5"
-},
-"29881": {
-"event": {
-"cause": "a medical emergency",
-"created": "2026-11-05 12:41:00",
-"cross_street_1": "Viewmount",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29881",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Merivale southbound reduced to 1 lane at Viewmount due to a medical emergency. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.344103,
-"lon": -75.729456,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Merivale",
-"source": "city",
-"updated": "2026-11-05 12:41:00"
-},
-"fp": "2411bc94d6b8"
-},
-"29885": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-05 13:29:00",
-"cross_street_1": "Pleasant Park",
-"cross_street_2": "Bank",
-"direction": null,
-"event_id": "29885",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Riverside southbound right lane closed between Pleasant Park and Bank due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.400077,
-"lon": -75.669129,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-11-05 13:29:00"
-},
-"fp": "cd5175b773f5"
 }
 }
 }
