@@ -3058,6 +3058,52 @@
 "updated": "2026-11-04 19:18:00"
 },
 "fp": "11af454d2713"
+},
+"29872": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-05 09:14:00",
+"cross_street_1": "Centerpointe/Cobden",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29872",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Baseline eastbound reduced to 1 lane at Centerpointe/Cobden due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.346469,
+"lon": -75.774874,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Baseline",
+"source": "city",
+"updated": "2026-11-05 09:14:00"
+},
+"fp": "83194b1fe0ad"
+},
+"29873": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-05 09:22:00",
+"cross_street_1": "Greenbank",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29873",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Malvern periodically reduced to 1 lane with alternating traffic at Greenbank due to a collision.",
+"lanes": "periodically reduced to 1 lane with alternating traffic",
+"lat": 45.283245,
+"lon": -75.754239,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Malvern",
+"source": "city",
+"updated": "2026-11-05 09:22:00"
+},
+"fp": "7e7cd361aa0d"
 }
 }
 }

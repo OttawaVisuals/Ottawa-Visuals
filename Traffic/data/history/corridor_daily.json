@@ -7056,12 +7056,12 @@
   "weekday": 3,
   "corridors": {
    "barrhaven|from_downtown": {
-    "am_peak_s": 1758,
+    "am_peak_s": 1757,
     "pm_peak_s": null,
     "overnight_s": 1426,
     "min_s": 1407,
     "max_s": 1807,
-    "n": 11
+    "n": 14
    },
    "barrhaven|to_downtown": {
     "am_peak_s": 2160,
@@ -7069,23 +7069,23 @@
     "overnight_s": 1384,
     "min_s": 1358,
     "max_s": 2404,
-    "n": 16
+    "n": 20
    },
    "gatineau|from_downtown": {
-    "am_peak_s": 931,
+    "am_peak_s": 934,
     "pm_peak_s": null,
     "overnight_s": 734,
     "min_s": 721,
     "max_s": 1007,
-    "n": 10
+    "n": 13
    },
    "gatineau|to_downtown": {
-    "am_peak_s": 1026,
+    "am_peak_s": 1062,
     "pm_peak_s": null,
     "overnight_s": 736,
     "min_s": 733,
-    "max_s": 1134,
-    "n": 10
+    "max_s": 1202,
+    "n": 13
    },
    "kanata|from_downtown": {
     "am_peak_s": 1102,
@@ -7093,47 +7093,47 @@
     "overnight_s": 990,
     "min_s": 982,
     "max_s": 1158,
-    "n": 16
+    "n": 20
    },
    "kanata|to_downtown": {
-    "am_peak_s": 2180,
+    "am_peak_s": 2198,
     "pm_peak_s": null,
     "overnight_s": 1086,
     "min_s": 1071,
-    "max_s": 2319,
-    "n": 16
+    "max_s": 2322,
+    "n": 20
    },
    "orleans|from_downtown": {
-    "am_peak_s": 1177,
+    "am_peak_s": 1178,
     "pm_peak_s": null,
     "overnight_s": 1053,
     "min_s": 1040,
     "max_s": 1212,
-    "n": 16
+    "n": 20
    },
    "orleans|to_downtown": {
-    "am_peak_s": 1935,
+    "am_peak_s": 1928,
     "pm_peak_s": null,
     "overnight_s": 1048,
     "min_s": 1038,
     "max_s": 2077,
-    "n": 16
+    "n": 20
    },
    "riverside|from_downtown": {
-    "am_peak_s": 1634,
+    "am_peak_s": 1658,
     "pm_peak_s": null,
     "overnight_s": 1295,
     "min_s": 1269,
     "max_s": 1741,
-    "n": 10
+    "n": 12
    },
    "riverside|to_downtown": {
-    "am_peak_s": 1664,
+    "am_peak_s": 1716,
     "pm_peak_s": null,
     "overnight_s": 1229,
     "min_s": 1204,
     "max_s": 1827,
-    "n": 9
+    "n": 11
    }
   }
  }
