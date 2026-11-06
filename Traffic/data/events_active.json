@@ -3151,28 +3151,74 @@
 },
 "fp": "2442ba353378"
 },
-"29901": {
+"29902": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-06 07:25:00",
-"cross_street_1": "Hunt Club",
-"cross_street_2": null,
+"cause": "police operation",
+"created": "2026-11-06 08:00:00",
+"cross_street_1": "Daly",
+"cross_street_2": "Besserer",
 "direction": null,
-"event_id": "29901",
+"event_id": "29902",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "416 off-ramp southbound lane reduction at Hunt Club due to a disabled vehicle.",
-"lanes": "lane reduction",
-"lat": 45.312159,
-"lon": -75.804066,
+"headline": "Waller northbound right lane closed between Daly and Besserer due to police operation.",
+"lanes": "right lane closed",
+"lat": 45.426143,
+"lon": -75.687995,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Waller",
+"source": "city",
+"updated": "2026-11-06 08:00:00"
+},
+"fp": "69f0f7987f84"
+},
+"29903": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-06 08:06:00",
+"cross_street_1": "Prom Place d'Orl\u00e9ans Dr",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29903",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "St-Joseph traffic disruptions at Place d'Orl\u00e9ans Dr due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.474865,
+"lon": -75.517668,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "416 off-ramp",
+"road": "St-Joseph",
 "source": "city",
-"updated": "2026-11-06 07:26:00"
+"updated": "2026-11-06 08:06:00"
 },
-"fp": "fd94eac30093"
+"fp": "3043a4b090aa"
+},
+"29904": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-06 08:35:00",
+"cross_street_1": "KANATA",
+"cross_street_2": "HUNTSVILLE",
+"direction": null,
+"event_id": "29904",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "TERRY FOX southbound closed between KANATA and HUNTSVILLE due to a collision. Police are directing traffic.",
+"lanes": "closed",
+"lat": 45.311516,
+"lon": -75.932401,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "TERRY FOX",
+"source": "city",
+"updated": "2026-11-06 08:35:00"
+},
+"fp": "4acfdad46639"
 }
 }
 }
