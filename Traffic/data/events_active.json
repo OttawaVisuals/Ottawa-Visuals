@@ -2483,6 +2483,75 @@
 "updated": "2026-11-06 16:42:00"
 },
 "fp": "56080da7eb0f"
+},
+"29923": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-06 17:12:00",
+"cross_street_1": "417",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29923",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Carp southbound reduced to 1 lane at 417 due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.281097,
+"lon": -75.957142,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Carp",
+"source": "city",
+"updated": "2026-11-06 17:12:00"
+},
+"fp": "592b41ed71ad"
+},
+"29924": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-06 17:21:00",
+"cross_street_1": "Second Line",
+"cross_street_2": "Statewood",
+"direction": null,
+"event_id": "29924",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Terry Fox westbound reduced to 1 lane between Second Line and Statewood due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.34081,
+"lon": -75.937854,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Terry Fox",
+"source": "city",
+"updated": "2026-11-06 17:21:00"
+},
+"fp": "10b3e069a11c"
+},
+"29925": {
+"event": {
+"cause": "",
+"created": "2026-11-06 18:00:00",
+"cross_street_1": "MOODIE DR (IC 134)",
+"cross_street_2": "HWY 416",
+"direction": null,
+"event_id": "29925",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from MOODIE DR to Highway 416 - Collision. 3 centre lanes closed. ",
+"lanes": "3 centre lanes closed",
+"lat": 45.33829,
+"lon": -75.84151,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-06 18:00:00"
+},
+"fp": "2272a9dea3d1"
 }
 }
 }
