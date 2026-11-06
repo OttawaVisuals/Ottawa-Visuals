@@ -492,6 +492,70 @@
     </div>
   </section>
 
+  <section id="survey-more">
+    <p class="sec-label">More from the 2025 Canadian Election Study</p>
+    <p class="caveat" style="margin-top:0">Tables 1 and 2 follow the region chosen above; the rest are national because the groups get too small to split further. Percentages are weighted; cells with fewer than 100 respondents are hidden. Stated attitudes and self-reports, not observed behaviour.</p>
+
+    <div class="card">
+      <h3>1. Why people chose their party</h3>
+      <p class="gsub" id="tacLead"></p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Reasons for choosing a party">
+        <table class="results" id="tacTable"><thead><tr>
+          <th>Voted for</th><th>Survey n</th><th>Party policies</th><th>Leader</th><th>Local candidate</th>
+          <th>Didn't want another party to win</th><th>Decided during campaign or on election day</th>
+        </tr></thead><tbody id="tacBody"></tbody></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2. Intended vote vs actual vote</h3>
+      <p class="gsub" id="swLead"></p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Intended versus actual vote">
+        <table class="results" id="swTable"><thead><tr>
+          <th>Said during the campaign</th><th>Survey n</th><th>Voted LPC</th><th>CPC</th><th>NDP</th><th>BQ</th><th>GPC</th><th>PPC</th><th>Other</th>
+        </tr></thead><tbody id="swBody"></tbody></table>
+      </div>
+      <p class="caveat">Rows are what respondents said in the campaign wave; columns are what the same people reported voting in the post-election wave. Only people who completed both waves and reported voting are included.</p>
+    </div>
+
+    <div class="card">
+      <h3>3. Who switches and who is open: NDP and Liberal voters</h3>
+      <p class="gsub" id="grpLead"></p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Switching and openness by demographic group">
+        <table class="results" id="grpTable"><thead><tr>
+          <th>Group</th><th>NDP voters who ended up voting Liberal</th><th>NDP voters open to the Liberals</th><th>Liberal voters open to the NDP</th>
+        </tr></thead><tbody id="grpBody"></tbody></table>
+      </div>
+      <p class="caveat">"Ended up voting Liberal" compares campaign intention with the reported vote. "Open to" means not ruled out and rated 50+ out of 100. Differences of a few points are within sampling noise.</p>
+    </div>
+
+    <div class="card">
+      <h3>4. Why people rule a party out</h3>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Reasons for ruling a party out">
+        <table class="results" id="whyTable"><thead><tr>
+          <th>Party ruled out</th><th>Survey n</th><th>Don't like the leader</th><th>Don't like the policies</th><th>Don't like its supporters</th>
+        </tr></thead><tbody id="whyBody"></tbody></table>
+      </div>
+      <p class="caveat" id="whyCaveat"></p>
+    </div>
+
+    <div class="card">
+      <h3>5. Most important issue, by intended vote</h3>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Most important issue by party">
+        <table class="results" id="issTable"><thead id="issHead"></thead><tbody id="issBody"></tbody></table>
+      </div>
+      <p class="caveat" id="issCaveat"></p>
+    </div>
+
+    <div class="card">
+      <h3>6. Why people did not vote</h3>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Reasons for not voting">
+        <table class="results" id="nvTable"><thead id="nvHead"></thead><tbody id="nvBody"></tbody></table>
+      </div>
+      <p class="caveat" id="nvCaveat"></p>
+    </div>
+  </section>
+
   <section>
     <p class="sec-label">National voter turnout, 2015–2025</p>
     <div class="card">
@@ -517,7 +581,7 @@
       <p>Actual winners have the most valid candidate votes. A majority requires more than 50% of valid votes, excluding rejected ballots. Minor parties are combined in the table's "Others" column for display only; they compete as individual candidates when determining the modelled winner. A modelled tie has no assigned winner and is counted separately from flips.</p>
       <p>The transfer boundary is (winner's votes − group leader's votes) ÷ votes of the other selected parties. The group leader must strictly exceed that boundary to win. The ranked cards show the smallest whole-percent slider setting that wins; boundaries at or above 100% are not reachable. Thresholds apply only to ridings won by a party outside the selected group.</p>
       <h4>Survey evidence</h4>
-      <p>The survey section uses the campaign-period wave of the <a href="https://doi.org/10.7910/DVN/2YAQ8D">2025 Canadian Election Study</a> (Stephenson, Harell and Rubenson; Harvard Dataverse; licence CC BY-NC 4.0), 11,577 weighted respondents who named a party they would vote for. Weights are the study's high-quality-respondent weights, raked to the 2021 census by province, gender, age and education; the Territories have no weights and are excluded. "Open to" means the respondent did <i>not</i> say they would absolutely not vote for that party <i>and</i> rated it 50 or higher on a 0–100 slider. These are stated attitudes at one point in the campaign, not observed behaviour, and the study is an online panel, so treat the figures as a rough guide to the 0–100% slider range, not as a calibrated transfer rate. Postal code is not public, so regions are provinces or groups of provinces; no riding or Ottawa figure is available. Groups under 100 respondents are not shown. Only aggregated tables are stored here (<a href="data/ces_tables.json" download>ces_tables.json</a>); the microdata is not redistributed.</p>
+      <p>The survey section uses the campaign-period wave of the <a href="https://doi.org/10.7910/DVN/2YAQ8D">2025 Canadian Election Study</a> (Stephenson, Harell and Rubenson; Harvard Dataverse; licence CC BY-NC 4.0), 11,577 weighted respondents who named a party they would vote for. Weights are the study's high-quality-respondent weights, raked to the 2021 census by province, gender, age and education; the Territories have no weights and are excluded. "Open to" means the respondent did <i>not</i> say they would absolutely not vote for that party <i>and</i> rated it 50 or higher on a 0–100 slider. These are stated attitudes at one point in the campaign, not observed behaviour, and the study is an online panel, so treat the figures as a rough guide to the 0–100% slider range, not as a calibrated transfer rate. Postal code is not public, so regions are provinces or groups of provinces; no riding or Ottawa figure is available. Groups under 100 respondents are not shown. The extra tables use the post-election wave (same respondents) for actual vote, reasons for choosing a party and reasons for not voting, with its own high-quality weight. "Didn't want another party to win" is one response option to the question about the most important reason for choosing a party, so it is a stated-motive measure of tactical voting, not an observed one. Issue answers are free text sorted by keyword. Only aggregated tables are stored here (<a href="data/ces_tables.json" download>ces_tables.json</a>); the microdata is not redistributed.</p>
       <h4>Downloads and reproducibility</h4>
       <p><a href="data/candidates.csv" download>Candidate results CSV</a> · <a href="data/results.json" download>Results JSON</a> · <a href="data/audit.json" download>Source audit</a> · <a href="data/table_tableau12.csv" download>Original candidate table</a> · <a href="README.md">Method and rebuild instructions</a>.</p>
       <p><button type="button" class="clearsel" id="downloadScenario">Download current scenario CSV</button></p>
@@ -1030,15 +1094,92 @@
     const nat = pairs.map(([f,t])=>{ const c=cesCell("Canada",f,t); return c?`${pctTxt(c.open)} ${f}→${t}`:null; }).filter(Boolean).slice(0,2);
     document.getElementById("cesHint").textContent = nat.length ? "CES open-to rates " + nat.join(", ") : "";
   }
+
+  // ---- more survey tables ----
+  const heat = (v, max) => `background:color-mix(in srgb,var(--accent) ${Math.min(55, Math.round(v/max*55))}%,transparent)`;
+  const cell = (v, max, title) => v==null ? `<td class="num">–</td>` : `<td class="num" style="${heat(v,max||0.6)}"${title?` title="${esc(title)}"`:""}>${pctTxt(v)}</td>`;
+  const PARTY_ORDER_S = ["LPC","CPC","NDP","BQ","GPC","PPC"];
+  const pname = c => (P[c] ? P[c].name : c);
+  function renderSurveyMore(){
+    if(!CES || !CES.tactical) return;
+    const region = cesRegion.value;
+
+    // 1. why people chose their party
+    const tac = CES.tactical[region] || {};
+    let rows = "";
+    ["LPC","CPC","NDP","BQ","GPC"].forEach(c=>{
+      const t = tac[c];
+      if(!t){ rows += `<tr><td>${pname(c)}</td><td class="num" colspan="6">too few respondents (under ${CES.meta.min_n_for_display})</td></tr>`; return; }
+      const late = t.decided ? t.decided["During the campaign"] + t.decided["On election day"] : null;
+      rows += `<tr><td>${pname(c)}</td><td class="num">${t.n.toLocaleString()}</td>${cell(t.reason["Party policies"])}${cell(t.reason["Leader"])}${cell(t.reason["Local candidate"])}${cell(t.reason["Didn't want another party to win"])}${cell(late)}</tr>`;
+    });
+    document.getElementById("tacBody").innerHTML = rows;
+    const lt = tac.LPC, nt = tac.NDP;
+    function topReason(t){ return Object.keys(t.reason).sort((a,b)=>t.reason[b]-t.reason[a])[0]; }
+    document.getElementById("tacLead").innerHTML = lt
+      ? `${esc(region)}: <b>${pctTxt(lt.reason["Didn't want another party to win"])}</b> of Liberal voters${nt?` and <b>${pctTxt(nt.reason["Didn't want another party to win"])}</b> of NDP voters`:""} say their main reason was not wanting another party to win, the survey's closest measure of tactical voting. Among Liberal voters, the most common reason was "${esc(topReason(lt).toLowerCase())}" (<b>${pctTxt(lt.reason[topReason(lt)])}</b>).`
+      : `Too few respondents in ${esc(region)}.`;
+
+    // 2. intended vs actual
+    const sw = CES.switching[region] || {};
+    const order = ["LPC","CPC","NDP","BQ","GPC","PPC","UNDECIDED"];
+    rows = "";
+    order.forEach(k=>{
+      const r = sw[k]; if(!r) return;
+      const label = k==="UNDECIDED" ? "Undecided" : pname(k);
+      rows += `<tr><td>${label}</td><td class="num">${r.n.toLocaleString()}</td>` + ["LPC","CPC","NDP","BQ","GPC","PPC","OTH"].map(t=> cell(r.to[t], 1, k===t?"stayed with the same party":"")).join("") + `</tr>`;
+    });
+    document.getElementById("swBody").innerHTML = rows || `<tr><td colspan="9">Too few respondents in ${esc(region)}.</td></tr>`;
+    const nd = sw.NDP, un = sw.UNDECIDED;
+    document.getElementById("swLead").innerHTML = nd
+      ? `${esc(region)}: <b>${pctTxt(nd.to.LPC)}</b> of people who said NDP during the campaign voted Liberal, while <b>${pctTxt(nd.to.NDP)}</b> stayed with the NDP.` + (un ? ` Those still undecided split ${pctTxt(un.to.LPC)} Liberal and ${pctTxt(un.to.CPC)} Conservative.` : "")
+      : `${esc(region)}: too few NDP supporters to show a switching rate; other rows are shown where there are enough respondents.`;
+
+    // 3. who switches
+    rows = "";
+    Object.keys(CES.swing_groups).forEach(dim=>{
+      rows += `<tr><td colspan="4" style="font-weight:600;background:var(--bg-3)">${esc(dim)}</td></tr>`;
+      CES.swing_groups[dim].forEach(g=>{
+        rows += `<tr><td>${esc(g.level)}</td>${cell(g.ndp_to_lpc_switched, 0.5, g.ndp_n?("n="+g.ndp_n):"")}${cell(g.ndp_open_lpc, 0.8, g.ndp_open_n?("n="+g.ndp_open_n):"")}${cell(g.lpc_open_ndp, 0.8, g.lpc_open_n?("n="+g.lpc_open_n):"")}</tr>`;
+      });
+    });
+    document.getElementById("grpBody").innerHTML = rows;
+    const ag = CES.swing_groups.Age;
+    const spread = dim => { const v=(CES.swing_groups[dim]||[]).map(g=>g.ndp_to_lpc_switched).filter(x=>x!=null); return v.length>1 ? Math.max(...v)-Math.min(...v) : null; };
+    const flat = ["Household income","Housing","Union membership"].filter(d=>{ const sp=spread(d); return sp!==null && sp<=0.03; }).map(d=>d.toLowerCase());
+    const flatDims = flat.length ? `${" "}${flat.join(", ").replace(/, ([^,]*)$/, " and $1").replace(/^./, c=>c.toUpperCase())} ${flat.length>1?"differ":"differs"} by 3 points or less in actual switching.` : "";
+    document.getElementById("grpLead").innerHTML = ag && ag[0] && ag[2] && ag[0].ndp_to_lpc_switched!=null && ag[2].ndp_to_lpc_switched!=null
+      ? `National: age is the clearest dividing line. <b>${pctTxt(ag[0].ndp_to_lpc_switched)}</b> of NDP supporters aged 18–34 voted Liberal, against <b>${pctTxt(ag[2].ndp_to_lpc_switched)}</b> of those 55 and over.${flatDims}`
+      : "National.";
+
+    // 4. why rule out
+    const why = CES.why_rule_out || {};
+    rows = Object.keys(why).map(c=>`<tr><td>${pname(c)}</td><td class="num">${why[c].n.toLocaleString()}</td>${cell(why[c].leader,0.8)}${cell(why[c].policies,0.8)}${cell(why[c].supporters,0.8)}</tr>`).join("");
+    document.getElementById("whyBody").innerHTML = rows;
+    document.getElementById("whyCaveat").textContent = "Only respondents who ruled out exactly one party and were then asked why (a random subsample); several answers could be ticked, so rows do not sum to 100%. Only parties with at least " + CES.meta.min_n_for_display + " such respondents are shown.";
+
+    // 5. issues
+    const ib = CES.issues.by_party, parties = PARTY_ORDER_S.filter(c=>ib[c]);
+    document.getElementById("issHead").innerHTML = `<tr><th>Most important issue</th>${parties.map(c=>`<th>${c}</th>`).join("")}</tr><tr><td>Survey n</td>${parties.map(c=>`<td class="num">${ib[c].n.toLocaleString()}</td>`).join("")}</tr>`;
+    document.getElementById("issBody").innerHTML = CES.issues.labels.map(l=>`<tr><td>${esc(l)}</td>${parties.map(c=>cell(ib[c].share[l],0.35)).join("")}</tr>`).join("");
+    document.getElementById("issCaveat").textContent = `The question was open-ended; ${CES.issues.respondents.toLocaleString()} written answers were sorted into topics by matching keywords (English and French), so the grouping is approximate and "Other" is large. Intended vote is from the campaign wave.`;
+
+    // 6. not voting
+    const ng = CES.no_vote.groups, names = Object.keys(ng);
+    document.getElementById("nvHead").innerHTML = `<tr><th>Main reason for not voting</th>${names.map(n=>`<th>${esc(n)}</th>`).join("")}</tr><tr><td>Survey n</td>${names.map(n=>`<td class="num">${ng[n].n.toLocaleString()}</td>`).join("")}</tr>`;
+    document.getElementById("nvBody").innerHTML = CES.no_vote.labels.map(l=>`<tr><td>${esc(l)}</td>${names.map(n=>cell(ng[n].share[l],0.35)).join("")}</tr>`).join("");
+    document.getElementById("nvCaveat").textContent = "Respondents in the post-election wave who said they did not vote and gave a main reason. Self-reported turnout in surveys runs higher than the official 69.0%, so this describes the non-voters the survey did reach.";
+  }
   if(CES){
     Object.keys(CES.regions).forEach(k=>{ const o=document.createElement("option"); o.value=k; o.textContent=k; cesRegion.appendChild(o); });
-    cesRegion.addEventListener("change", renderSurvey);
+    cesRegion.addEventListener("change", ()=>{ renderSurvey(); renderSurveyMore(); });
   }
 
   loadMaps();
   renderPanel();
   renderCoordination();
   renderSurvey();
+  renderSurveyMore();
 })();
 
 // ── THEME (shared ov-theme key across the site) ──────────────────────────────

@@ -1215,5 +1215,946 @@
     }
    }
   }
+ },
+ "tactical": {
+  "Canada": {
+   "LPC": {
+    "n": 5138,
+    "reason": {
+     "Party policies": 0.1822303831577301,
+     "Leader": 0.5528421998023987,
+     "Local candidate": 0.0396181121468544,
+     "Didn't want another party to win": 0.20401912927627563,
+     "Other": 0.021290261298418045
+    },
+    "decided": {
+     "Before the campaign": 0.5293591618537903,
+     "During the campaign": 0.4136260449886322,
+     "On election day": 0.057014793157577515
+    }
+   },
+   "CPC": {
+    "n": 3556,
+    "reason": {
+     "Party policies": 0.5347601771354675,
+     "Leader": 0.1800142079591751,
+     "Local candidate": 0.07535015791654587,
+     "Didn't want another party to win": 0.17204289138317108,
+     "Other": 0.037832558155059814
+    },
+    "decided": {
+     "Before the campaign": 0.7235575914382935,
+     "During the campaign": 0.2156171202659607,
+     "On election day": 0.06082528084516525
+    }
+   },
+   "NDP": {
+    "n": 833,
+    "reason": {
+     "Party policies": 0.4334696829319,
+     "Leader": 0.1019027829170227,
+     "Local candidate": 0.2353072166442871,
+     "Didn't want another party to win": 0.17297731339931488,
+     "Other": 0.05634301155805588
+    },
+    "decided": {
+     "Before the campaign": 0.5393015146255493,
+     "During the campaign": 0.2954598665237427,
+     "On election day": 0.16523857414722443
+    }
+   },
+   "BQ": {
+    "n": 798,
+    "reason": {
+     "Party policies": 0.47542354464530945,
+     "Leader": 0.1373714804649353,
+     "Local candidate": 0.16130104660987854,
+     "Didn't want another party to win": 0.1191491186618805,
+     "Other": 0.10675481706857681
+    },
+    "decided": {
+     "Before the campaign": 0.5684134364128113,
+     "During the campaign": 0.31439438462257385,
+     "On election day": 0.11719214171171188
+    }
+   },
+   "GPC": {
+    "n": 193,
+    "reason": {
+     "Party policies": 0.4254756569862366,
+     "Leader": 0.13861222565174103,
+     "Local candidate": 0.18537262082099915,
+     "Didn't want another party to win": 0.1409929394721985,
+     "Other": 0.10954662412405014
+    },
+    "decided": {
+     "Before the campaign": 0.5061980485916138,
+     "During the campaign": 0.32516396045684814,
+     "On election day": 0.16863788664340973
+    }
+   }
+  },
+  "Ontario": {
+   "LPC": {
+    "n": 2295,
+    "reason": {
+     "Party policies": 0.17691531777381897,
+     "Leader": 0.5696589946746826,
+     "Local candidate": 0.03665921464562416,
+     "Didn't want another party to win": 0.19409601390361786,
+     "Other": 0.02267056703567505
+    },
+    "decided": {
+     "Before the campaign": 0.5317279696464539,
+     "During the campaign": 0.40870043635368347,
+     "On election day": 0.05957156792283058
+    }
+   },
+   "CPC": {
+    "n": 1485,
+    "reason": {
+     "Party policies": 0.5205644965171814,
+     "Leader": 0.1967587023973465,
+     "Local candidate": 0.06737347692251205,
+     "Didn't want another party to win": 0.1782032698392868,
+     "Other": 0.03710000589489937
+    },
+    "decided": {
+     "Before the campaign": 0.7176175713539124,
+     "During the campaign": 0.21954648196697235,
+     "On election day": 0.06283590942621231
+    }
+   },
+   "NDP": {
+    "n": 270,
+    "reason": {
+     "Party policies": 0.45479029417037964,
+     "Leader": 0.11560298502445221,
+     "Local candidate": 0.21731126308441162,
+     "Didn't want another party to win": 0.16293799877166748,
+     "Other": 0.04935743287205696
+    },
+    "decided": {
+     "Before the campaign": 0.6147311925888062,
+     "During the campaign": 0.2574058473110199,
+     "On election day": 0.12786288559436798
+    }
+   }
+  },
+  "Quebec": {
+   "LPC": {
+    "n": 1024,
+    "reason": {
+     "Party policies": 0.19231022894382477,
+     "Leader": 0.529253363609314,
+     "Local candidate": 0.05535999685525894,
+     "Didn't want another party to win": 0.20545770227909088,
+     "Other": 0.017618849873542786
+    },
+    "decided": {
+     "Before the campaign": 0.4889039993286133,
+     "During the campaign": 0.42920759320259094,
+     "On election day": 0.08188844472169876
+    }
+   },
+   "CPC": {
+    "n": 480,
+    "reason": {
+     "Party policies": 0.5287780165672302,
+     "Leader": 0.15922537446022034,
+     "Local candidate": 0.10186519473791122,
+     "Didn't want another party to win": 0.16358555853366852,
+     "Other": 0.04654582962393761
+    },
+    "decided": {
+     "Before the campaign": 0.6097365617752075,
+     "During the campaign": 0.3123214542865753,
+     "On election day": 0.07794196158647537
+    }
+   },
+   "NDP": {
+    "n": 123,
+    "reason": {
+     "Party policies": 0.5140436887741089,
+     "Leader": 0.08113294094800949,
+     "Local candidate": 0.181707501411438,
+     "Didn't want another party to win": 0.17160630226135254,
+     "Other": 0.05150964856147766
+    },
+    "decided": {
+     "Before the campaign": 0.3724672198295593,
+     "During the campaign": 0.2944409251213074,
+     "On election day": 0.3330918550491333
+    }
+   },
+   "BQ": {
+    "n": 798,
+    "reason": {
+     "Party policies": 0.47542354464530945,
+     "Leader": 0.1373714804649353,
+     "Local candidate": 0.16130104660987854,
+     "Didn't want another party to win": 0.1191491186618805,
+     "Other": 0.10675481706857681
+    },
+    "decided": {
+     "Before the campaign": 0.5684134364128113,
+     "During the campaign": 0.31439438462257385,
+     "On election day": 0.11719214171171188
+    }
+   }
+  },
+  "British Columbia": {
+   "LPC": {
+    "n": 715,
+    "reason": {
+     "Party policies": 0.15792407095432281,
+     "Leader": 0.5981519818305969,
+     "Local candidate": 0.015171701088547707,
+     "Didn't want another party to win": 0.20810148119926453,
+     "Other": 0.02065069042146206
+    },
+    "decided": {
+     "Before the campaign": 0.5334875583648682,
+     "During the campaign": 0.43286165595054626,
+     "On election day": 0.03365073725581169
+    }
+   },
+   "CPC": {
+    "n": 508,
+    "reason": {
+     "Party policies": 0.5806421637535095,
+     "Leader": 0.13764044642448425,
+     "Local candidate": 0.059470467269420624,
+     "Didn't want another party to win": 0.1749439686536789,
+     "Other": 0.04730292782187462
+    },
+    "decided": {
+     "Before the campaign": 0.7462513446807861,
+     "During the campaign": 0.1833372712135315,
+     "On election day": 0.0704113319516182
+    }
+   },
+   "NDP": {
+    "n": 216,
+    "reason": {
+     "Party policies": 0.36729100346565247,
+     "Leader": 0.08210928738117218,
+     "Local candidate": 0.326912522315979,
+     "Didn't want another party to win": 0.16412068903446198,
+     "Other": 0.05956646800041199
+    },
+    "decided": {
+     "Before the campaign": 0.546389639377594,
+     "During the campaign": 0.32246503233909607,
+     "On election day": 0.13114535808563232
+    }
+   }
+  },
+  "Prairies": {
+   "LPC": {
+    "n": 680,
+    "reason": {
+     "Party policies": 0.220464825630188,
+     "Leader": 0.5104647278785706,
+     "Local candidate": 0.03402933478355408,
+     "Didn't want another party to win": 0.21497666835784912,
+     "Other": 0.020064443349838257
+    },
+    "decided": {
+     "Before the campaign": 0.5327988862991333,
+     "During the campaign": 0.4096592962741852,
+     "On election day": 0.057541921734809875
+    }
+   },
+   "CPC": {
+    "n": 894,
+    "reason": {
+     "Party policies": 0.550748348236084,
+     "Leader": 0.18670842051506042,
+     "Local candidate": 0.07101265341043472,
+     "Didn't want another party to win": 0.15924538671970367,
+     "Other": 0.03228520229458809
+    },
+    "decided": {
+     "Before the campaign": 0.7848648428916931,
+     "During the campaign": 0.17688556015491486,
+     "On election day": 0.038249533623456955
+    }
+   },
+   "NDP": {
+    "n": 187,
+    "reason": {
+     "Party policies": 0.43333280086517334,
+     "Leader": 0.1059575006365776,
+     "Local candidate": 0.21424557268619537,
+     "Didn't want another party to win": 0.1880715787410736,
+     "Other": 0.058392640203237534
+    },
+    "decided": {
+     "Before the campaign": 0.5301253199577332,
+     "During the campaign": 0.3275039792060852,
+     "On election day": 0.14237068593502045
+    }
+   }
+  },
+  "Atlantic": {
+   "LPC": {
+    "n": 424,
+    "reason": {
+     "Party policies": 0.1673583686351776,
+     "Leader": 0.5106725692749023,
+     "Local candidate": 0.06765685975551605,
+     "Didn't want another party to win": 0.22847722470760345,
+     "Other": 0.02583504095673561
+    },
+    "decided": {
+     "Before the campaign": 0.6019699573516846,
+     "During the campaign": 0.37527891993522644,
+     "On election day": 0.022751208394765854
+    }
+   },
+   "CPC": {
+    "n": 189,
+    "reason": {
+     "Party policies": 0.47009456157684326,
+     "Leader": 0.18748030066490173,
+     "Local candidate": 0.12212280184030533,
+     "Didn't want another party to win": 0.19817771017551422,
+     "Other": 0.022124629467725754
+    },
+    "decided": {
+     "Before the campaign": 0.7320706248283386,
+     "During the campaign": 0.18940509855747223,
+     "On election day": 0.07852418720722198
+    }
+   }
+  }
+ },
+ "switching": {
+  "Canada": {
+   "LPC": {
+    "n": 4078,
+    "to": {
+     "LPC": 0.9091034531593323,
+     "CPC": 0.03718974441289902,
+     "NDP": 0.029381530359387398,
+     "BQ": 0.01641255058348179,
+     "GPC": 0.005538431461900473,
+     "PPC": 0.001187889720313251,
+     "OTH": 0.0011863657273352146
+    }
+   },
+   "CPC": {
+    "n": 2764,
+    "to": {
+     "LPC": 0.050921421498060226,
+     "CPC": 0.922492504119873,
+     "NDP": 0.008289506658911705,
+     "BQ": 0.01006611529737711,
+     "GPC": 0.002054816111922264,
+     "PPC": 0.005021979101002216,
+     "OTH": 0.0011535972589626908
+    }
+   },
+   "NDP": {
+    "n": 713,
+    "to": {
+     "LPC": 0.26000720262527466,
+     "CPC": 0.07020746916532516,
+     "NDP": 0.6396610140800476,
+     "BQ": 0.012210368178784847,
+     "GPC": 0.01455478835850954,
+     "PPC": 0.0,
+     "OTH": 0.003359166905283928
+    }
+   },
+   "BQ": {
+    "n": 581,
+    "to": {
+     "LPC": 0.03471149131655693,
+     "CPC": 0.06114109978079796,
+     "NDP": 0.019143041223287582,
+     "BQ": 0.8807084560394287,
+     "GPC": 0.0032700502779334784,
+     "PPC": 0.0,
+     "OTH": 0.0010259178234264255
+    }
+   },
+   "GPC": {
+    "n": 161,
+    "to": {
+     "LPC": 0.1842816174030304,
+     "CPC": 0.12640796601772308,
+     "NDP": 0.08065979182720184,
+     "BQ": 0.028523912653326988,
+     "GPC": 0.532890796661377,
+     "PPC": 0.03931039199233055,
+     "OTH": 0.007925648242235184
+    }
+   },
+   "PPC": {
+    "n": 101,
+    "to": {
+     "LPC": 0.06914511322975159,
+     "CPC": 0.36106088757514954,
+     "NDP": 0.0,
+     "BQ": 0.0,
+     "GPC": 0.03317175433039665,
+     "PPC": 0.4825713336467743,
+     "OTH": 0.054050981998443604
+    }
+   },
+   "UNDECIDED": {
+    "n": 762,
+    "to": {
+     "LPC": 0.3574668765068054,
+     "CPC": 0.3581521213054657,
+     "NDP": 0.11166355758905411,
+     "BQ": 0.11752371490001678,
+     "GPC": 0.036029666662216187,
+     "PPC": 0.01013630349189043,
+     "OTH": 0.009027775377035141
+    }
+   }
+  },
+  "Ontario": {
+   "LPC": {
+    "n": 1734,
+    "to": {
+     "LPC": 0.9333319067955017,
+     "CPC": 0.04154112562537193,
+     "NDP": 0.017662547528743744,
+     "BQ": 0.0,
+     "GPC": 0.007464360911399126,
+     "PPC": 0.0,
+     "OTH": 0.0
+    }
+   },
+   "CPC": {
+    "n": 1168,
+    "to": {
+     "LPC": 0.06540708243846893,
+     "CPC": 0.9211081862449646,
+     "NDP": 0.0065069315023720264,
+     "BQ": 0.0,
+     "GPC": 0.002440221142023802,
+     "PPC": 0.004537565633654594,
+     "OTH": 0.0
+    }
+   },
+   "NDP": {
+    "n": 284,
+    "to": {
+     "LPC": 0.2838740646839142,
+     "CPC": 0.09975099563598633,
+     "NDP": 0.600029706954956,
+     "BQ": 0.0,
+     "GPC": 0.013220311142504215,
+     "PPC": 0.0,
+     "OTH": 0.0031249751336872578
+    }
+   },
+   "UNDECIDED": {
+    "n": 266,
+    "to": {
+     "LPC": 0.42557501792907715,
+     "CPC": 0.40042856335639954,
+     "NDP": 0.10451605916023254,
+     "BQ": 0.0,
+     "GPC": 0.048045579344034195,
+     "PPC": 0.013463329523801804,
+     "OTH": 0.007971551269292831
+    }
+   }
+  },
+  "Quebec": {
+   "LPC": {
+    "n": 894,
+    "to": {
+     "LPC": 0.8703374862670898,
+     "CPC": 0.03162065148353577,
+     "NDP": 0.017143215984106064,
+     "BQ": 0.07553534209728241,
+     "GPC": 0.0032483506947755814,
+     "PPC": 0.0021150163374841213,
+     "OTH": 0.0
+    }
+   },
+   "CPC": {
+    "n": 364,
+    "to": {
+     "LPC": 0.06166787073016167,
+     "CPC": 0.8567959666252136,
+     "NDP": 0.004929174203425646,
+     "BQ": 0.07132287323474884,
+     "GPC": 0.0,
+     "PPC": 0.005283997394144535,
+     "OTH": 0.0
+    }
+   },
+   "BQ": {
+    "n": 581,
+    "to": {
+     "LPC": 0.03471149131655693,
+     "CPC": 0.06114109978079796,
+     "NDP": 0.019143041223287582,
+     "BQ": 0.8807084560394287,
+     "GPC": 0.0032700502779334784,
+     "PPC": 0.0,
+     "OTH": 0.0010259178234264255
+    }
+   },
+   "UNDECIDED": {
+    "n": 225,
+    "to": {
+     "LPC": 0.3135233223438263,
+     "CPC": 0.2163364738225937,
+     "NDP": 0.06823012232780457,
+     "BQ": 0.37436676025390625,
+     "GPC": 0.023059643805027008,
+     "PPC": 0.004483591765165329,
+     "OTH": 0.0
+    }
+   }
+  },
+  "British Columbia": {
+   "LPC": {
+    "n": 570,
+    "to": {
+     "LPC": 0.8874366283416748,
+     "CPC": 0.036349937319755554,
+     "NDP": 0.06107776612043381,
+     "BQ": 0.0,
+     "GPC": 0.008615350350737572,
+     "PPC": 0.0037898728623986244,
+     "OTH": 0.002730555133894086
+    }
+   },
+   "CPC": {
+    "n": 371,
+    "to": {
+     "LPC": 0.05757085606455803,
+     "CPC": 0.9332288503646851,
+     "NDP": 0.0026803419459611177,
+     "BQ": 0.0,
+     "GPC": 0.0,
+     "PPC": 0.002001292770728469,
+     "OTH": 0.004518731497228146
+    }
+   },
+   "NDP": {
+    "n": 155,
+    "to": {
+     "LPC": 0.20742718875408173,
+     "CPC": 0.06772452592849731,
+     "NDP": 0.7164448499679565,
+     "BQ": 0.0,
+     "GPC": 0.008403409272432327,
+     "PPC": 0.0,
+     "OTH": 0.0
+    }
+   }
+  },
+  "Prairies": {
+   "LPC": {
+    "n": 553,
+    "to": {
+     "LPC": 0.8841007947921753,
+     "CPC": 0.04218597710132599,
+     "NDP": 0.06288880109786987,
+     "BQ": 0.0,
+     "GPC": 0.0032988598104566336,
+     "PPC": 0.001483525731600821,
+     "OTH": 0.006041980814188719
+    }
+   },
+   "CPC": {
+    "n": 714,
+    "to": {
+     "LPC": 0.02376655675470829,
+     "CPC": 0.9507927894592285,
+     "NDP": 0.01096468884497881,
+     "BQ": 0.0,
+     "GPC": 0.004047085531055927,
+     "PPC": 0.008268655277788639,
+     "OTH": 0.002160057658329606
+    }
+   },
+   "NDP": {
+    "n": 142,
+    "to": {
+     "LPC": 0.27468645572662354,
+     "CPC": 0.04648042097687721,
+     "NDP": 0.6544647216796875,
+     "BQ": 0.0,
+     "GPC": 0.01408915501087904,
+     "PPC": 0.0,
+     "OTH": 0.010279287584125996
+    }
+   },
+   "UNDECIDED": {
+    "n": 127,
+    "to": {
+     "LPC": 0.2822078764438629,
+     "CPC": 0.5116488337516785,
+     "NDP": 0.14834906160831451,
+     "BQ": 0.0,
+     "GPC": 0.028469106182456017,
+     "PPC": 0.01858619600534439,
+     "OTH": 0.010739085264503956
+    }
+   }
+  },
+  "Atlantic": {
+   "LPC": {
+    "n": 327,
+    "to": {
+     "LPC": 0.962838351726532,
+     "CPC": 0.022735590115189552,
+     "NDP": 0.014425987377762794,
+     "BQ": 0.0,
+     "GPC": 0.0,
+     "PPC": 0.0,
+     "OTH": 0.0
+    }
+   },
+   "CPC": {
+    "n": 147,
+    "to": {
+     "LPC": 0.02902390994131565,
+     "CPC": 0.9410543441772461,
+     "NDP": 0.02992173284292221,
+     "BQ": 0.0,
+     "GPC": 0.0,
+     "PPC": 0.0,
+     "OTH": 0.0
+    }
+   }
+  }
+ },
+ "swing_groups": {
+  "Age": [
+   {
+    "level": "18\u201334",
+    "ndp_to_lpc_switched": 0.33225882053375244,
+    "ndp_n": 206,
+    "ndp_open_lpc": 0.6316993832588196,
+    "ndp_open_n": 367,
+    "lpc_open_ndp": 0.6852271556854248,
+    "lpc_open_n": 1127
+   },
+   {
+    "level": "35\u201354",
+    "ndp_to_lpc_switched": 0.2409966140985489,
+    "ndp_n": 246,
+    "ndp_open_lpc": 0.5735370516777039,
+    "ndp_open_n": 365,
+    "lpc_open_ndp": 0.6646458506584167,
+    "lpc_open_n": 1505
+   },
+   {
+    "level": "55+",
+    "ndp_to_lpc_switched": 0.2004510760307312,
+    "ndp_n": 261,
+    "ndp_open_lpc": 0.6081552505493164,
+    "ndp_open_n": 304,
+    "lpc_open_ndp": 0.5776070356369019,
+    "lpc_open_n": 2721
+   }
+  ],
+  "Household income": [
+   {
+    "level": "Under $60,000",
+    "ndp_to_lpc_switched": 0.24932722747325897,
+    "ndp_n": 277,
+    "ndp_open_lpc": 0.5717283487319946,
+    "ndp_open_n": 398,
+    "lpc_open_ndp": 0.6302393078804016,
+    "lpc_open_n": 1387
+   },
+   {
+    "level": "$60,000\u2013$110,000",
+    "ndp_to_lpc_switched": 0.24629054963588715,
+    "ndp_n": 211,
+    "ndp_open_lpc": 0.604611873626709,
+    "ndp_open_n": 328,
+    "lpc_open_ndp": 0.6319670081138611,
+    "lpc_open_n": 1722
+   },
+   {
+    "level": "Over $110,000",
+    "ndp_to_lpc_switched": 0.2656390964984894,
+    "ndp_n": 193,
+    "ndp_open_lpc": 0.6677663922309875,
+    "ndp_open_n": 261,
+    "lpc_open_ndp": 0.6153643131256104,
+    "lpc_open_n": 1817
+   }
+  ],
+  "Education": [
+   {
+    "level": "No university degree",
+    "ndp_to_lpc_switched": 0.258244127035141,
+    "ndp_n": 394,
+    "ndp_open_lpc": 0.564826488494873,
+    "ndp_open_n": 595,
+    "lpc_open_ndp": 0.6059566140174866,
+    "lpc_open_n": 2710
+   },
+   {
+    "level": "University degree",
+    "ndp_to_lpc_switched": 0.26382678747177124,
+    "ndp_n": 319,
+    "ndp_open_lpc": 0.6952048540115356,
+    "ndp_open_n": 440,
+    "lpc_open_ndp": 0.660807192325592,
+    "lpc_open_n": 2637
+   }
+  ],
+  "Gender": [
+   {
+    "level": "Men",
+    "ndp_to_lpc_switched": 0.22546587884426117,
+    "ndp_n": 297,
+    "ndp_open_lpc": 0.6161630153656006,
+    "ndp_open_n": 405,
+    "lpc_open_ndp": 0.5765482783317566,
+    "lpc_open_n": 2440
+   },
+   {
+    "level": "Women",
+    "ndp_to_lpc_switched": 0.2880163788795471,
+    "ndp_n": 400,
+    "ndp_open_lpc": 0.5959751009941101,
+    "ndp_open_n": 605,
+    "lpc_open_ndp": 0.6707561612129211,
+    "lpc_open_n": 2868
+   }
+  ],
+  "Housing": [
+   {
+    "level": "Owns a residence",
+    "ndp_to_lpc_switched": 0.24539384245872498,
+    "ndp_n": 395,
+    "ndp_open_lpc": 0.6440383195877075,
+    "ndp_open_n": 556,
+    "lpc_open_ndp": 0.6138591170310974,
+    "lpc_open_n": 3709
+   },
+   {
+    "level": "Rents",
+    "ndp_to_lpc_switched": 0.2541477680206299,
+    "ndp_n": 287,
+    "ndp_open_lpc": 0.5516812205314636,
+    "ndp_open_n": 426,
+    "lpc_open_ndp": 0.6608260869979858,
+    "lpc_open_n": 1381
+   }
+  ],
+  "Union membership": [
+   {
+    "level": "Union member",
+    "ndp_to_lpc_switched": 0.23938368260860443,
+    "ndp_n": 180,
+    "ndp_open_lpc": 0.5833157300949097,
+    "ndp_open_n": 266,
+    "lpc_open_ndp": 0.7001447677612305,
+    "lpc_open_n": 1110
+   },
+   {
+    "level": "Not a union member",
+    "ndp_to_lpc_switched": 0.2643204927444458,
+    "ndp_n": 528,
+    "ndp_open_lpc": 0.6074403524398804,
+    "ndp_open_n": 759,
+    "lpc_open_ndp": 0.6071310639381409,
+    "lpc_open_n": 4199
+   }
+  ]
+ },
+ "why_rule_out": {
+  "LPC": {
+   "n": 177,
+   "leader": 0.4574957489967346,
+   "policies": 0.6697180867195129,
+   "supporters": 0.23786725103855133
+  },
+  "CPC": {
+   "n": 334,
+   "leader": 0.6816534399986267,
+   "policies": 0.6455528736114502,
+   "supporters": 0.3704349398612976
+  }
+ },
+ "issues": {
+  "labels": [
+   "Trump, tariffs, sovereignty",
+   "Health care",
+   "Housing",
+   "Cost of living, inflation",
+   "Economy, jobs",
+   "Immigration",
+   "Climate, environment",
+   "Leadership, trust, democracy",
+   "Taxes",
+   "Crime, safety",
+   "Other"
+  ],
+  "by_party": {
+   "LPC": {
+    "n": 5003,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.3216648995876312,
+     "Health care": 0.06562159955501556,
+     "Housing": 0.059029996395111084,
+     "Cost of living, inflation": 0.11677365750074387,
+     "Economy, jobs": 0.12752729654312134,
+     "Immigration": 0.010780131444334984,
+     "Climate, environment": 0.021394124254584312,
+     "Leadership, trust, democracy": 0.01686246320605278,
+     "Taxes": 0.012758173979818821,
+     "Crime, safety": 0.008483370766043663,
+     "Other": 0.23910441994667053
+    }
+   },
+   "CPC": {
+    "n": 3523,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.06133326143026352,
+     "Health care": 0.04558562859892845,
+     "Housing": 0.06924603879451752,
+     "Cost of living, inflation": 0.2149754762649536,
+     "Economy, jobs": 0.16831648349761963,
+     "Immigration": 0.054660141468048096,
+     "Climate, environment": 0.01366659440100193,
+     "Leadership, trust, democracy": 0.03334927558898926,
+     "Taxes": 0.062193941324949265,
+     "Crime, safety": 0.013139077462255955,
+     "Other": 0.2635340392589569
+    }
+   },
+   "NDP": {
+    "n": 926,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.12569744884967804,
+     "Health care": 0.11670532822608948,
+     "Housing": 0.11498111486434937,
+     "Cost of living, inflation": 0.20290128886699677,
+     "Economy, jobs": 0.08039263635873795,
+     "Immigration": 0.007662997115403414,
+     "Climate, environment": 0.051814004778862,
+     "Leadership, trust, democracy": 0.007409377489238977,
+     "Taxes": 0.02388266660273075,
+     "Crime, safety": 0.005823839455842972,
+     "Other": 0.2627292573451996
+    }
+   },
+   "BQ": {
+    "n": 714,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.2225515991449356,
+     "Health care": 0.04339476302266121,
+     "Housing": 0.03182827681303024,
+     "Cost of living, inflation": 0.07233285903930664,
+     "Economy, jobs": 0.20054176449775696,
+     "Immigration": 0.030375897884368896,
+     "Climate, environment": 0.04002882540225983,
+     "Leadership, trust, democracy": 0.0032080060336738825,
+     "Taxes": 0.008452242240309715,
+     "Crime, safety": 0.0010533961467444897,
+     "Other": 0.34623241424560547
+    }
+   },
+   "GPC": {
+    "n": 206,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.11304960399866104,
+     "Health care": 0.06564685702323914,
+     "Housing": 0.15433409810066223,
+     "Cost of living, inflation": 0.12563960254192352,
+     "Economy, jobs": 0.06569358706474304,
+     "Immigration": 0.009335719980299473,
+     "Climate, environment": 0.16111408174037933,
+     "Leadership, trust, democracy": 0.0038627651520073414,
+     "Taxes": 0.011168104596436024,
+     "Crime, safety": 0.0,
+     "Other": 0.2901555299758911
+    }
+   },
+   "PPC": {
+    "n": 128,
+    "share": {
+     "Trump, tariffs, sovereignty": 0.02328423596918583,
+     "Health care": 0.023786958307027817,
+     "Housing": 0.033243101090192795,
+     "Cost of living, inflation": 0.11290238797664642,
+     "Economy, jobs": 0.12987662851810455,
+     "Immigration": 0.1588672250509262,
+     "Climate, environment": 0.0,
+     "Leadership, trust, democracy": 0.11980236321687698,
+     "Taxes": 0.07471640408039093,
+     "Crime, safety": 0.007045344449579716,
+     "Other": 0.3164753317832947
+    }
+   }
+  },
+  "respondents": 10500
+ },
+ "no_vote": {
+  "labels": [
+   "My vote won't make a difference",
+   "No time / too busy",
+   "No interest / didn't follow",
+   "Physical limits / illness",
+   "Couldn't prove ID or address",
+   "Didn't know when/where",
+   "Mail ballot didn't arrive",
+   "Line too long",
+   "Don't know / no answer"
+  ],
+  "groups": {
+   "All non-voters": {
+    "n": 1003,
+    "share": {
+     "My vote won't make a difference": 0.29166141152381897,
+     "No time / too busy": 0.189362570643425,
+     "No interest / didn't follow": 0.181782066822052,
+     "Physical limits / illness": 0.14339901506900787,
+     "Couldn't prove ID or address": 0.032450757920742035,
+     "Didn't know when/where": 0.02232702262699604,
+     "Mail ballot didn't arrive": 0.028814543038606644,
+     "Line too long": 0.012047162279486656,
+     "Don't know / no answer": 0.09815552830696106
+    }
+   },
+   "Under 35": {
+    "n": 298,
+    "share": {
+     "My vote won't make a difference": 0.22203126549720764,
+     "No time / too busy": 0.2690926194190979,
+     "No interest / didn't follow": 0.19905805587768555,
+     "Physical limits / illness": 0.11471627652645111,
+     "Couldn't prove ID or address": 0.03254381939768791,
+     "Didn't know when/where": 0.03185788169503212,
+     "Mail ballot didn't arrive": 0.029917467385530472,
+     "Line too long": 0.011614945717155933,
+     "Don't know / no answer": 0.08916764706373215
+    }
+   },
+   "35 and over": {
+    "n": 705,
+    "share": {
+     "My vote won't make a difference": 0.33411893248558044,
+     "No time / too busy": 0.14074647426605225,
+     "No interest / didn't follow": 0.17124788463115692,
+     "Physical limits / illness": 0.16088855266571045,
+     "Couldn't prove ID or address": 0.03239400312304497,
+     "Didn't know when/where": 0.016515497118234634,
+     "Mail ballot didn't arrive": 0.02814202569425106,
+     "Line too long": 0.012310707941651344,
+     "Don't know / no answer": 0.10363596677780151
+    }
+   }
+  }
  }
 }

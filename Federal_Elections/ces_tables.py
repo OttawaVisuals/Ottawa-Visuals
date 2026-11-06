@@ -16,6 +16,8 @@ import json
 import sys
 
 import pandas as pd
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ces_extra import extras  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "data" / "ces_tables.json"
@@ -50,8 +52,8 @@ def wshare(mask, w):
 
 
 def build(dta):
-    df = pd.read_stata(dta, convert_categoricals=False)
-    df = df[df[WEIGHT].notna() & df["cps25_votechoice"].isin([v for v, _, _ in PARTIES.values()])].copy()
+    raw = pd.read_stata(dta, convert_categoricals=False)
+    df = raw[raw[WEIGHT].notna() & raw["cps25_votechoice"].isin([v for v, _, _ in PARTIES.values()])].copy()
     out = {"meta": {
         "source": "2025 Canadian Election Study (Stephenson, Harell, Rubenson), v1, Harvard Dataverse",
         "doi": "10.7910/DVN/2YAQ8D", "licence": "CC BY-NC 4.0",
@@ -89,6 +91,7 @@ def build(dta):
                 }
             res[x] = row
         out["regions"][region] = res
+    out.update(extras(raw))
     OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
     JS.write_text("window.CES_DATA = " + json.dumps(out, separators=(",", ":")) + ";\n", encoding="utf-8")
     return out
