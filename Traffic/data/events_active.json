@@ -2392,29 +2392,6 @@
 },
 "fp": "73b05dae2ea2"
 },
-"29724": {
-"event": {
-"cause": "",
-"created": "2026-10-27 19:27:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": "MOODIE DR (IC 134)",
-"direction": null,
-"event_id": "29724",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from MOODIE DR to MOODIE DR - Daily Construction. 1 Left Lane(s). 2026-10-28 10:00 to 2026-11-06 14:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-11-06T14:00",
-"planned_start": "2026-10-28T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-10-27 19:27:00"
-},
-"fp": "c7d61ac16130"
-},
 "29730": {
 "event": {
 "cause": "construction",
@@ -2806,29 +2783,6 @@
 },
 "fp": "801e6ac3a6ce"
 },
-"29807": {
-"event": {
-"cause": "construction",
-"created": "2026-11-03 07:07:00",
-"cross_street_1": "March",
-"cross_street_2": "Moodie",
-"direction": null,
-"event_id": "29807",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "417 eastbound HOV lane closed between March and Moodie due to construction, from October 27th to November 6th between 10:00am and 2:00pm.",
-"lanes": "center lane closed",
-"lat": 45.321081,
-"lon": -75.883666,
-"planned_end": "2026-11-06T14:00",
-"planned_start": "2026-10-27T10:00",
-"priority": "HIGH",
-"road": "417",
-"source": "city",
-"updated": "2026-11-03 07:08:00"
-},
-"fp": "c2de2dc1298b"
-},
 "29819": {
 "event": {
 "cause": "construction",
@@ -3196,29 +3150,6 @@
 "updated": "2026-11-05 16:48:00"
 },
 "fp": "2442ba353378"
-},
-"29906": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-06 09:41:00",
-"cross_street_1": "HUNTSVILLE",
-"cross_street_2": "KANATA",
-"direction": null,
-"event_id": "29906",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "TERRY FOX closed between HUNTSVILLE and KANATA due to a collision.",
-"lanes": "closed",
-"lat": 45.31766,
-"lon": -75.944425,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "TERRY FOX",
-"source": "city",
-"updated": "2026-11-06 09:41:00"
-},
-"fp": "d468e2ce2e52"
 },
 "29911": {
 "event": {
