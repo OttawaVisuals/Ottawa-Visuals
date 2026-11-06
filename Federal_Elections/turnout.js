@@ -1,0 +1,1 @@
+window.TURNOUT_DATA = {"provinceAll":[{"year":2015,"turnoutPct":68.3,"registered":25939742,"turnout":17711983},{"year":2019,"turnoutPct":67.0,"registered":27373058,"turnout":18350359},{"year":2021,"turnoutPct":62.6,"registered":27509496,"turnout":17209811},{"year":2025,"turnoutPct":69.0,"registered":28731275,"turnout":19811520}]};

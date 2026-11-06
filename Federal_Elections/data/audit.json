@@ -1,0 +1,82 @@
+{
+  "sources": {
+    "results_page": "https://www.elections.ca/content.aspx?section=res&dir=rep/off/45gedata&document=summary&lang=e",
+    "table11_districts": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/table_tableau11.csv",
+    "table12_candidates": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/table_tableau12.csv",
+    "table04_turnout": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/table_tableau04.csv",
+    "boundaries": "https://ftp.maps.canada.ca/pub/elections_elections/Electoral-districts_Circonscription-electorale/federal_electoral_districts_boundaries_2023/FED_CA_2023_EN-SHP.zip"
+  },
+  "retrieved": "2026-11-06",
+  "sha256": {
+    "fed-boundaries.zip": "eab55b952164ba7e8bf569f00c1fe4b6480b532411e1436de427772d9cebae59",
+    "table_tableau04.csv": "66582c72ff011cc64730e521039ce5b944b82e8eb2786448c48e49ee5a65f32f",
+    "table_tableau11.csv": "7a406ddd90b4ef9dfc96c718c04addfca5628ccbc657539626de54f26505cf82",
+    "table_tableau12.csv": "6ec3f8e1d8a555db36366223324bc53d95f4d095914012f27b6d0043cd6f90f9"
+  },
+  "ridings": 343,
+  "candidates": 1959,
+  "party_votes": {
+    "LPC": 8595488,
+    "CPC": 8113484,
+    "NDP": 1234673,
+    "BQ": 1236349,
+    "GPC": 238892,
+    "PPC": 136977,
+    "IND": 39498,
+    "OTH": 46302
+  },
+  "seats": {
+    "CPC": 144,
+    "LPC": 169,
+    "BQ": 22,
+    "NDP": 7,
+    "GPC": 1
+  },
+  "valid_votes": 19641663,
+  "ballots": 19811520,
+  "registered": 28731275,
+  "turnout_history": [
+    {
+      "year": 2015,
+      "turnoutPct": 68.3,
+      "registered": 25939742,
+      "turnout": 17711983
+    },
+    {
+      "year": 2019,
+      "turnoutPct": 67.0,
+      "registered": 27373058,
+      "turnout": 18350359
+    },
+    {
+      "year": 2021,
+      "turnoutPct": 62.6,
+      "registered": 27509496,
+      "turnout": 17209811
+    },
+    {
+      "year": 2025,
+      "turnoutPct": 69.0,
+      "registered": 28731275,
+      "turnout": 19811520
+    }
+  ],
+  "other_party_labels": {
+    "Parti Rhinoc\u00e9ros Party": 29,
+    "Animal Protection Party": 7,
+    "Communist": 24,
+    "Libertarian": 16,
+    "Canadian Future Party": 19,
+    "Marxist-Leninist": 35,
+    "Centrist": 19,
+    "Christian Heritage Party": 32,
+    "United Party of Canada (UP)": 16,
+    "Marijuana Party": 2
+  },
+  "inset_ridings": {
+    "OTTAWA": 10,
+    "TORONTO": 51,
+    "MONTREAL": 29,
+    "VANCOUVER": 17
+  }
+}

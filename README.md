@@ -30,6 +30,7 @@ any bookmarked or shared links.
 | [`Ottawa_Elections/`](Ottawa_Elections/README.md) | Ward-by-ward municipal election results ([`ottawa_ward_elections.html`](Ottawa_Elections/ottawa_ward_elections.html)) |
 | [`BC_Elections/`](BC_Elections/README.md) | BC 2026 preliminary initial-count maps and NDP/Green consolidation scenarios, with 2024 final results retained separately ([`BCelections.html`](BC_Elections/BCelections.html)); published November 1, 2026 |
 | [`Alberta_Elections/`](Alberta_Elections/README.md) | Alberta 2023 riding map, vote-consolidation scenarios, turnout and source reconciliation ([`ABelections.html`](Alberta_Elections/ABelections.html)) |
+| [`Federal_Elections/`](Federal_Elections/README.md) | Canada's April 28, 2025 federal election: 343-riding map, Ottawa/Toronto/Montréal/Vancouver insets, selectable party groupings (Liberal + NDP etc.) with a transfer slider, 2025 Canadian Election Study survey evidence on how open each party's voters are to others, turnout and downloads ([`FedElections.html`](Federal_Elections/FedElections.html)) |
 | [`Ontario_Elections/`](Ontario_Elections/README.md) | Ontario provincial election + coalition scenarios ([`ONelections.html`](Ontario_Elections/ONelections.html)) |
 | [`Ontario_Trials/`](Ontario_Trials/README.md) | How Ottawa court cases end: criminal and provincial/traffic outcomes, offence filters, calendar/non-calendar periods, count/share charts and downloads ([`courts.html`](Ontario_Trials/courts.html)) |
 | [`PWHL/`](PWHL/README.md) | PWHL stats dashboard ([`pwhl.html`](PWHL/pwhl.html)) |

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Federal elections — the 2025 result and vote-splitting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="../assets/img/avatar.png"/>
+<script>
+// Apply theme before render to avoid a wrong-theme flash.
+(function(){
+  var t; try { t = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+
+<!-- Official Elections Canada tables, validated and bundled by build_data.py. -->
+<script src="data.js"></script>
+<script src="geo.js"></script>
+<script src="turnout.js"></script>
+<script src="ces.js"></script>
+
+<style>
+  :root{
+    --font-body:"Inter",system-ui,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+    /* light theme (default) */
+    --bg:#F1F3F6; --bg-2:#FFFFFF; --bg-3:#F5F7FA;
+    --line:#DCE1E8; --line-2:#C3CAD4;
+    --ink:#1F2530; --ink-2:#4E586A; --ink-3:#7C8698;
+    --green:#22885F; --amber:#C98A1F; --red:#D0483A; --blue:#2F6FB4; --purple:#6E62C8;
+    /* this page's accent is purple; keep it, sourced from a token so the theme can restyle it */
+    --accent:var(--purple);
+    --accent-soft:color-mix(in srgb,var(--purple) 12%,transparent);
+    --accent-bg:color-mix(in srgb,var(--purple) 10%,transparent); --hl:color-mix(in srgb,var(--purple) 16%,transparent);
+    /* legacy aliases used throughout this page */
+    --panel:var(--bg-2); --muted:var(--ink-3); --nodata:var(--line-2);
+    /* tooltip: always a dark chip — can't reuse --ink, which flips to near-white in dark mode */
+    --tip-bg:#1F2530; --tip-ink:#FFFFFF;
+  }
+  [data-theme="dark"]{
+    --bg:#0E1117; --bg-2:#161A23; --bg-3:#1D2230;
+    --line:#2A2F3D; --line-2:#383E4E;
+    --ink:#EEF1F7; --ink-2:#B6BDCC; --ink-3:#7A8094;
+    --green:#2FB584; --amber:#E8A030; --red:#E85A44; --blue:#5B9BE0; --purple:#8F84E8;
+    --tip-bg:#2A3040; --tip-ink:#EEF1F7;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); line-height:1.5; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1440px; margin:0 auto; padding:12px 16px 28px}
+  @media (max-width:600px){ .wrap{padding:10px 10px 24px} }
+  .mono{font-family:var(--font-mono); font-variant-numeric:tabular-nums}
+
+  /* Topbar (site-wide chrome) */
+  .topbar{position:sticky; top:0; z-index:50; background:var(--bg-2); border-bottom:1px solid var(--line); height:48px; display:flex; align-items:center; padding:0 20px; gap:20px}
+  .topbar .brand{display:flex; align-items:center; gap:9px; font-weight:600; font-size:14.5px; letter-spacing:-0.01em; color:var(--ink); text-decoration:none}
+  .brand-logo{width:26px; height:26px; border-radius:999px; background:#1F2530; display:grid; place-items:center; overflow:hidden; border:1px solid var(--line-2)}
+  .brand-logo img{width:110%; height:110%; object-fit:cover; filter:invert(1)}
+  [data-theme="dark"] .brand-logo img{filter:none}
+  .topbar .brand > span:last-child{line-height:1.2}
+  .brand small{display:block; font-family:var(--font-mono); font-size:9.5px; font-weight:400; color:var(--ink-3); letter-spacing:0.07em; text-transform:uppercase}
+  .topbar nav{display:flex; gap:2px}
+  .topbar nav a{padding:5px 9px; color:var(--ink-2); font-size:12.5px; border-radius:6px; text-decoration:none; transition:color .15s, background .15s}
+  .topbar nav a:hover{color:var(--ink); background:var(--bg-3)}
+  .topbar nav a.active{color:var(--accent); font-weight:600}
+  .topbar .spacer{flex:1}
+  .icon-btn{width:30px; height:30px; border-radius:999px; border:1px solid var(--line); background:var(--bg-2); display:grid; place-items:center; color:var(--ink-2); cursor:pointer; transition:border-color .15s, color .15s}
+  .icon-btn:hover{color:var(--ink); border-color:var(--ink-2)}
+  @media (max-width:720px){ .topbar nav{display:none} .topbar{padding:0 12px; gap:10px} }
+
+  header.top{border-bottom:2px solid var(--ink); padding-bottom:8px; margin-bottom:2px}
+  .eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 4px}
+  h1{font-family:var(--font-body); font-weight:700; font-size:20px;
+    line-height:1.2; letter-spacing:-.02em; margin:0 0 4px}
+  .sub{color:var(--muted); max-width:none; margin:0; font-size:13.5px}
+  .source{font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-top:6px}
+
+  .banner{background:color-mix(in srgb,var(--amber) 12%,var(--bg-2)); border:1px solid color-mix(in srgb,var(--amber) 45%,transparent); color:var(--ink);
+    padding:8px 12px; border-radius:8px; font-size:13px; margin:8px 0 0}
+  .banner b{font-weight:600}
+
+  section{margin-top:14px}
+  .sec-label{font-family:var(--font-mono); font-size:11.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 6px;
+    display:flex; align-items:center; gap:8px}
+  .sec-label::after{content:""; flex:1; height:1px; background:var(--line)}
+
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+
+  /* TURNOUT (top section) */
+  svg.linechart{width:100%; height:auto; display:block}
+  svg.linechart .axis{stroke:var(--line); stroke-width:1}
+  svg.linechart .gridline{stroke:var(--line); stroke-width:1; stroke-dasharray:3 4}
+  svg.linechart .trend{fill:none; stroke:var(--accent); stroke-width:2.5}
+  svg.linechart .pt{fill:var(--accent); cursor:pointer}
+  svg.linechart .bar{cursor:pointer; transition:opacity .15s ease}
+  svg.linechart .bar:hover{opacity:.82}
+  svg.linechart text{font-family:var(--font-mono); font-size:10.5px; fill:var(--muted)}
+  svg.linechart .val{font-weight:600; fill:var(--ink)}
+  .turn-stat{display:flex; gap:14px; margin-top:6px; flex-wrap:wrap}
+  .turn-stat .s{font-family:var(--font-mono); font-size:12.5px; color:var(--muted)}
+  .turn-stat .s b{color:var(--ink); font-size:15px}
+  .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
+
+  /* LAST ELECTION SECTION */
+  .lastel{display:grid; grid-template-columns:1.9fr 1fr; gap:10px; scroll-margin-top:60px}
+  @media (max-width:900px){ .lastel{grid-template-columns:1fr} }
+  .mapcard{position:relative}
+  .mapcard-head{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:6px}
+  .mapcard-head h3{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0}
+  select{font-family:var(--font-body); font-size:13.5px; padding:7px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg-2); color:var(--ink)}
+  svg.map{width:100%; height:auto; display:block}
+  svg.map path{stroke:var(--bg-2); stroke-width:.4; stroke-linejoin:round; transition:fill .35s ease; cursor:pointer}
+  svg.map path:hover{stroke:var(--ink); stroke-width:1}
+  svg.map path.selected{stroke:var(--ink); stroke-width:1.6}
+  .mapempty{color:var(--muted); font-size:13.5px; padding:30px 6px; text-align:center}
+  .clearsel{font-size:12.5px; color:var(--accent); cursor:pointer; background:none; border:0; padding:0;
+    text-decoration:underline; font-family:var(--font-body)}
+  .clearsel:disabled{color:var(--muted); cursor:default; text-decoration:none}
+
+  /* COMPOSITE MAP: national map with city insets.
+     Each inset's exact screen position/size and the source-CRS crop window it zooms into
+     are set numerically in INSET_CONFIG (see <script> below) — not by these CSS rules. */
+  .mapcomposite{position:relative}
+  .mapinset{position:absolute; display:flex; flex-direction:column; align-items:center}
+  .mapinset-box{border:1px solid var(--line); border-radius:6px; padding:3px; display:block; width:100%; background:var(--panel)}
+  .mapinset-label{display:block; font-family:var(--font-mono); font-weight:600; font-size:9.5px;
+    text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:3px 0 0; text-align:center}
+  .mapinset svg.map path{stroke-width:.5}
+  .mapinset-lines{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
+  .mapinset-lines .zoom-line{stroke:var(--muted); stroke-width:1; stroke-dasharray:3 3}
+  .mapinset-lines .zoom-dot{fill:none; stroke:var(--muted); stroke-width:1.4}
+  #mapMain .zoomrect{fill:none; stroke:var(--ink); stroke-width:1.6; stroke-dasharray:4 3; pointer-events:none}
+  /* phones: the overlaid insets shrink to ~180px wide, too small to click Edmonton's
+     dense ridings — stack them full-width under the main map instead (overrides INSET_CONFIG's inline box) */
+  @media (max-width:600px){
+    .mapcomposite{display:flex; flex-direction:column; gap:10px}
+    .mapinset{position:static !important; width:100% !important}
+    .mapinset-lines{display:none}
+  }
+
+  /* slider lives inside the map card, next to the map-mode dropdown it drives */
+  .mapctrl{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 0 10px; margin:0 0 8px}
+  .mapctrl .ctrl{max-width:none}
+
+  .panel-title{font-family:var(--font-body); font-weight:700; font-size:17px; margin:0 0 2px}
+  .panel-sub{font-size:12px; color:var(--muted); margin:0 0 8px}
+  .panel-block{margin-top:10px}
+  .panel-block:first-of-type{margin-top:0}
+  .panel-block h4{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 6px}
+
+  .barlist{display:flex; flex-direction:column; gap:8px}
+  .barrow{display:grid; grid-template-columns:64px minmax(0,1fr) 48px; align-items:center; gap:8px; font-size:12.5px}
+  @media (min-width:420px){ .barrow{grid-template-columns:88px minmax(0,1fr) 56px} }
+  .barrow .nm{display:flex; align-items:center; gap:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .barrow .dot{width:9px; height:9px; border-radius:2px; flex:none}
+  .bartrack{height:9px; background:var(--line); border-radius:5px; overflow:hidden}
+  .barfill{display:block; height:100%; border-radius:5px}
+  .barrow .pct{font-family:var(--font-mono); text-align:right}
+
+  .winner-badge{display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; background:var(--accent-soft)}
+  .winner-badge .dot{width:14px; height:14px; border-radius:4px; flex:none}
+  .winner-badge .wn{font-weight:700; font-family:var(--font-body)}
+  .winner-badge .wv{font-size:12px; color:var(--muted); font-family:var(--font-mono)}
+
+  /* SEAT GAUGES */
+  .gauges{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px}
+  @media (max-width:1000px){ .gauges{grid-template-columns:1fr 1fr} }
+  @media (max-width:600px){ .gauges{grid-template-columns:1fr} }
+  .gaugecard{text-align:center}
+  .gaugecard h3{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 2px}
+  .gaugecard p.gsub{font-size:11.5px; color:var(--muted); margin:0 0 6px}
+  svg.gauge{width:100%; max-width:300px; height:auto; display:block; margin:0 auto}
+  .gauge-figure{font-family:var(--font-body); font-weight:800; font-size:clamp(22px,3.4vw,28px); margin:-8px 0 4px}
+  .gauge-figure small{display:block; font-family:var(--font-body); font-weight:500; font-size:12px; color:var(--muted)}
+  .gauge-legend{display:flex; flex-wrap:wrap; justify-content:center; gap:8px 14px; margin-top:6px}
+  .gauge-legend .gl{display:flex; align-items:center; gap:6px; font-size:12.5px}
+  .gauge-legend .dot{width:10px; height:10px; border-radius:3px; flex:none}
+  .gauge-legend .gl b{font-family:var(--font-mono); font-weight:600}
+
+  table.seats{width:100%; border-collapse:collapse; font-size:13px}
+  table.seats th,table.seats td{text-align:left; padding:6px 8px; border-bottom:1px solid var(--line)}
+  table.seats th{font-family:var(--font-mono); font-weight:600; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--muted)}
+  table.seats td.num{font-family:var(--font-mono); text-align:right}
+
+  .tip{position:fixed; pointer-events:none; z-index:20; background:var(--tip-bg); color:var(--tip-ink);
+    border:1px solid var(--line-2); font-size:12.5px; padding:7px 10px; border-radius:7px; opacity:0; transition:opacity .12s; max-width:240px}
+  .tip b{font-weight:600} .tip .mono{font-size:11.5px; opacity:.85}
+
+  /* ALL-RESULTS TABLE */
+  .ctrl{max-width:680px}
+  .ctrl label{display:flex; justify-content:space-between; font-size:13px; font-weight:500; margin-bottom:6px; gap:10px}
+  .ctrl label .val{font-family:var(--font-mono); color:var(--accent); font-weight:600; flex:none}
+  input[type=range]{width:100%; accent-color:var(--accent)}
+  .hint{font-size:12px; color:var(--muted); margin:4px 0 0; display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px}
+  .tablewrap{overflow-x:auto; margin-top:10px; max-height:640px; overflow-y:auto; border:1px solid var(--line); border-radius:10px}
+  table.results{width:100%; border-collapse:collapse; font-size:12.5px; min-width:780px}
+  table.results th,table.results td{text-align:right; padding:7px 10px; border-bottom:1px solid var(--line); white-space:nowrap}
+  table.results th:first-child,table.results td:first-child{text-align:left; position:sticky; left:0; background:var(--panel)}
+  table.results thead th{font-family:var(--font-mono); font-weight:600; font-size:10px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--muted); position:sticky; top:0; background:var(--panel); z-index:1}
+  table.results thead th:first-child{z-index:2}
+  table.results td.num{font-family:var(--font-mono)}
+  table.results tbody tr:nth-child(even) td{background:var(--bg-3)}
+  table.results tbody tr:nth-child(even) td:first-child{background:var(--bg-3)}
+  table.results td.win{font-weight:700}
+  .flip-tag{font-family:var(--font-mono); font-size:10px; padding:1px 6px; border-radius:5px;
+    background:color-mix(in srgb,var(--red) 16%,transparent); color:var(--red); margin-left:6px}
+  .tabletools{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .tabletools input[type=search]{font-family:var(--font-body); font-size:13px; padding:6px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg-2); color:var(--ink); width:min(280px,100%)}
+  .tabletools label{font-size:12.5px; color:var(--ink-2); display:flex; align-items:center; gap:6px; cursor:pointer}
+  .tabletools .count{font-family:var(--font-mono); font-size:11.5px; color:var(--muted)}
+
+  /* MOST WINNABLE — compact cards in a responsive grid instead of a 3-column table stretched full width */
+  .winlist{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; list-style:none; margin:0; padding:0}
+  .wincard{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:4px 10px; width:100%;
+    padding:8px 10px; border:1px solid var(--line); border-radius:9px; background:var(--bg-3);
+    font:inherit; color:inherit; text-align:left; cursor:pointer; transition:border-color .15s}
+  .wincard:hover{border-color:var(--accent)}
+  .wincard .rank{font-family:var(--font-mono); font-size:11px; color:var(--muted)}
+  .wincard .dn{font-weight:600; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .wincard .thr{font-family:var(--font-mono); font-weight:600; font-size:14px}
+  .wincard .who{grid-column:2 / 4; display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted)}
+  .wincard .who .dot{width:9px; height:9px; border-radius:2px; flex:none}
+  .wincard .meter{grid-column:1 / 4; height:4px; background:var(--line); border-radius:3px; overflow:hidden; position:relative}
+  .wincard .meter span{display:block; height:100%; background:var(--accent)}
+  .wincard .meter i{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink)}
+  .wincard.flips{border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
+  .wincard.flips .thr{color:var(--accent)}
+  .caveat{font-size:12.5px; color:var(--muted); margin-top:10px; max-width:none}
+  .caveat b{color:var(--ink); font-weight:600}
+
+  /* INFO POPOVER — collapses long explanatory text behind a small "?" so sections stay
+     compact instead of leaving a wall of narrow-column text with empty space beside it */
+  .info{position:relative; display:inline-block; vertical-align:middle}
+  .info summary{list-style:none; display:inline-flex} /* <summary> defaults to display:list-item (block-level) — override or it drops to its own line */
+  .info summary::-webkit-details-marker{display:none}
+  .infobtn{display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px;
+    border-radius:50%; border:1px solid var(--line); background:var(--bg-2); color:var(--muted);
+    font-family:var(--font-mono); font-size:10.5px; cursor:pointer; flex:none; user-select:none}
+  .info-pop{position:absolute; z-index:5; top:24px; left:0; width:340px; max-width:min(80vw,340px);
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+    font-size:12px; line-height:1.5; color:var(--muted); box-shadow:0 8px 22px rgba(20,20,30,.14)}
+  .info-pop b{color:var(--ink)}
+
+  /* METHODOLOGY */
+  .methodology{font-size:12.5px; color:var(--muted); max-width:none}
+  .methodology h4{font-family:var(--font-mono); font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--ink); margin:10px 0 4px}
+  .methodology h4:first-child{margin-top:0}
+  .methodology p{margin:0 0 6px; max-width:none}
+  .methodology b{color:var(--ink)}
+
+  @media (prefers-reduced-motion:reduce){ svg.map path, .barfill{transition:none} }
+  a{color:var(--accent)}
+
+  .mapcomposite{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  #mapMain{grid-column:1/-1;}
+  .mapinset{position:relative!important;inset:auto!important;width:100%!important;}
+  #mapMain{max-height:530px;}
+  #mapLines,.zoomrect{display:none;}
+  @media(max-width:720px){.mapcomposite{display:block}.mapinset{margin-top:12px}}
+</style>
+<!-- Shared Retrofit-style theme: re-points this page's tokens + top bar; adds light/dark/colour-blind switch -->
+<link rel="stylesheet" href="../assets/site-theme.css?v=a11y-20261103">
+<script src="../assets/site-theme.js?v=share-20261103"></script>
+<link rel="stylesheet" href="../assets/report-art.css">
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="../index.html" class="brand">
+    <span class="brand-logo"><img src="../assets/img/avatar.png" alt=""></span>
+    <span>Ottawa Visuals<small>data, charted simply</small></span>
+  </a>
+  <nav>
+    <a href="../index.html#reports">Reports</a>
+    <a href="../mortgage.html">Mortgage</a>
+    <a href="../weather.html">Weather</a>
+    <a href="FedElections.html" class="active">Federal elections</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+  <span class="spacer"></span>
+  <button class="icon-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme"></button>
+</header>
+
+<div class="wrap">
+
+  <header class="top ov-report-hero"><div class="ov-report-copy">
+    <p class="eyebrow">Federal elections</p>
+    <h1>How much did vote-splitting shape Canada's 2025 federal result?</h1>
+    <p class="sub">The April 28, 2025 general election riding by riding: the actual result, the seats won with a true
+      majority, and a model where the votes of several parties are combined behind whichever of them led in each riding.
+      Choose the grouping (for example Liberal + NDP) and how many of the dropped candidates' voters follow. It is
+      arithmetic about vote-splitting under a simple transfer assumption, not a forecast, a ranked-ballot count or a
+      voting recommendation. Click a riding for its own numbers.</p>
+    <p class="source mono" id="source"></p>
+  </div></header>
+
+  <p class="source">Compare: <b>Federal</b> · <a href="../Ontario_Elections/ONelections.html">Ontario</a> · <a href="../Alberta_Elections/ABelections.html">Alberta</a> · <a href="../BC_Elections/BCelections.html">BC</a></p>
+  <p class="banner" id="dataError" hidden>Election data could not load. Reload this page to try again.</p>
+  <section>
+    <p class="sec-label">Results by riding</p>
+    <label for="ridingPicker">Choose a riding </label><select id="ridingPicker" style="max-width:100%;margin:0 0 10px"><option value="">National</option></select>
+    <div class="lastel">
+      <div class="card mapcard">
+        <div class="mapcard-head">
+          <h3>Canada</h3>
+          <select id="mapMode" aria-label="Map results mode">
+            <option value="actual">Actual results</option>
+            <option value="majority">Majority results</option>
+            <option value="model">Modelled results</option>
+          </select>
+        </div>
+        <div class="mapctrl">
+          <div class="ctrl">
+            <label for="groupSelect">Parties to combine</label>
+            <select id="groupSelect" aria-label="Which parties are combined behind one candidate per riding" style="max-width:100%;margin-bottom:10px">
+              <option value="lpc-ndp">Liberal + NDP</option>
+              <option value="lpc-ndp-gpc">Liberal + NDP + Green</option>
+              <option value="cpc-ppc">Conservative + People's Party</option>
+            </select>
+            <label>Vote coordination: share of the dropped candidates' voters who'd back the survivor
+              <span class="val" id="coordVal">65%</span></label>
+            <input type="range" id="coordSlider" min="0" max="100" value="65" aria-label="Vote coordination retention percentage">
+            <div class="hint">How the model works
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop">In every riding, whichever of the selected parties actually got the most votes becomes
+                  the single "survivor"; the others step aside. The slider controls how many of <i>their</i> voters
+                  would actually follow and vote for the survivor instead of staying home or voting elsewhere. 100% assumes
+                  perfect transfer, which real-world consolidation never achieves. Moving it switches the map to
+                  "Modelled results" and drives the modelled gauge, sensitive-seat list and table below. Every party outside the
+                  selected group, including the Bloc Québécois, keeps its votes and can still win.</div>
+              </details>
+              <span aria-hidden="true">·</span> 65% is an illustrative assumption
+              <span aria-hidden="true">·</span> <a href="#survey">survey evidence</a>: <span id="cesHint"></span>
+              <details class="info"><summary class="infobtn">?</summary>
+                <div class="info-pop">65% is an illustrative starting setting shared with the Ontario, Alberta and BC pages.
+                  It is not an estimate of Canadian voters' preferences. Explore the full 0–100% range to see
+                  how much the result depends on the selected transfer share.</div>
+              </details>
+            </div>
+          </div>
+        </div>
+        <div class="mapcomposite">
+          <svg class="map" id="mapMain" role="img" aria-label="Federal electoral districts by winning party"></svg>
+          <div class="mapinset" id="mapinset-OTTAWA"><div class="mapinset-box"><svg class="map" id="mapOttawaInset" role="img" aria-label="Ottawa area ridings, enlarged"></svg></div><span class="mapinset-label">Ottawa area</span></div>
+          <div class="mapinset" id="mapinset-TORONTO"><div class="mapinset-box"><svg class="map" id="mapTorontoInset" role="img" aria-label="Greater Toronto ridings, enlarged"></svg></div><span class="mapinset-label">Greater Toronto</span></div>
+          <div class="mapinset" id="mapinset-MONTREAL"><div class="mapinset-box"><svg class="map" id="mapMontrealInset" role="img" aria-label="Montréal ridings, enlarged"></svg></div><span class="mapinset-label">Montréal</span></div>
+          <div class="mapinset" id="mapinset-VANCOUVER"><div class="mapinset-box"><svg class="map" id="mapVancouverInset" role="img" aria-label="Vancouver area ridings, enlarged"></svg></div><span class="mapinset-label">Vancouver area</span></div>
+        </div>
+        <div class="mapempty" id="mapEmpty" hidden></div>
+      </div>
+
+      <div class="card" id="panel">
+        <p class="panel-title" id="panelTitle">Canada</p>
+        <p class="panel-sub" id="panelSub">National · click a riding on the map for its own numbers</p>
+
+        <div class="panel-block">
+          <h4>Vote share by party</h4>
+          <div class="barlist" id="voteShare"></div>
+        </div>
+
+        <div class="panel-block">
+          <h4>Turnout · national history / riding 2025</h4>
+          <svg class="linechart" id="turnoutRecent" viewBox="0 0 320 160" role="img" aria-label="National turnout in the last four federal elections"></svg>
+          <div class="turn-stat" id="turnoutRecentStat"></div>
+        </div>
+
+        <div class="panel-block">
+          <h4 id="resultsLabel">Results · seats by party</h4>
+          <div id="results"></div>
+        </div>
+
+        <div class="panel-block" id="strategicPanel" hidden>
+          <h4>Vote-splitting in this riding</h4>
+          <div id="strategicPanelBody"></div>
+        </div>
+
+        <div class="panel-block">
+          <button class="clearsel" id="clearSel" disabled>&larr; back to national</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Seats at a glance · 0–343 · 172 for a majority</p>
+    <div class="gauges">
+      <div class="card gaugecard">
+        <h3>Actual result</h3>
+        <p class="gsub">Every seat, coloured by the party that got the most votes</p>
+        <svg class="gauge" id="gaugeActual" viewBox="0 0 320 190" role="img" aria-label="Gauge of actual seats won by party"></svg>
+        <p class="gauge-figure" id="gaugeActualFigure"></p>
+        <div class="gauge-legend" id="gaugeActualLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>True majority winners only</h3>
+        <p class="gsub">Only seats where the winner took more than 50% of the vote; the rest are grey</p>
+        <svg class="gauge" id="gaugeMajority" viewBox="0 0 320 190" role="img" aria-label="Gauge of seats won with a true majority, by party"></svg>
+        <p class="gauge-figure" id="gaugeMajorityFigure"></p>
+        <div class="gauge-legend" id="gaugeMajorityLegend"></div>
+      </div>
+      <div class="card gaugecard">
+        <h3>Modelled result</h3>
+        <p class="gsub" id="gaugeCoordSub">Coloured by whichever party would hold the seat under the settings above</p>
+        <svg class="gauge" id="gaugeCoord" viewBox="0 0 320 190" role="img" aria-label="Gauge of hypothetical seats under vote coordination"></svg>
+        <p class="gauge-figure" id="gaugeCoordFigure"></p>
+        <div class="gauge-legend" id="gaugeCoordLegend"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label" id="sensitiveLabel">Seats most sensitive to vote-splitting
+      <details class="info"><summary class="infobtn">?</summary>
+        <div class="info-pop">Up to ten ridings won by a party outside the selected group where the group's leading candidate would
+          overtake the winner with the smallest vote transfer, lowest threshold first. The ranking is the "flip threshold" column from the
+          full table below and doesn't depend on the slider; the bar's tick marks the current slider setting, and a highlighted card means the
+          riding flips at that setting. Click a card to open the riding on the map.</div>
+      </details>
+    </div>
+    <div class="card" id="strategicCard">
+      <div id="strategicList"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Vote coordination · full riding table</p>
+    <div class="card">
+      <div class="tabletools">
+        <input type="search" id="tableSearch" placeholder="Find a riding…" aria-label="Filter ridings by name">
+        <label><input type="checkbox" id="flipsOnly"> Flips only</label>
+        <span class="count" id="tableCount"></span>
+      </div>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Riding results table">
+        <table class="results" id="coordTable">
+          <thead>
+            <tr>
+              <th>Riding</th>
+              <th>LPC</th>
+              <th>CPC</th>
+              <th>NDP</th>
+              <th>BQ</th>
+              <th>GPC</th>
+              <th>Others</th>
+              <th>Survivor</th>
+              <th>Coordinated<br>votes</th>
+              <th>Hypothetical winner</th>
+              <th>Flip threshold</th>
+            </tr>
+          </thead>
+          <tbody id="coordTableBody"></tbody>
+        </table>
+      </div>
+      <p class="caveat" id="coordCaveat"></p>
+    </div>
+  </section>
+
+  <section id="survey">
+    <p class="sec-label">What the 2025 Canadian Election Study says about the transfer assumption</p>
+    <div class="card">
+      <div class="tabletools">
+        <label for="cesRegion">Region </label>
+        <select id="cesRegion" aria-label="Region for survey results"></select>
+        <span class="count" id="cesCount"></span>
+      </div>
+      <p class="caveat" id="cesLead" style="margin-top:0"></p>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Survey results table">
+        <table class="results" id="cesTable">
+          <thead><tr>
+            <th>If your party is&hellip;</th><th>&hellip;would you consider</th>
+            <th>Open to</th><th>Rate 50+</th><th>Rule out</th><th>Average rating</th><th>Survey n</th>
+          </tr></thead>
+          <tbody id="cesBody"></tbody>
+        </table>
+      </div>
+      <p class="caveat" id="cesCaveat"></p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">National voter turnout, 2015–2025</p>
+    <div class="card">
+      <svg class="linechart" id="turnoutHistory" viewBox="0 0 1000 320" role="img" aria-label="National voter turnout in the 2015, 2019, 2021 and 2025 federal elections"></svg>
+      <div class="turn-stat" id="turnoutHistoryStat"></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Methodology</p>
+    <div class="card methodology">
+      <h4>Sources and scope</h4>
+      <p>April 28, 2025 results: Elections Canada's <a href="https://www.elections.ca/content.aspx?section=res&amp;dir=rep/off/45gedata&amp;document=summary&amp;lang=e">45th general election official voting results</a>,
+      Table 12 (all 1,959 candidates) and Table 11 (343 districts). Each riding's candidate votes are checked to sum to its valid ballots, and the elected candidate in Table 11 must be the top vote-getter.
+      Actual seats reconcile to the official result: Liberal 169, Conservative 144, Bloc Québécois 22, NDP 7, Green 1. By-elections and changes in affiliation since the election are excluded.</p>
+      <p><a href="https://open.canada.ca/data/en/dataset/18bf3ea7-1940-46ec-af52-9ba3f77ed708">Federal electoral district boundaries (2023 representation order)</a> are drawn from Elections Canada's shapefile in its original Lambert conformal conic projection, joined to results by district number.
+      The national map is simplified by 2.5 km with tiny islands omitted; the Ottawa, Toronto, Montréal and Vancouver insets use 60 m simplification and show the ridings whose centres lie within a fixed distance of a central riding.
+      Turnout for 2015, 2019 and 2021 is the sum of Elections Canada's provincial totals (Table 4); those elections used the earlier 338-seat boundaries, so only national turnout is compared.</p>
+      <h4>Consolidation assumption</h4>
+      <p>In each riding the leading candidate among the selected parties keeps their actual votes. The slider adds the chosen share of the other selected parties' votes to that candidate. Every party outside the group, including the Bloc Québécois, independents and all minor parties, keeps its actual votes and can still win; this is an explicit scenario choice, not evidence about their voters' preferences.</p>
+      <p>65% is an illustrative starting setting, with no federal calibration. Votes from the dropped candidates that do not transfer are left unallocated; they are not assigned to anyone. No new voters, campaign effects, candidate effects or turnout responses are modelled. Actual vote-share denominators and turnout remain the recorded values. It is a one-step transfer, not a ranked-ballot or instant-runoff count, a forecast or a voting recommendation.</p>
+      <h4>Winners, majorities and ties</h4>
+      <p>Actual winners have the most valid candidate votes. A majority requires more than 50% of valid votes, excluding rejected ballots. Minor parties are combined in the table's "Others" column for display only; they compete as individual candidates when determining the modelled winner. A modelled tie has no assigned winner and is counted separately from flips.</p>
+      <p>The transfer boundary is (winner's votes − group leader's votes) ÷ votes of the other selected parties. The group leader must strictly exceed that boundary to win. The ranked cards show the smallest whole-percent slider setting that wins; boundaries at or above 100% are not reachable. Thresholds apply only to ridings won by a party outside the selected group.</p>
+      <h4>Survey evidence</h4>
+      <p>The survey section uses the campaign-period wave of the <a href="https://doi.org/10.7910/DVN/2YAQ8D">2025 Canadian Election Study</a> (Stephenson, Harell and Rubenson; Harvard Dataverse; licence CC BY-NC 4.0), 11,577 weighted respondents who named a party they would vote for. Weights are the study's high-quality-respondent weights, raked to the 2021 census by province, gender, age and education; the Territories have no weights and are excluded. "Open to" means the respondent did <i>not</i> say they would absolutely not vote for that party <i>and</i> rated it 50 or higher on a 0–100 slider. These are stated attitudes at one point in the campaign, not observed behaviour, and the study is an online panel, so treat the figures as a rough guide to the 0–100% slider range, not as a calibrated transfer rate. Postal code is not public, so regions are provinces or groups of provinces; no riding or Ottawa figure is available. Groups under 100 respondents are not shown. Only aggregated tables are stored here (<a href="data/ces_tables.json" download>ces_tables.json</a>); the microdata is not redistributed.</p>
+      <h4>Downloads and reproducibility</h4>
+      <p><a href="data/candidates.csv" download>Candidate results CSV</a> · <a href="data/results.json" download>Results JSON</a> · <a href="data/audit.json" download>Source audit</a> · <a href="data/table_tableau12.csv" download>Original candidate table</a> · <a href="README.md">Method and rebuild instructions</a>.</p>
+      <p><button type="button" class="clearsel" id="downloadScenario">Download current scenario CSV</button></p>
+    </div>
+  </section>
+
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+(function(){
+  const DATA = window.ELECTION_DATA;
+  if(!DATA || !DATA.ridings || !window.TURNOUT_DATA){ document.getElementById("dataError").hidden=false; return; }
+  const TURNOUT = window.TURNOUT_DATA;
+  const P = DATA.parties;
+  const PARTY_CODES = Object.keys(P);
+  const N = DATA.ridings.length;
+  const MAJORITY_SEATS = Math.floor(N/2)+1;
+  const INSET_KEYS = Object.keys(DATA.insets);
+  const GEO = { FED: window.FED_GEO || null };
+  INSET_KEYS.forEach(k=>{ GEO[k] = window[k+"_GEO"] || null; });
+
+  document.getElementById("source").textContent =
+    "Source: " + DATA.meta.source + (DATA.meta.generated ? "  ·  built " + DATA.meta.generated : "");
+
+  const NO_MAJORITY_COLOR = "#C7CBD4";
+  const OTHERS_COLOR = "#8A8D91";
+  const GROUPS = {
+    "lpc-ndp": {codes:["LPC","NDP"], label:"Liberal + NDP"},
+    "lpc-ndp-gpc": {codes:["LPC","NDP","GPC"], label:"Liberal + NDP + Green"},
+    "cpc-ppc": {codes:["CPC","PPC"], label:"Conservative + People's Party"}
+  };
+  const groupSelect = document.getElementById("groupSelect");
+  const coordSlider = document.getElementById("coordSlider");
+  const coordVal = document.getElementById("coordVal");
+  const mapModeSelect = document.getElementById("mapMode");
+  const fmt = n => Math.round(n).toLocaleString();
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const group = () => GROUPS[groupSelect.value];
+
+  function winnerOf(v){
+    const e = Object.keys(v).map(k=>[k,v[k]]).sort((a,b)=>b[1]-a[1]);
+    const total = e.reduce((s,x)=>s+x[1],0) || 1;
+    return { party:e[0][0], votes:e[0][1], total };
+  }
+  const ridingById = {};
+  DATA.ridings.forEach(r=> ridingById[r.id] = r);
+  const sortedRidings = DATA.ridings.slice().sort((a,b)=>a.name.localeCompare(b.name));
+
+  const nationalTotals = {}, seatTally = {};
+  PARTY_CODES.forEach(c=>{nationalTotals[c]=0; seatTally[c]=0;});
+  DATA.ridings.forEach(r=>{
+    PARTY_CODES.forEach(c=>nationalTotals[c]+=(r.votes[c]||0));
+    seatTally[winnerOf(r.votes).party]++;
+  });
+  const PARTY_ORDER = PARTY_CODES.slice().sort((a,b)=>{
+    if(a==="OTH"&&b!=="OTH") return 1; if(b==="OTH"&&a!=="OTH") return -1;
+    return nationalTotals[b]-nationalTotals[a];
+  });
+
+  // The group's leading candidate is the survivor; the rest of the group transfers `pct` of its votes to it.
+  // Every candidate outside the group keeps their votes and competes individually.
+  function computeRow(r, pct){
+    const M = group().codes;
+    const v = r.votes;
+    let survivor=null, survivorVotes=-1;
+    M.forEach(c=>{ const x=v[c]||0; if(x>survivorVotes){survivorVotes=x; survivor=c;} });
+    const droppedSum = M.reduce((s,c)=> s + (c===survivor?0:(v[c]||0)), 0);
+    const coordinated = survivorVotes + pct*droppedSum;
+    let top = {party:null, votes:0};
+    r.candidates.forEach(c=>{ if(!M.includes(c.party) && c.votes>top.votes) top = {party:c.party, votes:c.votes}; });
+    const tied = Math.abs(coordinated-top.votes) < 1e-8;
+    const survivorWins = coordinated > top.votes;
+    const hypoCode = tied ? null : survivorWins ? survivor : top.party;
+    const hypoColor = hypoCode ? P[hypoCode].color : OTHERS_COLOR;
+    const hypoLabel = tied ? "Tie — no winner" : P[hypoCode].name;
+    const actual = winnerOf(v).party;
+    const flipped = !tied && hypoCode !== actual;
+    // Minimum transfer share (0-1) at which the survivor strictly overtakes the best non-group candidate.
+    // null = the actual winner is already in the group; Infinity = unreachable.
+    let pctNeeded = null;
+    if(!M.includes(actual) && survivorVotes < top.votes){
+      pctNeeded = droppedSum>0 ? (top.votes-survivorVotes)/droppedSum : Infinity;
+    }
+    const others = (v.PPC||0)+(v.IND||0)+(v.OTH||0);
+    return {r, survivor, survivorVotes, droppedSum, coordinated, top, tied, hypoCode, hypoColor, hypoLabel, actual, flipped, pctNeeded, others};
+  }
+
+  // ---- maps ----
+  const tip = document.getElementById("tip");
+  function ringsOf(geom){
+    if(geom.type==="Polygon") return geom.coordinates;
+    if(geom.type==="MultiPolygon") return geom.coordinates.flat();
+    return [];
+  }
+  function buildMap(svg, features, padFrac){
+    let minx=1e12,miny=1e12,maxx=-1e12,maxy=-1e12;
+    features.forEach(f=>ringsOf(f.geometry).forEach(r=>r.forEach(p=>{
+      if(p[0]<minx)minx=p[0];if(p[0]>maxx)maxx=p[0];if(p[1]<miny)miny=p[1];if(p[1]>maxy)maxy=p[1];})));
+    const w=maxx-minx, h=maxy-miny;
+    const VB=1000, pad=VB*(padFrac||0.03);
+    const scale=(VB-2*pad)/w;
+    const X=x=>pad+(x-minx)*scale;
+    const Y=y=>pad+(maxy-y)*scale;
+    svg.setAttribute("viewBox",`0 0 ${VB} ${Math.round(h*scale+2*pad)}`);
+    svg.innerHTML="";
+    const els=[];
+    features.forEach(f=>{
+      let d="";
+      ringsOf(f.geometry).forEach(ring=>{
+        ring.forEach((p,i)=>{ d += (i?"L":"M")+X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1); });
+        d+="Z";
+      });
+      const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d",d);
+      const id=f.properties.id;
+      path._id=id;
+      path.addEventListener("mousemove",e=>showTip(e,id));
+      path.addEventListener("mouseleave",()=>{tip.style.opacity=0;});
+      path.addEventListener("click",()=>selectRiding(id));
+      svg.appendChild(path); els.push(path);
+    });
+    return els;
+  }
+  function showTip(e,id){
+    const r=ridingById[id];
+    tip.style.left=(e.clientX+14)+"px"; tip.style.top=(e.clientY+14)+"px"; tip.style.opacity=1;
+    if(!r){ tip.textContent="no result matched"; return; }
+    const w=winnerOf(r.votes);
+    tip.innerHTML=`<b>${esc(r.name)}</b><br><span class="mono">${P[w.party].name} · ${w.votes.toLocaleString()} votes</span>`;
+  }
+
+  let allMapEls=[];
+  function colorForMode(r, mode){
+    if(!r) return "var(--nodata)";
+    if(mode==="majority"){
+      const w=winnerOf(r.votes);
+      return w.votes/w.total>0.5 ? P[w.party].color : NO_MAJORITY_COLOR;
+    }
+    if(mode==="model") return computeRow(r, +coordSlider.value/100).hypoColor;
+    return P[winnerOf(r.votes).party].color;
+  }
+  function paintMap(){
+    const mode = mapModeSelect.value;
+    allMapEls.forEach(p=>{
+      p.setAttribute("fill", colorForMode(ridingById[p._id], mode));
+      p.classList.toggle("selected", selectedId!==null && p._id===selectedId);
+    });
+  }
+  mapModeSelect.addEventListener("change", paintMap);
+  function loadMaps(){
+    const empty=document.getElementById("mapEmpty");
+    const composite=document.querySelector(".mapcomposite");
+    if(GEO.FED && GEO.FED.features && GEO.FED.features.length){
+      composite.hidden=false; empty.hidden=true;
+      allMapEls = buildMap(document.getElementById("mapMain"), GEO.FED.features, 0.02);
+    } else {
+      composite.hidden=true; empty.hidden=false;
+      empty.textContent = "No boundary data loaded. Put geo.js beside this file (see build_data.py), then reload.";
+      allMapEls=[];
+    }
+    INSET_KEYS.forEach(key=>{
+      const box = document.getElementById("mapinset-"+key);
+      const svg = box.querySelector("svg");
+      const gj = GEO[key];
+      if(gj && gj.features && gj.features.length){
+        box.hidden=false;
+        allMapEls = allMapEls.concat(buildMap(svg, gj.features, 0.015));
+      } else { box.hidden=true; }
+    });
+    paintMap();
+  }
+
+  // ---- right-hand panel ----
+  let selectedId=null;
+
+  function barList(votes, total){
+    return PARTY_ORDER.map(code=>{
+      const v=votes[code]||0, pct = total ? v/total*100 : 0;
+      return `<div class="barrow">
+        <span class="nm ov-key" title="${esc(P[code].name)}"><span class="ov-swatch" aria-hidden="true" style="background:${P[code].color}"></span><span class="ov-key-label">${code}</span></span>
+        <span class="bartrack"><span class="barfill" style="width:${pct.toFixed(1)}%; background:${P[code].color}"></span></span>
+        <span class="pct">${pct.toFixed(1)}%</span>
+      </div>`;
+    }).join("");
+  }
+
+  function lineChart(svg, points){
+    const W = svg.viewBox.baseVal.width || 320, H = svg.viewBox.baseVal.height || 160;
+    const ml=40, mr=10, mt=16, mb=28;
+    const ys=points.map(p=>p.y);
+    const yMin=Math.max(0,Math.floor(Math.min(...ys)/5)*5-2), yMax=Math.min(100,Math.ceil(Math.max(...ys)/5)*5+2);
+    const X=i=> ml + (points.length>1 ? i/(points.length-1) : 0.5) * (W-ml-mr);
+    const Y=y=> (H-mb) - (y-yMin)/(yMax-yMin || 1) * (H-mb-mt);
+    let s="";
+    for(let i=0;i<=4;i++){
+      const gy = yMin + (yMax-yMin)*i/4, py = Y(gy);
+      s += `<line class="gridline" x1="${ml}" y1="${py.toFixed(1)}" x2="${W-mr}" y2="${py.toFixed(1)}"/>`;
+      s += `<text x="${ml-8}" y="${(py+3).toFixed(1)}" text-anchor="end">${gy.toFixed(0)}%</text>`;
+    }
+    s += `<line class="axis" x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}"/>`;
+    let d="";
+    points.forEach((p,i)=>{ d += (i?"L":"M")+X(i).toFixed(1)+" "+Y(p.y).toFixed(1); });
+    s += `<path class="trend" d="${d}"/>`;
+    points.forEach((p,i)=>{
+      const anchor = i===0?'start':i===points.length-1?'end':'middle';
+      s += `<circle class="pt" cx="${X(i).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4.5" style="fill:var(--accent)"><title>${p.x}: ${p.y.toFixed(1)}%</title></circle>`;
+      s += `<text class="val" x="${X(i).toFixed(1)}" y="${(Y(p.y)-10).toFixed(1)}" text-anchor="${anchor}">${p.y.toFixed(1)}%</text>`;
+      s += `<text x="${X(i).toFixed(1)}" y="${H-mb+18}" text-anchor="${anchor}">${p.x}</text>`;
+    });
+    svg.innerHTML = s;
+  }
+
+  function barChart(svg, points){
+    const W = svg.viewBox.baseVal.width || 1000, H = svg.viewBox.baseVal.height || 320;
+    const ml=46, mr=14, mt=20, mb=30;
+    const innerW=W-ml-mr, innerH=H-mt-mb;
+    const Y=y=> (H-mb) - y/100 * innerH;
+    const n=points.length, bandW=innerW/n, barW=Math.min(bandW*0.55, 46);
+    let s="";
+    for(let i=0;i<=4;i++){
+      const gy = 100*i/4, py = Y(gy);
+      s += `<line class="gridline" x1="${ml}" y1="${py.toFixed(1)}" x2="${W-mr}" y2="${py.toFixed(1)}"/>`;
+      s += `<text x="${ml-8}" y="${(py+3).toFixed(1)}" text-anchor="end">${gy.toFixed(0)}%</text>`;
+    }
+    s += `<line class="axis" x1="${ml}" y1="${H-mb}" x2="${W-mr}" y2="${H-mb}"/>`;
+    points.forEach((p,i)=>{
+      const cx = ml + bandW*(i+0.5), x = cx-barW/2, y = Y(p.y);
+      s += `<rect class="bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${((H-mb)-y).toFixed(1)}" rx="3" fill="var(--accent)"><title>${p.x}: ${p.y.toFixed(1)}%</title></rect>`;
+      s += `<text class="val" x="${cx.toFixed(1)}" y="${(y-8).toFixed(1)}" text-anchor="middle">${p.y.toFixed(1)}%</text>`;
+      s += `<text x="${cx.toFixed(1)}" y="${H-mb+18}" text-anchor="middle">${p.x}</text>`;
+    });
+    svg.innerHTML = s;
+  }
+
+  function statRow(el, points){
+    const first=points[0], last=points[points.length-1];
+    const delta=last.y-first.y, cls=delta>0?"up":delta<0?"down":"flat";
+    el.innerHTML = `<span class="s"><b>${first.y.toFixed(1)}%</b><br>${first.x}</span>`
+      + `<span class="s"><b>${last.y.toFixed(1)}%</b><br>${last.x}</span>`
+      + `<span class="s ${cls}"><b>${delta>0?"+":""}${delta.toFixed(1)}pp</b><br>${first.x}&rarr;${last.x}</span>`;
+  }
+
+  const turnoutPoints = TURNOUT.provinceAll.map(r=>({x:r.year,y:r.turnoutPct}));
+
+  function renderPanel(){
+    if(selectedId===null){
+      document.getElementById("panelTitle").textContent = "Canada";
+      document.getElementById("panelSub").textContent = "National · click a riding on the map for its own numbers";
+      document.getElementById("voteShare").innerHTML = barList(nationalTotals, Object.values(nationalTotals).reduce((a,b)=>a+b,0));
+      lineChart(document.getElementById("turnoutRecent"), turnoutPoints);
+      statRow(document.getElementById("turnoutRecentStat"), turnoutPoints);
+      document.getElementById("resultsLabel").textContent = "Results · seats by party";
+      const rows = PARTY_ORDER.filter(c=>seatTally[c]>0 || nationalTotals[c]>0).map(c=>`<tr><td><span class="nm ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c].color}"></span><span class="ov-key-label">${P[c].name}</span></span></td><td class="num">${seatTally[c]||0}</td></tr>`).join("");
+      document.getElementById("results").innerHTML = `<table class="seats"><thead><tr><th>Party</th><th>Seats</th></tr></thead><tbody>${rows}</tbody></table>`;
+      document.getElementById("strategicPanel").hidden = true;
+      document.getElementById("clearSel").disabled = true;
+    } else {
+      const r = ridingById[selectedId];
+      const w = winnerOf(r.votes);
+      document.getElementById("panelTitle").textContent = r.name;
+      document.getElementById("panelSub").textContent = r.province + " · " + w.total.toLocaleString() + " valid votes";
+      document.getElementById("voteShare").innerHTML = barList(r.votes, w.total);
+      document.getElementById("turnoutRecent").innerHTML = "";
+      document.getElementById("turnoutRecentStat").innerHTML = `<span class="s"><b>${r.turnoutPct.toFixed(1)}%</b><br>this riding, 2025</span><span class="s"><b>${turnoutPoints[turnoutPoints.length-1].y.toFixed(1)}%</b><br>national, 2025</span>`;
+      document.getElementById("resultsLabel").textContent = "Results · candidates";
+      const top = r.candidates.slice().sort((a,b)=>b.votes-a.votes).slice(0,6);
+      document.getElementById("results").innerHTML = `<div class="winner-badge">
+        <span class="dot" style="background:${P[w.party].color}"></span>
+        <span><span class="wn">${esc(top[0].name)} · ${P[w.party].name}</span><br><span class="wv">${w.votes.toLocaleString()} votes · ${(w.votes/w.total*100).toFixed(1)}%</span></span>
+      </div>
+      <table class="seats"><thead><tr><th>Candidate</th><th>Votes</th></tr></thead><tbody>${top.slice(1).map(c=>`<tr><td><span class="nm ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c.party].color}"></span><span class="ov-key-label">${esc(c.name)} (${c.party})</span></span></td><td class="num">${c.votes.toLocaleString()}</td></tr>`).join("")}</tbody></table>`;
+
+      const stratPanel = document.getElementById("strategicPanel");
+      const pct = +coordSlider.value/100;
+      const c = computeRow(r, pct);
+      const M = group().codes;
+      if(!M.includes(w.party)){
+        stratPanel.hidden = false;
+        let body;
+        if(c.pctNeeded===null || c.pctNeeded===undefined){
+          body = `<p class="caveat" style="margin:0">Here the group's leading candidate already out-polls every other party.</p>`;
+        } else if(c.pctNeeded>=1){
+          body = `<p class="caveat" style="margin:0">Doesn't change hands in this model. There are no other selected votes to transfer, or even full transfer cannot produce a win.</p>`;
+        } else {
+          body = `<div class="winner-badge" style="background:var(--accent-soft)">
+              <span class="dot" style="background:${P[c.survivor].color}"></span>
+              <span><span class="wn">Combined behind ${P[c.survivor].name}</span><br>
+              <span class="wv">would need &gt;${(c.pctNeeded*100).toFixed(2)}% of the other ${esc(group().label)} votes to overtake ${P[c.top.party].name}</span></span>
+            </div>
+            <p class="caveat">At the current ${coordSlider.value}% slider setting, this riding ${c.coordinated>c.top.votes ? '<b>changes hands</b>' : 'stays with '+P[c.top.party].name+'; a higher transfer share would change it'}.</p>`;
+        }
+        document.getElementById("strategicPanelBody").innerHTML = body;
+      } else {
+        stratPanel.hidden = true;
+      }
+      document.getElementById("clearSel").disabled = false;
+    }
+    document.getElementById("ridingPicker").value = selectedId===null ? "" : String(selectedId);
+    paintMap();
+  }
+
+  function selectRiding(id){
+    selectedId = (selectedId===id) ? null : id;
+    renderPanel();
+  }
+  document.getElementById("clearSel").addEventListener("click", ()=>{ selectedId=null; renderPanel(); });
+
+  const picker = document.getElementById("ridingPicker");
+  sortedRidings.forEach(r=>{ const o=document.createElement("option"); o.value=String(r.id); o.textContent=r.name; picker.appendChild(o); });
+  picker.addEventListener("change", ()=>{ selectedId = picker.value ? +picker.value : null; renderPanel(); });
+
+  // ---- seat gauges ----
+  function drawGauge(svg, segments, total){
+    const cx=160, cy=160, outerR=140, innerR=92;
+    const pt=(angleDeg,r)=>{ const rad=angleDeg*Math.PI/180; return [cx+r*Math.cos(rad), cy-r*Math.sin(rad)]; };
+    let s="", acc=0;
+    segments.forEach(seg=>{
+      const t0=acc/total, t1=(acc+seg.value)/total;
+      acc+=seg.value;
+      if(seg.value<=0) return;
+      const a0=180-t0*180, a1=180-t1*180;
+      const [ox0,oy0]=pt(a0,outerR), [ox1,oy1]=pt(a1,outerR);
+      const [ix1,iy1]=pt(a1,innerR), [ix0,iy0]=pt(a0,innerR);
+      s += `<path d="M${ox0.toFixed(1)} ${oy0.toFixed(1)} A${outerR} ${outerR} 0 0 1 ${ox1.toFixed(1)} ${oy1.toFixed(1)} L${ix1.toFixed(1)} ${iy1.toFixed(1)} A${innerR} ${innerR} 0 0 0 ${ix0.toFixed(1)} ${iy0.toFixed(1)} Z" fill="${seg.color}"><title>${seg.label}: ${seg.value}</title></path>`;
+    });
+    // majority tick
+    const am = 180-(MAJORITY_SEATS/total)*180;
+    const [mx0,my0]=pt(am,outerR+6), [mx1,my1]=pt(am,innerR-6);
+    s += `<line x1="${mx0.toFixed(1)}" y1="${my0.toFixed(1)}" x2="${mx1.toFixed(1)}" y2="${my1.toFixed(1)}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 2"><title>${MAJORITY_SEATS} seats for a majority</title></line>`;
+    s += `<text x="${cx-outerR}" y="${cy+18}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--muted)">0</text>`;
+    s += `<text x="${cx+outerR}" y="${cy+18}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--muted)">${total}</text>`;
+    svg.innerHTML = s;
+  }
+  function gaugeLegend(el, segments){
+    el.innerHTML = segments.filter(s=>s.value>0).map(s=>
+      `<span class="gl ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${s.color}"></span><span class="ov-key-label">${s.label} <b>${s.value}</b></span></span>`
+    ).join("");
+  }
+
+  const actualSegments = PARTY_ORDER.filter(c=>seatTally[c]>0).map(c=>({value:seatTally[c], color:P[c].color, label:c}));
+  drawGauge(document.getElementById("gaugeActual"), actualSegments, N);
+  gaugeLegend(document.getElementById("gaugeActualLegend"), actualSegments);
+  const topParty = PARTY_ORDER.slice().sort((a,b)=>seatTally[b]-seatTally[a])[0];
+  document.getElementById("gaugeActualFigure").innerHTML = `${seatTally[topParty]} <small>${P[topParty].name} seats of ${N}</small>`;
+
+  const majorityTally = {}; PARTY_CODES.forEach(c=>majorityTally[c]=0);
+  let noMajorityCount=0;
+  DATA.ridings.forEach(r=>{
+    const w=winnerOf(r.votes);
+    if(w.votes/w.total>0.5) majorityTally[w.party]++; else noMajorityCount++;
+  });
+  const majoritySegments = PARTY_ORDER.filter(c=>majorityTally[c]>0).map(c=>({value:majorityTally[c], color:P[c].color, label:c}));
+  if(noMajorityCount>0) majoritySegments.push({value:noMajorityCount, color:NO_MAJORITY_COLOR, label:"No majority"});
+  drawGauge(document.getElementById("gaugeMajority"), majoritySegments, N);
+  gaugeLegend(document.getElementById("gaugeMajorityLegend"), majoritySegments);
+  document.getElementById("gaugeMajorityFigure").innerHTML = `${N-noMajorityCount} <small>of ${N} seats won with a true majority</small>`;
+
+  // ---- national turnout history ----
+  barChart(document.getElementById("turnoutHistory"), turnoutPoints);
+  statRow(document.getElementById("turnoutHistoryStat"), turnoutPoints);
+
+  // ---- vote coordination ----
+  function renderCoordination(){
+    const pct = +coordSlider.value/100;
+    coordVal.textContent = coordSlider.value+"%";
+    const g = group();
+    const computed = sortedRidings.map(r=>computeRow(r,pct));
+    if(mapModeSelect.value==="model") paintMap();
+
+    document.getElementById("sensitiveLabel").firstChild.textContent = `Seats most sensitive to ${g.label} vote-splitting `;
+    document.getElementById("gaugeCoordSub").textContent = `Coloured by whichever party would hold the seat if ${g.label} votes were combined at ${coordSlider.value}%`;
+
+    const winnable = computed.filter(c=> c.pctNeeded!==null && c.pctNeeded<1)
+      .sort((a,b)=> a.pctNeeded-b.pctNeeded).slice(0,10);
+    const list = document.getElementById("strategicList");
+    if(!winnable.length){
+      list.innerHTML = `<p class="caveat" style="margin:0">No riding changes hands in this model, even at 100% vote transfer.</p>`;
+    } else {
+      list.innerHTML = `<ol class="winlist">` + winnable.map((c,i)=>{
+          const need=Math.floor(c.pctNeeded*100+1e-8)+1;
+          return `<li><button type="button" class="wincard${c.coordinated>c.top.votes?" flips":""}" data-id="${c.r.id}"
+              title="${esc(c.r.name)}: needs ${need}% vote transfer${c.coordinated>c.top.votes?" — flips at the current setting":""}">
+            <span class="rank">${i+1}</span>
+            <span class="dn">${esc(c.r.name)}</span>
+            <span class="thr">${need}%</span>
+            <span class="who ov-key"><span class="ov-swatch" aria-hidden="true" style="background:${P[c.survivor].color}"></span><span class="ov-key-label">Combined behind ${P[c.survivor].name}</span></span>
+            <span class="meter"><span style="width:${need}%"></span><i style="left:calc(${coordSlider.value}% - 1px)"></i></span>
+          </button></li>`;
+        }).join("")
+        + `</ol><p class="caveat" style="margin-top:8px">Ranked by the lowest vote-transfer share needed for the leading ${esc(g.label)} candidate to overtake the actual winner's vote count. See Methodology for exactly how this is calculated, and its limits.</p>`;
+    }
+
+    const tally = {}; PARTY_CODES.forEach(c=>tally[c]=0); let tieCount=0;
+    computed.forEach(c=>{ if(c.hypoCode) tally[c.hypoCode]++; else tieCount++; });
+    const segments = PARTY_ORDER.filter(c=>tally[c]>0).map(c=>({value:tally[c], color:P[c].color, label:c}));
+    if(tieCount>0) segments.push({value:tieCount, color:OTHERS_COLOR, label:"Tie"});
+    drawGauge(document.getElementById("gaugeCoord"), segments, N);
+    gaugeLegend(document.getElementById("gaugeCoordLegend"), segments);
+    const topSeg = segments.slice().sort((a,b)=>b.value-a.value)[0];
+    document.getElementById("gaugeCoordFigure").innerHTML = `${topSeg.value} <small>${topSeg.label} seats of ${N}</small>`;
+
+    let flips=0, reachable=0, outside=0;
+    const rows = computed.map(c=>{
+      if(c.flipped) flips++;
+      const v = c.r.votes;
+      let thr;
+      if(c.pctNeeded===null){ thr = `<td class="num">—</td>`; }
+      else if(c.pctNeeded>=1){ outside++; thr = `<td class="num">not reachable</td>`; }
+      else { outside++; reachable++; thr = `<td class="num">&gt;${(c.pctNeeded*100).toFixed(2)}%</td>`; }
+      return `<tr data-name="${esc(c.r.name.toLowerCase())}"${c.flipped?' data-flip="1"':''}>
+        <td>${esc(c.r.name)}</td>
+        <td class="num">${(v.LPC||0).toLocaleString()}</td><td class="num">${(v.CPC||0).toLocaleString()}</td>
+        <td class="num">${(v.NDP||0).toLocaleString()}</td><td class="num">${(v.BQ||0).toLocaleString()}</td>
+        <td class="num">${(v.GPC||0).toLocaleString()}</td><td class="num">${c.others.toLocaleString()}</td>
+        <td>${c.survivor}</td>
+        <td class="num">${fmt(c.coordinated)}</td>
+        <td><span style="color:${c.hypoColor}; font-weight:600">${c.hypoLabel}</span>${c.flipped?'<span class="flip-tag">flip</span>':''}</td>
+        ${thr}
+      </tr>`;
+    });
+    document.getElementById("coordTableBody").innerHTML = rows.join("");
+    filterTable();
+    document.getElementById("coordCaveat").innerHTML =
+      `Combining <b>${esc(g.label)}</b> at <b>${coordSlider.value}%</b> retention, <b>${flips}</b> of ${N} ridings would change winner (${computed.filter(c=>c.tied).length} ties have no assigned winner), `
+      + `and <b>${reachable}</b> of the ${outside} ridings won outside the group have a flip threshold below 100% at all. `
+      + `"Survivor" is whichever selected party actually got the most votes in that riding. "Others" bundles the People's Party, independents and minor parties. `
+      + `"Flip threshold" is the minimum vote-transfer share needed for the survivor to overtake the actual winner's vote count, independent of the slider. `
+      + `This is a simple reallocation, not a forecast: it assumes turnout and every other vote stays fixed.`;
+  }
+
+  document.getElementById("downloadScenario").addEventListener("click", ()=>{
+    const pct=+coordSlider.value/100;
+    const rows=[["riding_id","riding","group","transfer_percent","lpc_votes","cpc_votes","ndp_votes","bq_votes","green_votes","other_votes_display_total","survivor","transferred_votes","coordinated_votes","winner","tie","flipped","transfer_boundary_strictly_greater_than"]];
+    sortedRidings.map(r=>computeRow(r,pct)).forEach(c=>{ const v=c.r.votes;
+      rows.push([c.r.id,c.r.name,group().label,pct*100,v.LPC||0,v.CPC||0,v.NDP||0,v.BQ||0,v.GPC||0,c.others,c.survivor,pct*c.droppedSum,c.coordinated,c.hypoLabel,c.tied,c.flipped,c.pctNeeded===null?"":Number.isFinite(c.pctNeeded)?c.pctNeeded:"not reachable"]); });
+    const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+    const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    const a=document.createElement("a"); a.href=url; a.download=`federal-2025-${groupSelect.value}-scenario-${coordSlider.value}pct.csv`; a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+
+  const tableSearch = document.getElementById("tableSearch");
+  const flipsOnly = document.getElementById("flipsOnly");
+  function filterTable(){
+    const q = tableSearch.value.trim().toLowerCase();
+    let shown = 0;
+    const trs = document.querySelectorAll("#coordTableBody tr");
+    trs.forEach(tr=>{
+      const ok = (!q || tr.dataset.name.includes(q)) && (!flipsOnly.checked || tr.dataset.flip);
+      tr.hidden = !ok; if(ok) shown++;
+    });
+    document.getElementById("tableCount").textContent = shown===trs.length ? `${trs.length} ridings` : `${shown} of ${trs.length} ridings`;
+  }
+  tableSearch.addEventListener("input", filterTable);
+  flipsOnly.addEventListener("change", filterTable);
+
+  document.getElementById("strategicList").addEventListener("click", e=>{
+    const card = e.target.closest(".wincard"); if(!card) return;
+    selectedId = +card.dataset.id;
+    renderPanel();
+    document.querySelector(".lastel").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  function onModelChange(){
+    if(mapModeSelect.value!=="model") mapModeSelect.value = "model";
+    renderCoordination(); renderPanel();
+    if(typeof renderSurvey==="function") renderSurvey();
+  }
+  coordSlider.addEventListener("input", onModelChange);
+  groupSelect.addEventListener("change", onModelChange);
+
+
+  // ---- survey evidence (2025 Canadian Election Study aggregates) ----
+  const CES = window.CES_DATA;
+  const GROUP_PAIRS = {
+    "lpc-ndp": [["NDP","LPC"],["LPC","NDP"]],
+    "lpc-ndp-gpc": [["NDP","LPC"],["LPC","NDP"],["GPC","LPC"],["GPC","NDP"],["LPC","GPC"],["NDP","GPC"]],
+    "cpc-ppc": [["PPC","CPC"],["CPC","PPC"]]
+  };
+  const cesRegion = document.getElementById("cesRegion");
+  const pctTxt = v => Math.round(v*100)+"%";
+  function cesCell(region, from, to){
+    const r = CES.regions[region] && CES.regions[region][from];
+    if(!r || r.n < CES.meta.min_n_for_display || !r.to[to] || r.to[to].n < CES.meta.min_n_for_display) return null;
+    return Object.assign({fromN:r.n}, r.to[to]);
+  }
+  function renderSurvey(){
+    if(!CES){ document.getElementById("survey").hidden=true; return; }
+    const region = cesRegion.value, g = group(), pairs = GROUP_PAIRS[groupSelect.value];
+    let body="", lead=[];
+    pairs.forEach(([from,to])=>{
+      const c = cesCell(region, from, to);
+      if(!c){
+        body += `<tr><td>${P[from].name} voter</td><td>${P[to].name}</td><td class="num" colspan="5">too few respondents (under ${CES.meta.min_n_for_display})</td></tr>`;
+        return;
+      }
+      body += `<tr><td>${P[from].name} voter</td><td>${P[to].name}</td>
+        <td class="num"><b>${pctTxt(c.open)}</b></td><td class="num">${pctTxt(c.favourable)}</td><td class="num">${pctTxt(c.rule_out)}</td>
+        <td class="num">${c.mean_rating.toFixed(0)}</td><td class="num">${c.n.toLocaleString()}</td></tr>`;
+      lead.push(`${pctTxt(c.open)} of ${P[from].name} voters are open to the ${P[to].name}`);
+    });
+    document.getElementById("cesBody").innerHTML = body;
+    document.getElementById("cesLead").innerHTML = lead.length
+      ? `${esc(region)}: <b>${lead.join("; ")}</b>. Compare with the slider's ${coordSlider.value}%.`
+      : `Too few respondents in ${esc(region)} for this grouping.`;
+    document.getElementById("cesCount").textContent = `${CES.meta.respondents_used.toLocaleString()} respondents nationally · campaign wave`;
+    document.getElementById("cesCaveat").textContent =
+      `"Open to" = not ruled out and rated 50+ out of 100. Attitudes among people who say they plan to vote for the first party, weighted; not a measure of actual vote transfer, and not a ranked ballot. Showing the pairs relevant to the ${g.label} grouping.`;
+    const nat = pairs.map(([f,t])=>{ const c=cesCell("Canada",f,t); return c?`${pctTxt(c.open)} ${f}→${t}`:null; }).filter(Boolean).slice(0,2);
+    document.getElementById("cesHint").textContent = nat.length ? "CES open-to rates " + nat.join(", ") : "";
+  }
+  if(CES){
+    Object.keys(CES.regions).forEach(k=>{ const o=document.createElement("option"); o.value=k; o.textContent=k; cesRegion.appendChild(o); });
+    cesRegion.addEventListener("change", renderSurvey);
+  }
+
+  loadMaps();
+  renderPanel();
+  renderCoordination();
+  renderSurvey();
+})();
+
+// ── THEME (shared ov-theme key across the site) ──────────────────────────────
+(function(){
+  const root = document.documentElement;
+  const MOON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const SUN  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  const btn = document.getElementById('theme-toggle');
+  function setIcon(m){ if(btn) btn.innerHTML = m==='dark'?MOON:SUN; }
+  function setTheme(m){ root.setAttribute('data-theme', m); try{ localStorage.setItem('ov-theme', m); }catch(e){} setIcon(m); }
+  let saved = null;
+  try { saved = localStorage.getItem('ov-theme'); } catch(e){}
+  if (!saved) saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  root.setAttribute('data-theme', saved);
+  setIcon(saved);
+  if (btn) btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+})();
+</script>
+<script>
+// Embedded on the homepage inside an iframe — hide this page's own topbar there since the host page already has one.
+if (window.self !== window.top) {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+}
+</script>
+</body>
+</html>

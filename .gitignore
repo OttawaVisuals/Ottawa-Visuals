@@ -72,3 +72,6 @@ cloudflare-worker/.wrangler/
 
 # OC Transpo timetable index (built in Actions, kept in the Actions cache)
 OC_Transpo/schedule_cache/
+
+# Federal boundary zip (~9 MB) is downloaded by Federal_Elections/build_data.py
+Federal_Elections/data/fed-boundaries.zip
