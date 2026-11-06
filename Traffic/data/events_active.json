@@ -3036,6 +3036,52 @@
 },
 "fp": "11af454d2713"
 },
+"29871": {
+"event": {
+"cause": "construction",
+"created": "2026-11-05 08:48:00",
+"cross_street_1": "MOODIE southbound",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29871",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "(LRT) 417 W/B on-ramp closed at MOODIE southbound due to construction, Monday November 9th from 9:30am to 3:00pm",
+"lanes": "closed",
+"lat": 45.341633,
+"lon": -75.84192,
+"planned_end": "2026-11-09T15:00",
+"planned_start": "2026-11-06T09:30",
+"priority": "HIGH",
+"road": "417 W/B on-ramp",
+"source": "city",
+"updated": "2026-11-06 09:28:00"
+},
+"fp": "08c2497e72ff"
+},
+"29875": {
+"event": {
+"cause": "construction",
+"created": "2026-11-05 10:51:00",
+"cross_street_1": "Moodie Northbound and southbound",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29875",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "417 W/B off ramp lane reductions at Moodie Northbound and southbound due to construction, Monday November 9th from 9:30am to 3:00pm.",
+"lanes": "lane reductions",
+"lat": 45.340996,
+"lon": -75.834802,
+"planned_end": "2026-11-09T15:00",
+"planned_start": "2026-11-06T09:30",
+"priority": "HIGH",
+"road": "417 W/B off ramp",
+"source": "city",
+"updated": "2026-11-06 09:28:00"
+},
+"fp": "59d274a84249"
+},
 "29878": {
 "event": {
 "cause": "construction",
@@ -3197,28 +3243,74 @@
 },
 "fp": "3043a4b090aa"
 },
-"29904": {
+"29905": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-06 08:35:00",
-"cross_street_1": "KANATA",
-"cross_street_2": "HUNTSVILLE",
+"created": "2026-11-06 09:21:00",
+"cross_street_1": "Mer Bleue/Jeanne d'Arc",
+"cross_street_2": null,
 "direction": null,
-"event_id": "29904",
+"event_id": "29905",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Innes lane reductions in both directions at Mer Bleue/Jeanne d'Arc due to a collision.",
+"lanes": "lane reductions in both directions",
+"lat": 45.455729,
+"lon": -75.504844,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Innes",
+"source": "city",
+"updated": "2026-11-06 09:21:00"
+},
+"fp": "54e69a4b84bc"
+},
+"29906": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-06 09:41:00",
+"cross_street_1": "HUNTSVILLE",
+"cross_street_2": "KANATA",
+"direction": null,
+"event_id": "29906",
 "event_type": "INCIDENT",
 "full_closure": true,
-"headline": "TERRY FOX southbound closed between KANATA and HUNTSVILLE due to a collision. Police are directing traffic.",
+"headline": "TERRY FOX closed between HUNTSVILLE and KANATA due to a collision.",
 "lanes": "closed",
-"lat": 45.311516,
-"lon": -75.932401,
+"lat": 45.31766,
+"lon": -75.944425,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
 "road": "TERRY FOX",
 "source": "city",
-"updated": "2026-11-06 08:35:00"
+"updated": "2026-11-06 09:41:00"
 },
-"fp": "4acfdad46639"
+"fp": "d468e2ce2e52"
+},
+"29907": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-06 09:52:00",
+"cross_street_1": "Robertson",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29907",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Lynhar northbound lane reduction at Robertson due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.327681,
+"lon": -75.819567,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Lynhar",
+"source": "city",
+"updated": "2026-11-06 09:52:00"
+},
+"fp": "2bd4e25df865"
 }
 }
 }
