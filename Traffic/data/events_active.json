@@ -1564,29 +1564,6 @@
 },
 "fp": "8a690d058726"
 },
-"29625": {
-"event": {
-"cause": "construction",
-"created": "2026-10-22 10:41:00",
-"cross_street_1": "BANK",
-"cross_street_2": "HAWTHORNE",
-"direction": null,
-"event_id": "29625",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "RIDEAU Road closed between BANK and HAWTHORNE due to construction, from November 6th to 8th. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.296846,
-"lon": -75.579863,
-"planned_end": "2026-11-08T17:00",
-"planned_start": "2026-11-04T07:00",
-"priority": "HIGH",
-"road": "RIDEAU",
-"source": "city",
-"updated": "2026-11-04 06:56:00"
-},
-"fp": "148e41673c34"
-},
 "29629": {
 "event": {
 "cause": "construction",
@@ -2575,6 +2552,121 @@
 "updated": "2026-11-06 17:12:00"
 },
 "fp": "592b41ed71ad"
+},
+"29928": {
+"event": {
+"cause": "",
+"created": "2026-11-08 16:48:00",
+"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
+"cross_street_2": "WALKLEY RD (IC 110)",
+"direction": null,
+"event_id": "29928",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to WALKLEY RD - Nightly Maintenance. 1 Alternating Lane. Detailed closure information is as follows: Mon-Thurs: 21:00-06:00. 2026-11-09 21:00 to 2026-11-13 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.42092,
+"lon": -76.37281,
+"planned_end": "2026-11-13T06:00",
+"planned_start": "2026-11-09T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-08 16:48:00"
+},
+"fp": "528953b04ffd"
+},
+"29929": {
+"event": {
+"cause": "",
+"created": "2026-11-08 16:51:00",
+"cross_street_1": "CARLING AVE / KIRKWOOD AVE (IC 124)",
+"cross_street_2": "ROCHESTER ST  (IC 121B)",
+"direction": null,
+"event_id": "29929",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from CARLING AVE / KIRKWOOD AVE to ROCHESTER ST - Continuous Maintenance. 1 Right Lane(s). Detailed closure information is as follows: All days: 21:00-06:00. 2026-11-10 21:00 to 2026-11-11 06:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.38393,
+"lon": -75.73985,
+"planned_end": "2026-11-11T06:00",
+"planned_start": "2026-11-10T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-08 16:51:00"
+},
+"fp": "1b850052d092"
+},
+"29930": {
+"event": {
+"cause": "",
+"created": "2026-11-08 16:51:00",
+"cross_street_1": "CARP RD (IC 144)/CR 5",
+"cross_street_2": "HWY 7 (IC 145)",
+"direction": null,
+"event_id": "29930",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from CARP RD /CR 5 to Highway 7 - Continuous Maintenance. 1 Left Lane(s). 2026-11-11 21:00 to 2026-11-12 06:00",
+"lanes": "1 Left Lane(s)",
+"lat": 45.28104,
+"lon": -75.9573,
+"planned_end": "2026-11-12T06:00",
+"planned_start": "2026-11-11T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-08 16:51:00"
+},
+"fp": "5507e6b28176"
+},
+"29931": {
+"event": {
+"cause": "",
+"created": "2026-11-08 16:51:00",
+"cross_street_1": "HOLLY ACRES RD EXIT E/B (IC 130)",
+"cross_street_2": "MOODIE DR (IC 134)",
+"direction": null,
+"event_id": "29931",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from HOLLY ACRES RD EXIT E/B to MOODIE DR - Continuous Maintenance. 2 Right Lane(s). Detailed closure information is as follows: All days: 22:00-06:00 Nearby ramps may be affected. 2026-11-09 22:00 to 2026-11-10 06:00",
+"lanes": "2 Right Lane(s)",
+"lat": 45.34421,
+"lon": -75.8134,
+"planned_end": "2026-11-10T06:00",
+"planned_start": "2026-11-09T22:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-08 16:51:00"
+},
+"fp": "f816e0a80680"
+},
+"29932": {
+"event": {
+"cause": "",
+"created": "2026-11-08 16:51:00",
+"cross_street_1": "CARLING AVE / KIRKWOOD AVE (IC 124)",
+"cross_street_2": "PARKDALE AVE (IC 122)",
+"direction": null,
+"event_id": "29932",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from CARLING AVE / KIRKWOOD AVE to PARKDALE AVE - Continuous Maintenance. 1 Right Lane(s). Detailed closure information is as follows: All days: 21:00-06:00. 2026-11-10 21:00 to 2026-11-11 06:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.38393,
+"lon": -75.73985,
+"planned_end": "2026-11-11T06:00",
+"planned_start": "2026-11-10T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-08 16:51:00"
+},
+"fp": "7c05fd9890cf"
 }
 }
 }
