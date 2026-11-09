@@ -2576,28 +2576,28 @@
 },
 "fp": "3c05306bcfee"
 },
-"29948": {
+"29950": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-09 15:09:00",
-"cross_street_1": "Laurier",
+"cause": "a disabled vehicle",
+"created": "2026-11-09 16:28:00",
+"cross_street_1": "Baseline",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29948",
+"event_id": "29950",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Nicholas northbound reduced to 1 left-turn lane at Laurier due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 left-turn lane",
-"lat": 45.4233,
-"lon": -75.687449,
+"headline": "Fisher northbound reduced to 1 lane at Baseline due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.37146,
+"lon": -75.7165,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Nicholas",
+"road": "Fisher",
 "source": "city",
-"updated": "2026-11-09 15:09:00"
+"updated": "2026-11-09 16:28:00"
 },
-"fp": "ee11e7cf8437"
+"fp": "98b63a90e62a"
 }
 }
 }
