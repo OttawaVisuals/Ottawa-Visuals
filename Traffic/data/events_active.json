@@ -2024,29 +2024,6 @@
 },
 "fp": "e776bfa0c856"
 },
-"29801": {
-"event": {
-"cause": "construction",
-"created": "2026-11-02 13:09:00",
-"cross_street_1": "417 overpass",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29801",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Moodie southbound reduced to 1 lane at 417 overpass due to construction, from November 4th to 9th between 6:00 and 2:30pm.",
-"lanes": "reduced to 1 lane",
-"lat": 45.3404,
-"lon": -75.841769,
-"planned_end": "2026-11-09T14:30",
-"planned_start": "2026-11-02T06:00",
-"priority": "MEDIUM",
-"road": "Moodie",
-"source": "city",
-"updated": "2026-11-02 13:12:00"
-},
-"fp": "fb32961b03e7"
-},
 "29819": {
 "event": {
 "cause": "construction",
@@ -2207,52 +2184,6 @@
 "updated": "2026-11-04 19:18:00"
 },
 "fp": "11af454d2713"
-},
-"29871": {
-"event": {
-"cause": "construction",
-"created": "2026-11-05 08:48:00",
-"cross_street_1": "MOODIE southbound",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29871",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "(LRT) 417 W/B on-ramp closed at MOODIE southbound due to construction, Monday November 9th from 9:30am to 3:00pm",
-"lanes": "closed",
-"lat": 45.341633,
-"lon": -75.84192,
-"planned_end": "2026-11-09T15:00",
-"planned_start": "2026-11-06T09:30",
-"priority": "HIGH",
-"road": "417 W/B on-ramp",
-"source": "city",
-"updated": "2026-11-06 09:28:00"
-},
-"fp": "08c2497e72ff"
-},
-"29875": {
-"event": {
-"cause": "construction",
-"created": "2026-11-05 10:51:00",
-"cross_street_1": "Moodie Northbound and southbound",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29875",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "417 W/B off ramp lane reductions at Moodie Northbound and southbound due to construction, Monday November 9th from 9:30am to 3:00pm.",
-"lanes": "lane reductions",
-"lat": 45.340996,
-"lon": -75.834802,
-"planned_end": "2026-11-09T15:00",
-"planned_start": "2026-11-06T09:30",
-"priority": "HIGH",
-"road": "417 W/B off ramp",
-"source": "city",
-"updated": "2026-11-06 09:28:00"
-},
-"fp": "59d274a84249"
 },
 "29878": {
 "event": {
@@ -2437,29 +2368,6 @@
 "updated": "2026-11-08 12:56:00"
 },
 "fp": "a542e6a02aac"
-},
-"29921": {
-"event": {
-"cause": "",
-"created": "2026-11-06 16:06:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29921",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound Off-ramp at MOODIE DR - Daily Construction. ALL LANES CLOSED. Detailed closure information is as follows: Mon: 09:30-15:00 Nearby ramps may be affected. 2026-11-09 09:30 to 2026-11-09 15:00",
-"lanes": "ALL LANES CLOSED",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-11-09T15:00",
-"planned_start": "2026-11-09T09:30",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-06 16:06:00"
-},
-"fp": "210e18a74131"
 },
 "29922": {
 "event": {
@@ -2668,51 +2576,28 @@
 },
 "fp": "3c05306bcfee"
 },
-"29946": {
+"29948": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-09 14:06:00",
-"cross_street_1": "Borrisokane/Tartan",
+"created": "2026-11-09 15:09:00",
+"cross_street_1": "Laurier",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29946",
+"event_id": "29948",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Strandherd eastbound closed at Borrisokane/Tartan due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.259529,
-"lon": -75.767457,
+"full_closure": false,
+"headline": "Nicholas northbound reduced to 1 left-turn lane at Laurier due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 left-turn lane",
+"lat": 45.4233,
+"lon": -75.687449,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Strandherd",
+"road": "Nicholas",
 "source": "city",
-"updated": "2026-11-09 14:06:00"
+"updated": "2026-11-09 15:09:00"
 },
-"fp": "fee08c545eda"
-},
-"29947": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-09 14:06:00",
-"cross_street_1": "Strandherd",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29947",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Borrisokane northbound closed at Strandherd due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.259534,
-"lon": -75.767461,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Borrisokane",
-"source": "city",
-"updated": "2026-11-09 14:06:00"
-},
-"fp": "4a6fca718ba6"
+"fp": "ee11e7cf8437"
 }
 }
 }
