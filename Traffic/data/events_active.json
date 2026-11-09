@@ -2645,28 +2645,97 @@
 },
 "fp": "41650110153f"
 },
-"29935": {
+"29936": {
 "event": {
-"cause": "",
-"created": "2026-11-09 09:45:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
+"cause": "construction",
+"created": "2026-11-09 10:42:00",
+"cross_street_1": null,
 "cross_street_2": null,
 "direction": null,
-"event_id": "29935",
+"event_id": "29936",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "Alexandra Bridge closed due to construction. From November 9th to 27th between 9:30am and 3:00pm on weekdays and between 7:00am and 5:00pm on weekends. ",
+"lanes": "closed",
+"lat": 45.4317,
+"lon": -75.708543,
+"planned_end": "2026-11-27T15:00",
+"planned_start": "2026-11-09T09:30",
+"priority": "MEDIUM",
+"road": "Pont Alexandra Bridge",
+"source": "city",
+"updated": "2026-11-09 10:44:00"
+},
+"fp": "e353ee0f2c5d"
+},
+"29938": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-09 11:10:00",
+"cross_street_1": "Western",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29938",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Eastbound RAMP at METCALFE ST - Disabled Vehicle. right lane and right shoulder closed. ",
-"lanes": "right lane and right shoulder closed",
-"lat": 45.409082,
-"lon": -75.690843,
+"headline": "Wellington traffic disruptions at Western due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.398124,
+"lon": -75.739501,
 "planned_end": null,
 "planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "LOW",
+"road": "Wellington",
 "source": "city",
-"updated": "2026-11-09 09:45:00"
+"updated": "2026-11-09 11:13:00"
 },
-"fp": "97eefd978d08"
+"fp": "3cdafa86d00a"
+},
+"29939": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-09 11:15:00",
+"cross_street_1": "PICCADILLY",
+"cross_street_2": "WESTERN",
+"direction": null,
+"event_id": "29939",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "WELLINGTON reduced to 1 lane in each direction between PICCADILLY and WESTERN due to a collision.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.397697,
+"lon": -75.74105,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "WELLINGTON",
+"source": "city",
+"updated": "2026-11-09 11:15:00"
+},
+"fp": "6c8566f59444"
+},
+"29940": {
+"event": {
+"cause": "a labour dispute",
+"created": "2026-11-09 11:22:00",
+"cross_street_1": "LAURIER",
+"cross_street_2": "UNIVERSITE, PRIVE",
+"direction": null,
+"event_id": "29940",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "CUMBERLAND closed between LAURIER and UNIVERSITE, PRIVE due to a labour dispute.",
+"lanes": "closed",
+"lat": 45.424549,
+"lon": -75.684747,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "CUMBERLAND",
+"source": "city",
+"updated": "2026-11-09 11:22:00"
+},
+"fp": "d1cf20baf185"
 }
 }
 }
