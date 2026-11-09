@@ -50469,3 +50469,23 @@ timestamp_utc,timestamp_local,corridor_id,direction,travel_time_s,traffic_delay_
 2026-11-09T10:00:55Z,2026-11-09T05:00:55-0500,gatineau,from_downtown,730,0,9462,
 2026-11-09T10:00:55Z,2026-11-09T05:00:55-0500,riverside,to_downtown,1196,0,17546,
 2026-11-09T10:00:55Z,2026-11-09T05:00:55-0500,riverside,from_downtown,1268,0,17231,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,kanata,to_downtown,1094,0,22983,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,kanata,from_downtown,990,0,22526,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,orleans,to_downtown,1065,0,18013,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,orleans,from_downtown,1057,0,19244,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,barrhaven,to_downtown,1421,0,22509,
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,barrhaven,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,gatineau,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,gatineau,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,riverside,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-09T11:00:56Z,2026-11-09T06:00:56-0500,riverside,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,kanata,to_downtown,1237,67,22983,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,kanata,from_downtown,1008,0,22526,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,orleans,to_downtown,1181,46,18013,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,orleans,from_downtown,1080,0,19244,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,barrhaven,to_downtown,1535,0,22509,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,barrhaven,from_downtown,1523,0,22825,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,gatineau,to_downtown,783,0,8000,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,gatineau,from_downtown,761,0,9462,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,riverside,to_downtown,1319,0,17546,
+2026-11-09T11:30:58Z,2026-11-09T06:30:58-0500,riverside,from_downtown,1385,0,17231,
