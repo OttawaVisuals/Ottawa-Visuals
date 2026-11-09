@@ -2438,6 +2438,29 @@
 },
 "fp": "a542e6a02aac"
 },
+"29919": {
+"event": {
+"cause": "construction",
+"created": "2026-11-06 15:01:00",
+"cross_street_1": "Place d'Orl\u00e9ans",
+"cross_street_2": "Tenth Line",
+"direction": null,
+"event_id": "29919",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 eastbound reduced to 1 lane between Place d'Orl\u00e9ans and Tenth Line due to construction. From 9:00am to 2:00pm, November 9th.",
+"lanes": "reduced to 1 lane",
+"lat": 45.47976,
+"lon": -75.517761,
+"planned_end": "2026-11-09T14:00",
+"planned_start": "2026-11-09T09:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-11-09 08:56:00"
+},
+"fp": "f40ec086beca"
+},
 "29921": {
 "event": {
 "cause": "",
@@ -2598,6 +2621,29 @@
 "updated": "2026-11-08 16:51:00"
 },
 "fp": "7c05fd9890cf"
+},
+"29934": {
+"event": {
+"cause": "a labour dispute",
+"created": "2026-11-09 09:08:00",
+"cross_street_1": null,
+"cross_street_2": null,
+"direction": null,
+"event_id": "29934",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Traffic disruptions due to a labour dispute near King Edward, Laurier, Mann and Waller. Duration is unknown. Expect delays and use other routes.",
+"lanes": "traffic disruptions",
+"lat": 45.421506,
+"lon": -75.681501,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": null,
+"source": "city",
+"updated": "2026-11-09 09:08:00"
+},
+"fp": "41650110153f"
 }
 }
 }
