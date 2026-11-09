@@ -2668,51 +2668,51 @@
 },
 "fp": "e353ee0f2c5d"
 },
-"29938": {
+"29941": {
+"event": {
+"cause": "construction",
+"created": "2026-11-09 12:55:00",
+"cross_street_1": "OGILVIE",
+"cross_street_2": "CYRVILLE / LABELLE",
+"direction": null,
+"event_id": "29941",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "CUMMINGS southbound closed between OGILVIE and CYRVILLE / LABELLE due to construction, from November 10th to December 18th. Follow the signed detour. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.426204,
+"lon": -75.631697,
+"planned_end": "2026-12-18T17:00",
+"planned_start": "2026-11-09T00:00",
+"priority": "MEDIUM",
+"road": "CUMMINGS",
+"source": "city",
+"updated": "2026-11-09 12:56:00"
+},
+"fp": "3c05306bcfee"
+},
+"29942": {
 "event": {
 "cause": "traffic signals not working",
-"created": "2026-11-09 11:10:00",
-"cross_street_1": "Western",
+"created": "2026-11-09 13:10:00",
+"cross_street_1": "Champlain",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29938",
+"event_id": "29942",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Wellington traffic disruptions at Western due to traffic signals not working.",
+"headline": "174 Off-Ramp westbound traffic disruptions at Champlain due to traffic signals not working. Duration is unknown.",
 "lanes": "traffic disruptions",
-"lat": 45.398124,
-"lon": -75.739501,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Wellington",
-"source": "city",
-"updated": "2026-11-09 11:13:00"
-},
-"fp": "3cdafa86d00a"
-},
-"29940": {
-"event": {
-"cause": "a labour dispute",
-"created": "2026-11-09 11:22:00",
-"cross_street_1": "LAURIER",
-"cross_street_2": "UNIVERSITE, PRIVE",
-"direction": null,
-"event_id": "29940",
-"event_type": "SPECIAL_EVENT",
-"full_closure": true,
-"headline": "CUMBERLAND closed between LAURIER and UNIVERSITE, PRIVE due to a labour dispute.",
-"lanes": "closed",
-"lat": 45.424549,
-"lon": -75.684747,
+"lat": 45.481107,
+"lon": -75.518639,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "CUMBERLAND",
+"road": "174 Off-Ramp/bretelle de sortie",
 "source": "city",
-"updated": "2026-11-09 11:22:00"
+"updated": "2026-11-09 13:10:00"
 },
-"fp": "d1cf20baf185"
+"fp": "546906b4a95c"
 }
 }
 }
