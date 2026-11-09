@@ -1081,29 +1081,6 @@
 },
 "fp": "e7d9b3473db1"
 },
-"29363": {
-"event": {
-"cause": "construction",
-"created": "2026-10-09 06:29:00",
-"cross_street_1": "EVE",
-"cross_street_2": "LOLA",
-"direction": null,
-"event_id": "29363",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "DONALD off-peak lane reduction between EVE and LOLA due to construction, from October 6th to November 6th.",
-"lanes": "off-peak lane reduction",
-"lat": 45.427856,
-"lon": -75.655038,
-"planned_end": "2026-11-09T17:00",
-"planned_start": "2026-10-06T00:00",
-"priority": "LOW",
-"road": "DONALD",
-"source": "city",
-"updated": "2026-10-09 06:32:00"
-},
-"fp": "c3a388d2ec85"
-},
 "29368": {
 "event": {
 "cause": "construction",
@@ -2575,29 +2552,6 @@
 "updated": "2026-11-09 12:56:00"
 },
 "fp": "3c05306bcfee"
-},
-"29950": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-09 16:28:00",
-"cross_street_1": "Baseline",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29950",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Fisher northbound reduced to 1 lane at Baseline due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.37146,
-"lon": -75.7165,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Fisher",
-"source": "city",
-"updated": "2026-11-09 16:28:00"
-},
-"fp": "98b63a90e62a"
 }
 }
 }
