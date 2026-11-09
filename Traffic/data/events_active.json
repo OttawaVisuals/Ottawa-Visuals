@@ -2438,29 +2438,6 @@
 },
 "fp": "a542e6a02aac"
 },
-"29919": {
-"event": {
-"cause": "construction",
-"created": "2026-11-06 15:01:00",
-"cross_street_1": "Place d'Orl\u00e9ans",
-"cross_street_2": "Tenth Line",
-"direction": null,
-"event_id": "29919",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound reduced to 1 lane between Place d'Orl\u00e9ans and Tenth Line due to construction. From 9:00am to 2:00pm, November 9th.",
-"lanes": "reduced to 1 lane",
-"lat": 45.47976,
-"lon": -75.517761,
-"planned_end": "2026-11-09T14:00",
-"planned_start": "2026-11-09T09:00",
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-11-09 08:56:00"
-},
-"fp": "f40ec086beca"
-},
 "29921": {
 "event": {
 "cause": "",
@@ -2691,28 +2668,51 @@
 },
 "fp": "3c05306bcfee"
 },
-"29942": {
+"29946": {
 "event": {
-"cause": "traffic signals not working",
-"created": "2026-11-09 13:10:00",
-"cross_street_1": "Champlain",
+"cause": "a collision",
+"created": "2026-11-09 14:06:00",
+"cross_street_1": "Borrisokane/Tartan",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29942",
+"event_id": "29946",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "174 Off-Ramp westbound traffic disruptions at Champlain due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.481107,
-"lon": -75.518639,
+"full_closure": true,
+"headline": "Strandherd eastbound closed at Borrisokane/Tartan due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.259529,
+"lon": -75.767457,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "174 Off-Ramp/bretelle de sortie",
+"priority": "HIGH",
+"road": "Strandherd",
 "source": "city",
-"updated": "2026-11-09 13:10:00"
+"updated": "2026-11-09 14:06:00"
 },
-"fp": "546906b4a95c"
+"fp": "fee08c545eda"
+},
+"29947": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-09 14:06:00",
+"cross_street_1": "Strandherd",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29947",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Borrisokane northbound closed at Strandherd due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.259534,
+"lon": -75.767461,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Borrisokane",
+"source": "city",
+"updated": "2026-11-09 14:06:00"
+},
+"fp": "4a6fca718ba6"
 }
 }
 }
