@@ -1541,52 +1541,6 @@
 },
 "fp": "8a690d058726"
 },
-"29629": {
-"event": {
-"cause": "construction",
-"created": "2026-10-22 13:20:00",
-"cross_street_1": "AIRPORT",
-"cross_street_2": "BROOKFIELD",
-"direction": null,
-"event_id": "29629",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "RAMP southbound lane reduction between AIRPORT and BROOKFIELD due to construction, from Nov 2nd to 10th.",
-"lanes": "lane reduction",
-"lat": 45.375503,
-"lon": -75.683383,
-"planned_end": "2026-11-10T17:00",
-"planned_start": "2026-10-30T00:00",
-"priority": "MEDIUM",
-"road": "RAMP",
-"source": "city",
-"updated": "2026-10-29 23:56:00"
-},
-"fp": "6f737aff4d8c"
-},
-"29652": {
-"event": {
-"cause": "construction",
-"created": "2026-10-23 12:26:00",
-"cross_street_1": "Clover",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29652",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Heron lane reduction at Clover due to construction, from November 2nd to 10th.",
-"lanes": "lane reduction",
-"lat": 45.377853,
-"lon": -75.676565,
-"planned_end": "2026-11-10T17:00",
-"planned_start": "2026-10-30T07:00",
-"priority": "MEDIUM",
-"road": "Heron",
-"source": "city",
-"updated": "2026-10-30 06:56:00"
-},
-"fp": "f617d5749e90"
-},
 "29685": {
 "event": {
 "cause": "construction",
@@ -2714,28 +2668,28 @@
 },
 "fp": "9ba28e01b9f3"
 },
-"29975": {
+"29977": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-10 16:20:00",
-"cross_street_1": "Bay",
-"cross_street_2": null,
+"cause": "",
+"created": "2026-11-10 17:51:00",
+"cross_street_1": "CYRVILLE RD E",
+"cross_street_2": "KENT ST (IC 120A)",
 "direction": null,
-"event_id": "29975",
-"event_type": "INCIDENT",
+"event_id": "29977",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Wellington westbound reduced to 2 lanes at Bay due to a collision. Duration is unknown.",
-"lanes": "reduced to 2 lanes",
-"lat": 45.419313,
-"lon": -75.707855,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Wellington",
+"headline": "Highway 417 Westbound from CYRVILLE RD E to KENT ST - Continuous Moving Maintenance Closure. 1 Left Lane(s). Detailed closure information is as follows: All days: 10:00-14:30. 2026-11-11 10:00 to 2026-11-11 14:30",
+"lanes": "1 Left Lane(s)",
+"lat": 45.41866,
+"lon": -75.61362,
+"planned_end": "2026-11-11T14:30",
+"planned_start": "2026-11-11T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
 "source": "city",
-"updated": "2026-11-10 16:20:00"
+"updated": "2026-11-10 17:51:00"
 },
-"fp": "9d87a5edcc89"
+"fp": "c1b7dc52013e"
 }
 }
 }
