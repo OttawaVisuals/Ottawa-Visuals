@@ -2552,6 +2552,75 @@
 "updated": "2026-11-09 17:42:00"
 },
 "fp": "4591d683c009"
+},
+"29960": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-10 12:16:00",
+"cross_street_1": "BEAVERWOOD",
+"cross_street_2": "CLAPP",
+"direction": null,
+"event_id": "29960",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "MANOTICK MAIN periodically closed between BEAVERWOOD and CLAPP due to a parade, Wednesday November 11th between 9:00am and 1:00pm.",
+"lanes": "periodically closed",
+"lat": 45.224699,
+"lon": -75.683464,
+"planned_end": "2026-11-11T13:00",
+"planned_start": "2026-11-10T00:00",
+"priority": "MEDIUM",
+"road": "MANOTICK MAIN",
+"source": "city",
+"updated": "2026-11-10 12:27:00"
+},
+"fp": "bc7e5a9d65f9"
+},
+"29961": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-10 12:25:00",
+"cross_street_1": "NIXON FARM/FOWLER",
+"cross_street_2": "COLONEL MURRAY",
+"direction": null,
+"event_id": "29961",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "PERTH periodically closed between NIXON FARM/FOWLER and COLONEL MURRAY due to a parade, Wednesday November 11th from 10:30am to 11:45am.",
+"lanes": "periodically closed",
+"lat": 45.192532,
+"lon": -75.84175,
+"planned_end": "2026-11-11T11:45",
+"planned_start": "2026-11-10T00:00",
+"priority": "MEDIUM",
+"road": "PERTH",
+"source": "city",
+"updated": "2026-11-10 12:28:00"
+},
+"fp": "a8c6237aef4b"
+},
+"29963": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-10 12:35:00",
+"cross_street_1": "8TH LINE",
+"cross_street_2": "GLENWOOD",
+"direction": null,
+"event_id": "29963",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "VICTORIA periodically closed between 8TH LINE and GLENWOOD due to a parade, Wednesday November 11th between 10:30am and 11:00am.",
+"lanes": "periodically closed",
+"lat": 45.23583,
+"lon": -75.47277,
+"planned_end": "2026-11-11T11:00",
+"planned_start": "2026-11-10T00:00",
+"priority": "MEDIUM",
+"road": "VICTORIA",
+"source": "city",
+"updated": "2026-11-10 12:36:00"
+},
+"fp": "26fe08b88a1a"
 }
 }
 }
