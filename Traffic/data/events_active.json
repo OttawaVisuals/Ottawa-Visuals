@@ -2713,6 +2713,52 @@
 "updated": "2026-11-10 14:39:00"
 },
 "fp": "9ba28e01b9f3"
+},
+"29972": {
+"event": {
+"cause": "an unknown cause",
+"created": "2026-11-10 15:35:00",
+"cross_street_1": "Bantree",
+"cross_street_2": "Star Top",
+"direction": null,
+"event_id": "29972",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Innes eastbound reduced to 1 lane between Bantree and Star Top due to an unknown cause. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.411563,
+"lon": -75.616241,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Innes",
+"source": "city",
+"updated": "2026-11-10 15:35:00"
+},
+"fp": "f7c40e25c16e"
+},
+"29974": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-10 15:50:00",
+"cross_street_1": "Abbeyhill",
+"cross_street_2": "Hazeldean",
+"direction": null,
+"event_id": "29974",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Eagleson southbound reduced to 2 lanes between Abbeyhill and Hazeldean due to a collision. Duration is unknown.",
+"lanes": "reduced to 2 lanes",
+"lat": 45.302094,
+"lon": -75.875697,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Eagleson",
+"source": "city",
+"updated": "2026-11-10 15:50:00"
+},
+"fp": "28e813cfced3"
 }
 }
 }
