@@ -15,6 +15,8 @@ and per-document classification, with full-text versus scope-review limitations 
 The [fatal crash sentencing pilot](research/FATAL_CRASH_SENTENCING_PILOT.md) audits
 January–June 2024 Ottawa collisions for public court outcomes and identifies two
 cases for court-record follow-up.
+The [Greater Victoria pilot](research/BC_FATAL_CRASH_SENTENCING_PILOT.md) records
+four publicly reported crashes from July–September 2025 and one reported sentence.
 
 ## Coverage
 
