@@ -1196,29 +1196,6 @@
 },
 "fp": "a9f97709bc0a"
 },
-"29517": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:49:00",
-"cross_street_1": "BAY",
-"cross_street_2": "BOOTH",
-"direction": null,
-"event_id": "29517",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "ALBERT westbound reduced to 1 lane between BAY and BOOTH due to construction, from November 3rd to 6th, and November 10th to 11th between 7:00am and 3:00pm.",
-"lanes": "reduced to 1 lane",
-"lat": 45.417476,
-"lon": -75.70599,
-"planned_end": "2026-11-11T15:00",
-"planned_start": "2026-10-31T07:00",
-"priority": "MEDIUM",
-"road": "ALBERT",
-"source": "city",
-"updated": "2026-11-06 12:35:00"
-},
-"fp": "cd57e310196a"
-},
 "29518": {
 "event": {
 "cause": "construction",
@@ -2254,29 +2231,6 @@
 },
 "fp": "cfe47a8acf11"
 },
-"29917": {
-"event": {
-"cause": "a parade",
-"created": "2026-11-06 13:25:00",
-"cross_street_1": "MANCHESTER / REVERIE",
-"cross_street_2": "WARNER COLPITTS",
-"direction": null,
-"event_id": "29917",
-"event_type": "SPECIAL_EVENT",
-"full_closure": true,
-"headline": "STITTSVILLE MAIN closed between MANCHESTER / REVERIE and WARNER COLPITTS due to a parade, Wednesday November 11th from 1:00pm to 3:00pm.",
-"lanes": "closed",
-"lat": 45.259106,
-"lon": -75.92142,
-"planned_end": "2026-11-11T15:00",
-"planned_start": "2026-11-08T13:00",
-"priority": "MEDIUM",
-"road": "STITTSVILLE MAIN",
-"source": "city",
-"updated": "2026-11-08 12:56:00"
-},
-"fp": "a542e6a02aac"
-},
 "29922": {
 "event": {
 "cause": "",
@@ -2414,52 +2368,6 @@
 "updated": "2026-11-09 12:56:00"
 },
 "fp": "3c05306bcfee"
-},
-"29966": {
-"event": {
-"cause": "a parade",
-"created": "2026-11-10 13:11:00",
-"cross_street_1": "BROADVIEW",
-"cross_street_2": "CHURCHILL",
-"direction": null,
-"event_id": "29966",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "RICHMOND periodically closed between BROADVIEW and CHURCHILL due to a parade, Wednesday November 11th from 1:30pm to 3:00pm.",
-"lanes": "periodically closed",
-"lat": 45.388337,
-"lon": -75.760837,
-"planned_end": "2026-11-11T15:00",
-"planned_start": "2026-11-10T00:00",
-"priority": "MEDIUM",
-"road": "RICHMOND",
-"source": "city",
-"updated": "2026-11-10 13:12:00"
-},
-"fp": "e73cbfb8e3e6"
-},
-"29977": {
-"event": {
-"cause": "",
-"created": "2026-11-10 17:51:00",
-"cross_street_1": "CYRVILLE RD E",
-"cross_street_2": "KENT ST (IC 120A)",
-"direction": null,
-"event_id": "29977",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from CYRVILLE RD E to KENT ST - Continuous Moving Maintenance Closure. 1 Left Lane(s). Detailed closure information is as follows: All days: 10:00-14:30. 2026-11-11 10:00 to 2026-11-11 14:30",
-"lanes": "1 Left Lane(s)",
-"lat": 45.41866,
-"lon": -75.61362,
-"planned_end": "2026-11-11T14:30",
-"planned_start": "2026-11-11T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-10 17:51:00"
-},
-"fp": "c1b7dc52013e"
 }
 }
 }
