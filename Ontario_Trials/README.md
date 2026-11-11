@@ -12,6 +12,10 @@ these aggregate statistics. It does not change the outcome totals.
 The [follow-up review of all 133 candidates](research/S53_REVIEW.md) includes a CSV
 and per-document classification, with full-text versus scope-review limitations stated.
 
+The [fatal crash sentencing pilot](research/FATAL_CRASH_SENTENCING_PILOT.md) audits
+January–June 2024 Ottawa collisions for public court outcomes and identifies two
+cases for court-record follow-up.
+
 ## Coverage
 
 [Ontario Court of Justice statistics](https://www.ontariocourts.ca/ocj/statistics/) are the sole data source. The importer discovers links from that page rather than inventing historical URLs.

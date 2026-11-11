@@ -14,6 +14,7 @@ Resets: use one per week (marked **RESET**).
 TODAY (override): none
 
 ## Extra work (done outside the plan)
+- [x] Ottawa fatal crash sentencing audit (Nov 11: January–June 2024 City cohort, 17 fatal-injury rows grouped into 14 crash entries, two reported charge leads and no court outcomes verified online; case CSV and court-record follow-up in Ontario_Trials research)
 - [x] Remaining public-page icons (Nov 4: generated matching City Hall and federal consulting/contract illustrations; homepage cards and report headers; transparent lossless assets and exact prompts retained; 18 phone/desktop/theme layout checks; published Nov 4, 2026, live pages and both assets verified)
 - [x] Chart sharing (Nov 3: shared PNG preview/download, image and chart-link copying for native canvas/SVG charts; current selections, legends, notes and credit; sharper canvas export, layered Weather capture, clipboard fallbacks and keyboard access; desktop/phone and three-theme checks, targeted filter/link/accessibility checks)
 - [x] Publish audited site (Nov 3: accessibility/layout fixes plus Education and Healthcare reports; merged automated data updates; GitHub Pages deployment and live checks)
