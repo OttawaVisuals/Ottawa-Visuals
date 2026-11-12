@@ -2277,74 +2277,51 @@
 },
 "fp": "52e6be5a5293"
 },
-"29992": {
-"event": {
-"cause": "firefighting support operations",
-"created": "2026-11-12 15:12:00",
-"cross_street_1": "Athlone",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29992",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Scott closed at Athlone due to firefighting support operations. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.396287,
-"lon": -75.751924,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Scott",
-"source": "city",
-"updated": "2026-11-12 15:12:00"
-},
-"fp": "a59d86387a9b"
-},
-"29993": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-12 15:13:00",
-"cross_street_1": "Ridgemont",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29993",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Bank southbound reduced to 1 lane at Ridgemont due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.377883,
-"lon": -75.667203,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Bank",
-"source": "city",
-"updated": "2026-11-12 15:13:00"
-},
-"fp": "c7f54a929732"
-},
-"29994": {
+"29995": {
 "event": {
 "cause": "",
-"created": "2026-11-12 16:00:00",
-"cross_street_1": "BAYSWATER AVE",
+"created": "2026-11-12 17:45:00",
+"cross_street_1": "MOODIE DR (IC 134)",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29994",
+"event_id": "29995",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Westbound at BAYSWATER AVE - Collision. left shoulder and left lane closed. ",
-"lanes": "left shoulder and left lane closed",
-"lat": 45.40123,
-"lon": -75.71742,
+"headline": "Highway 417 Eastbound at MOODIE DR - Collision. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.33829,
+"lon": -75.84151,
 "planned_end": null,
 "planned_start": null,
 "priority": "UNKNOWN",
 "road": "HWY 417",
 "source": "city",
-"updated": "2026-11-12 16:00:00"
+"updated": "2026-11-12 17:45:00"
 },
-"fp": "67ad66f40830"
+"fp": "ba3e71d7eab4"
+},
+"29996": {
+"event": {
+"cause": "",
+"created": "2026-11-12 17:54:00",
+"cross_street_1": "MOODIE DR (IC 134)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29996",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound ON-RAMP at MOODIE DR - Collision. All lanes closed. ",
+"lanes": "All lanes closed",
+"lat": 45.337913,
+"lon": -75.841928,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-12 17:54:00"
+},
+"fp": "f4a2f749eb9c"
 }
 }
 }
