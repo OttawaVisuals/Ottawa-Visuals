@@ -7659,83 +7659,83 @@
   "corridors": {
    "barrhaven|from_downtown": {
     "am_peak_s": 1635,
-    "pm_peak_s": null,
+    "pm_peak_s": 3058,
     "overnight_s": 1429,
     "min_s": 1376,
-    "max_s": 2732,
-    "n": 21
+    "max_s": 3081,
+    "n": 24
    },
    "barrhaven|to_downtown": {
     "am_peak_s": 1974,
-    "pm_peak_s": 2162,
+    "pm_peak_s": 2290,
     "overnight_s": 1362,
     "min_s": 1328,
-    "max_s": 2219,
-    "n": 29
+    "max_s": 2452,
+    "n": 33
    },
    "gatineau|from_downtown": {
     "am_peak_s": 871,
-    "pm_peak_s": 1646,
+    "pm_peak_s": 1556,
     "overnight_s": 734,
     "min_s": 708,
-    "max_s": 1646,
-    "n": 21
+    "max_s": 1660,
+    "n": 24
    },
    "gatineau|to_downtown": {
     "am_peak_s": 933,
-    "pm_peak_s": 915,
+    "pm_peak_s": 978,
     "overnight_s": 733,
     "min_s": 713,
-    "max_s": 1021,
-    "n": 22
+    "max_s": 1077,
+    "n": 25
    },
    "kanata|from_downtown": {
     "am_peak_s": 1048,
-    "pm_peak_s": 2507,
+    "pm_peak_s": 2843,
     "overnight_s": 984,
     "min_s": 963,
-    "max_s": 2542,
-    "n": 29
+    "max_s": 3286,
+    "n": 33
    },
    "kanata|to_downtown": {
     "am_peak_s": 1789,
-    "pm_peak_s": 1719,
+    "pm_peak_s": 1778,
     "overnight_s": 1081,
     "min_s": 1034,
     "max_s": 1994,
-    "n": 29
+    "n": 33
    },
    "orleans|from_downtown": {
     "am_peak_s": 1111,
-    "pm_peak_s": 2096,
+    "pm_peak_s": 2250,
     "overnight_s": 1046,
     "min_s": 1006,
-    "max_s": 2096,
-    "n": 29
+    "max_s": 2400,
+    "n": 33
    },
    "orleans|to_downtown": {
     "am_peak_s": 1574,
-    "pm_peak_s": 1413,
+    "pm_peak_s": 1522,
     "overnight_s": 1051,
     "min_s": 994,
     "max_s": 1755,
-    "n": 29
+    "n": 33
    },
    "riverside|from_downtown": {
     "am_peak_s": 1577,
-    "pm_peak_s": 2262,
+    "pm_peak_s": 2360,
     "overnight_s": 1251,
     "min_s": 1219,
-    "max_s": 2262,
-    "n": 20
+    "max_s": 2448,
+    "n": 23
    },
    "riverside|to_downtown": {
     "am_peak_s": 1716,
-    "pm_peak_s": 1880,
+    "pm_peak_s": 1894,
     "overnight_s": 1200,
     "min_s": 1165,
-    "max_s": 1880,
-    "n": 20
+    "max_s": 1987,
+    "n": 23
    }
   }
  }
