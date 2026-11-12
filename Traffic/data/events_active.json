@@ -2323,28 +2323,51 @@
 },
 "fp": "05c8ebfc4386"
 },
-"29984": {
+"29985": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-12 07:45:00",
-"cross_street_1": "ROUNCEY",
-"cross_street_2": "METRIC",
+"created": "2026-11-12 08:22:00",
+"cross_street_1": "Palace",
+"cross_street_2": "Prom Vanier Pkwy",
 "direction": null,
-"event_id": "29984",
+"event_id": "29985",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "ABBOTT eastbound closed between ROUNCEY and METRIC due to a collision.",
-"lanes": "closed",
-"lat": 45.283012,
-"lon": -75.888854,
+"full_closure": false,
+"headline": "Montr\u00e9al Rd reduced to 1 lane in each direction between Palace and Vanier Pkwy due to a collision.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.433891,
+"lon": -75.667257,
 "planned_end": null,
 "planned_start": null,
-"priority": "LOW",
-"road": "ABBOTT",
+"priority": "MEDIUM",
+"road": "Ch Montr\u00e9al Rd",
 "source": "city",
-"updated": "2026-11-12 07:45:00"
+"updated": "2026-11-12 08:22:00"
 },
-"fp": "7089d9a6ecec"
+"fp": "ac60d38f020e"
+},
+"29986": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-12 08:56:00",
+"cross_street_1": "CLARIDGE / STONEWAY",
+"cross_street_2": "LONGFIELDS",
+"direction": null,
+"event_id": "29986",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "WOODROFFE northbound right lane closed between CLARIDGE / STONEWAY and LONGFIELDS due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.28783,
+"lon": -75.725208,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "WOODROFFE",
+"source": "city",
+"updated": "2026-11-12 08:56:00"
+},
+"fp": "a43b0a914918"
 }
 }
 }
