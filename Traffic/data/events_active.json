@@ -1771,29 +1771,6 @@
 },
 "fp": "745590b308b7"
 },
-"29771": {
-"event": {
-"cause": "construction",
-"created": "2026-10-30 11:38:00",
-"cross_street_1": " Kichi Zibi Mikan on Ramp/Bretelle d'acc\u00e8s Kichi Zibi Mikan",
-"cross_street_2": "EDGEWORTH",
-"direction": null,
-"event_id": "29771",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "CARLING eastbound reduced to 1 lane between Kichi Zibi Mikan on Ramp and EDGEWORTH due to construction, from November 2nd to 13th between 9:30am and 3:00pm.",
-"lanes": "reduced to 1 lane",
-"lat": 45.363968,
-"lon": -75.784636,
-"planned_end": "2026-11-13T15:00",
-"planned_start": "2026-10-30T00:00",
-"priority": "MEDIUM",
-"road": "CARLING",
-"source": "city",
-"updated": "2026-10-30 11:40:00"
-},
-"fp": "6455d618c42b"
-},
 "29773": {
 "event": {
 "cause": "construction",
@@ -2345,52 +2322,6 @@
 "updated": "2026-11-12 12:36:00"
 },
 "fp": "52e6be5a5293"
-},
-"30002": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-13 14:29:00",
-"cross_street_1": "McArthur",
-"cross_street_2": "Donald",
-"direction": null,
-"event_id": "30002",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St. Laurent northbound reduced to 1 lane between McArthur and Donald due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.431564,
-"lon": -75.641263,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St. Laurent",
-"source": "city",
-"updated": "2026-11-13 14:29:00"
-},
-"fp": "db255132a933"
-},
-"30003": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-13 14:50:00",
-"cross_street_1": "Saunderson",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30003",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Smyth periodically reduced to 1 lane with alternating traffic at Saunderson due to a collision. Firefighters are directing traffic. Duration is unknown. Avoid area.",
-"lanes": "periodically reduced to 1 lane with alternating traffic",
-"lat": 45.400498,
-"lon": -75.631498,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Smyth",
-"source": "city",
-"updated": "2026-11-13 14:51:00"
-},
-"fp": "aaf631483a0d"
 }
 }
 }
