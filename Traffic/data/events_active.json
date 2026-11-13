@@ -2322,6 +2322,121 @@
 "updated": "2026-11-12 12:36:00"
 },
 "fp": "52e6be5a5293"
+},
+"30005": {
+"event": {
+"cause": "",
+"created": "2026-11-13 16:06:00",
+"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
+"cross_street_2": "HWY 416",
+"direction": null,
+"event_id": "30005",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to Highway 416 - Nightly Moving Maintenance Closure. 1 Alternating Lane. Affecting EB/WB traffic and ramps. Detailed closure information is as follows: Mon-Thurs: 21:00-06:00. 2026-11-16 21:00 to 2026-11-20 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.42092,
+"lon": -76.37281,
+"planned_end": "2026-11-20T06:00",
+"planned_start": "2026-11-16T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-13 16:06:00"
+},
+"fp": "d0ba4739f645"
+},
+"30006": {
+"event": {
+"cause": "",
+"created": "2026-11-13 16:12:00",
+"cross_street_1": "CARLING AVE / KIRKWOOD AVE (IC 124)",
+"cross_street_2": "PARKDALE AVE (IC 122)",
+"direction": null,
+"event_id": "30006",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from CARLING AVE / KIRKWOOD AVE to PARKDALE AVE - Continuous Maintenance. 1 Right Lane(s). 2026-11-16 10:00 to 2026-11-16 14:30",
+"lanes": "1 Right Lane(s)",
+"lat": 45.38393,
+"lon": -75.73985,
+"planned_end": "2026-11-16T14:30",
+"planned_start": "2026-11-16T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-13 16:12:00"
+},
+"fp": "a05341c44083"
+},
+"30007": {
+"event": {
+"cause": "",
+"created": "2026-11-13 16:18:00",
+"cross_street_1": "PARKDALE AVE (IC 122)",
+"cross_street_2": "ROCHESTER ST  (IC 121B)",
+"direction": null,
+"event_id": "30007",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from PARKDALE AVE to ROCHESTER ST - Continuous Maintenance. 1 Right Lane(s). 2026-11-16 21:00 to 2026-11-17 06:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.3972,
+"lon": -75.72696,
+"planned_end": "2026-11-17T06:00",
+"planned_start": "2026-11-16T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-13 16:18:00"
+},
+"fp": "a71a42a8011d"
+},
+"30008": {
+"event": {
+"cause": "",
+"created": "2026-11-13 16:21:00",
+"cross_street_1": "LYON ST (IC 120B)",
+"cross_street_2": "BRONSON AVE (IC 121A)",
+"direction": null,
+"event_id": "30008",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from LYON ST to BRONSON AVE - Continuous Moving Maintenance Closure. 1 Right Lane(s). 2026-11-17 23:00 to 2026-11-18 05:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.40719,
+"lon": -75.69528,
+"planned_end": "2026-11-18T05:00",
+"planned_start": "2026-11-17T23:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-13 16:21:00"
+},
+"fp": "6c8e7032dbd0"
+},
+"30009": {
+"event": {
+"cause": "",
+"created": "2026-11-13 16:27:00",
+"cross_street_1": "ROCHESTER ST  (IC 121B)",
+"cross_street_2": "PARKDALE AVE (IC 122)",
+"direction": null,
+"event_id": "30009",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from ROCHESTER ST to PARKDALE AVE - Continuous Moving Maintenance Closure. 1 Right Lane(s). 2026-11-18 23:00 to 2026-11-19 05:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.40336,
+"lon": -75.70857,
+"planned_end": "2026-11-19T05:00",
+"planned_start": "2026-11-18T23:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-13 16:27:00"
+},
+"fp": "72ce77ada37c"
 }
 }
 }
