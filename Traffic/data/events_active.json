@@ -184,75 +184,6 @@
 },
 "fp": "ce36f7b3b993"
 },
-"26513": {
-"event": {
-"cause": "construction",
-"created": "2026-04-10 18:50:00",
-"cross_street_1": "Veteran",
-"cross_street_2": "Carling",
-"direction": null,
-"event_id": "26513",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Viscount periodic lane reductions between Veteran and Carling due to construction. April 13th to November 13th.",
-"lanes": "periodic lane reductions",
-"lat": 45.386847,
-"lon": -75.730203,
-"planned_end": "2026-11-13T18:00",
-"planned_start": "2026-04-13T06:00",
-"priority": "LOW",
-"road": "Viscount",
-"source": "city",
-"updated": "2026-09-04 09:24:00"
-},
-"fp": "0f5b0a1f7e27"
-},
-"26514": {
-"event": {
-"cause": "construction",
-"created": "2026-04-10 18:52:00",
-"cross_street_1": "Viscount",
-"cross_street_2": "Crerar",
-"direction": null,
-"event_id": "26514",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Veteran periodic lane reductions between Viscount and Crerar due to construction. April 13th to November 13th.",
-"lanes": "periodic lane reductions",
-"lat": 45.311553,
-"lon": -75.932502,
-"planned_end": "2026-11-13T18:00",
-"planned_start": "2026-04-13T06:00",
-"priority": "LOW",
-"road": "Veteran",
-"source": "city",
-"updated": "2026-09-04 09:24:00"
-},
-"fp": "93f90ec22450"
-},
-"26515": {
-"event": {
-"cause": "construction",
-"created": "2026-04-10 18:56:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "26515",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Harrold Place periodic lane reduction due to construction. April 13th to November 13th.",
-"lanes": "",
-"lat": 45.385735,
-"lon": -75.730267,
-"planned_end": "2026-11-13T18:00",
-"planned_start": "2026-04-13T06:00",
-"priority": "LOW",
-"road": "Harrold Place",
-"source": "city",
-"updated": "2026-09-22 15:27:00"
-},
-"fp": "50d1fd8505e1"
-},
 "26519": {
 "event": {
 "cause": "construction",
@@ -2070,28 +2001,51 @@
 },
 "fp": "72ce77ada37c"
 },
-"30010": {
+"30011": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-13 16:53:00",
-"cross_street_1": "Prince of Wales",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-11-13 18:00:00",
+"cross_street_1": "BOND",
+"cross_street_2": "RICHMOND",
 "direction": null,
-"event_id": "30010",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Baseline westbound reduced to 1 lane at Prince of Wales due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.375098,
-"lon": -75.708402,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Baseline",
+"event_id": "30011",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "FOREST closed between BOND and RICHMOND due to construction. Follow the signed detour. From October 19th to November 27th.",
+"lanes": "closed",
+"lat": 45.363094,
+"lon": -75.788791,
+"planned_end": "2026-11-27T17:00",
+"planned_start": "2026-10-16T07:00",
+"priority": "MEDIUM",
+"road": "FOREST",
 "source": "city",
-"updated": "2026-11-13 16:53:00"
+"updated": "2026-11-13 18:04:00"
 },
-"fp": "3b4f08a9739c"
+"fp": "38e815ab5904"
+},
+"30012": {
+"event": {
+"cause": "construction",
+"created": "2026-11-13 18:01:00",
+"cross_street_1": "MULLIGAN",
+"cross_street_2": "LOWEN",
+"direction": null,
+"event_id": "30012",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 16th. Follow the signed detour.",
+"lanes": "closed",
+"lat": 45.294001,
+"lon": -75.694671,
+"planned_end": "2026-11-16T17:00",
+"planned_start": "2026-11-06T07:00",
+"priority": "HIGH",
+"road": "RIVER",
+"source": "city",
+"updated": "2026-11-13 18:04:00"
+},
+"fp": "94b6191f4726"
 }
 }
 }
