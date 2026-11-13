@@ -2322,6 +2322,52 @@
 "updated": "2026-11-12 12:36:00"
 },
 "fp": "52e6be5a5293"
+},
+"29997": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-13 07:53:00",
+"cross_street_1": "Av First Ave",
+"cross_street_2": "Carling",
+"direction": null,
+"event_id": "29997",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bronson northbound lane reduction between First Ave and Carling due to a disabled vehicle.",
+"lanes": "lane reduction",
+"lat": 45.40039,
+"lon": -75.699311,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Bronson",
+"source": "city",
+"updated": "2026-11-13 08:05:00"
+},
+"fp": "ac3698b01561"
+},
+"29998": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-13 07:58:00",
+"cross_street_1": "Hazeldean/Robertson",
+"cross_street_2": "Abbeyhill",
+"direction": null,
+"event_id": "29998",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Eagleson southbound right lane closed between Hazeldean/Robertson and Abbeyhill due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.301719,
+"lon": -75.875516,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Eagleson",
+"source": "city",
+"updated": "2026-11-13 07:58:00"
+},
+"fp": "840e7da3d9bc"
 }
 }
 }
