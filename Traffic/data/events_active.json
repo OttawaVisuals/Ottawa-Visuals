@@ -2277,6 +2277,29 @@
 },
 "fp": "3c05306bcfee"
 },
+"29959": {
+"event": {
+"cause": "construction",
+"created": "2026-11-10 11:09:00",
+"cross_street_1": "417 E/B on-ramp",
+"cross_street_2": "417 W/B on-ramp",
+"direction": null,
+"event_id": "29959",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Pinecrest northbound right lane closed between 417 E/B on-ramp and 417 W/B on-ramp due to construction, from November 16th to 18th between 9:30am and 2:00pm.",
+"lanes": "right lane closed",
+"lat": 45.348025,
+"lon": -75.788914,
+"planned_end": "2026-11-18T14:00",
+"planned_start": "2026-11-13T09:30",
+"priority": "MEDIUM",
+"road": "Pinecrest",
+"source": "city",
+"updated": "2026-11-13 09:28:00"
+},
+"fp": "c47b13d60541"
+},
 "29983": {
 "event": {
 "cause": "construction",
@@ -2323,51 +2346,28 @@
 },
 "fp": "52e6be5a5293"
 },
-"29998": {
+"30000": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-13 07:58:00",
-"cross_street_1": "Hazeldean/Robertson",
-"cross_street_2": "Abbeyhill",
-"direction": null,
-"event_id": "29998",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Eagleson southbound right lane closed between Hazeldean/Robertson and Abbeyhill due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.301719,
-"lon": -75.875516,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Eagleson",
-"source": "city",
-"updated": "2026-11-13 07:58:00"
-},
-"fp": "840e7da3d9bc"
-},
-"29999": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-13 08:55:00",
-"cross_street_1": "Terry Fox N/B",
+"created": "2026-11-13 09:25:00",
+"cross_street_1": "Lyon",
 "cross_street_2": null,
 "direction": null,
-"event_id": "29999",
+"event_id": "30000",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "417 E/B on-ramp lane reduction at Terry Fox N/B due to a disabled vehicle.",
-"lanes": "lane reduction",
-"lat": 45.303892,
-"lon": -75.909562,
+"headline": "Gladstone lane reduction in both directions at Lyon due to a collision.",
+"lanes": "lane reduction in both directions",
+"lat": 45.410394,
+"lon": -75.697913,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "417 E/B on-ramp",
+"road": "Gladstone",
 "source": "city",
-"updated": "2026-11-13 08:55:00"
+"updated": "2026-11-13 09:25:00"
 },
-"fp": "503cf3c25763"
+"fp": "e1ec8c9f7171"
 }
 }
 }
