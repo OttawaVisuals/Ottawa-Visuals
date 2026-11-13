@@ -529,29 +529,6 @@
 },
 "fp": "43ee2a04d735"
 },
-"28001": {
-"event": {
-"cause": "construction",
-"created": "2026-07-28 12:25:00",
-"cross_street_1": "Calvington",
-"cross_street_2": "Campeau",
-"direction": null,
-"event_id": "28001",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Winterest closed between Calvington and Campeau due to construction, until November 13th. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.30489,
-"lon": -75.928308,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-02T07:00",
-"priority": "MEDIUM",
-"road": "Winterest",
-"source": "city",
-"updated": "2026-10-26 12:32:00"
-},
-"fp": "84a14ee13156"
-},
 "28171": {
 "event": {
 "cause": "construction",
@@ -643,29 +620,6 @@
 "updated": "2026-08-28 13:32:00"
 },
 "fp": "a716ef6f7f21"
-},
-"28439": {
-"event": {
-"cause": "construction",
-"created": "2026-08-21 08:24:00",
-"cross_street_1": "Anik",
-"cross_street_2": "Amundsen",
-"direction": null,
-"event_id": "28439",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Chimo lane reductions in both directions between Anik and Amundsen due to construction, from August 31st to November 13th. Flagpersons present.",
-"lanes": "lane reductions in both directions",
-"lat": 45.308981,
-"lon": -75.889412,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-08-28T07:00",
-"priority": "LOW",
-"road": "Chimo",
-"source": "city",
-"updated": "2026-09-04 16:04:00"
-},
-"fp": "6442d7ce23e1"
 },
 "28610": {
 "event": {
@@ -1081,29 +1035,6 @@
 },
 "fp": "aecaca029853"
 },
-"29405": {
-"event": {
-"cause": "construction",
-"created": "2026-10-09 17:58:00",
-"cross_street_1": "Garland",
-"cross_street_2": "Bayview",
-"direction": null,
-"event_id": "29405",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "O'Meara closed between Garland and Bayview due to construction, until November 13th. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.406468,
-"lon": -75.724076,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-09T00:00",
-"priority": "MEDIUM",
-"road": "O'Meara",
-"source": "city",
-"updated": "2026-10-09 18:00:00"
-},
-"fp": "73484a08a25b"
-},
 "29459": {
 "event": {
 "cause": "construction",
@@ -1219,190 +1150,6 @@
 },
 "fp": "5f063e7c0e52"
 },
-"29518": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:53:00",
-"cross_street_1": "MORISSET",
-"cross_street_2": "MEDFORD",
-"direction": null,
-"event_id": "29518",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "CALDWELL off-peak lane reductions between MORISSET and MEDFORD due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.373124,
-"lon": -75.739294,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "LOW",
-"road": "CALDWELL",
-"source": "city",
-"updated": "2026-10-16 10:56:00"
-},
-"fp": "f2db10424c48"
-},
-"29519": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 11:00:00",
-"cross_street_1": "SHILLINGTON",
-"cross_street_2": "EMPEROR",
-"direction": null,
-"event_id": "29519",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "HOLLINGTON off-peak lane reductions between SHILLINGTON and EMPEROR due to construction, from October 15th to November 13th. ",
-"lanes": "off-peak lane reductions",
-"lat": 45.380648,
-"lon": -75.728659,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "LOW",
-"road": "HOLLINGTON",
-"source": "city",
-"updated": "2026-10-16 11:04:00"
-},
-"fp": "1cf0d4fb0fa8"
-},
-"29520": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 11:07:00",
-"cross_street_1": "EUROPA",
-"cross_street_2": "CHESTERTON / COOLSPRING",
-"direction": null,
-"event_id": "29520",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "VIEWMOUNT off-peak lane reductions between EUROPA and CHESTERTON / COOLSPRING due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.347993,
-"lon": -75.717043,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "LOW",
-"road": "VIEWMOUNT",
-"source": "city",
-"updated": "2026-10-16 11:08:00"
-},
-"fp": "3efcb27c78a0"
-},
-"29521": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 11:15:00",
-"cross_street_1": "MEADOWLANDS",
-"cross_street_2": "MULVAGH",
-"direction": null,
-"event_id": "29521",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "CHESTERTON off-peak lane reductions between MEADOWLANDS and MULVAGH due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.353455,
-"lon": -75.730364,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "LOW",
-"road": "CHESTERTON",
-"source": "city",
-"updated": "2026-10-16 11:16:00"
-},
-"fp": "a45573972d91"
-},
-"29522": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 11:18:00",
-"cross_street_1": "LENESTER",
-"cross_street_2": "ESTERLAWN",
-"direction": null,
-"event_id": "29522",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "FAIRLAWN off-peak lane reductions between LENESTER and ESTERLAWN due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.366725,
-"lon": -75.769002,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "UNKNOWN",
-"road": "FAIRLAWN",
-"source": "city",
-"updated": "2026-10-16 11:20:00"
-},
-"fp": "131207dd2373"
-},
-"29523": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 11:33:00",
-"cross_street_1": "PARKMOUNT",
-"cross_street_2": "GREENBANK",
-"direction": null,
-"event_id": "29523",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BANNER off-peak lane reductions between PARKMOUNT and GREENBANK due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.331736,
-"lon": -75.78343,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "LOW",
-"road": "BANNER",
-"source": "city",
-"updated": "2026-10-16 11:36:00"
-},
-"fp": "60f03fffb295"
-},
-"29525": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 12:54:00",
-"cross_street_1": "BASELINE",
-"cross_street_2": "MCCOOEY",
-"direction": null,
-"event_id": "29525",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "FISHER off-peak lane reductions between BASELINE and MCCOOEY due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.371648,
-"lon": -75.716499,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "MEDIUM",
-"road": "FISHER",
-"source": "city",
-"updated": "2026-10-16 12:56:00"
-},
-"fp": "25c956c8c0f9"
-},
-"29526": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 12:57:00",
-"cross_street_1": "Bronson",
-"cross_street_2": "Data Centre rd",
-"direction": null,
-"event_id": "29526",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Heron off-peak lane reductions between Bronson and Data Centre rd due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.37726,
-"lon": -75.685015,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "MEDIUM",
-"road": "Heron",
-"source": "city",
-"updated": "2026-10-16 13:00:00"
-},
-"fp": "2b69158cef7a"
-},
 "29527": {
 "event": {
 "cause": "construction",
@@ -1426,29 +1173,6 @@
 },
 "fp": "dac0e4c6775c"
 },
-"29528": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 13:05:00",
-"cross_street_1": "cer Hadley cir",
-"cross_street_2": "Roberston",
-"direction": null,
-"event_id": "29528",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Moodie off-peak lane reductions between Hadley cir and Roberston due to construction, from October 15th to November 13th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.32215,
-"lon": -75.833339,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-15T00:00",
-"priority": "MEDIUM",
-"road": "Moodie",
-"source": "city",
-"updated": "2026-10-16 13:08:00"
-},
-"fp": "47bd0efbcb30"
-},
 "29530": {
 "event": {
 "cause": "construction",
@@ -1471,52 +1195,6 @@
 "updated": "2026-10-30 13:05:00"
 },
 "fp": "6224d3dba2ba"
-},
-"29561": {
-"event": {
-"cause": "construction",
-"created": "2026-10-19 08:45:00",
-"cross_street_1": "Roosevelt",
-"cross_street_2": "Churchill",
-"direction": null,
-"event_id": "29561",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Danforth closed between Roosevelt and Churchill due to construction, from November 10th to 13th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.390217,
-"lon": -75.75637,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-11-07T07:00",
-"priority": "MEDIUM",
-"road": "Danforth",
-"source": "city",
-"updated": "2026-11-07 06:56:00"
-},
-"fp": "bc4151b1af8b"
-},
-"29608": {
-"event": {
-"cause": "construction",
-"created": "2026-10-21 06:39:00",
-"cross_street_1": "DALHOUSIE",
-"cross_street_2": "CUMBERLAND",
-"direction": null,
-"event_id": "29608",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "YORK closed between DALHOUSIE and CUMBERLAND due to construction, from November 2nd to 13th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.428854,
-"lon": -75.691118,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-30T07:00",
-"priority": "MEDIUM",
-"road": "YORK",
-"source": "city",
-"updated": "2026-10-30 06:56:00"
-},
-"fp": "fc101e2bffd3"
 },
 "29613": {
 "event": {
@@ -1724,29 +1402,6 @@
 "updated": "2026-10-30 09:28:00"
 },
 "fp": "c26fafa05dc6"
-},
-"29751": {
-"event": {
-"cause": "construction",
-"created": "2026-10-29 11:26:00",
-"cross_street_1": "HARRY DOUGLAS",
-"cross_street_2": "HAZELDEAN",
-"direction": null,
-"event_id": "29751",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "SWEETNAM off-peak lane reduction in both directions between HARRY DOUGLAS and HAZELDEAN due to construction, from October 29th to November 13th.",
-"lanes": "off-peak lane reduction in both directions",
-"lat": 45.272903,
-"lon": -75.91125,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-10-29T07:00",
-"priority": "LOW",
-"road": "SWEETNAM",
-"source": "city",
-"updated": "2026-10-29 11:28:00"
-},
-"fp": "46fb64b47b52"
 },
 "29752": {
 "event": {
@@ -2069,29 +1724,6 @@
 "updated": "2026-11-04 19:18:00"
 },
 "fp": "11af454d2713"
-},
-"29878": {
-"event": {
-"cause": "construction",
-"created": "2026-11-05 12:28:00",
-"cross_street_1": "MAIN",
-"cross_street_2": "ROSEMERE",
-"direction": null,
-"event_id": "29878",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "SPRINGHURST closed between MAIN and ROSEMERE due to construction, until November 13th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.410361,
-"lon": -75.678747,
-"planned_end": "2026-11-13T17:00",
-"planned_start": "2026-11-05T00:00",
-"priority": "MEDIUM",
-"road": "SPRINGHURST",
-"source": "city",
-"updated": "2026-11-05 12:32:00"
-},
-"fp": "cdb6f0062540"
 },
 "29883": {
 "event": {
@@ -2437,6 +2069,29 @@
 "updated": "2026-11-13 16:27:00"
 },
 "fp": "72ce77ada37c"
+},
+"30010": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-13 16:53:00",
+"cross_street_1": "Prince of Wales",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30010",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Baseline westbound reduced to 1 lane at Prince of Wales due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.375098,
+"lon": -75.708402,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Baseline",
+"source": "city",
+"updated": "2026-11-13 16:53:00"
+},
+"fp": "3b4f08a9739c"
 }
 }
 }
