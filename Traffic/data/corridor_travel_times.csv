@@ -52749,3 +52749,13 @@ timestamp_utc,timestamp_local,corridor_id,direction,travel_time_s,traffic_delay_
 2026-11-14T20:00:53Z,2026-11-14T15:00:53-0500,gatineau,from_downtown,899,0,9462,
 2026-11-14T20:00:53Z,2026-11-14T15:00:53-0500,riverside,to_downtown,1557,0,17546,
 2026-11-14T20:00:53Z,2026-11-14T15:00:53-0500,riverside,from_downtown,1518,0,17322,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,kanata,to_downtown,1196,0,22983,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,kanata,from_downtown,1177,97,22526,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,orleans,to_downtown,1154,0,17891,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,orleans,from_downtown,1116,0,19244,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,barrhaven,to_downtown,1718,0,28959,
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,barrhaven,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,gatineau,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,gatineau,from_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,riverside,to_downtown,,,,HTTP Error 429: Too Many Requests
+2026-11-14T21:00:52Z,2026-11-14T16:00:52-0500,riverside,from_downtown,,,,HTTP Error 429: Too Many Requests
