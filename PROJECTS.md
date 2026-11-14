@@ -24,7 +24,7 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 | TomTom traffic (`Traffic/`) | peak every 15 min, else hourly | 2026-10-16 17:56 UTC | ✅ resumed on Cloudflare → `collect.yml`. Gap 2026-10-12 10:05 → 10-16 17:56 UTC is permanent. ⚠️ **Found 2026-10-23:** TomTom returns HTTP 403 for most calls: segments since 2026-10-19 16:10 UTC, commute routes since 10-21 19:10 UTC, incidents unaffected. Since Oct 20 only a few overnight samples succeed. Cause: the 5-min trigger roughly tripled calls (~3,300 per weekday vs ~1,100 on the Pi): peaks every 5 min instead of 15, and the off-peak `minute < 15` gate let :00, :05 and :10 through. Fixed 2026-10-23: off-peak is the first run of each hour and rush hour every 15 min again (first run per slot, judged from the log), ~1,140 calls per weekday like the Pi. **Cause found 2026-10-24:** the key's free monthly allowance is used up (usage page: Routing 20,000/20,000, Flow Segment Data 20,000/20,000, Incidents 1,992/2,500). Contributors: the Oct 19–22 5-min cadence, 3-attempt retries on every 403 (removed 2026-10-24, `baeaf0ef`), and probably the Pi (turned off 2026-10-24; its calls are not in our CSVs). Reset date unknown, most likely 1 Nov (calendar month); the 20k total fits a calendar month better than a cycle from the key's 9 Sep creation date. The fixed cadence uses ~17k of the 20k segment calls a month, so there is little headroom. Recheck after Nov 1. ✅ **Rechecked 2026-11-02 (after `git pull`):** the allowance resets on the calendar month; first good segment and route readings 2026-11-01 00:00 UTC. Road segments: no errors Nov 1–2. Commute routes: 66 of 240 rows on Nov 1 and 28 of 220 on Nov 2 (to 13:45 UTC) are HTTP 429 (too many requests per second, not the monthly cap), so routing calls need spacing out. The segment/route gap from Oct 19/21 to Oct 31 is permanent |
 | OC Transpo GTFS-RT (`OC_Transpo/`) | adaptive, ~hourly–15min | 2026-10-16 18:01 UTC | ✅ resumed (first sample: 632 trips tracked, 69 cancelled). Gap 2026-10-12 09:35 → 10-16 18:00 UTC is permanent |
 | OC Transpo KPI snapshots | weekly (Mon) | files from 2026-07-11 | ✅ nothing lost: the current Open Ottawa files are byte-identical to Jul 11 (checked 2026-10-16). Job moved off the Pi to `.github/workflows/kpi_snapshots.yml` |
-| Bus on-time (replaces the Pi's raw GTFS-RT archive) | every transit sample | 2026-10-16 19:11 UTC | ✅ computed live in `collect.yml` since 2026-10-16: predicted departure at each bus's next timepoint vs the timetable. Raw archive retired. Calibrated 2026-10-20: reads ~11 pts below OC Transpo's KPI, about half of it a method artefact (see item 5) |
+| Bus on-time (replaces the Pi's raw GTFS-RT archive) | every transit sample | 2026-10-16 19:11 UTC | ✅ computed live in `collect.yml` since 2026-10-16: predicted departure at each bus's next timepoint vs the timetable. Raw archive retired. Calibrated 2026-10-20; hold-adjusted column since 2026-10-25. Weekdays Oct 26 – Nov 13: raw 59.6% / hold-adjusted 79.1% vs KPI ~70%. Early gap = artefact, extra late buses look real (see item 5) |
 | Static timetable (replaces the Pi's weekly GTFS download) | when OC Transpo publishes | index built 2026-10-16 (feed S1000523) | ✅ `build_schedule_index.py` runs in `collect.yml` whenever the zip's ETag changes; kept in the Actions cache, not archived |
 | Disk (`/dev/mmcblk0p2`) | — | 76% used, 3.3 GB free (2026-09-03) | ❓ stale; only matters if the Pi comes back |
 
@@ -100,11 +100,19 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
    approval:** the prediction is up to 15 min ahead (`NEXT_STOP_MAX_AHEAD_S`) and may carry
    lateness the bus would recover at a layover, so also log the late share by look-ahead
    bucket and by route (log-only) to test that.
-   - **Proposed fix, NOT applied (awaits approval):** log a hold-adjusted figure
+   - **Proposed fix (2026-10-20):** log a hold-adjusted figure
      (`hold-adjusted-punctuality(less-frequent)%`, early at a non-final timepoint → on
      time) in the run log next to every-stop, leaving the CSV columns unchanged. A week of
      both figures would show where the real number sits between them. Patch + synthetic
      test (6 trips, checks headline rows unchanged) passed locally on 2026-10-20.
+   - **Applied 2026-10-25** (`ab9110f0e`), as a CSV column `pct_ontime_hold_adj` rather
+     than log-only. **Bracket checked 2026-11-14 (after `git pull`), 15 weekdays
+     Oct 26 – Nov 13, weighted by trips × sample interval:** raw **59.6%**, hold-adjusted
+     **79.1%** (early 19.6 / late 20.9); AM peak 60.7 / 77.5; PM peak 47.2 / 64.8. OC
+     Transpo's ~70% all-day sits inside the bracket, which confirms the early-side artefact.
+     The late share hasn't moved in four weeks (~21% all day, **35% in the PM peak**), so
+     it now looks real rather than noise. Even the hold-adjusted PM peak (64.8%) sits below
+     their historical PM figure (~71% in 2020–21).
 6. **Resolved 2026-10-16:** the owner created the PAT, added `OCTRANSPO_API_KEY` and
    deployed the Worker. The first dispatched run (17:55 UTC) succeeded and pushed
    `traffic: readings 2026-10-16 17:56 UTC`; transit was self-gated off-peak on that run,
