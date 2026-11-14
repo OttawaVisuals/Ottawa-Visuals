@@ -7830,84 +7830,84 @@
   "weekday": 5,
   "corridors": {
    "barrhaven|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1441,
     "pm_peak_s": null,
     "overnight_s": 1388,
     "min_s": 1362,
-    "max_s": 1414,
-    "n": 4
+    "max_s": 1441,
+    "n": 5
    },
    "barrhaven|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1382,
     "pm_peak_s": null,
     "overnight_s": 1348,
     "min_s": 1312,
     "max_s": 1413,
-    "n": 7
+    "n": 8
    },
    "gatineau|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 712,
     "pm_peak_s": null,
     "overnight_s": 702,
     "min_s": 693,
-    "max_s": 711,
-    "n": 4
+    "max_s": 712,
+    "n": 5
    },
    "gatineau|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 722,
     "pm_peak_s": null,
     "overnight_s": 710,
     "min_s": 697,
     "max_s": 722,
-    "n": 4
+    "n": 5
    },
    "kanata|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 973,
     "pm_peak_s": null,
     "overnight_s": 970,
     "min_s": 960,
     "max_s": 988,
-    "n": 7
+    "n": 8
    },
    "kanata|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1041,
     "pm_peak_s": null,
     "overnight_s": 1049,
     "min_s": 1036,
     "max_s": 1060,
-    "n": 7
+    "n": 8
    },
    "orleans|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1029,
     "pm_peak_s": null,
     "overnight_s": 1020,
     "min_s": 1003,
     "max_s": 1050,
-    "n": 7
+    "n": 8
    },
    "orleans|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1008,
     "pm_peak_s": null,
     "overnight_s": 1004,
     "min_s": 980,
     "max_s": 1043,
-    "n": 7
+    "n": 8
    },
    "riverside|from_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1260,
     "pm_peak_s": null,
     "overnight_s": null,
     "min_s": 1218,
-    "max_s": 1226,
-    "n": 2
+    "max_s": 1260,
+    "n": 3
    },
    "riverside|to_downtown": {
-    "am_peak_s": null,
+    "am_peak_s": 1197,
     "pm_peak_s": null,
     "overnight_s": 1149,
     "min_s": 1149,
-    "max_s": 1178,
-    "n": 3
+    "max_s": 1197,
+    "n": 4
    }
   }
  }
