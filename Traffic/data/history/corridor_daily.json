@@ -7831,83 +7831,83 @@
   "corridors": {
    "barrhaven|from_downtown": {
     "am_peak_s": 1470,
-    "pm_peak_s": null,
+    "pm_peak_s": 1676,
     "overnight_s": 1388,
     "min_s": 1362,
-    "max_s": 1645,
-    "n": 10
+    "max_s": 1676,
+    "n": 11
    },
    "barrhaven|to_downtown": {
     "am_peak_s": 1412,
-    "pm_peak_s": 1718,
+    "pm_peak_s": 1728,
     "overnight_s": 1348,
     "min_s": 1312,
     "max_s": 1808,
-    "n": 17
+    "n": 18
    },
    "gatineau|from_downtown": {
     "am_peak_s": 730,
-    "pm_peak_s": null,
+    "pm_peak_s": 884,
     "overnight_s": 702,
     "min_s": 693,
     "max_s": 977,
-    "n": 11
+    "n": 12
    },
    "gatineau|to_downtown": {
     "am_peak_s": 744,
-    "pm_peak_s": null,
+    "pm_peak_s": 846,
     "overnight_s": 710,
     "min_s": 697,
     "max_s": 886,
-    "n": 11
+    "n": 12
    },
    "kanata|from_downtown": {
     "am_peak_s": 980,
-    "pm_peak_s": 1177,
+    "pm_peak_s": 1129,
     "overnight_s": 970,
     "min_s": 960,
     "max_s": 1251,
-    "n": 17
+    "n": 18
    },
    "kanata|to_downtown": {
     "am_peak_s": 1051,
-    "pm_peak_s": 1196,
+    "pm_peak_s": 1194,
     "overnight_s": 1049,
     "min_s": 1036,
     "max_s": 1340,
-    "n": 17
+    "n": 18
    },
    "orleans|from_downtown": {
     "am_peak_s": 1037,
-    "pm_peak_s": 1116,
+    "pm_peak_s": 1114,
     "overnight_s": 1020,
     "min_s": 1003,
     "max_s": 1116,
-    "n": 17
+    "n": 18
    },
    "orleans|to_downtown": {
     "am_peak_s": 1024,
-    "pm_peak_s": 1154,
+    "pm_peak_s": 1160,
     "overnight_s": 1004,
     "min_s": 980,
     "max_s": 1210,
-    "n": 17
+    "n": 18
    },
    "riverside|from_downtown": {
     "am_peak_s": 1284,
-    "pm_peak_s": null,
+    "pm_peak_s": 1524,
     "overnight_s": null,
     "min_s": 1218,
-    "max_s": 1518,
-    "n": 9
+    "max_s": 1524,
+    "n": 10
    },
    "riverside|to_downtown": {
     "am_peak_s": 1228,
-    "pm_peak_s": null,
+    "pm_peak_s": 1539,
     "overnight_s": 1149,
     "min_s": 1149,
     "max_s": 1557,
-    "n": 11
+    "n": 12
    }
   }
  }
