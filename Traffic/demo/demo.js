@@ -1,37 +1,34 @@
 'use strict';
 (() => {
   const $ = id => document.getElementById(id);
-  const paths = {
-    close:'M4 17l7-12 7 12H4zM11 9v3m0 2v.1M19 7l2-2m-1 7h2',
-    eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
-    walk:'M14 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0M8 22l3-7-2-4m2 4l5 7M5 13l4-5h4l3 5h4M13 8l-2 7',
-    bike:'M9 17a4 4 0 1 1-8 0 4 4 0 0 1 8 0m14 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0M5 17l5-9 5 9H5m14 0L15 5h-3M8 8h5',
-    mobility:'M14 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0M10 8v7h7l3 6M10 11h7M8 12a6 6 0 1 0 8 7',
-    scooter:'M3 17h13l4-11h-4M5 20a2 2 0 1 1-4 0 2 2 0 0 1 4 0m16 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0',
-    car:'M3 16V9l3-5h12l3 5v7H3zM3 10h18M6 14h2m8 0h2M5 16v4m14-4v4',
-    truck:'M2 6h12v12H2V6zm12 5h5l3 4v3h-8M8 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0m12 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0',
-    suv:'M2 17V9l3-5h12l5 7v6H2zM3 10h17M9 4v6m6-6v6M7 19a2 2 0 1 1-4 0 2 2 0 0 1 4 0m14 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0',
-    bus:'M4 3h16v16H4V3zm0 9h16M12 3v9M7 16h1m8 0h1M6 19v3m12-3v3',
-    other:'M12 5v14M5 12h14'
+  // Each answer row is [stored value, icon file in icons/, label, optional description].
+  const types = [['close_call','close-call','Close call','A collision nearly happened to me.'],['witness','witnessed','Unsafe behaviour witnessed','I saw something unsafe, without a close call to me.']];
+  const modes = [['walking','walking','Walking'],['cycling','cycling','Cycling'],['mobility_aid','mobility-aid','Mobility aid'],['scooter','scooter','Scooter'],['vehicle','driver','In a vehicle'],['other','other-behaviour','Other']];
+  // Vehicle, direction, movement, evasive-action and injury categories mirror the Vision Zero Ottawa close-call form.
+  const vehicles = [['car','car','Car'],['suv','suv','SUV'],['truck','pickup','Pickup truck'],['light_commercial','van','Van / delivery truck'],['heavy_commercial','semi','Semi / heavy truck'],['other','other-behaviour','Other'],['unknown','not-sure','Not sure']];
+  const directions = [['northbound','north','North'],['southbound','south','South'],['eastbound','east','East'],['westbound','west','West'],['unknown','not-sure','Not sure']];
+  const movements = [['left_turn','turn-left','Turning left'],['straight','straight','Going straight'],['right_turn','turn-right','Turning right'],['other','other-behaviour','Something else'],['unknown','not-sure','Not sure']];
+  const behaviours = [['red_light','ran-red-light','Ran a red light'],['rolling_stop','did-not-stop','Rolling stop / didn’t stop at stop sign'],['perceived_speeding','seemed-to-be-speeding','Seemed to be speeding'],['distracted','distracted-driving','Distracted / using a phone'],['failed_yield','failed-to-yield','Failed to yield'],['turn_across_path','turned-across-path','Turned across someone’s path'],['close_pass','passed-too-closely','Passed too closely'],['blocked_bike_lane','blocked-bike-lane','Blocked bike lane'],['blocked_crossing','blocked-crossing','Blocked sidewalk / crossing'],['wrong_way','wrong-way','Travelled the wrong way'],['opened_door','opened-car-door','Opened door into someone’s path'],['other','other-behaviour','Other'],['unknown','not-sure','Not sure']];
+  const evaders = [['you','me','I did'],['them','driver','The driver did'],['both','both','We both did'],['neither','neither','Neither of us'],['unknown','not-sure','Not sure']];
+  const yourActions = [['step_back','step-back','Stepped back'],['halt','stopped','Stopped'],['speed_up','sped-up','Sped up'],['swerve','swerved','Swerved'],['other','other-behaviour','Something else']];
+  const driverActions = [['swerve','swerved','Swerved'],['brake','braked','Braked'],['heavy_braking','braked-hard','Braked hard'],['unknown','not-sure','Not sure']];
+  const injuries = [['yes','injured','Yes'],['no','not-injured','No']];
+  const render = (id, rows, name, type) => {
+    $(id).innerHTML = rows.map(([value, file, label, desc]) =>
+      `<label class="option"><input type="${type}" name="${name}" value="${value}"><span class="tile"><img class="scene-icon" src="icons/${file}.svg" width="56" height="56" alt="" aria-hidden="true">${desc ? `<strong>${label}</strong><small>${desc}</small>` : `<span>${label}</span>`}</span></label>`
+    ).join('');
   };
-  const icon = key => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[key] || paths.other}"/></svg>`;
-  const types = [['close_call','close','Close call','A collision nearly happened to me.'],['witness','eye','Unsafe behaviour witnessed','I saw something unsafe, without a close call to me.']];
-  const modes = [['walking','walk','Walking'],['cycling','bike','Cycling'],['mobility_aid','mobility','Mobility aid'],['scooter','scooter','Scooter'],['vehicle','car','In a vehicle'],['other','other','Other']];
-  const vehicles = [['car','car','Car'],['suv','suv','SUV'],['pickup','truck','Pickup'],['van','truck','Van / delivery'],['heavy_truck','truck','Heavy truck'],['bus','bus','Bus'],['motorcycle','scooter','Motorcycle'],['bicycle','bike','Bike'],['scooter','scooter','Scooter'],['other','other','Other'],['unknown','other','Not sure']];
-  const behaviours = [['close_pass','Passed too closely'],['failed_yield','Failed to yield'],['turn_across_path','Turned across someone’s path'],['phone_use','Using a phone'],['blocked_bike_lane','Blocked bike lane'],['blocked_crossing','Blocked sidewalk / crossing'],['perceived_speeding','Seemed to be speeding'],['red_light','Ran a red light'],['stop_sign','Didn’t stop at stop sign'],['wrong_way','Travelled the wrong way'],['opened_door','Opened door into someone’s path'],['other','Other'],['unknown','Not sure']];
-  const outcomes = [['evasive_action','I stopped, swerved or moved away'],['no_action','I didn’t take evasive action'],['unsure','Not sure / prefer not to say']];
-  const render = (id, rows, name, type, withIcons) => {
-    $(id).innerHTML = rows.map(row => {
-      const [value, a, b, desc] = row;
-      const label = withIcons ? b : a;
-      return `<label class="option"><input type="${type}" name="${name}" value="${value}"><span class="tile">${withIcons ? icon(a) : ''}${desc ? `<strong>${label}</strong><small>${desc}</small>` : `<span>${label}</span>`}</span></label>`;
-    }).join('');
-  };
-  render('report-types',types,'report_type','radio',true);
-  render('modes',modes,'mode','radio',true);
-  render('vehicles',vehicles,'vehicles','checkbox',true);
-  render('behaviours',behaviours,'behaviours','checkbox',false);
-  render('outcomes',outcomes,'outcome','radio',false);
+  render('report-types',types,'report_type','radio');
+  render('modes',modes,'mode','radio');
+  render('your-direction',directions,'your_direction','radio');
+  render('vehicles',vehicles,'vehicle','radio');
+  render('vehicle-direction',directions,'vehicle_direction','radio');
+  render('movements',movements,'movement','radio');
+  render('behaviours',behaviours,'behaviours','checkbox');
+  render('evaders',evaders,'evader','radio');
+  render('your-actions',yourActions,'your_actions','checkbox');
+  render('driver-actions',driverActions,'driver_action','radio');
+  render('injuries',injuries,'injured','radio');
   let map, marker, pin = null, locationSource = null, accuracy = null, geoRequest = 0, previewing = false;
   const values = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value);
   const single = name => values(name)[0] || null;
@@ -68,23 +65,35 @@
   $('clear-pin').addEventListener('click',()=>{geoRequest++;pin=null;accuracy=null;locationSource=null;if(marker){marker.remove();marker=null;}$('confirm-location-row').hidden=true;$('confirm-location').checked=false;$('clear-pin').hidden=true;$('pin-status').textContent='No point selected. Tap the map to place a pin.';$('geo-status').textContent='';$('locate').disabled=false;});
   $('unknown-time').addEventListener('change',()=>{$('time').disabled=$('unknown-time').checked;if($('time').disabled)$('time').value='';});
   $('report-form').addEventListener('change',e=>{
-    if(['vehicles','behaviours'].includes(e.target.name)) {
-      const group=e.target.name;
-      if(e.target.checked && e.target.value==='unknown') document.querySelectorAll(`input[name="${group}"]`).forEach(i=>{if(i!==e.target)i.checked=false;});
-      else if(e.target.checked) document.querySelector(`input[name="${group}"][value="unknown"]`).checked=false;
+    if(e.target.name==='behaviours') {
+      if(e.target.checked && e.target.value==='unknown') document.querySelectorAll('input[name="behaviours"]').forEach(i=>{if(i!==e.target)i.checked=false;});
+      else if(e.target.checked) document.querySelector('input[name="behaviours"][value="unknown"]').checked=false;
     }
+    if(e.target.name==='evader') sync();
     if(e.target.name==='report_type') show(false,false);
   });
-  function record() {
-    const witness=single('report_type')==='witness';
-    return {schema_version:1,demo:true,report_type:single('report_type'),location:{description:$('address').value.trim()||null,point:pin,point_source:locationSource,device_accuracy_metres:accuracy,point_confirmed:pin?$('confirm-location').checked:null},incident_date:$('date').value,incident_time:$('unknown-time').checked?null:($('time').value||null),time_basis:'Ottawa local time (America/Toronto)',travel_mode:witness?null:single('mode'),vehicles:values('vehicles'),behaviours:values('behaviours'),evasive_action:witness?null:single('outcome'),notes:$('notes').value.trim()||null};
+  // Follow-up questions appear only when the answer above makes them relevant.
+  function sync() {
+    const witness=single('report_type')==='witness',who=single('evader');
+    document.querySelectorAll('.reporter-only').forEach(el=>{el.hidden=witness;});
+    $('your-action-field').hidden=witness||!['you','both'].includes(who);
+    $('driver-action-field').hidden=witness||!['them','both'].includes(who);
   }
-  const lookup=(rows,selected,icons=false)=>selected.map(v=>{const r=rows.find(r=>r[0]===v);return r?(icons?r[2]:r[1]):v;}).join(', ');
+  function record() {
+    const witness=single('report_type')==='witness',who=witness?null:single('evader');
+    return {schema_version:2,demo:true,report_type:single('report_type'),location:{description:$('address').value.trim()||null,point:pin,point_source:locationSource,device_accuracy_metres:accuracy,point_confirmed:pin?$('confirm-location').checked:null},incident_date:$('date').value,incident_time:$('unknown-time').checked?null:($('time').value||null),time_basis:'Ottawa local time (America/Toronto)',travel_mode:witness?null:single('mode'),your_direction:witness?null:single('your_direction'),origin_and_destination:witness?null:($('route').value.trim()||null),vehicle_type:single('vehicle'),vehicle_direction:single('vehicle_direction'),driver_movement:single('movement'),behaviours:values('behaviours'),evasive_action_by:who,your_evasive_actions:['you','both'].includes(who)?values('your_actions'):[],driver_evasive_action:['them','both'].includes(who)?single('driver_action'):null,injured:witness?null:single('injured'),notes:$('notes').value.trim()||null};
+  }
+  const lookup=(rows,selected)=>selected.map(v=>{const r=rows.find(r=>r[0]===v);return r?r[2]:v;}).join(', ');
   function review() {
-    const r=record(); const lines=[['Report',lookup(types,[r.report_type],true)],['Location',r.location.description||'Map point'],['Map point',pin?`${pin.latitude}, ${pin.longitude} (confirmed)`:'Not provided'],['When',`${r.incident_date} · ${r.incident_time||'Time not specified'} · Ottawa local time`]];
-    if(r.travel_mode) lines.push(['Travelling',lookup(modes,[r.travel_mode],true)]);
-    lines.push(['Involved',lookup(vehicles,r.vehicles,true)],['Observed',lookup(behaviours,r.behaviours)]);
-    if(r.evasive_action)lines.push(['Your action',lookup(outcomes,[r.evasive_action])]);
+    const r=record(); const lines=[['Report',lookup(types,[r.report_type])],['Location',r.location.description||'Map point'],['Map point',pin?`${pin.latitude}, ${pin.longitude} (confirmed)`:'Not provided'],['When',`${r.incident_date} · ${r.incident_time||'Time not specified'} · Ottawa local time`]];
+    if(r.travel_mode) lines.push(['Travelling',lookup(modes,[r.travel_mode])]);
+    if(r.your_direction) lines.push(['Your direction',lookup(directions,[r.your_direction])]);
+    if(r.origin_and_destination) lines.push(['Coming from / going to',r.origin_and_destination]);
+    lines.push(['Vehicle',lookup(vehicles,[r.vehicle_type])],['Vehicle direction',lookup(directions,[r.vehicle_direction])],['Driver was',lookup(movements,[r.driver_movement])],['Driving behaviour',lookup(behaviours,r.behaviours)]);
+    if(r.evasive_action_by)lines.push(['Evasive action by',lookup(evaders,[r.evasive_action_by])]);
+    if(r.your_evasive_actions.length)lines.push(['Your evasive action',lookup(yourActions,r.your_evasive_actions)]);
+    if(r.driver_evasive_action)lines.push(['Driver’s evasive action',lookup(driverActions,[r.driver_evasive_action])]);
+    if(r.injured)lines.push(['Injured',lookup(injuries,[r.injured])]);
     if(r.notes)lines.push(['Optional note',r.notes]);
     $('review').replaceChildren();for(const [label,value] of lines){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;$('review').append(dt,dd);}
     $('record').textContent=JSON.stringify(r,null,2);
@@ -93,7 +102,7 @@
     previewing=preview;$('error').hidden=true;
     const selected=!!single('report_type'),witness=single('report_type')==='witness';
     document.querySelectorAll('[data-step]').forEach((el,i)=>{el.hidden=preview?i!==3:(i===3||(i>0&&!selected));});
-    $('role-field').hidden=witness;$('outcome-field').hidden=witness;
+    sync();
     $('back').hidden=!preview;$('restart').hidden=!preview;$('next').hidden=preview||!selected;
     if(preview){geoRequest++;$('locate').disabled=false;review();}else if(selected)initMap();
     if(focus){const heading=$('title-'+(preview?3:0));heading.focus();heading.scrollIntoView({block:'start'});}
@@ -103,10 +112,17 @@
     if(!pin&&!$('address').value.trim())return ['Enter a street or intersection, or choose a map point.','address'];
     if(pin&&!$('confirm-location').checked)return ['Confirm that the pin marks the incident location, or clear the map point.','confirm-location'];
     if(!$('date').value||$('date').value>localDate(new Date()))return ['Choose an incident date that is today or earlier.','date'];
-    if(single('report_type')==='close_call'&&!single('mode'))return ['Choose how you were travelling.','modes'];
-    if(!values('vehicles').length)return ['Choose what was involved, or select Not sure.','vehicles'];
-    if(!values('behaviours').length)return ['Choose what you observed, or select Not sure.','behaviours'];
-    if(single('report_type')==='close_call'&&!single('outcome'))return ['Choose what happened to you, or select Not sure / prefer not to say.','outcomes'];
+    const close=single('report_type')==='close_call',who=single('evader');
+    if(close&&!single('mode'))return ['Choose how you were travelling.','modes'];
+    if(close&&!single('your_direction'))return ['Choose which way you were heading, or select Not sure.','your-direction'];
+    if(!single('vehicle'))return ['Choose the type of vehicle, or select Not sure.','vehicles'];
+    if(!single('vehicle_direction'))return ['Choose which way the vehicle was heading, or select Not sure.','vehicle-direction'];
+    if(!single('movement'))return ['Choose what the driver was doing, or select Not sure.','movements'];
+    if(!values('behaviours').length)return ['Choose the driving behaviour you saw, or select Not sure.','behaviours'];
+    if(close&&!who)return ['Choose who took evasive action, or select Not sure.','evaders'];
+    if(close&&['you','both'].includes(who)&&!values('your_actions').length)return ['Choose what you did to avoid a collision.','your-actions'];
+    if(close&&['them','both'].includes(who)&&!single('driver_action'))return ['Choose what the driver did, or select Not sure.','driver-actions'];
+    if(close&&!single('injured'))return ['Choose whether you were injured.','injuries'];
     return null;
   }
   $('report-form').addEventListener('submit',e=>{
@@ -117,6 +133,6 @@
   });
   $('back').addEventListener('click',()=>show(false));
   $('restart').addEventListener('click',()=>{$('report-form').reset();setNow();$('time').disabled=false;$('record').textContent='';$('review').replaceChildren();$('clear-pin').click();show(false);});
-  $('example').addEventListener('click',()=>{document.querySelector('[name="report_type"][value="close_call"]').click();document.querySelector('[name="mode"][value="cycling"]').click();document.querySelector('[name="vehicles"][value="car"]').checked=true;document.querySelector('[name="behaviours"][value="close_pass"]').checked=true;document.querySelector('[name="outcome"][value="evasive_action"]').click();document.querySelectorAll('[name="vehicles"][value="unknown"],[name="behaviours"][value="unknown"]').forEach(i=>i.checked=false);$('address').value='Fictional example: Bank Street at Laurier Avenue';$('notes').value='Fictional demonstration only. No actual incident.';$('time').disabled=false;$('unknown-time').checked=false;$('time').value='09:00';show(false,false);$('title-1').scrollIntoView({block:'start'});});
+  $('example').addEventListener('click',()=>{document.querySelector('[name="report_type"][value="close_call"]').click();[['mode','cycling'],['your_direction','northbound'],['vehicle','car'],['vehicle_direction','southbound'],['movement','left_turn'],['evader','you'],['injured','no']].forEach(([n,v])=>document.querySelector(`[name="${n}"][value="${v}"]`).click());document.querySelectorAll('[name="behaviours"],[name="your_actions"]').forEach(i=>{i.checked=(i.name==='behaviours'&&i.value==='turn_across_path')||(i.name==='your_actions'&&i.value==='halt');});$('route').value='Fictional example: from Laurier and Bank towards Somerset';$('address').value='Fictional example: Bank Street at Laurier Avenue';$('notes').value='Fictional demonstration only. No actual incident.';$('time').disabled=false;$('unknown-time').checked=false;$('time').value='09:00';show(false,false);$('title-1').scrollIntoView({block:'start'});});
   $('app').hidden=false;show(false,false);
 })();

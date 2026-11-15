@@ -6,14 +6,14 @@
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Road safety report · Ottawa Visuals demo</title>
-<link rel="stylesheet" href="demo.css?v=2">
+<link rel="stylesheet" href="demo.css?v=5">
 <link rel="stylesheet" href="../../assets/site-theme.css?v=a11y-20261103">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('ov-theme')||'light'}catch(e){}window.setTheme=function(m){document.documentElement.dataset.theme=m}</script>
 <script src="../../assets/site-theme.js?v=share-20261103"></script>
 <script defer src="../../assets/author-credit.js?v=audit-20261103"></script>
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script defer src="demo.js?v=2"></script>
+<script defer src="demo.js?v=8"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to form</a>
@@ -45,11 +45,18 @@
 <fieldset><legend>When did it happen?</legend><div class="date-grid"><label>Date<input type="date" id="date" required></label><label>Approximate time<input type="time" id="time"></label></div><label class="check-line"><input type="checkbox" id="unknown-time">I don’t remember the time</label></fieldset>
 </section>
 <section class="panel" data-step="2" aria-labelledby="title-2" hidden>
-<p class="step-label">THE DETAILS</p><h2 id="title-2" tabindex="-1">A few useful details.</h2><p class="hint">Tap your answers. No compass directions or long descriptions needed.</p>
-<fieldset id="role-field"><legend>How were you travelling?</legend><div class="tile-grid" id="modes"></div></fieldset>
-<fieldset><legend>What was involved?</legend><p class="hint">Choose all that apply, including your own vehicle if relevant.</p><div class="tile-grid" id="vehicles"></div></fieldset>
-<fieldset><legend>What did you observe?</legend><p class="hint">Choose all that apply. “Not sure” is okay.</p><div class="choice-grid" id="behaviours"></div></fieldset>
-<fieldset id="outcome-field"><legend>What happened to you?</legend><div class="choice-grid" id="outcomes"></div></fieldset>
+<p class="step-label">THE DETAILS</p><h2 id="title-2" tabindex="-1">A few useful details.</h2><p class="hint">Tap your answers. “Not sure” is always okay.</p>
+<fieldset class="reporter-only"><legend>How were you travelling?</legend><div class="tile-grid" id="modes"></div></fieldset>
+<fieldset class="reporter-only"><legend>Which way were you heading?</legend><p class="hint">Roughly is fine. In Ottawa, Bank Street runs north–south and Laurier Avenue runs east–west.</p><div class="tile-grid" id="your-direction"></div>
+<label class="field-label" for="route">Where were you coming from and going to? <span class="muted">(optional)</span></label><input id="route" name="route" maxlength="180" autocomplete="off" placeholder="e.g. from Laurier and Bank towards Kent"></fieldset>
+<fieldset><legend>What type of vehicle was it?</legend><div class="tile-grid" id="vehicles"></div></fieldset>
+<fieldset><legend>Which way was the vehicle heading?</legend><div class="tile-grid" id="vehicle-direction"></div></fieldset>
+<fieldset><legend>What was the driver doing?</legend><div class="tile-grid" id="movements"></div></fieldset>
+<fieldset><legend>What did the driver do wrong?</legend><p class="hint">Choose all that apply.</p><div class="choice-grid" id="behaviours"></div></fieldset>
+<fieldset class="reporter-only"><legend>Who took evasive action?</legend><p class="hint">Who acted to avoid a collision?</p><div class="choice-grid" id="evaders"></div></fieldset>
+<fieldset id="your-action-field" hidden><legend>What did you do?</legend><p class="hint">Choose all that apply.</p><div class="choice-grid" id="your-actions"></div></fieldset>
+<fieldset id="driver-action-field" hidden><legend>What did the driver do?</legend><div class="choice-grid" id="driver-actions"></div></fieldset>
+<fieldset class="reporter-only"><legend>Were you injured?</legend><p class="hint">Even without contact. If you were hurt while avoiding a collision, report it to the police as well.</p><div class="choice-grid" id="injuries"></div></fieldset>
 <details><summary>Add optional details</summary><label class="field-label" for="notes">Anything the choices missed?</label><textarea id="notes" maxlength="500" rows="3" placeholder="Avoid names, licence plates and other identifying details."></textarea><p class="small">Up to 500 characters.</p></details>
 </section>
 <section class="panel" data-step="3" aria-labelledby="title-3" hidden>

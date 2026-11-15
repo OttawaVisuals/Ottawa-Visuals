@@ -2,4 +2,16 @@
 @media(max-width:560px){main{padding:30px 16px 20px}.topbar{padding:16px}.brand{font-size:14px;gap:7px}.demo-tag{font-size:8px;padding:5px}.panel{padding:22px 18px;border-radius:12px}.steps{gap:3px;font-size:10px}.steps li{gap:4px}.steps span{width:20px;height:20px}.type-grid{grid-template-columns:1fr;gap:12px}.type-grid .tile{min-height:125px;padding:18px 36px 18px 18px}.type-grid input:checked+.tile{padding:17px 35px 17px 17px}.type-grid svg{float:left;margin:0 16px 40px 0}.tile-grid{grid-template-columns:1fr 1fr}.tile-grid .tile{font-size:13px;gap:7px}.choice-grid{grid-template-columns:1fr}.date-grid{grid-template-columns:1fr}h2{font-size:25px}#map{height:250px}.option input{right:10px}.option .tile{padding-right:32px}.notice{padding:12px 14px}}
 
 /* Continuous form: panels reveal together after choosing a report type. */
+/* Picture cards: large icon above a short label, for every answer grid. */
+.choice-grid{grid-template-columns:repeat(3,1fr)}
+.tile-grid .tile,.choice-grid .tile{flex-direction:column;justify-content:center;text-align:center;gap:8px;min-height:108px;padding:20px 12px 14px;font-size:13px;line-height:1.3}
+.tile-grid input:checked+.tile,.choice-grid input:checked+.tile{padding:19px 11px 13px}
+.tile-grid svg,.choice-grid svg{width:38px;height:38px;color:var(--accent-2)}
+.tile-grid .option input,.choice-grid .option input{top:9px;right:9px}
+@media(max-width:560px){.choice-grid{grid-template-columns:1fr 1fr}}
 #app{margin-top:28px}.panel + .panel{margin-top:18px}.panel h2{scroll-margin-top:20px}.actions{align-items:center}
+/* A light backing preserves the approved SVG palette in every site theme. */
+.scene-icon{display:block;width:56px;height:56px;flex:none;background:#fff;border-radius:6px}
+.tile-grid .tile,.choice-grid .tile{min-height:132px}
+.type-grid .scene-icon{width:64px;height:64px;margin-bottom:16px}
+@media(max-width:560px){.type-grid .scene-icon{float:left;margin:0 16px 30px 0}}
