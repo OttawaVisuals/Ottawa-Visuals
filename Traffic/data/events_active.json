@@ -1840,29 +1840,6 @@
 },
 "fp": "d0ba4739f645"
 },
-"30006": {
-"event": {
-"cause": "",
-"created": "2026-11-13 16:12:00",
-"cross_street_1": "CARLING AVE / KIRKWOOD AVE (IC 124)",
-"cross_street_2": "PARKDALE AVE (IC 122)",
-"direction": null,
-"event_id": "30006",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from CARLING AVE / KIRKWOOD AVE to PARKDALE AVE - Continuous Maintenance. 1 Right Lane(s). 2026-11-16 10:00 to 2026-11-16 14:30",
-"lanes": "1 Right Lane(s)",
-"lat": 45.38393,
-"lon": -75.73985,
-"planned_end": "2026-11-16T14:30",
-"planned_start": "2026-11-16T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-13 16:12:00"
-},
-"fp": "a05341c44083"
-},
 "30007": {
 "event": {
 "cause": "",
@@ -2184,6 +2161,52 @@
 "updated": "2026-11-16 10:40:00"
 },
 "fp": "3372e11eefc3"
+},
+"30039": {
+"event": {
+"cause": "",
+"created": "2026-11-16 14:12:00",
+"cross_street_1": "ST. LAURENT BLVD (IC 115)",
+"cross_street_2": "AVIATION PKWY (IC 113A)",
+"direction": null,
+"event_id": "30039",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from ST. LAURENT BLVD to AVIATION PKWY - Nightly Maintenance. 1 Left Lane(s). Will be closing the EB on-ramps from St-Laurent. Will be doing a left lane and right lane closure EB between St-Laurent and Aviation Parkway, centre lane will remain open. (Ottawa). 2026-11-19 22:00 to 2026-11-20 05:30",
+"lanes": "1 Left Lane(s)",
+"lat": 45.42029,
+"lon": -75.63509,
+"planned_end": "2026-11-20T05:30",
+"planned_start": "2026-11-19T22:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-16 14:12:00"
+},
+"fp": "6e5387da6087"
+},
+"30040": {
+"event": {
+"cause": "",
+"created": "2026-11-16 14:48:00",
+"cross_street_1": "BRONSON AVE (IC 121A)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30040",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at BRONSON AVE - Disabled Vehicle. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.40469,
+"lon": -75.70212,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-16 14:48:00"
+},
+"fp": "4d524da8fe2e"
 }
 }
 }
