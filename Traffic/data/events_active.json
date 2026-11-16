@@ -782,29 +782,6 @@
 },
 "fp": "d4511bc7638d"
 },
-"28913": {
-"event": {
-"cause": "construction",
-"created": "2026-09-17 12:58:00",
-"cross_street_1": "ISLAND VIEW",
-"cross_street_2": "CURRIER",
-"direction": null,
-"event_id": "28913",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "MANOTICK MAIN off-peak lane reductions in both directions between ISLAND VIEW and CURRIER due to construction, until November 16th. Flagpersons present.",
-"lanes": "off-peak lane reductions in both directions",
-"lat": 45.217495,
-"lon": -75.671624,
-"planned_end": "2026-11-16T17:00",
-"planned_start": "2026-08-31T00:00",
-"priority": "UNKNOWN",
-"road": "MANOTICK MAIN",
-"source": "city",
-"updated": "2026-09-17 13:00:00"
-},
-"fp": "aa96156fdb85"
-},
 "28955": {
 "event": {
 "cause": "construction",
@@ -1264,29 +1241,6 @@
 "updated": "2026-10-27 06:20:00"
 },
 "fp": "9ef107f8cad7"
-},
-"29713": {
-"event": {
-"cause": "construction",
-"created": "2026-10-27 13:06:00",
-"cross_street_1": "TERRY FOX",
-"cross_street_2": "TEMPLEFORD",
-"direction": null,
-"event_id": "29713",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "COPE closed between TERRY FOX and TEMPLEFORD due to construction, from November 6th to 16th. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.276371,
-"lon": -75.872956,
-"planned_end": "2026-11-16T17:00",
-"planned_start": "2026-11-03T07:00",
-"priority": "HIGH",
-"road": "COPE",
-"source": "city",
-"updated": "2026-11-03 06:56:00"
-},
-"fp": "4abf70f5acf6"
 },
 "29730": {
 "event": {
@@ -1932,29 +1886,6 @@
 },
 "fp": "38e815ab5904"
 },
-"30012": {
-"event": {
-"cause": "construction",
-"created": "2026-11-13 18:01:00",
-"cross_street_1": "MULLIGAN",
-"cross_street_2": "LOWEN",
-"direction": null,
-"event_id": "30012",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 16th. Follow the signed detour.",
-"lanes": "closed",
-"lat": 45.294001,
-"lon": -75.694671,
-"planned_end": "2026-11-16T17:00",
-"planned_start": "2026-11-06T07:00",
-"priority": "HIGH",
-"road": "RIVER",
-"source": "city",
-"updated": "2026-11-13 18:04:00"
-},
-"fp": "94b6191f4726"
-},
 "30013": {
 "event": {
 "cause": "construction",
@@ -2185,75 +2116,6 @@
 },
 "fp": "6e5387da6087"
 },
-"30045": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-16 15:51:00",
-"cross_street_1": "Conroy",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30045",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Hunt Club eastbound reduced to 1 lane at Conroy due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.365065,
-"lon": -75.619609,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Hunt Club",
-"source": "city",
-"updated": "2026-11-16 15:51:00"
-},
-"fp": "43939c264995"
-},
-"30046": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-16 15:51:00",
-"cross_street_1": "Hunt Club",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30046",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Conroy northbound reduced to 1 lane at Hunt Club due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.365137,
-"lon": -75.619734,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Conroy",
-"source": "city",
-"updated": "2026-11-16 15:51:00"
-},
-"fp": "bd1d65c38ec1"
-},
-"30047": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-16 16:36:00",
-"cross_street_1": "Fallowfield",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30047",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Old Richmond lane reductions in both directions at Fallowfield due to a collision. Duration is unknown.",
-"lanes": "lane reductions in both directions",
-"lat": 45.259714,
-"lon": -75.825668,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Old Richmond",
-"source": "city",
-"updated": "2026-11-16 16:36:00"
-},
-"fp": "7bf7a085a8d4"
-},
 "30048": {
 "event": {
 "cause": "construction",
@@ -2276,6 +2138,29 @@
 "updated": "2026-11-16 16:40:00"
 },
 "fp": "7b02cd2b7213"
+},
+"30050": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-16 16:55:00",
+"cross_street_1": "Greenbank",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30050",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Fallowfield eastbound reduced to 1 lane at Greenbank due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.287883,
+"lon": -75.75743,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Fallowfield",
+"source": "city",
+"updated": "2026-11-16 16:55:00"
+},
+"fp": "2428398cd585"
 }
 }
 }
