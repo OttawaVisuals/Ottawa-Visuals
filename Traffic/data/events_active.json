@@ -2185,28 +2185,51 @@
 },
 "fp": "6e5387da6087"
 },
-"30040": {
+"30041": {
 "event": {
-"cause": "",
-"created": "2026-11-16 14:48:00",
-"cross_street_1": "BRONSON AVE (IC 121A)",
-"cross_street_2": null,
+"cause": "a disabled vehicle",
+"created": "2026-11-16 15:03:00",
+"cross_street_1": "Bank",
+"cross_street_2": "Kent",
 "direction": null,
-"event_id": "30040",
+"event_id": "30041",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Eastbound at BRONSON AVE - Disabled Vehicle. 1 right lane and right shoulder closed. ",
-"lanes": "1 right lane and right shoulder closed",
-"lat": 45.40469,
-"lon": -75.70212,
+"headline": "Wellington eastbound reduced to 1 lane between Bank and Kent due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.421391,
+"lon": -75.702812,
 "planned_end": null,
 "planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "HIGH",
+"road": "Wellington",
 "source": "city",
-"updated": "2026-11-16 14:48:00"
+"updated": "2026-11-16 15:03:00"
 },
-"fp": "4d524da8fe2e"
+"fp": "ac685ae8c926"
+},
+"30043": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-16 15:34:00",
+"cross_street_1": "ELMRIDGE / JASMINE",
+"cross_street_2": "JASMINE",
+"direction": null,
+"event_id": "30043",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "OGILVIE closed between ELMRIDGE / JASMINE and JASMINE due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.442909,
+"lon": -75.597258,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "OGILVIE",
+"source": "city",
+"updated": "2026-11-16 15:34:00"
+},
+"fp": "edbc0b20be94"
 }
 }
 }
