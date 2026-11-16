@@ -2162,28 +2162,28 @@
 },
 "fp": "6241a831c29b"
 },
-"30030": {
+"30031": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-16 08:54:00",
-"cross_street_1": "Island Park",
-"cross_street_2": "Woodroffe",
+"cause": "construction",
+"created": "2026-11-16 09:47:00",
+"cross_street_1": "DEVONWOOD / CEDAR CREEK",
+"cross_street_2": "BANK",
 "direction": null,
-"event_id": "30030",
-"event_type": "INCIDENT",
+"event_id": "30031",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "417 westbound traffic heavy & slow between Island Park and Woodroffe due to a collision.",
-"lanes": "traffic heavy & slow",
-"lat": 45.393815,
-"lon": -75.731093,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "417",
+"headline": "FINDLAY CREEK DR lane reductions in both directions between DEVONWOOD / CEDAR CREEK and BANK due to construction, from November 18th to December 4th between 9:00am and 3:00pm.",
+"lanes": "lane reductions in both directions",
+"lat": 45.319147,
+"lon": -75.597034,
+"planned_end": "2026-12-04T15:00",
+"planned_start": "2026-11-16T09:00",
+"priority": "MEDIUM",
+"road": "FINDLAY CREEK",
 "source": "city",
-"updated": "2026-11-16 08:54:00"
+"updated": "2026-11-16 09:48:00"
 },
-"fp": "fc09386e3447"
+"fp": "4326264261d7"
 }
 }
 }
