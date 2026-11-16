@@ -2001,6 +2001,29 @@
 },
 "fp": "94b6191f4726"
 },
+"30013": {
+"event": {
+"cause": "construction",
+"created": "2026-11-13 18:03:00",
+"cross_street_1": "AVONDALE",
+"cross_street_2": "DOVERCOURT",
+"direction": null,
+"event_id": "30013",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "GOLDEN closed between AVONDALE and DOVERCOURT due to construction. From November 19th to 20th.",
+"lanes": "closed",
+"lat": 45.384188,
+"lon": -75.755158,
+"planned_end": "2026-11-20T17:00",
+"planned_start": "2026-11-16T07:00",
+"priority": "MEDIUM",
+"road": "GOLDEN",
+"source": "city",
+"updated": "2026-11-16 06:56:00"
+},
+"fp": "b1d3794babfe"
+},
 "30015": {
 "event": {
 "cause": "",
@@ -2138,6 +2161,29 @@
 "updated": "2026-11-13 19:18:00"
 },
 "fp": "6241a831c29b"
+},
+"30025": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-16 06:56:00",
+"cross_street_1": "MERIVALE",
+"cross_street_2": "ASHDALE",
+"direction": null,
+"event_id": "30025",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "FALLOWFIELD eastbound lane reduction between MERIVALE and ASHDALE due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.306808,
+"lon": -75.708186,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "FALLOWFIELD",
+"source": "city",
+"updated": "2026-11-16 06:56:00"
+},
+"fp": "5790b6a10791"
 }
 }
 }
