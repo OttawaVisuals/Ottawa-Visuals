@@ -2185,51 +2185,97 @@
 },
 "fp": "6e5387da6087"
 },
-"30041": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-16 15:03:00",
-"cross_street_1": "Bank",
-"cross_street_2": "Kent",
-"direction": null,
-"event_id": "30041",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Wellington eastbound reduced to 1 lane between Bank and Kent due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.421391,
-"lon": -75.702812,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Wellington",
-"source": "city",
-"updated": "2026-11-16 15:03:00"
-},
-"fp": "ac685ae8c926"
-},
-"30043": {
+"30045": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-16 15:34:00",
-"cross_street_1": "ELMRIDGE / JASMINE",
-"cross_street_2": "JASMINE",
+"created": "2026-11-16 15:51:00",
+"cross_street_1": "Conroy",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30043",
+"event_id": "30045",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "OGILVIE closed between ELMRIDGE / JASMINE and JASMINE due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.442909,
-"lon": -75.597258,
+"full_closure": false,
+"headline": "Hunt Club eastbound reduced to 1 lane at Conroy due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.365065,
+"lon": -75.619609,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "OGILVIE",
+"road": "Hunt Club",
 "source": "city",
-"updated": "2026-11-16 15:34:00"
+"updated": "2026-11-16 15:51:00"
 },
-"fp": "edbc0b20be94"
+"fp": "43939c264995"
+},
+"30046": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-16 15:51:00",
+"cross_street_1": "Hunt Club",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30046",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Conroy northbound reduced to 1 lane at Hunt Club due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.365137,
+"lon": -75.619734,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Conroy",
+"source": "city",
+"updated": "2026-11-16 15:51:00"
+},
+"fp": "bd1d65c38ec1"
+},
+"30047": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-16 16:36:00",
+"cross_street_1": "Fallowfield",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30047",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Old Richmond lane reductions in both directions at Fallowfield due to a collision. Duration is unknown.",
+"lanes": "lane reductions in both directions",
+"lat": 45.259714,
+"lon": -75.825668,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Old Richmond",
+"source": "city",
+"updated": "2026-11-16 16:36:00"
+},
+"fp": "7bf7a085a8d4"
+},
+"30048": {
+"event": {
+"cause": "construction",
+"created": "2026-11-16 16:38:00",
+"cross_street_1": "MULLIGAN",
+"cross_street_2": "LOWEN",
+"direction": null,
+"event_id": "30048",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 15th. Follow the signed detour.",
+"lanes": "",
+"lat": 45.294001,
+"lon": -75.694671,
+"planned_end": "2026-11-17T17:00",
+"planned_start": "2026-11-06T07:00",
+"priority": "HIGH",
+"road": "RIVER",
+"source": "city",
+"updated": "2026-11-16 16:40:00"
+},
+"fp": "7b02cd2b7213"
 }
 }
 }
