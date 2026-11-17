@@ -2023,6 +2023,75 @@
 "updated": "2026-11-17 06:48:00"
 },
 "fp": "e0b81e9eb63d"
+},
+"30052": {
+"event": {
+"cause": "",
+"created": "2026-11-17 07:39:00",
+"cross_street_1": "FALLOWFIELD RD (IC 66)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30052",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 416 Southbound at FALLOWFIELD RD - Collision. All lanes closed. ",
+"lanes": "All lanes closed",
+"lat": 45.27087,
+"lon": -75.79581,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-11-17 07:57:00"
+},
+"fp": "898d7802ae7f"
+},
+"30053": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-17 08:06:00",
+"cross_street_1": "Evans",
+"cross_street_2": "Randall",
+"direction": null,
+"event_id": "30053",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Bank traffic disruptions between Evans and Randall due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.380836,
+"lon": -75.668806,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Bank",
+"source": "city",
+"updated": "2026-11-17 08:06:00"
+},
+"fp": "23f9cd70ea0c"
+},
+"30054": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 08:14:00",
+"cross_street_1": "Lester/Uplands",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30054",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Airport Parkway northbound closed at Lester/Uplands due to a collision.",
+"lanes": "closed",
+"lat": 45.328986,
+"lon": -75.651472,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Prom Airport Parkway",
+"source": "city",
+"updated": "2026-11-17 08:14:00"
+},
+"fp": "18e032a68bb1"
 }
 }
 }
