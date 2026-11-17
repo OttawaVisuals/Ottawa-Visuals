@@ -1035,29 +1035,6 @@
 },
 "fp": "6224d3dba2ba"
 },
-"29613": {
-"event": {
-"cause": "construction",
-"created": "2026-10-21 11:10:00",
-"cross_street_1": "174 W/B",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29613",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Ramp between 174 W/B and 417 E/B closed nightly due to construction, from October 25th to 27th between 11:00pm and 5:00am.",
-"lanes": "closed",
-"lat": 45.423152,
-"lon": -75.622934,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "417 E/B on-ramp",
-"source": "city",
-"updated": "2026-10-21 11:11:00"
-},
-"fp": "8a690d058726"
-},
 "29685": {
 "event": {
 "cause": "construction",
@@ -2023,6 +2000,75 @@
 "updated": "2026-11-17 11:51:00"
 },
 "fp": "b8ea7ddf42ae"
+},
+"30063": {
+"event": {
+"cause": "",
+"created": "2026-11-17 12:21:00",
+"cross_street_1": "MAITLAND AVE (IC 126)",
+"cross_street_2": "WOODROFFE AVE (IC 127)",
+"direction": null,
+"event_id": "30063",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from MAITLAND AVE to WOODROFFE AVE - Daily Engineering Investigation. 1 Right Lane(s). Detailed closure information is as follows: Thurs-Fri: 10:00-14:00 Nearby ramps may be affected. 2026-11-19 10:00 to 2026-11-20 14:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.37042,
+"lon": -75.75457,
+"planned_end": "2026-11-20T14:00",
+"planned_start": "2026-11-19T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-17 12:21:00"
+},
+"fp": "301b30aa3d53"
+},
+"30064": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 12:56:00",
+"cross_street_1": "Trainyards",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30064",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Industrial reduced to 1 lane in each direction at Trainyards due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.411609,
+"lon": -75.645381,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Industrial",
+"source": "city",
+"updated": "2026-11-17 12:56:00"
+},
+"fp": "8a47aa72b3b2"
+},
+"30065": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 12:56:00",
+"cross_street_1": "Industrial",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30065",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Trainyards southbound reduced to 1 right-turn lane at Industrial due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 right-turn lane",
+"lat": 45.411714,
+"lon": -75.645445,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Trainyards",
+"source": "city",
+"updated": "2026-11-17 12:56:00"
+},
+"fp": "d5c4671c4908"
 }
 }
 }
