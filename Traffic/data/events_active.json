@@ -2070,52 +2070,6 @@
 },
 "fp": "49577f78185d"
 },
-"30071": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-17 14:37:00",
-"cross_street_1": "Bayswater",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30071",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Gladstone traffic disruptions at Bayswater due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.402555,
-"lon": -75.718197,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Gladstone",
-"source": "city",
-"updated": "2026-11-17 14:37:00"
-},
-"fp": "1008a80a7b33"
-},
-"30072": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 15:05:00",
-"cross_street_1": "Orient Park",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30072",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Innes eastbound lane reduction at Orient Park due to a collision. Duration is unknown.",
-"lanes": "lane reduction",
-"lat": 45.433389,
-"lon": -75.560318,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Innes",
-"source": "city",
-"updated": "2026-11-17 15:05:00"
-},
-"fp": "ccfc09682523"
-},
 "30074": {
 "event": {
 "cause": "a collision",
@@ -2138,6 +2092,29 @@
 "updated": "2026-11-17 15:51:00"
 },
 "fp": "43f3d5ec1159"
+},
+"30075": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-17 16:29:00",
+"cross_street_1": "Paul Anka",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30075",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hunt Club eastbound reduced to 1 lane at Paul Anka due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.343047,
+"lon": -75.670866,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Hunt Club",
+"source": "city",
+"updated": "2026-11-17 16:29:00"
+},
+"fp": "40f745d53d96"
 }
 }
 }
