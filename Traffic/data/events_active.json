@@ -2047,29 +2047,6 @@
 },
 "fp": "4125034cef2e"
 },
-"30068": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-17 13:48:00",
-"cross_street_1": "Cumberland",
-"cross_street_2": "King Edward",
-"direction": null,
-"event_id": "30068",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Murray eastbound lane reduction between Cumberland and King Edward due to a disabled vehicle. Duration is unknown.",
-"lanes": "lane reduction",
-"lat": 45.431301,
-"lon": -75.689889,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Murray",
-"source": "city",
-"updated": "2026-11-17 13:48:00"
-},
-"fp": "999735301f21"
-},
 "30069": {
 "event": {
 "cause": "a collision",
@@ -2092,6 +2069,52 @@
 "updated": "2026-11-17 13:53:00"
 },
 "fp": "2ad0006c68b6"
+},
+"30070": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-17 14:20:00",
+"cross_street_1": "417",
+"cross_street_2": "Laurier",
+"direction": null,
+"event_id": "30070",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Nicholas northbound reduced to 1 lane between 417 and Laurier due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.420571,
+"lon": -75.682588,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Nicholas",
+"source": "city",
+"updated": "2026-11-17 14:20:00"
+},
+"fp": "49577f78185d"
+},
+"30071": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-17 14:37:00",
+"cross_street_1": "Bayswater",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30071",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Gladstone traffic disruptions at Bayswater due to traffic signals not working. Duration is unknown.",
+"lanes": "traffic disruptions",
+"lat": 45.402555,
+"lon": -75.718197,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Gladstone",
+"source": "city",
+"updated": "2026-11-17 14:37:00"
+},
+"fp": "1008a80a7b33"
 }
 }
 }
