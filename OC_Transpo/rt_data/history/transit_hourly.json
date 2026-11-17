@@ -5,7 +5,7 @@
  },
  "weekday": {
   "days": 20,
-  "cancel_days": 16,
+  "cancel_days": 17,
   "hours": [
    {
     "hour": 0,
@@ -59,12 +59,12 @@
    },
    {
     "hour": 5,
-    "delays_observed": 4810,
-    "bus_ontime_pct": 74.7,
+    "delays_observed": 4904,
+    "bus_ontime_pct": 74.9,
     "bus_late_pct": 6.9,
-    "bus_early_pct": 18.4,
-    "bus_within_5min_pct": 92.1,
-    "punctuality_pct": 74.5,
+    "bus_early_pct": 18.2,
+    "bus_within_5min_pct": 92.2,
+    "punctuality_pct": 74.7,
     "cancelled_per_day": 0.2
    },
    {
@@ -95,7 +95,7 @@
     "bus_early_pct": 16.8,
     "bus_within_5min_pct": 72.5,
     "punctuality_pct": 57.2,
-    "cancelled_per_day": 1.7
+    "cancelled_per_day": 1.6
    },
    {
     "hour": 9,
@@ -105,7 +105,7 @@
     "bus_early_pct": 19.3,
     "bus_within_5min_pct": 77.0,
     "punctuality_pct": 58.0,
-    "cancelled_per_day": 0.9
+    "cancelled_per_day": 0.8
    },
    {
     "hour": 10,
@@ -115,7 +115,7 @@
     "bus_early_pct": 20.9,
     "bus_within_5min_pct": 83.9,
     "punctuality_pct": 63.2,
-    "cancelled_per_day": 0.9
+    "cancelled_per_day": 0.8
    },
    {
     "hour": 11,
@@ -165,7 +165,7 @@
     "bus_early_pct": 18.8,
     "bus_within_5min_pct": 70.3,
     "punctuality_pct": 54.2,
-    "cancelled_per_day": 5.8
+    "cancelled_per_day": 5.5
    },
    {
     "hour": 16,
@@ -175,7 +175,7 @@
     "bus_early_pct": 17.0,
     "bus_within_5min_pct": 63.9,
     "punctuality_pct": 47.4,
-    "cancelled_per_day": 7.1
+    "cancelled_per_day": 6.9
    },
    {
     "hour": 17,
@@ -185,7 +185,7 @@
     "bus_early_pct": 17.1,
     "bus_within_5min_pct": 66.3,
     "punctuality_pct": 47.2,
-    "cancelled_per_day": 7.4
+    "cancelled_per_day": 7.3
    },
    {
     "hour": 18,
@@ -195,7 +195,7 @@
     "bus_early_pct": 19.0,
     "bus_within_5min_pct": 72.0,
     "punctuality_pct": 52.3,
-    "cancelled_per_day": 2.9
+    "cancelled_per_day": 2.8
    },
    {
     "hour": 19,
@@ -225,7 +225,7 @@
     "bus_early_pct": 18.0,
     "bus_within_5min_pct": 80.6,
     "punctuality_pct": 64.1,
-    "cancelled_per_day": 0.7
+    "cancelled_per_day": 0.6
    },
    {
     "hour": 22,
