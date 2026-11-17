@@ -1252,18 +1252,18 @@
 "event_id": "29796",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "(LRT) 174 E/B On-ramp closed at Place d'Orl\u00e9ans Dr N/B and E/B due to construction, from November 2nd to 22nd.\n",
+"headline": "(LRT) 174 E/B On-ramp closed at Place d'Orl\u00e9ans N/B and E/B due to construction, until December 4th.",
 "lanes": "closed",
 "lat": 45.480347,
 "lon": -75.513555,
-"planned_end": "2026-11-22T17:00",
+"planned_end": "2026-12-04T17:00",
 "planned_start": "2026-11-02T07:00",
 "priority": "HIGH",
 "road": "174 E/B On-ramp",
 "source": "city",
-"updated": "2026-11-03 15:17:00"
+"updated": "2026-11-17 13:14:00"
 },
-"fp": "21a66f30ba13"
+"fp": "18aa34030be5"
 },
 "29797": {
 "event": {
@@ -2024,51 +2024,74 @@
 },
 "fp": "301b30aa3d53"
 },
-"30064": {
+"30066": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-17 12:56:00",
-"cross_street_1": "Trainyards",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-11-17 13:10:00",
+"cross_street_1": "TRIM",
+"cross_street_2": "TENTH LINE RD",
 "direction": null,
-"event_id": "30064",
+"event_id": "30066",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 westbound reduced to 1 lane between TRIM and TENTH LINE RD due to construction, from November 16th to 19th between 10:00am and 3:00pm. ",
+"lanes": "reduced to 1 lane",
+"lat": 45.496788,
+"lon": -75.479827,
+"planned_end": "2026-11-19T15:00",
+"planned_start": "2026-11-17T00:00",
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-11-17 13:12:00"
+},
+"fp": "4125034cef2e"
+},
+"30068": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-17 13:48:00",
+"cross_street_1": "Cumberland",
+"cross_street_2": "King Edward",
+"direction": null,
+"event_id": "30068",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Industrial reduced to 1 lane in each direction at Trainyards due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.411609,
-"lon": -75.645381,
+"headline": "Murray eastbound lane reduction between Cumberland and King Edward due to a disabled vehicle. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.431301,
+"lon": -75.689889,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Murray",
+"source": "city",
+"updated": "2026-11-17 13:48:00"
+},
+"fp": "999735301f21"
+},
+"30069": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 13:53:00",
+"cross_street_1": "McGee Side",
+"cross_street_2": "Reis",
+"direction": null,
+"event_id": "30069",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Carp closed between McGee Side and Reis due to a collision. Duration is unknown. Use other routes.",
+"lanes": "closed",
+"lat": 45.304153,
+"lon": -75.985492,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Industrial",
+"road": "Carp",
 "source": "city",
-"updated": "2026-11-17 12:56:00"
+"updated": "2026-11-17 13:53:00"
 },
-"fp": "8a47aa72b3b2"
-},
-"30065": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 12:56:00",
-"cross_street_1": "Industrial",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30065",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Trainyards southbound reduced to 1 right-turn lane at Industrial due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 right-turn lane",
-"lat": 45.411714,
-"lon": -75.645445,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Trainyards",
-"source": "city",
-"updated": "2026-11-17 12:56:00"
-},
-"fp": "d5c4671c4908"
+"fp": "2ad0006c68b6"
 }
 }
 }
