@@ -2001,28 +2001,28 @@
 },
 "fp": "7b02cd2b7213"
 },
-"30050": {
+"30051": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-16 16:55:00",
-"cross_street_1": "Greenbank",
-"cross_street_2": null,
+"cause": "construction",
+"created": "2026-11-17 06:45:00",
+"cross_street_1": "LEITRIM",
+"cross_street_2": "WHYTE SIDE",
 "direction": null,
-"event_id": "30050",
-"event_type": "INCIDENT",
+"event_id": "30051",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "Fallowfield eastbound reduced to 1 lane at Greenbank due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.287883,
-"lon": -75.75743,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Fallowfield",
+"headline": "HAWTHORNE reduced to 1 lane with alternating traffic between LEITRIM and WHYTE SIDE due to construction, Tuesday November 17th. Flagpersons present.",
+"lanes": "reduced to 1 lane with alternating traffic",
+"lat": 45.340632,
+"lon": -75.578237,
+"planned_end": "2026-11-17T17:00",
+"planned_start": "2026-11-17T00:00",
+"priority": "MEDIUM",
+"road": "HAWTHORNE",
 "source": "city",
-"updated": "2026-11-16 16:55:00"
+"updated": "2026-11-17 06:48:00"
 },
-"fp": "2428398cd585"
+"fp": "e0b81e9eb63d"
 }
 }
 }
