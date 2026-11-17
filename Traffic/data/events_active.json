@@ -2001,28 +2001,51 @@
 },
 "fp": "49577f78185d"
 },
-"30077": {
+"30078": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-17 17:19:00",
-"cross_street_1": "Hillside",
+"created": "2026-11-17 18:16:00",
+"cross_street_1": "McArthur",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30077",
+"event_id": "30078",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Montreal eastbound reduced to 1 lane at Hillside due to a collision. Duration is unknown.",
+"headline": "St. Laurent southbound reduced to 1 lane at McArthur due to a collision. Police are directing traffic. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.44184,
-"lon": -75.644737,
+"lat": 45.431233,
+"lon": -75.641347,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Montreal",
+"road": "St. Laurent",
 "source": "city",
-"updated": "2026-11-17 17:19:00"
+"updated": "2026-11-17 18:16:00"
 },
-"fp": "17c5fca8de03"
+"fp": "5f6624b37247"
+},
+"30079": {
+"event": {
+"cause": "",
+"created": "2026-11-17 18:42:00",
+"cross_street_1": "MAITLAND AVE (IC 126)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30079",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at MAITLAND AVE - Collision. 2 right lanes and right shoulder closed. ",
+"lanes": "2 right lanes and right shoulder closed",
+"lat": 45.37022,
+"lon": -75.75477,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-17 18:42:00"
+},
+"fp": "bc31e8f3b110"
 }
 }
 }
