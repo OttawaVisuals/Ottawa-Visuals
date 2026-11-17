@@ -1495,29 +1495,6 @@
 },
 "fp": "7144e9c58f7e"
 },
-"29909": {
-"event": {
-"cause": "construction",
-"created": "2026-11-06 11:24:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "29909",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "Uxbridge closed due to construction, Tuesday November 17th. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.284699,
-"lon": -75.880202,
-"planned_end": "2026-11-17T17:00",
-"planned_start": "2026-11-14T07:00",
-"priority": "LOW",
-"road": "Uxbridge",
-"source": "city",
-"updated": "2026-11-14 06:56:00"
-},
-"fp": "a7684330fd32"
-},
 "29911": {
 "event": {
 "cause": "",
@@ -1655,6 +1632,29 @@
 "updated": "2026-11-12 06:49:00"
 },
 "fp": "05c8ebfc4386"
+},
+"29990": {
+"event": {
+"cause": "a special event",
+"created": "2026-11-12 12:56:00",
+"cross_street_1": "George st",
+"cross_street_2": null,
+"direction": null,
+"event_id": "29990",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "William st closed between George and York; George st closed between Byward Market sq and Dalhousie due to the tree lighting ceremony, Thursday November 19th from 5:00pm to 8:00pm.",
+"lanes": "closed",
+"lat": 45.427211,
+"lon": -75.691736,
+"planned_end": "2026-11-19T20:00",
+"planned_start": "2026-11-17T17:00",
+"priority": "MEDIUM",
+"road": "William st",
+"source": "city",
+"updated": "2026-11-17 16:56:00"
+},
+"fp": "8314b7112db4"
 },
 "30005": {
 "event": {
@@ -1909,52 +1909,6 @@
 },
 "fp": "6e5387da6087"
 },
-"30048": {
-"event": {
-"cause": "construction",
-"created": "2026-11-16 16:38:00",
-"cross_street_1": "MULLIGAN",
-"cross_street_2": "LOWEN",
-"direction": null,
-"event_id": "30048",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 17th. Follow the signed detour.",
-"lanes": "",
-"lat": 45.294001,
-"lon": -75.694671,
-"planned_end": "2026-11-17T17:00",
-"planned_start": "2026-11-06T07:00",
-"priority": "HIGH",
-"road": "RIVER",
-"source": "city",
-"updated": "2026-11-17 10:55:00"
-},
-"fp": "b938268f05bd"
-},
-"30051": {
-"event": {
-"cause": "construction",
-"created": "2026-11-17 06:45:00",
-"cross_street_1": "LEITRIM",
-"cross_street_2": "WHYTE SIDE",
-"direction": null,
-"event_id": "30051",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "HAWTHORNE reduced to 1 lane with alternating traffic between LEITRIM and WHYTE SIDE due to construction, Tuesday November 17th. Flagpersons present.",
-"lanes": "reduced to 1 lane with alternating traffic",
-"lat": 45.340632,
-"lon": -75.578237,
-"planned_end": "2026-11-17T17:00",
-"planned_start": "2026-11-17T00:00",
-"priority": "MEDIUM",
-"road": "HAWTHORNE",
-"source": "city",
-"updated": "2026-11-17 06:48:00"
-},
-"fp": "e0b81e9eb63d"
-},
 "30061": {
 "event": {
 "cause": "",
@@ -2024,29 +1978,6 @@
 },
 "fp": "4125034cef2e"
 },
-"30069": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 13:53:00",
-"cross_street_1": "McGee Side",
-"cross_street_2": "Reis",
-"direction": null,
-"event_id": "30069",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Carp closed between McGee Side and Reis due to a collision. Duration is unknown. Use other routes.",
-"lanes": "closed",
-"lat": 45.304153,
-"lon": -75.985492,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Carp",
-"source": "city",
-"updated": "2026-11-17 13:53:00"
-},
-"fp": "2ad0006c68b6"
-},
 "30070": {
 "event": {
 "cause": "a disabled vehicle",
@@ -2070,51 +2001,28 @@
 },
 "fp": "49577f78185d"
 },
-"30074": {
+"30077": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-17 15:51:00",
-"cross_street_1": "Neighbourhood",
+"created": "2026-11-17 17:19:00",
+"cross_street_1": "Hillside",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30074",
+"event_id": "30077",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Industrial westbound reduced to 1 lane at Neighbourhood due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"headline": "Montreal eastbound reduced to 1 lane at Hillside due to a collision. Duration is unknown.",
 "lanes": "reduced to 1 lane",
-"lat": 45.411556,
-"lon": -75.653009,
+"lat": 45.44184,
+"lon": -75.644737,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Industrial",
+"road": "Montreal",
 "source": "city",
-"updated": "2026-11-17 15:51:00"
+"updated": "2026-11-17 17:19:00"
 },
-"fp": "43f3d5ec1159"
-},
-"30075": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-17 16:29:00",
-"cross_street_1": "Paul Anka",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30075",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Hunt Club eastbound reduced to 1 lane at Paul Anka due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.343047,
-"lon": -75.670866,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Hunt Club",
-"source": "city",
-"updated": "2026-11-17 16:29:00"
-},
-"fp": "40f745d53d96"
+"fp": "17c5fca8de03"
 }
 }
 }
