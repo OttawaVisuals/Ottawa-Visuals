@@ -989,29 +989,6 @@
 },
 "fp": "1b37bf58ddb8"
 },
-"29516": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:37:00",
-"cross_street_1": "MCNEELY",
-"cross_street_2": "CAROLTODD",
-"direction": null,
-"event_id": "29516",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "WHISPERING WILLOW closed between MCNEELY and CAROLTODD due to construction, from November 16th to 27th. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.396099,
-"lon": -75.364459,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-13T07:00",
-"priority": "LOW",
-"road": "WHISPERING WILLOW",
-"source": "city",
-"updated": "2026-11-13 06:56:00"
-},
-"fp": "5f063e7c0e52"
-},
 "29527": {
 "event": {
 "cause": "construction",
@@ -1988,7 +1965,7 @@
 "event_id": "30048",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 15th. Follow the signed detour.",
+"headline": "RIVER closed between MULLIGAN and LOWEN due to construction, from November 9th to 17th. Follow the signed detour.",
 "lanes": "",
 "lat": 45.294001,
 "lon": -75.694671,
@@ -1997,9 +1974,9 @@
 "priority": "HIGH",
 "road": "RIVER",
 "source": "city",
-"updated": "2026-11-16 16:40:00"
+"updated": "2026-11-17 10:55:00"
 },
-"fp": "7b02cd2b7213"
+"fp": "b938268f05bd"
 },
 "30051": {
 "event": {
@@ -2023,52 +2000,6 @@
 "updated": "2026-11-17 06:48:00"
 },
 "fp": "e0b81e9eb63d"
-},
-"30056": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-17 09:10:00",
-"cross_street_1": "Tenth Line",
-"cross_street_2": "Aquaview/Lakeridge",
-"direction": null,
-"event_id": "30056",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Brian Coburn eastbound lane reduction between Tenth Line and Aquaview/Lakeridge due to a disabled vehicle.",
-"lanes": "lane reduction",
-"lat": 45.451586,
-"lon": -75.479133,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "Brian Coburn",
-"source": "city",
-"updated": "2026-11-17 09:10:00"
-},
-"fp": "e3e6dc7e51f3"
-},
-"30057": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 10:04:00",
-"cross_street_1": "LEES / GRAHAM",
-"cross_street_2": "HAWTHORNE",
-"direction": null,
-"event_id": "30057",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "MAIN northbound right lane closed between LEES / GRAHAM and HAWTHORNE due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.412114,
-"lon": -75.679774,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "MAIN",
-"source": "city",
-"updated": "2026-11-17 10:04:00"
-},
-"fp": "1dff3523e012"
 }
 }
 }
