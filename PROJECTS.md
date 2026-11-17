@@ -17,7 +17,7 @@ an eye on informing the next Ottawa mayoral / Ontario elections.
 
 ---
 
-## Pipeline status — checked 2026-11-02 (✅ `collect.yml` running every 5 min, last 173 runs green; TomTom back since its quota reset 2026-11-01 00:00 UTC. Earlier: collectors resumed 2026-10-16 18:01 UTC after a 4.3-day gap)
+## Pipeline status — checked 2026-11-17 (✅ `collect.yml` running, last 40 runs green, latest 16:35 UTC; traffic + transit readings committed hourly through 16:16 UTC; TomTom back since its quota reset 2026-11-01 00:00 UTC. Earlier: collectors resumed 2026-10-16 18:01 UTC after a 4.3-day gap)
 
 | Collector | Cadence | Last reading | State |
 |---|---|---|---|
