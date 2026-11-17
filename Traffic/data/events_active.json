@@ -1886,29 +1886,6 @@
 },
 "fp": "4326264261d7"
 },
-"30033": {
-"event": {
-"cause": "construction",
-"created": "2026-11-16 10:36:00",
-"cross_street_1": "BAY",
-"cross_street_2": "BOOTH",
-"direction": null,
-"event_id": "30033",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "ALBERT westbound reduced to 1 lane between BAY and BOOTH due to construction, Tuesday November 17th from 7:00am to 3:00pm.",
-"lanes": "reduced to 1 lane",
-"lat": 45.417476,
-"lon": -75.70599,
-"planned_end": "2026-11-17T15:00",
-"planned_start": "2026-11-16T00:00",
-"priority": "MEDIUM",
-"road": "ALBERT",
-"source": "city",
-"updated": "2026-11-16 10:40:00"
-},
-"fp": "3372e11eefc3"
-},
 "30039": {
 "event": {
 "cause": "",
@@ -2115,6 +2092,52 @@
 "updated": "2026-11-17 14:37:00"
 },
 "fp": "1008a80a7b33"
+},
+"30072": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 15:05:00",
+"cross_street_1": "Orient Park",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30072",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Innes eastbound lane reduction at Orient Park due to a collision. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.433389,
+"lon": -75.560318,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Innes",
+"source": "city",
+"updated": "2026-11-17 15:05:00"
+},
+"fp": "ccfc09682523"
+},
+"30074": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 15:51:00",
+"cross_street_1": "Neighbourhood",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30074",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Industrial westbound reduced to 1 lane at Neighbourhood due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.411556,
+"lon": -75.653009,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Industrial",
+"source": "city",
+"updated": "2026-11-17 15:51:00"
+},
+"fp": "43f3d5ec1159"
 }
 }
 }
