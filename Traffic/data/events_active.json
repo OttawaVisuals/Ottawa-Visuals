@@ -2024,52 +2024,6 @@
 },
 "fp": "e0b81e9eb63d"
 },
-"30054": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 08:14:00",
-"cross_street_1": "Lester/Uplands",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30054",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Airport Parkway northbound closed at Lester/Uplands due to a collision.",
-"lanes": "closed",
-"lat": 45.328986,
-"lon": -75.651472,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Prom Airport Parkway",
-"source": "city",
-"updated": "2026-11-17 08:14:00"
-},
-"fp": "18e032a68bb1"
-},
-"30055": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 08:44:00",
-"cross_street_1": "BANK",
-"cross_street_2": "DAZE / BRIDLE PATH",
-"direction": null,
-"event_id": "30055",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "HUNT CLUB westbound bus lane closed between BANK and DAZE / BRIDLE PATH due to a collision.",
-"lanes": "bus lane closed",
-"lat": 45.35365,
-"lon": -75.647509,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "HUNT CLUB",
-"source": "city",
-"updated": "2026-11-17 08:44:00"
-},
-"fp": "d4503d090fe3"
-},
 "30056": {
 "event": {
 "cause": "a disabled vehicle",
@@ -2092,6 +2046,29 @@
 "updated": "2026-11-17 09:10:00"
 },
 "fp": "e3e6dc7e51f3"
+},
+"30057": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-17 10:04:00",
+"cross_street_1": "LEES / GRAHAM",
+"cross_street_2": "HAWTHORNE",
+"direction": null,
+"event_id": "30057",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "MAIN northbound right lane closed between LEES / GRAHAM and HAWTHORNE due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.412114,
+"lon": -75.679774,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "MAIN",
+"source": "city",
+"updated": "2026-11-17 10:04:00"
+},
+"fp": "1dff3523e012"
 }
 }
 }
