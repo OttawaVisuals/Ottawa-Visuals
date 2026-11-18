@@ -483,6 +483,29 @@
 },
 "fp": "5e7a4b5d60e0"
 },
+"28299": {
+"event": {
+"cause": "a special event",
+"created": "2026-08-13 13:25:00",
+"cross_street_1": null,
+"cross_street_2": null,
+"direction": null,
+"event_id": "28299",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "Prestone closed between Centrum and St. Joseph due to a special event, Friday November 20th from 5:30pm to to 11:00pm.",
+"lanes": "",
+"lat": 45.480477,
+"lon": -75.508873,
+"planned_end": "2026-11-20T23:00",
+"planned_start": "2026-11-18T17:30",
+"priority": "MEDIUM",
+"road": null,
+"source": "city",
+"updated": "2026-11-18 17:34:00"
+},
+"fp": "3dac8b1f555d"
+},
 "28321": {
 "event": {
 "cause": "construction",
@@ -2047,97 +2070,74 @@
 },
 "fp": "f1731e7740a5"
 },
-"30098": {
+"30104": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-18 15:42:00",
-"cross_street_1": "Heron",
+"cause": "a disabled vehicle",
+"created": "2026-11-18 17:16:00",
+"cross_street_1": "O'Connor",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30098",
+"event_id": "30104",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Riverside northbound left-turn lane reduction at Heron due to a collision. Duration is unknown.",
+"headline": "Catherine westbound reduced to 1 lane at O'Connor due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.410655,
+"lon": -75.689348,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Catherine",
+"source": "city",
+"updated": "2026-11-18 17:16:00"
+},
+"fp": "50a05d0dca47"
+},
+"30106": {
+"event": {
+"cause": "",
+"created": "2026-11-18 17:21:00",
+"cross_street_1": "WOODROFFE AVE (IC 127)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30106",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at WOODROFFE AVE - Collision. 1 centre lane closed. ",
+"lanes": "1 centre lane closed",
+"lat": 45.36094,
+"lon": -75.76849,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-18 17:21:00"
+},
+"fp": "b96293048bc3"
+},
+"30107": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 17:49:00",
+"cross_street_1": "Ogilvie",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30107",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Blair northbound right-turn lane reduction at Ogilvie due to a collision. Duration is unknown.",
 "lanes": "lane reduction",
-"lat": 45.376597,
-"lon": -75.691427,
+"lat": 45.435088,
+"lon": -75.608881,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Riverside",
+"road": "Blair",
 "source": "city",
-"updated": "2026-11-18 15:42:00"
+"updated": "2026-11-18 17:49:00"
 },
-"fp": "8400d28cf24b"
-},
-"30101": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-18 16:35:00",
-"cross_street_1": "Rocade Blackburn Hamlet Bypass",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30101",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Innes eastbound reduced to 1 lane at Blackburn Hamlet Bypass due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.425782,
-"lon": -75.575043,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Innes",
-"source": "city",
-"updated": "2026-11-18 16:35:00"
-},
-"fp": "358fedfbd407"
-},
-"30102": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-18 16:38:00",
-"cross_street_1": "Rocade Blackburn Hamlet Bypass",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30102",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Innes eastbound reduced to 1 left-turn lane at Blackburn Hamlet Bypass due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 left-turn lane",
-"lat": 45.425799,
-"lon": -75.574896,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Innes",
-"source": "city",
-"updated": "2026-11-18 16:38:00"
-},
-"fp": "5065e4ccad4e"
-},
-"30103": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-18 16:52:00",
-"cross_street_1": "Conroy",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30103",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Walkley westbound reduced to 1 lane at Conroy due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.383618,
-"lon": -75.630858,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Walkley",
-"source": "city",
-"updated": "2026-11-18 16:52:00"
-},
-"fp": "ee884a7d228c"
+"fp": "56abda2e5dd0"
 }
 }
 }
