@@ -1886,6 +1886,52 @@
 },
 "fp": "6e5387da6087"
 },
+"30059": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-17 11:42:00",
+"cross_street_1": "Elgin",
+"cross_street_2": "Nicholas",
+"direction": null,
+"event_id": "30059",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "Laurier closed between Elgin and Nicholas due to the Help Santa Toy parade stagging, Saturday November 21st from 6:30am to 12:30pm.",
+"lanes": "closed",
+"lat": 45.421116,
+"lon": -75.69288,
+"planned_end": "2026-11-21T12:30",
+"planned_start": "2026-11-18T06:30",
+"priority": "HIGH",
+"road": "Laurier",
+"source": "city",
+"updated": "2026-11-18 06:28:00"
+},
+"fp": "207090eae02e"
+},
+"30060": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-17 11:49:00",
+"cross_street_1": "LAURIER",
+"cross_street_2": "SOMERSET",
+"direction": null,
+"event_id": "30060",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "QUEEN ELIZABETH closed between LAURIER and SOMERSET due to the Help Santa Toy Parade stagging, Saturday November 21st from 6:30am to 1:30pm.",
+"lanes": "closed",
+"lat": 45.422568,
+"lon": -75.690043,
+"planned_end": "2026-11-21T13:30",
+"planned_start": "2026-11-18T06:30",
+"priority": "HIGH",
+"road": "QUEEN ELIZABETH",
+"source": "city",
+"updated": "2026-11-18 06:28:00"
+},
+"fp": "434b4eb88a2b"
+},
 "30061": {
 "event": {
 "cause": "",
@@ -1954,52 +2000,6 @@
 "updated": "2026-11-17 13:12:00"
 },
 "fp": "4125034cef2e"
-},
-"30070": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-17 14:20:00",
-"cross_street_1": "417",
-"cross_street_2": "Laurier",
-"direction": null,
-"event_id": "30070",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Nicholas northbound reduced to 1 lane between 417 and Laurier due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.420571,
-"lon": -75.682588,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Nicholas",
-"source": "city",
-"updated": "2026-11-17 14:20:00"
-},
-"fp": "49577f78185d"
-},
-"30078": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-17 18:16:00",
-"cross_street_1": "McArthur",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30078",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St. Laurent southbound reduced to 1 lane at McArthur due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.431233,
-"lon": -75.641347,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St. Laurent",
-"source": "city",
-"updated": "2026-11-17 18:16:00"
-},
-"fp": "5f6624b37247"
 }
 }
 }
