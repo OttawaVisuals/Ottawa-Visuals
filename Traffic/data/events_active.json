@@ -1426,29 +1426,6 @@
 },
 "fp": "38065786cb27"
 },
-"29846": {
-"event": {
-"cause": "construction",
-"created": "2026-11-04 11:45:00",
-"cross_street_1": "SUSSEX",
-"cross_street_2": "BY WARD MARKET",
-"direction": null,
-"event_id": "29846",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "GEORGE eastbound lane reduction between SUSSEX and BY WARD MARKET due to construction, from November 16th to 18th.",
-"lanes": "lane reduction",
-"lat": null,
-"lon": null,
-"planned_end": "2026-11-18T17:00",
-"planned_start": "2026-11-13T00:00",
-"priority": "MEDIUM",
-"road": "GEORGE",
-"source": "city",
-"updated": "2026-11-12 23:56:00"
-},
-"fp": "14f4c163c71d"
-},
 "29847": {
 "event": {
 "cause": "construction",
@@ -2092,6 +2069,75 @@
 "updated": "2026-11-18 15:42:00"
 },
 "fp": "8400d28cf24b"
+},
+"30101": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 16:35:00",
+"cross_street_1": "Rocade Blackburn Hamlet Bypass",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30101",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Innes eastbound reduced to 1 lane at Blackburn Hamlet Bypass due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.425782,
+"lon": -75.575043,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Innes",
+"source": "city",
+"updated": "2026-11-18 16:35:00"
+},
+"fp": "358fedfbd407"
+},
+"30102": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 16:38:00",
+"cross_street_1": "Rocade Blackburn Hamlet Bypass",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30102",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Innes eastbound reduced to 1 left-turn lane at Blackburn Hamlet Bypass due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 left-turn lane",
+"lat": 45.425799,
+"lon": -75.574896,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Innes",
+"source": "city",
+"updated": "2026-11-18 16:38:00"
+},
+"fp": "5065e4ccad4e"
+},
+"30103": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 16:52:00",
+"cross_street_1": "Conroy",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30103",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Walkley westbound reduced to 1 lane at Conroy due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.383618,
+"lon": -75.630858,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Walkley",
+"source": "city",
+"updated": "2026-11-18 16:52:00"
+},
+"fp": "ee884a7d228c"
 }
 }
 }
