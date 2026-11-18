@@ -2020,9 +2020,78 @@
 "priority": "MEDIUM",
 "road": "Vanier",
 "source": "city",
-"updated": "2026-11-18 07:42:00"
+"updated": "2026-11-18 09:07:00"
 },
-"fp": "d167769fe0c0"
+"fp": "2ce7e6888374"
+},
+"30085": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 08:22:00",
+"cross_street_1": "Corkstown",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30085",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "March RD northbound reduced to 1 lane at Corkstown due to a collision. Expect delays.",
+"lanes": "reduced to 1 lane",
+"lat": 45.32639,
+"lon": -75.889503,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Ch March RD",
+"source": "city",
+"updated": "2026-11-18 08:22:00"
+},
+"fp": "e60a57da631e"
+},
+"30086": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 08:27:00",
+"cross_street_1": "417",
+"cross_street_2": "Corkstown",
+"direction": null,
+"event_id": "30086",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "March RD northbound traffic heavy & slow between the 417 and Corkstown due to a collision. Avoid area.",
+"lanes": "traffic heavy & slow",
+"lat": 45.314396,
+"lon": -75.882591,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Ch March RD",
+"source": "city",
+"updated": "2026-11-18 08:27:00"
+},
+"fp": "c14748e93c49"
+},
+"30087": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 08:30:00",
+"cross_street_1": "417",
+"cross_street_2": "Corkstown",
+"direction": null,
+"event_id": "30087",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "March RD northbound traffic heavy & slow between the 417 and Corkstown due to a collision. Avoid area.",
+"lanes": "traffic heavy & slow",
+"lat": 45.34183,
+"lon": -75.830629,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "Ch March RD",
+"source": "city",
+"updated": "2026-11-18 08:30:00"
+},
+"fp": "de090ea63239"
 }
 }
 }
