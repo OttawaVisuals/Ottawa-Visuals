@@ -2024,29 +2024,6 @@
 },
 "fp": "4125034cef2e"
 },
-"30085": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-18 08:22:00",
-"cross_street_1": "Corkstown",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30085",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "March RD northbound reduced to 1 lane at Corkstown due to a collision. Expect delays.",
-"lanes": "reduced to 1 lane",
-"lat": 45.32639,
-"lon": -75.889503,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Ch March RD",
-"source": "city",
-"updated": "2026-11-18 09:32:00"
-},
-"fp": "236b56705ccd"
-},
 "30088": {
 "event": {
 "cause": "",
@@ -2092,6 +2069,29 @@
 "updated": "2026-11-18 10:56:00"
 },
 "fp": "8155a558b195"
+},
+"30093": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-18 12:09:00",
+"cross_street_1": "Greenbank",
+"cross_street_2": "Cedarview",
+"direction": null,
+"event_id": "30093",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hunt Club westbound reduced to 1 lane between Greenbank and Cedarview due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.318038,
+"lon": -75.787653,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Hunt Club",
+"source": "city",
+"updated": "2026-11-18 12:09:00"
+},
+"fp": "0c616c6f2125"
 }
 }
 }
