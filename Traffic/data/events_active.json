@@ -1955,6 +1955,29 @@
 },
 "fp": "b8ea7ddf42ae"
 },
+"30062": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-17 12:01:00",
+"cross_street_1": "Somerset",
+"cross_street_2": " Voie Princess Patricia Way",
+"direction": null,
+"event_id": "30062",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "Queen Elizabeth Dr periodically closed between Somerset and Princess Patricia Way due to the Help Santa Toy Parade, Saturday November 21st from 10:00am to 3:00pm, ",
+"lanes": "periodically closed",
+"lat": 45.420256,
+"lon": -75.685022,
+"planned_end": "2026-11-21T15:00",
+"planned_start": "2026-11-18T10:00",
+"priority": "HIGH",
+"road": "Queen Elizabeth Dr/Prom Reine Elizabeth",
+"source": "city",
+"updated": "2026-11-18 09:56:00"
+},
+"fp": "d3d561ef77c5"
+},
 "30063": {
 "event": {
 "cause": "",
@@ -2001,29 +2024,6 @@
 },
 "fp": "4125034cef2e"
 },
-"30084": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-18 07:42:00",
-"cross_street_1": "McArthur",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30084",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Vanier traffic disruptions at McArthur due to traffic signals not working.",
-"lanes": "traffic disruptions",
-"lat": 45.431076,
-"lon": -75.664006,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Vanier",
-"source": "city",
-"updated": "2026-11-18 09:07:00"
-},
-"fp": "2ce7e6888374"
-},
 "30085": {
 "event": {
 "cause": "a collision",
@@ -2043,55 +2043,32 @@
 "priority": "HIGH",
 "road": "Ch March RD",
 "source": "city",
-"updated": "2026-11-18 08:22:00"
+"updated": "2026-11-18 09:32:00"
 },
-"fp": "e60a57da631e"
+"fp": "236b56705ccd"
 },
-"30086": {
+"30088": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-18 08:27:00",
-"cross_street_1": "417",
-"cross_street_2": "Corkstown",
+"cause": "",
+"created": "2026-11-18 09:48:00",
+"cross_street_1": "HUNT CLUB RD",
+"cross_street_2": "HIGHLAND RD (IC 51) (CR 20)/CR 9 (Ste-Catherine St)",
 "direction": null,
-"event_id": "30086",
-"event_type": "INCIDENT",
+"event_id": "30088",
+"event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "March RD northbound traffic heavy & slow between the 417 and Corkstown due to a collision. Avoid area.",
-"lanes": "traffic heavy & slow",
-"lat": 45.314396,
-"lon": -75.882591,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Ch March RD",
-"source": "city",
-"updated": "2026-11-18 08:27:00"
-},
-"fp": "c14748e93c49"
-},
-"30087": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-18 08:30:00",
-"cross_street_1": "417",
-"cross_street_2": "Corkstown",
-"direction": null,
-"event_id": "30087",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "March RD northbound traffic heavy & slow between the 417 and Corkstown due to a collision. Avoid area.",
-"lanes": "traffic heavy & slow",
-"lat": 45.34183,
-"lon": -75.830629,
-"planned_end": null,
-"planned_start": null,
+"headline": "Highway 417 Eastbound from HUNT CLUB RD to HIGHLAND RD /CR 9 (Ste-Catherine St) - Continuous Maintenance. 1 Alternating Lane. Affecting EB/WB traffic. 2026-11-19 08:30 to 2026-11-19 16:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.384796,
+"lon": -75.58,
+"planned_end": "2026-11-19T16:00",
+"planned_start": "2026-11-19T08:30",
 "priority": "UNKNOWN",
-"road": "Ch March RD",
+"road": "HWY 417",
 "source": "city",
-"updated": "2026-11-18 08:30:00"
+"updated": "2026-11-18 09:48:00"
 },
-"fp": "de090ea63239"
+"fp": "c8e59e73b501"
 }
 }
 }
