@@ -966,52 +966,6 @@
 },
 "fp": "6567065d82c1"
 },
-"29514": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:04:00",
-"cross_street_1": "FRANK KENNY",
-"cross_street_2": "O'TOOLE",
-"direction": null,
-"event_id": "29514",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "INNES closed between FRANK KENNY and O'TOOLE due to construction, from November 9th to 20th. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.474619,
-"lon": -75.437535,
-"planned_end": "2026-11-20T17:00",
-"planned_start": "2026-11-06T07:00",
-"priority": "MEDIUM",
-"road": "INNES",
-"source": "city",
-"updated": "2026-11-06 06:56:00"
-},
-"fp": "a9f97709bc0a"
-},
-"29515": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:08:00",
-"cross_street_1": "O'TOOLE",
-"cross_street_2": "BEATON / DUNNING",
-"direction": null,
-"event_id": "29515",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "INNES closed between O'TOOLE and BEATON / DUNNING due to construction, from November 16th to 27th. Follow the signed detour. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.479579,
-"lon": -75.421602,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-13T07:00",
-"priority": "LOW",
-"road": "INNES",
-"source": "city",
-"updated": "2026-11-13 06:56:00"
-},
-"fp": "1b37bf58ddb8"
-},
 "29527": {
 "event": {
 "cause": "construction",
@@ -2138,6 +2092,52 @@
 "updated": "2026-11-19 11:59:00"
 },
 "fp": "0560ee1e15c2"
+},
+"30126": {
+"event": {
+"cause": "construction",
+"created": "2026-11-19 12:58:00",
+"cross_street_1": "Adelaide",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30126",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Holmwood reduced to 1 lane in each direction at Adelaide due to construction, from November 19th to December 21st between 8:00am and 5:00pm. Flagpersons present. ",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.401119,
+"lon": -75.683429,
+"planned_end": "2026-12-21T17:00",
+"planned_start": "2026-11-19T00:00",
+"priority": "UNKNOWN",
+"road": "Holmwood",
+"source": "city",
+"updated": "2026-11-19 13:00:00"
+},
+"fp": "f3159a446148"
+},
+"30127": {
+"event": {
+"cause": "construction",
+"created": "2026-11-19 13:05:00",
+"cross_street_1": "Vera",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30127",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Queen Mary reduced to 1 lane in each direction at Vera due to construction, from November 19th to December 21st between 8:00am and 5:00pm. Flagpersons present.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.424592,
+"lon": -75.660142,
+"planned_end": "2026-12-21T17:00",
+"planned_start": "2026-11-19T00:00",
+"priority": "LOW",
+"road": "Queen Mary",
+"source": "city",
+"updated": "2026-11-19 13:08:00"
+},
+"fp": "93581ee33b0b"
 }
 }
 }
