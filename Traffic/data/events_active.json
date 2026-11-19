@@ -2047,51 +2047,51 @@
 },
 "fp": "f1731e7740a5"
 },
-"30110": {
+"30113": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-19 06:26:00",
-"cross_street_1": "416 N/B on-ramp",
-"cross_street_2": "416 N/B off-ramp",
+"created": "2026-11-19 07:44:00",
+"cross_street_1": "Hog's back/Meadowland",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30110",
+"event_id": "30113",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Fallowfield eastbound lane reductions between 416 N/B on-ramp and 416 N/B off-ramp due to a collision.",
-"lanes": "lane reductions",
-"lat": 45.271181,
-"lon": -75.794253,
+"headline": "Prince of Wales southbound right lane closed at Hog's back/Meadowland due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.368287,
+"lon": -75.701194,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Fallowfield",
+"road": "Prince of Wales",
 "source": "city",
-"updated": "2026-11-19 07:26:00"
+"updated": "2026-11-19 07:44:00"
 },
-"fp": "6fee07f1901a"
+"fp": "334cf67e78ce"
 },
-"30112": {
+"30114": {
 "event": {
-"cause": "",
-"created": "2026-11-19 07:27:00",
-"cross_street_1": "ST. LAURENT BLVD (IC 115)",
+"cause": "a broken watermain",
+"created": "2026-11-19 08:02:00",
+"cross_street_1": null,
 "cross_street_2": null,
 "direction": null,
-"event_id": "30112",
+"event_id": "30114",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Highway 417 Westbound at ST. LAURENT BLVD - Disabled Vehicle. 1 right lane and right shoulder closed. ",
-"lanes": "1 right lane and right shoulder closed",
-"lat": 45.42029,
-"lon": -75.63509,
+"headline": "164 Colonnade rd traffic disruptions due to a broken watermain.",
+"lanes": "traffic disruptions",
+"lat": 45.342103,
+"lon": -75.711022,
 "planned_end": null,
 "planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
+"priority": "LOW",
+"road": "164 Colonnade rd",
 "source": "city",
-"updated": "2026-11-19 07:27:00"
+"updated": "2026-11-19 08:02:00"
 },
-"fp": "3f9a80ac31b5"
+"fp": "bd88d96b5206"
 }
 }
 }
