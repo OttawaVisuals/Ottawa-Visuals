@@ -2093,28 +2093,74 @@
 },
 "fp": "ddfb9d80c06c"
 },
-"30132": {
+"30135": {
 "event": {
-"cause": "a broken watermain",
-"created": "2026-11-19 15:21:00",
-"cross_street_1": "EDITH",
-"cross_street_2": "LOLA",
+"cause": "fallen overhead wires",
+"created": "2026-11-19 16:32:00",
+"cross_street_1": "SHEA",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30132",
+"event_id": "30135",
 "event_type": "INCIDENT",
 "full_closure": true,
-"headline": "QUEEN MARY closed between EDITH and LOLA due to a broken watermain. Duration is unknown.",
+"headline": "FALLOWFIELD closed at SHEA due to fallen overhead wires. Duration is unknown.",
 "lanes": "closed",
-"lat": 45.425003,
-"lon": -75.654869,
+"lat": 45.237434,
+"lon": -75.873163,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "QUEEN MARY",
+"priority": "HIGH",
+"road": "FALLOWFIELD",
 "source": "city",
-"updated": "2026-11-19 15:21:00"
+"updated": "2026-11-19 16:32:00"
 },
-"fp": "7866c8916460"
+"fp": "bc15559d6458"
+},
+"30136": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 17:13:00",
+"cross_street_1": "Teron",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30136",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "March southbound reduced to 1 lane at Teron due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.334472,
+"lon": -75.905321,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "March",
+"source": "city",
+"updated": "2026-11-19 17:13:00"
+},
+"fp": "28b935a7b64f"
+},
+"30137": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 17:17:00",
+"cross_street_1": "David",
+"cross_street_2": "Tallwood",
+"direction": null,
+"event_id": "30137",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Woodroffe southbound lane reduction between David and Tallwood due to a collision. Firefighters are directing traffic. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.342851,
+"lon": -75.757385,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Woodroffe",
+"source": "city",
+"updated": "2026-11-19 17:17:00"
+},
+"fp": "fe13d09b09c2"
 }
 }
 }
