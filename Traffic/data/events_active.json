@@ -2047,29 +2047,6 @@
 },
 "fp": "f1731e7740a5"
 },
-"30113": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-19 07:44:00",
-"cross_street_1": "Hog's back/Meadowland",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30113",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Prince of Wales southbound right lane closed at Hog's back/Meadowland due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.368287,
-"lon": -75.701194,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Prince of Wales",
-"source": "city",
-"updated": "2026-11-19 07:44:00"
-},
-"fp": "334cf67e78ce"
-},
 "30114": {
 "event": {
 "cause": "a broken watermain",
@@ -2092,6 +2069,98 @@
 "updated": "2026-11-19 08:02:00"
 },
 "fp": "bd88d96b5206"
+},
+"30115": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-19 08:38:00",
+"cross_street_1": "Concord",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30115",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Greenfield traffic disruptions at Concord due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.41656,
+"lon": -75.679263,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Greenfield",
+"source": "city",
+"updated": "2026-11-19 08:38:00"
+},
+"fp": "915beb175f66"
+},
+"30116": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-19 08:51:00",
+"cross_street_1": "Parkdale",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30116",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "417 W/B off ramp lane reduction at Parkdale due to a disabled vehicle.",
+"lanes": "lane reduction",
+"lat": 45.398313,
+"lon": -75.725436,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "417 W/B off ramp",
+"source": "city",
+"updated": "2026-11-19 08:51:00"
+},
+"fp": "726b9192ef08"
+},
+"30118": {
+"event": {
+"cause": "construction",
+"created": "2026-11-19 09:19:00",
+"cross_street_1": "Marlowe",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30118",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Beckwith reduced to 1 lane in each direction at Marlowe due to construction, from November 19th to December 21st between 8:00am and 5:00pm.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.404673,
+"lon": -75.674422,
+"planned_end": "2026-12-21T17:00",
+"planned_start": "2026-11-19T00:00",
+"priority": "MEDIUM",
+"road": "Beckwith",
+"source": "city",
+"updated": "2026-11-19 09:20:00"
+},
+"fp": "f97c26c820fe"
+},
+"30119": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 09:29:00",
+"cross_street_1": "Percy",
+"cross_street_2": "Bronson",
+"direction": null,
+"event_id": "30119",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Catherine westbound lane reduction between Percy and Bronson due to a collision.",
+"lanes": "lane reduction",
+"lat": 45.405837,
+"lon": -75.700964,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Catherine",
+"source": "city",
+"updated": "2026-11-19 09:29:00"
+},
+"fp": "79b12c2c89d3"
 }
 }
 }
