@@ -2047,52 +2047,6 @@
 },
 "fp": "58e121fd1ff1"
 },
-"30124": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-19 11:30:00",
-"cross_street_1": "Voie Raven Way",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30124",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Bronson southbound closed at Voie Raven Way due to a collision. Police are directing traffic. Expect delays.",
-"lanes": "closed",
-"lat": 45.385124,
-"lon": -75.690114,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Bronson",
-"source": "city",
-"updated": "2026-11-19 11:46:00"
-},
-"fp": "c10af1201d07"
-},
-"30125": {
-"event": {
-"cause": "construction",
-"created": "2026-11-19 11:59:00",
-"cross_street_1": "Parkdale",
-"cross_street_2": "Woodroffe",
-"direction": null,
-"event_id": "30125",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "417 westbound traffic heavy & slow between Parkdale and Woodroffe due to construction. Expect delays or avoid area.",
-"lanes": "traffic heavy & slow",
-"lat": 45.399611,
-"lon": -75.72217,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "417",
-"source": "city",
-"updated": "2026-11-19 11:59:00"
-},
-"fp": "0560ee1e15c2"
-},
 "30126": {
 "event": {
 "cause": "construction",
@@ -2138,6 +2092,75 @@
 "updated": "2026-11-19 13:08:00"
 },
 "fp": "93581ee33b0b"
+},
+"30129": {
+"event": {
+"cause": "",
+"created": "2026-11-19 13:36:00",
+"cross_street_1": "ASHTON STATION RD (IC)",
+"cross_street_2": "DWYER HILL RD/CR 3",
+"direction": null,
+"event_id": "30129",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 7 Eastbound from ASHTON STATION RD (IC) to DWYER HILL RD/CR 3 - Continuous Maintenance. 1 Alternating Lane. 2026-11-20 06:30 to 2026-11-20 12:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.17134,
+"lon": -76.05032,
+"planned_end": "2026-11-20T12:00",
+"planned_start": "2026-11-20T06:30",
+"priority": "UNKNOWN",
+"road": "HWY 7",
+"source": "city",
+"updated": "2026-11-19 13:36:00"
+},
+"fp": "9adb9d2eed7a"
+},
+"30130": {
+"event": {
+"cause": "fallen overhead wires",
+"created": "2026-11-19 13:48:00",
+"cross_street_1": "JOLLIET",
+"cross_street_2": "OAKHILL",
+"direction": null,
+"event_id": "30130",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "BEECHWOOD closed between JOLLIET and OAKHILL due to fallen overhead wires. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.443996,
+"lon": -75.67043,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "BEECHWOOD",
+"source": "city",
+"updated": "2026-11-19 13:48:00"
+},
+"fp": "ddfb9d80c06c"
+},
+"30131": {
+"event": {
+"cause": "a disabled vehicle",
+"created": "2026-11-19 14:02:00",
+"cross_street_1": "Greenbank",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30131",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hunt Club eastbound reduced to 1 lane at Greenbank due to a disabled vehicle. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.322015,
+"lon": -75.777112,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Hunt Club",
+"source": "city",
+"updated": "2026-11-19 14:02:00"
+},
+"fp": "5b80d924791e"
 }
 }
 }
