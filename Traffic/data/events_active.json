@@ -2047,29 +2047,6 @@
 },
 "fp": "f1731e7740a5"
 },
-"30114": {
-"event": {
-"cause": "a broken watermain",
-"created": "2026-11-19 08:02:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "30114",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "164 Colonnade rd traffic disruptions due to a broken watermain.",
-"lanes": "traffic disruptions",
-"lat": 45.342103,
-"lon": -75.711022,
-"planned_end": null,
-"planned_start": null,
-"priority": "LOW",
-"road": "164 Colonnade rd",
-"source": "city",
-"updated": "2026-11-19 08:02:00"
-},
-"fp": "bd88d96b5206"
-},
 "30115": {
 "event": {
 "cause": "traffic signals not working",
@@ -2139,28 +2116,51 @@
 },
 "fp": "f97c26c820fe"
 },
-"30119": {
+"30121": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-19 09:29:00",
-"cross_street_1": "Percy",
-"cross_street_2": "Bronson",
+"cause": "traffic signals not working",
+"created": "2026-11-19 09:56:00",
+"cross_street_1": "Shefford",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30119",
+"event_id": "30121",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Catherine westbound lane reduction between Percy and Bronson due to a collision.",
-"lanes": "lane reduction",
-"lat": 45.405837,
-"lon": -75.700964,
+"headline": "Montr\u00e9al Rd traffic disruptions at Shefford due to traffic signals not working. Police are directing traffic.",
+"lanes": "traffic disruptions",
+"lat": 45.450035,
+"lon": -75.588169,
 "planned_end": null,
 "planned_start": null,
-"priority": "LOW",
-"road": "Catherine",
+"priority": "MEDIUM",
+"road": "Ch Montr\u00e9al Rd",
 "source": "city",
-"updated": "2026-11-19 09:29:00"
+"updated": "2026-11-19 09:56:00"
 },
-"fp": "79b12c2c89d3"
+"fp": "d7f4ed7bc760"
+},
+"30122": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 10:04:00",
+"cross_street_1": "St-Laurent",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30122",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "417 E/B off-ramp lane reductions at St-Laurent due to a collision.",
+"lanes": "lane reductions",
+"lat": 45.416013,
+"lon": -75.657149,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "417 E/B off-ramp",
+"source": "city",
+"updated": "2026-11-19 10:04:00"
+},
+"fp": "03ad79c063e4"
 }
 }
 }
