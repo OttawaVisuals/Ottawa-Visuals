@@ -2116,51 +2116,28 @@
 },
 "fp": "bc15559d6458"
 },
-"30136": {
+"30138": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-19 17:13:00",
-"cross_street_1": "Teron",
-"cross_street_2": null,
+"cause": "",
+"created": "2026-11-19 17:48:00",
+"cross_street_1": "RICHMOND RD (IC 130)/BAYSHORE DR",
+"cross_street_2": "HWY 416 S/B EXIT (IC 131)",
 "direction": null,
-"event_id": "30136",
+"event_id": "30138",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "March southbound reduced to 1 lane at Teron due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.334472,
-"lon": -75.905321,
+"headline": "Highway 417 Westbound from RICHMOND RD /BAYSHORE DR to Highway 416 S/B EXIT - Collision. 1 centre lane closed. ",
+"lanes": "1 centre lane closed",
+"lat": 45.34548,
+"lon": -75.80572,
 "planned_end": null,
 "planned_start": null,
-"priority": "HIGH",
-"road": "March",
+"priority": "UNKNOWN",
+"road": "HWY 417",
 "source": "city",
-"updated": "2026-11-19 17:13:00"
+"updated": "2026-11-19 17:48:00"
 },
-"fp": "28b935a7b64f"
-},
-"30137": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-19 17:17:00",
-"cross_street_1": "David",
-"cross_street_2": "Tallwood",
-"direction": null,
-"event_id": "30137",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Woodroffe southbound lane reduction between David and Tallwood due to a collision. Firefighters are directing traffic. Duration is unknown.",
-"lanes": "lane reduction",
-"lat": 45.342851,
-"lon": -75.757385,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Woodroffe",
-"source": "city",
-"updated": "2026-11-19 17:17:00"
-},
-"fp": "fe13d09b09c2"
+"fp": "0ae45dad8c14"
 }
 }
 }
