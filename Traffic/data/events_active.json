@@ -1656,29 +1656,6 @@
 },
 "fp": "d0ba4739f645"
 },
-"30009": {
-"event": {
-"cause": "",
-"created": "2026-11-13 16:27:00",
-"cross_street_1": "ROCHESTER ST  (IC 121B)",
-"cross_street_2": "PARKDALE AVE (IC 122)",
-"direction": null,
-"event_id": "30009",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from ROCHESTER ST to PARKDALE AVE - Continuous Moving Maintenance Closure. 1 Right Lane(s). 2026-11-18 23:00 to 2026-11-19 05:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.40336,
-"lon": -75.70857,
-"planned_end": "2026-11-19T05:00",
-"planned_start": "2026-11-18T23:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-13 16:27:00"
-},
-"fp": "72ce77ada37c"
-},
 "30011": {
 "event": {
 "cause": "construction",
@@ -2092,29 +2069,6 @@
 "updated": "2026-11-19 01:30:00"
 },
 "fp": "86c6b18a0ea1"
-},
-"30109": {
-"event": {
-"cause": "",
-"created": "2026-11-18 21:06:00",
-"cross_street_1": "FALLOWFIELD RD (IC 66)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30109",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Highway 416 Southbound at FALLOWFIELD RD - Collision. All lanes closed. ",
-"lanes": "All lanes closed",
-"lat": 45.27087,
-"lon": -75.79581,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-11-19 00:12:00"
-},
-"fp": "df8caf51a45d"
 }
 }
 }
