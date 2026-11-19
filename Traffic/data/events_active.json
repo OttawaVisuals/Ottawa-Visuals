@@ -2047,29 +2047,6 @@
 },
 "fp": "f1731e7740a5"
 },
-"30108": {
-"event": {
-"cause": "",
-"created": "2026-11-18 21:06:00",
-"cross_street_1": "FALLOWFIELD RD (IC 66)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30108",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Highway 416 Northbound at FALLOWFIELD RD - Collision. All lanes closed. ",
-"lanes": "All lanes closed",
-"lat": 45.27067,
-"lon": -75.79601,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 416",
-"source": "city",
-"updated": "2026-11-19 05:45:00"
-},
-"fp": "2c98bb7989cd"
-},
 "30110": {
 "event": {
 "cause": "a collision",
@@ -2089,32 +2066,32 @@
 "priority": "MEDIUM",
 "road": "Fallowfield",
 "source": "city",
-"updated": "2026-11-19 06:31:00"
+"updated": "2026-11-19 07:26:00"
 },
-"fp": "5916b26cabcf"
+"fp": "6fee07f1901a"
 },
-"30111": {
+"30112": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-19 06:29:00",
-"cross_street_1": "Fallowfield",
+"cause": "",
+"created": "2026-11-19 07:27:00",
+"cross_street_1": "ST. LAURENT BLVD (IC 115)",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30111",
+"event_id": "30112",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "416 northbound closed at Fallowfield due to a collision. Expect delays",
-"lanes": "closed",
-"lat": 45.248533,
-"lon": -75.780039,
+"full_closure": false,
+"headline": "Highway 417 Westbound at ST. LAURENT BLVD - Disabled Vehicle. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.42029,
+"lon": -75.63509,
 "planned_end": null,
 "planned_start": null,
-"priority": "HIGH",
-"road": "416",
+"priority": "UNKNOWN",
+"road": "HWY 417",
 "source": "city",
-"updated": "2026-11-19 06:37:00"
+"updated": "2026-11-19 07:27:00"
 },
-"fp": "b5f851a31518"
+"fp": "3f9a80ac31b5"
 }
 }
 }
