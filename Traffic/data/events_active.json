@@ -1909,29 +1909,6 @@
 },
 "fp": "301b30aa3d53"
 },
-"30066": {
-"event": {
-"cause": "construction",
-"created": "2026-11-17 13:10:00",
-"cross_street_1": "TRIM",
-"cross_street_2": "TENTH LINE RD",
-"direction": null,
-"event_id": "30066",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 westbound reduced to 1 lane between TRIM and TENTH LINE RD due to construction, from November 16th to 19th between 10:00am and 3:00pm. ",
-"lanes": "reduced to 1 lane",
-"lat": 45.496788,
-"lon": -75.479827,
-"planned_end": "2026-11-19T15:00",
-"planned_start": "2026-11-17T00:00",
-"priority": "MEDIUM",
-"road": "174",
-"source": "city",
-"updated": "2026-11-17 13:12:00"
-},
-"fp": "4125034cef2e"
-},
 "30088": {
 "event": {
 "cause": "",
@@ -2139,28 +2116,28 @@
 },
 "fp": "ddfb9d80c06c"
 },
-"30131": {
+"30132": {
 "event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-19 14:02:00",
-"cross_street_1": "Greenbank",
-"cross_street_2": null,
+"cause": "a broken watermain",
+"created": "2026-11-19 15:21:00",
+"cross_street_1": "EDITH",
+"cross_street_2": "LOLA",
 "direction": null,
-"event_id": "30131",
+"event_id": "30132",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Hunt Club eastbound reduced to 1 lane at Greenbank due to a disabled vehicle. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.322015,
-"lon": -75.777112,
+"full_closure": true,
+"headline": "QUEEN MARY closed between EDITH and LOLA due to a broken watermain. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.425003,
+"lon": -75.654869,
 "planned_end": null,
 "planned_start": null,
-"priority": "HIGH",
-"road": "Hunt Club",
+"priority": "MEDIUM",
+"road": "QUEEN MARY",
 "source": "city",
-"updated": "2026-11-19 14:02:00"
+"updated": "2026-11-19 15:21:00"
 },
-"fp": "5b80d924791e"
+"fp": "7866c8916460"
 }
 }
 }
