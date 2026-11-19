@@ -2066,9 +2066,55 @@
 "priority": "UNKNOWN",
 "road": "HWY 416",
 "source": "city",
-"updated": "2026-11-19 01:30:00"
+"updated": "2026-11-19 05:45:00"
 },
-"fp": "86c6b18a0ea1"
+"fp": "2c98bb7989cd"
+},
+"30110": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 06:26:00",
+"cross_street_1": "416 N/B on-ramp",
+"cross_street_2": "416 N/B off-ramp",
+"direction": null,
+"event_id": "30110",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Fallowfield eastbound lane reductions between 416 N/B on-ramp and 416 N/B off-ramp due to a collision.",
+"lanes": "lane reductions",
+"lat": 45.271181,
+"lon": -75.794253,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Fallowfield",
+"source": "city",
+"updated": "2026-11-19 06:31:00"
+},
+"fp": "5916b26cabcf"
+},
+"30111": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-19 06:29:00",
+"cross_street_1": "Fallowfield",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30111",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "416 northbound closed at Fallowfield due to a collision. Expect delays",
+"lanes": "closed",
+"lat": 45.248533,
+"lon": -75.780039,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "416",
+"source": "city",
+"updated": "2026-11-19 06:37:00"
+},
+"fp": "b5f851a31518"
 }
 }
 }
