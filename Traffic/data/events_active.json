@@ -2070,29 +2070,6 @@
 },
 "fp": "915beb175f66"
 },
-"30116": {
-"event": {
-"cause": "a disabled vehicle",
-"created": "2026-11-19 08:51:00",
-"cross_street_1": "Parkdale",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30116",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "417 W/B off ramp lane reduction at Parkdale due to a disabled vehicle.",
-"lanes": "lane reduction",
-"lat": 45.398313,
-"lon": -75.725436,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "417 W/B off ramp",
-"source": "city",
-"updated": "2026-11-19 08:51:00"
-},
-"fp": "726b9192ef08"
-},
 "30118": {
 "event": {
 "cause": "construction",
@@ -2139,28 +2116,51 @@
 },
 "fp": "d7f4ed7bc760"
 },
-"30122": {
+"30123": {
+"event": {
+"cause": "",
+"created": "2026-11-19 11:27:00",
+"cross_street_1": "KENT ST (IC 120A)",
+"cross_street_2": "NICHOLAS ST (IC 118)/MANN AVE",
+"direction": null,
+"event_id": "30123",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from KENT ST to NICHOLAS ST /MANN AVE - Continuous Engineering Investigation. 1 Left Lane(s). Affecting EB/WB traffic.(Ottawa) Detailed closure information is as follows: All days: 21:00-06:00 Nearby ramps may be affected. 2026-11-22 21:00 to 2026-11-23 06:00",
+"lanes": "1 Left Lane(s)",
+"lat": 45.40805,
+"lon": -75.69336,
+"planned_end": "2026-11-23T06:00",
+"planned_start": "2026-11-22T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-19 11:27:00"
+},
+"fp": "58e121fd1ff1"
+},
+"30124": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-19 10:04:00",
-"cross_street_1": "St-Laurent",
+"created": "2026-11-19 11:30:00",
+"cross_street_1": "Voie Raven Way",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30122",
+"event_id": "30124",
 "event_type": "INCIDENT",
-"full_closure": false,
-"headline": "417 E/B off-ramp lane reductions at St-Laurent due to a collision.",
-"lanes": "lane reductions",
-"lat": 45.416013,
-"lon": -75.657149,
+"full_closure": true,
+"headline": "Bronson southbound closed at Voie Raven Way due to a collision. Police are directing traffic. Expect delays.",
+"lanes": "closed",
+"lat": 45.385124,
+"lon": -75.690114,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "417 E/B off-ramp",
+"priority": "HIGH",
+"road": "Bronson",
 "source": "city",
-"updated": "2026-11-19 10:04:00"
+"updated": "2026-11-19 11:30:00"
 },
-"fp": "03ad79c063e4"
+"fp": "2aa559e1a341"
 }
 }
 }
