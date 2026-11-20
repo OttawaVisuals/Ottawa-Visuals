@@ -2161,6 +2161,121 @@
 "updated": "2026-11-20 08:44:00"
 },
 "fp": "3644daff9d59"
+},
+"30146": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 08:49:00",
+"cross_street_1": "MAYFAIR",
+"cross_street_2": "HARMER",
+"direction": null,
+"event_id": "30146",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "JAVA periodic lane reductions in each direction between MAYFAIR and HARMER due to construction, from November 23rd to December 4th. Flagpersons present.",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.394164,
+"lon": -75.737876,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "JAVA",
+"source": "city",
+"updated": "2026-11-20 08:52:00"
+},
+"fp": "8275b09b2f4e"
+},
+"30147": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 09:02:00",
+"cross_street_1": "621 Crois ISLAND PARK Cres",
+"cross_street_2": "EDINA",
+"direction": null,
+"event_id": "30147",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "ISLAND PARK Cres periodic lane reductions in each direction between 621 ISLAND PARK Cres and EDINA due to construction, from November 23rd to December 4th. Flagpersons present. ",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.390532,
+"lon": -75.735607,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "LOW",
+"road": "Crois ISLAND PARK Cres",
+"source": "city",
+"updated": "2026-11-20 09:04:00"
+},
+"fp": "f6e412813528"
+},
+"30148": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 09:09:00",
+"cross_street_1": "MAYFAIR",
+"cross_street_2": "HARMER",
+"direction": null,
+"event_id": "30148",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "IONA periodic lane reductions in each direction between MAYFAIR and HARMER due to construction, from November 23rd to December 4th. Flagpersons present.",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.393498,
+"lon": -75.737492,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "IONA",
+"source": "city",
+"updated": "2026-11-20 09:12:00"
+},
+"fp": "6becee8b7333"
+},
+"30149": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 09:18:00",
+"cross_street_1": "MAYFAIR",
+"cross_street_2": "HARMER",
+"direction": null,
+"event_id": "30149",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "FARADAY periodic lane reduction in each direction between MAYFAIR and HARMER due to construction, from November 23rd to December 4th. Flagpersons present.",
+"lanes": "periodic lane reduction in each direction",
+"lat": 45.392825,
+"lon": -75.737089,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "UNKNOWN",
+"road": "FARADAY",
+"source": "city",
+"updated": "2026-11-20 09:20:00"
+},
+"fp": "8ef61ff670f6"
+},
+"30150": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 09:22:00",
+"cross_street_1": "FARADAY",
+"cross_street_2": "BYRON",
+"direction": null,
+"event_id": "30150",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "CLARENDON periodic lane reductions in each direction between FARADAY and BYRON due to construction. Flagpersons present, from November 23rd to December 4th.",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.393719,
+"lon": -75.734067,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "CLARENDON",
+"source": "city",
+"updated": "2026-11-20 09:24:00"
+},
+"fp": "76cd3fc0b227"
 }
 }
 }
