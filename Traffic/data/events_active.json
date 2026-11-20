@@ -874,29 +874,6 @@
 },
 "fp": "02defa640672"
 },
-"29307": {
-"event": {
-"cause": "construction",
-"created": "2026-10-07 11:05:00",
-"cross_street_1": "LEIGHTON",
-"cross_street_2": "ISLAND PARK",
-"direction": null,
-"event_id": "29307",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "RICHMOND eastbound off-peak lane reductions between LEIGHTON and ISLAND PARK due to construction, until November 20th.",
-"lanes": "off-peak lane reductions",
-"lat": 45.396834,
-"lon": -75.743076,
-"planned_end": "2026-11-20T15:00",
-"planned_start": "2026-10-07T00:00",
-"priority": "LOW",
-"road": "RICHMOND",
-"source": "city",
-"updated": "2026-10-07 11:08:00"
-},
-"fp": "e7d9b3473db1"
-},
 "29368": {
 "event": {
 "cause": "construction",
@@ -1172,29 +1149,6 @@
 "updated": "2026-10-27 06:20:00"
 },
 "fp": "9ef107f8cad7"
-},
-"29730": {
-"event": {
-"cause": "construction",
-"created": "2026-10-28 09:37:00",
-"cross_street_1": "ISLAND PARK",
-"cross_street_2": "WOODROFFE",
-"direction": null,
-"event_id": "29730",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Kichi Zibi Mikan reduced to 1 lane in each direction between ISLAND PARK and WOODROFFE due to construction, from November 2nd to 20th between 9:30am and 3:00pm.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.402592,
-"lon": -75.752894,
-"planned_end": "2026-11-20T15:00",
-"planned_start": "2026-10-30T09:30",
-"priority": "MEDIUM",
-"road": "Kichi Zibi Mikan",
-"source": "city",
-"updated": "2026-10-30 09:28:00"
-},
-"fp": "c26fafa05dc6"
 },
 "29752": {
 "event": {
@@ -2162,29 +2116,6 @@
 },
 "fp": "76cd3fc0b227"
 },
-"30156": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-20 12:04:00",
-"cross_street_1": "River",
-"cross_street_2": "Spratt",
-"direction": null,
-"event_id": "30156",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Mitch Owens closed between River and Spratt due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.235796,
-"lon": -75.671439,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Mitch Owens",
-"source": "city",
-"updated": "2026-11-20 13:24:00"
-},
-"fp": "4217c4cde4dc"
-},
 "30159": {
 "event": {
 "cause": "",
@@ -2230,6 +2161,29 @@
 "updated": "2026-11-20 13:51:00"
 },
 "fp": "ed60548916ea"
+},
+"30163": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-20 14:51:00",
+"cross_street_1": "417",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30163",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Woodroffe southbound reduced to 1 lane at 417 due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.361977,
+"lon": -75.768724,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Woodroffe",
+"source": "city",
+"updated": "2026-11-20 14:51:00"
+},
+"fp": "24bce298d655"
 }
 }
 }
