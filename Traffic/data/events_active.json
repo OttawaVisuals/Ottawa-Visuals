@@ -2047,29 +2047,6 @@
 },
 "fp": "93581ee33b0b"
 },
-"30129": {
-"event": {
-"cause": "",
-"created": "2026-11-19 13:36:00",
-"cross_street_1": "ASHTON STATION RD (IC)",
-"cross_street_2": "DWYER HILL RD/CR 3",
-"direction": null,
-"event_id": "30129",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 7 Eastbound from ASHTON STATION RD (IC) to DWYER HILL RD/CR 3 - Continuous Maintenance. 1 Alternating Lane. 2026-11-20 06:30 to 2026-11-20 12:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.17134,
-"lon": -76.05032,
-"planned_end": "2026-11-20T12:00",
-"planned_start": "2026-11-20T06:30",
-"priority": "UNKNOWN",
-"road": "HWY 7",
-"source": "city",
-"updated": "2026-11-19 13:36:00"
-},
-"fp": "9adb9d2eed7a"
-},
 "30135": {
 "event": {
 "cause": "fallen overhead wires",
@@ -2276,6 +2253,29 @@
 "updated": "2026-11-20 09:24:00"
 },
 "fp": "76cd3fc0b227"
+},
+"30156": {
+"event": {
+"cause": "",
+"created": "2026-11-20 12:04:00",
+"cross_street_1": "Spratt",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30156",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Mitch Owens westbound closed at Spratt. Police are directing traffic. Duration is unknown.",
+"lanes": "closed",
+"lat": 45.235796,
+"lon": -75.671439,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Mitch Owens",
+"source": "city",
+"updated": "2026-11-20 12:04:00"
+},
+"fp": "db7c99795f4c"
 }
 }
 }
