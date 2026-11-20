@@ -2115,6 +2115,52 @@
 "updated": "2026-11-20 06:47:00"
 },
 "fp": "db26b0b751d6"
+},
+"30143": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 08:14:00",
+"cross_street_1": null,
+"cross_street_2": null,
+"direction": null,
+"event_id": "30143",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Hunt Club Bus Loop off-peak lane reductions due to construction, from november 23rd to 30th. Flagpersons present.",
+"lanes": "off-peak lane reductions",
+"lat": 45.35039,
+"lon": -75.653022,
+"planned_end": "2026-11-30T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "UNKNOWN",
+"road": "Hunt Club Bus Loop",
+"source": "city",
+"updated": "2026-11-20 08:16:00"
+},
+"fp": "3fd84979c1b7"
+},
+"30145": {
+"event": {
+"cause": "construction",
+"created": "2026-11-20 08:43:00",
+"cross_street_1": "MAYFAIR",
+"cross_street_2": "HARMER",
+"direction": null,
+"event_id": "30145",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "KENORA periodic lane reductions in each direction between MAYFAIR and HARMER due to construction, from November 23rd to December 4th. Flagpersons present.",
+"lanes": "periodic lane reductions in each direction",
+"lat": 45.394838,
+"lon": -75.73829,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "KENORA",
+"source": "city",
+"updated": "2026-11-20 08:44:00"
+},
+"fp": "3644daff9d59"
 }
 }
 }
