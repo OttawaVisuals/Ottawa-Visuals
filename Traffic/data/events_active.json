@@ -1541,6 +1541,29 @@
 },
 "fp": "4621e43be6eb"
 },
+"29958": {
+"event": {
+"cause": "construction",
+"created": "2026-11-10 10:44:00",
+"cross_street_1": "ARMSTRONG",
+"cross_street_2": "LADOUCEUR",
+"direction": null,
+"event_id": "29958",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "GARLAND closed between ARMSTRONG and LADOUCEUR due to construction, from November 23rd 6:00am to November 29th 7:00pm. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.40621,
+"lon": -75.723528,
+"planned_end": "2026-11-29T19:00",
+"planned_start": "2026-11-20T06:00",
+"priority": "MEDIUM",
+"road": "GARLAND",
+"source": "city",
+"updated": "2026-11-20 05:56:00"
+},
+"fp": "ea9791fd182f"
+},
 "29983": {
 "event": {
 "cause": "construction",
@@ -1563,29 +1586,6 @@
 "updated": "2026-11-12 06:49:00"
 },
 "fp": "05c8ebfc4386"
-},
-"30005": {
-"event": {
-"cause": "",
-"created": "2026-11-13 16:06:00",
-"cross_street_1": "WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop)",
-"cross_street_2": "HWY 416",
-"direction": null,
-"event_id": "30005",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from WHITE LAKE RD (IC184)/CR 2 (Antrim Truck Stop) to Highway 416 - Nightly Moving Maintenance Closure. 1 Alternating Lane. Affecting EB/WB traffic and ramps. Detailed closure information is as follows: Mon-Thurs: 21:00-06:00. 2026-11-16 21:00 to 2026-11-20 06:00",
-"lanes": "1 Alternating Lane(s)",
-"lat": 45.42092,
-"lon": -76.37281,
-"planned_end": "2026-11-20T06:00",
-"planned_start": "2026-11-16T21:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-13 16:06:00"
-},
-"fp": "d0ba4739f645"
 },
 "30011": {
 "event": {
@@ -2023,6 +2023,29 @@
 "updated": "2026-11-19 16:32:00"
 },
 "fp": "bc15559d6458"
+},
+"30140": {
+"event": {
+"cause": "fallen overhead wires",
+"created": "2026-11-20 06:47:00",
+"cross_street_1": "Huntley",
+"cross_street_2": "Shea",
+"direction": null,
+"event_id": "30140",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Fallowfield closed between Huntley and Shea; Shea closed between Akins and Flewellyn due to fallen overhead wires.",
+"lanes": "closed",
+"lat": 45.248109,
+"lon": -75.885659,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Fallowfield",
+"source": "city",
+"updated": "2026-11-20 06:47:00"
+},
+"fp": "db26b0b751d6"
 }
 }
 }
