@@ -2162,28 +2162,51 @@
 },
 "fp": "ed60548916ea"
 },
-"30163": {
+"30165": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-20 14:51:00",
-"cross_street_1": "417",
+"cause": "traffic signals not working",
+"created": "2026-11-20 15:35:00",
+"cross_street_1": "CSEC",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30163",
+"event_id": "30165",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Woodroffe southbound reduced to 1 lane at 417 due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.361977,
-"lon": -75.768724,
+"headline": "Ogilvie traffic disruptions at CSEC due to traffic signals not working. Duration is unknown.",
+"lanes": "traffic disruptions",
+"lat": 45.432576,
+"lon": -75.615658,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Woodroffe",
+"road": "Ogilvie",
 "source": "city",
-"updated": "2026-11-20 14:51:00"
+"updated": "2026-11-20 15:35:00"
 },
-"fp": "24bce298d655"
+"fp": "992df1bf6330"
+},
+"30169": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-20 16:10:00",
+"cross_street_1": "Harding",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30169",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Walkley traffic disruptions at Harding due to traffic signals not working. Duration is unknown.",
+"lanes": "traffic disruptions",
+"lat": 45.385064,
+"lon": -75.627201,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Walkley",
+"source": "city",
+"updated": "2026-11-20 16:10:00"
+},
+"fp": "c6eeefc58a5b"
 }
 }
 }
