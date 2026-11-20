@@ -1472,29 +1472,6 @@
 },
 "fp": "7144e9c58f7e"
 },
-"29911": {
-"event": {
-"cause": "",
-"created": "2026-11-06 12:33:00",
-"cross_street_1": "MOODIE DR (IC 134)",
-"cross_street_2": "MOODIE DR (IC 134)",
-"direction": null,
-"event_id": "29911",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from MOODIE DR to MOODIE DR - Daily Construction. 1 Left(with HOV) Lane(s). Detailed closure information is as follows: Mon-Sun: 10:00-14:00. 2026-11-09 10:00 to 2026-11-20 14:00",
-"lanes": "1 Left(with HOV) Lane(s)",
-"lat": 45.33849,
-"lon": -75.84131,
-"planned_end": "2026-11-20T14:00",
-"planned_start": "2026-11-09T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-06 12:33:00"
-},
-"fp": "19a156be13b2"
-},
 "29912": {
 "event": {
 "cause": "construction",
@@ -1909,29 +1886,6 @@
 },
 "fp": "d3d561ef77c5"
 },
-"30063": {
-"event": {
-"cause": "",
-"created": "2026-11-17 12:21:00",
-"cross_street_1": "MAITLAND AVE (IC 126)",
-"cross_street_2": "WOODROFFE AVE (IC 127)",
-"direction": null,
-"event_id": "30063",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Westbound from MAITLAND AVE to WOODROFFE AVE - Daily Engineering Investigation. 1 Right Lane(s). Detailed closure information is as follows: Thurs-Fri: 10:00-14:00 Nearby ramps may be affected. 2026-11-19 10:00 to 2026-11-20 14:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.37042,
-"lon": -75.75457,
-"planned_end": "2026-11-20T14:00",
-"planned_start": "2026-11-19T10:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-17 12:21:00"
-},
-"fp": "301b30aa3d53"
-},
 "30092": {
 "event": {
 "cause": "construction",
@@ -2046,52 +2000,6 @@
 "updated": "2026-11-19 13:08:00"
 },
 "fp": "93581ee33b0b"
-},
-"30135": {
-"event": {
-"cause": "fallen overhead wires",
-"created": "2026-11-19 16:32:00",
-"cross_street_1": "SHEA",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30135",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "FALLOWFIELD closed at SHEA due to fallen overhead wires. Duration is unknown.",
-"lanes": "closed",
-"lat": 45.237434,
-"lon": -75.873163,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "FALLOWFIELD",
-"source": "city",
-"updated": "2026-11-19 16:32:00"
-},
-"fp": "bc15559d6458"
-},
-"30140": {
-"event": {
-"cause": "fallen overhead wires",
-"created": "2026-11-20 06:47:00",
-"cross_street_1": "Huntley",
-"cross_street_2": "Shea",
-"direction": null,
-"event_id": "30140",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Fallowfield closed between Huntley and Shea; Shea closed between Akins and Flewellyn due to fallen overhead wires.",
-"lanes": "closed",
-"lat": 45.248109,
-"lon": -75.885659,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "Fallowfield",
-"source": "city",
-"updated": "2026-11-20 06:47:00"
-},
-"fp": "db26b0b751d6"
 },
 "30143": {
 "event": {
@@ -2299,6 +2207,29 @@
 "updated": "2026-11-20 13:03:00"
 },
 "fp": "a6c41f0d415a"
+},
+"30162": {
+"event": {
+"cause": "",
+"created": "2026-11-20 13:51:00",
+"cross_street_1": "METCALFE ST (IC 119A)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30162",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound On-ramp at METCALFE ST - Nightly Construction. 1 Right Lane(s). 2026-11-23 21:00 to 2026-11-27 06:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.41096,
+"lon": -75.68708,
+"planned_end": "2026-11-27T06:00",
+"planned_start": "2026-11-23T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-20 13:51:00"
+},
+"fp": "ed60548916ea"
 }
 }
 }
