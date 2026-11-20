@@ -966,6 +966,29 @@
 },
 "fp": "6567065d82c1"
 },
+"29514": {
+"event": {
+"cause": "construction",
+"created": "2026-10-16 10:04:00",
+"cross_street_1": "Cox Country",
+"cross_street_2": "O'TOOLE",
+"direction": null,
+"event_id": "29514",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "INNES closed between Cox Country and O'TOOLE due to construction, from November 23rd to 27th. Follow the signed detour. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.474619,
+"lon": -75.437535,
+"planned_end": "2026-11-27T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "INNES",
+"source": "city",
+"updated": "2026-11-20 06:56:00"
+},
+"fp": "76dc34c8d726"
+},
 "29527": {
 "event": {
 "cause": "construction",
@@ -1471,6 +1494,52 @@
 "updated": "2026-11-06 12:33:00"
 },
 "fp": "19a156be13b2"
+},
+"29912": {
+"event": {
+"cause": "construction",
+"created": "2026-11-06 12:38:00",
+"cross_street_1": "SCOTT",
+"cross_street_2": "SPENCER",
+"direction": null,
+"event_id": "29912",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "HURON closed between SCOTT and SPENCER due to construction, from November 23rd to December 4th. Access for local traffic maintained. ",
+"lanes": "closed",
+"lat": 45.403366,
+"lon": -75.735308,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "HURON",
+"source": "city",
+"updated": "2026-11-20 06:56:00"
+},
+"fp": "0eb91280098b"
+},
+"29913": {
+"event": {
+"cause": "construction",
+"created": "2026-11-06 12:45:00",
+"cross_street_1": "CARRUTHERS",
+"cross_street_2": "LYNDALE",
+"direction": null,
+"event_id": "29913",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "STONEHURST closed between CARRUTHERS and LYNDALE due to construction, from November 23rd to 27th. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.406352,
+"lon": -75.729198,
+"planned_end": "2026-11-27T17:00",
+"planned_start": "2026-11-20T07:00",
+"priority": "MEDIUM",
+"road": "STONEHURST",
+"source": "city",
+"updated": "2026-11-20 06:56:00"
+},
+"fp": "73b1ef464245"
 },
 "29936": {
 "event": {
