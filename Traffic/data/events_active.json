@@ -2256,15 +2256,15 @@
 },
 "30156": {
 "event": {
-"cause": "",
+"cause": "a collision",
 "created": "2026-11-20 12:04:00",
-"cross_street_1": "Spratt",
-"cross_street_2": null,
+"cross_street_1": "River",
+"cross_street_2": "Spratt",
 "direction": null,
 "event_id": "30156",
 "event_type": "INCIDENT",
 "full_closure": true,
-"headline": "Mitch Owens westbound closed at Spratt. Police are directing traffic. Duration is unknown.",
+"headline": "Mitch Owens closed between River and Spratt due to a collision. Police are directing traffic. Duration is unknown.",
 "lanes": "closed",
 "lat": 45.235796,
 "lon": -75.671439,
@@ -2273,9 +2273,32 @@
 "priority": "HIGH",
 "road": "Mitch Owens",
 "source": "city",
-"updated": "2026-11-20 12:04:00"
+"updated": "2026-11-20 13:24:00"
 },
-"fp": "db7c99795f4c"
+"fp": "4217c4cde4dc"
+},
+"30159": {
+"event": {
+"cause": "",
+"created": "2026-11-20 13:03:00",
+"cross_street_1": "ST. LAURENT BLVD (IC 115)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30159",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound On-ramp at ST. LAURENT BLVD - Continuous Construction. ALL LANES CLOSED. 2026-11-25 22:00 to 2026-11-26 06:00",
+"lanes": "ALL LANES CLOSED",
+"lat": 45.42029,
+"lon": -75.63509,
+"planned_end": "2026-11-26T06:00",
+"planned_start": "2026-11-25T22:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-20 13:03:00"
+},
+"fp": "a6c41f0d415a"
 }
 }
 }
