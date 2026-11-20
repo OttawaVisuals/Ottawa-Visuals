@@ -1861,17 +1861,19 @@
   "cancel_notices": 204,
   "cancel_withdrawn": 139,
   "cancel_ran": 2,
-  "cancel_partial": false
+  "cancel_partial": false,
+  "otranspo_within_5min_pct": 77.6,
+  "otranspo_observations": 273733
  },
  {
   "date": "2026-11-20",
   "weekday": 4,
-  "n": 9,
+  "n": 15,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 203.0,
+  "buses_mean": 172.0,
   "buses_max": 285,
-  "speed_mean_kmh": 7.1,
+  "speed_mean_kmh": 6.5,
   "cancelled_mean": 0.0,
   "cancelled_max": 0,
   "cancelled_pct_mean": 0.0,
