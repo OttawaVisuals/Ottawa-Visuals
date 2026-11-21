@@ -1426,29 +1426,6 @@
 },
 "fp": "b8ea7ddf42ae"
 },
-"30062": {
-"event": {
-"cause": "a parade",
-"created": "2026-11-17 12:01:00",
-"cross_street_1": "Somerset",
-"cross_street_2": " Voie Princess Patricia Way",
-"direction": null,
-"event_id": "30062",
-"event_type": "SPECIAL_EVENT",
-"full_closure": false,
-"headline": "Queen Elizabeth Dr periodically closed between Somerset and Princess Patricia Way due to the Help Santa Toy Parade, Saturday November 21st from 10:00am to 3:00pm, ",
-"lanes": "periodically closed",
-"lat": 45.420256,
-"lon": -75.685022,
-"planned_end": "2026-11-21T15:00",
-"planned_start": "2026-11-18T10:00",
-"priority": "HIGH",
-"road": "Queen Elizabeth Dr/Prom Reine Elizabeth",
-"source": "city",
-"updated": "2026-11-18 09:56:00"
-},
-"fp": "d3d561ef77c5"
-},
 "30092": {
 "event": {
 "cause": "construction",
@@ -1862,6 +1839,29 @@
 "updated": "2026-11-20 19:51:00"
 },
 "fp": "783afb10cff6"
+},
+"30175": {
+"event": {
+"cause": "",
+"created": "2026-11-21 15:00:00",
+"cross_street_1": "PALLADIUM DR (IC 142)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30175",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at PALLADIUM DR - Collision. 2 right lanes and right shoulder closed. ",
+"lanes": "2 right lanes and right shoulder closed",
+"lat": 45.29327,
+"lon": -75.93792,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-21 15:00:00"
+},
+"fp": "8c480f7acd40"
 }
 }
 }
