@@ -8426,5 +8426,59 @@
     "n": 21
    }
   }
+ },
+ {
+  "date": "2026-11-21",
+  "weekday": 5,
+  "corridors": {
+   "barrhaven|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1480,
+    "min_s": 1480,
+    "max_s": 1480,
+    "n": 1
+   },
+   "barrhaven|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1425,
+    "min_s": 1425,
+    "max_s": 1425,
+    "n": 1
+   },
+   "kanata|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 993,
+    "min_s": 993,
+    "max_s": 993,
+    "n": 1
+   },
+   "kanata|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1065,
+    "min_s": 1065,
+    "max_s": 1065,
+    "n": 1
+   },
+   "orleans|from_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1058,
+    "min_s": 1058,
+    "max_s": 1058,
+    "n": 1
+   },
+   "orleans|to_downtown": {
+    "am_peak_s": null,
+    "pm_peak_s": null,
+    "overnight_s": 1033,
+    "min_s": 1033,
+    "max_s": 1033,
+    "n": 1
+   }
+  }
  }
 ]
