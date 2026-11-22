@@ -8519,83 +8519,83 @@
   "corridors": {
    "barrhaven|from_downtown": {
     "am_peak_s": 1456,
-    "pm_peak_s": 1774,
+    "pm_peak_s": 1682,
     "overnight_s": 1383,
     "min_s": 1362,
     "max_s": 1815,
-    "n": 12
+    "n": 13
    },
    "barrhaven|to_downtown": {
     "am_peak_s": 1396,
-    "pm_peak_s": 1656,
+    "pm_peak_s": 1756,
     "overnight_s": 1352,
     "min_s": 1311,
-    "max_s": 1668,
-    "n": 17
+    "max_s": 1857,
+    "n": 18
    },
    "gatineau|from_downtown": {
     "am_peak_s": 722,
-    "pm_peak_s": null,
+    "pm_peak_s": 826,
     "overnight_s": 703,
     "min_s": 693,
     "max_s": 858,
-    "n": 10
+    "n": 11
    },
    "gatineau|to_downtown": {
     "am_peak_s": 712,
-    "pm_peak_s": 805,
+    "pm_peak_s": 802,
     "overnight_s": 717,
     "min_s": 707,
     "max_s": 815,
-    "n": 10
+    "n": 11
    },
    "kanata|from_downtown": {
     "am_peak_s": 976,
-    "pm_peak_s": 1196,
+    "pm_peak_s": 1110,
     "overnight_s": 971,
     "min_s": 959,
     "max_s": 1236,
-    "n": 17
+    "n": 18
    },
    "kanata|to_downtown": {
     "am_peak_s": 1048,
-    "pm_peak_s": 1145,
+    "pm_peak_s": 1250,
     "overnight_s": 1045,
     "min_s": 1030,
-    "max_s": 1148,
-    "n": 17
+    "max_s": 1355,
+    "n": 18
    },
    "orleans|from_downtown": {
     "am_peak_s": 1030,
-    "pm_peak_s": 1086,
+    "pm_peak_s": 1084,
     "overnight_s": 1025,
     "min_s": 1003,
     "max_s": 1089,
-    "n": 17
+    "n": 18
    },
    "orleans|to_downtown": {
     "am_peak_s": 1008,
-    "pm_peak_s": 1109,
+    "pm_peak_s": 1112,
     "overnight_s": 1006,
     "min_s": 980,
     "max_s": 1128,
-    "n": 17
+    "n": 18
    },
    "riverside|from_downtown": {
     "am_peak_s": null,
-    "pm_peak_s": null,
+    "pm_peak_s": 1476,
     "overnight_s": 1206,
     "min_s": 1195,
     "max_s": 1559,
-    "n": 8
+    "n": 9
    },
    "riverside|to_downtown": {
     "am_peak_s": null,
-    "pm_peak_s": null,
+    "pm_peak_s": 1458,
     "overnight_s": 1166,
     "min_s": 1158,
     "max_s": 1509,
-    "n": 7
+    "n": 8
    }
   }
  }
