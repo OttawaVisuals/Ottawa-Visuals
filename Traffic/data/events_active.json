@@ -1265,29 +1265,6 @@
 },
 "fp": "ea9791fd182f"
 },
-"29983": {
-"event": {
-"cause": "construction",
-"created": "2026-11-12 06:49:00",
-"cross_street_1": "Kent",
-"cross_street_2": null,
-"direction": null,
-"event_id": "29983",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "417 E/B offramp left lane closed at Kent due to construction.",
-"lanes": "left lane closed",
-"lat": 45.406583,
-"lon": -75.696382,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "417 EB offramp",
-"source": "city",
-"updated": "2026-11-12 06:49:00"
-},
-"fp": "05c8ebfc4386"
-},
 "30011": {
 "event": {
 "cause": "construction",
@@ -1793,6 +1770,52 @@
 "updated": "2026-11-23 09:24:00"
 },
 "fp": "388147949006"
+},
+"30185": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-23 09:58:00",
+"cross_street_1": "Ottawa U pedestrian crossing",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30185",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Laurier traffic disruptions at Ottawa U pedestrian crossing due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.424216,
+"lon": -75.685574,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Laurier",
+"source": "city",
+"updated": "2026-11-23 09:58:00"
+},
+"fp": "d5f9acb5aafa"
+},
+"30186": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-23 10:03:00",
+"cross_street_1": "Palace",
+"cross_street_2": "Vanier",
+"direction": null,
+"event_id": "30186",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Montr\u00e9al Rd eastbound right lane closed between Palace and Vanier due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.433891,
+"lon": -75.667257,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Ch Montr\u00e9al Rd",
+"source": "city",
+"updated": "2026-11-23 10:03:00"
+},
+"fp": "c4396ca1fa59"
 }
 }
 }
