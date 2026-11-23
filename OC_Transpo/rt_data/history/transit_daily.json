@@ -1924,19 +1924,21 @@
   "speed_mean_kmh": 12.7,
   "cancelled_mean": 20.0,
   "cancelled_max": 91,
-  "cancelled_pct_mean": 6.8
+  "cancelled_pct_mean": 6.8,
+  "otranspo_within_5min_pct": 75.4,
+  "otranspo_observations": 162237
  },
  {
   "date": "2026-11-23",
   "weekday": 0,
-  "n": 5,
+  "n": 6,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 188.0,
+  "buses_mean": 179.0,
   "buses_max": 210,
-  "speed_mean_kmh": 8.6,
-  "cancelled_mean": 98.8,
-  "cancelled_max": 104,
-  "cancelled_pct_mean": 60.07
+  "speed_mean_kmh": 7.9,
+  "cancelled_mean": 102.7,
+  "cancelled_max": 122,
+  "cancelled_pct_mean": 63.8
  }
 ]
