@@ -1380,29 +1380,6 @@
 },
 "fp": "f97c26c820fe"
 },
-"30123": {
-"event": {
-"cause": "",
-"created": "2026-11-19 11:27:00",
-"cross_street_1": "KENT ST (IC 120A)",
-"cross_street_2": "NICHOLAS ST (IC 118)/MANN AVE",
-"direction": null,
-"event_id": "30123",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from KENT ST to NICHOLAS ST /MANN AVE - Continuous Engineering Investigation. 1 Left Lane(s). Affecting EB/WB traffic.(Ottawa) Detailed closure information is as follows: All days: 21:00-06:00 Nearby ramps may be affected. 2026-11-22 21:00 to 2026-11-23 06:00",
-"lanes": "1 Left Lane(s)",
-"lat": 45.40805,
-"lon": -75.69336,
-"planned_end": "2026-11-23T06:00",
-"planned_start": "2026-11-22T21:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-19 11:27:00"
-},
-"fp": "58e121fd1ff1"
-},
 "30126": {
 "event": {
 "cause": "construction",
@@ -1656,52 +1633,6 @@
 },
 "fp": "ed60548916ea"
 },
-"30165": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-20 15:35:00",
-"cross_street_1": "CSEC",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30165",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Ogilvie traffic disruptions at CSEC due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.432576,
-"lon": -75.615658,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Ogilvie",
-"source": "city",
-"updated": "2026-11-20 15:35:00"
-},
-"fp": "992df1bf6330"
-},
-"30169": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-20 16:10:00",
-"cross_street_1": "Harding",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30169",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Walkley traffic disruptions at Harding due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.385064,
-"lon": -75.627201,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Walkley",
-"source": "city",
-"updated": "2026-11-20 16:10:00"
-},
-"fp": "c6eeefc58a5b"
-},
 "30172": {
 "event": {
 "cause": "construction",
@@ -1770,6 +1701,29 @@
 "updated": "2026-11-22 22:51:00"
 },
 "fp": "51c1909f43f0"
+},
+"30179": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-23 06:18:00",
+"cross_street_1": "Ch Old Montreal Rd",
+"cross_street_2": "Hillmillar",
+"direction": null,
+"event_id": "30179",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound traffic heavy & slow between Old Montreal Rd and Hillmillar due to collisions.",
+"lanes": "traffic heavy & slow",
+"lat": 45.521927,
+"lon": -75.347275,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-11-23 06:18:00"
+},
+"fp": "8f89e3f73c7d"
 }
 }
 }
