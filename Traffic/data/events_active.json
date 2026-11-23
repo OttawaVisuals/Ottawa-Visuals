@@ -1748,28 +1748,28 @@
 },
 "fp": "22c14521b018"
 },
-"30184": {
+"30188": {
 "event": {
-"cause": "maintenance",
-"created": "2026-11-23 09:24:00",
-"cross_street_1": "Roydon/Sunderland",
+"cause": "traffic signals not working",
+"created": "2026-11-23 12:48:00",
+"cross_street_1": null,
 "cross_street_2": null,
 "direction": null,
-"event_id": "30184",
+"event_id": "30188",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Hunt Club traffic disruptions at Roydon/Sunderland due to maintenance. Police are directing traffic.",
+"headline": " traffic disruptions due to traffic signals not working. Duration is unknown.",
 "lanes": "traffic disruptions",
-"lat": 45.336837,
-"lon": -75.719451,
+"lat": 45.435238,
+"lon": -75.60901,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Hunt Club",
+"priority": "HIGH",
+"road": null,
 "source": "city",
-"updated": "2026-11-23 09:24:00"
+"updated": "2026-11-23 12:48:00"
 },
-"fp": "388147949006"
+"fp": "df79d3d4b68f"
 }
 }
 }
