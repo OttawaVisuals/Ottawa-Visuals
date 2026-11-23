@@ -1104,6 +1104,29 @@
 },
 "fp": "5bed5c7c36aa"
 },
+"29882": {
+"event": {
+"cause": "construction",
+"created": "2026-11-05 12:55:00",
+"cross_street_1": "RIDGEWAY",
+"cross_street_2": "LAMBTON",
+"direction": null,
+"event_id": "29882",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "ROCKCLIFFE closed between RIDGEWAY and LAMBTON due to construction, Thursday November 26th from 8:00am to 5:00pm. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.444324,
+"lon": -75.675186,
+"planned_end": "2026-11-26T17:00",
+"planned_start": "2026-11-23T08:00",
+"priority": "MEDIUM",
+"road": "ROCKCLIFFE",
+"source": "city",
+"updated": "2026-11-23 07:56:00"
+},
+"fp": "6ba0c3a8e99d"
+},
 "29912": {
 "event": {
 "cause": "construction",
@@ -1747,6 +1770,29 @@
 "updated": "2026-11-23 07:04:00"
 },
 "fp": "22c14521b018"
+},
+"30183": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-23 07:42:00",
+"cross_street_1": "River",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30183",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Earl Armstrong traffic disruptions at River due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.269351,
+"lon": -75.700033,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Earl Armstrong",
+"source": "city",
+"updated": "2026-11-23 07:42:00"
+},
+"fp": "772d29c60de9"
 }
 }
 }
