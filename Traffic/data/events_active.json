@@ -1610,6 +1610,29 @@
 },
 "fp": "a6c41f0d415a"
 },
+"30161": {
+"event": {
+"cause": "a special event",
+"created": "2026-11-20 13:36:00",
+"cross_street_1": "MILL",
+"cross_street_2": "CLAPP",
+"direction": null,
+"event_id": "30161",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "DICKINSON closed between MILL and CLAPP due to a special event, Friday November 27th between 4:00pm and 9:00pm.",
+"lanes": "closed",
+"lat": 45.22647,
+"lon": -75.68329,
+"planned_end": "2026-11-27T21:00",
+"planned_start": "2026-11-24T16:00",
+"priority": "LOW",
+"road": "DICKINSON",
+"source": "city",
+"updated": "2026-11-24 15:56:00"
+},
+"fp": "a33fef9a81d6"
+},
 "30162": {
 "event": {
 "cause": "",
@@ -1748,51 +1771,97 @@
 },
 "fp": "22c14521b018"
 },
-"30199": {
+"30214": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-24 06:13:00",
-"cross_street_1": "CAMERON",
-"cross_street_2": "QUIGLEY HILL",
-"direction": null,
-"event_id": "30199",
-"event_type": "INCIDENT",
-"full_closure": true,
-"headline": "REGIONAL ROAD 174 closed between CAMERON and QUIGLEY HILL due to a collision. Expect delays.",
-"lanes": "closed",
-"lat": 45.518307,
-"lon": -75.411251,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "REGIONAL ROAD 174",
-"source": "city",
-"updated": "2026-11-24 06:13:00"
-},
-"fp": "7fd17bcdfda9"
-},
-"30213": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-24 14:55:00",
-"cross_street_1": "Hazeldean",
+"created": "2026-11-24 15:46:00",
+"cross_street_1": "Inglewood",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30213",
+"event_id": "30214",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Eagleson southbound reduced to 1 left-turn lane at Hazeldean due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 left-turn lane",
-"lat": 45.304251,
-"lon": -75.876871,
+"headline": "Holland lane reduction in both directions at Inglewood due to a collision. Duration is unknown.",
+"lanes": "lane reduction in both directions",
+"lat": 45.391186,
+"lon": -75.726727,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Eagleson",
+"road": "Holland",
 "source": "city",
-"updated": "2026-11-24 14:55:00"
+"updated": "2026-11-24 15:49:00"
 },
-"fp": "14c87d6cb1da"
+"fp": "5f0262b319c0"
+},
+"30215": {
+"event": {
+"cause": "",
+"created": "2026-11-24 15:54:00",
+"cross_street_1": "PARKDALE AVE (IC 122)",
+"cross_street_2": "PARKDALE AVE (IC 122)",
+"direction": null,
+"event_id": "30215",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from PARKDALE AVE to PARKDALE AVE - Nightly Maintenance. 1 Right Lane(s). 2026-11-25 20:00 to 2026-11-27 06:00",
+"lanes": "1 Right Lane(s)",
+"lat": 45.3972,
+"lon": -75.72696,
+"planned_end": "2026-11-27T06:00",
+"planned_start": "2026-11-25T20:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-24 15:54:00"
+},
+"fp": "6180241ae1cc"
+},
+"30216": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 15:54:00",
+"cross_street_1": "Fisher",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30216",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Meadowlands westbound reduced to 1 lane with alternating traffic at Fisher due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane with alternating traffic",
+"lat": 45.36268,
+"lon": -75.711304,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Meadowlands",
+"source": "city",
+"updated": "2026-11-24 15:54:00"
+},
+"fp": "c8f215158326"
+},
+"30217": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 15:57:00",
+"cross_street_1": "Heron",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30217",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Alta Vista southbound lane reduction at Heron due to a collision. Duration is unknown.",
+"lanes": "lane reduction",
+"lat": 45.379137,
+"lon": -75.661201,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Alta Vista",
+"source": "city",
+"updated": "2026-11-24 15:57:00"
+},
+"fp": "ae4c31278e0e"
 }
 }
 }
