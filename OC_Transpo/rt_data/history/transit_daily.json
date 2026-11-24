@@ -1944,19 +1944,24 @@
   "speed_mean_kmh": 15.2,
   "cancelled_mean": 70.8,
   "cancelled_max": 124,
-  "cancelled_pct_mean": 13.49
+  "cancelled_pct_mean": 13.49,
+  "cancelled_trips": 63,
+  "cancel_notices": 115,
+  "cancel_withdrawn": 52,
+  "cancel_ran": 0,
+  "cancel_partial": false
  },
  {
   "date": "2026-11-24",
   "weekday": 1,
-  "n": 8,
+  "n": 9,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 245.0,
-  "buses_max": 292,
-  "speed_mean_kmh": 6.9,
-  "cancelled_mean": 43.4,
+  "buses_mean": 251.0,
+  "buses_max": 297,
+  "speed_mean_kmh": 7.2,
+  "cancelled_mean": 44.8,
   "cancelled_max": 57,
-  "cancelled_pct_mean": 40.8
+  "cancelled_pct_mean": 39.86
  }
 ]
