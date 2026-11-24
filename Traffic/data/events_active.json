@@ -1748,29 +1748,6 @@
 },
 "fp": "22c14521b018"
 },
-"30192": {
-"event": {
-"cause": "construction",
-"created": "2026-11-23 15:25:00",
-"cross_street_1": "Ch Montreal Rd",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30192",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound On-ramp reduced to 2 lanes at Montreal Rd due to construction. From 9:30am, to 3:00pm, November 24th.",
-"lanes": "reduced to 2 lanes",
-"lat": 45.44893,
-"lon": -75.584799,
-"planned_end": "2026-11-24T15:00",
-"planned_start": "2026-11-24T09:30",
-"priority": "HIGH",
-"road": "174 On-ramp/Bretelle d'acc\u00e8s",
-"source": "city",
-"updated": "2026-11-24 09:28:00"
-},
-"fp": "beb717a5ca4c"
-},
 "30199": {
 "event": {
 "cause": "a collision",
@@ -1794,28 +1771,28 @@
 },
 "fp": "7fd17bcdfda9"
 },
-"30205": {
+"30213": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-24 08:47:00",
-"cross_street_1": "Ch Carp Rd",
+"created": "2026-11-24 14:55:00",
+"cross_street_1": "Hazeldean",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30205",
+"event_id": "30213",
 "event_type": "INCIDENT",
-"full_closure": true,
-"headline": "Stittsville Main northbound closed at Carp Rd due to a collision.",
-"lanes": "closed",
-"lat": 45.26752,
-"lon": -75.930073,
+"full_closure": false,
+"headline": "Eagleson southbound reduced to 1 left-turn lane at Hazeldean due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 left-turn lane",
+"lat": 45.304251,
+"lon": -75.876871,
 "planned_end": null,
 "planned_start": null,
-"priority": "MEDIUM",
-"road": "Stittsville Main",
+"priority": "HIGH",
+"road": "Eagleson",
 "source": "city",
-"updated": "2026-11-24 08:47:00"
+"updated": "2026-11-24 14:55:00"
 },
-"fp": "7185d7dcb547"
+"fp": "14c87d6cb1da"
 }
 }
 }
