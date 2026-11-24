@@ -1748,6 +1748,29 @@
 },
 "fp": "22c14521b018"
 },
+"30192": {
+"event": {
+"cause": "construction",
+"created": "2026-11-23 15:25:00",
+"cross_street_1": "Ch Montreal Rd",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30192",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 eastbound On-ramp reduced to 2 lanes at Montreal Rd due to construction. From 9:30am, to 3:00pm, November 24th.",
+"lanes": "reduced to 2 lanes",
+"lat": 45.44893,
+"lon": -75.584799,
+"planned_end": "2026-11-24T15:00",
+"planned_start": "2026-11-24T09:30",
+"priority": "HIGH",
+"road": "174 On-ramp/Bretelle d'acc\u00e8s",
+"source": "city",
+"updated": "2026-11-24 09:28:00"
+},
+"fp": "beb717a5ca4c"
+},
 "30199": {
 "event": {
 "cause": "a collision",
@@ -1770,75 +1793,6 @@
 "updated": "2026-11-24 06:13:00"
 },
 "fp": "7fd17bcdfda9"
-},
-"30201": {
-"event": {
-"cause": "high volume",
-"created": "2026-11-24 07:28:00",
-"cross_street_1": "Walkley",
-"cross_street_2": "Riverside",
-"direction": null,
-"event_id": "30201",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "417 westbound traffic heavy & slow between Walkley and Riverside due to high volume. Expect delays.",
-"lanes": "traffic heavy & slow",
-"lat": 45.381338,
-"lon": -75.578386,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "417",
-"source": "city",
-"updated": "2026-11-24 08:15:00"
-},
-"fp": "1ab71ad9f813"
-},
-"30202": {
-"event": {
-"cause": "high volume",
-"created": "2026-11-24 07:29:00",
-"cross_street_1": "Blair",
-"cross_street_2": "Riverside",
-"direction": null,
-"event_id": "30202",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "174 westbound traffic heavy & slow between Blair and Riverside due to high volume.",
-"lanes": "traffic heavy & slow",
-"lat": 45.45711,
-"lon": -75.577508,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "174",
-"source": "city",
-"updated": "2026-11-24 08:15:00"
-},
-"fp": "67effd92feab"
-},
-"30204": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-24 08:37:00",
-"cross_street_1": "Pleasant Park",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30204",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Riverside northbound left lane closed at Pleasant Park due to a collision.",
-"lanes": "left lane closed",
-"lat": 45.392313,
-"lon": -75.673368,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "Riverside",
-"source": "city",
-"updated": "2026-11-24 08:37:00"
-},
-"fp": "43c2b74259bf"
 },
 "30205": {
 "event": {
