@@ -1771,29 +1771,6 @@
 },
 "fp": "22c14521b018"
 },
-"30214": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-24 15:46:00",
-"cross_street_1": "Inglewood",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30214",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Holland lane reduction in both directions at Inglewood due to a collision. Duration is unknown.",
-"lanes": "lane reduction in both directions",
-"lat": 45.391186,
-"lon": -75.726727,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Holland",
-"source": "city",
-"updated": "2026-11-24 15:49:00"
-},
-"fp": "5f0262b319c0"
-},
 "30215": {
 "event": {
 "cause": "",
@@ -1817,51 +1794,74 @@
 },
 "fp": "6180241ae1cc"
 },
-"30216": {
+"30218": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-24 15:54:00",
-"cross_street_1": "Fisher",
+"cause": "",
+"created": "2026-11-24 16:42:00",
+"cross_street_1": "PARKDALE AVE (IC 122)",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30216",
+"event_id": "30218",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Meadowlands westbound reduced to 1 lane with alternating traffic at Fisher due to a collision. Duration is unknown.",
+"headline": "Highway 417 Eastbound at PARKDALE AVE - Disabled Vehicle. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.397,
+"lon": -75.72716,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-24 16:42:00"
+},
+"fp": "acd0cf39a484"
+},
+"30219": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 16:43:00",
+"cross_street_1": "Meadowbrook",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30219",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Cyrville reduced to 1 lane with alternating traffic at Meadowbrook due to a collision. Firefighters are directing traffic. Duration is unknown.",
 "lanes": "reduced to 1 lane with alternating traffic",
-"lat": 45.36268,
-"lon": -75.711304,
+"lat": 45.417632,
+"lon": -75.607724,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Meadowlands",
+"road": "Cyrville",
 "source": "city",
-"updated": "2026-11-24 15:54:00"
+"updated": "2026-11-24 16:51:00"
 },
-"fp": "c8f215158326"
+"fp": "af67112429cb"
 },
-"30217": {
+"30220": {
 "event": {
-"cause": "a collision",
-"created": "2026-11-24 15:57:00",
-"cross_street_1": "Heron",
-"cross_street_2": null,
+"cause": "an unknown cause",
+"created": "2026-11-24 16:55:00",
+"cross_street_1": "Cooper",
+"cross_street_2": "Somerset",
 "direction": null,
-"event_id": "30217",
+"event_id": "30220",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Alta Vista southbound lane reduction at Heron due to a collision. Duration is unknown.",
-"lanes": "lane reduction",
-"lat": 45.379137,
-"lon": -75.661201,
+"headline": "O'Connor southbound reduced to 1 lane between Cooper and Somerset due to an unknown cause. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.416248,
+"lon": -75.694374,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Alta Vista",
+"road": "O'Connor",
 "source": "city",
-"updated": "2026-11-24 15:57:00"
+"updated": "2026-11-24 16:55:00"
 },
-"fp": "ae4c31278e0e"
+"fp": "64fa279a852f"
 }
 }
 }
