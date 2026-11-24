@@ -1773,7 +1773,7 @@
 },
 "30201": {
 "event": {
-"cause": "a collision",
+"cause": "high volume",
 "created": "2026-11-24 07:28:00",
 "cross_street_1": "Walkley",
 "cross_street_2": "Riverside",
@@ -1781,7 +1781,7 @@
 "event_id": "30201",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "417 westbound traffic heavy & slow between Walkley and Riverside due to a collision. Expect delays or avoid area.",
+"headline": "417 westbound traffic heavy & slow between Walkley and Riverside due to high volume. Expect delays.",
 "lanes": "traffic heavy & slow",
 "lat": 45.381338,
 "lon": -75.578386,
@@ -1790,13 +1790,13 @@
 "priority": "HIGH",
 "road": "417",
 "source": "city",
-"updated": "2026-11-24 07:28:00"
+"updated": "2026-11-24 08:15:00"
 },
-"fp": "3d2fda754b8e"
+"fp": "1ab71ad9f813"
 },
 "30202": {
 "event": {
-"cause": "a collision",
+"cause": "high volume",
 "created": "2026-11-24 07:29:00",
 "cross_street_1": "Blair",
 "cross_street_2": "Riverside",
@@ -1804,7 +1804,7 @@
 "event_id": "30202",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "174 westbound traffic heavy & slow between Blair and Riverside due to a collision.",
+"headline": "174 westbound traffic heavy & slow between Blair and Riverside due to high volume.",
 "lanes": "traffic heavy & slow",
 "lat": 45.45711,
 "lon": -75.577508,
@@ -1813,32 +1813,78 @@
 "priority": "HIGH",
 "road": "174",
 "source": "city",
-"updated": "2026-11-24 07:29:00"
+"updated": "2026-11-24 08:15:00"
 },
-"fp": "0eb696e07289"
+"fp": "67effd92feab"
 },
-"30203": {
+"30204": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-24 07:57:00",
-"cross_street_1": "Woodroffe",
+"created": "2026-11-24 08:37:00",
+"cross_street_1": "Pleasant Park",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30203",
+"event_id": "30204",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Fallowfield eastbound right lane closed at Woodroffe due to a collision.",
-"lanes": "right lane closed",
-"lat": 45.298708,
-"lon": -75.730924,
+"headline": "Riverside northbound left lane closed at Pleasant Park due to a collision.",
+"lanes": "left lane closed",
+"lat": 45.392313,
+"lon": -75.673368,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "Riverside",
+"source": "city",
+"updated": "2026-11-24 08:37:00"
+},
+"fp": "43c2b74259bf"
+},
+"30205": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 08:47:00",
+"cross_street_1": "Ch Carp Rd",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30205",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Stittsville Main northbound closed at Carp Rd due to a collision.",
+"lanes": "closed",
+"lat": 45.26752,
+"lon": -75.930073,
 "planned_end": null,
 "planned_start": null,
 "priority": "MEDIUM",
-"road": "Fallowfield",
+"road": "Stittsville Main",
 "source": "city",
-"updated": "2026-11-24 07:57:00"
+"updated": "2026-11-24 08:47:00"
 },
-"fp": "4548b76b6fc7"
+"fp": "7185d7dcb547"
+},
+"30206": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 09:00:00",
+"cross_street_1": "D\u00e9coeur/Copperhead",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30206",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Mer Bleue northbound closed at D\u00e9coeur/Copperhead due to a collision.",
+"lanes": "closed",
+"lat": 45.441553,
+"lon": -75.496218,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Mer Bleue",
+"source": "city",
+"updated": "2026-11-24 09:00:00"
+},
+"fp": "0e8fb699f6f5"
 }
 }
 }
