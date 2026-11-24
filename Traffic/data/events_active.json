@@ -1748,29 +1748,6 @@
 },
 "fp": "22c14521b018"
 },
-"30190": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-23 14:45:00",
-"cross_street_1": "Startop",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30190",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Innes eastbound reduced to 1 lane at Startop due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.412501,
-"lon": -75.614037,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Innes",
-"source": "city",
-"updated": "2026-11-23 14:45:00"
-},
-"fp": "04e702639540"
-},
 "30199": {
 "event": {
 "cause": "a collision",
@@ -1793,6 +1770,75 @@
 "updated": "2026-11-24 06:13:00"
 },
 "fp": "7fd17bcdfda9"
+},
+"30201": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 07:28:00",
+"cross_street_1": "Walkley",
+"cross_street_2": "Riverside",
+"direction": null,
+"event_id": "30201",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "417 westbound traffic heavy & slow between Walkley and Riverside due to a collision. Expect delays or avoid area.",
+"lanes": "traffic heavy & slow",
+"lat": 45.381338,
+"lon": -75.578386,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "417",
+"source": "city",
+"updated": "2026-11-24 07:28:00"
+},
+"fp": "3d2fda754b8e"
+},
+"30202": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 07:29:00",
+"cross_street_1": "Blair",
+"cross_street_2": "Riverside",
+"direction": null,
+"event_id": "30202",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 westbound traffic heavy & slow between Blair and Riverside due to a collision.",
+"lanes": "traffic heavy & slow",
+"lat": 45.45711,
+"lon": -75.577508,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-11-24 07:29:00"
+},
+"fp": "0eb696e07289"
+},
+"30203": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-24 07:57:00",
+"cross_street_1": "Woodroffe",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30203",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Fallowfield eastbound right lane closed at Woodroffe due to a collision.",
+"lanes": "right lane closed",
+"lat": 45.298708,
+"lon": -75.730924,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Fallowfield",
+"source": "city",
+"updated": "2026-11-24 07:57:00"
+},
+"fp": "4548b76b6fc7"
 }
 }
 }
