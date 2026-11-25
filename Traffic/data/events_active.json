@@ -1265,6 +1265,29 @@
 },
 "fp": "f0508592ccae"
 },
+"30037": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-16 13:14:00",
+"cross_street_1": "Hart",
+"cross_street_2": "Forest valley/Youville",
+"direction": null,
+"event_id": "30037",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "St-Joseph reduced to 1 lane in each direction between Hart and Forest valley/Youville due to a parade, Saturday November 28th between 1:00pm and 6:00pm.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.456644,
+"lon": -75.569157,
+"planned_end": "2026-11-28T18:00",
+"planned_start": "2026-11-25T13:00",
+"priority": "MEDIUM",
+"road": "St-Joseph",
+"source": "city",
+"updated": "2026-11-25 12:56:00"
+},
+"fp": "9133d2cbfef8"
+},
 "30061": {
 "event": {
 "cause": "",
@@ -1885,29 +1908,6 @@
 "updated": "2026-11-25 10:14:00"
 },
 "fp": "f5afb5b266ca"
-},
-"30232": {
-"event": {
-"cause": "traffic signals not working",
-"created": "2026-11-25 12:02:00",
-"cross_street_1": "Blair",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30232",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "174 eastbound traffic disruptions at Blair due to traffic signals not working. Duration is unknown.",
-"lanes": "traffic disruptions",
-"lat": 45.430382,
-"lon": -75.604043,
-"planned_end": null,
-"planned_start": null,
-"priority": "MEDIUM",
-"road": "174",
-"source": "city",
-"updated": "2026-11-25 12:02:00"
-},
-"fp": "cc7904c7b404"
 }
 }
 }
