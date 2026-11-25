@@ -1817,28 +1817,28 @@
 },
 "fp": "6180241ae1cc"
 },
-"30222": {
+"30225": {
 "event": {
-"cause": "construction",
-"created": "2026-11-24 17:28:00",
-"cross_street_1": "Montreal",
-"cross_street_2": "Jeanne d'Arc",
+"cause": "a collision",
+"created": "2026-11-25 06:29:00",
+"cross_street_1": "Frank Bender",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30222",
-"event_type": "CONSTRUCTION",
+"event_id": "30225",
+"event_type": "INCIDENT",
 "full_closure": false,
-"headline": "(LRT) 174 reduced to 1 lane in each direction between Montreal and Jeanne d'Arc due to construction. From 8:00pm, 24/11/26 to 6:00am, 25/11/26",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.451669,
-"lon": -75.583124,
-"planned_end": "2026-11-25T06:00",
-"planned_start": "2026-11-24T20:00",
-"priority": "HIGH",
-"road": "174",
+"headline": "Innes westbound reduced to 1 lane at Frank Bender due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.452952,
+"lon": -75.511535,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Innes",
 "source": "city",
-"updated": "2026-11-24 19:56:00"
+"updated": "2026-11-25 06:29:00"
 },
-"fp": "d258e6eb366a"
+"fp": "16da41da2015"
 }
 }
 }
