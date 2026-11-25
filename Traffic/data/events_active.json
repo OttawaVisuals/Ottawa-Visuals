@@ -1587,6 +1587,29 @@
 },
 "fp": "76cd3fc0b227"
 },
+"30155": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-20 11:25:00",
+"cross_street_1": "SHORELINE",
+"cross_street_2": "CANYON WALK",
+"direction": null,
+"event_id": "30155",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "SPRATT periodically closed between SHORELINE (South) and CANYON WALK (East) due to a parade, Saturday November 28th from 10:00am to 1:00pm. ",
+"lanes": "periodically closed",
+"lat": 45.273686,
+"lon": -75.690195,
+"planned_end": "2026-11-28T13:00",
+"planned_start": "2026-11-25T10:00",
+"priority": "MEDIUM",
+"road": "SPRATT",
+"source": "city",
+"updated": "2026-11-25 09:56:00"
+},
+"fp": "befd425301d3"
+},
 "30159": {
 "event": {
 "cause": "",
@@ -1859,9 +1882,9 @@
 "priority": "HIGH",
 "road": "Island Park",
 "source": "city",
-"updated": "2026-11-25 09:23:00"
+"updated": "2026-11-25 10:14:00"
 },
-"fp": "84d3775cc48e"
+"fp": "f5afb5b266ca"
 }
 }
 }
