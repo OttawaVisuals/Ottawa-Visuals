@@ -1288,6 +1288,29 @@
 },
 "fp": "9133d2cbfef8"
 },
+"30038": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-16 13:18:00",
+"cross_street_1": "FOREST VALLEY / YOUVILLE",
+"cross_street_2": "PRESTONE",
+"direction": null,
+"event_id": "30038",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "ST-JOSEPH periodically closed between FOREST VALLEY / YOUVILLE and PRESTONE due to a parade, Saturday November 28th between 6:00pm and 9:00pm",
+"lanes": "periodically closed",
+"lat": 45.461366,
+"lon": -75.549046,
+"planned_end": "2026-11-28T21:00",
+"planned_start": "2026-11-25T18:00",
+"priority": "MEDIUM",
+"road": "ST-JOSEPH",
+"source": "city",
+"updated": "2026-11-25 17:56:00"
+},
+"fp": "69a3a940e06f"
+},
 "30061": {
 "event": {
 "cause": "",
@@ -1862,29 +1885,6 @@
 "updated": "2026-11-24 15:54:00"
 },
 "fp": "6180241ae1cc"
-},
-"30246": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-25 16:18:00",
-"cross_street_1": "Donald",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30246",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Vanier reduced to 1 lane in each direction at Donald due to a collision. Police are directing traffic. Duration is unknown.",
-"lanes": "reduced to 1 lane in each direction",
-"lat": 45.42728,
-"lon": -75.662869,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "Vanier",
-"source": "city",
-"updated": "2026-11-25 16:18:00"
-},
-"fp": "9d811699e91b"
 }
 }
 }
