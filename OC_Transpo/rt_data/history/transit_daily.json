@@ -1969,19 +1969,21 @@
   "cancel_notices": 94,
   "cancel_withdrawn": 66,
   "cancel_ran": 0,
-  "cancel_partial": false
+  "cancel_partial": false,
+  "otranspo_within_5min_pct": 80.3,
+  "otranspo_observations": 275912
  },
  {
   "date": "2026-11-25",
   "weekday": 2,
-  "n": 11,
+  "n": 21,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 70.0,
-  "buses_max": 116,
-  "speed_mean_kmh": 21.3,
-  "cancelled_mean": 27.5,
+  "buses_mean": 153.0,
+  "buses_max": 322,
+  "speed_mean_kmh": 21.1,
+  "cancelled_mean": 31.2,
   "cancelled_max": 38,
-  "cancelled_pct_mean": 25.23
+  "cancelled_pct_mean": 16.45
  }
 ]
