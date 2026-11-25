@@ -1816,6 +1816,29 @@
 "updated": "2026-11-24 15:54:00"
 },
 "fp": "6180241ae1cc"
+},
+"30222": {
+"event": {
+"cause": "construction",
+"created": "2026-11-24 17:28:00",
+"cross_street_1": "Montreal",
+"cross_street_2": "Jeanne d'Arc",
+"direction": null,
+"event_id": "30222",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 reduced to 1 lane in each direction between Montreal and Jeanne d'Arc due to construction. From 8:00pm, 24/11/26 to 6:00am, 25/11/26",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.451669,
+"lon": -75.583124,
+"planned_end": "2026-11-25T06:00",
+"planned_start": "2026-11-24T20:00",
+"priority": "HIGH",
+"road": "174",
+"source": "city",
+"updated": "2026-11-24 19:56:00"
+},
+"fp": "d258e6eb366a"
 }
 }
 }
