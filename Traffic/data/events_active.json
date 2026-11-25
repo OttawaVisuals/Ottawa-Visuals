@@ -1863,29 +1863,6 @@
 },
 "fp": "6180241ae1cc"
 },
-"30223": {
-"event": {
-"cause": "construction",
-"created": "2026-11-24 17:29:00",
-"cross_street_1": "Ch Montreal Rd",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30223",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "(LRT) 174 eastbound On-ramp reduced to 2 lanes at Montreal Rd due to construction. From 9:30am, to 3:00pm, November 25th.",
-"lanes": "reduced to 2 lanes",
-"lat": 45.44893,
-"lon": -75.584799,
-"planned_end": "2026-11-25T15:00",
-"planned_start": "2026-11-25T09:30",
-"priority": "HIGH",
-"road": "174 On-ramp/Bretelle d'acc\u00e8s",
-"source": "city",
-"updated": "2026-11-25 09:28:00"
-},
-"fp": "7297f8f93c6a"
-},
 "30230": {
 "event": {
 "cause": "traffic signals not working",
@@ -1908,6 +1885,29 @@
 "updated": "2026-11-25 10:14:00"
 },
 "fp": "f5afb5b266ca"
+},
+"30239": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-25 15:13:00",
+"cross_street_1": "Kichi Z\u012bb\u012b M\u012bkan",
+"cross_street_2": "Croydon",
+"direction": null,
+"event_id": "30239",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Carling westbound reduced to 1 lane between Kichi Z\u012bb\u012b M\u012bkan and Croydon due to a collision. Duration is unknown.",
+"lanes": "reduced to 1 lane",
+"lat": 45.363913,
+"lon": -75.785493,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Carling",
+"source": "city",
+"updated": "2026-11-25 15:13:00"
+},
+"fp": "50f66786a3a1"
 }
 }
 }
