@@ -1252,18 +1252,18 @@
 "event_id": "30031",
 "event_type": "CONSTRUCTION",
 "full_closure": false,
-"headline": "FINDLAY CREEK DR lane reductions in both directions between DEVONWOOD / CEDAR CREEK and BANK due to construction, from November 18th to December 4th between 9:00am and 3:00pm.",
+"headline": "FINDLAY CREEK DR lane reductions in both directions between DEVONWOOD / CEDAR CREEK and BANK due to construction, from November 18th to December 11th between 9:00am and 3:00pm.\n",
 "lanes": "lane reductions in both directions",
 "lat": 45.319147,
 "lon": -75.597034,
-"planned_end": "2026-12-04T15:00",
+"planned_end": "2026-12-11T15:00",
 "planned_start": "2026-11-16T09:00",
 "priority": "MEDIUM",
 "road": "FINDLAY CREEK",
 "source": "city",
-"updated": "2026-11-16 09:48:00"
+"updated": "2026-11-25 12:20:00"
 },
-"fp": "4326264261d7"
+"fp": "f0508592ccae"
 },
 "30061": {
 "event": {
@@ -1885,6 +1885,29 @@
 "updated": "2026-11-25 10:14:00"
 },
 "fp": "f5afb5b266ca"
+},
+"30232": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-25 12:02:00",
+"cross_street_1": "Blair",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30232",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "174 eastbound traffic disruptions at Blair due to traffic signals not working. Duration is unknown.",
+"lanes": "traffic disruptions",
+"lat": 45.430382,
+"lon": -75.604043,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "174",
+"source": "city",
+"updated": "2026-11-25 12:02:00"
+},
+"fp": "cc7904c7b404"
 }
 }
 }
