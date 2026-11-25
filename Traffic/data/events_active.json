@@ -1863,74 +1863,28 @@
 },
 "fp": "6180241ae1cc"
 },
-"30240": {
+"30246": {
 "event": {
 "cause": "a collision",
-"created": "2026-11-25 15:30:00",
-"cross_street_1": "Monterey",
+"created": "2026-11-25 16:18:00",
+"cross_street_1": "Donald",
 "cross_street_2": null,
 "direction": null,
-"event_id": "30240",
+"event_id": "30246",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Greenbank northbound reduced to 1 lane at Monterey due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.339889,
-"lon": -75.787349,
+"headline": "Vanier reduced to 1 lane in each direction at Donald due to a collision. Police are directing traffic. Duration is unknown.",
+"lanes": "reduced to 1 lane in each direction",
+"lat": 45.42728,
+"lon": -75.662869,
 "planned_end": null,
 "planned_start": null,
 "priority": "HIGH",
-"road": "Greenbank",
+"road": "Vanier",
 "source": "city",
-"updated": "2026-11-25 15:30:00"
+"updated": "2026-11-25 16:18:00"
 },
-"fp": "f7213dfd505d"
-},
-"30241": {
-"event": {
-"cause": "",
-"created": "2026-11-25 15:33:00",
-"cross_street_1": "MAITLAND AVE (IC 126)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30241",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "Highway 417 Westbound at MAITLAND AVE - Disabled Vehicle. 1 centre lane closed. ",
-"lanes": "1 centre lane closed",
-"lat": 45.37042,
-"lon": -75.75457,
-"planned_end": null,
-"planned_start": null,
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-25 15:33:00"
-},
-"fp": "079b50c5a23c"
-},
-"30244": {
-"event": {
-"cause": "a collision",
-"created": "2026-11-25 15:56:00",
-"cross_street_1": "Montreal",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30244",
-"event_type": "INCIDENT",
-"full_closure": false,
-"headline": "St. Laurent southbound reduced to 1 lane at Montreal due to a collision. Duration is unknown.",
-"lanes": "reduced to 1 lane",
-"lat": 45.441319,
-"lon": -75.64692,
-"planned_end": null,
-"planned_start": null,
-"priority": "HIGH",
-"road": "St. Laurent",
-"source": "city",
-"updated": "2026-11-25 15:56:00"
-},
-"fp": "1a6c946cfc5d"
+"fp": "9d811699e91b"
 }
 }
 }
