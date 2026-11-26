@@ -1885,6 +1885,52 @@
 "updated": "2026-11-26 09:28:00"
 },
 "fp": "8e1d97c12c5f"
+},
+"30253": {
+"event": {
+"cause": "",
+"created": "2026-11-26 13:24:00",
+"cross_street_1": "VAUGHAN SIDE RD",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30253",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Westbound at VAUGHAN SIDE RD - Collision. left shoulder and left lane closed. ",
+"lanes": "left shoulder and left lane closed",
+"lat": 45.32126,
+"lon": -76.10105,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-26 13:24:00"
+},
+"fp": "9948621d8dd0"
+},
+"30254": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-26 13:29:00",
+"cross_street_1": "Revelstoke",
+"cross_street_2": "Leopold",
+"direction": null,
+"event_id": "30254",
+"event_type": "INCIDENT",
+"full_closure": true,
+"headline": "Riverside southbound closed between Revelstoke and Leopold due to a collision. Avoid area.",
+"lanes": "closed",
+"lat": 45.354178,
+"lon": -75.692424,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Riverside",
+"source": "city",
+"updated": "2026-11-26 13:29:00"
+},
+"fp": "86df42cceb06"
 }
 }
 }
