@@ -1058,29 +1058,6 @@
 },
 "fp": "5bed5c7c36aa"
 },
-"29882": {
-"event": {
-"cause": "construction",
-"created": "2026-11-05 12:55:00",
-"cross_street_1": "RIDGEWAY",
-"cross_street_2": "LAMBTON",
-"direction": null,
-"event_id": "29882",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "ROCKCLIFFE closed between RIDGEWAY and LAMBTON due to construction, Thursday November 26th from 8:00am to 5:00pm. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.444324,
-"lon": -75.675186,
-"planned_end": "2026-11-26T17:00",
-"planned_start": "2026-11-23T08:00",
-"priority": "MEDIUM",
-"road": "ROCKCLIFFE",
-"source": "city",
-"updated": "2026-11-23 07:56:00"
-},
-"fp": "6ba0c3a8e99d"
-},
 "29912": {
 "event": {
 "cause": "construction",
@@ -1862,6 +1839,52 @@
 "updated": "2026-11-26 09:56:00"
 },
 "fp": "cfcd23c995f4"
+},
+"30233": {
+"event": {
+"cause": "a block party",
+"created": "2026-11-25 12:05:00",
+"cross_street_1": "DOW",
+"cross_street_2": "8TH LINE",
+"direction": null,
+"event_id": "30233",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "VICTORIA closed between DOW and 8TH LINE due to a block party, Saturday November 28th from 5:00pm to 9:00pm.",
+"lanes": "closed",
+"lat": 45.235082,
+"lon": -75.474605,
+"planned_end": "2026-11-28T21:00",
+"planned_start": "2026-11-26T17:00",
+"priority": "LOW",
+"road": "VICTORIA",
+"source": "city",
+"updated": "2026-11-26 16:56:00"
+},
+"fp": "902c8eb3742b"
+},
+"30255": {
+"event": {
+"cause": "",
+"created": "2026-11-26 17:21:00",
+"cross_street_1": "NICHOLAS ST (IC 118)/MANN AVE",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30255",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Westbound at NICHOLAS ST /MANN AVE - Collision. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.41639,
+"lon": -75.6738,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-26 17:21:00"
+},
+"fp": "ffb38493fcf5"
 }
 }
 }
