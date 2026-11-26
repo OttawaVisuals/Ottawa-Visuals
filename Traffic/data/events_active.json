@@ -1839,6 +1839,144 @@
 "updated": "2026-11-24 15:54:00"
 },
 "fp": "6180241ae1cc"
+},
+"30231": {
+"event": {
+"cause": "a special event",
+"created": "2026-11-25 11:46:00",
+"cross_street_1": "WELLINGTON",
+"cross_street_2": "ARMSTRONG",
+"direction": null,
+"event_id": "30231",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "Hamilton closed between Wellington and Armstrong; Armstrong closed between Hamilton and Parkdale due to the Parkdale Holiday Market, Saturday November 28th from 10:00am to 5:00pm.",
+"lanes": "closed",
+"lat": 45.400427,
+"lon": -75.73005,
+"planned_end": "2026-11-28T17:00",
+"planned_start": "2026-11-26T10:00",
+"priority": "MEDIUM",
+"road": "HAMILTON",
+"source": "city",
+"updated": "2026-11-26 09:56:00"
+},
+"fp": "cfcd23c995f4"
+},
+"30242": {
+"event": {
+"cause": "construction",
+"created": "2026-11-25 15:36:00",
+"cross_street_1": "Ch Montreal Rd",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30242",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "(LRT) 174 eastbound On-ramp reduced to 2 lanes at Montreal Rd due to construction. From 9:30am, to 3:00pm, November 26th.",
+"lanes": "",
+"lat": 45.44893,
+"lon": -75.584799,
+"planned_end": "2026-11-26T15:00",
+"planned_start": "2026-11-26T09:30",
+"priority": "HIGH",
+"road": "174 On-ramp/Bretelle d'acc\u00e8s",
+"source": "city",
+"updated": "2026-11-26 09:28:00"
+},
+"fp": "8e1d97c12c5f"
+},
+"30248": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-26 09:06:00",
+"cross_street_1": "Iona",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30248",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Island Park traffic disruptions at Iona due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.392886,
+"lon": -75.739453,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "Island Park",
+"source": "city",
+"updated": "2026-11-26 09:56:00"
+},
+"fp": "abc4231ffabb"
+},
+"30249": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-26 09:12:00",
+"cross_street_1": "George",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30249",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "King Edward southbound reduced to 1 lane at George due to a collision.",
+"lanes": "reduced to 1 lane",
+"lat": 45.429392,
+"lon": -75.68641,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "King Edward",
+"source": "city",
+"updated": "2026-11-26 09:12:00"
+},
+"fp": "00f2962941f5"
+},
+"30250": {
+"event": {
+"cause": "a collision",
+"created": "2026-11-26 09:16:00",
+"cross_street_1": "Cathcart",
+"cross_street_2": "Rideau",
+"direction": null,
+"event_id": "30250",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "King Edward southbound traffic heavy & slow between Cathcart and Rideau due to a collision. Expect delays or avoid area.",
+"lanes": "traffic heavy & slow",
+"lat": 45.435985,
+"lon": -75.699413,
+"planned_end": null,
+"planned_start": null,
+"priority": "HIGH",
+"road": "King Edward",
+"source": "city",
+"updated": "2026-11-26 09:16:00"
+},
+"fp": "0faf8c50448a"
+},
+"30251": {
+"event": {
+"cause": "a training exercise",
+"created": "2026-11-26 09:52:00",
+"cross_street_1": "Navaho",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30251",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Baseline traffic disruptions at Navaho due to a police training exercise at the traffic lights.",
+"lanes": "traffic disruptions",
+"lat": 45.354397,
+"lon": -75.7561,
+"planned_end": null,
+"planned_start": null,
+"priority": "MEDIUM",
+"road": "Baseline",
+"source": "city",
+"updated": "2026-11-26 09:52:00"
+},
+"fp": "1f41fb8f6286"
 }
 }
 }
