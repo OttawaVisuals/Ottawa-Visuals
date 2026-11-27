@@ -207,29 +207,6 @@
 },
 "fp": "228e1a4c93a9"
 },
-"26539": {
-"event": {
-"cause": "",
-"created": "2026-04-16 14:03:00",
-"cross_street_1": null,
-"cross_street_2": null,
-"direction": null,
-"event_id": "26539",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "HWY 417 Westbound Off-ramp [  - RICHMOND RD (IC 130)/BAYSHORE DR ] - Daily Construction. 1 Alternating Lane(s). HWY 417 WB Richmond Rd/Bayshore Dr (IC 130) off-ramp lane reductions (Ottawa) . 2026-04-22 08:00 to 2026-11-27 08:00",
-"lanes": "",
-"lat": 45.34548,
-"lon": -75.80572,
-"planned_end": "2026-11-27T08:00",
-"planned_start": "2026-04-22T08:00",
-"priority": "UNKNOWN",
-"road": null,
-"source": "city",
-"updated": "2026-08-28 13:32:00"
-},
-"fp": "4df5e376f5ce"
-},
 "26600": {
 "event": {
 "cause": "construction",
@@ -1908,6 +1885,29 @@
 "updated": "2026-11-27 07:02:00"
 },
 "fp": "64accc481e54"
+},
+"30260": {
+"event": {
+"cause": "",
+"created": "2026-11-27 08:21:00",
+"cross_street_1": "BELFAST RD",
+"cross_street_2": "VANIER PKWY/RIVERSIDE  (IC 117)",
+"direction": null,
+"event_id": "30260",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Westbound from BELFAST RD to VANIER PKWY/RIVERSIDE - Collision. left shoulder and 1 left lane closed. ",
+"lanes": "left shoulder and 1 left lane closed",
+"lat": 45.41941,
+"lon": -75.6471,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-27 08:21:00"
+},
+"fp": "2f0b902cd4b2"
 }
 }
 }
