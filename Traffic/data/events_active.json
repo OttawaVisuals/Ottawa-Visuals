@@ -746,18 +746,18 @@
 "event_id": "29179",
 "event_type": "CONSTRUCTION",
 "full_closure": true,
-"headline": "Byron eastbound closed between Richardson and Compton due to construction, until November 30th 6:00pm.",
+"headline": "Byron eastbound closed between Richardson and Compton due to construction, until December 8th, 6:00pm.",
 "lanes": "closed",
 "lat": 45.372545,
 "lon": -75.77938,
-"planned_end": "2026-11-30T18:00",
+"planned_end": "2026-12-08T18:00",
 "planned_start": "2026-10-01T00:00",
 "priority": "MEDIUM",
 "road": "Byron",
 "source": "city",
-"updated": "2026-10-01 11:56:00"
+"updated": "2026-11-27 13:04:00"
 },
-"fp": "02defa640672"
+"fp": "af05c56f3e95"
 },
 "29459": {
 "event": {
@@ -1840,6 +1840,29 @@
 },
 "fp": "902c8eb3742b"
 },
+"30234": {
+"event": {
+"cause": "a demonstration",
+"created": "2026-11-25 12:14:00",
+"cross_street_1": "Lisgar",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30234",
+"event_type": "SPECIAL_EVENT",
+"full_closure": false,
+"headline": "Elgin traffic disruptions at Lisgar due to a demonstration, Sunday November 29th from 1:00pm to 2:30 pm",
+"lanes": "traffic disruptions",
+"lat": 45.419504,
+"lon": -75.691492,
+"planned_end": "2026-11-29T14:30",
+"planned_start": "2026-11-27T13:00",
+"priority": "LOW",
+"road": "Elgin",
+"source": "city",
+"updated": "2026-11-27 12:56:00"
+},
+"fp": "47b5c6a17a44"
+},
 "30235": {
 "event": {
 "cause": "construction",
@@ -1862,6 +1885,29 @@
 "updated": "2026-11-27 06:56:00"
 },
 "fp": "2c5afde97c73"
+},
+"30263": {
+"event": {
+"cause": "construction",
+"created": "2026-11-27 12:21:00",
+"cross_street_1": "CUMBERLAND",
+"cross_street_2": "DALHOUSIE",
+"direction": null,
+"event_id": "30263",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "CLARENCE westbound closed between CUMBERLAND and DALHOUSIE due to construction, Monday November 30th between 7:00am and 12:00pm.",
+"lanes": "closed",
+"lat": 45.430527,
+"lon": -75.689575,
+"planned_end": "2026-11-30T12:00",
+"planned_start": "2026-11-27T07:00",
+"priority": "MEDIUM",
+"road": "CLARENCE",
+"source": "city",
+"updated": "2026-11-27 12:24:00"
+},
+"fp": "0fd8b4152987"
 }
 }
 }
