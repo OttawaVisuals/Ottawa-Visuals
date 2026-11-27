@@ -2009,14 +2009,22 @@
  {
   "date": "2026-11-27",
   "weekday": 4,
-  "n": 7,
+  "n": 8,
   "buses_am_peak": null,
   "buses_pm_peak": null,
-  "buses_mean": 67.0,
+  "buses_mean": 62.0,
   "buses_max": 109,
-  "speed_mean_kmh": 20.7,
-  "cancelled_mean": 9.6,
+  "speed_mean_kmh": 21.3,
+  "cancelled_mean": 16.8,
   "cancelled_max": 67,
-  "cancelled_pct_mean": 10.63
+  "cancelled_pct_mean": 17.85,
+  "delays_observed": 9,
+  "bus_ontime_pct": 66.7,
+  "bus_early_pct": 33.3,
+  "bus_late_pct": 0.0,
+  "bus_within_5min_pct": 100.0,
+  "punctuality_pct": 66.7,
+  "punctuality_pct_am_peak": null,
+  "punctuality_pct_pm_peak": null
  }
 ]
