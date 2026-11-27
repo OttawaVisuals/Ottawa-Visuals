@@ -1288,6 +1288,52 @@
 },
 "fp": "69a3a940e06f"
 },
+"30058": {
+"event": {
+"cause": "construction",
+"created": "2026-11-17 11:15:00",
+"cross_street_1": "SOMERSET",
+"cross_street_2": "OSGOODE",
+"direction": null,
+"event_id": "30058",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "SWEETLAND closed between SOMERSET and OSGOODE due to construction, from November 30th to December 4th. Follow the signed detour. Access for local traffic maintained.",
+"lanes": "closed",
+"lat": 45.423249,
+"lon": -75.677352,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-27T07:00",
+"priority": "MEDIUM",
+"road": "SWEETLAND",
+"source": "city",
+"updated": "2026-11-27 06:56:00"
+},
+"fp": "37d3032d3885"
+},
+"30067": {
+"event": {
+"cause": "construction",
+"created": "2026-11-17 13:34:00",
+"cross_street_1": "CH PARKWAY RD",
+"cross_street_2": "PIG ALLEY",
+"direction": null,
+"event_id": "30067",
+"event_type": "CONSTRUCTION",
+"full_closure": true,
+"headline": "MEADOW DR closed between PARKWAY RD and PIG ALLEY due to construction, from November 30th to December 4th.",
+"lanes": "closed",
+"lat": 45.262911,
+"lon": -75.560186,
+"planned_end": "2026-12-04T17:00",
+"planned_start": "2026-11-27T07:00",
+"priority": "LOW",
+"road": "MEADOW DR",
+"source": "city",
+"updated": "2026-11-27 06:56:00"
+},
+"fp": "81357f64af28"
+},
 "30089": {
 "event": {
 "cause": "construction",
@@ -1817,28 +1863,51 @@
 },
 "fp": "902c8eb3742b"
 },
-"30256": {
+"30235": {
+"event": {
+"cause": "construction",
+"created": "2026-11-25 12:24:00",
+"cross_street_1": "EXHIBITION",
+"cross_street_2": "MARCHE",
+"direction": null,
+"event_id": "30235",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "BANK off-peak lane reduction in one direction between EXHIBITION and MARCHE due to construction. From November 30th to December 11th.",
+"lanes": "off-peak lane reduction in both directions",
+"lat": 45.398797,
+"lon": -75.68588,
+"planned_end": "2026-12-11T22:00",
+"planned_start": "2026-11-27T07:00",
+"priority": "MEDIUM",
+"road": "BANK",
+"source": "city",
+"updated": "2026-11-27 06:56:00"
+},
+"fp": "2c5afde97c73"
+},
+"30258": {
 "event": {
 "cause": "traffic signals not working",
-"created": "2026-11-27 06:24:00",
-"cross_street_1": "Mantra/Tillage",
-"cross_street_2": "Robert Grant",
+"created": "2026-11-27 07:02:00",
+"cross_street_1": "Dovercourt",
+"cross_street_2": null,
 "direction": null,
-"event_id": "30256",
+"event_id": "30258",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Hazeldean traffic disruptions between Mantra/Tillage and Robert Grant due to traffic signals not working.",
+"headline": "Churchill traffic disruptions at Dovercourt due to traffic signals not working.",
 "lanes": "traffic disruptions",
-"lat": 45.287003,
-"lon": -75.905835,
+"lat": 45.38429,
+"lon": -75.749059,
 "planned_end": null,
 "planned_start": null,
 "priority": "LOW",
-"road": "Hazeldean",
+"road": "Churchill",
 "source": "city",
-"updated": "2026-11-27 06:24:00"
+"updated": "2026-11-27 07:02:00"
 },
-"fp": "0ea107baa56b"
+"fp": "64accc481e54"
 }
 }
 }
