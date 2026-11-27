@@ -782,29 +782,6 @@
 },
 "fp": "aca181cc3c7c"
 },
-"29514": {
-"event": {
-"cause": "construction",
-"created": "2026-10-16 10:04:00",
-"cross_street_1": "Cox Country",
-"cross_street_2": "O'TOOLE",
-"direction": null,
-"event_id": "29514",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "INNES closed between Cox Country and O'TOOLE due to construction, from November 23rd to 27th. Follow the signed detour. Access for local traffic maintained. ",
-"lanes": "closed",
-"lat": 45.474619,
-"lon": -75.437535,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-20T07:00",
-"priority": "MEDIUM",
-"road": "INNES",
-"source": "city",
-"updated": "2026-11-20 06:56:00"
-},
-"fp": "76dc34c8d726"
-},
 "29530": {
 "event": {
 "cause": "construction",
@@ -1058,29 +1035,6 @@
 },
 "fp": "0eb91280098b"
 },
-"29913": {
-"event": {
-"cause": "construction",
-"created": "2026-11-06 12:45:00",
-"cross_street_1": "CARRUTHERS",
-"cross_street_2": "LYNDALE",
-"direction": null,
-"event_id": "29913",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "STONEHURST closed between CARRUTHERS and LYNDALE due to construction, from November 23rd to 27th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.406352,
-"lon": -75.729198,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-20T07:00",
-"priority": "MEDIUM",
-"road": "STONEHURST",
-"source": "city",
-"updated": "2026-11-20 06:56:00"
-},
-"fp": "73b1ef464245"
-},
 "29936": {
 "event": {
 "cause": "construction",
@@ -1172,29 +1126,6 @@
 "updated": "2026-11-20 05:56:00"
 },
 "fp": "ea9791fd182f"
-},
-"30011": {
-"event": {
-"cause": "construction",
-"created": "2026-11-13 18:00:00",
-"cross_street_1": "BOND",
-"cross_street_2": "RICHMOND",
-"direction": null,
-"event_id": "30011",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "FOREST closed between BOND and RICHMOND due to construction. Follow the signed detour. From October 19th to November 27th.",
-"lanes": "closed",
-"lat": 45.363094,
-"lon": -75.788791,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-10-16T07:00",
-"priority": "MEDIUM",
-"road": "FOREST",
-"source": "city",
-"updated": "2026-11-13 18:04:00"
-},
-"fp": "38e815ab5904"
 },
 "30031": {
 "event": {
@@ -1356,29 +1287,6 @@
 "updated": "2026-11-23 23:56:00"
 },
 "fp": "75c525d8725b"
-},
-"30092": {
-"event": {
-"cause": "construction",
-"created": "2026-11-18 10:53:00",
-"cross_street_1": "MAIN",
-"cross_street_2": "ROSEMERE",
-"direction": null,
-"event_id": "30092",
-"event_type": "CONSTRUCTION",
-"full_closure": true,
-"headline": "SPRINGHURST closed between MAIN and ROSEMERE due to construction, until November 27th. Access for local traffic maintained.",
-"lanes": "closed",
-"lat": 45.410361,
-"lon": -75.678747,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-18T00:00",
-"priority": "MEDIUM",
-"road": "SPRINGHURST",
-"source": "city",
-"updated": "2026-11-18 10:56:00"
-},
-"fp": "8155a558b195"
 },
 "30094": {
 "event": {
@@ -1725,75 +1633,6 @@
 },
 "fp": "783afb10cff6"
 },
-"30180": {
-"event": {
-"cause": "construction",
-"created": "2026-11-23 06:43:00",
-"cross_street_1": "Pl Humber Pl",
-"cross_street_2": "BANTREE",
-"direction": null,
-"event_id": "30180",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "SHEFFIELD periodic lane reductions in each direction between Humber Pl and BANTREE due to construction, November 26th and 27th. Flagpersons present.",
-"lanes": "periodic lane reductions in each direction",
-"lat": 45.402394,
-"lon": -75.604998,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-23T07:00",
-"priority": "MEDIUM",
-"road": "SHEFFIELD",
-"source": "city",
-"updated": "2026-11-23 06:56:00"
-},
-"fp": "21bfdf89bddd"
-},
-"30181": {
-"event": {
-"cause": "construction",
-"created": "2026-11-23 06:55:00",
-"cross_street_1": "EDINBURGH",
-"cross_street_2": "SHEFFIELD",
-"direction": null,
-"event_id": "30181",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "BANTREE periodic lane reductions in each direction between EDINBURGH and SHEFFIELD due to construction, November 26th and 27th. Flagpersons present.",
-"lanes": "periodic lane reductions in each direction",
-"lat": 45.405082,
-"lon": -75.613752,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-23T07:00",
-"priority": "UNKNOWN",
-"road": "BANTREE",
-"source": "city",
-"updated": "2026-11-23 06:56:00"
-},
-"fp": "786dbea89cbe"
-},
-"30182": {
-"event": {
-"cause": "construction",
-"created": "2026-11-23 07:01:00",
-"cross_street_1": "BANTREE",
-"cross_street_2": "dead end/cul-de-sac",
-"direction": null,
-"event_id": "30182",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "EDINBURGH periodic lane reductions in each direction between BANTREE and dead end due to construction, November 126th and 27th.",
-"lanes": "periodic lane reductions in each direction",
-"lat": 45.405082,
-"lon": -75.613752,
-"planned_end": "2026-11-27T17:00",
-"planned_start": "2026-11-23T07:00",
-"priority": "MEDIUM",
-"road": "EDINBURGH",
-"source": "city",
-"updated": "2026-11-23 07:04:00"
-},
-"fp": "22c14521b018"
-},
 "30231": {
 "event": {
 "cause": "a special event",
@@ -1885,6 +1724,52 @@
 "updated": "2026-11-27 06:56:00"
 },
 "fp": "2c5afde97c73"
+},
+"30236": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-25 12:57:00",
+"cross_street_1": "Hunter's Run",
+"cross_street_2": "St- Joseph",
+"direction": null,
+"event_id": "30236",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "Jeanne d'Arc northbound closed between Hunter's Run and St- Joseph due to a parade, Saturday November 28th from 5:30pm to 7:30pm.",
+"lanes": "closed",
+"lat": 45.461394,
+"lon": -75.531228,
+"planned_end": "2026-11-28T19:30",
+"planned_start": "2026-11-27T17:30",
+"priority": "MEDIUM",
+"road": "Jeanne d'Arc",
+"source": "city",
+"updated": "2026-11-27 17:28:00"
+},
+"fp": "42bb798e89a7"
+},
+"30237": {
+"event": {
+"cause": "a parade",
+"created": "2026-11-25 13:02:00",
+"cross_street_1": "Youville",
+"cross_street_2": "St-Joseph",
+"direction": null,
+"event_id": "30237",
+"event_type": "SPECIAL_EVENT",
+"full_closure": true,
+"headline": "Jeanne d'Arc southbound closed between Youville and St-Joseph due to a parade, Saturday November 28th from 5:30pm to 7:30pm.",
+"lanes": "closed",
+"lat": 45.466234,
+"lon": -75.542533,
+"planned_end": "2026-11-28T19:30",
+"planned_start": "2026-11-27T17:30",
+"priority": "UNKNOWN",
+"road": "Jeanne d'Arc",
+"source": "city",
+"updated": "2026-11-27 17:28:00"
+},
+"fp": "781821a69fb8"
 },
 "30263": {
 "event": {
@@ -2046,6 +1931,29 @@
 "updated": "2026-11-27 15:18:00"
 },
 "fp": "2e1ddb3e930c"
+},
+"30275": {
+"event": {
+"cause": "",
+"created": "2026-11-27 17:09:00",
+"cross_street_1": "PARKDALE AVE (IC 122)",
+"cross_street_2": null,
+"direction": null,
+"event_id": "30275",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Highway 417 Eastbound at PARKDALE AVE - Collision. 1 right lane and right shoulder closed. ",
+"lanes": "1 right lane and right shoulder closed",
+"lat": 45.397,
+"lon": -75.72716,
+"planned_end": null,
+"planned_start": null,
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-27 17:42:00"
+},
+"fp": "afdb957c1e04"
 }
 }
 }
