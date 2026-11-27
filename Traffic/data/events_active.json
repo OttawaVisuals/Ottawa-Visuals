@@ -1977,6 +1977,75 @@
 "updated": "2026-11-27 14:09:00"
 },
 "fp": "ebb5fdcf37df"
+},
+"30272": {
+"event": {
+"cause": "",
+"created": "2026-11-27 15:12:00",
+"cross_street_1": "WALKLEY RD (IC 110)",
+"cross_street_2": "CAMPBELL DR",
+"direction": null,
+"event_id": "30272",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Eastbound from WALKLEY RD to CAMPBELL DR - Nightly Maintenance. 1 Alternating Lane. Alternating lane closures EB and WB. Alternating ON / OFF ramp closures as needed throughout the city. Detailed closure information is as follows: Mon-Thurs: 10:00-06:00. 2026-11-30 10:00 to 2026-12-04 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.39809,
+"lon": -75.59279,
+"planned_end": "2026-12-04T06:00",
+"planned_start": "2026-11-30T10:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-27 15:12:00"
+},
+"fp": "ee6e53621a91"
+},
+"30273": {
+"event": {
+"cause": "",
+"created": "2026-11-27 15:18:00",
+"cross_street_1": "WALKLEY RD (IC 110)",
+"cross_street_2": "HWY 7 (IC 145)",
+"direction": null,
+"event_id": "30273",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 417 Westbound from WALKLEY RD to Highway 7 - Nightly Maintenance. 1 Alternating Lane. Alternating left and right lane closures EB & WB as needed. 2026-12-02 21:00 to 2026-12-03 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.39809,
+"lon": -75.59279,
+"planned_end": "2026-12-03T06:00",
+"planned_start": "2026-12-02T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 417",
+"source": "city",
+"updated": "2026-11-27 15:18:00"
+},
+"fp": "7903ad5d989c"
+},
+"30274": {
+"event": {
+"cause": "",
+"created": "2026-11-27 15:18:00",
+"cross_street_1": "HWY 417",
+"cross_street_2": "FALLOWFIELD RD (IC 66)",
+"direction": null,
+"event_id": "30274",
+"event_type": "CONSTRUCTION",
+"full_closure": false,
+"headline": "Highway 416 Southbound from Highway 417 to FALLOWFIELD RD - Nightly Maintenance. 1 Alternating Lane. Ottawa. 2026-12-02 21:00 to 2026-12-03 06:00",
+"lanes": "1 Alternating Lane(s)",
+"lat": 45.34143,
+"lon": -75.81589,
+"planned_end": "2026-12-03T06:00",
+"planned_start": "2026-12-02T21:00",
+"priority": "UNKNOWN",
+"road": "HWY 416",
+"source": "city",
+"updated": "2026-11-27 15:18:00"
+},
+"fp": "2e1ddb3e930c"
 }
 }
 }
