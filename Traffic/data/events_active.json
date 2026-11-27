@@ -1863,28 +1863,28 @@
 },
 "fp": "2c5afde97c73"
 },
-"30258": {
+"30262": {
 "event": {
-"cause": "traffic signals not working",
-"created": "2026-11-27 07:02:00",
-"cross_street_1": "Dovercourt",
-"cross_street_2": null,
+"cause": "",
+"created": "2026-11-27 10:11:00",
+"cross_street_1": "Presland",
+"cross_street_2": "Coventry",
 "direction": null,
-"event_id": "30258",
+"event_id": "30262",
 "event_type": "INCIDENT",
 "full_closure": false,
-"headline": "Churchill traffic disruptions at Dovercourt due to traffic signals not working.",
-"lanes": "traffic disruptions",
-"lat": 45.38429,
-"lon": -75.749059,
+"headline": "Vanier southbound reduced to 1 lane between Presland and Coventry.",
+"lanes": "reduced to 1 lane",
+"lat": 45.421925,
+"lon": -75.65996,
 "planned_end": null,
 "planned_start": null,
-"priority": "LOW",
-"road": "Churchill",
+"priority": "MEDIUM",
+"road": "Vanier",
 "source": "city",
-"updated": "2026-11-27 07:02:00"
+"updated": "2026-11-27 10:11:00"
 },
-"fp": "64accc481e54"
+"fp": "0a295605b588"
 }
 }
 }
