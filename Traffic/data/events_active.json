@@ -1656,29 +1656,6 @@
 },
 "fp": "a33fef9a81d6"
 },
-"30162": {
-"event": {
-"cause": "",
-"created": "2026-11-20 13:51:00",
-"cross_street_1": "METCALFE ST (IC 119A)",
-"cross_street_2": null,
-"direction": null,
-"event_id": "30162",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound On-ramp at METCALFE ST - Nightly Construction. 1 Right Lane(s). 2026-11-23 21:00 to 2026-11-27 06:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.41096,
-"lon": -75.68708,
-"planned_end": "2026-11-27T06:00",
-"planned_start": "2026-11-23T21:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-20 13:51:00"
-},
-"fp": "ed60548916ea"
-},
 "30172": {
 "event": {
 "cause": "construction",
@@ -1794,29 +1771,6 @@
 },
 "fp": "22c14521b018"
 },
-"30215": {
-"event": {
-"cause": "",
-"created": "2026-11-24 15:54:00",
-"cross_street_1": "PARKDALE AVE (IC 122)",
-"cross_street_2": "PARKDALE AVE (IC 122)",
-"direction": null,
-"event_id": "30215",
-"event_type": "CONSTRUCTION",
-"full_closure": false,
-"headline": "Highway 417 Eastbound from PARKDALE AVE to PARKDALE AVE - Nightly Maintenance. 1 Right Lane(s). 2026-11-25 20:00 to 2026-11-27 06:00",
-"lanes": "1 Right Lane(s)",
-"lat": 45.3972,
-"lon": -75.72696,
-"planned_end": "2026-11-27T06:00",
-"planned_start": "2026-11-25T20:00",
-"priority": "UNKNOWN",
-"road": "HWY 417",
-"source": "city",
-"updated": "2026-11-24 15:54:00"
-},
-"fp": "6180241ae1cc"
-},
 "30231": {
 "event": {
 "cause": "a special event",
@@ -1862,6 +1816,29 @@
 "updated": "2026-11-26 16:56:00"
 },
 "fp": "902c8eb3742b"
+},
+"30256": {
+"event": {
+"cause": "traffic signals not working",
+"created": "2026-11-27 06:24:00",
+"cross_street_1": "Mantra/Tillage",
+"cross_street_2": "Robert Grant",
+"direction": null,
+"event_id": "30256",
+"event_type": "INCIDENT",
+"full_closure": false,
+"headline": "Hazeldean traffic disruptions between Mantra/Tillage and Robert Grant due to traffic signals not working.",
+"lanes": "traffic disruptions",
+"lat": 45.287003,
+"lon": -75.905835,
+"planned_end": null,
+"planned_start": null,
+"priority": "LOW",
+"road": "Hazeldean",
+"source": "city",
+"updated": "2026-11-27 06:24:00"
+},
+"fp": "0ea107baa56b"
 }
 }
 }
